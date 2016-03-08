@@ -1,237 +1,839 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetUnitName(int index, short civ, bool Filter)
+wxString AGE_Frame::GetUnitName(int index, short civ, bool Filter)
 {
-	string Name = "";
+	wxString Name = "";
 
 	if(dataset->Civs[civ].UnitPointers[index] == 0)
 	{
 		return "Nonexistent";
 	}
-	if(Filter)
-	{
-		int filters = 2;
-		short Selection[filters];
-		for(size_t loop = 0; loop < filters; ++loop)
-		Selection[loop] = Units_SearchFilters[loop]->GetSelection();
-		genie::Unit * UnitPointer = &dataset->Civs[civ].Units[index];
-
-		if(Selection[0] > 0)
-        for(size_t loop = 0; loop < filters; ++loop)
+    if(Filter)
+    {
+        genie::Unit *unit_ptr = &dataset->Civs[civ].Units[index];
+        for(auto &f: UnitFilterFunctions)
         {
             short NameSize = Name.size(), NameSize0 = NameSize;
-            wxString label = Units_SearchFilters[loop]->GetString(Selection[loop]);
-            if(label.compare(Type20[0]) == 0) Name += "T "+FormatInt(UnitPointer->Type);
-            else if(label.compare(Type20[1]) == 0) Name += "I1 "+FormatInt(UnitPointer->ID1);
-            else if(label.compare(Type20[2]) == 0) Name += "LN "+FormatInt(UnitPointer->LanguageDLLName);
-            else if(label.compare(Type20[3]) == 0) Name += "LC "+FormatInt(UnitPointer->LanguageDLLCreation);
-            else if(label.compare(Type20[4]) == 0) Name += "C "+FormatInt(UnitPointer->Class);
-            else if(label.compare(Type20[5]) == 0) Name += "SG "+FormatInt(UnitPointer->StandingGraphic.first)+" "+FormatInt(UnitPointer->StandingGraphic.second);
-            else if(label.compare(Type20[6]) == 0) Name += "DG "+FormatInt(UnitPointer->DyingGraphic.first)+" "+FormatInt(UnitPointer->DyingGraphic.second);
-            else if(label.compare(Type20[7]) == 0) Name += "DM "+FormatInt(UnitPointer->DeathMode);
-            else if(label.compare(Type20[8]) == 0) Name += "HP "+FormatInt(UnitPointer->HitPoints);
-            else if(label.compare(Type20[9]) == 0) Name += "LS "+FormatFloat(UnitPointer->LineOfSight);
-            else if(label.compare(Type20[10]) == 0) Name += "GC "+FormatInt(UnitPointer->GarrisonCapacity);
-            else if(label.compare(Type20[11]) == 0) Name += "SR "+FormatInt(UnitPointer->CollisionSize.x)+" "+FormatInt(UnitPointer->CollisionSize.y);
-            else if(label.compare(Type20[12]) == 0) Name += "B1 "+FormatFloat(UnitPointer->CollisionSize.z);
-            else if(label.compare(Type20[13]) == 0) Name += "TS "+FormatInt(UnitPointer->TrainSound.first)+" "+FormatInt(UnitPointer->TrainSound.second);
-            else if(label.compare(Type20[14]) == 0) Name += "DU "+FormatInt(UnitPointer->DeadUnitID);
-            else if(label.compare(Type20[15]) == 0) Name += "PM "+FormatInt(UnitPointer->PlacementMode);
-            else if(label.compare(Type20[16]) == 0) Name += "AM "+FormatInt(UnitPointer->AirMode);
-            else if(label.compare(Type20[17]) == 0) Name += "I "+FormatInt(UnitPointer->IconID);
-            else if(label.compare(Type20[18]) == 0) Name += "HE "+FormatInt(UnitPointer->HideInEditor);
-            else if(label.compare(Type20[19]) == 0) Name += "U1 "+FormatInt(UnitPointer->Unknown1);
-            else if(label.compare(Type20[20]) == 0) Name += "E "+FormatInt(UnitPointer->Enabled);
-            else if(label.compare(Type20[21]) == 0) Name += "D "+FormatInt(UnitPointer->Disabled);
-            else if(label.compare(Type20[22]) == 0) Name += "PBT "+FormatInt(UnitPointer->PlacementSideTerrain.first)+" "+FormatInt(UnitPointer->PlacementSideTerrain.second);
-            else if(label.compare(Type20[23]) == 0) Name += "PT "+FormatInt(UnitPointer->PlacementTerrain.first)+" "+FormatInt(UnitPointer->PlacementTerrain.second);
-            else if(label.compare(Type20[24]) == 0) Name += "ER "+FormatInt(UnitPointer->ClearanceSize.first)+" "+FormatInt(UnitPointer->ClearanceSize.second);
-            else if(label.compare(Type20[25]) == 0) Name += "HM "+FormatInt(UnitPointer->HillMode);
-            else if(label.compare(Type20[26]) == 0) Name += "VF "+FormatInt(UnitPointer->VisibleInFog);
-            else if(label.compare(Type20[27]) == 0) Name += "TR "+FormatInt(UnitPointer->TerrainRestriction);
-            else if(label.compare(Type20[28]) == 0) Name += "FM "+FormatInt(UnitPointer->FlyMode);
-            else if(label.compare(Type20[29]) == 0) Name += "RC "+FormatInt(UnitPointer->ResourceCapacity);
-            else if(label.compare(Type20[30]) == 0) Name += "RD "+FormatFloat(UnitPointer->ResourceDecay);
-            else if(label.compare(Type20[31]) == 0) Name += "BA "+FormatInt(UnitPointer->BlastDefenseLevel);
-            else if(label.compare(Type20[32]) == 0) Name += "U2 "+FormatInt(UnitPointer->SubType);
-            else if(label.compare(Type20[33]) == 0) Name += "IM "+FormatInt(UnitPointer->InteractionMode);
-            else if(label.compare(Type20[34]) == 0) Name += "MM "+FormatInt(UnitPointer->MinimapMode);
-            else if(label.compare(Type20[35]) == 0) Name += "CA "+FormatInt(UnitPointer->CommandAttribute);
-            else if(label.compare(Type20[36]) == 0) Name += "U3A "+FormatFloat(UnitPointer->Unknown3A);
-            else if(label.compare(Type20[37]) == 0) Name += "MC "+FormatInt(UnitPointer->MinimapColor);
-            else if(label.compare(Type20[38]) == 0) Name += "LH "+FormatInt(UnitPointer->LanguageDLLHelp);
-            else if(label.compare(Type20[39]) == 0) Name += "LT "+FormatInt(UnitPointer->LanguageDLLHotKeyText);
-            else if(label.compare(Type20[40]) == 0) Name += "HK "+FormatInt(UnitPointer->HotKey);
-            else if(label.compare(Type20[41]) == 0) Name += "US "+FormatInt(UnitPointer->Unselectable);
-            else if(label.compare(Type20[42]) == 0) Name += "U6 "+FormatInt(UnitPointer->Unknown6);
-            else if(label.compare(Type20[43]) == 0) Name += "U7 "+FormatInt(UnitPointer->Unknown7);
-            else if(label.compare(Type20[44]) == 0) Name += "U8 "+FormatInt(UnitPointer->Unknown8);
-            else if(label.compare(Type20[45]) == 0) Name += "SM "+FormatInt(UnitPointer->SelectionMask);
-            else if(label.compare(Type20[46]) == 0) Name += "ST "+FormatInt(UnitPointer->SelectionShapeType);
-            else if(label.compare(Type20[47]) == 0) Name += "SSh "+FormatInt(UnitPointer->SelectionShape);
-            else if(label.compare(Type20[48]) == 0) Name += "A "+FormatInt(UnitPointer->Attribute);
-            else if(label.compare(Type20[49]) == 0) Name += "Ci "+FormatInt(UnitPointer->Civilization);
-            else if(label.compare(Type20[50]) == 0) Name += "No "+FormatInt(UnitPointer->Nothing);
-            else if(label.compare(Type20[51]) == 0) Name += "SE "+FormatInt(UnitPointer->SelectionEffect);
-            else if(label.compare(Type20[52]) == 0) Name += "EC "+FormatInt(UnitPointer->EditorSelectionColour);
-            else if(label.compare(Type20[53]) == 0) Name += "SS "+FormatInt(UnitPointer->SelectionShapeSize.x)+" "+FormatInt(UnitPointer->SelectionShapeSize.y);
-            else if(label.compare(Type20[54]) == 0) Name += "B2 "+FormatFloat(UnitPointer->SelectionShapeSize.z);
-            else if(label.compare(Type20[55]) == 0) Name += "Ask Tapsa";
-            else if(label.compare(Type20[56]) == 0) Name += "DC "+FormatInt(UnitPointer->DamageGraphics.size());
-            else if(label.compare(Type20[57]) == 0) Name += "Ask Tapsa";
-            else if(label.compare(Type20[58]) == 0) Name += "SSo "+FormatInt(UnitPointer->SelectionSound);
-            else if(label.compare(Type20[59]) == 0) Name += "DS "+FormatInt(UnitPointer->DyingSound);
-            else if(label.compare(Type20[60]) == 0) Name += "AtM "+FormatInt(UnitPointer->AttackMode);
-            else if(label.compare(Type20[61]) == 0) Name += "EM "+FormatInt(UnitPointer->Unknown10);
-            else if(label.compare(Type20[62]) == 0) Name += UnitPointer->Name;
-            else if(label.compare(Type20[63]) == 0) Name += UnitPointer->Name2;
-            else if(label.compare(Type20[64]) == 0) Name += "UL "+FormatInt(UnitPointer->Unitline);
-            else if(label.compare(Type20[65]) == 0) Name += "MT "+FormatInt(UnitPointer->MinTechLevel);
-            else if(label.compare(Type20[66]) == 0) Name += "I2 "+FormatInt(UnitPointer->ID2);
-            else if(label.compare(Type20[67]) == 0) Name += "I3 "+FormatInt(UnitPointer->ID3);
-            else if(label.compare(Type20[68]) == 0) Name += "S "+FormatFloat(UnitPointer->Speed);
-
-            if(NameSize == Name.size() && UnitPointer->Type >= 30 && UnitPointer->Type <= 80)
-            {
-                NameSize = Name.size();
-				if(label.compare(Type30[0]) == 0) Name += "WG "+FormatInt(UnitPointer->DeadFish.WalkingGraphic.first)+" "+FormatInt(UnitPointer->DeadFish.WalkingGraphic.second);
-				else if(label.compare(Type30[1]) == 0) Name += "RS "+FormatFloat(UnitPointer->DeadFish.RotationSpeed);
-				else if(label.compare(Type30[2]) == 0) Name += "U11 "+FormatInt(UnitPointer->DeadFish.Unknown11);
-				else if(label.compare(Type30[3]) == 0) Name += "TU "+FormatInt(UnitPointer->DeadFish.TrackingUnit);
-				else if(label.compare(Type30[4]) == 0) Name += "UU "+FormatInt(UnitPointer->DeadFish.TrackingUnitUsed);
-				else if(label.compare(Type30[5]) == 0) Name += "UD "+FormatFloat(UnitPointer->DeadFish.TrackingUnitDensity);
-				else if(label.compare(Type30[6]) == 0) Name += "U16 "+FormatInt(UnitPointer->DeadFish.Unknown16);
-				else if(label.compare(Type30[7]) == 0)
-				{
-					Name += "a"+FormatFloat(UnitPointer->DeadFish.RotationAngles[0]);
-					Name += " b"+FormatFloat(UnitPointer->DeadFish.RotationAngles[1]);
-					Name += " c"+FormatFloat(UnitPointer->DeadFish.RotationAngles[2]);
-					Name += " d"+FormatFloat(UnitPointer->DeadFish.RotationAngles[3]);
-					Name += " e"+FormatFloat(UnitPointer->DeadFish.RotationAngles[4]);
-				}
-            }
-            if(NameSize == Name.size() && UnitPointer->Type >= 40 && UnitPointer->Type <= 80)
-            {
-                NameSize = Name.size();
-				if(label.compare(Type40[0]) == 0) Name += "SC "+FormatInt(UnitPointer->Bird.ActionWhenDiscoveredID);
-				else if(label.compare(Type40[1]) == 0) Name += "SR "+FormatFloat(UnitPointer->Bird.SearchRadius);
-				else if(label.compare(Type40[2]) == 0) Name += "WR "+FormatFloat(UnitPointer->Bird.WorkRate);
-				else if(label.compare(Type40[3]) == 0) Name += "DS "+FormatInt(UnitPointer->Bird.DropSite.first)+" "+FormatInt(UnitPointer->Bird.DropSite.second);
-				else if(label.compare(Type40[4]) == 0) Name += "VM "+FormatInt(UnitPointer->Bird.TaskSwapID);
-				else if(label.compare(Type40[5]) == 0) Name += "AS "+FormatInt(UnitPointer->Bird.AttackSound);
-				else if(label.compare(Type40[6]) == 0) Name += "MS "+FormatInt(UnitPointer->Bird.MoveSound);
-				else if(label.compare(Type40[7]) == 0) Name += "AM "+FormatInt(UnitPointer->Bird.AnimalMode);
-				else if(label.compare(Type40[8]) == 0) Name += "CC "+FormatInt(UnitPointer->Bird.Commands.size());
-				else if(label.compare(Type40[9]) == 0) Name += "Ask Tapsa";
-			}
-            if(NameSize == Name.size() && UnitPointer->Type >= 50 && UnitPointer->Type <= 80)
-            {
-                NameSize = Name.size();
-				if(label.compare(Type50[0]) == 0) Name += "DA "+FormatInt(UnitPointer->Type50.DefaultArmor);
-				else if(label.compare(Type50[1]) == 0) Name += "AtC "+FormatInt(UnitPointer->Type50.Attacks.size());
-				else if(label.compare(Type50[2]) == 0) for(short i = 0; i < UnitPointer->Type50.Attacks.size(); ++i)
-				Name += "c" + FormatInt(UnitPointer->Type50.Attacks[i].Class) + " ";
-				else if(label.compare(Type50[3]) == 0) Name += "ArC "+FormatInt(UnitPointer->Type50.Armours.size());
-				else if(label.compare(Type50[4]) == 0) for(short i = 0; i < UnitPointer->Type50.Armours.size(); ++i)
-				Name += "c" + FormatInt(UnitPointer->Type50.Armours[i].Class) + " ";
-				else if(label.compare(Type50[5]) == 0) Name += "TR "+FormatInt(UnitPointer->Type50.TerRestrictionForDmgMultiplying);
-				else if(label.compare(Type50[6]) == 0) Name += "MaR "+FormatFloat(UnitPointer->Type50.MaxRange);
-				else if(label.compare(Type50[7]) == 0) Name += "BR "+FormatFloat(UnitPointer->Type50.BlastWidth);
-				else if(label.compare(Type50[8]) == 0) Name += "RT "+FormatFloat(UnitPointer->Type50.ReloadTime);
-				else if(label.compare(Type50[9]) == 0) Name += "PU "+FormatInt(UnitPointer->Type50.ProjectileUnitID);
-				else if(label.compare(Type50[10]) == 0) Name += "AP "+FormatInt(UnitPointer->Type50.AccuracyPercent);
-				else if(label.compare(Type50[11]) == 0) Name += "TM "+FormatInt(UnitPointer->Type50.TowerMode);
-				else if(label.compare(Type50[12]) == 0) Name += "D "+FormatInt(UnitPointer->Type50.FrameDelay);
-				else if(label.compare(Type50[13]) == 0)
-				{
-					Name += "x"+FormatInt(UnitPointer->Type50.GraphicDisplacement[0]);
-					Name += " y"+FormatInt(UnitPointer->Type50.GraphicDisplacement[1]);
-					Name += " z"+FormatInt(UnitPointer->Type50.GraphicDisplacement[2]);
-				}
-				else if(label.compare(Type50[14]) == 0) Name += "BL "+FormatInt(UnitPointer->Type50.BlastAttackLevel);
-				else if(label.compare(Type50[15]) == 0) Name += "MiR "+FormatFloat(UnitPointer->Type50.MinRange);
-				else if(label.compare(Type50[16]) == 0) Name += "AE "+FormatFloat(UnitPointer->Type50.AccuracyDispersion);
-				else if(label.compare(Type50[17]) == 0) Name += "AG "+FormatInt(UnitPointer->Type50.AttackGraphic);
-				else if(label.compare(Type50[18]) == 0) Name += "DM "+FormatInt(UnitPointer->Type50.DisplayedMeleeArmour);
-				else if(label.compare(Type50[19]) == 0) Name += "DP "+FormatInt(UnitPointer->Type50.DisplayedAttack);
-				else if(label.compare(Type50[20]) == 0) Name += "DR "+FormatFloat(UnitPointer->Type50.DisplayedRange);
-				else if(label.compare(Type50[21]) == 0) Name += "DT "+FormatFloat(UnitPointer->Type50.DisplayedReloadTime);
-			}
-            if(NameSize == Name.size() && UnitPointer->Type == 60)
-            {
-                NameSize = Name.size();
-				if(label.compare(Type60[0]) == 0) Name += "SM "+FormatInt(UnitPointer->Projectile.StretchMode);
-				else if(label.compare(Type60[1]) == 0) Name += "CM "+FormatInt(UnitPointer->Projectile.SmartMode);
-				else if(label.compare(Type60[2]) == 0) Name += "DA "+FormatInt(UnitPointer->Projectile.DropAnimationMode);
-				else if(label.compare(Type60[3]) == 0) Name += "PM "+FormatInt(UnitPointer->Projectile.PenetrationMode);
-				else if(label.compare(Type60[4]) == 0) Name += "U24 "+FormatInt(UnitPointer->Projectile.Unknown24);
-				else if(label.compare(Type60[5]) == 0) Name += "PA "+FormatFloat(UnitPointer->Projectile.ProjectileArc);
-			}
-            if(NameSize == Name.size() && (UnitPointer->Type == 70 || UnitPointer->Type == 80))
-            {
-                NameSize = Name.size();
-				if(label.compare(Type70[0]) == 0) Name += "Ask Tapsa";
-				else if(label.compare(Type70[1]) == 0) Name += "TT "+FormatInt(UnitPointer->Creatable.TrainTime);
-				else if(label.compare(Type70[2]) == 0) Name += "TL "+FormatInt(UnitPointer->Creatable.TrainLocationID);
-				else if(label.compare(Type70[3]) == 0) Name += "B "+FormatInt(UnitPointer->Creatable.ButtonID);
-				else if(label.compare(Type70[4]) == 0) Name += "U26 "+FormatInt(UnitPointer->Creatable.Unknown26);
-				else if(label.compare(Type70[5]) == 0) Name += "U27 "+FormatInt(UnitPointer->Creatable.Unknown27);
-				else if(label.compare(Type70[6]) == 0) Name += "U28 "+FormatInt(UnitPointer->Creatable.CreatableType);
-				else if(label.compare(Type70[7]) == 0) Name += "HM "+FormatInt(UnitPointer->Creatable.HeroMode);
-				else if(label.compare(Type70[8]) == 0) Name += "GG "+FormatInt(UnitPointer->Creatable.GarrisonGraphic);
-				else if(label.compare(Type70[9]) == 0) Name += "Di "+FormatFloat(UnitPointer->Creatable.TotalProjectiles);
-				else if(label.compare(Type70[10]) == 0) Name += "Da "+FormatInt(UnitPointer->Creatable.MaxTotalProjectiles);
-				else if(label.compare(Type70[11]) == 0)
-				{
-					Name += "x"+FormatInt(UnitPointer->Creatable.ProjectileSpawningArea[0]);
-					Name += " y"+FormatInt(UnitPointer->Creatable.ProjectileSpawningArea[1]);
-					Name += " z"+FormatInt(UnitPointer->Creatable.ProjectileSpawningArea[2]);
-				}
-				else if(label.compare(Type70[12]) == 0) Name += "AP "+FormatInt(UnitPointer->Creatable.SecondaryProjectileUnit);
-				else if(label.compare(Type70[13]) == 0) Name += "CG "+FormatInt(UnitPointer->Creatable.SpecialGraphic);
-				else if(label.compare(Type70[14]) == 0) Name += "CM "+FormatInt(UnitPointer->Creatable.SpecialAbility);
-				else if(label.compare(Type70[15]) == 0) Name += "DP "+FormatInt(UnitPointer->Creatable.DisplayedPierceArmour);
-            }
-            if(NameSize == Name.size() && UnitPointer->Type == 80)
-            {
-                NameSize = Name.size();
-				if(label.compare(Type80[0]) == 0) Name += "CG "+FormatInt(UnitPointer->Building.ConstructionGraphicID);
-				else if(label.compare(Type80[1]) == 0) Name += "SG "+FormatInt(UnitPointer->Building.SnowGraphicID);
-				else if(label.compare(Type80[2]) == 0) Name += "AM "+FormatInt(UnitPointer->Building.AdjacentMode);
-				else if(label.compare(Type80[3]) == 0) Name += "GA "+FormatInt(UnitPointer->Building.GraphicsAngle);
-				else if(label.compare(Type80[4]) == 0) Name += "DB "+FormatInt(UnitPointer->Building.DisappearsWhenBuilt);
-				else if(label.compare(Type80[5]) == 0) Name += "SU "+FormatInt(UnitPointer->Building.StackUnitID);
-				else if(label.compare(Type80[6]) == 0) Name += "FT "+FormatInt(UnitPointer->Building.FoundationTerrainID);
-				else if(label.compare(Type80[7]) == 0) Name += "OT "+FormatInt(UnitPointer->Building.OldTerrainLikeID);
-				else if(label.compare(Type80[8]) == 0) Name += "R "+FormatInt(UnitPointer->Building.ResearchID);
-				else if(label.compare(Type80[9]) == 0) Name += "U33 "+FormatInt(UnitPointer->Building.Unknown33);
-				else if(label.compare(Type80[10]) == 0) Name += "Ask Tapsa";
-				else if(label.compare(Type80[11]) == 0) Name += "HU "+FormatInt(UnitPointer->Building.HeadUnit);
-				else if(label.compare(Type80[12]) == 0) Name += "TU "+FormatInt(UnitPointer->Building.TransformUnit);
-				else if(label.compare(Type80[13]) == 0) Name += "US "+FormatInt(UnitPointer->Building.UnknownSound);
-				else if(label.compare(Type80[14]) == 0) Name += "CS "+FormatInt(UnitPointer->Building.ConstructionSound);
-				else if(label.compare(Type80[15]) == 0) Name += "GT "+FormatInt(UnitPointer->Building.GarrisonType);
-				else if(label.compare(Type80[16]) == 0) Name += "GH "+FormatFloat(UnitPointer->Building.GarrisonHealRate);
-				else if(label.compare(Type80[17]) == 0) Name += "U35 "+FormatFloat(UnitPointer->Building.Unknown35);
-				else if(label.compare(Type80[18]) == 0) Name += "PU "+FormatInt(UnitPointer->Building.PileUnit);
-				else if(label.compare(Type80[19]) == 0) Name += "Ask Tapsa";
-			}
+            Name += f(unit_ptr);
             Name += NameSize0 == Name.size() ? "NA, " : ", ";
-            if(Selection[1] == 0) break;
-		}
-	}
+        }
+    }
 
 //Names:
 	if(!LangDLLstring(dataset->Civs[civ].Units[index].LanguageDLLName, 2).empty())
 	{
-		return Name + string(LangDLLstring(dataset->Civs[civ].Units[index].LanguageDLLName, 64));
+		return Name + LangDLLstring(dataset->Civs[civ].Units[index].LanguageDLLName, 64);
 	}
 //InternalName:
 	if(!dataset->Civs[civ].Units[index].Name.empty())
 	{
-		return Name + dataset->Civs[civ].Units[index].Name;
+		return Name + wxString(dataset->Civs[civ].Units[index].Name);
 	}
 	return Name + "New Unit";
+}
+
+#define UF30 unit_ptr->Type < 30 || unit_ptr->Type > 80 ? "" :
+#define UF40 unit_ptr->Type < 40 || unit_ptr->Type > 80 ? "" :
+#define UF50 unit_ptr->Type < 50 || unit_ptr->Type > 80 ? "" :
+#define UF60 unit_ptr->Type != 60 ? "" :
+#define UF70 unit_ptr->Type != 70 || unit_ptr->Type != 80 ? "" :
+#define UF80 unit_ptr->Type != 80 ? "" :
+
+void AGE_Frame::PrepUnitSearch()
+{
+    UnitFilterFunctions.clear();
+    for(size_t loop = 0; loop < 2; ++loop)
+    {
+        auto selection = Units_SearchFilters[loop]->GetSelection();
+        if(selection < 1) continue;
+        wxString label = Units_SearchFilters[loop]->GetString(selection);
+
+        if(label.compare(Type20[0]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "T " + FormatInt(unit_ptr->Type);
+        });
+        else if(label.compare(Type20[1]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "I1 " + FormatInt(unit_ptr->ID1);
+        });
+        else if(label.compare(Type20[2]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "LN " + FormatInt(unit_ptr->LanguageDLLName);
+        });
+        else if(label.compare(Type20[3]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "LC " + FormatInt(unit_ptr->LanguageDLLCreation);
+        });
+        else if(label.compare(Type20[4]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "C " + FormatInt(unit_ptr->Class);
+        });
+        else if(label.compare(Type20[5]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "SG " + FormatInt(unit_ptr->StandingGraphic.first) + " "
+                    + FormatInt(unit_ptr->StandingGraphic.second);
+        });
+        else if(label.compare(Type20[6]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "DG " + FormatInt(unit_ptr->DyingGraphic.first) + " "
+                    + FormatInt(unit_ptr->DyingGraphic.second);
+        });
+        else if(label.compare(Type20[7]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "DM " + FormatInt(unit_ptr->DeathMode);
+        });
+        else if(label.compare(Type20[8]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "HP " + FormatInt(unit_ptr->HitPoints);
+        });
+        else if(label.compare(Type20[9]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "LS " + FormatFloat(unit_ptr->LineOfSight);
+        });
+        else if(label.compare(Type20[10]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "GC " + FormatInt(unit_ptr->GarrisonCapacity);
+        });
+        else if(label.compare(Type20[11]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "SR " + FormatInt(unit_ptr->CollisionSize.x) + " "
+                    + FormatInt(unit_ptr->CollisionSize.y);
+        });
+        else if(label.compare(Type20[12]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "B1 " + FormatFloat(unit_ptr->CollisionSize.z);
+        });
+        else if(label.compare(Type20[13]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "TS " + FormatInt(unit_ptr->TrainSound.first) + " "
+                    + FormatInt(unit_ptr->TrainSound.second);
+        });
+        else if(label.compare(Type20[14]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "DU " + FormatInt(unit_ptr->DeadUnitID);
+        });
+        else if(label.compare(Type20[15]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "PM " + FormatInt(unit_ptr->PlacementMode);
+        });
+        else if(label.compare(Type20[16]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "AM " + FormatInt(unit_ptr->AirMode);
+        });
+        else if(label.compare(Type20[17]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "I " + FormatInt(unit_ptr->IconID);
+        });
+        else if(label.compare(Type20[18]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "HE " + FormatInt(unit_ptr->HideInEditor);
+        });
+        else if(label.compare(Type20[19]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "U1 " + FormatInt(unit_ptr->Unknown1);
+        });
+        else if(label.compare(Type20[20]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "E " + FormatInt(unit_ptr->Enabled);
+        });
+        else if(label.compare(Type20[21]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "D " + FormatInt(unit_ptr->Disabled);
+        });
+        else if(label.compare(Type20[22]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "PBT " + FormatInt(unit_ptr->PlacementSideTerrain.first) + " "
+                    + FormatInt(unit_ptr->PlacementSideTerrain.second);
+        });
+        else if(label.compare(Type20[23]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "PT " + FormatInt(unit_ptr->PlacementTerrain.first) + " "
+                    + FormatInt(unit_ptr->PlacementTerrain.second);
+        });
+        else if(label.compare(Type20[24]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "ER " + FormatInt(unit_ptr->ClearanceSize.first) + " "
+                    + FormatInt(unit_ptr->ClearanceSize.second);
+        });
+        else if(label.compare(Type20[25]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "HM " + FormatInt(unit_ptr->HillMode);
+        });
+        else if(label.compare(Type20[26]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "VF " + FormatInt(unit_ptr->VisibleInFog);
+        });
+        else if(label.compare(Type20[27]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "TR " + FormatInt(unit_ptr->TerrainRestriction);
+        });
+        else if(label.compare(Type20[28]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "FM " + FormatInt(unit_ptr->FlyMode);
+        });
+        else if(label.compare(Type20[29]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "RC " + FormatInt(unit_ptr->ResourceCapacity);
+        });
+        else if(label.compare(Type20[30]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "RD " + FormatFloat(unit_ptr->ResourceDecay);
+        });
+        else if(label.compare(Type20[31]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "BA " + FormatInt(unit_ptr->BlastDefenseLevel);
+        });
+        else if(label.compare(Type20[32]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "U2 " + FormatInt(unit_ptr->SubType);
+        });
+        else if(label.compare(Type20[33]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "IM " + FormatInt(unit_ptr->InteractionMode);
+        });
+        else if(label.compare(Type20[34]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "MM " + FormatInt(unit_ptr->MinimapMode);
+        });
+        else if(label.compare(Type20[35]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "CA " + FormatInt(unit_ptr->CommandAttribute);
+        });
+        else if(label.compare(Type20[36]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "U3A " + FormatFloat(unit_ptr->Unknown3A);
+        });
+        else if(label.compare(Type20[37]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "MC " + FormatInt(unit_ptr->MinimapColor);
+        });
+        else if(label.compare(Type20[38]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "LH " + FormatInt(unit_ptr->LanguageDLLHelp);
+        });
+        else if(label.compare(Type20[39]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "LT " + FormatInt(unit_ptr->LanguageDLLHotKeyText);
+        });
+        else if(label.compare(Type20[40]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "HK " + FormatInt(unit_ptr->HotKey);
+        });
+        else if(label.compare(Type20[41]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "US " + FormatInt(unit_ptr->Unselectable);
+        });
+        else if(label.compare(Type20[42]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "U6 " + FormatInt(unit_ptr->Unknown6);
+        });
+        else if(label.compare(Type20[43]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "U7 " + FormatInt(unit_ptr->Unknown7);
+        });
+        else if(label.compare(Type20[44]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "U8 " + FormatInt(unit_ptr->Unknown8);
+        });
+        else if(label.compare(Type20[45]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "SM " + FormatInt(unit_ptr->SelectionMask);
+        });
+        else if(label.compare(Type20[46]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "ST " + FormatInt(unit_ptr->SelectionShapeType);
+        });
+        else if(label.compare(Type20[47]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "SSh " + FormatInt(unit_ptr->SelectionShape);
+        });
+        else if(label.compare(Type20[48]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "A " + FormatInt(unit_ptr->Attribute);
+        });
+        else if(label.compare(Type20[49]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "Ci " + FormatInt(unit_ptr->Civilization);
+        });
+        else if(label.compare(Type20[50]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "No " + FormatInt(unit_ptr->Nothing);
+        });
+        else if(label.compare(Type20[51]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "SE " + FormatInt(unit_ptr->SelectionEffect);
+        });
+        else if(label.compare(Type20[52]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "EC " + FormatInt(unit_ptr->EditorSelectionColour);
+        });
+        else if(label.compare(Type20[53]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "SS " + FormatInt(unit_ptr->SelectionShapeSize.x) + " "
+                    + FormatInt(unit_ptr->SelectionShapeSize.y);
+        });
+        else if(label.compare(Type20[54]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "B2 " + FormatFloat(unit_ptr->SelectionShapeSize.z);
+        });
+        else if(label.compare(Type20[55]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "Ask Tapsa";
+        });
+        else if(label.compare(Type20[56]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "DC " + FormatInt(unit_ptr->DamageGraphics.size());
+        });
+        else if(label.compare(Type20[57]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "Ask Tapsa";
+        });
+        else if(label.compare(Type20[58]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "SSo " + FormatInt(unit_ptr->SelectionSound);
+        });
+        else if(label.compare(Type20[59]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "DS " + FormatInt(unit_ptr->DyingSound);
+        });
+        else if(label.compare(Type20[60]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "AtM " + FormatInt(unit_ptr->AttackMode);
+        });
+        else if(label.compare(Type20[61]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "EM " + FormatInt(unit_ptr->Unknown10);
+        });
+        else if(label.compare(Type20[62]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return wxString(unit_ptr->Name);
+        });
+        else if(label.compare(Type20[63]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return wxString(unit_ptr->Name2);
+        });
+        else if(label.compare(Type20[64]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "UL " + FormatInt(unit_ptr->Unitline);
+        });
+        else if(label.compare(Type20[65]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "MT " + FormatInt(unit_ptr->MinTechLevel);
+        });
+        else if(label.compare(Type20[66]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "I2 " + FormatInt(unit_ptr->ID2);
+        });
+        else if(label.compare(Type20[67]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "I3 " + FormatInt(unit_ptr->ID3);
+        });
+        else if(label.compare(Type20[68]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "S " + FormatFloat(unit_ptr->Speed);
+        });
+
+        else if(label.compare(Type30[0]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF30 "WG " + FormatInt(unit_ptr->DeadFish.WalkingGraphic.first) + " "
+                    + FormatInt(unit_ptr->DeadFish.WalkingGraphic.second);
+        });
+        else if(label.compare(Type30[1]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF30 "RS " + FormatFloat(unit_ptr->DeadFish.RotationSpeed);
+        });
+        else if(label.compare(Type30[2]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF30 "U11 " + FormatInt(unit_ptr->DeadFish.Unknown11);
+        });
+        else if(label.compare(Type30[3]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF30 "TU " + FormatInt(unit_ptr->DeadFish.TrackingUnit);
+        });
+        else if(label.compare(Type30[4]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF30 "UU " + FormatInt(unit_ptr->DeadFish.TrackingUnitUsed);
+        });
+        else if(label.compare(Type30[5]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF30 "UD " + FormatFloat(unit_ptr->DeadFish.TrackingUnitDensity);
+        });
+        else if(label.compare(Type30[6]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF30 "U16 " + FormatInt(unit_ptr->DeadFish.Unknown16);
+        });
+        else if(label.compare(Type30[7]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF30 "a" + FormatFloat(unit_ptr->DeadFish.RotationAngles[0])
+                    + " b" + FormatFloat(unit_ptr->DeadFish.RotationAngles[1])
+                    + " c" + FormatFloat(unit_ptr->DeadFish.RotationAngles[2])
+                    + " d" + FormatFloat(unit_ptr->DeadFish.RotationAngles[3])
+                    + " e" + FormatFloat(unit_ptr->DeadFish.RotationAngles[4]);
+        });
+
+        else if(label.compare(Type40[0]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF40 "SC " + FormatInt(unit_ptr->Bird.ActionWhenDiscoveredID);
+        });
+        else if(label.compare(Type40[1]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF40 "SR " + FormatFloat(unit_ptr->Bird.SearchRadius);
+        });
+        else if(label.compare(Type40[2]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF40 "WR " + FormatFloat(unit_ptr->Bird.WorkRate);
+        });
+        else if(label.compare(Type40[3]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF40 "DS " + FormatInt(unit_ptr->Bird.DropSite.first) + " "
+                    + FormatInt(unit_ptr->Bird.DropSite.second);
+        });
+        else if(label.compare(Type40[4]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF40 "VM " + FormatInt(unit_ptr->Bird.TaskSwapID);
+        });
+        else if(label.compare(Type40[5]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF40 "AS " + FormatInt(unit_ptr->Bird.AttackSound);
+        });
+        else if(label.compare(Type40[6]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF40 "MS " + FormatInt(unit_ptr->Bird.MoveSound);
+        });
+        else if(label.compare(Type40[7]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF40 "AM " + FormatInt(unit_ptr->Bird.AnimalMode);
+        });
+        else if(label.compare(Type40[8]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF40 "CC " + FormatInt(unit_ptr->Bird.Commands.size());
+        });
+        else if(label.compare(Type40[9]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF40 "Ask Tapsa";
+        });
+
+        if(label.compare(Type50[0]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "DA " + FormatInt(unit_ptr->Type50.DefaultArmor);
+        });
+        else if(label.compare(Type50[1]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "AtC " + FormatInt(unit_ptr->Type50.Attacks.size());
+        });
+        else if(label.compare(Type50[2]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            wxString name = "";
+            for(size_t i = 0; i < unit_ptr->Type50.Attacks.size(); ++i)
+            name += "c" + FormatInt(unit_ptr->Type50.Attacks[i].Class) + " ";
+            return UF50 name;
+        });
+        else if(label.compare(Type50[3]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "ArC " + FormatInt(unit_ptr->Type50.Armours.size());
+        });
+        else if(label.compare(Type50[4]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            wxString name = "";
+            for(size_t i = 0; i < unit_ptr->Type50.Armours.size(); ++i)
+            name += "c" + FormatInt(unit_ptr->Type50.Armours[i].Class) + " ";
+            return UF50 name;
+        });
+        else if(label.compare(Type50[5]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "TR " + FormatInt(unit_ptr->Type50.TerRestrictionForDmgMultiplying);
+        });
+        else if(label.compare(Type50[6]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "MaR " + FormatFloat(unit_ptr->Type50.MaxRange);
+        });
+        else if(label.compare(Type50[7]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "BR " + FormatFloat(unit_ptr->Type50.BlastWidth);
+        });
+        else if(label.compare(Type50[8]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "RT " + FormatFloat(unit_ptr->Type50.ReloadTime);
+        });
+        else if(label.compare(Type50[9]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "PU " + FormatInt(unit_ptr->Type50.ProjectileUnitID);
+        });
+        else if(label.compare(Type50[10]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "AP " + FormatInt(unit_ptr->Type50.AccuracyPercent);
+        });
+        else if(label.compare(Type50[11]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "TM " + FormatInt(unit_ptr->Type50.TowerMode);
+        });
+        else if(label.compare(Type50[12]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "D " + FormatInt(unit_ptr->Type50.FrameDelay);
+        });
+        else if(label.compare(Type50[13]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "x" + FormatInt(unit_ptr->Type50.GraphicDisplacement[0])
+                    + " y" + FormatInt(unit_ptr->Type50.GraphicDisplacement[1])
+                    + " z" + FormatInt(unit_ptr->Type50.GraphicDisplacement[2]);
+        });
+        else if(label.compare(Type50[14]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "BL " + FormatInt(unit_ptr->Type50.BlastAttackLevel);
+        });
+        else if(label.compare(Type50[15]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "MiR " + FormatFloat(unit_ptr->Type50.MinRange);
+        });
+        else if(label.compare(Type50[16]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "AE " + FormatFloat(unit_ptr->Type50.AccuracyDispersion);
+        });
+        else if(label.compare(Type50[17]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "AG " + FormatInt(unit_ptr->Type50.AttackGraphic);
+        });
+        else if(label.compare(Type50[18]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "DM " + FormatInt(unit_ptr->Type50.DisplayedMeleeArmour);
+        });
+        else if(label.compare(Type50[19]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "DP " + FormatInt(unit_ptr->Type50.DisplayedAttack);
+        });
+        else if(label.compare(Type50[20]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "DR " + FormatFloat(unit_ptr->Type50.DisplayedRange);
+        });
+        else if(label.compare(Type50[21]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF50 "DT " + FormatFloat(unit_ptr->Type50.DisplayedReloadTime);
+        });
+
+        else if(label.compare(Type60[0]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF60 "SM " + FormatInt(unit_ptr->Projectile.StretchMode);
+        });
+        else if(label.compare(Type60[1]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF60 "CM " + FormatInt(unit_ptr->Projectile.SmartMode);
+        });
+        else if(label.compare(Type60[2]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF60 "DA " + FormatInt(unit_ptr->Projectile.DropAnimationMode);
+        });
+        else if(label.compare(Type60[3]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF60 "PM " + FormatInt(unit_ptr->Projectile.PenetrationMode);
+        });
+        else if(label.compare(Type60[4]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF60 "U24 " + FormatInt(unit_ptr->Projectile.Unknown24);
+        });
+        else if(label.compare(Type60[5]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF60 "PA " + FormatFloat(unit_ptr->Projectile.ProjectileArc);
+        });
+
+        else if(label.compare(Type70[0]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "Ask Tapsa";
+        });
+        else if(label.compare(Type70[1]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "TT " + FormatInt(unit_ptr->Creatable.TrainTime);
+        });
+        else if(label.compare(Type70[2]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "TL " + FormatInt(unit_ptr->Creatable.TrainLocationID);
+        });
+        else if(label.compare(Type70[3]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "B " + FormatInt(unit_ptr->Creatable.ButtonID);
+        });
+        else if(label.compare(Type70[4]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "U26 " + FormatInt(unit_ptr->Creatable.Unknown26);
+        });
+        else if(label.compare(Type70[5]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "U27 " + FormatInt(unit_ptr->Creatable.Unknown27);
+        });
+        else if(label.compare(Type70[6]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "U28 " + FormatInt(unit_ptr->Creatable.CreatableType);
+        });
+        else if(label.compare(Type70[7]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "HM " + FormatInt(unit_ptr->Creatable.HeroMode);
+        });
+        else if(label.compare(Type70[8]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "GG " + FormatInt(unit_ptr->Creatable.GarrisonGraphic);
+        });
+        else if(label.compare(Type70[9]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "Di " + FormatFloat(unit_ptr->Creatable.TotalProjectiles);
+        });
+        else if(label.compare(Type70[10]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "Da " + FormatInt(unit_ptr->Creatable.MaxTotalProjectiles);
+        });
+        else if(label.compare(Type70[11]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "x" + FormatInt(unit_ptr->Creatable.ProjectileSpawningArea[0])
+                    + " y" + FormatInt(unit_ptr->Creatable.ProjectileSpawningArea[1])
+                    + " z" + FormatInt(unit_ptr->Creatable.ProjectileSpawningArea[2]);
+        });
+        else if(label.compare(Type70[12]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "AP " + FormatInt(unit_ptr->Creatable.SecondaryProjectileUnit);
+        });
+        else if(label.compare(Type70[13]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "CG " + FormatInt(unit_ptr->Creatable.SpecialGraphic);
+        });
+        else if(label.compare(Type70[14]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "CM " + FormatInt(unit_ptr->Creatable.SpecialAbility);
+        });
+        else if(label.compare(Type70[15]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "DP " + FormatInt(unit_ptr->Creatable.DisplayedPierceArmour);
+        });
+
+        else if(label.compare(Type80[0]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "CG " + FormatInt(unit_ptr->Building.ConstructionGraphicID);
+        });
+        else if(label.compare(Type80[1]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "SG " + FormatInt(unit_ptr->Building.SnowGraphicID);
+        });
+        else if(label.compare(Type80[2]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "AM " + FormatInt(unit_ptr->Building.AdjacentMode);
+        });
+        else if(label.compare(Type80[3]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "GA " + FormatInt(unit_ptr->Building.GraphicsAngle);
+        });
+        else if(label.compare(Type80[4]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "DB " + FormatInt(unit_ptr->Building.DisappearsWhenBuilt);
+        });
+        else if(label.compare(Type80[5]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "SU " + FormatInt(unit_ptr->Building.StackUnitID);
+        });
+        else if(label.compare(Type80[6]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "FT " + FormatInt(unit_ptr->Building.FoundationTerrainID);
+        });
+        else if(label.compare(Type80[7]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "OT " + FormatInt(unit_ptr->Building.OldTerrainLikeID);
+        });
+        else if(label.compare(Type80[8]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "R " + FormatInt(unit_ptr->Building.ResearchID);
+        });
+        else if(label.compare(Type80[9]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "U33 " + FormatInt(unit_ptr->Building.Unknown33);
+        });
+        else if(label.compare(Type80[10]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "Ask Tapsa";
+        });
+        else if(label.compare(Type80[11]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "HU " + FormatInt(unit_ptr->Building.HeadUnit);
+        });
+        else if(label.compare(Type80[12]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "TU " + FormatInt(unit_ptr->Building.TransformUnit);
+        });
+        else if(label.compare(Type80[13]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "US " + FormatInt(unit_ptr->Building.UnknownSound);
+        });
+        else if(label.compare(Type80[14]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "CS " + FormatInt(unit_ptr->Building.ConstructionSound);
+        });
+        else if(label.compare(Type80[15]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "GT " + FormatInt(unit_ptr->Building.GarrisonType);
+        });
+        else if(label.compare(Type80[16]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "GH " + FormatFloat(unit_ptr->Building.GarrisonHealRate);
+        });
+        else if(label.compare(Type80[17]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "U35 " + FormatFloat(unit_ptr->Building.Unknown35);
+        });
+        else if(label.compare(Type80[18]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "PU " + FormatInt(unit_ptr->Building.PileUnit);
+        });
+        else if(label.compare(Type80[19]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF80 "Ask Tapsa";
+        });
+    }
 }
 
 void AGE_Frame::OnUnitsSearch(wxCommandEvent&)
@@ -255,6 +857,7 @@ void AGE_Frame::InitUnits(short civ, bool all)
 	InitSearch(Units_Search->GetValue().MakeLower(), Units_Search_R->GetValue().MakeLower());
 	SearchAnd = Units_UseAnd[0]->GetValue();
 	ExcludeAnd = Units_UseAnd[1]->GetValue();
+    PrepUnitSearch();
 
 	Units_Civs_List->SetSelection(civ);
 
@@ -901,6 +1504,7 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
         else continue;
         deltaSLP.xdelta = delta.DirectionX + offsetX;
         deltaSLP.ydelta = delta.DirectionY + offsetY;
+        deltaSLP.displayangle = delta.DisplayAngle;
         unitSLP.deltas.insert(make_pair(offsetY, deltaSLP));
     }
     else if(has_base)
@@ -2377,7 +2981,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Units = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "Units");
 	//Units_Line = new wxStaticLine(Tab_Units, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL, "");
 	Units_Special = new wxBoxSizer(wxHORIZONTAL);
-	Units_Civs_List = new wxOwnerDrawnComboBox(Tab_Unit, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
+	Units_Civs_List = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
     CivComboBoxListNormal.push_back(Units_Civs_List);
 	Units_Search = new wxTextCtrl(Tab_Units, wxID_ANY);
 	Units_UseAnd[0] = new wxCheckBox(Tab_Units, wxID_ANY, "And");
@@ -5123,8 +5727,8 @@ void AGE_Frame::CreateUnitControls()
 	Connect(Units_Armors_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsPaste));
 	Connect(Units_Armors_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsPasteInsert));
 	Connect(Units_Armors_CopyToUnits->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnUnitArmorsCopyToUnits));
-	Connect(Units_LanguageDLLConverter[0]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
-	Connect(Units_LanguageDLLConverter[1]->GetId(), wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler(AGE_Frame::UnitLangDLLConverter));
+    Units_LanguageDLLConverter[0]->Bind(wxEVT_COMMAND_TEXT_ENTER, &AGE_Frame::UnitLangDLLConverter, this, Units_LanguageDLLConverter[0]->GetId());
+    Units_LanguageDLLConverter[1]->Bind(wxEVT_COMMAND_TEXT_ENTER, &AGE_Frame::UnitLangDLLConverter, this, Units_LanguageDLLConverter[1]->GetId());
     slp_radio->Bind(wxEVT_COMMAND_RADIOBOX_SELECTED, &AGE_Frame::OnChooseGraphic, this);
     slp_unit_actions->Bind(wxEVT_COMMAND_RADIOBOX_SELECTED, &AGE_Frame::OnChooseGraphic, this);
     slp_dmg_unit->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnChooseGraphic, this);
@@ -5136,11 +5740,11 @@ void AGE_Frame::CreateUnitControls()
     attackTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnUnitAttacksTimer, this);
     armorTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnUnitArmorsTimer, this);
     actionTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnUnitCommandsTimer, this);
-	Units_DLL_LanguageName->Connect(Units_DLL_LanguageName->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
-	Units_DLL_LanguageCreation->Connect(Units_DLL_LanguageCreation->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
-	Units_DLL_HotKey4->Connect(Units_DLL_HotKey4->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
-	Units_DLL_LanguageHelp->Connect(Units_DLL_LanguageHelp->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
-	Units_DLL_LanguageHKText->Connect(Units_DLL_LanguageHKText->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_LangDLL), NULL, this);
+    Units_DLL_LanguageName->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
+    Units_DLL_LanguageCreation->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
+    Units_DLL_HotKey4->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
+    Units_DLL_LanguageHelp->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
+    Units_DLL_LanguageHKText->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
 
 //	Listing and Auto-Copy
 
@@ -5178,10 +5782,10 @@ void AGE_Frame::CreateUnitControls()
 		Connect(Units_Attribute_CheckBox[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_UnitAttribute));
 		Connect(Units_GarrisonType_CheckBox[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_UnitGarrisonType));
 	}
-	Units_IconID->Connect(Units_IconID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
-	Units_IconAngle->Connect(Units_IconAngle->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);
-	Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawIconSLP), NULL, this);
-    Units_IconID_SLP->Connect(Units_IconID_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
+    Units_IconID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
+    Units_IconAngle->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
+    Units_IconID_SLP->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawIconSLP, this);
+    Units_IconID_SLP->Bind(wxEVT_ERASE_BACKGROUND, &AGE_Frame::OnGraphicErase, this);
 
     // To make SLP view refresh.
 	Units_ConstructionGraphicID->Connect(Units_ConstructionGraphicID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Units), NULL, this);

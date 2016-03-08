@@ -625,16 +625,16 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Connect(BorderShapes_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderBorderShapePaste));
 	Connect(BorderShapes_CopyToBorders->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnTerrainBorderBorderShapeCopyToBorders));
 
-    borderTimer.Connect(borderTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainBordersTimer), NULL, this);
-    borderTileTypeTimer.Connect(borderTileTypeTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainBorderTileTypeTimer), NULL, this);
-    borderBorderShapeTimer.Connect(borderBorderShapeTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnTerrainBorderBorderShapeTimer), NULL, this);
+    borderTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnTerrainBordersTimer, this);
+    borderTileTypeTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnTerrainBorderTileTypeTimer, this);
+    borderBorderShapeTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnTerrainBorderBorderShapeTimer, this);
 	for(size_t loop = 0; loop < 2; ++loop)
 	Borders_Name[loop]->Connect(Borders_Name[loop]->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
 	Borders_FrameID->Connect(Borders_FrameID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
 	Borders_Flag1->Connect(Borders_Flag1->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
 	Borders_Flag2->Connect(Borders_Flag2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Borders), NULL, this);
-    Border_Shape_SLP->Connect(Border_Shape_SLP->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawBorderSLP), NULL, this);
-    Border_Shape_SLP->Connect(Border_Shape_SLP->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
+    Border_Shape_SLP->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawBorderSLP, this);
+    Border_Shape_SLP->Bind(wxEVT_ERASE_BACKGROUND, &AGE_Frame::OnGraphicErase, this);
 }
 
 void AGE_Frame::OnKillFocus_Borders(wxFocusEvent &event)

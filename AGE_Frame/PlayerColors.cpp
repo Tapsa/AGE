@@ -1,7 +1,7 @@
 #include "../AGE_Frame.h"
 
-uint32_t AGE_SLP::playerColorStart = 0;
-uint32_t AGE_SLP::playerColorID = 0;
+uint8_t AGE_SLP::playerColorStart = 0;
+uint8_t AGE_SLP::playerColorID = 0;
 AGE_SLP::SHOW AGE_SLP::currentDisplay = AGE_SLP::SHOW::NONE;
 
 void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &event)
@@ -323,10 +323,10 @@ void AGE_Frame::CreatePlayerColorControls()
 	Connect(Colors_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsCopy));
 	Connect(Colors_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsPaste));
 	Connect(Colors_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnPlayerColorsPasteInsert));
-    colorTimer.Connect(colorTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnPlayerColorsTimer), NULL, this);
-	Colors_Name->Connect(Colors_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Colors), NULL, this);
-    Colors_Palette_Display->Connect(Colors_Palette_Display->GetId(), wxEVT_PAINT, wxPaintEventHandler(AGE_Frame::OnDrawPalette), NULL, this);
-    Colors_Palette_Display->Connect(Colors_Palette_Display->GetId(), wxEVT_ERASE_BACKGROUND, wxEraseEventHandler(AGE_Frame::OnGraphicErase), NULL, this);
+    colorTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnPlayerColorsTimer, this);
+    Colors_Name->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Colors, this);
+    Colors_Palette_Display->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawPalette, this);
+    Colors_Palette_Display->Bind(wxEVT_ERASE_BACKGROUND, &AGE_Frame::OnGraphicErase, this);
 }
 
 void AGE_Frame::OnKillFocus_Colors(wxFocusEvent &event)
