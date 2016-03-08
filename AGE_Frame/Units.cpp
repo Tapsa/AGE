@@ -1504,7 +1504,12 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
         else continue;
         deltaSLP.xdelta = delta.DirectionX + offsetX;
         deltaSLP.ydelta = delta.DirectionY + offsetY;
-        deltaSLP.displayangle = delta.DisplayAngle;
+        if(delta.DisplayAngle != -1)
+        {
+            float anglesize = 6.28319f / unitSLP.angles;
+            deltaSLP.beginbearing = anglesize * delta.DisplayAngle;
+            deltaSLP.endbearing = deltaSLP.beginbearing + anglesize;
+        }
         unitSLP.deltas.insert(make_pair(offsetY, deltaSLP));
     }
     else if(has_base)

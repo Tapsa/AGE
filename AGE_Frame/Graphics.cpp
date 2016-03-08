@@ -230,6 +230,17 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     }
     unsigned c8 = unsigned((AGE_SLP::bearing + 0.392699f) * 1.27324f) % 8u;
     unsigned c16 = unsigned((AGE_SLP::bearing + 0.19635f) * 2.54648f) % 16u;
+#ifndef NDEBUG
+    dc.SetPen(*wxRED_PEN);
+    float x = 0.894427f, y = 0.447214f;
+    //float x = 0.707107f, y = 0.707107f;
+    float xh = (1 + x) / 2 * 0x200, yh = (1 + y) / 2 * 0x200;
+    float xm = x / 2 * 0x200, ym = y / 2 * 0x200;
+    dc.DrawLine(-xh + centerX, -ym + centerY, xh + centerX, ym + centerY);
+    dc.DrawLine(-xh + centerX, ym + centerY, xh + centerX, -ym + centerY);
+    dc.DrawLine(-xm + centerX, -yh + centerY, xm + centerX, yh + centerY);
+    dc.DrawLine(-xm + centerX, yh + centerY, xm + centerX, -yh + centerY);
+#endif
     dc.DrawLabel("Angle "+FormatInt(c8)+"/8 "+FormatInt(c16)+"/16", wxRect(360, 5, 100, 40));
     if(slp_extra_info.size())
     {
@@ -286,7 +297,12 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                 else continue;
                 deltaSLP.xdelta = delta.DirectionX;
                 deltaSLP.ydelta = delta.DirectionY;
-                deltaSLP.displayangle = delta.DisplayAngle;
+                if(delta.DisplayAngle != -1)
+                {
+                    float anglesize = 6.28319f / graphicSLP.angles;
+                    deltaSLP.beginbearing = anglesize * delta.DisplayAngle;
+                    deltaSLP.endbearing = deltaSLP.beginbearing + anglesize;
+                }
                 graphicSLP.deltas.insert(make_pair(0, deltaSLP));
             }
         }
@@ -407,8 +423,6 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
 
 bool AGE_SLP::initStats(unsigned int graphicID, genie::DatFile &dataset)
 {
-    frameID = 0;
-    startframe = 0;
     datID = graphicID;
     filename = dataset.Graphics[graphicID].Name2;
     angles = dataset.Graphics[graphicID].AngleCount;
@@ -420,15 +434,21 @@ bool AGE_SLP::initStats(unsigned int graphicID, genie::DatFile &dataset)
 
 void AGE_Frame::CalcAngle(AGE_SLP &graphic)
 {
-    float bearing = AGE_SLP::bearing;
-    float correction = 3.14159f / graphic.angles;
-    if(graphic.mirror && bearing > 3.14159f + correction && bearing < 6.28319f - correction)
+    float correction = 3.14159f / graphic.angles, result = AGE_SLP::bearing + correction;
+    float bearing = result > 6.28319f ? result - 6.28319f : result;
+    if(graphic.beginbearing > bearing || bearing > graphic.endbearing)
     {
-        bearing = 6.28319f - bearing;
+        graphic.startframe = graphic.frameID = -0xC000;
+        return;
+    }
+    uint16_t angle = bearing * 0.159154f * graphic.angles;
+    if(graphic.mirror && angle > graphic.angles >> 1)
+    {
+        angle = graphic.angles - angle;
         graphic.flip = true;
     }
     else graphic.flip = false;
-    graphic.startframe = uint32_t((bearing + correction) * 0.159155f * graphic.angles) % graphic.angles * graphic.fpa;
+    graphic.startframe = angle * graphic.fpa;
     graphic.frameID = AGE_SLP::setbearing == 2u ? graphic.fpa - 1 + graphic.startframe : graphic.startframe;
 }
 
@@ -532,7 +552,7 @@ int AGE_Frame::ShouldAnimate(AGE_SLP &graphic, bool &framesleft)
 
 void AGE_Frame::ChooseNextFrame(AGE_SLP &graphic, bool &framesleft)
 {
-    uint32_t nextframe = graphic.frameID + 1; // Rotate through frames.
+    int32_t nextframe = graphic.frameID + 1; // Rotate through frames.
     if(nextframe < graphic.startframe + graphic.fpa)
     {
         // TODO: Mirror missing angles.
@@ -543,8 +563,8 @@ void AGE_Frame::ChooseNextFrame(AGE_SLP &graphic, bool &framesleft)
 
 void AGE_Frame::ChoosePreviousFrame(AGE_SLP &graphic, bool &framesleft)
 {
-    int32_t prevframe = int32_t(graphic.frameID) - 1;
-    if(prevframe >= int32_t(graphic.startframe))
+    int32_t prevframe = graphic.frameID - 1;
+    if(prevframe >= graphic.startframe)
     {
         // TODO: Mirror missing angles.
         graphic.frameID = prevframe;
