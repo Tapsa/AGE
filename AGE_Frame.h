@@ -8,30 +8,21 @@
 class AGE_SLP
 {
 public:
-    AGE_SLP()
-    {
-        slpID = frameID = lastSlpID = 0;
-        datID = -1;
-        filename = "";
-        xpos = ypos = xdelta = ydelta = 0;
-        flip = false;
-    }
-
-    uint32_t slpID, frameID, datID, lastSlpID, angles, fpa, frames, startframe;
-    string filename;
+    int32_t slpID = -1, frameID = 0, datID = -1, lastSlpID = -1;
+    uint16_t angles, fpa, frames, startframe, mirror;
+    string filename = "";
     genie::SlpFilePtr slp;
     wxBitmap bitmap;
-    int xpos, ypos, xdelta, ydelta;
-    unsigned short mirror;
-    bool flip;
+    int16_t xpos = 0, ypos = 0, xdelta = 0, ydelta = 0, displayangle = -1;
+    bool flip = false;
 
-    set<uint32_t> angleset;
+    set<uint16_t> angleset;
     multimap<int, AGE_SLP> deltas;
     enum SHOW {NONE, UNIT, GRAPHIC};
     static SHOW currentDisplay;
     static unsigned setbearing;
     static float bearing;
-    static uint32_t playerColorStart, playerColorID;
+    static uint8_t playerColorStart, playerColorID;
     bool initStats(unsigned int graphicID, genie::DatFile &dataset);
 };
 
@@ -228,7 +219,7 @@ private:
     void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0, int apply = 0);
     void CalcAnnexCoords(const genie::unit::BuildingAnnex *annex);
     void DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int centerX, int centerY);
-	void OnGraphicErase(wxEraseEvent &event);
+	void OnGraphicErase(wxEraseEvent&);
     void loadPalette(const wxString &folder);
     void addFilesToRead(const wxArrayString &files, const wxString &folder);
     void addDRSFolders4SLPs(wxArrayString &folders, const wxString &folder);
@@ -626,7 +617,9 @@ private:
 	void PasteUnits(bool OneOnOne = false);
 	short CorrectID(bool OneOnOne, size_t loop);
 	void UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit);
-	string GetUnitName(int, short, bool = false);
+	wxString GetUnitName(int, short, bool = false);
+    void PrepUnitSearch();
+    vector<function<wxString(genie::Unit*)>> UnitFilterFunctions;
 
 	void ListUnitDamageGraphics();
 	void OnUnitDamageGraphicsSearch(wxCommandEvent &event);

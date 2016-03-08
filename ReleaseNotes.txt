@@ -12,6 +12,11 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2016.3.8[/b]:
+-SLP view takes display angle into account.
+-Adjust graphic deltas using mouse and arrow keys.
+-Adjust projectile spawning location using mouse and arrow keys.
+
 Version [b]2016.3.6[/b]:
 -1:1 unit paste fixed. Was sequential for some reason.
 -Exist and wipe out unit buttons use proper civilization.
