@@ -8,13 +8,14 @@
 class AGE_SLP
 {
 public:
-    int32_t slpID = -1, frameID = 0, datID = -1, lastSlpID = -1;
-    uint16_t angles, fpa, frames, startframe, mirror;
+    int32_t slpID = -1, frameID, datID = -1, lastSlpID = -1, startframe;
+    uint16_t angles, fpa, frames, mirror;
     string filename = "";
     genie::SlpFilePtr slp;
     wxBitmap bitmap;
-    int16_t xpos = 0, ypos = 0, xdelta = 0, ydelta = 0, displayangle = -1;
+    int16_t xpos = 0, ypos = 0, xdelta = 0, ydelta = 0;
     bool flip = false;
+    float beginbearing = 0, endbearing = 6.28319f;
 
     set<uint16_t> angleset;
     multimap<int, AGE_SLP> deltas;
