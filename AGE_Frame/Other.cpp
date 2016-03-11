@@ -2454,6 +2454,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_source2 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
                 slp_target1 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
                 slp_hotspot = new wxCheckBox(panel, eShowHotspot, "Hotspot");
+                slp_show_angles = new wxCheckBox(panel, eShowAngles, "Show angles");
                 slp_animate = new wxCheckBox(panel, eAnimSLP, "Animate");
                 slp_animate->SetValue(AnimSLP);
                 slp_shadow = new wxCheckBox(panel, eShowShadows, "Shadow");
@@ -2484,6 +2485,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 wxSizer *sizer5 = new wxBoxSizer(wxHORIZONTAL);
 
                 slp_sizer->Add(slp_view, 1, wxEXPAND);
+                sizer5->Add(slp_show_angles, 0, wxALL, 2);
                 sizer5->Add(slp_collision, 0, wxALL, 2);
                 sizer5->Add(slp_clearance, 0, wxALL, 2);
                 sizer5->Add(slp_selection, 0, wxALL, 2);
@@ -2546,6 +2548,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_clearance->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eClearanceShape);
                 slp_selection->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eSelectionShape);
                 slp_background->Bind(wxEVT_COMMAND_COLOURPICKER_CHANGED, &AGE_Frame::OnFrameButton, this, ePickBgColor);
+                slp_show_angles->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this, eShowAngles);
                 slp_window->Show();
             }
             else
@@ -3955,6 +3958,12 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         case eShowHotspot:
         {
             DrawHot = event.IsChecked();
+            slp_view->Refresh();
+            break;
+        }
+        case eShowAngles:
+        {
+            DrawAngles = event.IsChecked();
             slp_view->Refresh();
             break;
         }

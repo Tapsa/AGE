@@ -230,17 +230,18 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     }
     unsigned c8 = unsigned((AGE_SLP::bearing + 0.392699f) * 1.27324f) % 8u;
     unsigned c16 = unsigned((AGE_SLP::bearing + 0.19635f) * 2.54648f) % 16u;
-#ifndef NDEBUG
-    dc.SetPen(*wxRED_PEN);
-    float x = 0.894427f, y = 0.447214f;
-    //float x = 0.707107f, y = 0.707107f;
-    float xh = (1 + x) / 2 * 0x200, yh = (1 + y) / 2 * 0x200;
-    float xm = x / 2 * 0x200, ym = y / 2 * 0x200;
-    dc.DrawLine(-xh + centerX, -ym + centerY, xh + centerX, ym + centerY);
-    dc.DrawLine(-xh + centerX, ym + centerY, xh + centerX, -ym + centerY);
-    dc.DrawLine(-xm + centerX, -yh + centerY, xm + centerX, yh + centerY);
-    dc.DrawLine(-xm + centerX, yh + centerY, xm + centerX, -yh + centerY);
-#endif
+    if(DrawAngles)
+    {
+        dc.SetPen(*wxRED_PEN);
+        float x = 0.894427f, y = 0.447214f;
+        //float x = 0.707107f, y = 0.707107f;
+        float xh = (1 + x) / 2 * 345, yh = (1 + y) / 2 * 250;
+        float xm = x / 2 * 250, ym = y / 2 * 345;
+        dc.DrawLine(-xh + centerX, -ym + centerY, xh + centerX, ym + centerY);
+        dc.DrawLine(-xh + centerX, ym + centerY, xh + centerX, -ym + centerY);
+        dc.DrawLine(-xm + centerX, -yh + centerY, xm + centerX, yh + centerY);
+        dc.DrawLine(-xm + centerX, yh + centerY, xm + centerX, -yh + centerY);
+    }
     dc.DrawLabel("Angle "+FormatInt(c8)+"/8 "+FormatInt(c16)+"/16", wxRect(360, 5, 100, 40));
     if(slp_extra_info.size())
     {
@@ -295,14 +296,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                     deltaSLP = graphicSLP;
                 }
                 else continue;
-                deltaSLP.xdelta = delta.DirectionX;
-                deltaSLP.ydelta = delta.DirectionY;
-                if(delta.DisplayAngle != -1)
-                {
-                    float anglesize = 6.28319f / graphicSLP.angles;
-                    deltaSLP.beginbearing = anglesize * delta.DisplayAngle;
-                    deltaSLP.endbearing = deltaSLP.beginbearing + anglesize;
-                }
+                HandleDelta(deltaSLP, delta);
                 graphicSLP.deltas.insert(make_pair(0, deltaSLP));
             }
         }
@@ -430,6 +424,18 @@ bool AGE_SLP::initStats(unsigned int graphicID, genie::DatFile &dataset)
     slpID = angles * fpa ? dataset.Graphics[graphicID].SLP : -1;
     mirror = dataset.Graphics[graphicID].MirroringMode;
     return angles * fpa;
+}
+
+void AGE_Frame::HandleDelta(AGE_SLP &graphic, const genie::GraphicDelta &delta)
+{
+    graphic.xdelta = delta.DirectionX;
+    graphic.ydelta = delta.DirectionY;
+    if(delta.DisplayAngle != -1)
+    {
+        float anglesize = 6.28319f / graphic.angles, properangle = anglesize * delta.DisplayAngle - 1.5708f;
+        graphic.beginbearing = properangle < 0 ? properangle + 6.28319f : properangle;
+        graphic.endbearing = graphic.beginbearing + anglesize;
+    }
 }
 
 void AGE_Frame::CalcAngle(AGE_SLP &graphic)
@@ -1053,7 +1059,8 @@ void AGE_Frame::CreateGraphicsControls()
 	GraphicDeltas_DisplayAngle_Holder = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_DisplayAngle_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Display Angle *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_DisplayAngle = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
-	GraphicDeltas_DisplayAngle->SetToolTip("The angle where this delta will be displayed\nIn a unit with 8 angles, 0 would mean east, 1 south-east, 2 south,\n3 south-west, 4 west, 5 north-west, 6 north, 7 north-east");
+	GraphicDeltas_DisplayAngle->SetToolTip("The angle where this delta will be displayed.\nAngle 0 is always east. Angles increase clocwise."
+    "In a graphic with 8 angles, 0 would mean east, 1 south-east, 2 south,\n3 south-west, 4 west, 5 north-west, 6 north, 7 north-east.\n");
 	GraphicDeltas_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	GraphicDeltas_Unknown1_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	GraphicDeltas_Unknown1 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
