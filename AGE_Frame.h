@@ -208,6 +208,7 @@ private:
 	void OnDrawGraphicSLP(wxPaintEvent &event);
 	void CalcDrawCenter(wxPanel*, int&, int&);
 	void CalcAngle(AGE_SLP&);
+	void HandleDelta(AGE_SLP&, const genie::GraphicDelta&);
 	void OnDrawTechSLP(wxPaintEvent &event);
 	void OnDrawBorderSLP(wxPaintEvent &event);
 	void OnDrawPalette(wxPaintEvent &event);
@@ -859,7 +860,7 @@ private:
 	vector<short> SelectedCivs;
 	bool SearchAnd = false, ExcludeAnd = false, EnableIDFix, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11, Reselection;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false, DrawTerrain;
-    bool DrawCollisionShape, DrawClearanceShape, DrawSelectionShape;
+    bool DrawCollisionShape, DrawClearanceShape, DrawSelectionShape, DrawAngles = false;
 	vector<genie::DrsFile*> datafiles;
 	vector<vector<genie::Color>> palettes;
 	genie::DatFile *dataset = 0;
@@ -874,7 +875,7 @@ private:
     wxFlexGridSizer *slp_tool_layout;
     wxRadioBox *slp_radio, *slp_unit_actions;
     wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison, *slp_hotspot, *slp_collision, *slp_clearance, *slp_selection;
-    wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain, *slp_angles;
+    wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain, *slp_angles, *slp_show_angles;
     wxColourPickerCtrl *slp_background;
     DelayedPopUp popUp;
     int randomi = 0;
@@ -948,7 +949,7 @@ public:
 
         // check boxes
         eShowHotspot, eAnimSLP, eShowShadows, eShowOutline, eShowDeltas, eShowStack, eShowAnnexes, eShowTerrain,
-        eCollisionShape, eClearanceShape, eSelectionShape,
+        eCollisionShape, eClearanceShape, eSelectionShape, eShowAngles,
 
         // color picker
         ePickBgColor,
@@ -1552,7 +1553,6 @@ private:
 	wxBoxSizer *Effects_DataB_Holder;
 	wxBoxSizer *Effects_DataC_Holder;
 	wxBoxSizer *Effects_DataD_Holder;
-	wxBoxSizer *Effects_DataE_Holder;	// for attack/armor amount
 	wxBoxSizer *Effects_DataF_Holder;	// for attack/armor class
 	wxBoxSizer *Effects_A_Holder;
 	wxBoxSizer *Effects_B_Holder;
@@ -1560,12 +1560,9 @@ private:
 	wxBoxSizer *Effects_D_Holder;
 	wxBoxSizer *Effects_F_Holder;	// for attack/armor class
 
-	wxStaticText *Effects_E_Text;
 	wxTextCtrl *Effects_E;	// amount
-	wxStaticText *Effects_Info_E;
 	wxStaticText *Effects_F_Text;
 	AGETextCtrl *Effects_F;	// class
-	wxStaticText *Effects_Info_F;
 
 	wxStaticBoxSizer *Techs_Techs;
 	wxBoxSizer *Techs_Searches[2];
