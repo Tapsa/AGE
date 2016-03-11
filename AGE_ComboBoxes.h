@@ -39,9 +39,9 @@ public:
         Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_Plus1::OnUpdate, this);
     }
 
+    void update(int value);
 protected:
     void OnUpdate(wxCommandEvent&);
-    void update(int value);
 };
 
 class ComboBox_EffectType: public AGEComboBox
