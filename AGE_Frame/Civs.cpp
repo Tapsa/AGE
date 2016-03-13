@@ -41,7 +41,7 @@ void AGE_Frame::InitCivs(bool all)
 	virtualListing(Civs_Civs_ListV, &CivIDs);
 	if(all)
 	{
-		FillLists(CivComboBoxList, names);
+		FillLists(CivComboBoxList, names, "Any");
         for(auto &box: CivComboBoxListNormal)
         {
             short selection = box->GetSelection();
