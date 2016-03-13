@@ -196,6 +196,14 @@ void AGE_Frame::OnTechPasteInsert(wxCommandEvent &event)	// Works.
 	ListTechs();
 }
 
+inline string Tester(genie::TechageEffect effect, string how)
+{
+    return ((effect.C == 8 || effect.C == 9) ? (effect.C == 8 ? "armor type " : "attack type ")
+        + lexical_cast<string>((uint16_t)effect.D >> 8) + how + lexical_cast<string>(uint16_t((uint8_t)effect.D))
+        : "attr " + lexical_cast<string>(effect.C) + how + lexical_cast<string>(effect.D))
+        + ((effect.B == -1) ? " for unit " + lexical_cast<string>(effect.A) : " for class " + lexical_cast<string>(effect.B));
+}
+
 string AGE_Frame::GetEffectName(int effect, int tech)
 {
 	string Name = "";
@@ -206,16 +214,7 @@ string AGE_Frame::GetEffectName(int effect, int tech)
         case 0:
         {
             //Name = "Attribute Modifier (Set)";
-            int16_t att = dataset->Techages[tech].Effects[effect].C;
-            float amount = dataset->Techages[tech].Effects[effect].D;
-            Name += "Set attr. " + lexical_cast<string>(att) + " to "
-                + ((att == 8 || att == 9)
-                ? lexical_cast<string>(uint16_t((uint8_t)amount)) + " : "
-                + lexical_cast<string>((uint16_t)amount >> 8)
-                : lexical_cast<string>(amount))
-                + ((dataset->Techages[tech].Effects[effect].B == -1)
-                ? " for unit " + lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
-                : " for class " + lexical_cast<string>(dataset->Techages[tech].Effects[effect].B));
+            Name += "Set " + Tester(dataset->Techages[tech].Effects[effect], " to ");
             break;
         }
 		case 11:
@@ -253,16 +252,7 @@ string AGE_Frame::GetEffectName(int effect, int tech)
         case 4:
         {
             //Name = "Attribute Modifier (+/-)";
-            int16_t att = dataset->Techages[tech].Effects[effect].C;
-            float amount = dataset->Techages[tech].Effects[effect].D;
-            Name += "Change attr. " + lexical_cast<string>(att) + " by "
-                + ((att == 8 || att == 9)
-                ? lexical_cast<string>(uint16_t((uint8_t)amount)) + " : "
-                + lexical_cast<string>((uint16_t)amount >> 8)
-                : lexical_cast<string>(amount))
-                + ((dataset->Techages[tech].Effects[effect].B == -1)
-                ? " for unit " + lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
-                : " for class " + lexical_cast<string>(dataset->Techages[tech].Effects[effect].B));
+            Name += "Change " + Tester(dataset->Techages[tech].Effects[effect], " by ");
             break;
         }
         case 15:
@@ -270,16 +260,7 @@ string AGE_Frame::GetEffectName(int effect, int tech)
         case 5:
         {
             //Name = "Attribute Modifier (Multiply)";
-            int16_t att = dataset->Techages[tech].Effects[effect].C;
-            float amount = dataset->Techages[tech].Effects[effect].D;
-            Name += "Multiply attr. " + lexical_cast<string>(att) + " by "
-                + ((att == 8 || att == 9)
-                ? lexical_cast<string>(uint16_t((uint8_t)amount)) + " : "
-                + lexical_cast<string>((uint16_t)amount >> 8)
-                : lexical_cast<string>(amount))
-                + ((dataset->Techages[tech].Effects[effect].B == -1)
-                ? " for unit " + lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
-                : " for class " + lexical_cast<string>(dataset->Techages[tech].Effects[effect].B));
+            Name += "Multiply " + Tester(dataset->Techages[tech].Effects[effect], " by ");
             break;
         }
 		case 16:
@@ -1181,8 +1162,8 @@ void AGE_Frame::CreateTechControls()
 	Effects_DataArea->Add(Techs_AllEffects, 1, wxEXPAND | wxTOP, 5);
 
 	Techs_Main->Add(Techs_Techs, 21, wxEXPAND | wxALL, 5); // 3
-	Techs_Main->Add(Effects_ListArea, 27, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5); // 3+1
-	Techs_Main->Add(Effects_DataArea, 33, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5); // 6-1
+	Techs_Main->Add(Effects_ListArea, 29, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5); // 3+1
+	Techs_Main->Add(Effects_DataArea, 31, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5); // 6-1
 
 	Effects_E->Show(false);	// only for attributes 8, 9
 	Effects_F->Show(false);	// only for attributes 8, 9
