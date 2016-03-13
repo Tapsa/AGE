@@ -191,7 +191,7 @@ private:
     void getSelectedItems(const int selections, const AGEListView* list, vector<int> &indexes);
 	//void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
 	void virtualListing(AGEListView *list, vector<int> *oldies = 0);
-	void FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString &names);
+	void FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString &names, const wxString &none = "None");
 	void UnitLangDLLConverter(wxCommandEvent &event);
 	void ResearchLangDLLConverter(wxCommandEvent &event);
 	void SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch);
