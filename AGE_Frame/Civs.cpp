@@ -192,7 +192,7 @@ void AGE_Frame::OnCivCountChange()
 		Units_CivBoxes.reserve(CivCount);
 		for(size_t loop = Units_CivBoxes.size(); loop < CivCount; ++loop)
 		{
-			Units_CivBoxes.push_back(new wxCheckBox(Tab_Units, wxID_ANY, wxEmptyString));
+			Units_CivBoxes.push_back(new wxCheckBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(36, -1)));
 			Units_CivBoxes[loop]->SetValue(true);
 			Units_TopGrid_Holder->Add(Units_CivBoxes[loop], 0, wxRIGHT, 1);
             Units_CivBoxes[loop]->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnAutoCopy, this);
