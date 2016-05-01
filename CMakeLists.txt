@@ -5,16 +5,15 @@ project(AdvancedGenieEditor3)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
 set(CMAKE_CXX_FLAGS "-Wall -Wno-sign-compare -std=gnu++0x")
 set(BOOST_DATE_TIME_NO_LIB   ON)
-set(Boost_USE_STATIC_LIBS    ON)
+#set(Boost_USE_STATIC_LIBS    ON)
+#set(Boost_USE_STATIC_RUNTIME ON)
 set(Boost_USE_MULTITHREADED  ON)
-set(Boost_USE_STATIC_RUNTIME ON)
 
 find_package(Boost 1.55 REQUIRED iostreams)
 
 find_package(wxWidgets REQUIRED adv core base)
 include("${wxWidgets_USE_FILE}")
 
-set(GDAT_STATIC TRUE)
 set(GUTILS_TOOLS FALSE)
 set(GUTILS_TEST FALSE)
 
