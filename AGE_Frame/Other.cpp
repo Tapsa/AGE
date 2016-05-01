@@ -355,19 +355,22 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             wxString folder = FolderDRS, res;
             folder.Replace("drs", "dat", false);
             wxDir dir(folder);
-            if(!dir.IsOpened()) return;
-            bool found = dir.GetFirst(&res, "*.pal");
-            while(found)
+            if(dir.IsOpened())
             {
-                try
+                bool found = dir.GetFirst(&res, "*.pal");
+                while(found)
                 {
-                    genie::PalFile pal;
-                    pal.load((folder + "\\" + res).c_str());
-                    palettes.push_back(pal.getColors());
+                    try
+                    {
+                        genie::PalFile pal;
+                        pal.load((folder + "\\" + res).c_str());
+                        palettes.push_back(pal.getColors());
+                    }
+                    catch(std::ios_base::failure e){}
+                    found = dir.GetNext(&res);
                 }
-                catch(std::ios_base::failure e){}
-                found = dir.GetNext(&res);
             }
+            else wxMessageBox("Cannot open folder " + folder);
         }
         else
         {
