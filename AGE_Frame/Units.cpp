@@ -268,17 +268,17 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type20[42]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "U6 " + FormatInt(unit_ptr->Unknown6);
+            return "U6 " + FormatInt(unit_ptr->EnableAutoGather);
         });
         else if(label.compare(Type20[43]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "U7 " + FormatInt(unit_ptr->Unknown7);
+            return "U7 " + FormatInt(unit_ptr->AutoGatherMode);
         });
         else if(label.compare(Type20[44]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "U8 " + FormatInt(unit_ptr->Unknown8);
+            return "U8 " + FormatInt(unit_ptr->AutoGatherID);
         });
         else if(label.compare(Type20[45]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -993,30 +993,31 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent&)
 					Units_TerrainID->prepend(&UnitPointer->Building.FoundationTerrainID);
 					Units_OldTerrainLikeID->prepend(&UnitPointer->Building.OldTerrainLikeID);
 					Units_ResearchID->prepend(&UnitPointer->Building.ResearchID);
-					if(GenieVersion >= genie::GV_AoKA)
-					{
-						if(GenieVersion >= genie::GV_TC)
-						{
-							if(CopyGraphics || vecCiv == 0)
-							Units_SnowGraphicID->prepend(&UnitPointer->Building.SnowGraphicID);
-						}
-						Units_Unknown33->prepend(&UnitPointer->Building.Unknown33);
-						for(size_t loop = 0; loop < 4; ++loop)
-						{
-							Units_AnnexUnit[loop]->prepend(&UnitPointer->Building.Annexes[loop].UnitID);
-							Units_AnnexUnitMisplacement[loop][0]->prepend(&UnitPointer->Building.Annexes[loop].Misplacement.first);
-							Units_AnnexUnitMisplacement[loop][1]->prepend(&UnitPointer->Building.Annexes[loop].Misplacement.second);
-						}
-						Units_HeadUnit->prepend(&UnitPointer->Building.HeadUnit);
-						Units_TransformUnit->prepend(&UnitPointer->Building.TransformUnit);
-						Units_UnknownSound->prepend(&UnitPointer->Building.UnknownSound);
-						Units_GarrisonType->prepend(&UnitPointer->Building.GarrisonType);
-						Units_GarrisonHealRate->prepend(&UnitPointer->Building.GarrisonHealRate);
-						Units_Unknown35->prepend(&UnitPointer->Building.Unknown35);
-						Units_PileUnit->prepend(&UnitPointer->Building.PileUnit);
-						for(size_t loop = 0; loop < Units_LootSwitch.size(); ++loop)
-						Units_LootSwitch[loop]->prepend(&UnitPointer->Building.LootingTable[loop]);
-					}
+                    if(GenieVersion >= genie::GV_AoKE3)
+                    {
+                        if(GenieVersion >= genie::GV_TC)
+                        {
+                            if(CopyGraphics || vecCiv == 0)
+                            Units_SnowGraphicID->prepend(&UnitPointer->Building.SnowGraphicID);
+                        }
+                        Units_Unknown33->prepend(&UnitPointer->Building.Unknown33);
+                        for(size_t loop = 0; loop < 4; ++loop)
+                        {
+                            Units_AnnexUnit[loop]->prepend(&UnitPointer->Building.Annexes[loop].UnitID);
+                            Units_AnnexUnitMisplacement[loop][0]->prepend(&UnitPointer->Building.Annexes[loop].Misplacement.first);
+                            Units_AnnexUnitMisplacement[loop][1]->prepend(&UnitPointer->Building.Annexes[loop].Misplacement.second);
+                        }
+                        if(GenieVersion >= genie::GV_AoKA)
+                        Units_HeadUnit->prepend(&UnitPointer->Building.HeadUnit);
+                        Units_TransformUnit->prepend(&UnitPointer->Building.TransformUnit);
+                        Units_UnknownSound->prepend(&UnitPointer->Building.UnknownSound);
+                        Units_GarrisonType->prepend(&UnitPointer->Building.GarrisonType);
+                        Units_GarrisonHealRate->prepend(&UnitPointer->Building.GarrisonHealRate);
+                        Units_Unknown35->prepend(&UnitPointer->Building.Unknown35);
+                        Units_PileUnit->prepend(&UnitPointer->Building.PileUnit);
+                        for(size_t loop = 0; loop < Units_LootSwitch.size(); ++loop)
+                        Units_LootSwitch[loop]->prepend(&UnitPointer->Building.LootingTable[loop]);
+                    }
 					Units_ConstructionSound->prepend(&UnitPointer->Building.ConstructionSound);
 				}
 				case 70:
@@ -1030,29 +1031,29 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent&)
 					Units_TrainTime->prepend(&UnitPointer->Creatable.TrainTime);
 					Units_TrainLocationID->prepend(&UnitPointer->Creatable.TrainLocationID);
 					Units_ButtonID->prepend(&UnitPointer->Creatable.ButtonID);
-					if(GenieVersion >= genie::GV_AoKA)
-					{
-						Units_Unknown26->prepend(&UnitPointer->Creatable.Unknown26);
-						Units_Unknown27->prepend(&UnitPointer->Creatable.Unknown27);
-						Units_UnknownType->prepend(&UnitPointer->Creatable.CreatableType);
-						if(GenieVersion >= genie::GV_AoKB)
-						{
-							Units_HeroMode->prepend(&UnitPointer->Creatable.HeroMode);
-							if(CopyGraphics || vecCiv == 0)
-							{
-								Units_GarrisonGraphic->prepend(&UnitPointer->Creatable.GarrisonGraphic);
-							}
-						}
-						Units_MissileCount->prepend(&UnitPointer->Creatable.TotalProjectiles);
-						Units_MissileDuplicationCount->prepend(&UnitPointer->Creatable.MaxTotalProjectiles);
-						for(size_t loop = 0; loop < 3; ++loop)
-						{
-							Units_AttackMissileDuplicationSpawning[loop]->prepend(&UnitPointer->Creatable.ProjectileSpawningArea[loop]);
-						}
-						Units_AttackMissileDuplicationUnit->prepend(&UnitPointer->Creatable.SecondaryProjectileUnit);
-						Units_ChargingGraphic->prepend(&UnitPointer->Creatable.SpecialGraphic);
-						Units_ChargingMode->prepend(&UnitPointer->Creatable.SpecialAbility);
-					}
+                    if(GenieVersion >= genie::GV_AoKE3)
+                    {
+                        Units_Unknown26->prepend(&UnitPointer->Creatable.Unknown26);
+                        Units_Unknown27->prepend(&UnitPointer->Creatable.Unknown27);
+                        Units_UnknownType->prepend(&UnitPointer->Creatable.CreatableType);
+                        if(GenieVersion >= genie::GV_AoKB)
+                        {
+                            Units_HeroMode->prepend(&UnitPointer->Creatable.HeroMode);
+                            if(CopyGraphics || vecCiv == 0)
+                            {
+                                Units_GarrisonGraphic->prepend(&UnitPointer->Creatable.GarrisonGraphic);
+                            }
+                        }
+                        Units_MissileCount->prepend(&UnitPointer->Creatable.TotalProjectiles);
+                        Units_MissileDuplicationCount->prepend(&UnitPointer->Creatable.MaxTotalProjectiles);
+                        for(size_t loop = 0; loop < 3; ++loop)
+                        {
+                            Units_AttackMissileDuplicationSpawning[loop]->prepend(&UnitPointer->Creatable.ProjectileSpawningArea[loop]);
+                        }
+                        Units_AttackMissileDuplicationUnit->prepend(&UnitPointer->Creatable.SecondaryProjectileUnit);
+                        Units_ChargingGraphic->prepend(&UnitPointer->Creatable.SpecialGraphic);
+                        Units_ChargingMode->prepend(&UnitPointer->Creatable.SpecialAbility);
+                    }
 					Units_DisplayedPierceArmour->prepend(&UnitPointer->Creatable.DisplayedPierceArmour);
 				}
 				case 60:
@@ -1165,30 +1166,33 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent&)
                     Units_MinimapMode->prepend(&UnitPointer->MinimapMode);
                     Units_SelectionEffect->prepend(&UnitPointer->SelectionEffect);
                     Units_EditorSelectionColour->prepend(&UnitPointer->EditorSelectionColour);
-                    if(GenieVersion >= genie::GV_AoKA)
+                    if(GenieVersion >= genie::GV_AoKE3)
                     {
                         Units_TrainSound[1]->prepend(&UnitPointer->TrainSound.second);
                         Units_SelectionMask->prepend(&UnitPointer->SelectionMask);
-                        Units_SelectionShapeType->prepend(&UnitPointer->SelectionShapeType);
-                        Units_SelectionShape->prepend(&UnitPointer->SelectionShape);
-                        Units_ID3->prepend(&UnitPointer->ID3);
-                        if(GenieVersion >= genie::GV_AoKB)
+                        if(GenieVersion >= genie::GV_AoKA)
                         {
-                            if(CopyGraphics || vecCiv == 0)
-                            Units_StandingGraphic[1]->prepend(&UnitPointer->StandingGraphic.second);
-                            if(GenieVersion >= genie::GV_AoK)
+                            Units_SelectionShapeType->prepend(&UnitPointer->SelectionShapeType);
+                            Units_SelectionShape->prepend(&UnitPointer->SelectionShape);
+                            Units_ID3->prepend(&UnitPointer->ID3);
+                            if(GenieVersion >= genie::GV_AoKB)
                             {
-                                Units_Disabled->prepend(&UnitPointer->Disabled);
-                                if(GenieVersion >= genie::GV_TC)
+                                if(CopyGraphics || vecCiv == 0)
+                                Units_StandingGraphic[1]->prepend(&UnitPointer->StandingGraphic.second);
+                                if(GenieVersion >= genie::GV_AoK)
                                 {
-                                    Units_Attribute->prepend(&UnitPointer->Attribute);
-                                    Units_Civ->prepend(&UnitPointer->Civilization);
-                                    Units_Nothing->prepend(&UnitPointer->Nothing);
-                                    if(GenieVersion >= genie::GV_SWGB)
+                                    Units_Disabled->prepend(&UnitPointer->Disabled);
+                                    if(GenieVersion >= genie::GV_TC)
                                     {
-                                        Units_Name2->prepend(&UnitPointer->Name2);
-                                        Units_Unitline->prepend(&UnitPointer->Unitline);
-                                        Units_MinTechLevel->prepend(&UnitPointer->MinTechLevel);
+                                        Units_Attribute->prepend(&UnitPointer->Attribute);
+                                        Units_Civ->prepend(&UnitPointer->Civilization);
+                                        Units_Nothing->prepend(&UnitPointer->Nothing);
+                                        if(GenieVersion >= genie::GV_SWGB)
+                                        {
+                                            Units_Name2->prepend(&UnitPointer->Name2);
+                                            Units_Unitline->prepend(&UnitPointer->Unitline);
+                                            Units_MinTechLevel->prepend(&UnitPointer->MinTechLevel);
+                                        }
                                     }
                                 }
                             }
@@ -1202,9 +1206,9 @@ void AGE_Frame::OnUnitsTimer(wxTimerEvent&)
                     Units_LanguageDLLHotKeyText->prepend(&UnitPointer->LanguageDLLHotKeyText);
                     Units_HotKey->prepend(&UnitPointer->HotKey);
                     Units_Unselectable->prepend(&UnitPointer->Unselectable);
-                    Units_Unknown6->prepend(&UnitPointer->Unknown6);
-                    Units_Unknown7->prepend(&UnitPointer->Unknown7);
-                    Units_Unknown8->prepend(&UnitPointer->Unknown8);
+                    Units_Unknown6->prepend(&UnitPointer->EnableAutoGather);
+                    Units_Unknown7->prepend(&UnitPointer->AutoGatherMode);
+                    Units_Unknown8->prepend(&UnitPointer->AutoGatherID);
                     Units_SelectionRadius[0]->prepend(&UnitPointer->SelectionShapeSize.x);
                     Units_SelectionRadius[1]->prepend(&UnitPointer->SelectionShapeSize.y);
                     Units_HPBarHeight2->prepend(&UnitPointer->SelectionShapeSize.z);
@@ -4157,9 +4161,9 @@ void AGE_Frame::CreateUnitControls()
 	Type20.Add("LanguageDLLHotKeyText");
 	Type20.Add("HotKey");
 	Type20.Add("Unselectable");
-	Type20.Add("Unknown6");
-	Type20.Add("Unknown7");
-	Type20.Add("Unknown8");
+	Type20.Add("EnableAutoGather");
+	Type20.Add("AutoGatherMode");
+	Type20.Add("AutoGatherID");
 	Type20.Add("SelectionMask");
 	Type20.Add("SelectionShapeType");
 	Type20.Add("SelectionShape");

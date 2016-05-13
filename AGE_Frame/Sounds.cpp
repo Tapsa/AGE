@@ -156,7 +156,7 @@ string AGE_Frame::GetSoundItemName(int item, int set)
 			case 2: // Probability
 				Name += "P "+lexical_cast<string>(dataset->Sounds[set].Items[item].Probability);
 				break;
-			if(GenieVersion >= genie::GV_AoKA)
+			if(GenieVersion >= genie::GV_AoKE3)
 			{
 			case 3: // Civilization
 				Name += "C "+lexical_cast<string>(dataset->Sounds[set].Items[item].Culture);
@@ -238,7 +238,7 @@ void AGE_Frame::OnSoundItemsTimer(wxTimerEvent&)
 			SoundItems_Name->prepend(&SoundItemPointer->FileName);
 			SoundItems_Resource->prepend(&SoundItemPointer->ResourceID);
 			SoundItems_Probability->prepend(&SoundItemPointer->Probability);
-			if(GenieVersion >= genie::GV_AoKA)
+			if(GenieVersion >= genie::GV_AoKE3)
 			{
 				SoundItems_Civ->prepend(&SoundItemPointer->Culture);
 				SoundItems_Unknown->prepend(&SoundItemPointer->PlayerID);

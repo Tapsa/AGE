@@ -12,7 +12,8 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]2016.4.26[/b]:
+Version [b]2016.5.15[/b]:
+-Able to read a game version from July 1998.
 -Restored the grid layout. <- Work in progress.
 -SLP view takes display angle into account. <- Some angles broke.
 -Adjust graphic deltas using mouse and arrow keys. <- Not yet.
