@@ -52,6 +52,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     CheckBox_GenieVer->Append("Age of Empires Beta (7.04 - 7.11)");
     CheckBox_GenieVer->Append("Age of Empires (7.2)");
     CheckBox_GenieVer->Append("Rise of Rome (7.24)");
+    CheckBox_GenieVer->Append("Age of Kings E3 (9.36)");
     CheckBox_GenieVer->Append("Age of Kings Alpha (10.19)");
     CheckBox_GenieVer->Append("Age of Kings Beta (11.05)");
     CheckBox_GenieVer->Append("Age of Kings (11.5)");

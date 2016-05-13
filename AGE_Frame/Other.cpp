@@ -194,6 +194,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		case EV_AoEB: GenieVersion = genie::GV_AoEB; break;
 		case EV_AoE: GenieVersion = genie::GV_AoE; break;
 		case EV_RoR: GenieVersion = genie::GV_RoR; break;
+		case EV_AoKE3: GenieVersion = genie::GV_AoKE3; break;
 		case EV_AoKA: GenieVersion = genie::GV_AoKA; break;
 		case EV_AoKB: GenieVersion = genie::GV_AoKB; break;
 		case EV_AoK: GenieVersion = genie::GV_AoK; break;
@@ -1765,7 +1766,7 @@ void AGE_Frame::LoadLists()
 		UnitLines_UnitLineUnits_ListV->DeleteAllItems();
 	}
 	//InitCivs(true);
-	InitUnits(GenieVersion < genie::GV_AoKA, true);
+	InitUnits(GenieVersion <= genie::GV_RoR, true);
 	InitResearches(true);
 	if(GenieVersion >= genie::GV_AoKA)
 	{
@@ -1885,82 +1886,79 @@ void AGE_Frame::OnGameVersionChange()
 		Units_DisplayedAttack_Holder->Show(show);
 		Units_DisplayedRange_Holder->Show(show);
 		Units_ReloadTime2_Holder->Show(show);
-		if(!show || ShowUnknowns)
-		{
-			Units_Unknown6_Holder->Show(show);
-			Units_Unknown7_Holder->Show(show);
-			Units_Unknown8_Holder->Show(show);
-		}
+        Units_Unknown6_Holder->Show(show);
+        Units_Unknown7_Holder->Show(show);
+        Units_Unknown8_Holder->Show(show);
 
-		// AoE ->
-		show = (GenieVersion >= genie::GV_AoE) ? true : false;
-		Units_ID2_Holder->Show(show);
-		General_Unknown2_Holder->Show(show);
-		for(size_t loop = 2; loop < General_TileSizes.size(); loop += 3)
-		General_TileSizes[loop]->Show(show);
+        // AoE ->
+        show = (GenieVersion >= genie::GV_AoE) ? true : false;
+        Units_ID2_Holder->Show(show);
+        General_Unknown2_Holder->Show(show);
+        for(size_t loop = 2; loop < General_TileSizes.size(); loop += 3)
+        General_TileSizes[loop]->Show(show);
 
-		// AoK Alfa ->
-		show = (GenieVersion >= genie::GV_AoKA) ? true : false;
-		for(size_t loop = 4; loop < 6; ++loop)
-		{
-			Research_RequiredTechs[loop]->Show(show);
-			Research_RequiredTechs_ComboBox[loop]->Show(show);
-		}
-		Units_TrainSound[1]->Show(show);
-		Units_TrainSound_ComboBox[1]->Show(show);
-		Units_SelectionMask_Holder->Show(show);
-		Units_SelectionShapeType_Holder->Show(show);
-		Units_SelectionShape_Holder->Show(show);
-		Units_ID3_Holder->Show(show);
-		Units_MissileCount_Holder->Show(show);
-		Units_MissileDuplicationCount_Holder->Show(show);
-		Units_AttackMissileDuplicationSpawning_Holder->Show(show);
-		Units_AttackMissileDuplicationUnit_Holder->Show(show);
-		Units_ChargingGraphic_Holder->Show(show);
-		Units_ChargingMode_Holder->Show(show);
-		Units_AnnexUnit1_Holder->Show(show);
-		Units_AnnexUnitMisplacement1_Holder->Show(show);
-		Units_HeadUnit_Holder->Show(show);
-		Units_TransformUnit_Holder->Show(show);
-		Units_GarrisonType_Holder->Show(show);
-		Units_GarrisonHealRate_Holder->Show(show);
-		Units_LootSwitch_Holder->Show(show);
-		Units_UnknownSound_Holder->Show(show);
-		Units_UnknownType_Holder->Show(show);
-		TerRestrict_Graphics_Holder->Show(show);
-		SoundItems_Civ_Holder->Show(show);
-		Colors_Palette_Holder->Show(show);
-		Colors_MinimapColor_Holder->Show(show);
-		Colors_StatisticsText_Holder->Show(show);
-		TechTrees_Main->Show(show);
-		TabBar_Main->SetPageText(2, show ? "Tech Trees" : "AoK+ only");
-		if(!show || ShowUnknowns)
-		{
-			Units_Type70plusUnknownArea_Holder->Show(show);
-			Units_Type80plusUnknownArea_Holder->Show(show);
-			Units_PileUnit_Holder->Show(show);
-			SoundItems_Unknown_Holder->Show(show);
-			Colors_Unknown3_Holder->Show(show);
-			Colors_Unknown4_Holder->Show(show);
-		}
+        // AoK E3 ->
+        show = (GenieVersion >= genie::GV_AoKE3) ? true : false;
+        Colors_Palette_Holder->Show(show);
+        Colors_MinimapColor_Holder->Show(show);
+        Colors_StatisticsText_Holder->Show(show);
+        SoundItems_Civ_Holder->Show(show);
+        SoundItems_Unknown_Holder->Show(show);
+        Units_TrainSound[1]->Show(show);
+        Units_TrainSound_ComboBox[1]->Show(show);
+        Units_SelectionMask_Holder->Show(show);
+        Units_UnknownType_Holder->Show(show);
+        Units_MissileCount_Holder->Show(show);
+        Units_MissileDuplicationCount_Holder->Show(show);
+        Units_AttackMissileDuplicationSpawning_Holder->Show(show);
+        Units_AttackMissileDuplicationUnit_Holder->Show(show);
+        Units_ChargingGraphic_Holder->Show(show);
+        Units_ChargingMode_Holder->Show(show);
+        Units_AnnexUnit1_Holder->Show(show);
+        Units_AnnexUnitMisplacement1_Holder->Show(show);
+        Units_TransformUnit_Holder->Show(show);
+        Units_UnknownSound_Holder->Show(show);
+        Units_GarrisonType_Holder->Show(show);
+        Units_GarrisonHealRate_Holder->Show(show);
+        Units_PileUnit_Holder->Show(show);
+        Units_LootSwitch_Holder->Show(show);
+        if(!show || ShowUnknowns)
+        {
+            Colors_Unknown3_Holder->Show(show);
+            Colors_Unknown4_Holder->Show(show);
+            Units_Type70plusUnknownArea_Holder->Show(show);
+            Units_Type80plusUnknownArea_Holder->Show(show);
+        }
+        Colors_Name_Holder->Show(!show);
+        if(show)
+        {
+            Colors_ID->changeContainerType(CLong);
+            Colors_ColorL->changeContainerType(CLong);
+            Colors_Unknown1->changeContainerType(CLong);
+            Colors_Unknown2->changeContainerType(CLong);
+        }
+        else
+        {
+            Colors_ID->changeContainerType(CShort);
+            Colors_Unknown1->changeContainerType(CShort);
+            Colors_ColorL->changeContainerType(CUByte);
+            Colors_Unknown2->changeContainerType(CUByte);
+        }
 
-		// AoE & RoR
-		Colors_Name_Holder->Show(!show);
-
-		if(show) // AoK Alfa ->
-		{
-			Colors_ID->changeContainerType(CLong);
-			Colors_ColorL->changeContainerType(CLong);
-			Colors_Unknown1->changeContainerType(CLong);
-			Colors_Unknown2->changeContainerType(CLong);
-		}
-		else // <- RoR
-		{
-			Colors_ID->changeContainerType(CShort);
-			Colors_Unknown1->changeContainerType(CShort);
-			Colors_ColorL->changeContainerType(CUByte);
-			Colors_Unknown2->changeContainerType(CUByte);
-		}
+        // AoK Alfa ->
+        show = (GenieVersion >= genie::GV_AoKA) ? true : false;
+        for(size_t loop = 4; loop < 6; ++loop)
+        {
+            Research_RequiredTechs[loop]->Show(show);
+            Research_RequiredTechs_ComboBox[loop]->Show(show);
+        }
+        Units_SelectionShapeType_Holder->Show(show);
+        Units_SelectionShape_Holder->Show(show);
+        Units_ID3_Holder->Show(show);
+        Units_HeadUnit_Holder->Show(show);
+        TerRestrict_Graphics_Holder->Show(show);
+        TechTrees_Main->Show(show);
+        TabBar_Main->SetPageText(2, show ? "Tech Trees" : "AoK+ only");
 
 		// AoK Beta ->
 		show = (GenieVersion >= genie::GV_AoKB) ? true : false;
@@ -1969,6 +1967,7 @@ void AGE_Frame::OnGameVersionChange()
 		Units_StandingGraphic[1]->Show(show);
 		Units_StandingGraphic_ComboBox[1]->Show(show);
 		Units_AccuracyDispersion_Holder->Show(show);
+        Units_RotationAngles_Holder->Show(show);
 		TechTrees_Ages_Buildings.Add->Enable(show);
 		TechTrees_Ages_Units.Add->Enable(show);
 		TechTrees_Ages_Researches.Add->Enable(show);
@@ -2017,18 +2016,14 @@ void AGE_Frame::OnGameVersionChange()
 		Research_FullTechMode_Holder->Show(show);
 		if(!show || ShowUnknowns)
 		{
-			Units_RotationAngles_Holder->Show(show);
 			Graphics_Unknown3_Holder->Show(show);
 		}
 
-		// AoK ->
-		show = (GenieVersion >= genie::GV_AoK) ? true : false;
-		Units_Exists_Holder->Show(show);
-		Units_UnitCommands_Add->Enable(show);
-		if(!show || ShowUnknowns)
-		{
-			Units_Disabled_Holder->Show(show);
-		}
+        // AoK ->
+        show = (GenieVersion >= genie::GV_AoK) ? true : false;
+        Units_Exists_Holder->Show(show);
+        Units_UnitCommands_Add->Enable(show);
+        Units_Disabled_Holder->Show(show);
 
 		// TC ->
 		show = (GenieVersion >= genie::GV_TC) ? true : false;

@@ -1,7 +1,7 @@
 #include "AGE_AboutDialog.h"
 #include "AboutIcon.xpm"
 
-const wxString AGE_AboutDialog::AGE_VER = "2016.4.26";
+const wxString AGE_AboutDialog::AGE_VER = "2016.5.15";
 
 AGE_AboutDialog::AGE_AboutDialog(wxWindow *parent, const wxFont &font)
 : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)

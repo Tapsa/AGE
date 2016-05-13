@@ -12,7 +12,7 @@ void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &event)
 
 string AGE_Frame::GetPlayerColorName(int index)
 {
-	if(GenieVersion < genie::GV_AoKA)
+	if(GenieVersion < genie::GV_AoKE3)
 		return dataset->PlayerColours[index].Name;
 	return "Color "+lexical_cast<string>(index)+" ";
 }
@@ -78,7 +78,7 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent&)
         Colors_ColorL->prepend(&PlayerColorPointer->Colour);
         Colors_Unknown1->prepend(&PlayerColorPointer->Unknown1);
         Colors_Unknown2->prepend(&PlayerColorPointer->Unknown2);
-		if(GenieVersion < genie::GV_AoKA)	//	AoE and RoR
+		if(GenieVersion < genie::GV_AoKE3)	//	AoE and RoR
 		{
 			Colors_Name->prepend(&PlayerColorPointer->Name);
 		}
@@ -104,7 +104,7 @@ void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent&)
         setForeAndBackColors(Colors_ColorL, wxColour(playerColor.r, playerColor.g, playerColor.b));
         setForeAndBackColors(Colors_MinimapColor, wxColour(minimap.r, minimap.g, minimap.b));
 
-		if(GenieVersion < genie::GV_AoKA)
+		if(GenieVersion < genie::GV_AoKE3)
         AGE_SLP::playerColorStart = uint8_t(16 * (1 + ColorIDs.front()));
         else AGE_SLP::playerColorStart = (uint8_t)PlayerColorPointer->Palette;
         AGE_SLP::playerColorID = (uint8_t)PlayerColorPointer->Colour;
