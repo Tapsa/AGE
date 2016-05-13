@@ -87,6 +87,7 @@ enum EditableVersion
 	EV_AoEB,
 	EV_AoE,
 	EV_RoR,
+	EV_AoKE3,
 	EV_AoKA,
 	EV_AoKB,
 	EV_AoK,
