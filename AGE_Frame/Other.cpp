@@ -1568,7 +1568,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 			Sounds_Items_SearchFilters[loop]->Append("Filename");	// 0
 			Sounds_Items_SearchFilters[loop]->Append("DRS");
 			Sounds_Items_SearchFilters[loop]->Append("Probability");
-			if(GenieVersion >= genie::GV_AoKA)
+			if(GenieVersion >= genie::GV_AoKE3)
 			{
 				Sounds_Items_SearchFilters[loop]->Append("Civilization");
 				Sounds_Items_SearchFilters[loop]->Append("Unknown");
