@@ -36,7 +36,7 @@ wxString AGE_Frame::GetUnitName(int index, short civ, bool Filter)
 #define UF40 unit_ptr->Type < 40 || unit_ptr->Type > 80 ? "" :
 #define UF50 unit_ptr->Type < 50 || unit_ptr->Type > 80 ? "" :
 #define UF60 unit_ptr->Type != 60 ? "" :
-#define UF70 unit_ptr->Type != 70 || unit_ptr->Type != 80 ? "" :
+#define UF70 unit_ptr->Type != 70 && unit_ptr->Type != 80 ? "" :
 #define UF80 unit_ptr->Type != 80 ? "" :
 
 void AGE_Frame::PrepUnitSearch()
@@ -574,9 +574,9 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type50[13]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "x" + FormatInt(unit_ptr->Type50.GraphicDisplacement[0])
-                    + " y" + FormatInt(unit_ptr->Type50.GraphicDisplacement[1])
-                    + " z" + FormatInt(unit_ptr->Type50.GraphicDisplacement[2]);
+            return UF50 "x" + FormatFloat(unit_ptr->Type50.GraphicDisplacement[0])
+                    + " y" + FormatFloat(unit_ptr->Type50.GraphicDisplacement[1])
+                    + " z" + FormatFloat(unit_ptr->Type50.GraphicDisplacement[2]);
         });
         else if(label.compare(Type50[14]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -673,12 +673,12 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type70[4]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "U26 " + FormatInt(unit_ptr->Creatable.Unknown26);
+            return UF70 "U26 " + FormatFloat(unit_ptr->Creatable.Unknown26);
         });
         else if(label.compare(Type70[5]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "U27 " + FormatInt(unit_ptr->Creatable.Unknown27);
+            return UF70 "U27 " + FormatFloat(unit_ptr->Creatable.Unknown27);
         });
         else if(label.compare(Type70[6]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -708,9 +708,9 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type70[11]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "x" + FormatInt(unit_ptr->Creatable.ProjectileSpawningArea[0])
-                    + " y" + FormatInt(unit_ptr->Creatable.ProjectileSpawningArea[1])
-                    + " z" + FormatInt(unit_ptr->Creatable.ProjectileSpawningArea[2]);
+            return UF70 "x" + FormatFloat(unit_ptr->Creatable.ProjectileSpawningArea[0])
+                    + " y" + FormatFloat(unit_ptr->Creatable.ProjectileSpawningArea[1])
+                    + " z" + FormatFloat(unit_ptr->Creatable.ProjectileSpawningArea[2]);
         });
         else if(label.compare(Type70[12]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -3960,7 +3960,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Unknown27 = AGETextCtrl::init(CFloat, &uiGroupUnit, this, &popUp, Units_Scroller);
 
 	Units_Unknown33 = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
-	Units_Unknown33->SetToolTip("Seems to be obsolete\nWas possibly related to annexes");
+	Units_Unknown33->SetToolTip("Seems to be obsolete");
 	Units_Unknown35 = AGETextCtrl::init(CFloat, &uiGroupUnit, this, &popUp, Units_Scroller);
 	Units_Unknown35->SetToolTip("Seems to be obsolete\nWas probably related to garrisoning");
 
