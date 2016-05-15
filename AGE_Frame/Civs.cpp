@@ -220,7 +220,7 @@ void AGE_Frame::OnCivCountChange()
 
 wxString AGE_Frame::GetResourceName(int index)
 {
-    if(GenieVersion < genie::GV_AoKA)
+    if(GenieVersion < genie::GV_AoKE3)
     {
         if(index < RoRCivResources.size())
             return RoRCivResources[index];
