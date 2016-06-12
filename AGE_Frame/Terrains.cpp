@@ -559,7 +559,8 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Scroller = new AGE_Scrolled(Tab_Terrains);
 	Terrains_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Terrains_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Terrains_Area1_Grid = new wxWrapSizer();
+	Terrains_Area1_Grid = new wxBoxSizer(wxHORIZONTAL);
+	Terrains_Area2_Grid = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Enabled_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Enabled1_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Enabled_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Enabled", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
@@ -623,7 +624,8 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Unknown3_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown Pointer", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_Unknown3 = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
-	Terrains_GridX = new wxWrapSizer();
+	Terrains_GridX1 = new wxBoxSizer(wxHORIZONTAL);
+	Terrains_GridX2 = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_Unknown1_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_Unknown1 = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
@@ -671,7 +673,8 @@ void AGE_Frame::CreateTerrainControls()
     for(auto &box: Terrains_ElevationGraphics)
     box = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::MEDIUM);
 
-	Terrains_Animation_Grid = new wxWrapSizer();
+	Terrains_Animation_Grid1 = new wxBoxSizer(wxHORIZONTAL);
+	Terrains_Animation_Grid2 = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_IsAnimated_Holder = new wxBoxSizer(wxVERTICAL);
 	Terrains_IsAnimated_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Is Animated", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_IsAnimated = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
@@ -813,16 +816,16 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_AnimateLast_Holder->Add(Terrains_AnimateLast, 0, wxEXPAND);
     Terrains_FrameChanged_Holder->Add(Terrains_FrameChanged, 0, wxEXPAND);
     Terrains_Drawn_Holder->Add(Terrains_Drawn, 0, wxEXPAND);
-    Terrains_Animation_Grid->Add(Terrains_IsAnimated_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Animation_Grid->Add(Terrains_AnimationFrames_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Animation_Grid->Add(Terrains_PauseFames_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Animation_Grid->Add(Terrains_Interval_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Animation_Grid->Add(Terrains_PauseBetweenLoops_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Animation_Grid->Add(Terrains_Frame_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Animation_Grid->Add(Terrains_DrawFrame_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Animation_Grid->Add(Terrains_AnimateLast_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Animation_Grid->Add(Terrains_FrameChanged_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Animation_Grid->Add(Terrains_Drawn_Holder, 0, wxTOP, 5);
+    Terrains_Animation_Grid1->Add(Terrains_IsAnimated_Holder);
+    Terrains_Animation_Grid1->Add(Terrains_AnimationFrames_Holder, 0, wxLEFT, 5);
+    Terrains_Animation_Grid1->Add(Terrains_PauseFames_Holder, 0, wxLEFT, 5);
+    Terrains_Animation_Grid1->Add(Terrains_Interval_Holder, 0, wxLEFT, 5);
+    Terrains_Animation_Grid1->Add(Terrains_PauseBetweenLoops_Holder, 0, wxLEFT, 5);
+    Terrains_Animation_Grid2->Add(Terrains_Frame_Holder);
+    Terrains_Animation_Grid2->Add(Terrains_DrawFrame_Holder, 0, wxLEFT, 5);
+    Terrains_Animation_Grid2->Add(Terrains_AnimateLast_Holder, 0, wxLEFT, 5);
+    Terrains_Animation_Grid2->Add(Terrains_FrameChanged_Holder, 0, wxLEFT, 5);
+    Terrains_Animation_Grid2->Add(Terrains_Drawn_Holder, 0, wxLEFT, 5);
 
     Terrains_ElevationGraphics_Holder->Add(Terrains_ElevationGraphics_Text);
     Terrains_ElevationGraphics_Holder->Add(Terrain_TileGraphics_Sizer, 0, wxEXPAND);
@@ -860,27 +863,28 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_NameArea_Holder->Add(Terrains_Name_Holder, 0, wxLEFT, 5);
     Terrains_NameArea_Holder->Add(Terrains_Name2_Holder, 0, wxLEFT, 5);
 
-    Terrains_Area1_Grid->Add(Terrains_SLP_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Area1_Grid->Add(Terrains_SoundID_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Area1_Grid->Add(Terrains_BlendPriority_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Area1_Grid->Add(Terrains_BlendType_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Area1_Grid->Add(Terrains_Colors_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Area1_Grid->Add(Terrains_CliffColors_Holder, 0, wxTOP | wxRIGHT, 5);
+    Terrains_Area1_Grid->Add(Terrains_SLP_Holder);
+    Terrains_Area1_Grid->Add(Terrains_SoundID_Holder, 0, wxLEFT, 5);
+    Terrains_Area1_Grid->Add(Terrains_BlendPriority_Holder, 0, wxLEFT, 5);
+    Terrains_Area1_Grid->Add(Terrains_BlendType_Holder, 0, wxLEFT, 5);
+    Terrains_Area2_Grid->Add(Terrains_Colors_Holder);
+    Terrains_Area2_Grid->Add(Terrains_CliffColors_Holder, 0, wxLEFT, 5);
 
     Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitID_Holder);
     Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitID_Holder1);
     Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitDensity_Holder, 0, wxLEFT, 5);
     Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitPriority_Holder, 0, wxLEFT, 5);
 
-    Terrains_GridX->Add(Terrains_TerrainReplacementID_Holder, 0, wxBOTTOM | wxLEFT, 5);
-    Terrains_GridX->Add(Terrains_TerrainDimensions_Holder, 0, wxBOTTOM | wxLEFT, 5);
-    Terrains_GridX->Add(Terrains_Unknown3_Holder, 0, wxBOTTOM | wxLEFT, 5);
-    Terrains_GridX->Add(Terrains_Unknown1_Holder, 0, wxBOTTOM | wxLEFT, 5);
-    Terrains_GridX->Add(Terrains_UsedTerrainUnits_Holder, 0, wxBOTTOM | wxLEFT, 5);
-    Terrains_Area1_Grid->Add(Terrains_PassableTerrain_Holder, 0, wxTOP | wxRIGHT, 5);
-    Terrains_Area1_Grid->Add(Terrains_ImpassableTerrain_Holder, 0, wxTOP, 5);
+    Terrains_GridX1->Add(Terrains_TerrainReplacementID_Holder);
+    Terrains_GridX1->Add(Terrains_TerrainDimensions_Holder, 0, wxLEFT, 5);
+    Terrains_GridX2->Add(Terrains_Unknown3_Holder);
+    Terrains_GridX2->Add(Terrains_Unknown1_Holder, 0, wxLEFT, 5);
+    Terrains_GridX2->Add(Terrains_UsedTerrainUnits_Holder, 0, wxLEFT, 5);
+    Terrains_Area2_Grid->Add(Terrains_PassableTerrain_Holder, 0, wxLEFT, 5);
+    Terrains_Area2_Grid->Add(Terrains_ImpassableTerrain_Holder, 0, wxLEFT, 5);
 
-    Terrains_SpaceRight->Add(Terrains_GridX, 0, wxEXPAND);
+    Terrains_SpaceRight->Add(Terrains_GridX1, 0, wxBOTTOM, 5);
+    Terrains_SpaceRight->Add(Terrains_GridX2, 0, wxBOTTOM, 5);
     Terrains_SpaceRight->Add(Terrains_TerrainUnits_Holder, 0, wxBOTTOM | wxLEFT, 5);
 
 	Terrains_Borders_Buttons->Add(Terrains_Borders_Copy, 1, wxEXPAND);
@@ -898,9 +902,11 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_GreatSpace->Add(Terrains_SpaceRight, 5, wxEXPAND, 5);
 
     Terrains_ScrollSpace->Add(Terrains_NameArea_Holder);
-    Terrains_ScrollSpace->Add(Terrains_Area1_Grid, 0, wxEXPAND);
+    Terrains_ScrollSpace->Add(Terrains_Area1_Grid, 0, wxTOP, 5);
+    Terrains_ScrollSpace->Add(Terrains_Area2_Grid, 0, wxTOP, 5);
     Terrains_ScrollSpace->Add(Terrains_GreatSpace, 0, wxEXPAND | wxTOP, 5);
-    Terrains_ScrollSpace->Add(Terrains_Animation_Grid, 0, wxEXPAND, 5);
+    Terrains_ScrollSpace->Add(Terrains_Animation_Grid1, 0, wxTOP, 5);
+    Terrains_ScrollSpace->Add(Terrains_Animation_Grid2, 0, wxTOP, 5);
 
 	Terrains_Scroller->SetSizer(Terrains_ScrollSpace);
 	Terrains_Scroller->SetScrollRate(0, 15);
