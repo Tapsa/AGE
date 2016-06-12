@@ -471,7 +471,8 @@ void AGE_Frame::CreateResearchControls()
 	Research_RequiredTechs_Holder = new wxGridSizer(6, 0, 5);
 	Research_RequiredTechArea_Text = new wxStaticText(Research_Scroller, wxID_ANY, " Required Researches", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Research_LangDLLArea_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Research_Misc2_Holder = new wxWrapSizer();
+	Research_Misc2_Holder = new wxBoxSizer(wxHORIZONTAL);
+	Research_Misc3_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Research_PointerArea_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Research_Names_Holder = new wxBoxSizer(wxHORIZONTAL);
 
@@ -641,16 +642,16 @@ void AGE_Frame::CreateResearchControls()
 	Research_ButtonID_Holder->Add(Research_ButtonID_Text);
 	Research_ButtonID_Holder->Add(Research_ButtonID, 0, wxEXPAND);
 
-	Research_Misc2_Holder->Add(Research_RequiredTechCount_Holder, 0, wxTOP | wxRIGHT, 5);
-	Research_Misc2_Holder->Add(Research_Type_Holder, 0, wxTOP | wxRIGHT, 5);
-	Research_Misc2_Holder->Add(Research_ResearchTime_Holder, 0, wxTOP | wxRIGHT, 5);
-	Research_Misc2_Holder->Add(Research_IconID_Holder, 0, wxTOP | wxRIGHT, 5);
-	Research_Misc2_Holder->Add(Research_ButtonID_Holder, 0, wxTOP | wxRIGHT, 5);
+	Research_Misc2_Holder->Add(Research_RequiredTechCount_Holder, 0, wxRIGHT, 5);
+	Research_Misc2_Holder->Add(Research_Type_Holder, 0, wxRIGHT, 5);
+	Research_Misc2_Holder->Add(Research_ResearchTime_Holder, 0, wxRIGHT, 5);
+	Research_Misc2_Holder->Add(Research_IconID_Holder, 0, wxRIGHT, 5);
+	Research_Misc2_Holder->Add(Research_ButtonID_Holder);
 
-	Research_Misc2_Holder->Add(Research_TechID_Holder, 0, wxTOP | wxRIGHT, 5);
-	Research_Misc2_Holder->Add(Research_ResearchLocation_Holder, 0, wxTOP | wxRIGHT, 5);
-	Research_Misc2_Holder->Add(Research_Civ_Holder, 0, wxTOP | wxRIGHT, 5);
-	Research_Misc2_Holder->Add(Research_FullTechMode_Holder, 0, wxTOP | wxRIGHT, 5);
+	Research_Misc3_Holder->Add(Research_TechID_Holder, 0, wxRIGHT, 5);
+	Research_Misc3_Holder->Add(Research_ResearchLocation_Holder, 0, wxRIGHT, 5);
+	Research_Misc3_Holder->Add(Research_Civ_Holder, 0, wxRIGHT, 5);
+	Research_Misc3_Holder->Add(Research_FullTechMode_Holder);
 
 	Research_LanguageDLLHelp_Holder->Add(Research_LanguageDLLHelp_Text);
 	Research_LanguageDLLHelp_Holder->Add(Research_LanguageDLLHelp, 0, wxEXPAND);
@@ -676,7 +677,8 @@ void AGE_Frame::CreateResearchControls()
 	Research_ScrollSpace->Add(Research_DLL_LanguageDLLHelp, 0, wxEXPAND | wxTOP, 5);
 	Research_ScrollSpace->Add(Research_DLL_LanguageDLLName2, 0, wxEXPAND);
 	Research_ScrollSpace->Add(Research_RequiredTechArea_Holder, 0, wxEXPAND | wxTOP, 5);
-	Research_ScrollSpace->Add(Research_Misc2_Holder, 0, wxEXPAND, 5);
+	Research_ScrollSpace->Add(Research_Misc2_Holder, 0, wxEXPAND | wxTOP, 5);
+	Research_ScrollSpace->Add(Research_Misc3_Holder, 0, wxEXPAND | wxTOP, 5);
 	Research_ScrollSpace->Add(Research_CostHeader_Holder, 0, wxTOP, 5);
 
 	Research_Scroller->SetSizer(Research_ScrollSpace);

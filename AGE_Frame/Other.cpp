@@ -2364,11 +2364,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 
 			Units_UnknownArea_Holder->Show(ShowUnknowns);
 			Unit_Command_Unknowns->Show(ShowUnknowns);
-			Graphics_3_Grid->Show(ShowUnknowns);
-			GraphicDeltas_Unknown1_Holder->Show(ShowUnknowns);
-			GraphicDeltas_Unknown2_Holder->Show(ShowUnknowns);
-			GraphicDeltas_Unknown3_Holder->Show(ShowUnknowns);
-			GraphicDeltas_Unknown5_Holder->Show(ShowUnknowns);
+			Graphics_Unknowns_Grid->Show(ShowUnknowns);
+			Deltas_Unknowns_Holder->Show(ShowUnknowns);
 			Sounds_Unknown1_Holder->Show(ShowUnknowns);
 			Sounds_Unknown2_Holder->Show(ShowUnknowns);
 			SoundItems_Unknown_Holder->Show(ShowUnknowns);
