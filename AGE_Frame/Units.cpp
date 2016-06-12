@@ -3597,7 +3597,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Delay->SetToolTip("Graphical delay in frames before projectile is shot");
 	Units_AccuracyPercent = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Units_Scroller);
 	Units_AccuracyDispersion = AGETextCtrl::init(CFloat, &uiGroupUnit, this, &popUp, Units_Scroller);
-	Units_AccuracyDispersion->SetToolTip("Width multiplier of the rectangle where the projectiles may hit.\nHigher values will make the unit less accurate.");
+	Units_AccuracyDispersion->SetToolTip("Arc multiplier of the sector where the projectiles may hit.\nHigher values will make missed hits disperse more.");
 	Units_ReloadTime1 = AGETextCtrl::init(CFloat, &uiGroupUnit, this, &popUp, Units_Scroller);
 	Units_ReloadTime2 = AGETextCtrl::init(CFloat, &uiGroupUnit, this, &popUp, Units_Scroller);
 	Units_BlastWidth = AGETextCtrl::init(CFloat, &uiGroupUnit, this, &popUp, Units_Scroller);
