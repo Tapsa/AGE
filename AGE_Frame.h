@@ -1100,7 +1100,8 @@ private:
 	wxButton *Borders_Paste;
 	wxBoxSizer *Borders_DataArea;
 	wxBoxSizer *Borders_DataTopRow;
-	wxWrapSizer *Borders_Data1;
+	wxBoxSizer *Borders_Data1;
+	wxBoxSizer *Borders_Data2;
 	wxBoxSizer *Borders_FrameData;
 	wxStaticBoxSizer *Borders_Borders_Holder;
 
@@ -1147,7 +1148,8 @@ private:
 	wxGridSizer *Borders_Colors_Grid;
 	wxStaticText *Borders_Colors_Text;
 	array<AGETextCtrl*, 3> Borders_Colors;
-	wxWrapSizer *Borders_Animation_Grid;
+	wxBoxSizer *Borders_Animation_Grid1;
+	wxBoxSizer *Borders_Animation_Grid2;
 	wxBoxSizer *Borders_IsAnimated_Holder;
 	wxStaticText *Borders_IsAnimated_Text;
 	AGETextCtrl *Borders_IsAnimated;
@@ -1434,7 +1436,8 @@ private:
 	wxScrolled<wxPanel> *Research_Scroller;
 	wxBoxSizer *Research_ScrollSpace;
 	wxBoxSizer *Research_LangDLLArea_Holder;
-	wxWrapSizer *Research_Misc2_Holder;
+	wxBoxSizer *Research_Misc2_Holder;
+	wxBoxSizer *Research_Misc3_Holder;
 	wxBoxSizer *Research_PointerArea_Holder;
 	wxBoxSizer *Research_Names_Holder;
 
@@ -2609,8 +2612,10 @@ private:
 	wxBoxSizer *Graphics_ID_Holder;
 	wxBoxSizer *Graphics_Type_Holder;
 	wxBoxSizer *Graphics_Unknown3_Holder;
-	wxWrapSizer *Graphics_1_Grid;
-	wxBoxSizer *Graphics_3_Grid;
+    wxBoxSizer *Graphics_1_Grid;
+    wxBoxSizer *Graphics_2_Grid;
+    wxBoxSizer *Graphics_3_Grid;
+    wxBoxSizer *Graphics_Unknowns_Grid;
 
 	wxStaticText *Graphics_Name_Text;
 	wxStaticText *Graphics_Name2_Text;
@@ -2676,9 +2681,11 @@ private:
 	wxButton *AttackSounds_Copy;
 	wxButton *AttackSounds_CopyToGraphics;
 
-	wxStaticBoxSizer *Graphics_Deltas_Holder;
-	wxWrapSizer *Graphics_Deltas_Holder_Data;
-	wxStaticBoxSizer *Graphics_AttackSoundArea_Holder;
+    wxStaticBoxSizer *Graphics_Deltas_Holder;
+    wxBoxSizer *Graphics_Deltas_Holder_Data;
+    wxBoxSizer *Deltas_Holder;
+    wxBoxSizer *Deltas_Unknowns_Holder;
+    wxStaticBoxSizer *Graphics_AttackSoundArea_Holder;
 
 	wxBoxSizer *GraphicDeltas_GraphicID_Holder;
 	wxStaticText *GraphicDeltas_GraphicID_Text;
@@ -2753,8 +2760,10 @@ private:
 	wxScrolled<wxPanel> *Terrains_Scroller;
 	wxBoxSizer *Terrains_ScrollSpace;
 	wxBoxSizer *Terrains_NameArea_Holder;
-	wxWrapSizer *Terrains_Area1_Grid;
-	wxWrapSizer *Terrains_GridX;
+	wxBoxSizer *Terrains_Area1_Grid;
+	wxBoxSizer *Terrains_Area2_Grid;
+	wxBoxSizer *Terrains_GridX1;
+	wxBoxSizer *Terrains_GridX2;
 	wxBoxSizer *Terrains_Unknown1_Holder;
 	wxStaticText *Terrains_Unknown1_Text;
 	AGETextCtrl *Terrains_Unknown1;
@@ -2805,7 +2814,8 @@ private:
 	ComboBox_Plus1 *Terrains_PassableTerrain_ComboBox;
 	ComboBox_Plus1 *Terrains_ImpassableTerrain_ComboBox;
 
-	wxWrapSizer *Terrains_Animation_Grid;
+	wxBoxSizer *Terrains_Animation_Grid1;
+	wxBoxSizer *Terrains_Animation_Grid2;
 	wxBoxSizer *Terrains_IsAnimated_Holder;
 	wxStaticText *Terrains_IsAnimated_Text;
 	AGETextCtrl *Terrains_IsAnimated;
@@ -3160,10 +3170,13 @@ private:
 	wxBoxSizer *TechTrees_Data_Buildings3;
 	wxBoxSizer *TechTrees_Data_Buildings1;
 	wxBoxSizer *TechTrees_Data_Units;
-	wxWrapSizer *TechTrees_Data_Units1;
+	wxBoxSizer *TechTrees_Data_Units1;
+	wxBoxSizer *TechTrees_Data_Units2;
 	wxBoxSizer *TechTrees_Data_Researches;
 	wxBoxSizer *TechTrees_Data_Researches2;
-	wxWrapSizer *TechTrees_Data_Researches1;
+	wxBoxSizer *TechTrees_Data_Researches1;
+	wxBoxSizer *TechTrees_Data_Researches3;
+	wxBoxSizer *TechTrees_Data_Researches4;
 	wxBoxSizer *TechTrees_ConnectedHolder_Ages;
 	wxBoxSizer *TechTrees_ConnectedHolder_Buildings;
 	wxBoxSizer *TechTrees_ConnectedHolder_Units;

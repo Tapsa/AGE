@@ -8,8 +8,8 @@ cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DwxWidgets_ROOT_DIR:PATH=
 mingw32-make -j4
 strip AdvancedGenieEditor3.exe
 strip extern\genieutils\libgenieutils.dll
-robocopy . "C:\Juttu\AGE\AGE2\" AdvancedGenieEditor3.exe /XO /NC /NDL /NJH /NJS
-robocopy extern\genieutils\ "C:\Juttu\AGE\AGE2\" libgenieutils.dll /XO /NC /NDL /NJH /NJS
-cd "C:\Juttu\AGE\AGE2"
+robocopy . C:\Juttu\AGE\AGE2\ AdvancedGenieEditor3.exe /XO /NC /NDL /NJH /NJS
+robocopy extern\genieutils\ C:\Juttu\AGE\AGE2\ libgenieutils.dll /XO /NC /NDL /NJH /NJS
+cd C:\Juttu\AGE\AGE2
 ::upx --best *
 PAUSE
