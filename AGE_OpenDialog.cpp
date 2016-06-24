@@ -158,7 +158,8 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
 {
     wxString path;
     wxCommandEvent filler(wxEVT_COMMAND_BUTTON_CLICKED);
-    filler.SetExtraLong(1447646293);
+    CheckBox_CustomDefault->SetValue(true);
+    path_src = 1;
     switch(CheckBox_GenieVer->GetSelection())
     {
         case EV_AoE:
@@ -231,9 +232,9 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Expanding Fronts\\1.0");
             if(key.Exists())
             {
+                path_src = 2;
                 key.QueryValue("Source Path", path);
                 filler.SetId(Button_DefaultCC->GetId());
-                filler.SetExtraLong(1346980949);
             }
             break;
         }
