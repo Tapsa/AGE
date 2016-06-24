@@ -19,7 +19,6 @@ public:
 
 private:
     wxString OnGetItemText(long item, long column) const;
-    //wxListItemAttr* OnGetItemAttr(long item) const; <-- does not work
 };
 
 class AGELinkedBox
