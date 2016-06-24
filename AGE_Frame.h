@@ -27,7 +27,7 @@ public:
     bool initStats(unsigned int graphicID, genie::DatFile &dataset);
 };
 
-class AGE_Scrolled: public wxScrolled<wxPanel> // wxScrolledWindow
+class AGE_Scrolled: public wxScrolled<wxPanel> // wxScrolledWindow, remove once wxWrapSizers are gone!
 {
 public:
     AGE_Scrolled(wxWindow *parent):

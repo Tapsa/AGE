@@ -32,6 +32,7 @@ public:
     /* Member Variables */
 
     bool ForceDat;
+    int path_src = 0;
     wxBoxSizer *Main;
     wxBoxSizer *Defaults, *Defaults_StarWars;
     wxFlexGridSizer *Layout;
