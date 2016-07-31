@@ -2326,7 +2326,7 @@ private:
 	wxButton *Units_DamageGraphics_CopyToUnits;
 
 	wxBoxSizer *Units_Attacks_Holder;
-	wxWrapSizer *Units_Attacks_Holder_Data;
+	wxFlexGridSizer *Units_Attacks_Holder_Data;
 	AGETextCtrl *Attacks_Class;
 	ComboBox_Plus1 *Attacks_Class_ComboBox[3];
 	AGETextCtrl *Attacks_Amount;
@@ -2421,20 +2421,15 @@ private:
 	wxBoxSizer *Units_StatsArea1B_Sizer;
 	wxBoxSizer *Units_StatsAreaGarrison_Grid;
 	wxBoxSizer *Units_StatsArea2_Grid;
-	wxStaticBoxSizer *Units_ProjectilesArea_Holder;
-	wxWrapSizer *Units_ProjectilesArea1_Grid;
+	wxStaticBoxSizer *Units_ProjectileArea_Holder;
+	wxBoxSizer *Units_P1, *Units_P2, *Units_P3;
 	wxStaticBoxSizer *Units_Attributes_Holder;
-	wxWrapSizer *Units_AttributesBoxes1_Grid;
-	wxWrapSizer *Units_Attributes1_Grid;
-	wxBoxSizer *Units_Attributes2_Grid;
-	wxWrapSizer *Units_AttributesModes1_Grid;
-	wxWrapSizer *Units_AttributesSizes_Holder;
-	wxWrapSizer *Units_AttributesSelection1_Grid;
+	wxBoxSizer *Units_A1_Grid, *Units_A2_Grid, *Units_A3_Grid, *Units_A4_Grid, *Units_A6_Grid, *Units_AS_Holder, *Units_AS1_Grid;
+	wxGridSizer *Units_A5_Grid, *Units_AM1_Grid, *Units_AB1_Grid;
 	wxBoxSizer *Units_LangRegular_Holder;
 	wxBoxSizer *Units_LangHotKey_Holder;
 	wxBoxSizer *Units_AttributesTracking_Grid;
 	wxBoxSizer *Units_AttributesTrain1_Grid;
-	wxBoxSizer *Units_Attributes3_Grid;
 	wxStaticBoxSizer *Units_SoundsArea_Holder;
 	wxBoxSizer *Units_SoundsArea1_Holder;
 	wxBoxSizer *Units_SoundsArea2_Grid;
@@ -2475,8 +2470,8 @@ private:
 	wxButton *Units_UnitCommands_CopyToUnits;
 
     wxBoxSizer *Units_CommandHolder_Data;
-    wxWrapSizer *Unit_Command_Known;
-    wxWrapSizer *Unit_Command_Unknowns;
+    wxBoxSizer *Unit_Command_Known1, *Unit_Command_Known3;
+    wxGridSizer *Unit_Command_Known2, *Unit_Command_Known4, *Unit_Command_Unknowns;
 	wxBoxSizer *UnitCommands_One_Holder;
 	wxBoxSizer *UnitCommands_ID_Holder;
 	wxBoxSizer *UnitCommands_Unknown1_Holder;

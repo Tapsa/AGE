@@ -1587,7 +1587,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 		Effects_AttributesC_ComboBox->Append("4 - Unit Size Y");
 		Effects_AttributesC_ComboBox->Append("5 - Movement Speed (types 20-80)");
 		Effects_AttributesC_ComboBox->Append("6 - Rotation Speed (types 30-80)");
-		Effects_AttributesC_ComboBox->Append("7 - Unknown?");
+		Effects_AttributesC_ComboBox->Append("7 - Unused");
 		if(GenieVersion < genie::GV_AoKA)
 		{
 			Effects_AttributesC_ComboBox->Append("8 - Armor (no multiply, types 50-80)");
@@ -2028,7 +2028,7 @@ void AGE_Frame::OnGameVersionChange()
 		// TC ->
 		show = (GenieVersion >= genie::GV_TC) ? true : false;
 		Units_SnowGraphicID_Holder->Show(show);
-		Units_Attributes2_Grid->Show(show);
+		Units_A2_Grid->Show(show);
 
 		if(show) // TC ->
 		{
