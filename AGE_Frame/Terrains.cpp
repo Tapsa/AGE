@@ -556,7 +556,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Copy = new wxButton(Tab_Terrains, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
 	Terrains_Paste = new wxButton(Tab_Terrains, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
 
-	Terrains_Scroller = new AGE_Scrolled(Tab_Terrains);
+	Terrains_Scroller = new wxScrolled<wxPanel>(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 	Terrains_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Terrains_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Terrains_Area1_Grid = new wxBoxSizer(wxHORIZONTAL);
@@ -666,7 +666,7 @@ void AGE_Frame::CreateTerrainControls()
 		Terrains_TerrainUnitPriority[loop]->SetToolTip("1 prevails, others don't");
 	}
     Terrains_ElevationGraphics_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrain_TileGraphics_Sizer = new wxWrapSizer();
+    Terrain_TileGraphics_Sizer = new wxBoxSizer(wxVERTICAL);
     Terrains_ElevationGraphics_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Tile Graphics: flat, 2 x 8 elevation, 2 x 1:1\n Frame Count, Animations, Shape (Frame) Index", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
     for(auto &sizer: Terrain_TileGraphics_Sizers)
     sizer = new wxBoxSizer(wxHORIZONTAL);

@@ -9,7 +9,7 @@ public:
     {
         Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
-    void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
+    //void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
 };
 
 class AGEComboBox: public wxOwnerDrawnComboBox, public AGELinkedBox
@@ -20,7 +20,7 @@ public:
     {
         Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
-    void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
+    //void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
 
     virtual void OnUpdate(wxCommandEvent&)=0;
 protected:

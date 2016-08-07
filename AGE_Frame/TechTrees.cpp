@@ -2368,10 +2368,10 @@ void AGE_Frame::CreateTechTreeControls()
 	TechTrees_TabBuildings = new wxBoxSizer(wxHORIZONTAL);
 	TechTrees_TabUnits = new wxBoxSizer(wxHORIZONTAL);
 	TechTrees_TabResearches = new wxBoxSizer(wxHORIZONTAL);
-	TechTrees_ScrollerAges = new AGE_Scrolled(Tab_TechTreeAges);
-	TechTrees_ScrollerBuildings = new AGE_Scrolled(Tab_TechTreeBuildings);
-	TechTrees_ScrollerUnits = new AGE_Scrolled(Tab_TechTreeUnits);
-	TechTrees_ScrollerResearches = new AGE_Scrolled(Tab_TechTreeResearches);
+	TechTrees_ScrollerAges = new wxScrolled<wxPanel>(Tab_TechTreeAges, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+	TechTrees_ScrollerBuildings = new wxScrolled<wxPanel>(Tab_TechTreeBuildings, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+	TechTrees_ScrollerUnits = new wxScrolled<wxPanel>(Tab_TechTreeUnits, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+	TechTrees_ScrollerResearches = new wxScrolled<wxPanel>(Tab_TechTreeResearches, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 
 	wxString StatusHelp = "0 generic\n1 ?\n2 default\n3 marks this as not available\n4 upgrading or constructing or creating\n5 research completed or building built";
 	wxString LocationInAgeHelp = "0 Hidden\n1 First\n2 Second";

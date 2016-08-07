@@ -27,16 +27,6 @@ public:
     bool initStats(unsigned int graphicID, genie::DatFile &dataset);
 };
 
-class AGE_Scrolled: public wxScrolled<wxPanel> // wxScrolledWindow, remove once wxWrapSizers are gone!
-{
-public:
-    AGE_Scrolled(wxWindow *parent):
-    wxScrolled<wxPanel>(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL)
-    {
-        Bind(wxEVT_SIZE, [=](wxSizeEvent &event){SetVirtualSize(GetClientSize().GetWidth(), GetVirtualSize().GetHeight()); event.Skip();});
-    }
-};
-
 class AGE_Frame;
 
 class Loader: public wxThread
@@ -1004,7 +994,7 @@ private:
 	wxScrolled<wxPanel> *General_Scroller;
 	wxBoxSizer *General_ScrollSpace;
 	wxStaticText *General_TileSizes_Text;
-	wxWrapSizer *General_TileSizes_Grid;
+	wxGridSizer *General_TileSizes_Grid;
 	array<wxBoxSizer*, 19> General_TileSizes_Sizers;
 	array<AGETextCtrl*, 57> General_TileSizes;
 
@@ -1085,9 +1075,9 @@ private:
 	AGETextCtrl *FogFlag;
 
 	wxStaticText *General_TerrainRendering_Text;
-	wxWrapSizer *General_TerrainRendering_Grid;
+	wxGridSizer *General_TerrainRendering_Grid;
 	array<AGETextCtrl*, 25> General_SomeBytes;
-	wxWrapSizer *General_Something_Grid;
+	wxGridSizer *General_Something_Grid1, *General_Something_Grid2;
 	array<AGETextCtrl*, 157> General_Something;
 
 	wxBoxSizer *Borders_Main;
@@ -1272,7 +1262,7 @@ private:
 
 	wxStaticText *Unknowns_UnknownLevel_Text;
 	AGETextCtrl *Unknowns_UnknownLevel;
-	wxWrapSizer *Unknowns_Unknown1_Grid;
+	wxGridSizer *Unknowns_Unknown1_Grid;
 	array<wxBoxSizer*, 9> Unknowns_Unknown1_Holder;
 	array<wxStaticText*, 9> Unknowns_Unknown1_Text;
 	array<AGETextCtrl*, 9> Unknowns_Unknown1;
@@ -1299,7 +1289,7 @@ private:
 	wxButton *RMSBaseZones_PasteInsert;
 	wxButton *RMSBaseZones_CopyToMaps;
 
-	wxWrapSizer *RMSBaseZones_Unknown1_Grid;
+	wxGridSizer *RMSBaseZones_Unknown1_Grid;
 
 	wxBoxSizer *RMSBaseZones_Unknown1_Holder;
 	wxStaticText *RMSBaseZones_Unknown1_Text;
@@ -1355,7 +1345,7 @@ private:
 	wxButton *RMSTerrain_PasteInsert;
 	wxButton *RMSTerrain_CopyToMaps;
 
-	wxWrapSizer *RMSTerrain_Unknown1_Grid;
+	wxGridSizer *RMSTerrain_Unknown1_Grid;
 	array<wxBoxSizer*, 6> RMSTerrain_Unknown1_Holder;
 	array<wxStaticText*, 6> RMSTerrain_Unknown1_Text;
 	array<AGETextCtrl*, 6> RMSTerrain_Unknown1;
@@ -1374,7 +1364,7 @@ private:
 	wxButton *RMSUnit_PasteInsert;
 	wxButton *RMSUnit_CopyToMaps;
 
-	wxWrapSizer *RMSUnit_Unknown1_Grid;
+	wxGridSizer *RMSUnit_Unknown1_Grid;
 	wxBoxSizer *RMSUnit_Unit_Holder;
 	wxStaticText *RMSUnit_Unit_Text;
 	AGETextCtrl *RMSUnit_Unit;
@@ -1424,7 +1414,7 @@ private:
 	wxButton *RMSUnknown_PasteInsert;
 	wxButton *RMSUnknown_CopyToMaps;
 
-	wxWrapSizer *RMSUnknown_Unknown1_Grid;
+	wxGridSizer *RMSUnknown_Unknown1_Grid;
 	array<wxBoxSizer*, 6> RMSUnknown_Unknown1_Holder;
 	array<wxStaticText*, 6> RMSUnknown_Unknown1_Text;
 	array<AGETextCtrl*, 6> RMSUnknown_Unknown1;
@@ -2258,7 +2248,6 @@ private:
 	wxBoxSizer *Units_UnknownType_Holder;
 	wxBoxSizer *Units_HeroMode_Holder;
 	wxBoxSizer *Units_GarrisonGraphic_Holder;
-	wxGridSizer *Units_GarrisonGraphic_Grid;
 	wxBoxSizer *Units_MissileCount_Holder;
 	wxBoxSizer *Units_MissileDuplicationCount_Holder;
 	wxBoxSizer *Units_AttackMissileDuplicationSpawning_Holder;
@@ -2326,7 +2315,7 @@ private:
 	wxButton *Units_DamageGraphics_CopyToUnits;
 
 	wxBoxSizer *Units_Attacks_Holder;
-	wxFlexGridSizer *Units_Attacks_Holder_Data;
+	wxGridSizer *Units_Attacks_Holder_Data;
 	AGETextCtrl *Attacks_Class;
 	ComboBox_Plus1 *Attacks_Class_ComboBox[3];
 	AGETextCtrl *Attacks_Amount;
@@ -2433,7 +2422,7 @@ private:
 	wxStaticBoxSizer *Units_SoundsArea_Holder;
 	wxBoxSizer *Units_SoundsArea1_Holder;
 	wxBoxSizer *Units_SoundsArea2_Grid;
-	wxWrapSizer *Units_UnknownArea_Holder;
+	wxGridSizer *Units_UnknownArea_Holder;
 	wxStaticBoxSizer *Units_Type10plusUnknownArea_Holder;
 	wxStaticBoxSizer *Units_Type30plusUnknownArea_Holder;
 	wxStaticBoxSizer *Units_Type70plusUnknownArea_Holder;
@@ -2843,7 +2832,7 @@ private:
 	AGETextCtrl *Terrains_Drawn;
 
 	wxBoxSizer *Terrains_ElevationGraphics_Holder;
-	wxWrapSizer *Terrain_TileGraphics_Sizer;
+	wxBoxSizer *Terrain_TileGraphics_Sizer;
 	wxStaticText *Terrains_ElevationGraphics_Text;
 	array<wxBoxSizer*, 19>Terrain_TileGraphics_Sizers;
 	array<AGETextCtrl*, 57>Terrains_ElevationGraphics;
