@@ -1,27 +1,5 @@
 #include "AGE_ComboBoxes.h"
-// Is this really necessary? It looks bad on Win 7 too.
-const wxBrush DisabledBG(wxColour(240, 240, 240));
 
-void AGEComboBox::OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const
-{
-    if(wxODCB_PAINTING_CONTROL & flags)
-    {
-        dc.SetBackground(IsEnabled() ? *wxWHITE_BRUSH : DisabledBG);
-        dc.Clear();
-    }
-    wxOwnerDrawnComboBox::OnDrawItem(dc, rect, item, flags);
-}
-
-void AGEODComboBox::OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const
-{
-    if(wxODCB_PAINTING_CONTROL & flags)
-    {
-        dc.SetBackground(IsEnabled() ? *wxWHITE_BRUSH : DisabledBG);
-        dc.Clear();
-    }
-    wxOwnerDrawnComboBox::OnDrawItem(dc, rect, item, flags);
-}
-//
 void ComboBox_Plus1::OnUpdate(wxCommandEvent&)
 {
     TextBox->ChangeValue(lexical_cast<string>(GetSelection() - 1));

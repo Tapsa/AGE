@@ -425,7 +425,7 @@ void AGE_Frame::CreateResearchControls()
 	Research_Paste = new wxButton(Tab_Research, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
 	Research_PasteInsert = new wxButton(Tab_Research, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
-	Research_Scroller = new AGE_Scrolled(Tab_Research);
+	Research_Scroller = new wxScrolled<wxPanel>(Tab_Research, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 	Research_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Research_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
 	Research_Name_Text[0] = new wxStaticText(Research_Scroller, wxID_ANY, " Name");
