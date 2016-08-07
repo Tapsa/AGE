@@ -3049,7 +3049,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_Class = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Tab_Units);
 	Units_Class->SetToolTip("Determines many things and works in conjunction with other variables");
 	Units_Class_ComboBox[0] = new ComboBox_Plus1(Tab_Units, Units_Class);
-	Units_Scroller = new AGE_Scrolled(Tab_Units);
+	Units_Scroller = new wxScrolled<wxPanel>(Tab_Units, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 	Units_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Units_TypeArea_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_LangDLLArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Language Files");
@@ -3085,7 +3085,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_SoundsArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Sounds (that only you hear)");
 	Units_SoundsArea1_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_SoundsArea2_Grid = new wxBoxSizer(wxHORIZONTAL);
-	Units_UnknownArea_Holder = new wxWrapSizer();
+	Units_UnknownArea_Holder = new wxFlexGridSizer(2, 5, 5);
 	Units_Type10plusUnknownArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Type 10+ Unknowns (All Units)");
 	Units_Type30plusUnknownArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Type 30+ Unknowns (Dead/Fish)");
 	Units_Type70plusUnknownArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Type 70+ Unknowns (Creatable)");
@@ -3248,7 +3248,6 @@ void AGE_Frame::CreateUnitControls()
 	Units_UnknownType_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_HeroMode_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Units_GarrisonGraphic_Holder = new wxBoxSizer(wxVERTICAL);
-	Units_GarrisonGraphic_Grid = new wxGridSizer(2, 0, 5);
 	Units_MissileCount_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_MissileDuplicationCount_Holder = new wxBoxSizer(wxVERTICAL);
 	Units_AttackMissileDuplicationSpawning_Holder = new wxBoxSizer(wxVERTICAL);
@@ -4496,12 +4495,12 @@ void AGE_Frame::CreateUnitControls()
 	Units_PlacementSideTerrainGrid_Holder->Add(Units_PlacementSideTerrain[loop], 0, wxEXPAND);
 	for(size_t loop = 0; loop < 2; ++loop)
 	Units_PlacementSideTerrainGrid_Holder->Add(Units_PlacementSideTerrain_ComboBox[loop]);
-	Units_PlacementSideTerrain_Holder->Add(Units_PlacementSideTerrainGrid_Holder, 0, wxEXPAND);
+	Units_PlacementSideTerrain_Holder->Add(Units_PlacementSideTerrainGrid_Holder);
 	for(size_t loop = 0; loop < 2; ++loop)
 	Units_PlacementTerrainGrid_Holder->Add(Units_PlacementTerrain[loop], 0, wxEXPAND);
 	for(size_t loop = 0; loop < 2; ++loop)
 	Units_PlacementTerrainGrid_Holder->Add(Units_PlacementTerrain_ComboBox[loop]);
-	Units_PlacementTerrain_Holder->Add(Units_PlacementTerrainGrid_Holder, 0, wxEXPAND);
+	Units_PlacementTerrain_Holder->Add(Units_PlacementTerrainGrid_Holder);
 	for(size_t loop = 0; loop < 2; ++loop)
 	Units_ClearanceSize_Grid->Add(Units_ClearanceSize[loop]);
 	Units_ClearanceSize_Holder->Add(Units_ClearanceSize_Grid, 0, wxEXPAND);
@@ -5036,7 +5035,7 @@ void AGE_Frame::CreateUnitControls()
     Units_AM1_Grid->Add(Units_ChargingMode_Holder);
 
 	Units_A2_Grid->Add(Units_Attribute_Holder);
-	Units_DropSite_Holder->Add(Units_DropSite_Grid, 0, wxEXPAND);
+	Units_DropSite_Holder->Add(Units_DropSite_Grid);
 	Units_AS_Holder->Add(Units_SizeRadius_Holder, 0, wxRIGHT, 5);
 	Units_AS_Holder->Add(Units_ClearanceSize_Holder);
 	Units_AS1_Grid->Add(Units_Unselectable_Holder, 0, wxRIGHT, 5);
@@ -5144,7 +5143,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_CommandHolder_Lists->Add(Units_UnitCommands_Buttons, 0, wxEXPAND);
 	Units_CommandHolder_Lists->Add(Units_UnitCommands_CopyToUnits, 0, wxEXPAND | wxTOP, 2);
 	Units_CommandHolder_Lists->Add(Units_Exists_Holder, 0, wxEXPAND | wxTOP, 5);
-	Units_CommandHolder_Lists->Add(slp_unit_actions, 0, wxEXPAND | wxTOP, 5);
+	Units_CommandHolder_Lists->Add(slp_unit_actions, 0, wxTOP, 5);
 
     Unit_Command_Known1->Add(UnitCommands_Type_Holder, 0, wxLEFT, 5);
     Unit_Command_Known1->Add(UnitCommands_One_Holder, 0, wxLEFT, 5);
@@ -5188,10 +5187,10 @@ void AGE_Frame::CreateUnitControls()
 	Units_CommandsArea_Holder->Add(Units_CommandHolder_Lists, 1, wxEXPAND);
 	Units_CommandsArea_Holder->Add(Units_CommandHolder_Data, 3, wxEXPAND, 5);
 
-	Units_UnknownArea_Holder->Add(Units_Type10plusUnknownArea_Holder, 0, wxTOP | wxRIGHT, 5);
-	Units_UnknownArea_Holder->Add(Units_Type30plusUnknownArea_Holder, 0, wxTOP | wxRIGHT, 5);
-	Units_UnknownArea_Holder->Add(Units_Type70plusUnknownArea_Holder, 0, wxTOP | wxRIGHT, 5);
-	Units_UnknownArea_Holder->Add(Units_Type80plusUnknownArea_Holder, 0, wxTOP, 5);
+    Units_UnknownArea_Holder->Add(Units_Type10plusUnknownArea_Holder);
+    Units_UnknownArea_Holder->Add(Units_Type30plusUnknownArea_Holder);
+    Units_UnknownArea_Holder->Add(Units_Type70plusUnknownArea_Holder);
+    Units_UnknownArea_Holder->Add(Units_Type80plusUnknownArea_Holder);
 
 	Units_ScrollSpace->Add(Units_LangDLLArea_Holder, 0, wxEXPAND);
 	Units_ScrollSpace->Add(Units_GraphicsArea_Holder, 0, wxEXPAND | wxTOP, 5);
@@ -5199,7 +5198,7 @@ void AGE_Frame::CreateUnitControls()
 	Units_ScrollSpace->Add(Units_ProjectileArea_Holder, 0, wxEXPAND | wxTOP, 5);
 	Units_ScrollSpace->Add(Units_Attributes_Holder, 0, wxEXPAND | wxTOP, 5);
 	Units_ScrollSpace->Add(Units_SoundsArea_Holder, 0, wxEXPAND | wxTOP, 5);
-	Units_ScrollSpace->Add(Units_UnknownArea_Holder, 0, wxEXPAND, 5);
+	Units_ScrollSpace->Add(Units_UnknownArea_Holder, 0, wxEXPAND | wxTOP, 5);
 	Units_ScrollSpace->Add(Units_CommandsArea_Holder, 0, wxEXPAND | wxTOP, 5);
 
 	Units_Scroller->SetSizer(Units_ScrollSpace);

@@ -948,7 +948,7 @@ void AGE_Frame::CreateGraphicsControls()
 	Graphics_Enable = new wxButton(Tab_Graphics, wxID_ANY, "Exist", wxDefaultPosition, wxSize(10, -1));
 	Graphics_Disable = new wxButton(Tab_Graphics, wxID_ANY, "Wipe Out", wxDefaultPosition, wxSize(10, -1));
 
-	Graphics_Scroller = new AGE_Scrolled(Tab_Graphics);
+	Graphics_Scroller = new wxScrolled<wxPanel>(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 	Graphics_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 	Graphics_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
 	Graphics_Name_Holder = new wxBoxSizer(wxVERTICAL);
