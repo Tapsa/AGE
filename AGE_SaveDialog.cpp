@@ -173,8 +173,8 @@ void AGE_OpenSave::OnDefaultSWGB(wxCommandEvent &event)
     OnDefault("\\GOG Games\\Star Wars - Galactic Battlegrounds");
 
 	CheckBox_GenieVer->SetSelection(EV_SWGB);
-	if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Game\\Data\\genie.dat");
-	Path_LangFileLocation->SetPath(game_path + "\\Game\\language.dll");
+	if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Data\\genie.dat");
+	Path_LangFileLocation->SetPath(game_path + "\\language.dll");
 	Path_LangX1FileLocation->SetPath(wxEmptyString);
 	Path_LangX1P1FileLocation->SetPath(wxEmptyString);
 	Radio_DatFileLocation->SetValue(true);
@@ -191,19 +191,19 @@ void AGE_OpenSave::OnDefaultCC(wxCommandEvent &event)
     if(path_src == 2)
     {
         CheckBox_GenieVer->SetSelection(EV_EF);
-        if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Game\\Data\\genie_x2.dat");
-        Path_LangX1P1FileLocation->SetPath(game_path + "\\Game\\language_x2.dll");
+        if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Data\\genie_x2.dat");
+        Path_LangX1P1FileLocation->SetPath(game_path + "\\language_x2.dll");
         CheckBox_LangX1P1FileLocation->SetValue(true);
     }
     else
     {
         CheckBox_GenieVer->SetSelection(EV_CC);
-        if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Game\\Data\\genie_x1.dat");
+        if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Data\\genie_x1.dat");
         Path_LangX1P1FileLocation->SetPath(wxEmptyString);
         CheckBox_LangX1P1FileLocation->SetValue(false);
     }
-    Path_LangFileLocation->SetPath(game_path + "\\Game\\language.dll");
-    Path_LangX1FileLocation->SetPath(game_path + "\\Game\\language_x1.dll");
+    Path_LangFileLocation->SetPath(game_path + "\\language.dll");
+    Path_LangX1FileLocation->SetPath(game_path + "\\language_x1.dll");
     Radio_DatFileLocation->SetValue(true);
     CheckBox_LangFileLocation->SetValue(true);
     CheckBox_LangX1FileLocation->SetValue(true);

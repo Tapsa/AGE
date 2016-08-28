@@ -447,7 +447,7 @@ void AGE_Frame::CreateTerrainBorderControls()
 	Borders_Interval = AGETextCtrl::init(CFloat, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
 	Borders_Interval->SetToolTip("Time between frames");
 	Borders_PauseBetweenLoops_Holder = new wxBoxSizer(wxVERTICAL);
-	Borders_PauseBetweenLoops_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Pause Between Loops *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Borders_PauseBetweenLoops_Text = new wxStaticText(Tab_TerrainBorders, wxID_ANY, " Replay Delay *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Borders_PauseBetweenLoops = AGETextCtrl::init(CFloat, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
 	Borders_PauseBetweenLoops->SetToolTip("Time to pause after last frame");
 	Borders_Frame_Holder = new wxBoxSizer(wxVERTICAL);
