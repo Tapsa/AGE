@@ -139,7 +139,7 @@ void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent &event)
 {
     AGE_OpenSave::OnDefaultSWGB(event);
 
-    Path_DRS->SetPath(game_path + "\\Game\\data");
+    Path_DRS->SetPath(game_path + "\\data");
     CheckBox_DRSPath->SetValue(true);
     TerrainsBox->ChangeValue("55");
 }
@@ -148,7 +148,7 @@ void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &event)
 {
     AGE_OpenSave::OnDefaultCC(event);
 
-    Path_DRS->SetPath(game_path + "\\Game\\data");
+    Path_DRS->SetPath(game_path + "\\data");
     CheckBox_DRSPath->SetValue(true);
     TerrainsBox->ChangeValue("55");
 }
@@ -212,7 +212,8 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds\\1.0");
             if(key.Exists())
             {
-                key.QueryValue("Source Path", path);
+                key.QueryValue("Game Path", path);
+                path.Truncate(path.size() - 1);
                 filler.SetId(Button_DefaultSWGB->GetId());
             }
             break;
@@ -222,7 +223,8 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Clone Campaigns\\1.0");
             if(key.Exists())
             {
-                key.QueryValue("Source Path", path);
+                key.QueryValue("Game Path", path);
+                path.Truncate(path.size() - 1);
                 filler.SetId(Button_DefaultCC->GetId());
             }
             break;
@@ -233,7 +235,8 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             if(key.Exists())
             {
                 path_src = 2;
-                key.QueryValue("Source Path", path);
+                key.QueryValue("Game Path", path);
+                path.Truncate(path.size() - 1);
                 filler.SetId(Button_DefaultCC->GetId());
             }
             break;
