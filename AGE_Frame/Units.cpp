@@ -1506,7 +1506,9 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
             deltaSLP = baseSLP;
         }
         else continue;
-        HandleDelta(deltaSLP, delta);
+        deltaSLP.xdelta = delta.DirectionX + offsetX;
+        deltaSLP.ydelta = delta.DirectionY + offsetY;
+        SetDisplayBearings(deltaSLP, delta);
         unitSLP.deltas.insert(make_pair(offsetY, deltaSLP));
     }
     else if(has_base)
