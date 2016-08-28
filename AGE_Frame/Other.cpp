@@ -2014,10 +2014,7 @@ void AGE_Frame::OnGameVersionChange()
 		Civs_TeamBonus_Holder->Show(show);
 		Research_Civ_Holder->Show(show);
 		Research_FullTechMode_Holder->Show(show);
-		if(!show || ShowUnknowns)
-		{
-			Graphics_Unknown3_Holder->Show(show);
-		}
+		Graphics_EditorFlag_Holder->Show(show);
 
         // AoK ->
         show = (GenieVersion >= genie::GV_AoK) ? true : false;
@@ -2364,7 +2361,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 
 			Units_UnknownArea_Holder->Show(ShowUnknowns);
 			Unit_Command_Unknowns->Show(ShowUnknowns);
-			Graphics_Unknowns_Grid->Show(ShowUnknowns);
 			Deltas_Unknowns_Holder->Show(ShowUnknowns);
 			Sounds_Unknown1_Holder->Show(ShowUnknowns);
 			Sounds_Unknown2_Holder->Show(ShowUnknowns);

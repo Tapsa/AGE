@@ -12,12 +12,16 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]2016.5.15[/b]:
+Version [b]2016.8.28[/b]:
+-Fixed an offsets bug in SLP view when browsing units.
+-Some new info about graphics.
+-Adjust graphic deltas using mouse and WASD keys. <- Not yet.
+-Adjust projectile spawning location using mouse and WASD keys. <- Not yet.
+
+Version [b]2016.8.7[/b]:
+-Restored the grid layout more or less.
 -Able to read a game version from July 1998.
--Restored the grid layout. <- Work in progress.
 -SLP view takes display angle into account. <- Some angles broke.
--Adjust graphic deltas using mouse and arrow keys. <- Not yet.
--Adjust projectile spawning location using mouse and arrow keys. <- Not yet.
 
 Version [b]2016.3.6[/b]:
 -1:1 unit paste fixed. Was sequential for some reason.

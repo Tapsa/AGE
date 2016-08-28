@@ -691,7 +691,7 @@ void AGE_Frame::CreateTerrainControls()
 	Terrains_Interval = AGETextCtrl::init(CFloat, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
 	Terrains_Interval->SetToolTip("Time between frames");
 	Terrains_PauseBetweenLoops_Holder = new wxBoxSizer(wxVERTICAL);
-	Terrains_PauseBetweenLoops_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Pause Between Loops *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+	Terrains_PauseBetweenLoops_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Replay Delay *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
 	Terrains_PauseBetweenLoops = AGETextCtrl::init(CFloat, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
 	Terrains_PauseBetweenLoops->SetToolTip("Time to pause after last frame");
 	Terrains_Frame_Holder = new wxBoxSizer(wxVERTICAL);
