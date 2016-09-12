@@ -3708,8 +3708,8 @@ void AGE_Frame::CreateUnitControls()
 	Units_Disabled->SetToolTip("Not scanned but set to 0\nProbably changes during gameplay\n0 Default\n1 Prevents enabling/disabling with a tech");
 	Units_Disabled_CheckBox = new CheckBox_2State(Units_Scroller, "Disabled *", Units_Disabled);
 	Units_DeathMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
-	Units_DeathMode->SetToolTip("Upon death instead of transforming into dead unit,\nthe unit plays its idle animation");
-	Units_DeathMode_CheckBox = new CheckBox_2State(Units_Scroller, "No Dead Unit *", Units_DeathMode);
+	Units_DeathMode->SetToolTip("After 1st dying graphic:\n0 transform into dead unit\n1 show 2nd dying graphic");
+	Units_DeathMode_CheckBox = new CheckBox_2State(Units_Scroller, "Death Mode *", Units_DeathMode);
 	Units_HideInEditor = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
 	Units_HideInEditor->SetToolTip("Possible values: 0, 1 and as boolean");
 	Units_HideInEditor_CheckBox = new CheckBox_2State(Units_Scroller, "Hide in Editor", Units_HideInEditor);
