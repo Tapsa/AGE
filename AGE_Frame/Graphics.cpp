@@ -4,140 +4,140 @@ const wxString AGE_Frame::MirrorHelp = "Angle count clockwise from east after mi
 
 string AGE_Frame::GetGraphicName(int index, bool Filter)
 {
-	string Name = "";
-	if(GenieVersion >= genie::GV_AoE && dataset->GraphicPointers[index] == 0)
-	{
-		return "Nonexistent";
-	}
-	if(Filter)
-	{
-		short Selection[2];
-		for(size_t loop = 0; loop < 2; ++loop)
-		Selection[loop] = Graphics_SearchFilters[loop]->GetSelection();
+    string Name = "";
+    if(GenieVersion >= genie::GV_AoE && dataset->GraphicPointers[index] == 0)
+    {
+        return "Nonexistent";
+    }
+    if(Filter)
+    {
+        short Selection[2];
+        for(size_t loop = 0; loop < 2; ++loop)
+        Selection[loop] = Graphics_SearchFilters[loop]->GetSelection();
 
-		if(Selection[0] > 1) // Internal name prevents
-		for(size_t loop = 0; loop < 2; ++loop)
-		{
-			switch(Selection[loop])
-			{
-				case 2: // SLP
-					Name += "SLP "+FormatInt(dataset->Graphics[index].SLP);
-					break;
-				case 3: // Unknown 1
-					Name += "U1 "+FormatInt(dataset->Graphics[index].Unknown1);
-					break;
-				case 4: // Unknown 2
-					Name += "CF "+FormatInt(dataset->Graphics[index].Unknown2);
-					break;
-				case 5: // Layer
-					Name += "L "+FormatInt(dataset->Graphics[index].Layer);
-					break;
-				case 6: // Player Color Forcer
-					Name += "PC "+FormatInt(dataset->Graphics[index].PlayerColor);
-					break;
-				case 7: // Transparent Picking
-					Name += "TP "+FormatInt(dataset->Graphics[index].Replay);
-					break;
-				case 8: // Sound
-					Name += "S "+FormatInt(dataset->Graphics[index].SoundID);
-					break;
-				case 9: // Coordinates
-					Name += "xy "+FormatInt(dataset->Graphics[index].Coordinates[0]);
-					Name += " "+FormatInt(dataset->Graphics[index].Coordinates[1]);
-					Name += " "+FormatInt(dataset->Graphics[index].Coordinates[2]);
-					Name += " "+FormatInt(dataset->Graphics[index].Coordinates[3]);
-					break;
-				case 10: // Deltas
-					Name += "DC "+FormatInt(dataset->Graphics[index].Deltas.size());
-					break;
-				case 11: // Attack Sound Used
-					Name += "U "+FormatInt(dataset->Graphics[index].AttackSoundUsed);
-					break;
-				case 12: // Frames
-					Name += "FC "+FormatInt(dataset->Graphics[index].FrameCount);
-					break;
-				case 13: // Angles
-					Name += "AC "+FormatInt(dataset->Graphics[index].AngleCount);
-					break;
-				case 14: // Speed
-					Name += "SM "+FormatFloat(dataset->Graphics[index].NewSpeed);
-					break;
-				case 15: // Frame Duration
-					Name += "FD "+FormatFloat(dataset->Graphics[index].FrameRate);
-					break;
-				case 16: // Replay Delay
-					Name += "RD "+FormatFloat(dataset->Graphics[index].ReplayDelay);
-					break;
-				case 17: // Sequence Type
-					Name += "ST "+FormatInt(dataset->Graphics[index].SequenceType);
-					break;
-				case 18: // Mirroring Mode
-					Name += "M "+FormatInt(dataset->Graphics[index].MirroringMode);
-					break;
-				case 19: // Unknown 3
-					Name += "EF "+FormatInt(dataset->Graphics[index].Unknown3);
-					break;
-				case 20: // Pointer
-					Name = FormatInt(dataset->GraphicPointers[index]);
-					break;
-			}
-			Name += ", ";
-			if(Selection[loop+1] < 1) break; // Internal name breaks
-		}
-		if(Selection[0] == 1) goto InternalName;
-	}
+        if(Selection[0] > 1) // Internal name prevents
+        for(size_t loop = 0; loop < 2; ++loop)
+        {
+            switch(Selection[loop])
+            {
+                case 2: // SLP
+                    Name += "SLP "+FormatInt(dataset->Graphics[index].SLP);
+                    break;
+                case 3: // Unknown 1
+                    Name += "U1 "+FormatInt(dataset->Graphics[index].Unknown1);
+                    break;
+                case 4: // Unknown 2
+                    Name += "CF "+FormatInt(dataset->Graphics[index].Unknown2);
+                    break;
+                case 5: // Layer
+                    Name += "L "+FormatInt(dataset->Graphics[index].Layer);
+                    break;
+                case 6: // Player Color Forcer
+                    Name += "PC "+FormatInt(dataset->Graphics[index].PlayerColor);
+                    break;
+                case 7: // Transparent Picking
+                    Name += "TP "+FormatInt(dataset->Graphics[index].Replay);
+                    break;
+                case 8: // Sound
+                    Name += "S "+FormatInt(dataset->Graphics[index].SoundID);
+                    break;
+                case 9: // Coordinates
+                    Name += "xy "+FormatInt(dataset->Graphics[index].Coordinates[0]);
+                    Name += " "+FormatInt(dataset->Graphics[index].Coordinates[1]);
+                    Name += " "+FormatInt(dataset->Graphics[index].Coordinates[2]);
+                    Name += " "+FormatInt(dataset->Graphics[index].Coordinates[3]);
+                    break;
+                case 10: // Deltas
+                    Name += "DC "+FormatInt(dataset->Graphics[index].Deltas.size());
+                    break;
+                case 11: // Attack Sound Used
+                    Name += "U "+FormatInt(dataset->Graphics[index].AttackSoundUsed);
+                    break;
+                case 12: // Frames
+                    Name += "FC "+FormatInt(dataset->Graphics[index].FrameCount);
+                    break;
+                case 13: // Angles
+                    Name += "AC "+FormatInt(dataset->Graphics[index].AngleCount);
+                    break;
+                case 14: // Speed
+                    Name += "SM "+FormatFloat(dataset->Graphics[index].NewSpeed);
+                    break;
+                case 15: // Frame Duration
+                    Name += "FD "+FormatFloat(dataset->Graphics[index].FrameRate);
+                    break;
+                case 16: // Replay Delay
+                    Name += "RD "+FormatFloat(dataset->Graphics[index].ReplayDelay);
+                    break;
+                case 17: // Sequence Type
+                    Name += "ST "+FormatInt(dataset->Graphics[index].SequenceType);
+                    break;
+                case 18: // Mirroring Mode
+                    Name += "M "+FormatInt(dataset->Graphics[index].MirroringMode);
+                    break;
+                case 19: // Unknown 3
+                    Name += "EF "+FormatInt(dataset->Graphics[index].Unknown3);
+                    break;
+                case 20: // Pointer
+                    Name = FormatInt(dataset->GraphicPointers[index]);
+                    break;
+            }
+            Name += ", ";
+            if(Selection[loop+1] < 1) break; // Internal name breaks
+        }
+        if(Selection[0] == 1) goto InternalName;
+    }
 
-	if(!dataset->Graphics[index].Name.empty())
-	{
-		return Name + dataset->Graphics[index].Name;
-	}
+    if(!dataset->Graphics[index].Name.empty())
+    {
+        return Name + dataset->Graphics[index].Name;
+    }
 InternalName:
-	if(!dataset->Graphics[index].Name2.empty())
-	{
-		return Name + dataset->Graphics[index].Name2;
-	}
-	return Name + "New Graphic";
+    if(!dataset->Graphics[index].Name2.empty())
+    {
+        return Name + dataset->Graphics[index].Name2;
+    }
+    return Name + "New Graphic";
 }
 
 void AGE_Frame::OnGraphicsSearch(wxCommandEvent &event)
 {
-	How2List = SEARCH;
-	ListGraphics(false);
+    How2List = SEARCH;
+    ListGraphics(false);
 }
 
 void AGE_Frame::ListGraphics(bool all)
 {
-	InitGraphics(all);
-	wxTimerEvent E;
-	OnGraphicsTimer(E);
+    InitGraphics(all);
+    wxTimerEvent E;
+    OnGraphicsTimer(E);
 }
 
 void AGE_Frame::InitGraphics(bool all)
 {
-	InitSearch(Graphics_Graphics_Search->GetValue().MakeLower(), Graphics_Graphics_Search_R->GetValue().MakeLower());
-	SearchAnd = Graphics_Graphics_UseAnd[0]->GetValue();
-	ExcludeAnd = Graphics_Graphics_UseAnd[1]->GetValue();
+    InitSearch(Graphics_Graphics_Search->GetValue().MakeLower(), Graphics_Graphics_Search_R->GetValue().MakeLower());
+    SearchAnd = Graphics_Graphics_UseAnd[0]->GetValue();
+    ExcludeAnd = Graphics_Graphics_UseAnd[1]->GetValue();
 
     Graphics_Graphics_ListV->names.clear();
     Graphics_Graphics_ListV->indexes.clear();
-	wxArrayString names;
-	if(all) names.Alloc(dataset->Graphics.size());
+    wxArrayString names;
+    if(all) names.Alloc(dataset->Graphics.size());
 
-	for(size_t loop = 0; loop < dataset->Graphics.size(); ++loop)
-	{
-		wxString Name = " "+FormatInt(loop)+" - "+GetGraphicName(loop, true);
-		if(SearchMatches(Name.Lower()))
-		{
-			Graphics_Graphics_ListV->names.Add(Name);
+    for(size_t loop = 0; loop < dataset->Graphics.size(); ++loop)
+    {
+        wxString Name = " "+FormatInt(loop)+" - "+GetGraphicName(loop, true);
+        if(SearchMatches(Name.Lower()))
+        {
+            Graphics_Graphics_ListV->names.Add(Name);
             Graphics_Graphics_ListV->indexes.push_back(loop);
-		}
-		if(all) names.Add(" "+FormatInt(loop)+" - "+GetGraphicName(loop));
-	}
+        }
+        if(all) names.Add(" "+FormatInt(loop)+" - "+GetGraphicName(loop));
+    }
 
     virtualListing(Graphics_Graphics_ListV, &GraphicIDs);
-	if(all) FillLists(GraphicComboBoxList, names);
+    if(all) FillLists(GraphicComboBoxList, names);
 
-	SearchAnd = ExcludeAnd = false;
+    SearchAnd = ExcludeAnd = false;
 }
 
 void AGE_Frame::OnGraphicsSelect(wxCommandEvent &event)
@@ -149,48 +149,48 @@ void AGE_Frame::OnGraphicsSelect(wxCommandEvent &event)
 void AGE_Frame::OnGraphicsTimer(wxTimerEvent&)
 {
     graphicTimer.Stop();
-	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
+    auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
     wxBusyCursor WaitCursor;
     for(auto &box: uiGroupGraphic) box->clear();
     Graphics_ID->clear();
-	if(selections > 0)
-	{
+    if(selections > 0)
+    {
         getSelectedItems(selections, Graphics_Graphics_ListV, GraphicIDs);
 
-		genie::Graphic * GraphicPointer = 0;
-		for(auto sel = selections; sel--> 0;)
-		{
-			GraphicPointer = &dataset->Graphics[GraphicIDs[sel]];
+        genie::Graphic * GraphicPointer = 0;
+        for(auto sel = selections; sel--> 0;)
+        {
+            GraphicPointer = &dataset->Graphics[GraphicIDs[sel]];
 
-			Graphics_Name->prepend(&GraphicPointer->Name);
-			Graphics_Name2->prepend(&GraphicPointer->Name2);
-			Graphics_SLP->prepend(&GraphicPointer->SLP);
-			Graphics_Loaded->prepend(&GraphicPointer->Unknown1);
-			Graphics_ColorFlag->prepend(&GraphicPointer->Unknown2);
-			Graphics_FrameType->prepend(&GraphicPointer->Layer);
-			Graphics_PlayerColor->prepend(&GraphicPointer->PlayerColor);
-			Graphics_Rainbow->prepend(&GraphicPointer->Rainbow);
-			Graphics_TransparentPicking->prepend(&GraphicPointer->Replay);
-			for(size_t loop = 0; loop < 4; ++loop)
-			{
-				Graphics_Coordinates[loop]->prepend(&GraphicPointer->Coordinates[loop]);
-			}
-			Graphics_SoundID->prepend(&GraphicPointer->SoundID);
-			Graphics_AttackSoundUsed->prepend(&GraphicPointer->AttackSoundUsed);
-			Graphics_FrameCount->prepend(&GraphicPointer->FrameCount);
-			Graphics_AngleCount->prepend(&GraphicPointer->AngleCount);
-			Graphics_NewSpeed->prepend(&GraphicPointer->NewSpeed);
-			Graphics_FrameDuration->prepend(&GraphicPointer->FrameRate);
-			Graphics_ReplayDelay->prepend(&GraphicPointer->ReplayDelay);
-			Graphics_SequenceType->prepend(&GraphicPointer->SequenceType);
-			Graphics_ID->prepend(&GraphicPointer->ID);
-			Graphics_MirroringMode->prepend(&GraphicPointer->MirroringMode);
-			if(GenieVersion >= genie::GV_AoKB)
-			Graphics_EditorFlag->prepend(&GraphicPointer->Unknown3);
-		}
-		SetStatusText("Selections: "+lexical_cast<string>(GraphicIDs.size())+"    Selected graphic: "+lexical_cast<string>(GraphicIDs.front()), 0);
+            Graphics_Name->prepend(&GraphicPointer->Name);
+            Graphics_Name2->prepend(&GraphicPointer->Name2);
+            Graphics_SLP->prepend(&GraphicPointer->SLP);
+            Graphics_Loaded->prepend(&GraphicPointer->Unknown1);
+            Graphics_ColorFlag->prepend(&GraphicPointer->Unknown2);
+            Graphics_FrameType->prepend(&GraphicPointer->Layer);
+            Graphics_PlayerColor->prepend(&GraphicPointer->PlayerColor);
+            Graphics_Rainbow->prepend(&GraphicPointer->Rainbow);
+            Graphics_TransparentPicking->prepend(&GraphicPointer->Replay);
+            for(size_t loop = 0; loop < 4; ++loop)
+            {
+                Graphics_Coordinates[loop]->prepend(&GraphicPointer->Coordinates[loop]);
+            }
+            Graphics_SoundID->prepend(&GraphicPointer->SoundID);
+            Graphics_AttackSoundUsed->prepend(&GraphicPointer->AttackSoundUsed);
+            Graphics_FrameCount->prepend(&GraphicPointer->FrameCount);
+            Graphics_AngleCount->prepend(&GraphicPointer->AngleCount);
+            Graphics_NewSpeed->prepend(&GraphicPointer->NewSpeed);
+            Graphics_FrameDuration->prepend(&GraphicPointer->FrameRate);
+            Graphics_ReplayDelay->prepend(&GraphicPointer->ReplayDelay);
+            Graphics_SequenceType->prepend(&GraphicPointer->SequenceType);
+            Graphics_ID->prepend(&GraphicPointer->ID);
+            Graphics_MirroringMode->prepend(&GraphicPointer->MirroringMode);
+            if(GenieVersion >= genie::GV_AoKB)
+            Graphics_EditorFlag->prepend(&GraphicPointer->Unknown3);
+        }
+        SetStatusText("Selections: "+lexical_cast<string>(GraphicIDs.size())+"    Selected graphic: "+lexical_cast<string>(GraphicIDs.front()), 0);
 
-		selections = GenieVersion < genie::GV_AoE ? 1 : dataset->GraphicPointers[GraphicIDs.front()];
+        selections = GenieVersion < genie::GV_AoE ? 1 : dataset->GraphicPointers[GraphicIDs.front()];
 
         if(GraphicPointer)
         {
@@ -198,14 +198,14 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent&)
             graphicSLP.datID = GraphicIDs.front();
             graphicSLP.slpID = -2; // Force reloading delta graphics.
         }
-	}
+    }
     AGE_SLP::setbearing = 1u;
     for(auto &box: uiGroupGraphic) box->update();
 
     Graphics_ID->refill();
-	Deltas_Add->Enable(selections);
-	ListGraphicDeltas();
-	ListGraphicAttackSounds();
+    Deltas_Add->Enable(selections);
+    ListGraphicDeltas();
+    ListGraphicAttackSounds();
     if(slp_window) slp_view->Refresh();
 }
 
@@ -667,66 +667,66 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicsEnable(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
+    if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	for(size_t loop = 0; loop < selections; ++loop)
-	{
-		dataset->GraphicPointers[GraphicIDs[loop]] = 1;
-		dataset->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
-	}
-	How2List = ENABLE;
-	ListGraphics();
+    wxBusyCursor WaitCursor;
+    for(size_t loop = 0; loop < selections; ++loop)
+    {
+        dataset->GraphicPointers[GraphicIDs[loop]] = 1;
+        dataset->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
+    }
+    How2List = ENABLE;
+    ListGraphics();
 }
 
 void AGE_Frame::OnGraphicsDisable(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
+    if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	for(size_t loop = 0; loop < selections; ++loop)
-	dataset->GraphicPointers[GraphicIDs[loop]] = 0;
-	How2List = ENABLE;
-	ListGraphics();
+    wxBusyCursor WaitCursor;
+    for(size_t loop = 0; loop < selections; ++loop)
+    dataset->GraphicPointers[GraphicIDs[loop]] = 0;
+    How2List = ENABLE;
+    ListGraphics();
 }
 
 string AGE_Frame::GetGraphicDeltaName(int index)
 {
     int deltaID = dataset->Graphics[GraphicIDs.front()].Deltas[index].GraphicID;
-	if(deltaID < dataset->Graphics.size())
-	return lexical_cast<string>(deltaID) + ": " + GetGraphicName(deltaID, false) + " ";
-	return "Re-drawer "+lexical_cast<string>(deltaID)+" ";
+    if(deltaID < dataset->Graphics.size())
+    return lexical_cast<string>(deltaID) + ": " + GetGraphicName(deltaID, false) + " ";
+    return "Re-drawer "+lexical_cast<string>(deltaID)+" ";
 }
 
 void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &event)
 {
-	How2List = SEARCH;
-	ListGraphicDeltas();
+    How2List = SEARCH;
+    ListGraphicDeltas();
 }
 
 void AGE_Frame::ListGraphicDeltas()
 {
-	InitSearch(Graphics_Deltas_Search->GetValue().MakeLower(), Graphics_Deltas_Search_R->GetValue().MakeLower());
+    InitSearch(Graphics_Deltas_Search->GetValue().MakeLower(), Graphics_Deltas_Search_R->GetValue().MakeLower());
 
     Graphics_Deltas_ListV->names.clear();
     Graphics_Deltas_ListV->indexes.clear();
 
     if(Graphics_Graphics_ListV->GetSelectedItemCount())
-	for(size_t loop = 0; loop < dataset->Graphics[GraphicIDs.front()].Deltas.size(); ++loop)
-	{
-		wxString Name = " "+FormatInt(loop)+" - "+GetGraphicDeltaName(loop);
-		if(SearchMatches(Name.Lower()))
-		{
-			Graphics_Deltas_ListV->names.Add(Name);
+    for(size_t loop = 0; loop < dataset->Graphics[GraphicIDs.front()].Deltas.size(); ++loop)
+    {
+        wxString Name = " "+FormatInt(loop)+" - "+GetGraphicDeltaName(loop);
+        if(SearchMatches(Name.Lower()))
+        {
+            Graphics_Deltas_ListV->names.Add(Name);
             Graphics_Deltas_ListV->indexes.push_back(loop);
-		}
-	}
-	virtualListing(Graphics_Deltas_ListV, &DeltaIDs);
+        }
+    }
+    virtualListing(Graphics_Deltas_ListV, &DeltaIDs);
 
-	wxTimerEvent E;
-	OnGraphicDeltasTimer(E);
+    wxTimerEvent E;
+    OnGraphicDeltasTimer(E);
 }
 
 void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &event)
@@ -738,81 +738,81 @@ void AGE_Frame::OnGraphicDeltasSelect(wxCommandEvent &event)
 void AGE_Frame::OnGraphicDeltasTimer(wxTimerEvent&)
 {
     deltaTimer.Stop();
-	auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
+    auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
     wxBusyCursor WaitCursor;
     for(auto &box: uiGroupGraphicDelta) box->clear();
-	if(selections > 0)
-	{
+    if(selections > 0)
+    {
         getSelectedItems(selections, Graphics_Deltas_ListV, DeltaIDs);
 
-		genie::GraphicDelta * DeltaPointer;
-		for(auto sel = selections; sel--> 0;)
-		{
+        genie::GraphicDelta * DeltaPointer;
+        for(auto sel = selections; sel--> 0;)
+        {
             DeltaPointer = &dataset->Graphics[GraphicIDs.front()].Deltas[DeltaIDs[sel]];
 
-			GraphicDeltas_GraphicID->prepend(&DeltaPointer->GraphicID);
-			GraphicDeltas_Unknown1->prepend(&DeltaPointer->Unknown1);
-			GraphicDeltas_Unknown2->prepend(&DeltaPointer->Unknown2);
-			GraphicDeltas_Unknown3->prepend(&DeltaPointer->Unknown3);
-			GraphicDeltas_DirectionX->prepend(&DeltaPointer->DirectionX);
-			GraphicDeltas_DirectionY->prepend(&DeltaPointer->DirectionY);
-			GraphicDeltas_DisplayAngle->prepend(&DeltaPointer->DisplayAngle);
-			GraphicDeltas_Unknown5->prepend(&DeltaPointer->Unknown5);
-		}
-	}
+            GraphicDeltas_GraphicID->prepend(&DeltaPointer->GraphicID);
+            GraphicDeltas_Unknown1->prepend(&DeltaPointer->Unknown1);
+            GraphicDeltas_Unknown2->prepend(&DeltaPointer->Unknown2);
+            GraphicDeltas_Unknown3->prepend(&DeltaPointer->Unknown3);
+            GraphicDeltas_DirectionX->prepend(&DeltaPointer->DirectionX);
+            GraphicDeltas_DirectionY->prepend(&DeltaPointer->DirectionY);
+            GraphicDeltas_DisplayAngle->prepend(&DeltaPointer->DisplayAngle);
+            GraphicDeltas_Unknown5->prepend(&DeltaPointer->Unknown5);
+        }
+    }
     for(auto &box: uiGroupGraphicDelta) box->update();
 }
 
 void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &event)
 {
-	auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    auto selections = Graphics_Graphics_ListV->GetSelectedItemCount();
+    if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	AddToList(dataset->Graphics[GraphicIDs.front()].Deltas);
+    wxBusyCursor WaitCursor;
+    AddToList(dataset->Graphics[GraphicIDs.front()].Deltas);
     graphicSLP.slpID = -2;
-	ListGraphicDeltas();
+    ListGraphicDeltas();
     if(slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &event)
 {
-	auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
+    if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	InsertToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs.front());
+    wxBusyCursor WaitCursor;
+    InsertToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs.front());
     graphicSLP.slpID = -2;
-	ListGraphicDeltas();
+    ListGraphicDeltas();
     if(slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &event)
 {
-	auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
+    if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	DeleteFromList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs);
+    wxBusyCursor WaitCursor;
+    DeleteFromList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs);
     graphicSLP.slpID = -2;
-	ListGraphicDeltas();
+    ListGraphicDeltas();
     if(slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &event)
 {
-	auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
+    if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	CopyFromList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs, copies.GraphicDelta);
-	Graphics_Deltas_ListV->SetFocus();
+    wxBusyCursor WaitCursor;
+    CopyFromList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs, copies.GraphicDelta);
+    Graphics_Deltas_ListV->SetFocus();
 }
 
 void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &event)
 {
-	auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
+    if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs, copies.GraphicDelta);
@@ -823,33 +823,33 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &event)
 {
-	auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    auto selections = Graphics_Deltas_ListV->GetSelectedItemCount();
+    if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	PasteInsertToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs.front(), copies.GraphicDelta);
+    wxBusyCursor WaitCursor;
+    PasteInsertToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs.front(), copies.GraphicDelta);
     graphicSLP.slpID = -2;
-	ListGraphicDeltas();
+    ListGraphicDeltas();
     if(slp_window && ShowDeltas) slp_view->Refresh();
 }
 
 void AGE_Frame::OnGraphicDeltasCopyToGraphics(wxCommandEvent &event)
 {
-	for(size_t loop=1; loop < GraphicIDs.size(); ++loop)
-	{
-		dataset->Graphics[GraphicIDs[loop]].Deltas = dataset->Graphics[GraphicIDs.front()].Deltas;
-	}
+    for(size_t loop=1; loop < GraphicIDs.size(); ++loop)
+    {
+        dataset->Graphics[GraphicIDs[loop]].Deltas = dataset->Graphics[GraphicIDs.front()].Deltas;
+    }
 }
 
 string AGE_Frame::GetGraphicAttackSoundName(int index)
 {
-	return "Attack sound "+lexical_cast<string>(index);
+    return "Attack sound "+lexical_cast<string>(index);
 }
 
 void AGE_Frame::OnGraphicAttackSoundsSearch(wxCommandEvent &event)
 {
-	How2List = SEARCH;
-	ListGraphicAttackSounds();
+    How2List = SEARCH;
+    ListGraphicAttackSounds();
 }
 
 void AGE_Frame::ListGraphicAttackSounds()
@@ -858,16 +858,16 @@ void AGE_Frame::ListGraphicAttackSounds()
     Graphics_AttackSounds_ListV->indexes.clear();
 
     if(Graphics_Graphics_ListV->GetSelectedItemCount())
-	for(size_t loop = 0; loop < dataset->Graphics[GraphicIDs.front()].AttackSounds.size(); ++loop)
-	{
+    for(size_t loop = 0; loop < dataset->Graphics[GraphicIDs.front()].AttackSounds.size(); ++loop)
+    {
         Graphics_AttackSounds_ListV->names.Add(" "+FormatInt(loop)+" - "+GetGraphicAttackSoundName(loop));
         Graphics_AttackSounds_ListV->indexes.push_back(loop);
-	}
+    }
 
-	virtualListing(Graphics_AttackSounds_ListV, &AttackSoundIDs);
+    virtualListing(Graphics_AttackSounds_ListV, &AttackSoundIDs);
 
-	wxTimerEvent E;
-	OnGraphicAttackSoundsTimer(E);
+    wxTimerEvent E;
+    OnGraphicAttackSoundsTimer(E);
 }
 
 void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &event)
@@ -879,138 +879,138 @@ void AGE_Frame::OnGraphicAttackSoundsSelect(wxCommandEvent &event)
 void AGE_Frame::OnGraphicAttackSoundsTimer(wxTimerEvent&)
 {
     graphicSoundTimer.Stop();
-	auto selections = Graphics_AttackSounds_ListV->GetSelectedItemCount();
+    auto selections = Graphics_AttackSounds_ListV->GetSelectedItemCount();
     wxBusyCursor WaitCursor;
     for(auto &box: uiGroupGraphicSound) box->clear();
-	if(selections > 0)
-	{
+    if(selections > 0)
+    {
         getSelectedItems(selections, Graphics_AttackSounds_ListV, AttackSoundIDs);
 
-		genie::GraphicAttackSound * AttackSoundPointer;
-		for(auto sel = selections; sel--> 0;)
-		{
+        genie::GraphicAttackSound * AttackSoundPointer;
+        for(auto sel = selections; sel--> 0;)
+        {
             AttackSoundPointer = &dataset->Graphics[GraphicIDs.front()].AttackSounds[AttackSoundIDs[sel]];
 
-			Graphics_AttackSoundID[0]->prepend(&AttackSoundPointer->SoundID);
-			Graphics_AttackSoundID[1]->prepend(&AttackSoundPointer->SoundID2);
-			Graphics_AttackSoundID[2]->prepend(&AttackSoundPointer->SoundID3);
-			Graphics_AttackSoundDelay[0]->prepend(&AttackSoundPointer->SoundDelay);
-			Graphics_AttackSoundDelay[1]->prepend(&AttackSoundPointer->SoundDelay2);
-			Graphics_AttackSoundDelay[2]->prepend(&AttackSoundPointer->SoundDelay3);
-		}
-	}
+            Graphics_AttackSoundID[0]->prepend(&AttackSoundPointer->SoundID);
+            Graphics_AttackSoundID[1]->prepend(&AttackSoundPointer->SoundID2);
+            Graphics_AttackSoundID[2]->prepend(&AttackSoundPointer->SoundID3);
+            Graphics_AttackSoundDelay[0]->prepend(&AttackSoundPointer->SoundDelay);
+            Graphics_AttackSoundDelay[1]->prepend(&AttackSoundPointer->SoundDelay2);
+            Graphics_AttackSoundDelay[2]->prepend(&AttackSoundPointer->SoundDelay3);
+        }
+    }
     for(auto &box: uiGroupGraphicSound) box->update();
 }
 
 void AGE_Frame::OnGraphicAttackSoundsCopy(wxCommandEvent &event)
 {
-	auto selections = Graphics_AttackSounds_ListV->GetSelectedItemCount();
-	if(selections < 1) return;
+    auto selections = Graphics_AttackSounds_ListV->GetSelectedItemCount();
+    if(selections < 1) return;
 
-	wxBusyCursor WaitCursor;
-	genie::GraphicAttackSound Copy = dataset->Graphics[GraphicIDs.front()].AttackSounds[AttackSoundIDs.front()];
-	for(size_t loop2 = 0; loop2 < dataset->Graphics[GraphicIDs.front()].AttackSounds.size(); ++loop2)
-	dataset->Graphics[GraphicIDs.front()].AttackSounds[loop2] = Copy;
-	Graphics_AttackSounds_ListV->SetFocus();
+    wxBusyCursor WaitCursor;
+    genie::GraphicAttackSound Copy = dataset->Graphics[GraphicIDs.front()].AttackSounds[AttackSoundIDs.front()];
+    for(size_t loop2 = 0; loop2 < dataset->Graphics[GraphicIDs.front()].AttackSounds.size(); ++loop2)
+    dataset->Graphics[GraphicIDs.front()].AttackSounds[loop2] = Copy;
+    Graphics_AttackSounds_ListV->SetFocus();
 }
 
 void AGE_Frame::OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &event)
 {
-	for(size_t loop=1; loop < GraphicIDs.size(); ++loop)
-	{
-		dataset->Graphics[GraphicIDs[loop]].AttackSounds = dataset->Graphics[GraphicIDs.front()].AttackSounds;
-	}
+    for(size_t loop=1; loop < GraphicIDs.size(); ++loop)
+    {
+        dataset->Graphics[GraphicIDs[loop]].AttackSounds = dataset->Graphics[GraphicIDs.front()].AttackSounds;
+    }
 }
 
 void AGE_Frame::CreateGraphicsControls()
 {
-	Tab_Graphics = new wxPanel(TabBar_Main);
-	Graphics_Main = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Sprites");
+    Tab_Graphics = new wxPanel(TabBar_Main);
+    Graphics_Main = new wxBoxSizer(wxHORIZONTAL);
+    Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Sprites");
 
-	Graphics_Graphics_Search = new wxTextCtrl(Tab_Graphics, wxID_ANY);
-	Graphics_Graphics_UseAnd[0] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And");
-	Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY);
-	Graphics_Graphics_UseAnd[1] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And");
-	for(size_t loop = 0; loop < 2; ++loop)
-	{
-		Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-		Graphics_SearchFilters[loop] = new AGEODComboBox(Tab_Graphics);
-	}
-	Graphics_Graphics_ListV = new AGEListView(Tab_Graphics, wxSize(200, 100));
-	Graphics_Graphics_Buttons = new wxGridSizer(3, 0, 0);
-	Graphics_Add = new wxButton(Tab_Graphics, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
-	Graphics_Insert = new wxButton(Tab_Graphics, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
-	Graphics_Delete = new wxButton(Tab_Graphics, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
-	Graphics_Copy = new wxButton(Tab_Graphics, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
-	Graphics_Paste = new wxButton(Tab_Graphics, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
-	Graphics_PasteInsert = new wxButton(Tab_Graphics, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
-	Graphics_Enable = new wxButton(Tab_Graphics, wxID_ANY, "Exist", wxDefaultPosition, wxSize(10, -1));
-	Graphics_Disable = new wxButton(Tab_Graphics, wxID_ANY, "Wipe Out", wxDefaultPosition, wxSize(10, -1));
+    Graphics_Graphics_Search = new wxTextCtrl(Tab_Graphics, wxID_ANY);
+    Graphics_Graphics_UseAnd[0] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And");
+    Graphics_Graphics_Search_R = new wxTextCtrl(Tab_Graphics, wxID_ANY);
+    Graphics_Graphics_UseAnd[1] = new wxCheckBox(Tab_Graphics, wxID_ANY, "And");
+    for(size_t loop = 0; loop < 2; ++loop)
+    {
+        Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
+        Graphics_SearchFilters[loop] = new AGEODComboBox(Tab_Graphics);
+    }
+    Graphics_Graphics_ListV = new AGEListView(Tab_Graphics, wxSize(200, 100));
+    Graphics_Graphics_Buttons = new wxGridSizer(3, 0, 0);
+    Graphics_Add = new wxButton(Tab_Graphics, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+    Graphics_Insert = new wxButton(Tab_Graphics, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
+    Graphics_Delete = new wxButton(Tab_Graphics, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+    Graphics_Copy = new wxButton(Tab_Graphics, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+    Graphics_Paste = new wxButton(Tab_Graphics, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+    Graphics_PasteInsert = new wxButton(Tab_Graphics, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
+    Graphics_Enable = new wxButton(Tab_Graphics, wxID_ANY, "Exist", wxDefaultPosition, wxSize(10, -1));
+    Graphics_Disable = new wxButton(Tab_Graphics, wxID_ANY, "Wipe Out", wxDefaultPosition, wxSize(10, -1));
 
-	Graphics_Scroller = new wxScrolled<wxPanel>(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
-	Graphics_ScrollSpace = new wxBoxSizer(wxVERTICAL);
-	Graphics_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_Name_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_Name_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_Name = AGETextCtrl::init(CString, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_Name2_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_Name2_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " SLP Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_Name2 = AGETextCtrl::init(CString, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_ID_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_ID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_ID = AGETextCtrl::init(CShort, 0, this, &popUp, Graphics_Scroller);
+    Graphics_Scroller = new wxScrolled<wxPanel>(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    Graphics_ScrollSpace = new wxBoxSizer(wxVERTICAL);
+    Graphics_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
+    Graphics_Name_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_Name_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_Name = AGETextCtrl::init(CString, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_Name2_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_Name2_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " SLP Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_Name2 = AGETextCtrl::init(CString, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_ID_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_ID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_ID = AGETextCtrl::init(CShort, 0, this, &popUp, Graphics_Scroller);
 
-	Graphics_SLP_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_SLP_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " SLP", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_SLP = AGETextCtrl::init(CLong, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_FrameType_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_FrameType_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Layer *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_FrameType = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_FrameType->SetToolTip("0 - Cliffs\n5 - Shadows, Farms\n6 - Rubble\n10 - Construction sequences, some shadows, corpses, stumps, flowers, paths, ruins, crack\n11 - Fish\n19 - Rugs, crater\n20 - Buildings, damage flames, mill animation, units\n21 - Blacksmith piece (no slp), blacksmith smoke\n22 - Hawk\n30 - Explosions, projectiles ");
-	Graphics_TransparentPicking_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_TransparentPicking_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Transparent Pick *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_TransparentPicking = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_TransparentPicking->SetToolTip("0, 1, 2");
-	Graphics_ReplayDelay_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_ReplayDelay_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Replay Delay *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_ReplayDelay = AGETextCtrl::init(CFloat, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_ReplayDelay->SetToolTip("Waiting time in seconds before animation restarts again");
+    Graphics_SLP_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_SLP_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " SLP", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_SLP = AGETextCtrl::init(CLong, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_FrameType_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_FrameType_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Layer *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_FrameType = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_FrameType->SetToolTip("0 - Cliffs\n5 - Shadows, Farms\n6 - Rubble\n10 - Construction sequences, some shadows, corpses, stumps, flowers, paths, ruins, crack\n11 - Fish\n19 - Rugs, crater\n20 - Buildings, damage flames, mill animation, units\n21 - Blacksmith piece (no slp), blacksmith smoke\n22 - Hawk\n30 - Explosions, projectiles ");
+    Graphics_TransparentPicking_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_TransparentPicking_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Transparent Pick *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_TransparentPicking = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_TransparentPicking->SetToolTip("0, 1, 2");
+    Graphics_ReplayDelay_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_ReplayDelay_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Replay Delay *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_ReplayDelay = AGETextCtrl::init(CFloat, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_ReplayDelay->SetToolTip("Waiting time in seconds before animation restarts again");
 
-	Graphics_FrameCount_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_FrameCount_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frames per Angle", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_FrameCount = AGETextCtrl::init(CUShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_FrameDuration_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_FrameDuration_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Duration *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_FrameDuration = AGETextCtrl::init(CFloat, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_FrameDuration->SetToolTip("How long each frame is displayed in seconds");
-	Graphics_SequenceType_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_SequenceType_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sequence Type *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_SequenceType = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_SequenceType->SetToolTip("Combinable bit field\n1 animated\n2 directional\n4 sprite randomized\n8 loop once");
-	Graphics_Type_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_Type_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Mirroring Mode *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_MirroringMode = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_MirroringMode->SetToolTip(MirrorHelp);
+    Graphics_FrameCount_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_FrameCount_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frames per Angle", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_FrameCount = AGETextCtrl::init(CUShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_FrameDuration_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_FrameDuration_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Duration *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_FrameDuration = AGETextCtrl::init(CFloat, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_FrameDuration->SetToolTip("How long each frame is displayed in seconds");
+    Graphics_SequenceType_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_SequenceType_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sequence Type *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_SequenceType = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_SequenceType->SetToolTip("Combinable bit field\n1 animated\n2 directional\n4 sprite randomized\n8 loop once");
+    Graphics_Type_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_Type_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Mirroring Mode *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_MirroringMode = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_MirroringMode->SetToolTip(MirrorHelp);
 
-	Graphics_SoundID_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_SoundID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_SoundID = AGETextCtrl::init(CShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_SoundID_ComboBox = new ComboBox_Plus1(Graphics_Scroller, Graphics_SoundID);
-	SoundComboBoxList.push_back(Graphics_SoundID_ComboBox);
-	Graphics_PlayerColor_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_PlayerColor_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Forced Player Color *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_PlayerColor = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_PlayerColor->SetToolTip("The player color to be forced on the graphic");
-	Graphics_PlayerColor_ComboBox = new ComboBox_Plus1(Graphics_Scroller, Graphics_PlayerColor);
-	Graphics_Rainbow_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_Rainbow_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Rainbow *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_Rainbow = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_Rainbow->SetToolTip("Makes the graphic change its player color according to nearby units");
-	Graphics_NewSpeed_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_NewSpeed_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unit Speed Multiplier *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_NewSpeed = AGETextCtrl::init(CFloat, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_NewSpeed->SetToolTip("Multiplies the speed of the unit this graphic is applied to");
+    Graphics_SoundID_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_SoundID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_SoundID = AGETextCtrl::init(CShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_SoundID_ComboBox = new ComboBox_Plus1(Graphics_Scroller, Graphics_SoundID);
+    SoundComboBoxList.push_back(Graphics_SoundID_ComboBox);
+    Graphics_PlayerColor_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_PlayerColor_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Forced Player Color *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_PlayerColor = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_PlayerColor->SetToolTip("The player color to be forced on the graphic");
+    Graphics_PlayerColor_ComboBox = new ComboBox_Plus1(Graphics_Scroller, Graphics_PlayerColor);
+    Graphics_Rainbow_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_Rainbow_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Rainbow *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_Rainbow = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_Rainbow->SetToolTip("Makes the graphic change its player color according to nearby units");
+    Graphics_NewSpeed_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_NewSpeed_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unit Speed Multiplier *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_NewSpeed = AGETextCtrl::init(CFloat, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_NewSpeed->SetToolTip("Multiplies the speed of the unit this graphic is applied to");
 
     Graphics_Coordinates_Holder = new wxBoxSizer(wxVERTICAL);
     Graphics_CoordinateGrid_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -1018,88 +1018,88 @@ void AGE_Frame::CreateGraphicsControls()
     for(size_t loop = 0; loop < 4; ++loop)
     Graphics_Coordinates[loop] = AGETextCtrl::init(CShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller, AGETextCtrl::MEDIUM);
 
-	Graphics_Loaded_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_Loaded_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Disabler", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_Loaded = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_ColorFlag_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_ColorFlag_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Old Color Flag", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_ColorFlag = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_EditorFlag_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_EditorFlag_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Old Editor Flag *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_EditorFlag = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_EditorFlag->SetToolTip("Was related to sprite editor?");
-	Graphics_4_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_5_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_1_Grid = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_2_Grid = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_3_Grid = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_Unknowns_Grid = new wxBoxSizer(wxHORIZONTAL);
+    Graphics_Loaded_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_Loaded_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Disabler", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_Loaded = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_ColorFlag_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_ColorFlag_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Old Color Flag", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_ColorFlag = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_EditorFlag_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_EditorFlag_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Old Editor Flag *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_EditorFlag = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_EditorFlag->SetToolTip("Was related to sprite editor?");
+    Graphics_4_Holder = new wxBoxSizer(wxHORIZONTAL);
+    Graphics_5_Holder = new wxBoxSizer(wxHORIZONTAL);
+    Graphics_1_Grid = new wxBoxSizer(wxHORIZONTAL);
+    Graphics_2_Grid = new wxBoxSizer(wxHORIZONTAL);
+    Graphics_3_Grid = new wxBoxSizer(wxHORIZONTAL);
+    Graphics_Unknowns_Grid = new wxBoxSizer(wxHORIZONTAL);
 
-	Graphics_Deltas = new wxBoxSizer(wxVERTICAL);
-	Graphics_Deltas_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
-	Graphics_Deltas_Search_R = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
-	Graphics_Deltas_ListV = new AGEListView(Graphics_Scroller, wxSize(140, 140));
-	Graphics_Deltas_Buttons = new wxGridSizer(3, 0, 0);
-	Deltas_Add = new wxButton(Graphics_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
-	Deltas_Insert = new wxButton(Graphics_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
-	Deltas_Delete = new wxButton(Graphics_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
-	Deltas_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
-	Deltas_Paste = new wxButton(Graphics_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
-	Deltas_PasteInsert = new wxButton(Graphics_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
-	Deltas_CopyToGraphics = new wxButton(Graphics_Scroller, wxID_ANY, "Copy all to selected graphics", wxDefaultPosition, wxSize(10, -1));
-	GraphicDeltas_GraphicID_Holder = new wxBoxSizer(wxVERTICAL);
-	GraphicDeltas_GraphicID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Graphic", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	GraphicDeltas_GraphicID = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
-	GraphicDeltas_GraphicID_ComboBox = new ComboBox_Plus1(Graphics_Scroller, GraphicDeltas_GraphicID);
-	GraphicComboBoxList.push_back(GraphicDeltas_GraphicID_ComboBox);
-	GraphicDeltas_DirectionX_Holder = new wxBoxSizer(wxVERTICAL);
-	GraphicDeltas_DirectionX_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Direction X", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	GraphicDeltas_DirectionX = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
-	GraphicDeltas_DirectionY_Holder = new wxBoxSizer(wxVERTICAL);
-	GraphicDeltas_DirectionY_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Direction Y", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	GraphicDeltas_DirectionY = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
-	GraphicDeltas_DisplayAngle_Holder = new wxBoxSizer(wxVERTICAL);
-	GraphicDeltas_DisplayAngle_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Display Angle *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	GraphicDeltas_DisplayAngle = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
-	GraphicDeltas_DisplayAngle->SetToolTip("The angle where this delta will be displayed.\nAngle 0 is always east. Angles increase clocwise."
+    Graphics_Deltas = new wxBoxSizer(wxVERTICAL);
+    Graphics_Deltas_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
+    Graphics_Deltas_Search_R = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
+    Graphics_Deltas_ListV = new AGEListView(Graphics_Scroller, wxSize(140, 140));
+    Graphics_Deltas_Buttons = new wxGridSizer(3, 0, 0);
+    Deltas_Add = new wxButton(Graphics_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+    Deltas_Insert = new wxButton(Graphics_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
+    Deltas_Delete = new wxButton(Graphics_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+    Deltas_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+    Deltas_Paste = new wxButton(Graphics_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+    Deltas_PasteInsert = new wxButton(Graphics_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
+    Deltas_CopyToGraphics = new wxButton(Graphics_Scroller, wxID_ANY, "Copy all to selected graphics", wxDefaultPosition, wxSize(10, -1));
+    GraphicDeltas_GraphicID_Holder = new wxBoxSizer(wxVERTICAL);
+    GraphicDeltas_GraphicID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Graphic", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_GraphicID = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
+    GraphicDeltas_GraphicID_ComboBox = new ComboBox_Plus1(Graphics_Scroller, GraphicDeltas_GraphicID);
+    GraphicComboBoxList.push_back(GraphicDeltas_GraphicID_ComboBox);
+    GraphicDeltas_DirectionX_Holder = new wxBoxSizer(wxVERTICAL);
+    GraphicDeltas_DirectionX_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Direction X", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_DirectionX = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
+    GraphicDeltas_DirectionY_Holder = new wxBoxSizer(wxVERTICAL);
+    GraphicDeltas_DirectionY_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Direction Y", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_DirectionY = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
+    GraphicDeltas_DisplayAngle_Holder = new wxBoxSizer(wxVERTICAL);
+    GraphicDeltas_DisplayAngle_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Display Angle *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_DisplayAngle = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
+    GraphicDeltas_DisplayAngle->SetToolTip("The angle where this delta will be displayed.\nAngle 0 is always east. Angles increase clocwise."
     "In a graphic with 8 angles, 0 would mean east, 1 south-east, 2 south,\n3 south-west, 4 west, 5 north-west, 6 north, 7 north-east.\n");
-	GraphicDeltas_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-	GraphicDeltas_Unknown1_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	GraphicDeltas_Unknown1 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
-	GraphicDeltas_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
-	GraphicDeltas_Unknown2_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sprite Pointer", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	GraphicDeltas_Unknown2 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
-	GraphicDeltas_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
-	GraphicDeltas_Unknown3_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " (Sprite Pointer)", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	GraphicDeltas_Unknown3 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
-	GraphicDeltas_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
-	GraphicDeltas_Unknown5_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	GraphicDeltas_Unknown5 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
+    GraphicDeltas_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
+    GraphicDeltas_Unknown1_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_Unknown1 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
+    GraphicDeltas_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
+    GraphicDeltas_Unknown2_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sprite Pointer", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_Unknown2 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
+    GraphicDeltas_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
+    GraphicDeltas_Unknown3_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " (Sprite Pointer)", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_Unknown3 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
+    GraphicDeltas_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
+    GraphicDeltas_Unknown5_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_Unknown5 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
 
-	Graphics_AngleCount_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_AngleCount_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Angle Count *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_AngleCount = AGETextCtrl::init(CUShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_AngleCount->SetToolTip("The number of directions that a unit/ship faces");
-	Graphics_AttackSoundUsed_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_AttackSoundUsed1_Holder = new wxBoxSizer(wxHORIZONTAL);
-	Graphics_AttackSoundUsed_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Attack Sound Used", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_AttackSoundUsed = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-	Graphics_AttackSoundUsed_CheckBox = new CheckBox_2State(Graphics_Scroller, "Used", Graphics_AttackSoundUsed);
-	Graphics_AttackSounds = new wxBoxSizer(wxVERTICAL);
-	Graphics_AttackSounds_ListV = new AGEListView(Graphics_Scroller, wxSize(140, 140));
-	AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy to all", wxDefaultPosition, wxSize(10, -1));
-	AttackSounds_CopyToGraphics = new wxButton(Graphics_Scroller, wxID_ANY, "Copy all to selected graphics", wxDefaultPosition, wxSize(10, -1));
-	Graphics_AttackSounds_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_AttackSounds_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	Graphics_AttackSoundDelays_Holder = new wxBoxSizer(wxVERTICAL);
-	Graphics_AttackSoundDelays_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound Delay", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-	for(size_t loop = 0; loop < 3; ++loop)
-	{
-		Graphics_AttackSoundID[loop] = AGETextCtrl::init(CShort, &uiGroupGraphicSound, this, &popUp, Graphics_Scroller);
-		Graphics_AttackSoundID_ComboBox[loop] = new ComboBox_Plus1(Graphics_Scroller, Graphics_AttackSoundID[loop]);
-		SoundComboBoxList.push_back(Graphics_AttackSoundID_ComboBox[loop]);
-		Graphics_AttackSoundDelay[loop] = AGETextCtrl::init(CShort, &uiGroupGraphicSound, this, &popUp, Graphics_Scroller);
-	}
+    Graphics_AngleCount_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_AngleCount_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Angle Count *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_AngleCount = AGETextCtrl::init(CUShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_AngleCount->SetToolTip("The number of directions that a unit/ship faces");
+    Graphics_AttackSoundUsed_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_AttackSoundUsed1_Holder = new wxBoxSizer(wxHORIZONTAL);
+    Graphics_AttackSoundUsed_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Attack Sound Used", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_AttackSoundUsed = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
+    Graphics_AttackSoundUsed_CheckBox = new CheckBox_2State(Graphics_Scroller, "Used", Graphics_AttackSoundUsed);
+    Graphics_AttackSounds = new wxBoxSizer(wxVERTICAL);
+    Graphics_AttackSounds_ListV = new AGEListView(Graphics_Scroller, wxSize(140, 140));
+    AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy to all", wxDefaultPosition, wxSize(10, -1));
+    AttackSounds_CopyToGraphics = new wxButton(Graphics_Scroller, wxID_ANY, "Copy all to selected graphics", wxDefaultPosition, wxSize(10, -1));
+    Graphics_AttackSounds_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_AttackSounds_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_AttackSoundDelays_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_AttackSoundDelays_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound Delay", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    for(size_t loop = 0; loop < 3; ++loop)
+    {
+        Graphics_AttackSoundID[loop] = AGETextCtrl::init(CShort, &uiGroupGraphicSound, this, &popUp, Graphics_Scroller);
+        Graphics_AttackSoundID_ComboBox[loop] = new ComboBox_Plus1(Graphics_Scroller, Graphics_AttackSoundID[loop]);
+        SoundComboBoxList.push_back(Graphics_AttackSoundID_ComboBox[loop]);
+        Graphics_AttackSoundDelay[loop] = AGETextCtrl::init(CShort, &uiGroupGraphicSound, this, &popUp, Graphics_Scroller);
+    }
 
     Graphics_Deltas_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Graphics_Scroller, "Deltas");
     Graphics_Deltas_Holder_Data = new wxBoxSizer(wxVERTICAL);
@@ -1107,104 +1107,104 @@ void AGE_Frame::CreateGraphicsControls()
     Deltas_Unknowns_Holder = new wxBoxSizer(wxHORIZONTAL);
     Graphics_AttackSoundArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Graphics_Scroller, "Attack Sounds");
 
-	for(size_t loop = 0; loop < 2; ++loop)
-	{
-		Graphics_SearchFilters[loop]->Append("Internal Name");	// 0
-		Graphics_SearchFilters[loop]->Append("SLP Name");
-		Graphics_SearchFilters[loop]->Append("SLP");
-		Graphics_SearchFilters[loop]->Append("Disabler");
-		Graphics_SearchFilters[loop]->Append("Old Color Flag");
-		Graphics_SearchFilters[loop]->Append("Layer");
-		Graphics_SearchFilters[loop]->Append("Player Color Forcer");
-		Graphics_SearchFilters[loop]->Append("Transparent Picking");
-		Graphics_SearchFilters[loop]->Append("Sound");
-		Graphics_SearchFilters[loop]->Append("Coordinates");
-		Graphics_SearchFilters[loop]->Append("Delta Count");
-		Graphics_SearchFilters[loop]->Append("Attack Sound Used");
-		Graphics_SearchFilters[loop]->Append("Frames per Angle");
-		Graphics_SearchFilters[loop]->Append("Angle Count");
-		Graphics_SearchFilters[loop]->Append("New Speed");
-		Graphics_SearchFilters[loop]->Append("Frame Duration");
-		Graphics_SearchFilters[loop]->Append("Replay Delay");
-		Graphics_SearchFilters[loop]->Append("Sequence Type");
-		Graphics_SearchFilters[loop]->Append("Mirroring Mode");
-		Graphics_SearchFilters[loop]->Append("Old Editor Flag");
-		Graphics_SearchFilters[loop]->Append("Pointer");
-		Graphics_SearchFilters[loop]->SetSelection(0);
-	}
+    for(size_t loop = 0; loop < 2; ++loop)
+    {
+        Graphics_SearchFilters[loop]->Append("Internal Name");  // 0
+        Graphics_SearchFilters[loop]->Append("SLP Name");
+        Graphics_SearchFilters[loop]->Append("SLP");
+        Graphics_SearchFilters[loop]->Append("Disabler");
+        Graphics_SearchFilters[loop]->Append("Old Color Flag");
+        Graphics_SearchFilters[loop]->Append("Layer");
+        Graphics_SearchFilters[loop]->Append("Player Color Forcer");
+        Graphics_SearchFilters[loop]->Append("Transparent Picking");
+        Graphics_SearchFilters[loop]->Append("Sound");
+        Graphics_SearchFilters[loop]->Append("Coordinates");
+        Graphics_SearchFilters[loop]->Append("Delta Count");
+        Graphics_SearchFilters[loop]->Append("Attack Sound Used");
+        Graphics_SearchFilters[loop]->Append("Frames per Angle");
+        Graphics_SearchFilters[loop]->Append("Angle Count");
+        Graphics_SearchFilters[loop]->Append("New Speed");
+        Graphics_SearchFilters[loop]->Append("Frame Duration");
+        Graphics_SearchFilters[loop]->Append("Replay Delay");
+        Graphics_SearchFilters[loop]->Append("Sequence Type");
+        Graphics_SearchFilters[loop]->Append("Mirroring Mode");
+        Graphics_SearchFilters[loop]->Append("Old Editor Flag");
+        Graphics_SearchFilters[loop]->Append("Pointer");
+        Graphics_SearchFilters[loop]->SetSelection(0);
+    }
 
-	Graphics_Graphics_Buttons->Add(Graphics_Add, 1, wxEXPAND);
-	Graphics_Graphics_Buttons->Add(Graphics_Delete, 1, wxEXPAND);
-	Graphics_Graphics_Buttons->Add(Graphics_Insert, 1, wxEXPAND);
-	Graphics_Graphics_Buttons->Add(Graphics_Copy, 1, wxEXPAND);
-	Graphics_Graphics_Buttons->Add(Graphics_Paste, 1, wxEXPAND);
-	Graphics_Graphics_Buttons->Add(Graphics_PasteInsert, 1, wxEXPAND);
-	Graphics_Graphics_Buttons->Add(Graphics_Enable, 1, wxEXPAND);
-	Graphics_Graphics_Buttons->Add(Graphics_Disable, 1, wxEXPAND);
+    Graphics_Graphics_Buttons->Add(Graphics_Add, 1, wxEXPAND);
+    Graphics_Graphics_Buttons->Add(Graphics_Delete, 1, wxEXPAND);
+    Graphics_Graphics_Buttons->Add(Graphics_Insert, 1, wxEXPAND);
+    Graphics_Graphics_Buttons->Add(Graphics_Copy, 1, wxEXPAND);
+    Graphics_Graphics_Buttons->Add(Graphics_Paste, 1, wxEXPAND);
+    Graphics_Graphics_Buttons->Add(Graphics_PasteInsert, 1, wxEXPAND);
+    Graphics_Graphics_Buttons->Add(Graphics_Enable, 1, wxEXPAND);
+    Graphics_Graphics_Buttons->Add(Graphics_Disable, 1, wxEXPAND);
 
-	Graphics_Graphics_Searches[0]->Add(Graphics_Graphics_Search, 1, wxEXPAND);
-	Graphics_Graphics_Searches[0]->Add(Graphics_Graphics_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
-	Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_Search_R, 1, wxEXPAND);
-	Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
-	for(size_t loop = 0; loop < 2; ++loop)
-	Graphics_Graphics->Add(Graphics_Graphics_Searches[loop], 0, wxEXPAND);
-	for(size_t loop = 0; loop < 2; ++loop)
-	Graphics_Graphics->Add(Graphics_SearchFilters[loop], 0, wxEXPAND);
-	Graphics_Graphics->Add(Graphics_Graphics_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
-	Graphics_Graphics->Add(Graphics_Graphics_Buttons, 0, wxEXPAND);
+    Graphics_Graphics_Searches[0]->Add(Graphics_Graphics_Search, 1, wxEXPAND);
+    Graphics_Graphics_Searches[0]->Add(Graphics_Graphics_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
+    Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_Search_R, 1, wxEXPAND);
+    Graphics_Graphics_Searches[1]->Add(Graphics_Graphics_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
+    for(size_t loop = 0; loop < 2; ++loop)
+    Graphics_Graphics->Add(Graphics_Graphics_Searches[loop], 0, wxEXPAND);
+    for(size_t loop = 0; loop < 2; ++loop)
+    Graphics_Graphics->Add(Graphics_SearchFilters[loop], 0, wxEXPAND);
+    Graphics_Graphics->Add(Graphics_Graphics_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+    Graphics_Graphics->Add(Graphics_Graphics_Buttons, 0, wxEXPAND);
 
-	Graphics_Name_Holder->Add(Graphics_Name_Text);
-	Graphics_Name_Holder->Add(Graphics_Name, 0, wxEXPAND);
-	Graphics_Name2_Holder->Add(Graphics_Name2_Text);
-	Graphics_Name2_Holder->Add(Graphics_Name2, 0, wxEXPAND);
-	Graphics_ID_Holder->Add(Graphics_ID_Text);
-	Graphics_ID_Holder->Add(Graphics_ID, 0, wxEXPAND);
-	Graphics_Loaded_Holder->Add(Graphics_Loaded_Text);
-	Graphics_Loaded_Holder->Add(Graphics_Loaded, 0, wxEXPAND);
-	Graphics_ColorFlag_Holder->Add(Graphics_ColorFlag_Text);
-	Graphics_ColorFlag_Holder->Add(Graphics_ColorFlag, 0, wxEXPAND);
-	Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor_Text);
-	Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor, 0, wxEXPAND);
-	Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor_ComboBox);
-	Graphics_Rainbow_Holder->Add(Graphics_Rainbow_Text);
-	Graphics_Rainbow_Holder->Add(Graphics_Rainbow, 0, wxEXPAND);
-	for(size_t loop = 0; loop < 4; ++loop)
-	Graphics_CoordinateGrid_Holder->Add(Graphics_Coordinates[loop]);
-	Graphics_Coordinates_Holder->Add(Graphics_Coordinates_Text);
-	Graphics_Coordinates_Holder->Add(Graphics_CoordinateGrid_Holder);
-	Graphics_NewSpeed_Holder->Add(Graphics_NewSpeed_Text);
-	Graphics_NewSpeed_Holder->Add(Graphics_NewSpeed, 0, wxEXPAND);
-	Graphics_SLP_Holder->Add(Graphics_SLP_Text);
-	Graphics_SLP_Holder->Add(Graphics_SLP, 0, wxEXPAND);
-	Graphics_FrameType_Holder->Add(Graphics_FrameType_Text);
-	Graphics_FrameType_Holder->Add(Graphics_FrameType, 0, wxEXPAND);
-	Graphics_TransparentPicking_Holder->Add(Graphics_TransparentPicking_Text);
-	Graphics_TransparentPicking_Holder->Add(Graphics_TransparentPicking, 0, wxEXPAND);
-	Graphics_SoundID_Holder->Add(Graphics_SoundID_Text);
-	Graphics_SoundID_Holder->Add(Graphics_SoundID, 0, wxEXPAND);
-	Graphics_SoundID_Holder->Add(Graphics_SoundID_ComboBox);
-	Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed, 0, wxEXPAND);
-	Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed_CheckBox, 0, wxLEFT, 2);
-	Graphics_AttackSoundUsed_Holder->Add(Graphics_AttackSoundUsed_Text);
-	Graphics_AttackSoundUsed_Holder->Add(Graphics_AttackSoundUsed1_Holder, 0, wxEXPAND);
-	Graphics_FrameCount_Holder->Add(Graphics_FrameCount_Text);
-	Graphics_FrameCount_Holder->Add(Graphics_FrameCount, 0, wxEXPAND);
-	Graphics_AngleCount_Holder->Add(Graphics_AngleCount_Text);
-	Graphics_AngleCount_Holder->Add(Graphics_AngleCount, 0, wxEXPAND);
-	Graphics_FrameDuration_Holder->Add(Graphics_FrameDuration_Text);
-	Graphics_FrameDuration_Holder->Add(Graphics_FrameDuration, 0, wxEXPAND);
-	Graphics_ReplayDelay_Holder->Add(Graphics_ReplayDelay_Text);
-	Graphics_ReplayDelay_Holder->Add(Graphics_ReplayDelay, 0, wxEXPAND);
-	Graphics_SequenceType_Holder->Add(Graphics_SequenceType_Text);
-	Graphics_SequenceType_Holder->Add(Graphics_SequenceType, 0, wxEXPAND);
-	Graphics_Type_Holder->Add(Graphics_Type_Text);
-	Graphics_Type_Holder->Add(Graphics_MirroringMode, 0, wxEXPAND);
-	Graphics_EditorFlag_Holder->Add(Graphics_EditorFlag_Text);
-	Graphics_EditorFlag_Holder->Add(Graphics_EditorFlag, 0, wxEXPAND);
+    Graphics_Name_Holder->Add(Graphics_Name_Text);
+    Graphics_Name_Holder->Add(Graphics_Name, 0, wxEXPAND);
+    Graphics_Name2_Holder->Add(Graphics_Name2_Text);
+    Graphics_Name2_Holder->Add(Graphics_Name2, 0, wxEXPAND);
+    Graphics_ID_Holder->Add(Graphics_ID_Text);
+    Graphics_ID_Holder->Add(Graphics_ID, 0, wxEXPAND);
+    Graphics_Loaded_Holder->Add(Graphics_Loaded_Text);
+    Graphics_Loaded_Holder->Add(Graphics_Loaded, 0, wxEXPAND);
+    Graphics_ColorFlag_Holder->Add(Graphics_ColorFlag_Text);
+    Graphics_ColorFlag_Holder->Add(Graphics_ColorFlag, 0, wxEXPAND);
+    Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor_Text);
+    Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor, 0, wxEXPAND);
+    Graphics_PlayerColor_Holder->Add(Graphics_PlayerColor_ComboBox);
+    Graphics_Rainbow_Holder->Add(Graphics_Rainbow_Text);
+    Graphics_Rainbow_Holder->Add(Graphics_Rainbow, 0, wxEXPAND);
+    for(size_t loop = 0; loop < 4; ++loop)
+    Graphics_CoordinateGrid_Holder->Add(Graphics_Coordinates[loop]);
+    Graphics_Coordinates_Holder->Add(Graphics_Coordinates_Text);
+    Graphics_Coordinates_Holder->Add(Graphics_CoordinateGrid_Holder);
+    Graphics_NewSpeed_Holder->Add(Graphics_NewSpeed_Text);
+    Graphics_NewSpeed_Holder->Add(Graphics_NewSpeed, 0, wxEXPAND);
+    Graphics_SLP_Holder->Add(Graphics_SLP_Text);
+    Graphics_SLP_Holder->Add(Graphics_SLP, 0, wxEXPAND);
+    Graphics_FrameType_Holder->Add(Graphics_FrameType_Text);
+    Graphics_FrameType_Holder->Add(Graphics_FrameType, 0, wxEXPAND);
+    Graphics_TransparentPicking_Holder->Add(Graphics_TransparentPicking_Text);
+    Graphics_TransparentPicking_Holder->Add(Graphics_TransparentPicking, 0, wxEXPAND);
+    Graphics_SoundID_Holder->Add(Graphics_SoundID_Text);
+    Graphics_SoundID_Holder->Add(Graphics_SoundID, 0, wxEXPAND);
+    Graphics_SoundID_Holder->Add(Graphics_SoundID_ComboBox);
+    Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed, 0, wxEXPAND);
+    Graphics_AttackSoundUsed1_Holder->Add(Graphics_AttackSoundUsed_CheckBox, 0, wxLEFT, 2);
+    Graphics_AttackSoundUsed_Holder->Add(Graphics_AttackSoundUsed_Text);
+    Graphics_AttackSoundUsed_Holder->Add(Graphics_AttackSoundUsed1_Holder, 0, wxEXPAND);
+    Graphics_FrameCount_Holder->Add(Graphics_FrameCount_Text);
+    Graphics_FrameCount_Holder->Add(Graphics_FrameCount, 0, wxEXPAND);
+    Graphics_AngleCount_Holder->Add(Graphics_AngleCount_Text);
+    Graphics_AngleCount_Holder->Add(Graphics_AngleCount, 0, wxEXPAND);
+    Graphics_FrameDuration_Holder->Add(Graphics_FrameDuration_Text);
+    Graphics_FrameDuration_Holder->Add(Graphics_FrameDuration, 0, wxEXPAND);
+    Graphics_ReplayDelay_Holder->Add(Graphics_ReplayDelay_Text);
+    Graphics_ReplayDelay_Holder->Add(Graphics_ReplayDelay, 0, wxEXPAND);
+    Graphics_SequenceType_Holder->Add(Graphics_SequenceType_Text);
+    Graphics_SequenceType_Holder->Add(Graphics_SequenceType, 0, wxEXPAND);
+    Graphics_Type_Holder->Add(Graphics_Type_Text);
+    Graphics_Type_Holder->Add(Graphics_MirroringMode, 0, wxEXPAND);
+    Graphics_EditorFlag_Holder->Add(Graphics_EditorFlag_Text);
+    Graphics_EditorFlag_Holder->Add(Graphics_EditorFlag, 0, wxEXPAND);
 
-	Graphics_NameArea_Holder->Add(Graphics_Name_Holder);
-	Graphics_NameArea_Holder->Add(Graphics_Name2_Holder, 0, wxLEFT, 5);
-	Graphics_NameArea_Holder->Add(Graphics_ID_Holder, 0, wxLEFT, 5);
+    Graphics_NameArea_Holder->Add(Graphics_Name_Holder);
+    Graphics_NameArea_Holder->Add(Graphics_Name2_Holder, 0, wxLEFT, 5);
+    Graphics_NameArea_Holder->Add(Graphics_ID_Holder, 0, wxLEFT, 5);
 
     Graphics_1_Grid->Add(Graphics_SLP_Holder);
     Graphics_1_Grid->Add(Graphics_FrameType_Holder, 0, wxLEFT, 5);
@@ -1224,36 +1224,36 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_Unknowns_Grid->Add(Graphics_ColorFlag_Holder, 0, wxLEFT, 5);
     Graphics_Unknowns_Grid->Add(Graphics_EditorFlag_Holder, 0, wxLEFT, 5);
 
-	Graphics_Deltas_Buttons->Add(Deltas_Add, 1, wxEXPAND);
-	Graphics_Deltas_Buttons->Add(Deltas_Delete, 1, wxEXPAND);
-	Graphics_Deltas_Buttons->Add(Deltas_Insert, 1, wxEXPAND);
-	Graphics_Deltas_Buttons->Add(Deltas_Copy, 1, wxEXPAND);
-	Graphics_Deltas_Buttons->Add(Deltas_Paste, 1, wxEXPAND);
-	Graphics_Deltas_Buttons->Add(Deltas_PasteInsert, 1, wxEXPAND);
+    Graphics_Deltas_Buttons->Add(Deltas_Add, 1, wxEXPAND);
+    Graphics_Deltas_Buttons->Add(Deltas_Delete, 1, wxEXPAND);
+    Graphics_Deltas_Buttons->Add(Deltas_Insert, 1, wxEXPAND);
+    Graphics_Deltas_Buttons->Add(Deltas_Copy, 1, wxEXPAND);
+    Graphics_Deltas_Buttons->Add(Deltas_Paste, 1, wxEXPAND);
+    Graphics_Deltas_Buttons->Add(Deltas_PasteInsert, 1, wxEXPAND);
 
-	Graphics_Deltas->Add(Graphics_Deltas_Search, 0, wxEXPAND);
-	Graphics_Deltas->Add(Graphics_Deltas_Search_R, 0, wxEXPAND);
-	Graphics_Deltas->Add(Graphics_Deltas_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
-	Graphics_Deltas->Add(Graphics_Deltas_Buttons, 0, wxEXPAND);
-	Graphics_Deltas->Add(Deltas_CopyToGraphics, 0, wxEXPAND | wxTOP, 2);
+    Graphics_Deltas->Add(Graphics_Deltas_Search, 0, wxEXPAND);
+    Graphics_Deltas->Add(Graphics_Deltas_Search_R, 0, wxEXPAND);
+    Graphics_Deltas->Add(Graphics_Deltas_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+    Graphics_Deltas->Add(Graphics_Deltas_Buttons, 0, wxEXPAND);
+    Graphics_Deltas->Add(Deltas_CopyToGraphics, 0, wxEXPAND | wxTOP, 2);
 
-	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID_Text);
-	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID, 0, wxEXPAND);
-	GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID_ComboBox);
-	GraphicDeltas_Unknown1_Holder->Add(GraphicDeltas_Unknown1_Text);
-	GraphicDeltas_Unknown1_Holder->Add(GraphicDeltas_Unknown1, 0, wxEXPAND);
-	GraphicDeltas_Unknown2_Holder->Add(GraphicDeltas_Unknown2_Text);
-	GraphicDeltas_Unknown2_Holder->Add(GraphicDeltas_Unknown2, 0, wxEXPAND);
-	GraphicDeltas_Unknown3_Holder->Add(GraphicDeltas_Unknown3_Text);
-	GraphicDeltas_Unknown3_Holder->Add(GraphicDeltas_Unknown3, 0, wxEXPAND);
-	GraphicDeltas_DirectionX_Holder->Add(GraphicDeltas_DirectionX_Text);
-	GraphicDeltas_DirectionX_Holder->Add(GraphicDeltas_DirectionX, 0, wxEXPAND);
-	GraphicDeltas_DirectionY_Holder->Add(GraphicDeltas_DirectionY_Text);
-	GraphicDeltas_DirectionY_Holder->Add(GraphicDeltas_DirectionY, 0, wxEXPAND);
-	GraphicDeltas_DisplayAngle_Holder->Add(GraphicDeltas_DisplayAngle_Text);
-	GraphicDeltas_DisplayAngle_Holder->Add(GraphicDeltas_DisplayAngle, 0, wxEXPAND);
-	GraphicDeltas_Unknown5_Holder->Add(GraphicDeltas_Unknown5_Text);
-	GraphicDeltas_Unknown5_Holder->Add(GraphicDeltas_Unknown5, 0, wxEXPAND);
+    GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID_Text);
+    GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID, 0, wxEXPAND);
+    GraphicDeltas_GraphicID_Holder->Add(GraphicDeltas_GraphicID_ComboBox);
+    GraphicDeltas_Unknown1_Holder->Add(GraphicDeltas_Unknown1_Text);
+    GraphicDeltas_Unknown1_Holder->Add(GraphicDeltas_Unknown1, 0, wxEXPAND);
+    GraphicDeltas_Unknown2_Holder->Add(GraphicDeltas_Unknown2_Text);
+    GraphicDeltas_Unknown2_Holder->Add(GraphicDeltas_Unknown2, 0, wxEXPAND);
+    GraphicDeltas_Unknown3_Holder->Add(GraphicDeltas_Unknown3_Text);
+    GraphicDeltas_Unknown3_Holder->Add(GraphicDeltas_Unknown3, 0, wxEXPAND);
+    GraphicDeltas_DirectionX_Holder->Add(GraphicDeltas_DirectionX_Text);
+    GraphicDeltas_DirectionX_Holder->Add(GraphicDeltas_DirectionX, 0, wxEXPAND);
+    GraphicDeltas_DirectionY_Holder->Add(GraphicDeltas_DirectionY_Text);
+    GraphicDeltas_DirectionY_Holder->Add(GraphicDeltas_DirectionY, 0, wxEXPAND);
+    GraphicDeltas_DisplayAngle_Holder->Add(GraphicDeltas_DisplayAngle_Text);
+    GraphicDeltas_DisplayAngle_Holder->Add(GraphicDeltas_DisplayAngle, 0, wxEXPAND);
+    GraphicDeltas_Unknown5_Holder->Add(GraphicDeltas_Unknown5_Text);
+    GraphicDeltas_Unknown5_Holder->Add(GraphicDeltas_Unknown5, 0, wxEXPAND);
 
     Deltas_Holder->Add(GraphicDeltas_GraphicID_Holder);
     Deltas_Holder->Add(GraphicDeltas_DirectionX_Holder, 0, wxLEFT, 5);
@@ -1269,9 +1269,9 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_Deltas_Holder->Add(Graphics_Deltas, 1, wxEXPAND);
     Graphics_Deltas_Holder->Add(Graphics_Deltas_Holder_Data, 3, wxEXPAND | wxLEFT, 5);
 
-	Graphics_AttackSounds->Add(Graphics_AttackSounds_ListV, 1, wxEXPAND | wxBOTTOM, 2);
-	Graphics_AttackSounds->Add(AttackSounds_Copy, 0, wxEXPAND);
-	Graphics_AttackSounds->Add(AttackSounds_CopyToGraphics, 0, wxEXPAND | wxTOP, 2);
+    Graphics_AttackSounds->Add(Graphics_AttackSounds_ListV, 1, wxEXPAND | wxBOTTOM, 2);
+    Graphics_AttackSounds->Add(AttackSounds_Copy, 0, wxEXPAND);
+    Graphics_AttackSounds->Add(AttackSounds_CopyToGraphics, 0, wxEXPAND | wxTOP, 2);
 
     Graphics_AttackSounds_Holder->Add(Graphics_AttackSounds_Text);
     Graphics_AttackSoundDelays_Holder->Add(Graphics_AttackSoundDelays_Text);
@@ -1301,127 +1301,127 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_ScrollSpace->Add(Graphics_4_Holder, 0, wxTOP, 5);
     Graphics_ScrollSpace->Add(Graphics_AttackSoundArea_Holder, 0, wxEXPAND | wxTOP, 5);
 
-	Graphics_Scroller->SetSizer(Graphics_ScrollSpace);
-	Graphics_Scroller->SetScrollRate(0, 15);
+    Graphics_Scroller->SetSizer(Graphics_ScrollSpace);
+    Graphics_Scroller->SetScrollRate(0, 15);
 
-	Graphics_Main->Add(Graphics_Graphics, 21, wxEXPAND | wxALL, 5);
-	Graphics_Main->Add(Graphics_Scroller, 65, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);
+    Graphics_Main->Add(Graphics_Graphics, 21, wxEXPAND | wxALL, 5);
+    Graphics_Main->Add(Graphics_Scroller, 65, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);
 
-	if(EnableIDFix)
-	Graphics_ID->Enable(false);
+    if(EnableIDFix)
+    Graphics_ID->Enable(false);
 
-	Tab_Graphics->SetSizer(Graphics_Main);
+    Tab_Graphics->SetSizer(Graphics_Main);
 
-	Connect(Graphics_Graphics_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
-	Connect(Graphics_Graphics_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
-	for(size_t loop = 0; loop < 2; ++loop)
-	{
-		Connect(Graphics_Graphics_UseAnd[loop]->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsSearch));
-		Connect(Graphics_SearchFilters[loop]->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnSelection_SearchFilters));
-	}
-	Connect(Graphics_Graphics_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicsSelect)); // LMB
-	Connect(Graphics_Graphics_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicsSelect)); // CTRL
-	Connect(Graphics_Graphics_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnGraphicsSelect)); // SHIFT
-	Connect(Graphics_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsAdd));
-	Connect(Graphics_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsInsert));
-	Connect(Graphics_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsDelete));
-	Connect(Graphics_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsCopy));
-	Connect(Graphics_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsPaste));
-	Connect(Graphics_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsPasteInsert));
-	Connect(Graphics_Enable->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsEnable));
-	Connect(Graphics_Disable->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicsDisable));
-	Connect(Graphics_Deltas_Search->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasSearch));
-	Connect(Graphics_Deltas_Search_R->GetId(), wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasSearch));
-	Connect(Graphics_Deltas_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasSelect));
-	Connect(Graphics_Deltas_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasSelect));
-	Connect(Graphics_Deltas_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasSelect));
-	Connect(Deltas_Add->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasAdd));
-	Connect(Deltas_Insert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasInsert));
-	Connect(Deltas_Delete->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasDelete));
-	Connect(Deltas_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasCopy));
-	Connect(Deltas_Paste->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasPaste));
-	Connect(Deltas_PasteInsert->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasPasteInsert));
-	Connect(Deltas_CopyToGraphics->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicDeltasCopyToGraphics));
-	Connect(Graphics_AttackSounds_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_SELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsSelect));
-	Connect(Graphics_AttackSounds_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_DESELECTED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsSelect));
-	Connect(Graphics_AttackSounds_ListV->GetId(), wxEVT_COMMAND_LIST_ITEM_FOCUSED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsSelect));
-	Connect(AttackSounds_Copy->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsCopy));
-	Connect(AttackSounds_CopyToGraphics->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnGraphicAttackSoundsCopyToGraphics));
+    Graphics_Graphics_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnGraphicsSearch, this);
+    Graphics_Graphics_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnGraphicsSearch, this);
+    for(size_t loop = 0; loop < 2; ++loop)
+    {
+        Graphics_Graphics_UseAnd[loop]->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnGraphicsSearch, this);
+        Graphics_SearchFilters[loop]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnSelection_SearchFilters, this);
+    }
+    Graphics_Graphics_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnGraphicsSelect, this); // LMB
+    Graphics_Graphics_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnGraphicsSelect, this); // CTRL
+    Graphics_Graphics_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnGraphicsSelect, this); // SHIFT
+    Graphics_Add->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicsAdd, this);
+    Graphics_Insert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicsInsert, this);
+    Graphics_Delete->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicsDelete, this);
+    Graphics_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicsCopy, this);
+    Graphics_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicsPaste, this);
+    Graphics_PasteInsert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicsPasteInsert, this);
+    Graphics_Enable->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicsEnable, this);
+    Graphics_Disable->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicsDisable, this);
+    Graphics_Deltas_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnGraphicDeltasSearch, this);
+    Graphics_Deltas_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnGraphicDeltasSearch, this);
+    Graphics_Deltas_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnGraphicDeltasSelect, this);
+    Graphics_Deltas_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnGraphicDeltasSelect, this);
+    Graphics_Deltas_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnGraphicDeltasSelect, this);
+    Deltas_Add->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicDeltasAdd, this);
+    Deltas_Insert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicDeltasInsert, this);
+    Deltas_Delete->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicDeltasDelete, this);
+    Deltas_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicDeltasCopy, this);
+    Deltas_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicDeltasPaste, this);
+    Deltas_PasteInsert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicDeltasPasteInsert, this);
+    Deltas_CopyToGraphics->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicDeltasCopyToGraphics, this);
+    Graphics_AttackSounds_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnGraphicAttackSoundsSelect, this);
+    Graphics_AttackSounds_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnGraphicAttackSoundsSelect, this);
+    Graphics_AttackSounds_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnGraphicAttackSoundsSelect, this);
+    AttackSounds_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicAttackSoundsCopy, this);
+    AttackSounds_CopyToGraphics->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnGraphicAttackSoundsCopyToGraphics, this);
 
-    graphicTimer.Connect(graphicTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnGraphicsTimer), NULL, this);
-    deltaTimer.Connect(deltaTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnGraphicDeltasTimer), NULL, this);
-    graphicSoundTimer.Connect(graphicSoundTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnGraphicAttackSoundsTimer), NULL, this);
-	Graphics_Name->Connect(Graphics_Name->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
-	Graphics_Name2->Connect(Graphics_Name2->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
-	GraphicDeltas_GraphicID->Connect(GraphicDeltas_GraphicID->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
-	GraphicDeltas_GraphicID_ComboBox->Connect(GraphicDeltas_GraphicID_ComboBox->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnUpdateCombo_Graphics), NULL, this);
-	Graphics_AngleCount->Connect(Graphics_AngleCount->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
-	Graphics_AttackSoundUsed->Connect(Graphics_AttackSoundUsed->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
-	Graphics_AttackSoundUsed_CheckBox->Connect(Graphics_AttackSoundUsed_CheckBox->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnUpdateCheck_Graphics), NULL, this);
+    graphicTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnGraphicsTimer, this);
+    deltaTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnGraphicDeltasTimer, this);
+    graphicSoundTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnGraphicAttackSoundsTimer, this);
+    Graphics_Name->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
+    Graphics_Name2->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
+    GraphicDeltas_GraphicID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
+    GraphicDeltas_GraphicID_ComboBox->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Graphics, this);
+    Graphics_AngleCount->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
+    Graphics_AttackSoundUsed->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
+    Graphics_AttackSoundUsed_CheckBox->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnUpdateCheck_Graphics, this);
 
-    graphicAnimTimer.Connect(graphicAnimTimer.GetId(), wxEVT_TIMER, wxTimerEventHandler(AGE_Frame::OnGraphicAnim), NULL, this);
-	Graphics_SLP->Connect(Graphics_SLP->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
-	Graphics_FrameDuration->Connect(Graphics_FrameDuration->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
-	Graphics_FrameCount->Connect(Graphics_FrameCount->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
-	Graphics_ReplayDelay->Connect(Graphics_ReplayDelay->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
-	Graphics_MirroringMode->Connect(Graphics_MirroringMode->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
-	GraphicDeltas_DirectionX->Connect(GraphicDeltas_DirectionX->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
-	GraphicDeltas_DirectionY->Connect(GraphicDeltas_DirectionY->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
-	GraphicDeltas_DisplayAngle->Connect(GraphicDeltas_DisplayAngle->GetId(), wxEVT_KILL_FOCUS, wxFocusEventHandler(AGE_Frame::OnKillFocus_Graphics), NULL, this);
+    graphicAnimTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnGraphicAnim, this);
+    Graphics_SLP->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
+    Graphics_FrameDuration->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
+    Graphics_FrameCount->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
+    Graphics_ReplayDelay->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
+    Graphics_MirroringMode->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
+    GraphicDeltas_DirectionX->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
+    GraphicDeltas_DirectionY->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
+    GraphicDeltas_DisplayAngle->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Graphics, this);
 }
 
 void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
 {
-	event.Skip();
-	if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
-	if(event.GetId() == Graphics_Name->GetId())
-	{
-		ListGraphics();
-	}
-	else if(event.GetId() == GraphicDeltas_GraphicID->GetId())
-	{
-		graphicSLP.slpID = -2;
-		ListGraphicDeltas();
+    event.Skip();
+    if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
+    if(event.GetId() == Graphics_Name->GetId())
+    {
+        ListGraphics();
+    }
+    else if(event.GetId() == GraphicDeltas_GraphicID->GetId())
+    {
+        graphicSLP.slpID = -2;
+        ListGraphicDeltas();
         if(slp_window && ShowDeltas) slp_view->Refresh();
-	}
-	else if(event.GetId() == Graphics_Name2->GetId())
-	{
-		wxTimerEvent E;
-		OnGraphicsTimer(E);
-	}
-	else if(event.GetId() == Graphics_AngleCount->GetId() || event.GetId() == Graphics_AttackSoundUsed->GetId())
-	{
-		if(dataset->Graphics[GraphicIDs.front()].AttackSoundUsed == 0) return;
+    }
+    else if(event.GetId() == Graphics_Name2->GetId())
+    {
+        wxTimerEvent E;
+        OnGraphicsTimer(E);
+    }
+    else if(event.GetId() == Graphics_AngleCount->GetId() || event.GetId() == Graphics_AttackSoundUsed->GetId())
+    {
+        if(dataset->Graphics[GraphicIDs.front()].AttackSoundUsed == 0) return;
 
-		for(size_t loop = 0; loop < GraphicIDs.size(); ++loop)
-		dataset->Graphics[GraphicIDs[loop]].AttackSounds.resize(dataset->Graphics[GraphicIDs[loop]].AngleCount);
+        for(size_t loop = 0; loop < GraphicIDs.size(); ++loop)
+        dataset->Graphics[GraphicIDs[loop]].AttackSounds.resize(dataset->Graphics[GraphicIDs[loop]].AngleCount);
 
-		wxTimerEvent E;
-		OnGraphicsTimer(E);
-	}
+        wxTimerEvent E;
+        OnGraphicsTimer(E);
+    }
     else
     {
-		graphicSLP.slpID = -2;
+        graphicSLP.slpID = -2;
         if(slp_window) slp_view->Refresh();
     }
 }
 
 void AGE_Frame::OnUpdateCheck_Graphics(wxCommandEvent &event)
 {
-	((AGECheckBox*)event.GetEventObject())->OnUpdate(event);
-	if(dataset->Graphics[GraphicIDs.front()].AttackSoundUsed == 0) return;
+    ((AGECheckBox*)event.GetEventObject())->OnUpdate(event);
+    if(dataset->Graphics[GraphicIDs.front()].AttackSoundUsed == 0) return;
 
-	for(size_t loop = 0; loop < GraphicIDs.size(); ++loop)
-	dataset->Graphics[GraphicIDs[loop]].AttackSounds.resize(dataset->Graphics[GraphicIDs[loop]].AngleCount);
+    for(size_t loop = 0; loop < GraphicIDs.size(); ++loop)
+    dataset->Graphics[GraphicIDs[loop]].AttackSounds.resize(dataset->Graphics[GraphicIDs[loop]].AngleCount);
 
-	wxTimerEvent E;
-	OnGraphicsTimer(E);
+    wxTimerEvent E;
+    OnGraphicsTimer(E);
 }
 
 void AGE_Frame::OnUpdateCombo_Graphics(wxCommandEvent &event)
 {
-	((AGEComboBox*)event.GetEventObject())->OnUpdate(event);
+    ((AGEComboBox*)event.GetEventObject())->OnUpdate(event);
     graphicSLP.slpID = -2;
-	ListGraphicDeltas();
+    ListGraphicDeltas();
     if(slp_window && ShowDeltas) slp_view->Refresh();
 }
