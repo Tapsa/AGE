@@ -18,12 +18,12 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 : wxFrame(NULL, wxID_ANY, title), font(GetFont())
 {
     window_num = window;
-	argPath = aP;
+    argPath = aP;
     font.SetPointSize(8);
-	SetIcon(wxIcon(AppIcon_xpm));
+    SetIcon(wxIcon(AppIcon_xpm));
     SetFont(font);
-	wxBusyCursor WaitCursor;
-	TabBar_Main = new wxNotebook(this, eTabBar);
+    wxBusyCursor WaitCursor;
+    TabBar_Main = new wxNotebook(this, eTabBar);
     AGE_Frame::openEditors[window] = this;
 
     {
@@ -153,20 +153,20 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 
     this->SetMenuBar(MenuBar_Main);
 
-	CreateCivControls();
-	CreateUnitControls();
-	CreateResearchControls();
-	CreateTechControls();
-	CreateTechTreeControls();
-	CreateGraphicsControls();
-	CreateTerrainControls();
-	CreateTerrainRestrictionControls();
-	CreateSoundControls();
-	CreatePlayerColorControls();
-	CreateUnitLineControls();
-	CreateTerrainBorderControls();
-	CreateGeneralControls();
-	CreateUnknownControls();
+    CreateCivControls();
+    CreateUnitControls();
+    CreateResearchControls();
+    CreateTechControls();
+    CreateTechTreeControls();
+    CreateGraphicsControls();
+    CreateTerrainControls();
+    CreateTerrainRestrictionControls();
+    CreateSoundControls();
+    CreatePlayerColorControls();
+    CreateUnitLineControls();
+    CreateTerrainBorderControls();
+    CreateGeneralControls();
+    CreateUnknownControls();
 
     // Freeing some memory
     ResearchComboBoxList.shrink_to_fit();
@@ -201,32 +201,26 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     uiGroupSoundFile.shrink_to_fit();
     uiGroupColor.shrink_to_fit();
 
-	Units_AutoCopy->SetValue(AutoCopy);
-	Units_CopyGraphics->SetValue(CopyGraphics);
-	Units_CopyTo->Enable(!AutoCopy);
-	Units_SpecialCopy_Civs->SetValue(AllCivs);
+    Units_AutoCopy->SetValue(AutoCopy);
+    Units_CopyGraphics->SetValue(CopyGraphics);
+    Units_CopyTo->Enable(!AutoCopy);
+    Units_SpecialCopy_Civs->SetValue(AllCivs);
 
-//	TabBar_Main->AddPage(TabBar_Data, "Data");
-//	TabBar_Main->AddPage(TabBar_Test, "Test");
-
-	TabBar_Main->AddPage(Tab_Research, "Research");
-	TabBar_Main->AddPage(Tab_Techs, "Techs");
-	TabBar_Main->AddPage(Tab_TechTrees, "Tech Trees");
-	TabBar_Main->AddPage(Tab_Civs, "Civilizations");
-	TabBar_Main->AddPage(Tab_Units, "Units");
-	TabBar_Main->AddPage(Tab_UnitLine, "Unitlines");
-	TabBar_Main->AddPage(Tab_Graphics, "Graphics");
-	TabBar_Main->AddPage(Tab_General, "Map");
-	TabBar_Main->AddPage(Tab_Terrains, "Terrains");
-	TabBar_Main->AddPage(Tab_TerrainBorders, "Borders");
-	TabBar_Main->AddPage(Tab_TerrainRestrictions, "T. Restrictions");
-	TabBar_Main->AddPage(Tab_Sounds, "Sounds");
-	TabBar_Main->AddPage(Tab_PlayerColors, "Colors");
-	TabBar_Main->AddPage(Tab_Unknown, "Maps");
-	TabBar_Main->ChangeSelection(4);
-
-//	TabBar_Test->AddPage(Tab_DRS, "DRS Files");
-//	TabBar_Test->SetSelection(0);
+    TabBar_Main->AddPage(Tab_Research, "Research");
+    TabBar_Main->AddPage(Tab_Techs, "Techs");
+    TabBar_Main->AddPage(Tab_TechTrees, "Tech Trees");
+    TabBar_Main->AddPage(Tab_Civs, "Civilizations");
+    TabBar_Main->AddPage(Tab_Units, "Units");
+    TabBar_Main->AddPage(Tab_UnitLine, "Unitlines");
+    TabBar_Main->AddPage(Tab_Graphics, "Graphics");
+    TabBar_Main->AddPage(Tab_General, "Map");
+    TabBar_Main->AddPage(Tab_Terrains, "Terrains");
+    TabBar_Main->AddPage(Tab_TerrainBorders, "Borders");
+    TabBar_Main->AddPage(Tab_TerrainRestrictions, "T. Restrictions");
+    TabBar_Main->AddPage(Tab_Sounds, "Sounds");
+    TabBar_Main->AddPage(Tab_PlayerColors, "Colors");
+    TabBar_Main->AddPage(Tab_Unknown, "Maps");
+    TabBar_Main->ChangeSelection(4);
 
     Bind(wxEVT_CLOSE_WINDOW, &AGE_Frame::OnExit, this);
     Bind(wxEVT_IDLE, [=](wxIdleEvent&)
@@ -243,10 +237,12 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
             }
         }
     });
-    Connect(eOpen, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnOpen));
-    Connect(eSave, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnSave));
-    Connect(ePrompt, eAddWindow, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-    Connect(Units_AutoCopy->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &AGE_Frame::OnOpen, this, eOpen);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &AGE_Frame::OnSave, this, eSave);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &AGE_Frame::OnMenuOption, this, ePrompt, eAddWindow);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &AGE_Frame::OnMenuOption, this, hotWin1, closeAll);
+
+    Units_AutoCopy->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnAutoCopy, this);
     Units_CopyTo->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
     {
         auto selections = Units_ListV->GetSelectedItemCount();
@@ -274,20 +270,19 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(edits), 3);
         popUp.unSaved += edits;
     });
-    Connect(Units_SelectAll->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
-    Connect(Units_SelectClear->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
-    Connect(Units_CopyGraphics->GetId(), wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
-    Connect(Units_GraphicSet->GetId(), wxEVT_COMMAND_COMBOBOX_SELECTED, wxCommandEventHandler(AGE_Frame::OnAutoCopy));
-    Connect(eTabBar, wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
-    Connect(hotWin1, closeAll, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AGE_Frame::OnMenuOption));
+    Units_SelectAll->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnAutoCopy, this);
+    Units_SelectClear->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnAutoCopy, this);
+    Units_CopyGraphics->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnAutoCopy, this);
+    Units_GraphicSet->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnAutoCopy, this);
+    TabBar_Main->Bind(wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, &AGE_Frame::OnMenuOption, this);
 
-	wxCommandEvent ShowUnknownsCmd(wxEVT_COMMAND_MENU_SELECTED, eUnknown);
-	ShowUnknownsCmd.SetInt(ShowUnknowns);
-	ProcessEvent(ShowUnknownsCmd);
+    wxCommandEvent ShowUnknownsCmd(wxEVT_COMMAND_MENU_SELECTED, eUnknown);
+    ShowUnknownsCmd.SetInt(ShowUnknowns);
+    ProcessEvent(ShowUnknownsCmd);
 
-	wxCommandEvent ShowButtonsCmd(wxEVT_COMMAND_MENU_SELECTED, eButtons);
-	ShowButtonsCmd.SetInt(ResizeTerrains);
-	ProcessEvent(ShowButtonsCmd);
+    wxCommandEvent ShowButtonsCmd(wxEVT_COMMAND_MENU_SELECTED, eButtons);
+    ShowButtonsCmd.SetInt(ResizeTerrains);
+    ProcessEvent(ShowButtonsCmd);
 
     if(StayOnTop)
     {
@@ -296,29 +291,29 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         ProcessEvent(StayOnTopCmd);
     }
 
-	wxCommandEvent Paste11Cmd(wxEVT_COMMAND_MENU_SELECTED, ePaste);
-	Paste11Cmd.SetInt(Paste11);
-	ProcessEvent(Paste11Cmd);
+    wxCommandEvent Paste11Cmd(wxEVT_COMMAND_MENU_SELECTED, ePaste);
+    Paste11Cmd.SetInt(Paste11);
+    ProcessEvent(Paste11Cmd);
 
-	wxCommandEvent ReselectionCmd(wxEVT_COMMAND_MENU_SELECTED, eReselection);
-	ReselectionCmd.SetInt(Reselection);
-	ProcessEvent(ReselectionCmd);
+    wxCommandEvent ReselectionCmd(wxEVT_COMMAND_MENU_SELECTED, eReselection);
+    ReselectionCmd.SetInt(Reselection);
+    ProcessEvent(ReselectionCmd);
 
-	if(!window && TimesOpened < 2)
-	{
-		wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, eHelp);
-		ProcessEvent(ShowHelpCmd);
-	}
+    if(!window && TimesOpened < 2)
+    {
+        wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, eHelp);
+        ProcessEvent(ShowHelpCmd);
+    }
 
-	wxCommandEvent ShowSLPCmd(wxEVT_COMMAND_MENU_SELECTED, eShowSLP);
-	ShowSLPCmd.SetInt(ShowSLP);
-	ProcessEvent(ShowSLPCmd);
+    wxCommandEvent ShowSLPCmd(wxEVT_COMMAND_MENU_SELECTED, eShowSLP);
+    ShowSLPCmd.SetInt(ShowSLP);
+    ProcessEvent(ShowSLPCmd);
 
-	wxCommandEvent ShowIconsCmd(wxEVT_COMMAND_MENU_SELECTED, eShowIcons);
-	ShowIconsCmd.SetInt(ShowIcons);
-	ProcessEvent(ShowIconsCmd);
+    wxCommandEvent ShowIconsCmd(wxEVT_COMMAND_MENU_SELECTED, eShowIcons);
+    ShowIconsCmd.SetInt(ShowIcons);
+    ProcessEvent(ShowIconsCmd);
 
-	SkipOpenDialog = !PromptForFilesOnOpen;
+    SkipOpenDialog = !PromptForFilesOnOpen;
 
 #ifndef NDEBUG
     if(!log_out.is_open())
@@ -330,9 +325,9 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     }
 #endif
 
-	wxToolTip::SetDelay(200);
-	wxToolTip::SetAutoPop(32700);
-	wxToolTip::SetReshow(1);
+    wxToolTip::SetDelay(200);
+    wxToolTip::SetAutoPop(32700);
+    wxToolTip::SetReshow(1);
 
     wxAcceleratorEntry shortcuts[] =
     {
