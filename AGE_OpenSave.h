@@ -63,7 +63,6 @@ public:
     wxButton *ButtonCancel;
     wxOwnerDrawnComboBox *CheckBox_Recent;
     vector<wxArrayString> RecentValues;
-    wxHyperlinkCtrl *Gift;
 
 #ifdef WIN32
     wxButton *Button_PathFromRegistry;
