@@ -15,8 +15,6 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
 
     ButtonOK = new wxButton(slave, wxID_OK, title);
     ButtonCancel = new wxButton(slave, wxID_CANCEL, "Cancel");
-    Gift = new wxHyperlinkCtrl(slave, wxID_ANY, "Donate to Tapsa", "https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=4JDUUTF6B9HFN&lc=FI&item_name=Helping%20Tapsa&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest");
-    Buttons->Add(Gift, 0, wxLEFT | wxRIGHT, 15);
     Buttons->Add(ButtonOK);
     Buttons->Add(ButtonCancel);
 
@@ -128,6 +126,280 @@ void AGE_OpenSave::OnRecent(wxCommandEvent &event)
     CheckBox_LangX1FileLocation->SetValue(RecentValues[sel][3].size());
     CheckBox_LangX1P1FileLocation->SetValue(RecentValues[sel][4].size());
 }
+
+void AGE_OpenSave::OnDefault(const wxString &part)
+{
+    wxString custom = Path_CustomDefault->GetPath();
+
+    if(CheckBox_CustomDefault->GetValue() && custom.size() > 3)
+    {
+        game_path = custom;
+    }
+    else
+    {
+        game_path = DriveLetterBox->GetValue() + (wxIsPlatform64Bit() ? ":\\Program Files (x86)" : ":\\Program Files") + part;
+    }
+}
+
+void AGE_OpenSave::OnDefaultAoE(wxCommandEvent &event)
+{
+    OnDefault("\\Microsoft Games\\Age of Empires");
+
+    CheckBox_GenieVer->SetSelection(EV_AoE);
+    if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\data\\empires.dat");
+    Path_LangFileLocation->SetPath(game_path + "\\language.dll");
+    Path_LangX1FileLocation->SetPath(wxEmptyString);
+    Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+    Radio_DatFileLocation->SetValue(true);
+    CheckBox_LangFileLocation->SetValue(true);
+    CheckBox_LangX1FileLocation->SetValue(false);
+    CheckBox_LangX1P1FileLocation->SetValue(false);
+    CheckBox_LangWrite->Enable(true);
+}
+
+void AGE_OpenSave::OnDefaultRoR(wxCommandEvent &event)
+{
+    OnDefault("\\Microsoft Games\\Age of Empires");
+
+    CheckBox_GenieVer->SetSelection(EV_RoR);
+    if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\data2\\empires.dat");
+    Path_LangFileLocation->SetPath(game_path + "\\language.dll");
+    Path_LangX1FileLocation->SetPath(game_path + "\\languagex.dll");
+    Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+    Radio_DatFileLocation->SetValue(true);
+    CheckBox_LangFileLocation->SetValue(true);
+    CheckBox_LangX1FileLocation->SetValue(true);
+    CheckBox_LangX1P1FileLocation->SetValue(false);
+    CheckBox_LangWrite->Enable(true);
+}
+
+void AGE_OpenSave::OnDefaultAoK(wxCommandEvent &event)
+{
+    OnDefault("\\Microsoft Games\\Age of Empires II");
+
+    CheckBox_GenieVer->SetSelection(EV_AoK);
+    if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\data\\empires2.dat");
+    Path_LangFileLocation->SetPath(game_path + "\\language.dll");
+    Path_LangX1FileLocation->SetPath(wxEmptyString);
+    Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+    Radio_DatFileLocation->SetValue(true);
+    CheckBox_LangFileLocation->SetValue(true);
+    CheckBox_LangX1FileLocation->SetValue(false);
+    CheckBox_LangX1P1FileLocation->SetValue(false);
+    CheckBox_LangWrite->Enable(true);
+}
+
+void AGE_OpenSave::OnDefaultTC(wxCommandEvent &event)
+{
+    OnDefault("\\Microsoft Games\\Age of Empires II");
+
+    CheckBox_GenieVer->SetSelection(EV_TC);
+    if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\data\\empires2_x1_p1.dat");
+    Path_LangFileLocation->SetPath(game_path + "\\language.dll");
+    Path_LangX1FileLocation->SetPath(game_path + "\\language_x1.dll");
+    Path_LangX1P1FileLocation->SetPath(game_path + "\\language_x1_p1.dll");
+    Radio_DatFileLocation->SetValue(true);
+    CheckBox_LangFileLocation->SetValue(true);
+    CheckBox_LangX1FileLocation->SetValue(true);
+    CheckBox_LangX1P1FileLocation->SetValue(true);
+    CheckBox_LangWrite->Enable(true);
+}
+
+void AGE_OpenSave::OnDefaultAoKHD(wxCommandEvent &event)
+{
+    OnDefault("\\Steam\\steamapps\\common\\Age2HD");
+    wxString locale = LanguageBox->GetValue();
+
+    CheckBox_GenieVer->SetSelection(EV_TC);
+    CheckBox_LangWrite->Enable(false);
+    if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\resources\\_common\\dat\\empires2_x1_p1.dat");
+    Path_LangFileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt");
+    Path_LangX1FileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt");
+    Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+    Radio_DatFileLocation->SetValue(true);
+    CheckBox_LangX1P1FileLocation->SetValue(false);
+}
+
+void AGE_OpenSave::OnDefaultAoP(wxCommandEvent &event)
+{
+    OnDefault("\\Steam\\steamapps\\common\\Age2HD");
+    wxString locale = LanguageBox->GetValue();
+
+    CheckBox_GenieVer->SetSelection(EV_Cysion);
+    CheckBox_LangWrite->Enable(false);
+    if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\resources\\_common\\dat\\empires2_x2_p1.dat");
+    Path_LangFileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt");
+    Path_LangX1FileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt");
+    Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+    Radio_DatFileLocation->SetValue(true);
+    CheckBox_LangX1P1FileLocation->SetValue(false);
+}
+
+void AGE_OpenSave::OnDefaultSWGB(wxCommandEvent &event)
+{
+    OnDefault("\\GOG Games\\Star Wars - Galactic Battlegrounds");
+
+    CheckBox_GenieVer->SetSelection(EV_SWGB);
+    if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Data\\genie.dat");
+    Path_LangFileLocation->SetPath(game_path + "\\language.dll");
+    Path_LangX1FileLocation->SetPath(wxEmptyString);
+    Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+    Radio_DatFileLocation->SetValue(true);
+    CheckBox_LangFileLocation->SetValue(true);
+    CheckBox_LangX1FileLocation->SetValue(false);
+    CheckBox_LangX1P1FileLocation->SetValue(false);
+    CheckBox_LangWrite->Enable(true);
+}
+
+void AGE_OpenSave::OnDefaultCC(wxCommandEvent &event)
+{
+    OnDefault("\\GOG Games\\Star Wars - Galactic Battlegrounds");
+
+    if(path_src == 2)
+    {
+        CheckBox_GenieVer->SetSelection(EV_EF);
+        if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Data\\genie_x2.dat");
+        Path_LangX1P1FileLocation->SetPath(game_path + "\\language_x2.dll");
+        CheckBox_LangX1P1FileLocation->SetValue(true);
+    }
+    else
+    {
+        CheckBox_GenieVer->SetSelection(EV_CC);
+        if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Data\\genie_x1.dat");
+        Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+        CheckBox_LangX1P1FileLocation->SetValue(false);
+    }
+    Path_LangFileLocation->SetPath(game_path + "\\language.dll");
+    Path_LangX1FileLocation->SetPath(game_path + "\\language_x1.dll");
+    Radio_DatFileLocation->SetValue(true);
+    CheckBox_LangFileLocation->SetValue(true);
+    CheckBox_LangX1FileLocation->SetValue(true);
+    CheckBox_LangWrite->Enable(true);
+}
+
+#ifdef WIN32
+void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
+{
+    bool customx = CheckBox_CustomDefault->GetValue();
+    wxString path, custom = Path_CustomDefault->GetPath();
+    CheckBox_CustomDefault->SetValue(true);
+    path_src = 1;
+    switch(CheckBox_GenieVer->GetSelection())
+    {
+        case EV_AoE:
+        {
+            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires\\1.0");
+            if(key.Exists())
+            {
+                if(key.QueryValue("EXE Path", path))
+                {
+                    DriveLetterBox->ChangeValue(path[0]);
+                    Path_CustomDefault->SetPath(path);
+                    OnDefaultAoE(event);
+                }
+            }
+            break;
+        }
+        case EV_RoR:
+        {
+            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires Expansion\\1.0");
+            if(key.Exists())
+            {
+                if(key.QueryValue("EXE Path", path))
+                {
+                    DriveLetterBox->ChangeValue(path[0]);
+                    Path_CustomDefault->SetPath(path);
+                    OnDefaultRoR(event);
+                }
+            }
+            break;
+        }
+        case EV_AoK:
+        {
+            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires\\2.0");
+            if(key.Exists())
+            {
+                if(key.QueryValue("EXE Path", path))
+                {
+                    DriveLetterBox->ChangeValue(path[0]);
+                    Path_CustomDefault->SetPath(path);
+                    OnDefaultAoK(event);
+                }
+            }
+            break;
+        }
+        case EV_TC:
+        {
+            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires II: The Conquerors Expansion\\1.0");
+            if(key.Exists())
+            {
+                if(key.QueryValue("EXE Path", path))
+                {
+                    DriveLetterBox->ChangeValue(path[0]);
+                    Path_CustomDefault->SetPath(path);
+                    OnDefaultTC(event);
+                }
+            }
+            break;
+        }
+        /*case EV_Cysion:
+        {
+                OnDefaultAoP(event);
+            break;
+        }*/
+        case EV_SWGB:
+        {
+            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds\\1.0");
+            if(key.Exists())
+            {
+                if(key.QueryValue("Game Path", path))
+                {
+                    path.Truncate(path.size() - 1);
+                    DriveLetterBox->ChangeValue(path[0]);
+                    Path_CustomDefault->SetPath(path);
+                    OnDefaultSWGB(event);
+                }
+            }
+            break;
+        }
+        case EV_CC:
+        {
+            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Clone Campaigns\\1.0");
+            if(key.Exists())
+            {
+                if(key.QueryValue("Game Path", path))
+                {
+                    path.Truncate(path.size() - 1);
+                    DriveLetterBox->ChangeValue(path[0]);
+                    Path_CustomDefault->SetPath(path);
+                    OnDefaultCC(event);
+                }
+            }
+            break;
+        }
+        case EV_EF:
+        {
+            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Expanding Fronts\\1.0");
+            if(key.Exists())
+            {
+                path_src = 2;
+                if(key.QueryValue("Game Path", path))
+                {
+                    path.Truncate(path.size() - 1);
+                    DriveLetterBox->ChangeValue(path[0]);
+                    Path_CustomDefault->SetPath(path);
+                    OnDefaultCC(event);
+                }
+            }
+            break;
+        }
+        default: break;
+    }
+    CheckBox_CustomDefault->SetValue(customx);
+    Path_CustomDefault->SetPath(custom);
+    if(path.empty()) wxMessageBox("No registry entry found.", "Advanced Genie Editor");
+}
+#endif
 
 AGE_PairedCheckBox::AGE_PairedCheckBox(wxWindow *parent, const wxString &label, wxWindow **pair)
 : wxCheckBox(parent, wxID_ANY, label)

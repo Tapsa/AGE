@@ -12,11 +12,12 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2016.9.12[/b]:
+-Registry button works better now.
+
 Version [b]2016.8.28[/b]:
 -Fixed an offsets bug in SLP view when browsing units.
 -Some new info about graphics.
--Adjust graphic deltas using mouse and WASD keys. <- Not yet.
--Adjust projectile spawning location using mouse and WASD keys. <- Not yet.
 
 Version [b]2016.8.7[/b]:
 -Restored the grid layout more or less.
@@ -149,82 +150,6 @@ Version [b]2015.8.13[/b]:
 Version [b]2015.8.12[/b]:
 -Added separate SLP view window.
 -Ability to choose which unit graphics are shown.
-
-Version [b]2015.8.5[/b]:
--SLP loading code should now handle all kinds of properly formatted files.
--Second DRS folder readable.
--Loop static graphics with angles too.
--Added palette display.
--SLP graphic player color selectable in colors tab.
--DRS files can be (un)loaded from a button.
--Graphics centered based on their anchor.
--Show delta/annex/stack/head SLP graphics stacked.
-
-Version [b]2015.7.31[/b]:
--SLP graphics can be shown, excluding AoE 1 for now.
--Color variables colored according to 50500 palette.
--Two or more text files can be loaded.
-
-Version [b]2015.7.21[/b]:
--AoK HD txt files are readable again.
--Restored editing map data for non SWGB versions.
-
-Version [b]2015.7.6[/b]:
--Fixed a bug that prevented copying units.
--Terrain variable found in unit commands.
-
-Version [b]2015.7.3[/b]:
--New editors are now opened from a button instead of needing to specify the amount at start.
--Improved performance of lists in units and graphics tabs.
--Easily see if a unit exists in other civilizations.
-
-Version [b]2015.6.24[/b]:
--Adjusted defaults for AoK HD.
--Added defaults button for Forgotten Empires.
--Windows scaling support.
-
-Version [b]2015.6.10[/b]:
--Added edit counter in status bar.
--LudiKRISly faster to add, delete and 1:1 paste items.
--First visible item stays same when using buttons.
--Removed obsolete open/save options.
--Miscellaneous improvements.
-
-Version [b]2015.6.2[/b]:
--Recent paths fully working.
--Pressing enter forces the value into selections.
--Paste toggle between 1:1 and sequentially.
--Added recent open paths.
--Fixed bugs that messed up editing with two windows.
--Fixed fatal bug when pasting commands from AoK+ to AoE.
--Blast attack, unit trigger type, missile finds.
--Min and max floats shown nicely.
-
-Version [b]2015.5.3[/b]:
--AoKHD language files readable.
-
-Version [b]2015.4.27[/b]:
--Less crashing when opening another file.
--Improved terrain related tabs.
-
-Version [b]2015.3.9[/b]:
--Fixed a crash when erasing unit damage graphics, attacks, armors and actions.
--Min and max sizes for windows.
--Improved unit search filters.
-
-Version [b]2015.1.26[/b]:
--Found a variable that controls damage depending on terrain.
--Fixed adding crashes in tech tree tab.
--Much improved unit search filters.
--Minimap color found.
--Unit command finds.
--Hex listing.
--Tracking the amount of unsaved changes.
--Unsaved prompt, cmd line dat location.
--Automatic backups.
--Some optimizations for 1440p.
--AoK beta 11.05 readable.
--AoE betas and some 1997 alphas readable.
 
 [b]Notes[/b]
 
