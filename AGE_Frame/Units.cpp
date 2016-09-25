@@ -3750,7 +3750,7 @@ void AGE_Frame::CreateUnitControls()
     Units_Unknown6 = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
     Units_Unknown6->SetToolTip("Seems to be 1 on all resource deposits");
     Units_Unknown7 = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
-    Units_Unknown7->SetToolTip("0 Default\n1 Resource/Eye Candy\n2 Tree");
+    Units_Unknown7->SetToolTip("Create doppleganger on death.\n0 none\n1 normal\n2 when dying");
     Units_Unknown8 = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
     Units_Unknown8->SetToolTip("0 wood?\n1 berry\n2 fish\n3 stone/ore deposit\n4 gold/nova deposit\n5 ore (not SW) deposit?");
     Units_AttackMode = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
