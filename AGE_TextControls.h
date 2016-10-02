@@ -24,11 +24,35 @@ private:
 class AGELinkedBox
 {
 public:
-    virtual void update(int)=0;
-    virtual void enable(bool)=0;
+    virtual void update(int)=0; // Belongs to AGEBaseCtrl.
+    virtual void enable(bool)=0; // Only useful for check boxes, they too might change.
 };
 
-class AGETextCtrl: public wxTextCtrl
+class AGEBaseCtrl
+{
+public:
+    inline void clear(){container.clear();}
+    inline void prepend(void* data){container.push_back(data);}
+    virtual int SaveEdits(bool forced = false)=0;
+
+    static const wxString BATCHWARNING, BWTITLE, IETITLE;
+
+protected:
+    void OnKillFocus(wxFocusEvent &event)
+    {
+        event.Skip();
+        SaveEdits();
+    }
+    void OnEnter(wxCommandEvent&){SaveEdits(true);}
+
+    vector<void*> container;
+    ContainerType type;
+    int editedFileId, edits;
+    DelayedPopUp *editor;
+    wxFrame* frame;
+};
+
+class AGETextCtrl: public wxTextCtrl, public AGEBaseCtrl
 {
 public:
     AGETextCtrl(wxWindow *parent, int width):
@@ -37,7 +61,6 @@ public:
     static const unsigned SMALL=50, MEDIUM=70, NORMAL=100, LARGE=150, GIANT=200;
     static AGETextCtrl* init(const ContainerType type, vector<AGETextCtrl*> *group,
         wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned length = NORMAL);
-    virtual int SaveEdits(bool forced = false)=0;
     virtual void update()
     {
         if(container.empty())
@@ -80,21 +103,11 @@ public:
         case CString: SetBackgroundColour(wxColour(220, 255, 220)); break;
         }
     }
-    inline void clear(){container.clear();}
-    inline void prepend(void* data){container.push_back(data);}
     inline void setMaxChars(unsigned short size){maxSize = size;}
 
-    static const wxString BATCHWARNING, BWTITLE, IETITLE;
-    vector<AGELinkedBox*> LinkedBoxes; // These are for check and combo boxes.
+    vector<AGELinkedBox*> LinkedBoxes; // These are for check boxes.
 
 protected:
-    void OnKillFocus(wxFocusEvent &event)
-    {
-        event.Skip();
-        SaveEdits();
-    }
-    void OnEnter(wxCommandEvent&){SaveEdits(true);}
-
     bool BatchCheck(string &value, short &batchMode)
     {
         if(value.size() < 3) return false;
@@ -120,11 +133,6 @@ protected:
         edits = 0;
     }
 
-    wxFrame* frame;
-    DelayedPopUp *editor;
-    ContainerType type;
-    vector<void*> container; // Change to forward_list. No it's slower than vector.
-    int editedFileId, edits;
     unsigned maxSize;
 };
 

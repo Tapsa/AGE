@@ -1,8 +1,8 @@
 #include "AGE_TextControls.h"
 
-const wxString AGETextCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
-const wxString AGETextCtrl::BWTITLE = "Incorrect batch script!";
-const wxString AGETextCtrl::IETITLE = "Invalid entry!";
+const wxString AGEBaseCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
+const wxString AGEBaseCtrl::BWTITLE = "Incorrect batch script!";
+const wxString AGEBaseCtrl::IETITLE = "Invalid entry!";
 
 wxString AGEListView::OnGetItemText(long item, long column) const
 {
