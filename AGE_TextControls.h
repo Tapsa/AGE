@@ -12,6 +12,7 @@ public:
     {
         SetItemCount(0);
         InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, wxLIST_AUTOSIZE_USEHEADER);
+        Bind(wxEVT_SIZE, [=](wxSizeEvent&){SetColumnWidth(0, GetClientSize().GetWidth());});
     }
 
     wxArrayString names;
