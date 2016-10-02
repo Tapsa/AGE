@@ -2381,7 +2381,7 @@ void AGE_Frame::CreateTechTreeControls()
     for(size_t loop = 0; loop < General_TTUnknown.size(); ++loop)
     {
         General_TTUnknown_Holder[loop] = new wxBoxSizer(wxVERTICAL);
-        General_TTUnknown_Text[loop] = new wxStaticText(Tab_TechTrees, wxID_ANY, " Unknown "+lexical_cast<string>(loop+1));
+        General_TTUnknown_Text[loop] = new SolidText(Tab_TechTrees, " Unknown "+lexical_cast<string>(loop+1));
         General_TTUnknown[loop] = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, Tab_TechTrees);
     }
     General_TTUnknown[7]->SetToolTip("In the file this is between\nage/building/unit/research\ncounts and their data");
@@ -2402,15 +2402,15 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_MainList_Ages_PasteInsert = new wxButton(Tab_TechTreeAges, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
     TechTrees_Ages_ID_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Ages_ID_Text = new wxStaticText(TechTrees_ScrollerAges, wxID_ANY, " Age Number", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Ages_ID_Text = new SolidText(TechTrees_ScrollerAges, " Age Number");
     TechTrees_Ages_ID = AGETextCtrl::init(CLong, &uiGroupTTAge, this, &popUp, TechTrees_ScrollerAges);
     TechTrees_Ages_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Ages_Unknown2_Text = new wxStaticText(TechTrees_ScrollerAges, wxID_ANY, " Status *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Ages_Unknown2_Text = new SolidText(TechTrees_ScrollerAges, " Status *");
     TechTrees_Ages_Unknown2 = AGETextCtrl::init(CByte, &uiGroupTTAge, this, &popUp, TechTrees_ScrollerAges);
     TechTrees_Ages_Unknown2->SetToolTip(StatusHelp);
 
     TechTrees_Ages_LineMode_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Ages_LineMode_Text = new wxStaticText(TechTrees_ScrollerAges, wxID_ANY, " Line Mode *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Ages_LineMode_Text = new SolidText(TechTrees_ScrollerAges, " Line Mode *");
     TechTrees_Ages_LineMode = AGETextCtrl::init(CLong, &uiGroupTTAge, this, &popUp, TechTrees_ScrollerAges);
     TechTrees_Ages_LineMode->SetToolTip(LineModeHelp);
     TechTrees_Data_Ages = new wxBoxSizer(wxVERTICAL);
@@ -2446,24 +2446,24 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_MainList_Buildings_PasteInsert = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
     TechTrees_Buildings_ID_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Buildings_ID_Text = new wxStaticText(TechTrees_ScrollerBuildings, wxID_ANY, " Building Number", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Buildings_ID_Text = new SolidText(TechTrees_ScrollerBuildings, " Building Number");
     TechTrees_Buildings_ID = AGETextCtrl::init(CLong, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
     TechTrees_Buildings_ID_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerBuildings, TechTrees_Buildings_ID);
     UnitComboBoxList.push_back(TechTrees_Buildings_ID_ComboBox);
     TechTrees_Buildings_Always2_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Buildings_Always2_Text = new wxStaticText(TechTrees_ScrollerBuildings, wxID_ANY, " Status *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Buildings_Always2_Text = new SolidText(TechTrees_ScrollerBuildings, " Status *");
     TechTrees_Buildings_Always2 = AGETextCtrl::init(CByte, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
     TechTrees_Buildings_Always2->SetToolTip(StatusHelp);
     TechTrees_Buildings_LocationInAge_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Buildings_LocationInAge_Text = new wxStaticText(TechTrees_ScrollerBuildings, wxID_ANY, " Location in Age *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Buildings_LocationInAge_Text = new SolidText(TechTrees_ScrollerBuildings, " Location in Age *");
     TechTrees_Buildings_LocationInAge = AGETextCtrl::init(CByte, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
     TechTrees_Buildings_LocationInAge->SetToolTip(LocationInAgeHelp);
     TechTrees_Buildings_LineMode_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Buildings_LineMode_Text = new wxStaticText(TechTrees_ScrollerBuildings, wxID_ANY, " Line Mode *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Buildings_LineMode_Text = new SolidText(TechTrees_ScrollerBuildings, " Line Mode *");
     TechTrees_Buildings_LineMode = AGETextCtrl::init(CLong, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
     TechTrees_Buildings_LineMode->SetToolTip(LineModeHelp);
     TechTrees_Buildings_EnablingResearch_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Buildings_EnablingResearch_Text = new wxStaticText(TechTrees_ScrollerBuildings, wxID_ANY, " Enabling Research *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Buildings_EnablingResearch_Text = new SolidText(TechTrees_ScrollerBuildings, " Enabling Research *");
     TechTrees_Buildings_EnablingResearch = AGETextCtrl::init(CLong, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
     TechTrees_Buildings_EnablingResearch->SetToolTip("Makes available\nUsed by buildings, which need a research to be available");
     TechTrees_Buildings_EnablingResearch_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerBuildings, TechTrees_Buildings_EnablingResearch);
@@ -2512,38 +2512,38 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_MainList_Units_PasteInsert = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
     TechTrees_Units_ID_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Units_ID_Text = new wxStaticText(TechTrees_ScrollerUnits, wxID_ANY, " Unit Number", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Units_ID_Text = new SolidText(TechTrees_ScrollerUnits, " Unit Number");
     TechTrees_Units_ID = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
     TechTrees_Units_ID_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_ID);
     UnitComboBoxList.push_back(TechTrees_Units_ID_ComboBox);
     TechTrees_Units_Always2_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Units_Always2_Text = new wxStaticText(TechTrees_ScrollerUnits, wxID_ANY, " Status *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Units_Always2_Text = new SolidText(TechTrees_ScrollerUnits, " Status *");
     TechTrees_Units_Always2 = AGETextCtrl::init(CByte, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
     TechTrees_Units_Always2->SetToolTip(StatusHelp);
     TechTrees_Units_UpperBuilding_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Units_UpperBuilding_Text = new wxStaticText(TechTrees_ScrollerUnits, wxID_ANY, " Upper Building", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Units_UpperBuilding_Text = new SolidText(TechTrees_ScrollerUnits, " Upper Building");
     TechTrees_Units_UpperBuilding = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
     TechTrees_Units_UpperBuilding_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_UpperBuilding);
     UnitComboBoxList.push_back(TechTrees_Units_UpperBuilding_ComboBox);
     TechTrees_Units_VerticalLine_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Units_VerticalLine_Text = new wxStaticText(TechTrees_ScrollerUnits, wxID_ANY, " Vertical Line Number", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Units_VerticalLine_Text = new SolidText(TechTrees_ScrollerUnits, " Vertical Line Number");
     TechTrees_Units_VerticalLine = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
     TechTrees_Units_LocationInAge_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Units_LocationInAge_Text = new wxStaticText(TechTrees_ScrollerUnits, wxID_ANY, " Location in Age *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Units_LocationInAge_Text = new SolidText(TechTrees_ScrollerUnits, " Location in Age *");
     TechTrees_Units_LocationInAge = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
     TechTrees_Units_LocationInAge->SetToolTip(LocationInAgeHelp);
     TechTrees_Units_RequiredResearch_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Units_RequiredResearch_Text = new wxStaticText(TechTrees_ScrollerUnits, wxID_ANY, " Required Research *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Units_RequiredResearch_Text = new SolidText(TechTrees_ScrollerUnits, " Required Research *");
     TechTrees_Units_RequiredResearch = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
     TechTrees_Units_RequiredResearch->SetToolTip("Upgrades unit\nUsed by units, which aren't first in upgrade line");
     TechTrees_Units_RequiredResearch_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_RequiredResearch);
     ResearchComboBoxList.push_back(TechTrees_Units_RequiredResearch_ComboBox);
     TechTrees_Units_LineMode_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Units_LineMode_Text = new wxStaticText(TechTrees_ScrollerUnits, wxID_ANY, " Line Mode *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Units_LineMode_Text = new SolidText(TechTrees_ScrollerUnits, " Line Mode *");
     TechTrees_Units_LineMode = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
     TechTrees_Units_LineMode->SetToolTip(LineModeHelp);
     TechTrees_Units_EnablingResearch_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Units_EnablingResearch_Text = new wxStaticText(TechTrees_ScrollerUnits, wxID_ANY, " Enabling Research *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Units_EnablingResearch_Text = new SolidText(TechTrees_ScrollerUnits, " Enabling Research *");
     TechTrees_Units_EnablingResearch = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
     TechTrees_Units_EnablingResearch->SetToolTip("Makes available\nUsed by units, which need a research to be available");
     TechTrees_Units_EnablingResearch_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_EnablingResearch);
@@ -2589,28 +2589,28 @@ void AGE_Frame::CreateTechTreeControls()
     ResearchComboBoxList.push_back(TechTrees_Researches_Researches.ItemCombo);
 
     TechTrees_Researches_ID_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Researches_ID_Text = new wxStaticText(TechTrees_ScrollerResearches, wxID_ANY, " Research Number", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Researches_ID_Text = new SolidText(TechTrees_ScrollerResearches, " Research Number");
     TechTrees_Researches_ID = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
     TechTrees_Researches_ID_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerResearches, TechTrees_Researches_ID);
     ResearchComboBoxList.push_back(TechTrees_Researches_ID_ComboBox);
     TechTrees_Researches_Always2_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Researches_Always2_Text = new wxStaticText(TechTrees_ScrollerResearches, wxID_ANY, " Status *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Researches_Always2_Text = new SolidText(TechTrees_ScrollerResearches, " Status *");
     TechTrees_Researches_Always2 = AGETextCtrl::init(CByte, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
     TechTrees_Researches_Always2->SetToolTip(StatusHelp);
     TechTrees_Researches_UpperBuilding_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Researches_UpperBuilding_Text = new wxStaticText(TechTrees_ScrollerResearches, wxID_ANY, " Upper Building", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Researches_UpperBuilding_Text = new SolidText(TechTrees_ScrollerResearches, " Upper Building");
     TechTrees_Researches_UpperBuilding = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
     TechTrees_Researches_UpperBuilding_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerResearches, TechTrees_Researches_UpperBuilding);
     UnitComboBoxList.push_back(TechTrees_Researches_UpperBuilding_ComboBox);
     TechTrees_Researches_VerticalLine_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Researches_VerticalLine_Text = new wxStaticText(TechTrees_ScrollerResearches, wxID_ANY, " Vertical Line Number", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Researches_VerticalLine_Text = new SolidText(TechTrees_ScrollerResearches, " Vertical Line Number");
     TechTrees_Researches_VerticalLine = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
     TechTrees_Researches_LocationInAge_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Researches_LocationInAge_Text = new wxStaticText(TechTrees_ScrollerResearches, wxID_ANY, " Location in Age *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Researches_LocationInAge_Text = new SolidText(TechTrees_ScrollerResearches, " Location in Age *");
     TechTrees_Researches_LocationInAge = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
     TechTrees_Researches_LocationInAge->SetToolTip(LocationInAgeHelp);
     TechTrees_Researches_LineMode_Holder = new wxBoxSizer(wxVERTICAL);
-    TechTrees_Researches_LineMode_Text = new wxStaticText(TechTrees_ScrollerResearches, wxID_ANY, " Line Mode *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    TechTrees_Researches_LineMode_Text = new SolidText(TechTrees_ScrollerResearches, " Line Mode *");
     TechTrees_Researches_LineMode = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
     TechTrees_Researches_LineMode->SetToolTip(LineModeHelp);
 

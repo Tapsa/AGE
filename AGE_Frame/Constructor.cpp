@@ -276,7 +276,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     Units_SelectClear->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnAutoCopy, this);
     Units_CopyGraphics->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnAutoCopy, this);
     Units_GraphicSet->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnAutoCopy, this);
-    TabBar_Main->Bind(wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, &AGE_Frame::OnMenuOption, this);
+    TabBar_Main->Bind(wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, &AGE_Frame::OnMenuOption, this, eTabBar);
 
     wxCommandEvent ShowUnknownsCmd(wxEVT_COMMAND_MENU_SELECTED, eUnknown);
     ShowUnknownsCmd.SetInt(ShowUnknowns);

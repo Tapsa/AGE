@@ -54,7 +54,7 @@
 #include "genie/resource/Color.h"
 #include "genie/resource/SlpFrame.h"
 #include "genie/resource/DrsFile.h"
-#include "genie/dat/DatFile.h"	// Newer dat system
+#include "genie/dat/DatFile.h"  // Newer dat system
 #include "genie/lang/LangFile.h"
 using namespace std;
 using boost::lexical_cast;
@@ -79,23 +79,33 @@ public:
 
 enum EditableVersion
 {
-	EV_ORIG,
-	EV_TEST,
-	EV_MIK,
-	EV_DAVE,
-	EV_MATT,
-	EV_AoEB,
-	EV_AoE,
-	EV_RoR,
-	EV_AoKE3,
-	EV_AoKA,
-	EV_AoKB,
-	EV_AoK,
-	EV_TC,
-	EV_Cysion,
-	EV_SWGB,
-	EV_CC,
-	EV_EF
+    EV_ORIG,
+    EV_TEST,
+    EV_MIK,
+    EV_DAVE,
+    EV_MATT,
+    EV_AoEB,
+    EV_AoE,
+    EV_RoR,
+    EV_AoKE3,
+    EV_AoKA,
+    EV_AoKB,
+    EV_AoK,
+    EV_TC,
+    EV_Cysion,
+    EV_SWGB,
+    EV_CC,
+    EV_EF
 };
 
 enum ContainerType {CByte, CUByte, CFloat, CLong, CShort, CUShort, CString};
+
+class SolidText: public wxStaticText
+{
+public:
+    SolidText(wxWindow *parent, const wxString &label, long style = 0, const wxSize &size = wxDefaultSize):
+    wxStaticText(parent, wxID_ANY, label, wxDefaultPosition, size, style)
+    {
+        Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});
+    }
+};
