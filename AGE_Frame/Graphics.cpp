@@ -589,10 +589,6 @@ void AGE_Frame::OnGraphicAnim(wxTimerEvent &event)
     }
 }
 
-void AGE_Frame::OnGraphicErase(wxEraseEvent&)
-{
-}
-
 void AGE_Frame::tileToPixels(float sizeX, float sizeY, Pixels &p, int centerX, int centerY)
 {
     p.x1 = centerX + dataset->TerrainBlock.TileHalfWidth * (sizeX + sizeY);
@@ -952,80 +948,80 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_ScrollSpace = new wxBoxSizer(wxVERTICAL);
     Graphics_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
     Graphics_Name_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_Name_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_Name_Text = new SolidText(Graphics_Scroller, " Name");
     Graphics_Name = AGETextCtrl::init(CString, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_Name2_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_Name2_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " SLP Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_Name2_Text = new SolidText(Graphics_Scroller, " SLP Name");
     Graphics_Name2 = AGETextCtrl::init(CString, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_ID_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_ID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_ID_Text = new SolidText(Graphics_Scroller, " ID");
     Graphics_ID = AGETextCtrl::init(CShort, 0, this, &popUp, Graphics_Scroller);
 
     Graphics_SLP_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_SLP_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " SLP", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_SLP_Text = new SolidText(Graphics_Scroller, " SLP");
     Graphics_SLP = AGETextCtrl::init(CLong, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_FrameType_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_FrameType_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Layer *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_FrameType_Text = new SolidText(Graphics_Scroller, " Layer *");
     Graphics_FrameType = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_FrameType->SetToolTip("0 - Cliffs\n5 - Shadows, Farms\n6 - Rubble\n10 - Construction sequences, some shadows, corpses, stumps, flowers, paths, ruins, crack\n11 - Fish\n19 - Rugs, crater\n20 - Buildings, damage flames, mill animation, units\n21 - Blacksmith piece (no slp), blacksmith smoke\n22 - Hawk\n30 - Explosions, projectiles ");
     Graphics_TransparentPicking_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_TransparentPicking_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Transparent Pick *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_TransparentPicking_Text = new SolidText(Graphics_Scroller, " Transparent Pick *");
     Graphics_TransparentPicking = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_TransparentPicking->SetToolTip("0, 1, 2");
     Graphics_ReplayDelay_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_ReplayDelay_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Replay Delay *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_ReplayDelay_Text = new SolidText(Graphics_Scroller, " Replay Delay *");
     Graphics_ReplayDelay = AGETextCtrl::init(CFloat, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_ReplayDelay->SetToolTip("Waiting time in seconds before animation restarts again");
 
     Graphics_FrameCount_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_FrameCount_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frames per Angle", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_FrameCount_Text = new SolidText(Graphics_Scroller, " Frames per Angle");
     Graphics_FrameCount = AGETextCtrl::init(CUShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_FrameDuration_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_FrameDuration_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Frame Duration *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_FrameDuration_Text = new SolidText(Graphics_Scroller, " Frame Duration *");
     Graphics_FrameDuration = AGETextCtrl::init(CFloat, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_FrameDuration->SetToolTip("How long each frame is displayed in seconds");
     Graphics_SequenceType_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_SequenceType_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sequence Type *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_SequenceType_Text = new SolidText(Graphics_Scroller, " Sequence Type *");
     Graphics_SequenceType = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_SequenceType->SetToolTip("Combinable bit field\n1 animated\n2 directional\n4 sprite randomized\n8 loop once");
     Graphics_Type_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_Type_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Mirroring Mode *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_Type_Text = new SolidText(Graphics_Scroller, " Mirroring Mode *");
     Graphics_MirroringMode = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_MirroringMode->SetToolTip(MirrorHelp);
 
     Graphics_SoundID_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_SoundID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_SoundID_Text = new SolidText(Graphics_Scroller, " Sound");
     Graphics_SoundID = AGETextCtrl::init(CShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_SoundID_ComboBox = new ComboBox_Plus1(Graphics_Scroller, Graphics_SoundID);
     SoundComboBoxList.push_back(Graphics_SoundID_ComboBox);
     Graphics_PlayerColor_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_PlayerColor_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Forced Player Color *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_PlayerColor_Text = new SolidText(Graphics_Scroller, " Forced Player Color *");
     Graphics_PlayerColor = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_PlayerColor->SetToolTip("The player color to be forced on the graphic");
     Graphics_PlayerColor_ComboBox = new ComboBox_Plus1(Graphics_Scroller, Graphics_PlayerColor);
     Graphics_Rainbow_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_Rainbow_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Rainbow *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_Rainbow_Text = new SolidText(Graphics_Scroller, " Rainbow *");
     Graphics_Rainbow = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_Rainbow->SetToolTip("Makes the graphic change its player color according to nearby units");
     Graphics_NewSpeed_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_NewSpeed_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unit Speed Multiplier *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_NewSpeed_Text = new SolidText(Graphics_Scroller, " Unit Speed Multiplier *");
     Graphics_NewSpeed = AGETextCtrl::init(CFloat, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_NewSpeed->SetToolTip("Multiplies the speed of the unit this graphic is applied to");
 
     Graphics_Coordinates_Holder = new wxBoxSizer(wxVERTICAL);
     Graphics_CoordinateGrid_Holder = new wxBoxSizer(wxHORIZONTAL);
-    Graphics_Coordinates_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Coordinates", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_Coordinates_Text = new SolidText(Graphics_Scroller, " Coordinates");
     for(size_t loop = 0; loop < 4; ++loop)
     Graphics_Coordinates[loop] = AGETextCtrl::init(CShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller, AGETextCtrl::MEDIUM);
 
     Graphics_Loaded_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_Loaded_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Disabler", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_Loaded_Text = new SolidText(Graphics_Scroller, " Disabler");
     Graphics_Loaded = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_ColorFlag_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_ColorFlag_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Old Color Flag", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_ColorFlag_Text = new SolidText(Graphics_Scroller, " Old Color Flag");
     Graphics_ColorFlag = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_EditorFlag_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_EditorFlag_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Old Editor Flag *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_EditorFlag_Text = new SolidText(Graphics_Scroller, " Old Editor Flag *");
     Graphics_EditorFlag = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_EditorFlag->SetToolTip("Was related to sprite editor?");
     Graphics_4_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -1048,41 +1044,41 @@ void AGE_Frame::CreateGraphicsControls()
     Deltas_PasteInsert = new wxButton(Graphics_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
     Deltas_CopyToGraphics = new wxButton(Graphics_Scroller, wxID_ANY, "Copy all to selected graphics", wxDefaultPosition, wxSize(10, -1));
     GraphicDeltas_GraphicID_Holder = new wxBoxSizer(wxVERTICAL);
-    GraphicDeltas_GraphicID_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Graphic", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_GraphicID_Text = new SolidText(Graphics_Scroller, " Graphic");
     GraphicDeltas_GraphicID = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
     GraphicDeltas_GraphicID_ComboBox = new ComboBox_Plus1(Graphics_Scroller, GraphicDeltas_GraphicID);
     GraphicComboBoxList.push_back(GraphicDeltas_GraphicID_ComboBox);
     GraphicDeltas_DirectionX_Holder = new wxBoxSizer(wxVERTICAL);
-    GraphicDeltas_DirectionX_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Direction X", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_DirectionX_Text = new SolidText(Graphics_Scroller, " Direction X");
     GraphicDeltas_DirectionX = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
     GraphicDeltas_DirectionY_Holder = new wxBoxSizer(wxVERTICAL);
-    GraphicDeltas_DirectionY_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Direction Y", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_DirectionY_Text = new SolidText(Graphics_Scroller, " Direction Y");
     GraphicDeltas_DirectionY = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
     GraphicDeltas_DisplayAngle_Holder = new wxBoxSizer(wxVERTICAL);
-    GraphicDeltas_DisplayAngle_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Display Angle *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_DisplayAngle_Text = new SolidText(Graphics_Scroller, " Display Angle *");
     GraphicDeltas_DisplayAngle = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
     GraphicDeltas_DisplayAngle->SetToolTip("The angle where this delta will be displayed.\nAngle 0 is always east. Angles increase clocwise."
     "In a graphic with 8 angles, 0 would mean east, 1 south-east, 2 south,\n3 south-west, 4 west, 5 north-west, 6 north, 7 north-east.\n");
     GraphicDeltas_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-    GraphicDeltas_Unknown1_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_Unknown1_Text = new SolidText(Graphics_Scroller, " Unknown 1");
     GraphicDeltas_Unknown1 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
     GraphicDeltas_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
-    GraphicDeltas_Unknown2_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sprite Pointer", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_Unknown2_Text = new SolidText(Graphics_Scroller, " Sprite Pointer");
     GraphicDeltas_Unknown2 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
     GraphicDeltas_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
-    GraphicDeltas_Unknown3_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " (Sprite Pointer)", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_Unknown3_Text = new SolidText(Graphics_Scroller, " (Sprite Pointer)");
     GraphicDeltas_Unknown3 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
     GraphicDeltas_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
-    GraphicDeltas_Unknown5_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Unknown 5", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    GraphicDeltas_Unknown5_Text = new SolidText(Graphics_Scroller, " Unknown 5");
     GraphicDeltas_Unknown5 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
 
     Graphics_AngleCount_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_AngleCount_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Angle Count *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_AngleCount_Text = new SolidText(Graphics_Scroller, " Angle Count *");
     Graphics_AngleCount = AGETextCtrl::init(CUShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_AngleCount->SetToolTip("The number of directions that a unit/ship faces");
     Graphics_AttackSoundUsed_Holder = new wxBoxSizer(wxVERTICAL);
     Graphics_AttackSoundUsed1_Holder = new wxBoxSizer(wxHORIZONTAL);
-    Graphics_AttackSoundUsed_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Attack Sound Used", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_AttackSoundUsed_Text = new SolidText(Graphics_Scroller, " Attack Sound Used");
     Graphics_AttackSoundUsed = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_AttackSoundUsed_CheckBox = new CheckBox_2State(Graphics_Scroller, "Used", Graphics_AttackSoundUsed);
     Graphics_AttackSounds = new wxBoxSizer(wxVERTICAL);
@@ -1090,9 +1086,9 @@ void AGE_Frame::CreateGraphicsControls()
     AttackSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy to all", wxDefaultPosition, wxSize(10, -1));
     AttackSounds_CopyToGraphics = new wxButton(Graphics_Scroller, wxID_ANY, "Copy all to selected graphics", wxDefaultPosition, wxSize(10, -1));
     Graphics_AttackSounds_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_AttackSounds_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_AttackSounds_Text = new SolidText(Graphics_Scroller, " Sound");
     Graphics_AttackSoundDelays_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_AttackSoundDelays_Text = new wxStaticText(Graphics_Scroller, wxID_ANY, " Sound Delay", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Graphics_AttackSoundDelays_Text = new SolidText(Graphics_Scroller, " Sound Delay");
     for(size_t loop = 0; loop < 3; ++loop)
     {
         Graphics_AttackSoundID[loop] = AGETextCtrl::init(CShort, &uiGroupGraphicSound, this, &popUp, Graphics_Scroller);

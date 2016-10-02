@@ -12,6 +12,9 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2016.10.2[/b]:
+-Reduced drawing lag.
+
 Version [b]2016.9.12[/b]:
 -Registry button works better now.
 
