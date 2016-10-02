@@ -7,7 +7,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     Layout = new wxFlexGridSizer(2, 2, 2);
     ForceDat = false;
     Main = new wxBoxSizer(wxVERTICAL);
-    wxStaticText *Defaults_Label = new wxStaticText(slave, wxID_ANY, " Defaults: ");
+    SolidText *Defaults_Label = new SolidText(slave, " Defaults: ");
     Defaults = new wxBoxSizer(wxHORIZONTAL);
     Defaults_StarWars = new wxBoxSizer(wxHORIZONTAL);
     Buttons = new wxBoxSizer(wxHORIZONTAL);
@@ -40,7 +40,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     Defaults_StarWars->Add(Button_DefaultSWGB, 0, wxEXPAND | wxLEFT, 50);
     Defaults_StarWars->Add(Button_DefaultCC, 0, wxEXPAND);
 
-    wxStaticText *Text_GenieVer = new wxStaticText(slave, wxID_ANY, "      Genie version:");
+    SolidText *Text_GenieVer = new SolidText(slave, "      Genie version:");
     CheckBox_GenieVer = new wxOwnerDrawnComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxSize(256, -1), 0, 0, wxCB_READONLY);
     CheckBox_GenieVer->Append("TEST");
     CheckBox_GenieVer->Append("TEST.DAT");
@@ -60,12 +60,12 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     CheckBox_GenieVer->Append("Clone Campaigns (1.1)");
     CheckBox_GenieVer->Append("Mod: Expanding Fronts");
     CheckBox_GenieVer->SetSelection(EV_TC);
-    wxStaticText *RecentText = new wxStaticText(slave, wxID_ANY, "      Recent paths:");
+    SolidText *RecentText = new SolidText(slave, "      Recent paths:");
     CheckBox_Recent = new wxOwnerDrawnComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
 
-    wxStaticText *DriveText = new wxStaticText(this, wxID_ANY, "      Drive letter:");
+    SolidText *DriveText = new SolidText(slave, "      Drive letter:");
     DriveLetterBox = new wxTextCtrl(slave, wxID_ANY, "C", wxDefaultPosition, wxSize(50, -1));
-    wxStaticText *LanguageText = new wxStaticText(this, wxID_ANY, " Language: * ");
+    SolidText *LanguageText = new SolidText(slave, " Language: * ");
     LanguageBox = new wxTextCtrl(slave, wxID_ANY, "en", wxDefaultPosition, wxSize(50, -1));
     LanguageBox->SetToolTip("For AoK HD paths");
     Extras = new wxBoxSizer(wxHORIZONTAL);

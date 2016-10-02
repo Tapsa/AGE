@@ -3,7 +3,7 @@
 AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, const wxFont &font)
 : AGE_OpenSave(parent, "Open", this, font)
 {
-    wxStaticText *TerrainsText = new wxStaticText(this, wxID_ANY, "      Terrains: ");
+    SolidText *TerrainsText = new SolidText(this, "      Terrains: ");
     TerrainsBox = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(50, -1));
     Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed data set (*.dat)|*.dat", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
     Button_RawDecompress = new wxButton(this, wxID_ANY, "Decompress only", wxDefaultPosition, wxSize(5, -1));

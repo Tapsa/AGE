@@ -2440,9 +2440,9 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_tool = new wxButton(panel, eSLPTool, "SLP Tool");
                 slp_merge_shadow = new wxButton(panel, eSLPMergeShadow, "Merge shadow from 2 to 1");
                 slp_tool_layout = new wxFlexGridSizer(2, 2, 2);
-                wxStaticText *text_source1 = new wxStaticText(panel, wxID_ANY, " Source SLP 1");
-                wxStaticText *text_source2 = new wxStaticText(panel, wxID_ANY, " Source SLP 2");
-                wxStaticText *text_target1 = new wxStaticText(panel, wxID_ANY, " Target SLP");
+                SolidText *text_source1 = new SolidText(panel, " Source SLP 1");
+                SolidText *text_source2 = new SolidText(panel, " Source SLP 2");
+                SolidText *text_target1 = new SolidText(panel, " Target SLP");
                 slp_source1 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
                 slp_source2 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
                 slp_target1 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
@@ -2517,7 +2517,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 panel->SetSizer(slp_sizer);
 
                 slp_view->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawGraphicSLP, this);
-                slp_view->Bind(wxEVT_ERASE_BACKGROUND, &AGE_Frame::OnGraphicErase, this);
+                slp_view->Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});
                 slp_view->Bind(wxEVT_RIGHT_DOWN, &AGE_Frame::OnFrameMouse, this);
                 slp_view->Bind(wxEVT_CHAR, &AGE_Frame::OnFrameKey, this);
                 slp_window->Bind(wxEVT_CLOSE_WINDOW, &AGE_Frame::OnExitSLP, this);
@@ -2873,7 +2873,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             ProcessEvent(ce); // Broken? WTF
             break;
         }
-        default: wxMessageBox(lexical_cast<string>(event.GetId()), "Unhandled Event");
+        default: wxMessageBox("ID "+lexical_cast<string>(event.GetId())+"\nType "+lexical_cast<string>(event.GetEventType()), "Unhandled Event");
     }
 }
 
@@ -3636,7 +3636,7 @@ void AGE_AreaTT84::FillItemCombo(int selection, bool update)
             default: return;
         }
     }
-    ItemCombo->SetSelection(selection);
+    ItemCombo->SetSelection(selection < ItemCombo->GetCount() ? selection : 0);
 }
 
 bool AGE_Frame::Paste11Check(size_t pastes, size_t copies)

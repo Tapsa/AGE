@@ -233,16 +233,16 @@ void AGE_Frame::CreatePlayerColorControls()
     Colors_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
     Colors_Unknown4_Holder = new wxBoxSizer(wxVERTICAL);
     Colors_StatisticsText_Holder = new wxBoxSizer(wxVERTICAL);
-    Colors_Name_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    Colors_ID_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " ID", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    Colors_Palette_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Palette *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    Colors_Color_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Color *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    Colors_MinimapColor_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Minimap Color *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    Colors_Unknown1_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 1", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    Colors_Unknown2_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 2", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    Colors_Unknown3_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 3", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    Colors_Unknown4_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Unknown 4", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    Colors_StatisticsText_Text = new wxStaticText(Tab_PlayerColors, wxID_ANY, " Statistics Text", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Colors_Name_Text = new SolidText(Tab_PlayerColors, " Name");
+    Colors_ID_Text = new SolidText(Tab_PlayerColors, " ID");
+    Colors_Palette_Text = new SolidText(Tab_PlayerColors, " Palette *");
+    Colors_Color_Text = new SolidText(Tab_PlayerColors, " Color *");
+    Colors_MinimapColor_Text = new SolidText(Tab_PlayerColors, " Minimap Color *");
+    Colors_Unknown1_Text = new SolidText(Tab_PlayerColors, " Unknown 1");
+    Colors_Unknown2_Text = new SolidText(Tab_PlayerColors, " Unknown 2");
+    Colors_Unknown3_Text = new SolidText(Tab_PlayerColors, " Unknown 3");
+    Colors_Unknown4_Text = new SolidText(Tab_PlayerColors, " Unknown 4");
+    Colors_StatisticsText_Text = new SolidText(Tab_PlayerColors, " Statistics Text");
     Colors_Name = AGETextCtrl::init(CString, &uiGroupColor, this, &popUp, Tab_PlayerColors, 30);
     Colors_ID = AGETextCtrl::init(CLong, 0, this, &popUp, Tab_PlayerColors);
     Colors_Palette = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
@@ -326,7 +326,7 @@ void AGE_Frame::CreatePlayerColorControls()
     colorTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnPlayerColorsTimer, this);
     Colors_Name->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Colors, this);
     Colors_Palette_Display->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawPalette, this);
-    Colors_Palette_Display->Bind(wxEVT_ERASE_BACKGROUND, &AGE_Frame::OnGraphicErase, this);
+    Colors_Palette_Display->Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});
 }
 
 void AGE_Frame::OnKillFocus_Colors(wxFocusEvent &event)
