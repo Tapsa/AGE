@@ -2423,6 +2423,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 wxPoint parentPos = GetPosition();
                 parentPos.x += 1000;
                 slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 600), StayOnTopSLP ? (wxSTAY_ON_TOP | wxDEFAULT_FRAME_STYLE) : wxDEFAULT_FRAME_STYLE);
+                slp_window->SetBackgroundStyle(wxBG_STYLE_SYSTEM);
+                slp_window->SetBackgroundColour(wxColour(240, 240, 240));
                 slp_window->SetIcon(wxIcon(Tree32_xpm));
                 slp_window->SetFont(font);
                 wxPanel *panel = new wxPanel(slp_window);
