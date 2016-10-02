@@ -158,9 +158,9 @@ void AGE_Frame::CreateGeneralControls()
     General_Main = new wxBoxSizer(wxVERTICAL);
     General_TopRow = new wxBoxSizer(wxHORIZONTAL);
     General_Refresh = new wxButton(Tab_General, wxID_ANY, "Refresh");
-    General_CalcBoxes_Text = new wxStaticText(Tab_General, wxID_ANY, " Variable Converter *");
+    General_CalcBoxes_Text = new SolidText(Tab_General, " Variable Converter *");
     General_CalcBoxes_Text->SetToolTip("From four 8 bit integers to one 32 bit integer or vice versa");
-    General_CalcBoxesMiddle_Text = new wxStaticText(Tab_General, wxID_ANY, " = ");
+    General_CalcBoxesMiddle_Text = new SolidText(Tab_General, " = ");
     for(size_t loop = 0; loop < 5; ++loop)
     General_CalcBoxes[loop] = new wxTextCtrl(Tab_General, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(70, -1));
     General_Scroller = new wxScrolled<wxPanel>(Tab_General, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
@@ -170,132 +170,132 @@ void AGE_Frame::CreateGeneralControls()
     General_Variables2_Grid = new wxBoxSizer(wxHORIZONTAL);
     General_Variables1_Holder = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Star Wars Unknowns");
     General_SUnknown2_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown2_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 2 *");
+    General_SUnknown2_Text = new SolidText(General_Scroller, " Unkown 2 *");
     General_SUnknown2 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_SUnknown2->SetToolTip(SWUNKNOWNSINFO);
     General_SUnknown3_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown3_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 3 *");
+    General_SUnknown3_Text = new SolidText(General_Scroller, " Unkown 3 *");
     General_SUnknown3 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_SUnknown3->SetToolTip(SWUNKNOWNSINFO);
     General_SUnknown4_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown4_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 4 *");
+    General_SUnknown4_Text = new SolidText(General_Scroller, " Unkown 4 *");
     General_SUnknown4 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_SUnknown4->SetToolTip(SWUNKNOWNSINFO);
     General_SUnknown5_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown5_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 5 *");
+    General_SUnknown5_Text = new SolidText(General_Scroller, " Unkown 5 *");
     General_SUnknown5 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_SUnknown5->SetToolTip(SWUNKNOWNSINFO);
     General_SUnknown7_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown7_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 7 *");
+    General_SUnknown7_Text = new SolidText(General_Scroller, " Unkown 7 *");
     General_SUnknown7 = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller);
     General_SUnknown7->SetToolTip("In the file this is\nright after civilizations and\nbefore researches");
     General_SUnknown8_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown8_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 8 *");
+    General_SUnknown8_Text = new SolidText(General_Scroller, " Unkown 8 *");
     General_SUnknown8 = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller);
     General_SUnknown8->SetToolTip("In the file this is\nright after researches and\nbefore technology trees");
 
     General_MapPointer_Holder = new wxBoxSizer(wxVERTICAL);
-    General_MapPointer_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Pointer");
+    General_MapPointer_Text = new SolidText(General_Scroller, " Map Pointer");
     General_MapPointer = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-    General_Unknown1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown 1");
+    General_Unknown1_Text = new SolidText(General_Scroller, " Unknown 1");
     General_Unknown1 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_MapWidth_Holder = new wxBoxSizer(wxVERTICAL);
-    General_MapWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Width");
+    General_MapWidth_Text = new SolidText(General_Scroller, " Map Width");
     General_MapWidth = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_MapHeight_Holder = new wxBoxSizer(wxVERTICAL);
-    General_MapHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Height");
+    General_MapHeight_Text = new SolidText(General_Scroller, " Map Height");
     General_MapHeight = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_WorldWidth_Holder = new wxBoxSizer(wxVERTICAL);
-    General_WorldWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " World Width");
+    General_WorldWidth_Text = new SolidText(General_Scroller, " World Width");
     General_WorldWidth = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_WorldHeight_Holder = new wxBoxSizer(wxVERTICAL);
-    General_WorldHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " World Height");
+    General_WorldHeight_Text = new SolidText(General_Scroller, " World Height");
     General_WorldHeight = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
-    General_Unknown2_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unkown 2");
+    General_Unknown2_Text = new SolidText(General_Scroller, " Unkown 2");
     General_Unknown2 = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
 
-    General_TileSizes_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Sizes   19 x (Width, Height, Delta Y)   1st is flat tile, then 2 x 8 elevation tiles, then 2 1:1 tiles");
+    General_TileSizes_Text = new SolidText(General_Scroller, " Tile Sizes   19 x (Width, Height, Delta Y)   1st is flat tile, then 2 x 8 elevation tiles, then 2 1:1 tiles");
     General_TileSizes_Grid = new wxFlexGridSizer(5, 0, 0);
 
     UnknownPointer1_Sizer = new wxBoxSizer(wxVERTICAL);
-    UnknownPointer1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 1");
+    UnknownPointer1_Text = new SolidText(General_Scroller, " Unknown Pointer 1");
     UnknownPointer1 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     MapMinX_Sizer = new wxBoxSizer(wxVERTICAL);
-    MapMinX_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Min X");
+    MapMinX_Text = new SolidText(General_Scroller, " Map Min X");
     MapMinX = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
     MapMinY_Sizer = new wxBoxSizer(wxVERTICAL);
-    MapMinY_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Min Y");
+    MapMinY_Text = new SolidText(General_Scroller, " Map Min Y");
     MapMinY = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
     MapMaxX_Sizer = new wxBoxSizer(wxVERTICAL);
-    MapMaxX_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max X");
+    MapMaxX_Text = new SolidText(General_Scroller, " Map Max X");
     MapMaxX = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
     MapMaxY_Sizer = new wxBoxSizer(wxVERTICAL);
-    MapMaxY_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max Y");
+    MapMaxY_Text = new SolidText(General_Scroller, " Map Max Y");
     MapMaxY = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
     MapMaxXplus1_Sizer = new wxBoxSizer(wxVERTICAL);
-    MapMaxXplus1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max X + 1");
+    MapMaxXplus1_Text = new SolidText(General_Scroller, " Map Max X + 1");
     MapMaxXplus1 = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
     MapMaxYplus1_Sizer = new wxBoxSizer(wxVERTICAL);
-    MapMaxYplus1_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Max Y + 1");
+    MapMaxYplus1_Text = new SolidText(General_Scroller, " Map Max Y + 1");
     MapMaxYplus1 = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
 
     MaxTerrain_Sizer = new wxBoxSizer(wxVERTICAL);
-    MaxTerrain_Text = new wxStaticText(General_Scroller, wxID_ANY, " Max Terrain");
+    MaxTerrain_Text = new SolidText(General_Scroller, " Max Terrain");
     MaxTerrain = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
     TileWidth_Sizer = new wxBoxSizer(wxVERTICAL);
-    TileWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Width");
+    TileWidth_Text = new SolidText(General_Scroller, " Tile Width");
     TileWidth = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
     TileHeight_Sizer = new wxBoxSizer(wxVERTICAL);
-    TileHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Height");
+    TileHeight_Text = new SolidText(General_Scroller, " Tile Height");
     TileHeight = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
     TileHalfHeight_Sizer = new wxBoxSizer(wxVERTICAL);
-    TileHalfHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Half Height");
+    TileHalfHeight_Text = new SolidText(General_Scroller, " Tile Half Height");
     TileHalfHeight = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
     TileHalfWidth_Sizer = new wxBoxSizer(wxVERTICAL);
-    TileHalfWidth_Text = new wxStaticText(General_Scroller, wxID_ANY, " Tile Half Width");
+    TileHalfWidth_Text = new SolidText(General_Scroller, " Tile Half Width");
     TileHalfWidth = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
     ElevHeight_Sizer = new wxBoxSizer(wxVERTICAL);
-    ElevHeight_Text = new wxStaticText(General_Scroller, wxID_ANY, " Elevation Height");
+    ElevHeight_Text = new SolidText(General_Scroller, " Elevation Height");
     ElevHeight = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
     CurRow_Sizer = new wxBoxSizer(wxVERTICAL);
-    CurRow_Text = new wxStaticText(General_Scroller, wxID_ANY, " Current Row");
+    CurRow_Text = new SolidText(General_Scroller, " Current Row");
     CurRow = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
     CurCol_Sizer = new wxBoxSizer(wxVERTICAL);
-    CurCol_Text = new wxStaticText(General_Scroller, wxID_ANY, " Current Col");
+    CurCol_Text = new SolidText(General_Scroller, " Current Col");
     CurCol = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
     BlockBegRow_Sizer = new wxBoxSizer(wxVERTICAL);
-    BlockBegRow_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block Start Row");
+    BlockBegRow_Text = new SolidText(General_Scroller, " Block Start Row");
     BlockBegRow = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
     BlockEndRow_Sizer = new wxBoxSizer(wxVERTICAL);
-    BlockEndRow_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block End Row");
+    BlockEndRow_Text = new SolidText(General_Scroller, " Block End Row");
     BlockEndRow = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
     BlockBegCol_Sizer = new wxBoxSizer(wxVERTICAL);
-    BlockBegCol_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block Start Col");
+    BlockBegCol_Text = new SolidText(General_Scroller, " Block Start Col");
     BlockBegCol = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
     BlockEndCol_Sizer = new wxBoxSizer(wxVERTICAL);
-    BlockEndCol_Text = new wxStaticText(General_Scroller, wxID_ANY, " Block End Col");
+    BlockEndCol_Text = new SolidText(General_Scroller, " Block End Col");
     BlockEndCol = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
 
     UnknownPointer2_Sizer = new wxBoxSizer(wxVERTICAL);
-    UnknownPointer2_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 2");
+    UnknownPointer2_Text = new SolidText(General_Scroller, " Unknown Pointer 2");
     UnknownPointer2 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     UnknownPointer3_Sizer = new wxBoxSizer(wxVERTICAL);
-    UnknownPointer3_Text = new wxStaticText(General_Scroller, wxID_ANY, " Unknown Pointer 3");
+    UnknownPointer3_Text = new SolidText(General_Scroller, " Unknown Pointer 3");
     UnknownPointer3 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     AnyFrameChange_Sizer = new wxBoxSizer(wxVERTICAL);
-    AnyFrameChange_Text = new wxStaticText(General_Scroller, wxID_ANY, " Any Frame Change");
+    AnyFrameChange_Text = new SolidText(General_Scroller, " Any Frame Change");
     AnyFrameChange = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller);
 
     MapVisibleFlag_Sizer = new wxBoxSizer(wxVERTICAL);
-    MapVisibleFlag_Text = new wxStaticText(General_Scroller, wxID_ANY, " Map Visible Flag");
+    MapVisibleFlag_Text = new SolidText(General_Scroller, " Map Visible Flag");
     MapVisibleFlag = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller);
     FogFlag_Sizer = new wxBoxSizer(wxVERTICAL);
-    FogFlag_Text = new wxStaticText(General_Scroller, wxID_ANY, " Fog Flag");
+    FogFlag_Text = new SolidText(General_Scroller, " Fog Flag");
     FogFlag = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller);
 
-    General_TerrainRendering_Text = new wxStaticText(General_Scroller, wxID_ANY, " Miscellaneous useless terrain data");
+    General_TerrainRendering_Text = new SolidText(General_Scroller, " Miscellaneous useless terrain data");
     General_TerrainRendering_Grid = new wxFlexGridSizer(8, 5, 5);
     General_Something_Grid1 = new wxFlexGridSizer(16, 0, 0);
     General_Something_Grid2 = new wxFlexGridSizer(8, 0, 0);
@@ -462,10 +462,6 @@ void AGE_Frame::CreateGeneralControls()
     Tab_General->SetSizer(General_Main);
 
     General_Refresh->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnMapsRefresh, this);
-    TechTrees_Ages_Items.ModeCombo->Bind(wxEVT_MOUSEWHEEL, &AGE_Frame::wheelParent, this);
-    TechTrees_Buildings_Items.ModeCombo->Bind(wxEVT_MOUSEWHEEL, &AGE_Frame::wheelParent, this);
-    TechTrees_Units_Items.ModeCombo->Bind(wxEVT_MOUSEWHEEL, &AGE_Frame::wheelParent, this);
-    TechTrees_Researches_Items.ModeCombo->Bind(wxEVT_MOUSEWHEEL, &AGE_Frame::wheelParent, this);
     for(size_t loop = 0; loop < 4; ++loop)
     General_CalcBoxes[loop]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnVariableCalc, this);
     General_CalcBoxes[4]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnVariableCalcReverse, this);
@@ -1237,7 +1233,7 @@ void AGE_Frame::CreateUnknownControls()
     Unknown_Scroller = new wxScrolled<wxPanel>(Tab_Unknown, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
     Unknown_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 
-    Unknown_UnknownPointer_Text = new wxStaticText(Tab_Unknown, wxID_ANY, " Random Map Pointer");
+    Unknown_UnknownPointer_Text = new SolidText(Tab_Unknown, " Random Map Pointer");
     Unknown_UnknownPointer = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, Tab_Unknown);
 
     Unknowns = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Unknown, "Random Map Scripts (Required in AoE/RoR)");
@@ -1253,7 +1249,7 @@ void AGE_Frame::CreateUnknownControls()
     Unknowns_Paste = new wxButton(Tab_Unknown, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
     Unknowns_PasteInsert = new wxButton(Tab_Unknown, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
-    Unknowns_UnknownLevel_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Script Number");
+    Unknowns_UnknownLevel_Text = new SolidText(Unknown_Scroller, " Script Number");
     Unknowns_UnknownLevel = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
     Unknowns_Unknown1_Grid = new wxFlexGridSizer(5, 5, 5);
     for(size_t loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
@@ -1261,23 +1257,23 @@ void AGE_Frame::CreateUnknownControls()
         Unknowns_Unknown1_Holder[loop] = new wxBoxSizer(wxVERTICAL);
         Unknowns_Unknown1[loop] = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
     }
-    Unknowns_Unknown1_Text[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Southwest Border *");
+    Unknowns_Unknown1_Text[0] = new SolidText(Unknown_Scroller, " Southwest Border *");
     Unknowns_Unknown1[0]->SetToolTip("Distance from the map edge allocated for non-base zone");
-    Unknowns_Unknown1_Text[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Northwest Border *");
+    Unknowns_Unknown1_Text[1] = new SolidText(Unknown_Scroller, " Northwest Border *");
     Unknowns_Unknown1[1]->SetToolTip("Distance from the map edge allocated for non-base zone");
-    Unknowns_Unknown1_Text[2] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Northeast Border *");
+    Unknowns_Unknown1_Text[2] = new SolidText(Unknown_Scroller, " Northeast Border *");
     Unknowns_Unknown1[2]->SetToolTip("Distance from the map edge allocated for non-base zone");
-    Unknowns_Unknown1_Text[3] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Southeast Border *");
+    Unknowns_Unknown1_Text[3] = new SolidText(Unknown_Scroller, " Southeast Border *");
     Unknowns_Unknown1[3]->SetToolTip("Distance from the map edge allocated for non-base zone");
-    Unknowns_Unknown1_Text[4] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Border Usage % *");
+    Unknowns_Unknown1_Text[4] = new SolidText(Unknown_Scroller, " Border Usage % *");
     Unknowns_Unknown1[4]->SetToolTip("% of border area covered with non-base terrain");
-    Unknowns_Unknown1_Text[5] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Water Shape?");
-    Unknowns_Unknown1_Text[6] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Non-base Terrain *");
+    Unknowns_Unknown1_Text[5] = new SolidText(Unknown_Scroller, " Water Shape?");
+    Unknowns_Unknown1_Text[6] = new SolidText(Unknown_Scroller, " Non-base Terrain *");
     Unknowns_Unknown1[6]->SetToolTip("Used on the borders as well");
-    Unknowns_Unknown1_Text[7] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Zone Cover % *");
+    Unknowns_Unknown1_Text[7] = new SolidText(Unknown_Scroller, " Base Zone Cover % *");
     Unknowns_Unknown1[7]->SetToolTip("Can be over 100");
-    Unknowns_Unknown1_Text[8] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 9");
-    Unknowns_Pointer1_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Zone Pointer");
+    Unknowns_Unknown1_Text[8] = new SolidText(Unknown_Scroller, " Unknown 9");
+    Unknowns_Pointer1_Text = new SolidText(Unknown_Scroller, " Base Zone Pointer");
     Unknowns_Pointer1 = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
 
     RMSBaseZones = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Base Zone Data");
@@ -1297,53 +1293,53 @@ void AGE_Frame::CreateUnknownControls()
     RMSBaseZones_Unknown1_Grid = new wxFlexGridSizer(4, 5, 5);
 
     RMSBaseZones_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown1_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 1");
+    RMSBaseZones_Unknown1_Text = new SolidText(Unknown_Scroller, " Unknown 1");
     RMSBaseZones_Unknown1 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
     RMSBaseZones_BaseTerrain_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_BaseTerrain_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Terrain");
+    RMSBaseZones_BaseTerrain_Text = new SolidText(Unknown_Scroller, " Base Terrain");
     RMSBaseZones_BaseTerrain = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
     RMSBaseZones_SpacingBetweenPlayers_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_SpacingBetweenPlayers_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Player Spacing *");
+    RMSBaseZones_SpacingBetweenPlayers_Text = new SolidText(Unknown_Scroller, " Player Spacing *");
     RMSBaseZones_SpacingBetweenPlayers = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
     RMSBaseZones_SpacingBetweenPlayers->SetToolTip("Non-base terrain (like rivers) space between players\nIf too large, they won't be created");
     RMSBaseZones_Unknown4_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown4_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 4");
+    RMSBaseZones_Unknown4_Text = new SolidText(Unknown_Scroller, " Unknown 4");
     RMSBaseZones_Unknown4 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
 
     RMSBaseZones_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
     RMSBaseZones_Unknown5_Grid = new wxGridSizer(4, 0, 0);
-    RMSBaseZones_Unknown5_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Min Dist Between Players *");
+    RMSBaseZones_Unknown5_Text = new SolidText(Unknown_Scroller, " Min Dist Between Players *");
     for(size_t loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
     RMSBaseZones_Unknown5[loop] = AGETextCtrl::init(CByte, &uiGroupRMBase, this, &popUp, Unknown_Scroller, 32);
     RMSBaseZones_Unknown5[1]->SetToolTip("Minimum distance in tiles between \"player initial zones\"");
 
     RMSBaseZones_Unknown6_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown6_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 6");
+    RMSBaseZones_Unknown6_Text = new SolidText(Unknown_Scroller, " Unknown 6");
     RMSBaseZones_Unknown6 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
     RMSBaseZones_Unknown7_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown7_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 7");
+    RMSBaseZones_Unknown7_Text = new SolidText(Unknown_Scroller, " Unknown 7");
     RMSBaseZones_Unknown7 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
 
     RMSBaseZones_Unknown8_Holder = new wxBoxSizer(wxVERTICAL);
     RMSBaseZones_Unknown8_Grid = new wxGridSizer(4, 0, 0);
-    RMSBaseZones_Unknown8_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Base Zone Radius *");
+    RMSBaseZones_Unknown8_Text = new SolidText(Unknown_Scroller, " Base Zone Radius *");
     for(size_t loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
     RMSBaseZones_Unknown8[loop] = AGETextCtrl::init(CByte, &uiGroupRMBase, this, &popUp, Unknown_Scroller, 32);
     RMSBaseZones_Unknown8[1]->SetToolTip("Base zone is created for every player");
 
     RMSBaseZones_StartAreaRadius_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_StartAreaRadius_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Players' Start Area Radius *");
+    RMSBaseZones_StartAreaRadius_Text = new SolidText(Unknown_Scroller, " Players' Start Area Radius *");
     RMSBaseZones_StartAreaRadius = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
     RMSBaseZones_StartAreaRadius->SetToolTip("This area cannot contain different elevations or terrains\nUnknown 10 affects this too");
     RMSBaseZones_Unknown10_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown10_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 10 *");
+    RMSBaseZones_Unknown10_Text = new SolidText(Unknown_Scroller, " Unknown 10 *");
     RMSBaseZones_Unknown10 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
     RMSBaseZones_Unknown10->SetToolTip("Has something to do with players' starting area");
     RMSBaseZones_Unknown11_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown11_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 11");
+    RMSBaseZones_Unknown11_Text = new SolidText(Unknown_Scroller, " Unknown 11");
     RMSBaseZones_Unknown11 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
 
-    Unknowns_Pointer2_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Map Terrain Pointer");
+    Unknowns_Pointer2_Text = new SolidText(Unknown_Scroller, " Map Terrain Pointer");
     Unknowns_Pointer2 = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
 
     RMSTerrain = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Terrains Placed on the Map");
@@ -1366,17 +1362,17 @@ void AGE_Frame::CreateUnknownControls()
         RMSTerrain_Unknown1_Holder[loop] = new wxBoxSizer(wxVERTICAL);
         RMSTerrain_Unknown1[loop] = AGETextCtrl::init(CLong, &uiGroupRMTerrain, this, &popUp, Unknown_Scroller);
     }
-    RMSTerrain_Unknown1_Text[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Proportion *");
+    RMSTerrain_Unknown1_Text[0] = new SolidText(Unknown_Scroller, " Proportion *");
     RMSTerrain_Unknown1[0]->SetToolTip("% of the total map area");
-    RMSTerrain_Unknown1_Text[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Terrain");
-    RMSTerrain_Unknown1_Text[2] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Clump Count *");
+    RMSTerrain_Unknown1_Text[1] = new SolidText(Unknown_Scroller, " Terrain");
+    RMSTerrain_Unknown1_Text[2] = new SolidText(Unknown_Scroller, " Clump Count *");
     RMSTerrain_Unknown1[2]->SetToolTip("Clusters in the map");
-    RMSTerrain_Unknown1_Text[3] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Terrain Spacing *");
+    RMSTerrain_Unknown1_Text[3] = new SolidText(Unknown_Scroller, " Terrain Spacing *");
     RMSTerrain_Unknown1[3]->SetToolTip("Minimum distance to base terrain (or non-base terrain)");
-    RMSTerrain_Unknown1_Text[4] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Placement Terrain");
-    RMSTerrain_Unknown1_Text[5] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 6");
+    RMSTerrain_Unknown1_Text[4] = new SolidText(Unknown_Scroller, " Placement Terrain");
+    RMSTerrain_Unknown1_Text[5] = new SolidText(Unknown_Scroller, " Unknown 6");
 
-    Unknowns_Pointer3_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Map Unit Pointer");
+    Unknowns_Pointer3_Text = new SolidText(Unknown_Scroller, " Map Unit Pointer");
     Unknowns_Pointer3 = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
 
     RMSUnit = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Units Placed on the Map (Some may appear anyway)");
@@ -1395,48 +1391,48 @@ void AGE_Frame::CreateUnknownControls()
 
     RMSUnit_Unknown1_Grid = new wxFlexGridSizer(4, 5, 5);
     RMSUnit_Unit_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_Unit_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unit");
+    RMSUnit_Unit_Text = new SolidText(Unknown_Scroller, " Unit");
     RMSUnit_Unit = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
     RMSUnit_HostTerrain_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_HostTerrain_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Placement Terrain");
+    RMSUnit_HostTerrain_Text = new SolidText(Unknown_Scroller, " Placement Terrain");
     RMSUnit_HostTerrain = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
     RMSUnit_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
     RMSUnit_Unknown3_Grid = new wxGridSizer(4, 0, 0);
-    RMSUnit_Unknown3_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Group Mode *");
+    RMSUnit_Unknown3_Text = new SolidText(Unknown_Scroller, " Group Mode *");
     for(size_t loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
     RMSUnit_Unknown3[loop] = AGETextCtrl::init(CByte, &uiGroupRMUnit, this, &popUp, Unknown_Scroller, 32);
     RMSUnit_Unknown3[0]->SetToolTip("0 Only 1 unit is placed from group\n1 & 2 All units are placed from group");
     RMSUnit_ObjectsPerPlayer_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_ObjectsPerPlayer_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Objects per Group");
+    RMSUnit_ObjectsPerPlayer_Text = new SolidText(Unknown_Scroller, " Objects per Group");
     RMSUnit_ObjectsPerPlayer = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
     RMSUnit_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_Unknown5_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Fluctuation *");
+    RMSUnit_Unknown5_Text = new SolidText(Unknown_Scroller, " Fluctuation *");
     RMSUnit_Unknown5 = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
     RMSUnit_Unknown5->SetToolTip("Max random variation in the number of objects in the group");
     RMSUnit_GroupsPerPlayer_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_GroupsPerPlayer_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Groups per Player");
+    RMSUnit_GroupsPerPlayer_Text = new SolidText(Unknown_Scroller, " Groups per Player");
     RMSUnit_GroupsPerPlayer = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
     RMSUnit_Unknown7_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_Unknown7_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Group Radius *");
+    RMSUnit_Unknown7_Text = new SolidText(Unknown_Scroller, " Group Radius *");
     RMSUnit_Unknown7 = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
     RMSUnit_Unknown7->SetToolTip("Max distance in tiles, for each object of the group, to the central location of the group");
     RMSUnit_OwnAtStart_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_OwnAtStart_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Own at Start (-1=Yes) *");
+    RMSUnit_OwnAtStart_Text = new SolidText(Unknown_Scroller, " Own at Start (-1=Yes) *");
     RMSUnit_OwnAtStart = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
     RMSUnit_OwnAtStart->SetToolTip("Doesn't work if the unit isn't placed for all players");
     RMSUnit_SetPlaceForAllPlayers_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_SetPlaceForAllPlayers_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Place for All Players *");
+    RMSUnit_SetPlaceForAllPlayers_Text = new SolidText(Unknown_Scroller, " Place for All Players *");
     RMSUnit_SetPlaceForAllPlayers = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
     RMSUnit_SetPlaceForAllPlayers->SetToolTip("1 = Done once per player\n-1 = Done once, whatever the number of players is\n-2 = same as -1 ? Cannot find a difference");
     RMSUnit_MinDistanceToPlayers_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_MinDistanceToPlayers_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Min Dist to Players");
+    RMSUnit_MinDistanceToPlayers_Text = new SolidText(Unknown_Scroller, " Min Dist to Players");
     RMSUnit_MinDistanceToPlayers = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
     RMSUnit_MaxDistanceToPlayers_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_MaxDistanceToPlayers_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Max Dist to Players *");
+    RMSUnit_MaxDistanceToPlayers_Text = new SolidText(Unknown_Scroller, " Max Dist to Players *");
     RMSUnit_MaxDistanceToPlayers = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
     RMSUnit_MaxDistanceToPlayers->SetToolTip("- Don't use 0 here for units that are own at start\n- 0 is OK for other units (gold/bushes/gazelle/etc)\n- You can use -1 as a wildcard for units that are own at start");
 
-    Unknowns_Pointer4_Text = new wxStaticText(Unknown_Scroller, wxID_ANY, " Map Unknown Pointer");
+    Unknowns_Pointer4_Text = new SolidText(Unknown_Scroller, " Map Unknown Pointer");
     Unknowns_Pointer4 = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
 
     RMSUnknown = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Unknowns Placed on the Map");
@@ -1459,15 +1455,15 @@ void AGE_Frame::CreateUnknownControls()
         RMSUnknown_Unknown1_Holder[loop] = new wxBoxSizer(wxVERTICAL);
         RMSUnknown_Unknown1[loop] = AGETextCtrl::init(CLong, &uiGroupRMUnknown, this, &popUp, Unknown_Scroller);
     }
-    RMSUnknown_Unknown1_Text[0] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Proportion *");
+    RMSUnknown_Unknown1_Text[0] = new SolidText(Unknown_Scroller, " Proportion *");
     RMSUnknown_Unknown1[0]->SetToolTip("% of the total map area");
-    RMSUnknown_Unknown1_Text[1] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Terrain");
-    RMSUnknown_Unknown1_Text[2] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Clump Count *");
+    RMSUnknown_Unknown1_Text[1] = new SolidText(Unknown_Scroller, " Terrain");
+    RMSUnknown_Unknown1_Text[2] = new SolidText(Unknown_Scroller, " Clump Count *");
     RMSUnknown_Unknown1[2]->SetToolTip("Clusters in the map");
-    RMSUnknown_Unknown1_Text[3] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Terrain Spacing *");
+    RMSUnknown_Unknown1_Text[3] = new SolidText(Unknown_Scroller, " Terrain Spacing *");
     RMSUnknown_Unknown1[3]->SetToolTip("Minimum distance to base terrain (or non-base terrain)");
-    RMSUnknown_Unknown1_Text[4] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Placement Terrain");
-    RMSUnknown_Unknown1_Text[5] = new wxStaticText(Unknown_Scroller, wxID_ANY, " Unknown 6");
+    RMSUnknown_Unknown1_Text[4] = new SolidText(Unknown_Scroller, " Placement Terrain");
+    RMSUnknown_Unknown1_Text[5] = new SolidText(Unknown_Scroller, " Unknown 6");
 
     Unknowns_Buttons->Add(Unknowns_Add, 1, wxEXPAND);
     Unknowns_Buttons->Add(Unknowns_Delete, 1, wxEXPAND);

@@ -4,25 +4,25 @@
 class AGEODComboBox: public wxOwnerDrawnComboBox
 {
 public:
-    AGEODComboBox(wxWindow *parent, int width = AGETextCtrl::LARGE, long style = 0):
-    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), 0, 0, wxCB_READONLY | style)
+    AGEODComboBox(wxWindow *parent, int width = AGETextCtrl::LARGE, long style = wxCB_READONLY):
+    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), 0, 0, wxTE_PROCESS_ENTER | style)
     {
         Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
     //void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
 };
 
-class AGEComboBox: public wxOwnerDrawnComboBox, public AGELinkedBox
+class AGEComboBox: public wxOwnerDrawnComboBox, public AGELinkedBox // AGELinkedBox -> AGEBaseCtrl
 {
 public:
     AGEComboBox(wxWindow *parent, int width):
-    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), 0, 0, wxCB_READONLY)
+    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), 0, 0, wxTE_PROCESS_ENTER)
     {
         Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
     //void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
-
     virtual void OnUpdate(wxCommandEvent&)=0;
+
 protected:
     void enable(bool yes){Enable(yes);}
     AGETextCtrl *TextBox;

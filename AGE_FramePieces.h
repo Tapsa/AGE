@@ -58,7 +58,7 @@ class AGE_AreaTT84
 private:
     wxGridSizer *Buttons;
     wxBoxSizer *ItemList, *UsedItems_H, *Item_H;
-    wxStaticText *UsedItems_T;
+    SolidText *UsedItems_T;
     int lastList;
 public:
     AGE_AreaTT84() {}
@@ -87,7 +87,7 @@ public:
         Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Connected Items");
         ItemList = new wxBoxSizer(wxVERTICAL);
         UsedItems_H = new wxBoxSizer(wxVERTICAL);
-        UsedItems_T = new wxStaticText(scroller, wxID_ANY, " Used Ages/Units/Researches", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
+        UsedItems_T = new SolidText(scroller, " Used Ages/Units/Researches");
         UsedItems = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
 
         Search = new wxTextCtrl(scroller, wxID_ANY);
@@ -136,7 +136,7 @@ class AGE_AreaTT31020
 private:
     wxGridSizer *Buttons;
     wxBoxSizer *ItemList, *UsedItems_H, *Unknowns_H, *Unknown_H, *Top;
-    wxStaticText *UsedItems_T, *Unknown_T;
+    SolidText *UsedItems_T, *Unknown_T;
 public:
     AGE_AreaTT31020() {}
     virtual ~AGE_AreaTT31020() {}
@@ -153,10 +153,10 @@ public:
         ItemList = new wxBoxSizer(wxVERTICAL);
         Top = new wxBoxSizer(wxHORIZONTAL);
         UsedItems_H = new wxBoxSizer(wxVERTICAL);
-        UsedItems_T = new wxStaticText(scroller, wxID_ANY, " Slots Used?", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
+        UsedItems_T = new SolidText(scroller, " Slots Used?");
         UsedItems = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
         Unknown_H = new wxBoxSizer(wxVERTICAL);
-        Unknown_T = new wxStaticText(scroller, wxID_ANY, " Unknown 6", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT);
+        Unknown_T = new SolidText(scroller, " Unknown 6");
         Unknown = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
 
         Search = new wxTextCtrl(scroller, wxID_ANY);

@@ -548,7 +548,7 @@ void AGE_Frame::CreateTerrainControls()
     }
     Terrains_Terrains_ListV = new AGEListView(Tab_Terrains, wxSize(200, 100));
     Terrains_UsedCountHolder = new wxBoxSizer(wxHORIZONTAL);
-    Terrains_UsedCountText = new wxStaticText(Tab_Terrains, wxID_ANY, " Terrains Used *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_UsedCountText = new SolidText(Tab_Terrains, " Terrains Used *");
     Terrains_UsedCount = AGETextCtrl::init(CUShort, NULL, this, &popUp, Tab_Terrains);
     Terrains_UsedCount->SetToolTip("How many terrains are used\nstarting from the first terrain without gaps");
     Terrains_Add = new wxButton(Tab_Terrains, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
@@ -563,71 +563,71 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_Area2_Grid = new wxBoxSizer(wxHORIZONTAL);
     Terrains_Enabled_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_Enabled1_Holder = new wxBoxSizer(wxHORIZONTAL);
-    Terrains_Enabled_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Enabled", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_Enabled_Text = new SolidText(Terrains_Scroller, " Enabled");
     Terrains_Enabled = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
     Terrains_Enabled_CheckBox = new CheckBox_2State(Terrains_Scroller, " Yes", Terrains_Enabled);
     Terrains_Random_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_Random_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Random", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_Random_Text = new SolidText(Terrains_Scroller, " Random");
     Terrains_Random = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
     Terrains_Name_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_Name_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_Name_Text = new SolidText(Terrains_Scroller, " Name");
     Terrains_Name = AGETextCtrl::init(CString, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_Name2_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_Name2_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " SLP Name", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_Name2_Text = new SolidText(Terrains_Scroller, " SLP Name");
     Terrains_Name2 = AGETextCtrl::init(CString, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_SLP_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_SLP_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " SLP", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_SLP_Text = new SolidText(Terrains_Scroller, " SLP");
     Terrains_SLP = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_SoundID_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_SoundID_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Sound", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_SoundID_Text = new SolidText(Terrains_Scroller, " Sound");
     Terrains_SoundID = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_SoundID_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_SoundID);
     SoundComboBoxList.push_back(Terrains_SoundID_ComboBox);
     Terrains_BlendPriority_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_BlendPriority_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Blend Level", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_BlendPriority_Text = new SolidText(Terrains_Scroller, " Blend Level");
     Terrains_BlendPriority = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_BlendType_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_BlendType_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Blend Class", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_BlendType_Text = new SolidText(Terrains_Scroller, " Blend Class");
     Terrains_BlendType = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_Colors_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_Colors_Grid = new wxGridSizer(3, 0, 0);
-    Terrains_Colors_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Minimap Colors", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_Colors_Text = new SolidText(Terrains_Scroller, " Minimap Colors");
     for(size_t loop = 0; loop < 3; ++loop)
     Terrains_Colors[loop] = AGETextCtrl::init(CUByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
     Terrains_CliffColors_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_CliffColors_Grid = new wxGridSizer(2, 0, 0);
-    Terrains_CliffColors_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Minimap Cliff Colors", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_CliffColors_Text = new SolidText(Terrains_Scroller, " Minimap Cliff Colors");
     for(size_t loop = 0; loop < Terrains_CliffColors.size(); ++loop)
     Terrains_CliffColors[loop] = AGETextCtrl::init(CUByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
 
     Terrains_PassableTerrain_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_PassableTerrain_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Passable Terrain", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_PassableTerrain_Text = new SolidText(Terrains_Scroller, " Passable Terrain");
     Terrains_PassableTerrain = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_PassableTerrain_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_PassableTerrain);
     TerrainComboBoxList.push_back(Terrains_PassableTerrain_ComboBox);
     Terrains_ImpassableTerrain_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_ImpassableTerrain_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Impassable Terrain", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_ImpassableTerrain_Text = new SolidText(Terrains_Scroller, " Impassable Terrain");
     Terrains_ImpassableTerrain = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_ImpassableTerrain_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_ImpassableTerrain);
     TerrainComboBoxList.push_back(Terrains_ImpassableTerrain_ComboBox);
     Terrains_TerrainReplacementID_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_TerrainReplacementID_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain to Draw", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_TerrainReplacementID_Text = new SolidText(Terrains_Scroller, " Terrain to Draw");
     Terrains_TerrainReplacementID = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_TerrainReplacementID_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainReplacementID);
     TerrainComboBoxList.push_back(Terrains_TerrainReplacementID_ComboBox);
     Terrains_TerrainDimensions_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_TerrainDimensions_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Dimensions", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_TerrainDimensions_Text = new SolidText(Terrains_Scroller, " Terrain Dimensions");
     Terrains_TerrainDimensions[0] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_TerrainDimensions[1] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_TerrainDimensions[0]->SetToolTip("Rows");
     Terrains_TerrainDimensions[1]->SetToolTip("Columns");
     Terrains_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_Unknown3_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown Pointer", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_Unknown3_Text = new SolidText(Terrains_Scroller, " Unknown Pointer");
     Terrains_Unknown3 = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_GridX1 = new wxBoxSizer(wxHORIZONTAL);
     Terrains_GridX2 = new wxBoxSizer(wxHORIZONTAL);
     Terrains_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_Unknown1_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unknown 1", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_Unknown1_Text = new SolidText(Terrains_Scroller, " Unknown 1");
     Terrains_Unknown1 = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
 
     Terrains_GreatSpace = new wxBoxSizer(wxHORIZONTAL);
@@ -646,16 +646,16 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_Borders_CopyToTerrains = new wxButton(Terrains_Scroller, wxID_ANY, "Copy all to selected terrains", wxDefaultPosition, wxSize(10, -1));
 
     Terrains_UsedTerrainUnits_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_UsedTerrainUnits_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Units Used", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_UsedTerrainUnits_Text = new SolidText(Terrains_Scroller, " Terrain Units Used");
     Terrains_UsedTerrainUnits = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_TerrainUnits_Holder = new wxBoxSizer(wxHORIZONTAL);
     Terrains_TerrainUnitID_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_TerrainUnitID_Holder1 = new wxBoxSizer(wxVERTICAL);
     Terrains_TerrainUnitDensity_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_TerrainUnitPriority_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_TerrainUnitID_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Terrain Unit", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    Terrains_TerrainUnitDensity_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Unit Density", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
-    Terrains_TerrainUnitPriority_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Placement *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_TerrainUnitID_Text = new SolidText(Terrains_Scroller, " Terrain Unit");
+    Terrains_TerrainUnitDensity_Text = new SolidText(Terrains_Scroller, " Unit Density");
+    Terrains_TerrainUnitPriority_Text = new SolidText(Terrains_Scroller, " Placement *");
     for(size_t loop = 0; loop < TERRAINUNITS; ++loop)
     {
         Terrains_TerrainUnitID[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
@@ -667,7 +667,7 @@ void AGE_Frame::CreateTerrainControls()
     }
     Terrains_ElevationGraphics_Holder = new wxBoxSizer(wxVERTICAL);
     Terrain_TileGraphics_Sizer = new wxBoxSizer(wxVERTICAL);
-    Terrains_ElevationGraphics_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Tile Graphics: flat, 2 x 8 elevation, 2 x 1:1\n Frame Count, Animations, Shape (Frame) Index", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_ElevationGraphics_Text = new SolidText(Terrains_Scroller, " Tile Graphics: flat, 2 x 8 elevation, 2 x 1:1\n Frame Count, Animations, Shape (Frame) Index");
     for(auto &sizer: Terrain_TileGraphics_Sizers)
     sizer = new wxBoxSizer(wxHORIZONTAL);
     for(auto &box: Terrains_ElevationGraphics)
@@ -676,42 +676,42 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_Animation_Grid1 = new wxBoxSizer(wxHORIZONTAL);
     Terrains_Animation_Grid2 = new wxBoxSizer(wxHORIZONTAL);
     Terrains_IsAnimated_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_IsAnimated_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Is Animated", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_IsAnimated_Text = new SolidText(Terrains_Scroller, " Is Animated");
     Terrains_IsAnimated = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_AnimationFrames_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_AnimationFrames_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Animation Frames *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_AnimationFrames_Text = new SolidText(Terrains_Scroller, " Animation Frames *");
     Terrains_AnimationFrames = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_AnimationFrames->SetToolTip("Number of frames to animate through");
     Terrains_PauseFames_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_PauseFames_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Pause Fames *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_PauseFames_Text = new SolidText(Terrains_Scroller, " Pause Fames *");
     Terrains_PauseFames = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_PauseFames->SetToolTip("Number of frames to pause animation after last frame is drawn");
     Terrains_Interval_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_Interval_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Interval *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_Interval_Text = new SolidText(Terrains_Scroller, " Interval *");
     Terrains_Interval = AGETextCtrl::init(CFloat, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_Interval->SetToolTip("Time between frames");
     Terrains_PauseBetweenLoops_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_PauseBetweenLoops_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Replay Delay *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_PauseBetweenLoops_Text = new SolidText(Terrains_Scroller, " Replay Delay *");
     Terrains_PauseBetweenLoops = AGETextCtrl::init(CFloat, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_PauseBetweenLoops->SetToolTip("Time to pause after last frame");
     Terrains_Frame_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_Frame_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Frame *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_Frame_Text = new SolidText(Terrains_Scroller, " Frame *");
     Terrains_Frame = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_Frame->SetToolTip("The current frame (includes animation and pause frames)");
     Terrains_DrawFrame_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_DrawFrame_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Draw Frame *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_DrawFrame_Text = new SolidText(Terrains_Scroller, " Draw Frame *");
     Terrains_DrawFrame = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_DrawFrame->SetToolTip("The current frame to draw");
     Terrains_AnimateLast_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_AnimateLast_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Animate Last *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_AnimateLast_Text = new SolidText(Terrains_Scroller, " Animate Last *");
     Terrains_AnimateLast = AGETextCtrl::init(CFloat, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_AnimateLast->SetToolTip("Last time animation frame was changed");
     Terrains_FrameChanged_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_FrameChanged_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Frame Changed *", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_FrameChanged_Text = new SolidText(Terrains_Scroller, " Frame Changed *");
     Terrains_FrameChanged = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_FrameChanged->SetToolTip("Has the Draw Frame changed since terrain was drawn?");
     Terrains_Drawn_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_Drawn_Text = new wxStaticText(Terrains_Scroller, wxID_ANY, " Drawn", wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT | wxST_NO_AUTORESIZE);
+    Terrains_Drawn_Text = new SolidText(Terrains_Scroller, " Drawn");
     Terrains_Drawn = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
 
     for(size_t loop = 0; loop < 2; ++loop)
