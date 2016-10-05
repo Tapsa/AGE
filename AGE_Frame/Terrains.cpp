@@ -331,7 +331,7 @@ wxThread::ExitCode Loader::Entry()
         tileSLP.slp = file->getSlpFile(TerrainPointer->SLP);
         if(tileSLP.slp)
         {
-            tileSLP.frames = tileSLP.slp.get()->getFrameCount();
+            tileSLP.frames = tileSLP.slp->getFrameCount();
             int rows = TerrainPointer->TerrainDimensions.first;
             int cols = TerrainPointer->TerrainDimensions.second;
             size_t wwidth = (rows + cols) * TileHalfWidth;
@@ -353,16 +353,16 @@ wxThread::ExitCode Loader::Entry()
                 genie::SlpFramePtr frame;
                 try
                 {
-                    frame = tileSLP.slp.get()->getFrame(f);
+                    frame = tileSLP.slp->getFrame(f);
                 }
                 catch(out_of_range){}
                 if(frame)
                 {
-                    int width = frame.get()->getWidth();
-                    int height = frame.get()->getHeight();
+                    int width = frame->getWidth();
+                    int height = frame->getHeight();
                     uint8_t *val = wrgbdata.data() + (3 * (wwidth * corners[f].second + corners[f].first));
                     uint8_t *alpha = wrgbdata.data() + (3 * warea) + (wwidth * corners[f].second + corners[f].first);
-                    const genie::SlpFrameData *imgdata = &frame.get()->img_data;
+                    const genie::SlpFrameData *imgdata = &frame->img_data;
                     for(int h = 0; h < height; ++h)
                     {
                         for(int w = 0; w < width; ++w)

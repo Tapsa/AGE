@@ -2641,7 +2641,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                         pal = file->getPalFile(50500);
                         if(pal)
                         {
-                            palettes.push_back(pal.get()->getColors());
+                            palettes.push_back(pal->getColors());
                             break;
                         }
                     }
@@ -2734,9 +2734,9 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                                 catch(out_of_range){}
                                 if(frame)
                                 {
-                                    uint64_t palData = frame.get()->getProperties();
+                                    uint64_t palData = frame->getProperties();
                                     palData <<= 32;
-                                    palData += frame.get()->getPaletteOffset();
+                                    palData += frame->getPaletteOffset();
                                     slpPaletteCombinations.insert(make_pair(res, palData));
                                     ++frames;
                                 }
@@ -2969,8 +2969,8 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
                 graphic->slp.reset(new genie::SlpFile());
                 wxString name = folders[i] + graphic->filename + ".slp";
                 //log_out << name << endl;
-                graphic->slp.get()->load(name.c_str());
-                graphic->slp.get()->freelock();
+                graphic->slp->load(name.c_str());
+                graphic->slp->freelock();
                 LoadSLPFrame(graphic);
                 return;
             }
@@ -2987,8 +2987,8 @@ void AGE_Frame::SLPtoBitMap(AGE_SLP *graphic)
                 graphic->slp.reset(new genie::SlpFile());
                 wxString name = folders[i] + lexical_cast<string>(graphic->slpID) + ".slp";
                 //log_out << name << endl;
-                graphic->slp.get()->load(name.c_str());
-                graphic->slp.get()->freelock();
+                graphic->slp->load(name.c_str());
+                graphic->slp->freelock();
                 LoadSLPFrame(graphic);
                 return;
             }
@@ -3027,12 +3027,12 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
     }
     genie::SlpFramePtr frame;
     SetStatusText("Looking for frame "+FormatInt(graphic->frameID), 1);
-    graphic->frames = graphic->slp.get()->getFrameCount();
+    graphic->frames = graphic->slp->getFrameCount();
     if(graphic->frames)
     {
         try
         {
-            frame = graphic->slp.get()->getFrame(graphic->frameID);
+            frame = graphic->slp->getFrame(graphic->frameID);
         }
         catch(out_of_range){}
     }
@@ -3043,17 +3043,17 @@ void AGE_Frame::LoadSLPFrame(AGE_SLP *graphic)
         return;
     }
 
-    int width = frame.get()->getWidth();
-    int height = frame.get()->getHeight();
-    short pal_chooser = frame.get()->getProperties() >> 16;
-    graphic->xpos = graphic->flip ? frame.get()->hotspot_x - width : -frame.get()->hotspot_x;
-    graphic->ypos = -frame.get()->hotspot_y;
+    int width = frame->getWidth();
+    int height = frame->getHeight();
+    short pal_chooser = frame->getProperties() >> 16;
+    graphic->xpos = graphic->flip ? frame->hotspot_x - width : -frame->hotspot_x;
+    graphic->ypos = -frame->hotspot_y;
     int area = width * height;
     vector<uint8_t> rgbdata(area * 4, 0);
     uint8_t *val = rgbdata.data();
     uint8_t *alpha = val + area * 3;
-    const genie::SlpFrameData *imgdata = &frame.get()->img_data;
-    if(frame.get()->is32bit())
+    const genie::SlpFrameData *imgdata = &frame->img_data;
+    if(frame->is32bit())
     {
         for(int i=0; i < area; ++i)
         {
@@ -3181,7 +3181,7 @@ void AGE_Frame::BitMaptoSLP(AGE_SLP *graphic)
     genie::SlpFramePtr frame;
     try
     {
-        frame = graphic->slp.get()->getFrame(graphic->frameID);
+        frame = graphic->slp->getFrame(graphic->frameID);
     }
     catch(out_of_range){}
     if(!frame)
@@ -3189,10 +3189,10 @@ void AGE_Frame::BitMaptoSLP(AGE_SLP *graphic)
         wxMessageBox("Congrats seeing this message", "No SLP frame " + lexical_cast<string>(graphic->frameID));
         return;
     }
-    genie::SlpFrameData *imgdata = &frame.get()->img_data;
-    if(frame.get()->is32bit())
+    genie::SlpFrameData *imgdata = &frame->img_data;
+    if(frame->is32bit())
     {
-        frame.get()->setSize(img.GetWidth(), img.GetHeight());
+        frame->setSize(img.GetWidth(), img.GetHeight());
         uint32_t *val = imgdata->bgra_channels.data();
         for(int y=0; y < img.GetHeight(); ++y)
         for(int x=0; x < img.GetWidth(); ++x)
@@ -3867,7 +3867,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 try
                 {
                     wxString name = graphicSLP.filename + ".slp";
-                    graphicSLP.slp.get()->saveAs(name.c_str());
+                    graphicSLP.slp->saveAs(name.c_str());
                     wxMessageBox("Saved SLP " + name, "SLP");
                 }
                 catch(std::ios_base::failure e)
@@ -3892,23 +3892,23 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             genie::SlpFilePtr slp_src2(new genie::SlpFile());
             try
             {
-                slp_src1.get()->load(slp_source1->GetPath().c_str());
-                slp_src1.get()->freelock();
-                slp_src2.get()->load(slp_source2->GetPath().c_str());
-                slp_src2.get()->freelock();
+                slp_src1->load(slp_source1->GetPath().c_str());
+                slp_src1->freelock();
+                slp_src2->load(slp_source2->GetPath().c_str());
+                slp_src2->freelock();
             }
             catch(std::ios_base::failure e)
             {
                 wxMessageBox("Error reading SLP files", "SLP");;
                 return;
             }
-            for(uint32_t frame = 0; frame < slp_src1.get()->getFrameCount(); ++frame)
+            for(uint32_t frame = 0; frame < slp_src1->getFrameCount(); ++frame)
             {
                 genie::SlpFramePtr frame1, frame2;
                 try
                 {
-                    frame1 = slp_src1.get()->getFrame(frame);
-                    frame2 = slp_src2.get()->getFrame(frame);
+                    frame1 = slp_src1->getFrame(frame);
+                    frame2 = slp_src2->getFrame(frame);
                 }
                 catch(out_of_range)
                 {
@@ -3918,12 +3918,12 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
 
                 int32_t offset_x, offset_y;
                 // Resize frame if the other frame is bigger in some dimension.
-                frame1.get()->enlargeForMerge(*(frame2.get()), offset_x, offset_y);
-                uint32_t width = frame1.get()->getWidth(), height = frame1.get()->getHeight();
+                frame1->enlargeForMerge(*frame2, offset_x, offset_y);
+                uint32_t width = frame1->getWidth(), height = frame1->getHeight();
 
-                genie::SlpFrameData *imgdata = &frame1.get()->img_data;
+                genie::SlpFrameData *imgdata = &frame1->img_data;
                 imgdata->shadow_mask.clear();
-                for(auto const &shadow_pixel: frame2.get()->img_data.shadow_mask)
+                for(auto const &shadow_pixel: frame2->img_data.shadow_mask)
                 {
                     const uint32_t x = shadow_pixel.x + offset_x,
                         y = shadow_pixel.y + offset_y,
@@ -3939,7 +3939,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             }
             try
             {
-                slp_src1.get()->saveAs(slp_target1->GetPath().c_str());
+                slp_src1->saveAs(slp_target1->GetPath().c_str());
                 wxMessageBox("Merged SLP files", "SLP");
             }
             catch(std::ios_base::failure e)
