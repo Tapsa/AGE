@@ -24,8 +24,11 @@ void AGE_Frame::InitCivs(bool all)
 
     Civs_Civs_ListV->names.clear();
     Civs_Civs_ListV->indexes.clear();
-    wxArrayString names;
-    if(all) names.Alloc(dataset->Civs.size());
+    if(all)
+    {
+        civ_names.Clear();
+        civ_names.Alloc(dataset->Civs.size());
+    }
 
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
     {
@@ -35,18 +38,18 @@ void AGE_Frame::InitCivs(bool all)
             Civs_Civs_ListV->names.Add(Name);
             Civs_Civs_ListV->indexes.push_back(loop);
         }
-        if(all) names.Add(Name);
+        if(all) civ_names.Add(Name);
     }
 
     virtualListing(Civs_Civs_ListV, &CivIDs);
     if(all)
     {
-        FillLists(CivComboBoxList, names, "Any");
+        FillLists(CivComboBoxList, civ_names, "Any");
         for(auto &box: CivComboBoxListNormal)
         {
             short selection = box->GetSelection();
             box->Clear();
-            box->Append(names);
+            box->Append(civ_names);
             box->SetSelection(selection < box->GetCount() ? selection : 0);
         }
     }
@@ -252,8 +255,11 @@ void AGE_Frame::ListResources(bool all)
 
     Civs_Resources_ListV->names.clear();
     Civs_Resources_ListV->indexes.clear();
-    wxArrayString names;
-    if(all) names.Alloc(dataset->Civs[CivIDs.front()].Resources.size());
+    if(all)
+    {
+        resource_names.Clear();
+        resource_names.Alloc(dataset->Civs[CivIDs.front()].Resources.size());
+    }
 
     for(size_t loop = 0; loop < dataset->Civs[CivIDs.front()].Resources.size(); ++loop)
     {
@@ -263,11 +269,11 @@ void AGE_Frame::ListResources(bool all)
             Civs_Resources_ListV->names.Add(Name);
             Civs_Resources_ListV->indexes.push_back(loop);
         }
-        if(all) names.Add(" "+FormatInt(loop)+" - "+GetResourceName(loop));
+        if(all) resource_names.Add(" "+FormatInt(loop)+" - "+GetResourceName(loop));
     }
 
     virtualListing(Civs_Resources_ListV, &ResourceIDs);
-    if(all) FillLists(ResourceComboBoxList, names);
+    if(all) FillLists(ResourceComboBoxList, resource_names);
 
     wxTimerEvent E;
     OnResourcesTimer(E);
@@ -419,12 +425,12 @@ void AGE_Frame::CreateCivControls()
     Civs_TechTree_Holder = new wxBoxSizer(wxVERTICAL);
     Civs_TechTree_Text = new SolidText(Tab_Civs, " Technology Tree");
     Civs_TechTree = AGETextCtrl::init(CShort, &uiGroupCiv, this, &popUp, Tab_Civs);
-    Civs_TechTree_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TechTree);
+    Civs_TechTree_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TechTree, &tech_names);
     TechComboBoxList.push_back(Civs_TechTree_ComboBox);
     Civs_TeamBonus_Holder = new wxBoxSizer(wxVERTICAL);
     Civs_TeamBonus_Text = new SolidText(Tab_Civs, " Team Bonus");
     Civs_TeamBonus = AGETextCtrl::init(CShort, &uiGroupCiv, this, &popUp, Tab_Civs);
-    Civs_TeamBonus_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TeamBonus);
+    Civs_TeamBonus_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TeamBonus, &tech_names);
     TechComboBoxList.push_back(Civs_TeamBonus_ComboBox);
     Civs_SUnknown1_Holder = new wxBoxSizer(wxVERTICAL);
     Civs_SUnknown1_Text = new SolidText(Tab_Civs, " Unique Units / Researches");

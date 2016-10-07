@@ -949,38 +949,23 @@ public:
 
     static const wxString MirrorHelp;
 
-private:
 //  User Interface
+private:
+
+    wxArrayString sound_names, graphic_names, resource_names, terrain_names,
+        unit_names, class_names, action_names, research_names, restriction_names,
+        unitline_names, civ_names, armor_names, border_names, tech_names, color_names,
+        age_names, effect_type_names, effect_attribute_names;
 
     wxMenuBar *MenuBar_Main;
-    wxMenu *SubMenu_Options;
-    wxMenu *SubMenu_Help;
-    wxMenu *SubMenu_SLP;
+    wxMenu *SubMenu_Options, *SubMenu_Help, *SubMenu_SLP;
 
-    wxNotebook *TabBar_Main;
-    wxNotebook *TabBar_TechTree;
+    wxNotebook *TabBar_Main, *TabBar_TechTree;
 
-    wxPanel *Tab_General;
-    wxPanel *Tab_Research;
-    wxPanel *Tab_Techs;
-    wxPanel *Tab_TechTrees;
-    wxPanel *Tab_Civs;
-    wxPanel *Tab_Units; // Unit tab
-    wxPanel *Tab_UnitLine;
-    wxPanel *Tab_Graphics;
-    wxPanel *Tab_Terrains;
-    wxPanel *Tab_TerrainBorders;
-    wxPanel *Tab_TerrainRestrictions;
-    wxPanel *Tab_Sounds;
-    wxPanel *Tab_PlayerColors;
-    wxPanel *Tab_Unknown;
-
-    wxPanel *Tab_TechTreeAges;
-    wxPanel *Tab_TechTreeBuildings;
-    wxPanel *Tab_TechTreeUnits;
-    wxPanel *Tab_TechTreeResearches;
-
-//  wxPanel *Tab_DRS;
+    wxPanel *Tab_General, *Tab_Research, *Tab_Techs, *Tab_TechTrees, *Tab_Civs,
+        *Tab_Units, *Tab_UnitLine, *Tab_Graphics, *Tab_Terrains, *Tab_TerrainBorders,
+        *Tab_TerrainRestrictions, *Tab_Sounds, *Tab_PlayerColors, *Tab_Unknown,
+        *Tab_TechTreeAges, *Tab_TechTreeBuildings, *Tab_TechTreeUnits, *Tab_TechTreeResearches;
 
 //  General user interface
 

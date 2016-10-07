@@ -41,8 +41,11 @@ void AGE_Frame::InitTerrainRestrictions(bool all)
 
     TerRestrict_TerRestrict_ListV->names.clear();
     TerRestrict_TerRestrict_ListV->indexes.clear();
-    wxArrayString names;
-    if(all) names.Alloc(dataset->TerrainRestrictions.size());
+    if(all)
+    {
+        restriction_names.Clear();
+        restriction_names.Alloc(dataset->TerrainRestrictions.size());
+    }
 
     for(size_t loop = 0; loop < dataset->TerrainRestrictions.size(); ++loop)
     {
@@ -52,11 +55,11 @@ void AGE_Frame::InitTerrainRestrictions(bool all)
             TerRestrict_TerRestrict_ListV->names.Add(Name);
             TerRestrict_TerRestrict_ListV->indexes.push_back(loop);
         }
-        if(all) names.Add(Name);
+        if(all) restriction_names.Add(Name);
     }
 
     virtualListing(TerRestrict_TerRestrict_ListV, &TerRestrictIDs);
-    if(all) FillLists(TerrainRestrictionComboBoxList, names);
+    if(all) FillLists(TerrainRestrictionComboBoxList, restriction_names);
 }
 
 void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent &event)
@@ -275,7 +278,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
     for(size_t loop = 0; loop < 3; ++loop)
     {
         TerRestrict_Graphics[loop] = AGETextCtrl::init(CLong, &uiGroupRestriction, this, &popUp, Tab_TerrainRestrictions, AGETextCtrl::LARGE);
-        TerRestrict_Graphics_ComboBox[loop] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[loop]);
+        TerRestrict_Graphics_ComboBox[loop] = new ComboBox_Plus1(Tab_TerrainRestrictions, TerRestrict_Graphics[loop], &graphic_names);
         GraphicComboBoxList.push_back(TerRestrict_Graphics_ComboBox[loop]);
     }
     TerRestrict_Amount_Text = new SolidText(Tab_TerrainRestrictions, " Walk Sprite Rate");

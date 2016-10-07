@@ -16,19 +16,20 @@ public:
 class AGEComboBox: public wxComboCtrl, public AGELinkedBox // AGELinkedBox -> AGEBaseCtrl
 {
 public:
-    AGEComboBox(wxWindow *parent, int width):
+    AGEComboBox(wxWindow *parent, wxArrayString *choices, int width):
     wxComboCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxTE_PROCESS_ENTER)
     {
         popup = new SharedComboPopup();
         SetPopupControl(popup);
+        popup->Imbue(choices);
         Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
     //void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
     virtual void OnUpdate(wxCommandEvent&)=0;
-    void Imbue(wxArrayString *choices) {popup->Imbue(choices);}
     unsigned int GetCount() const {return popup->GetCount();}
     void SetSelection(int n);
     int GetSelection() const {return popup->GetSelection();}
+    void Flash() {popup->Flash();}
 
 //  Temporary functions
     int Append(const wxString&) {return 0;}
@@ -43,10 +44,10 @@ protected:
 class ComboBox_Plus1: public AGEComboBox
 {
 public:
-    ComboBox_Plus1(wxWindow *parent, AGETextCtrl *Pointer, int width = AGETextCtrl::LARGE):
-    AGEComboBox(parent, width)
+    ComboBox_Plus1(wxWindow *parent, AGETextCtrl *ptr, wxArrayString *choices, int width = AGETextCtrl::LARGE):
+    AGEComboBox(parent, choices, width)
     {
-        TextBox = Pointer;
+        TextBox = ptr;
         TextBox->LinkedBoxes.push_back(this);
         Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_Plus1::OnUpdate, this);
     }
@@ -59,10 +60,10 @@ protected:
 class ComboBox_EffectType: public AGEComboBox
 {
 public:
-    ComboBox_EffectType(wxWindow *parent, AGETextCtrl *Pointer):
-    AGEComboBox(parent, AGETextCtrl::GIANT)
+    ComboBox_EffectType(wxWindow *parent, AGETextCtrl *ptr, wxArrayString *choices):
+    AGEComboBox(parent, choices, AGETextCtrl::GIANT)
     {
-        TextBox = Pointer;
+        TextBox = ptr;
         TextBox->LinkedBoxes.push_back(this);
         Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_EffectType::OnUpdate, this);
     }
@@ -75,10 +76,10 @@ protected:
 class ComboBox_EffectAttribute: public AGEComboBox
 {
 public:
-    ComboBox_EffectAttribute(wxWindow *parent, AGETextCtrl *Pointer):
-    AGEComboBox(parent, AGETextCtrl::LARGE)
+    ComboBox_EffectAttribute(wxWindow *parent, AGETextCtrl *ptr, wxArrayString *choices):
+    AGEComboBox(parent, choices, AGETextCtrl::LARGE)
     {
-        TextBox = Pointer;
+        TextBox = ptr;
         TextBox->LinkedBoxes.push_back(this);
         Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_EffectAttribute::OnUpdate, this);
     }
