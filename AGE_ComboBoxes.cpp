@@ -1,10 +1,4 @@
 #include "AGE_ComboBoxes.h"
-/*#include <wx/renderer.h>
-
-void AGEComboBox::OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const
-{
-    wxRendererNative::Get().DrawItemText(const_cast<AGEComboBox*>(this), dc, "Terve", rect, wxALIGN_LEFT | wxALIGN_CENTER_VERTICAL);
-}*/
 
 void ComboBox_Plus1::OnUpdate(wxCommandEvent&)
 {
