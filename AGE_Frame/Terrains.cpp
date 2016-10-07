@@ -153,7 +153,8 @@ void AGE_Frame::InitTerrains1(bool all)
     if(all)
     {
         terrain_names.Clear();
-        terrain_names.Alloc(dataset->TerrainBlock.Terrains.size());
+        terrain_names.Alloc(1 + dataset->TerrainBlock.Terrains.size());
+        terrain_names.Add("-1 - None");
     }
 
     for(size_t loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)

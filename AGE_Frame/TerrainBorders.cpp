@@ -29,7 +29,8 @@ void AGE_Frame::InitTerrainBorders(bool all)
     if(all)
     {
         border_names.Clear();
-        border_names.Alloc(dataset->TerrainBlock.TerrainBorders.size());
+        border_names.Alloc(1 + dataset->TerrainBlock.TerrainBorders.size());
+        border_names.Add("-1 - None");
     }
 
     for(size_t loop = 0; loop < dataset->TerrainBlock.TerrainBorders.size(); ++loop)

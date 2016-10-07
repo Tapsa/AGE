@@ -123,7 +123,8 @@ void AGE_Frame::InitGraphics(bool all)
     if(all)
     {
         graphic_names.Clear();
-        graphic_names.Alloc(dataset->Graphics.size());
+        graphic_names.Alloc(1 + dataset->Graphics.size());
+        graphic_names.Add("-1 - None");
     }
 
     for(size_t loop = 0; loop < dataset->Graphics.size(); ++loop)

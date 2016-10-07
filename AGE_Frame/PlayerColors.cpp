@@ -46,10 +46,7 @@ void AGE_Frame::InitPlayerColors()
     }
 
     virtualListing(Colors_Colors_ListV, &ColorIDs);
-
-    short selection = Graphics_PlayerColor_ComboBox->GetSelection();
     Graphics_PlayerColor_ComboBox->Flash();
-    Graphics_PlayerColor_ComboBox->SetSelection(selection);
 }
 
 void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &event)
