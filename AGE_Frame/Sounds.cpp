@@ -31,7 +31,8 @@ void AGE_Frame::InitSounds(bool all)
     if(all)
     {
         sound_names.Clear();
-        sound_names.Alloc(dataset->Sounds.size());
+        sound_names.Alloc(1 + dataset->Sounds.size());
+        sound_names.Add("-1 - None");
     }
 
     for(size_t loop = 0; loop < dataset->Sounds.size(); ++loop)

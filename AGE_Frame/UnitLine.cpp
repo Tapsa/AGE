@@ -27,7 +27,7 @@ void AGE_Frame::InitUnitLines()
     UnitLines_UnitLines_ListV->names.clear();
     UnitLines_UnitLines_ListV->indexes.clear();
     unitline_names.Clear();
-    unitline_names.Alloc(1 + dataset->Civs.front().Units.size());
+    unitline_names.Alloc(1 + dataset->UnitLines.size());
     unitline_names.Add("-1 - None");
 
     for(size_t loop = 0; loop < dataset->UnitLines.size(); ++loop)
@@ -42,10 +42,7 @@ void AGE_Frame::InitUnitLines()
     }
 
     virtualListing(UnitLines_UnitLines_ListV, &UnitLineIDs);
-
-    short selection = Units_Unitline_ComboBox->GetSelection();
     Units_Unitline_ComboBox->Flash();
-    Units_Unitline_ComboBox->SetSelection(selection);
 }
 
 void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &event)

@@ -27,7 +27,8 @@ void AGE_Frame::InitCivs(bool all)
     if(all)
     {
         civ_names.Clear();
-        civ_names.Alloc(dataset->Civs.size());
+        civ_names.Alloc(1 + dataset->Civs.size());
+        civ_names.Add("-1 - Any");
     }
 
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
@@ -44,12 +45,13 @@ void AGE_Frame::InitCivs(bool all)
     virtualListing(Civs_Civs_ListV, &CivIDs);
     if(all)
     {
-        FillLists(CivComboBoxList, civ_names, "Any");
+        FillLists(CivComboBoxList, civ_names);
         for(auto &box: CivComboBoxListNormal)
         {
             short selection = box->GetSelection();
             box->Clear();
             box->Append(civ_names);
+            box->Delete(0);
             box->SetSelection(selection < box->GetCount() ? selection : 0);
         }
     }
@@ -258,7 +260,8 @@ void AGE_Frame::ListResources(bool all)
     if(all)
     {
         resource_names.Clear();
-        resource_names.Alloc(dataset->Civs[CivIDs.front()].Resources.size());
+        resource_names.Alloc(1 + dataset->Civs.front().Resources.size());
+        resource_names.Add("-1 - None");
     }
 
     for(size_t loop = 0; loop < dataset->Civs[CivIDs.front()].Resources.size(); ++loop)

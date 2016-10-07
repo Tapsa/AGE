@@ -141,7 +141,8 @@ void AGE_Frame::InitResearches(bool all)
     if(all)
     {
         research_names.Clear();
-        research_names.Alloc(dataset->Researchs.size());
+        research_names.Alloc(1 + dataset->Researchs.size());
+        research_names.Add("-1 - None");
     }
 
     for(size_t loop = 0; loop < dataset->Researchs.size(); ++loop)
@@ -161,10 +162,10 @@ void AGE_Frame::InitResearches(bool all)
         FillLists(ResearchComboBoxList, research_names);
         if(GenieVersion >= genie::GV_AoKA)
         {
-            TechTrees_Ages_Items.FillItemCombo(TechTrees_Ages_Items.ItemCombo->GetSelection(), true);
-            TechTrees_Buildings_Items.FillItemCombo(TechTrees_Buildings_Items.ItemCombo->GetSelection(), true);
-            TechTrees_Units_Items.FillItemCombo(TechTrees_Units_Items.ItemCombo->GetSelection(), true);
-            TechTrees_Researches_Items.FillItemCombo(TechTrees_Researches_Items.ItemCombo->GetSelection(), true);
+            FillItemCombo(TechTrees_Ages_Items, true);
+            FillItemCombo(TechTrees_Buildings_Items, true);
+            FillItemCombo(TechTrees_Units_Items, true);
+            FillItemCombo(TechTrees_Researches_Items, true);
         }
     }
 
