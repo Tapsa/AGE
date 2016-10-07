@@ -3602,12 +3602,13 @@ void AGE_Frame::virtualListing(AGEListView *list, vector<int> *oldies)
 
 void AGE_Frame::FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString &names, const wxString &none)
 {
+    wxArrayString* remove_me_pls = new wxArrayString(names);
     for(ComboBox_Plus1* &list: boxlist)
     {
         int selection = list->GetSelection();
-        list->Clear();
+        //list->Clear();
         list->Append("-1 - " + none);
-        list->Append(names);
+        list->Imbue(remove_me_pls);
         list->SetSelection(selection < list->GetCount() ? selection : 0);
     }
 }
