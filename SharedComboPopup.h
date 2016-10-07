@@ -54,6 +54,7 @@ public:
     int GetSelection() const;
 
     void Imbue(wxArrayString *choices);
+    void Flash();
 
     // helpers
     wxCoord GetTotalHeight() const {return EstimateTotalHeight();}
@@ -119,11 +120,11 @@ protected:
     // Stop partial completion (when some other event occurs)
     void StopPartialCompletion();
 
-    wxArrayString           m_strings;
+    wxArrayString           *s_strings;
 
     wxFont                  m_useFont;
 
-    //wxString                m_stringValue; // displayed text (may be different than m_strings[m_value])
+    //wxString                m_stringValue; // displayed text (may be different than (*s_strings)[m_value])
     int                     m_value; // selection
     int                     m_itemHover; // on which item the cursor is
     int                     m_itemHeight; // default item height (calculate from font size

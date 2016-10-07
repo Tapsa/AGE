@@ -140,8 +140,8 @@ void AGE_Frame::InitResearches(bool all)
     Research_Research_ListV->indexes.clear();
     if(all)
     {
-        AGE_AreaTT84::researches.Clear();
-        AGE_AreaTT84::researches.Alloc(dataset->Researchs.size());
+        research_names.Clear();
+        research_names.Alloc(dataset->Researchs.size());
     }
 
     for(size_t loop = 0; loop < dataset->Researchs.size(); ++loop)
@@ -152,13 +152,13 @@ void AGE_Frame::InitResearches(bool all)
             Research_Research_ListV->names.Add(Name);
             Research_Research_ListV->indexes.push_back(loop);
         }
-        if(all) AGE_AreaTT84::researches.Add(" "+FormatInt(loop)+" - "+GetResearchName(loop));
+        if(all) research_names.Add(" "+FormatInt(loop)+" - "+GetResearchName(loop));
     }
 
     virtualListing(Research_Research_ListV, &ResearchIDs);
     if(all)
     {
-        FillLists(ResearchComboBoxList, AGE_AreaTT84::researches);
+        FillLists(ResearchComboBoxList, research_names);
         if(GenieVersion >= genie::GV_AoKA)
         {
             TechTrees_Ages_Items.FillItemCombo(TechTrees_Ages_Items.ItemCombo->GetSelection(), true);
@@ -479,7 +479,7 @@ void AGE_Frame::CreateResearchControls()
     for(size_t loop = 0; loop < 6; ++loop)
     {
         Research_RequiredTechs[loop] = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-        Research_RequiredTechs_ComboBox[loop] = new ComboBox_Plus1(Research_Scroller, Research_RequiredTechs[loop], AGETextCtrl::NORMAL);
+        Research_RequiredTechs_ComboBox[loop] = new ComboBox_Plus1(Research_Scroller, Research_RequiredTechs[loop], &research_names, AGETextCtrl::NORMAL);
         ResearchComboBoxList.push_back(Research_RequiredTechs_ComboBox[loop]);
     }
     Research_RequiredTechCount_Holder = new wxBoxSizer(wxVERTICAL);
@@ -502,17 +502,17 @@ void AGE_Frame::CreateResearchControls()
     Research_TechID_Holder = new wxBoxSizer(wxVERTICAL);
     Research_TechID_Text = new SolidText(Research_Scroller, " Technology");
     Research_TechID = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-    Research_TechID_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_TechID);
+    Research_TechID_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_TechID, &tech_names);
     TechComboBoxList.push_back(Research_TechID_ComboBox);
     Research_ResearchLocation_Holder = new wxBoxSizer(wxVERTICAL);
     Research_ResearchLocation_Text = new SolidText(Research_Scroller, " Research Location");
     Research_ResearchLocation = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-    Research_ResearchLocation_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_ResearchLocation);
+    Research_ResearchLocation_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_ResearchLocation, &unit_names);
     UnitComboBoxList.push_back(Research_ResearchLocation_ComboBox);
     Research_Civ_Holder = new wxBoxSizer(wxVERTICAL);
     Research_Civ_Text = new SolidText(Research_Scroller, " Civilization");
     Research_Civ = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-    Research_Civ_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_Civ);
+    Research_Civ_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_Civ, &civ_names);
     CivComboBoxList.push_back(Research_Civ_ComboBox);
     Research_FullTechMode_Holder = new wxBoxSizer(wxVERTICAL);
     Research_FullTechMode_Text = new SolidText(Research_Scroller, " Full Tech. Mode");
@@ -529,7 +529,7 @@ void AGE_Frame::CreateResearchControls()
     for(size_t loop = 0; loop < 3; ++loop)
     {
         Research_Resources[loop] = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-        Research_Resources_ComboBox[loop] = new ComboBox_Plus1(Research_Scroller, Research_Resources[loop]);
+        Research_Resources_ComboBox[loop] = new ComboBox_Plus1(Research_Scroller, Research_Resources[loop], &resource_names);
         ResourceComboBoxList.push_back(Research_Resources_ComboBox[loop]);
         Research_Amount[loop] = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
         Research_Used[loop] = AGETextCtrl::init(CByte, &uiGroupResearch, this, &popUp, Research_Scroller, AGETextCtrl::SMALL);
