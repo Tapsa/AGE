@@ -1,5 +1,6 @@
 #pragma once
 #include "AGE_TextControls.h"
+#include "SharedComboPopup.h"
 
 class AGEODComboBox: public wxOwnerDrawnComboBox
 {
@@ -12,20 +13,31 @@ public:
     //void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
 };
 
-class AGEComboBox: public wxOwnerDrawnComboBox, public AGELinkedBox // AGELinkedBox -> AGEBaseCtrl
+class AGEComboBox: public wxComboCtrl, public AGELinkedBox // AGELinkedBox -> AGEBaseCtrl
 {
 public:
     AGEComboBox(wxWindow *parent, int width):
-    wxOwnerDrawnComboBox(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), 0, 0, wxTE_PROCESS_ENTER)
+    wxComboCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxTE_PROCESS_ENTER)
     {
+        popup = new SharedComboPopup();
+        SetPopupControl(popup);
         Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
     //void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
     virtual void OnUpdate(wxCommandEvent&)=0;
+    void Imbue(wxArrayString *choices) {popup->Imbue(choices);}
+
+//  Temporary functions
+    int Append(const wxString&) {return 0;}
+    int Append(const wxArrayString&) {return 0;}
+    virtual unsigned int GetCount() const {return 0;}
+    virtual void SetSelection(int n) {}
+    virtual int GetSelection() const {return 0;}
 
 protected:
     void enable(bool yes){Enable(yes);}
     AGETextCtrl *TextBox;
+    SharedComboPopup *popup;
 };
 
 class ComboBox_Plus1: public AGEComboBox
