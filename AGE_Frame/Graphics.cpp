@@ -120,8 +120,11 @@ void AGE_Frame::InitGraphics(bool all)
 
     Graphics_Graphics_ListV->names.clear();
     Graphics_Graphics_ListV->indexes.clear();
-    wxArrayString names;
-    if(all) names.Alloc(dataset->Graphics.size());
+    if(all)
+    {
+        graphic_names.Clear();
+        graphic_names.Alloc(dataset->Graphics.size());
+    }
 
     for(size_t loop = 0; loop < dataset->Graphics.size(); ++loop)
     {
@@ -131,11 +134,11 @@ void AGE_Frame::InitGraphics(bool all)
             Graphics_Graphics_ListV->names.Add(Name);
             Graphics_Graphics_ListV->indexes.push_back(loop);
         }
-        if(all) names.Add(" "+FormatInt(loop)+" - "+GetGraphicName(loop));
+        if(all) graphic_names.Add(" "+FormatInt(loop)+" - "+GetGraphicName(loop));
     }
 
     virtualListing(Graphics_Graphics_ListV, &GraphicIDs);
-    if(all) FillLists(GraphicComboBoxList, names);
+    if(all) FillLists(GraphicComboBoxList, graphic_names);
 
     SearchAnd = ExcludeAnd = false;
 }
@@ -992,13 +995,13 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_SoundID_Holder = new wxBoxSizer(wxVERTICAL);
     Graphics_SoundID_Text = new SolidText(Graphics_Scroller, " Sound");
     Graphics_SoundID = AGETextCtrl::init(CShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
-    Graphics_SoundID_ComboBox = new ComboBox_Plus1(Graphics_Scroller, Graphics_SoundID);
+    Graphics_SoundID_ComboBox = new ComboBox_Plus1(Graphics_Scroller, Graphics_SoundID, &sound_names);
     SoundComboBoxList.push_back(Graphics_SoundID_ComboBox);
     Graphics_PlayerColor_Holder = new wxBoxSizer(wxVERTICAL);
     Graphics_PlayerColor_Text = new SolidText(Graphics_Scroller, " Forced Player Color *");
     Graphics_PlayerColor = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_PlayerColor->SetToolTip("The player color to be forced on the graphic");
-    Graphics_PlayerColor_ComboBox = new ComboBox_Plus1(Graphics_Scroller, Graphics_PlayerColor);
+    Graphics_PlayerColor_ComboBox = new ComboBox_Plus1(Graphics_Scroller, Graphics_PlayerColor, &color_names);
     Graphics_Rainbow_Holder = new wxBoxSizer(wxVERTICAL);
     Graphics_Rainbow_Text = new SolidText(Graphics_Scroller, " Rainbow *");
     Graphics_Rainbow = AGETextCtrl::init(CByte, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
@@ -1046,7 +1049,7 @@ void AGE_Frame::CreateGraphicsControls()
     GraphicDeltas_GraphicID_Holder = new wxBoxSizer(wxVERTICAL);
     GraphicDeltas_GraphicID_Text = new SolidText(Graphics_Scroller, " Graphic");
     GraphicDeltas_GraphicID = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
-    GraphicDeltas_GraphicID_ComboBox = new ComboBox_Plus1(Graphics_Scroller, GraphicDeltas_GraphicID);
+    GraphicDeltas_GraphicID_ComboBox = new ComboBox_Plus1(Graphics_Scroller, GraphicDeltas_GraphicID, &graphic_names);
     GraphicComboBoxList.push_back(GraphicDeltas_GraphicID_ComboBox);
     GraphicDeltas_DirectionX_Holder = new wxBoxSizer(wxVERTICAL);
     GraphicDeltas_DirectionX_Text = new SolidText(Graphics_Scroller, " Direction X");
@@ -1092,7 +1095,7 @@ void AGE_Frame::CreateGraphicsControls()
     for(size_t loop = 0; loop < 3; ++loop)
     {
         Graphics_AttackSoundID[loop] = AGETextCtrl::init(CShort, &uiGroupGraphicSound, this, &popUp, Graphics_Scroller);
-        Graphics_AttackSoundID_ComboBox[loop] = new ComboBox_Plus1(Graphics_Scroller, Graphics_AttackSoundID[loop]);
+        Graphics_AttackSoundID_ComboBox[loop] = new ComboBox_Plus1(Graphics_Scroller, Graphics_AttackSoundID[loop], &sound_names);
         SoundComboBoxList.push_back(Graphics_AttackSoundID_ComboBox[loop]);
         Graphics_AttackSoundDelay[loop] = AGETextCtrl::init(CShort, &uiGroupGraphicSound, this, &popUp, Graphics_Scroller);
     }

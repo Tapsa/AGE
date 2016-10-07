@@ -26,8 +26,9 @@ void AGE_Frame::InitUnitLines()
 
     UnitLines_UnitLines_ListV->names.clear();
     UnitLines_UnitLines_ListV->indexes.clear();
-    wxArrayString names;
-    names.Alloc(dataset->Civs.front().Units.size());
+    unitline_names.Clear();
+    unitline_names.Alloc(1 + dataset->Civs.front().Units.size());
+    unitline_names.Add("-1 - None");
 
     for(size_t loop = 0; loop < dataset->UnitLines.size(); ++loop)
     {
@@ -37,15 +38,13 @@ void AGE_Frame::InitUnitLines()
             UnitLines_UnitLines_ListV->names.Add(Name);
             UnitLines_UnitLines_ListV->indexes.push_back(loop);
         }
-        names.Add(Name);
+        unitline_names.Add(Name);
     }
 
     virtualListing(UnitLines_UnitLines_ListV, &UnitLineIDs);
 
     short selection = Units_Unitline_ComboBox->GetSelection();
-    Units_Unitline_ComboBox->Clear();
-    Units_Unitline_ComboBox->Append("-1 - None");
-    Units_Unitline_ComboBox->Append(names);
+    Units_Unitline_ComboBox->Flash();
     Units_Unitline_ComboBox->SetSelection(selection);
 }
 
@@ -317,7 +316,7 @@ void AGE_Frame::CreateUnitLineControls()
     UnitLineUnits_Holder = new wxBoxSizer(wxVERTICAL);
     UnitLineUnits_Text = new SolidText(Tab_UnitLine, " Unit");
     UnitLineUnits_Units = AGETextCtrl::init(CShort, NULL, this, &popUp, Tab_UnitLine);
-    UnitLineUnits_ComboBox = new ComboBox_Plus1(Tab_UnitLine, UnitLineUnits_Units);
+    UnitLineUnits_ComboBox = new ComboBox_Plus1(Tab_UnitLine, UnitLineUnits_Units, &unit_names);
     UnitComboBoxList.push_back(UnitLineUnits_ComboBox);
 
     UnitLines_UnitLines_Buttons->Add(UnitLines_Add, 1, wxEXPAND);

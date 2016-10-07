@@ -18,6 +18,7 @@ public:
     AGETextCtrl *Item;
     ComboBox_Plus1 *ItemCombo;
     wxButton *Add, *Insert, *Delete, *Copy, *Paste, *PasteInsert, *CopyAllToSelected;
+    wxArrayString item_names;
 
     void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller, const wxString &listName, const wxString &itemName)
     {
@@ -26,7 +27,7 @@ public:
         SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
         List = new AGEListView(scroller, wxSize(10, 100));
         Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
-        ItemCombo = new ComboBox_Plus1(scroller, Item);
+        ItemCombo = new ComboBox_Plus1(scroller, Item, &item_names);
         Buttons = new wxGridSizer(3, 0, 0);
         Add = new wxButton(scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
         Insert = new wxButton(scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -71,7 +72,7 @@ public:
     ComboBox_Plus1 *ItemCombo;
     wxOwnerDrawnComboBox *ModeCombo;
     wxButton *Copy, *Paste, *CopyAllToSelected;
-    static wxArrayString ages, researches, units;
+    wxArrayString item_names;
 
     void FillItemCombo(int selection, bool update = false);
     void ClearItemCombo()
@@ -83,7 +84,6 @@ public:
     void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller, const wxString &itemName)
     {
         lastList = 4;
-        wxArrayString ages, researches, units;
         Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Connected Items");
         ItemList = new wxBoxSizer(wxVERTICAL);
         UsedItems_H = new wxBoxSizer(wxVERTICAL);
@@ -95,7 +95,7 @@ public:
         List = new AGEListView(scroller, wxSize(10, 100));
         Item_H = new wxBoxSizer(wxHORIZONTAL);
         Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
-        ItemCombo = new ComboBox_Plus1(scroller, Item);
+        ItemCombo = new ComboBox_Plus1(scroller, Item, &item_names);
         Mode = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller, AGETextCtrl::MEDIUM);
         ModeCombo = new AGEODComboBox(scroller);
         Buttons = new wxGridSizer(2, 0, 0);

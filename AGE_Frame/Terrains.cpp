@@ -150,8 +150,11 @@ void AGE_Frame::InitTerrains1(bool all)
 
     Terrains_Terrains_ListV->names.clear();
     Terrains_Terrains_ListV->indexes.clear();
-    wxArrayString names;
-    if(all) names.Alloc(dataset->TerrainBlock.Terrains.size());
+    if(all)
+    {
+        terrain_names.Clear();
+        terrain_names.Alloc(dataset->TerrainBlock.Terrains.size());
+    }
 
     for(size_t loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
     {
@@ -161,13 +164,13 @@ void AGE_Frame::InitTerrains1(bool all)
             Terrains_Terrains_ListV->names.Add(Name);
             Terrains_Terrains_ListV->indexes.push_back(loop);
         }
-        if(all) names.Add(" "+FormatInt(loop)+" - "+GetTerrainName(loop));
+        if(all) terrain_names.Add(" "+FormatInt(loop)+" - "+GetTerrainName(loop));
     }
 
     SearchAnd = ExcludeAnd = false;
 
     virtualListing(Terrains_Terrains_ListV, &TerrainIDs);
-    if(all) FillLists(TerrainComboBoxList, names);
+    if(all) FillLists(TerrainComboBoxList, terrain_names);
     InitTerrains2();
 }
 
@@ -581,7 +584,7 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_SoundID_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_SoundID_Text = new SolidText(Terrains_Scroller, " Sound");
     Terrains_SoundID = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
-    Terrains_SoundID_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_SoundID);
+    Terrains_SoundID_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_SoundID, &sound_names);
     SoundComboBoxList.push_back(Terrains_SoundID_ComboBox);
     Terrains_BlendPriority_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_BlendPriority_Text = new SolidText(Terrains_Scroller, " Blend Level");
@@ -603,17 +606,17 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_PassableTerrain_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_PassableTerrain_Text = new SolidText(Terrains_Scroller, " Passable Terrain");
     Terrains_PassableTerrain = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
-    Terrains_PassableTerrain_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_PassableTerrain);
+    Terrains_PassableTerrain_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_PassableTerrain, &terrain_names);
     TerrainComboBoxList.push_back(Terrains_PassableTerrain_ComboBox);
     Terrains_ImpassableTerrain_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_ImpassableTerrain_Text = new SolidText(Terrains_Scroller, " Impassable Terrain");
     Terrains_ImpassableTerrain = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
-    Terrains_ImpassableTerrain_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_ImpassableTerrain);
+    Terrains_ImpassableTerrain_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_ImpassableTerrain, &terrain_names);
     TerrainComboBoxList.push_back(Terrains_ImpassableTerrain_ComboBox);
     Terrains_TerrainReplacementID_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_TerrainReplacementID_Text = new SolidText(Terrains_Scroller, " Terrain to Draw");
     Terrains_TerrainReplacementID = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
-    Terrains_TerrainReplacementID_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainReplacementID);
+    Terrains_TerrainReplacementID_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainReplacementID, &terrain_names);
     TerrainComboBoxList.push_back(Terrains_TerrainReplacementID_ComboBox);
     Terrains_TerrainDimensions_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_TerrainDimensions_Text = new SolidText(Terrains_Scroller, " Terrain Dimensions");
@@ -638,7 +641,7 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_Borders_Search_R = new wxTextCtrl(Terrains_Scroller, wxID_ANY);
     Terrains_Borders_ListV = new AGEListView(Terrains_Scroller, wxSize(200, 250));
     Terrains_Border = AGETextCtrl::init(CShort, NULL, this, &popUp, Terrains_Scroller);
-    Terrains_Border_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_Border);
+    Terrains_Border_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_Border, &border_names);
     TerrainBorderComboBoxList.push_back(Terrains_Border_ComboBox);
     Terrains_Borders_Buttons = new wxGridSizer(2, 0, 0);
     Terrains_Borders_Copy = new wxButton(Terrains_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
@@ -659,7 +662,7 @@ void AGE_Frame::CreateTerrainControls()
     for(size_t loop = 0; loop < TERRAINUNITS; ++loop)
     {
         Terrains_TerrainUnitID[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
-        Terrains_TerrainUnitID_ComboBox[loop] = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainUnitID[loop]);
+        Terrains_TerrainUnitID_ComboBox[loop] = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainUnitID[loop], &unit_names);
         UnitComboBoxList.push_back(Terrains_TerrainUnitID_ComboBox[loop]);
         Terrains_TerrainUnitDensity[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
         Terrains_TerrainUnitPriority[loop] = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);

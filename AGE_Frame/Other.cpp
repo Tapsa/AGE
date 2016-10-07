@@ -3,7 +3,6 @@
 #include "../DRSlock.xpm"
 #include "../Tree32.xpm"
 
-wxArrayString AGE_AreaTT84::ages, AGE_AreaTT84::researches, AGE_AreaTT84::units;
 float AGE_SLP::bearing = 0.f;
 unsigned AGE_SLP::setbearing = 0u;
 
@@ -509,24 +508,24 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         UnitCommands_Type_ComboBox->Append("151: Feitoria Ability");
         UnitCommands_Type_ComboBox->SetSelection(0);
 
-        AGE_AreaTT84::ages.Clear();
+        age_names.Clear();
         if(GenieVersion >= genie::GV_SWGB)
         {
-            AGE_AreaTT84::ages.Add("0 - None");
-            AGE_AreaTT84::ages.Add("1st Tech Level");
-            AGE_AreaTT84::ages.Add("2nd Tech Level");
-            AGE_AreaTT84::ages.Add("3rd Tech Level");
-            AGE_AreaTT84::ages.Add("4th Tech Level");
-            AGE_AreaTT84::ages.Add("5th Tech Level");
+            age_names.Add("0 - None");
+            age_names.Add("1st Tech Level");
+            age_names.Add("2nd Tech Level");
+            age_names.Add("3rd Tech Level");
+            age_names.Add("4th Tech Level");
+            age_names.Add("5th Tech Level");
         }
         else if(GenieVersion >= genie::GV_AoKA)
         {
-            AGE_AreaTT84::ages.Add("0 - None");
-            AGE_AreaTT84::ages.Add("Dark Age");
-            AGE_AreaTT84::ages.Add("Feudal Age");
-            AGE_AreaTT84::ages.Add("Castle Age");
-            AGE_AreaTT84::ages.Add("Imperial Age");
-            AGE_AreaTT84::ages.Add("Post-Imperial Age");
+            age_names.Add("0 - None");
+            age_names.Add("Dark Age");
+            age_names.Add("Feudal Age");
+            age_names.Add("Castle Age");
+            age_names.Add("Imperial Age");
+            age_names.Add("Post-Imperial Age");
         }
 
         wxArrayString DefAoE1Armors, DefAoE2Armors, DefSWGBArmors,
@@ -1300,25 +1299,25 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             Customs.Write("Count/AoKCivResCount", (int)DefAoKCivRes.GetCount());
         if(!Customs.Read("Count/SWGBCivResCount", &SWGBCountCR, DefSWGBCivRes.GetCount()))
             Customs.Write("Count/SWGBCivResCount", (int)DefSWGBCivRes.GetCount());
-        wxArrayString AoE1Armors, AoE2Armors, SWGBArmors;
+        armor_names.Clear();
         wxString read_buf;
         for(size_t loop = 0; loop < AoE1Count; ++loop)
         {
             if(!Customs.Read("AoE1Names/"+lexical_cast<string>(loop), &read_buf, DefAoE1Armors[loop]))
                 Customs.Write("AoE1Names/"+lexical_cast<string>(loop), DefAoE1Armors[loop]);
-            AoE1Armors.Add(read_buf);
+            armor_names.Add(read_buf);
         }
         for(size_t loop = 0; loop < AoE2Count; ++loop)
         {
             if(!Customs.Read("AoE2Names/"+lexical_cast<string>(loop), &read_buf, DefAoE2Armors[loop]))
                 Customs.Write("AoE2Names/"+lexical_cast<string>(loop), DefAoE2Armors[loop]);
-            AoE2Armors.Add(read_buf);
+            armor_names.Add(read_buf);
         }
         for(size_t loop = 0; loop < SWGBCount; ++loop)
         {
             if(!Customs.Read("SWGBNames/"+lexical_cast<string>(loop), &read_buf, DefSWGBArmors[loop]))
                 Customs.Write("SWGBNames/"+lexical_cast<string>(loop), DefSWGBArmors[loop]);
-            SWGBArmors.Add(read_buf);
+            armor_names.Add(read_buf);
         }
         for(size_t loop = 0; loop < AoE1CountTR; ++loop)
         {
@@ -1357,170 +1356,171 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             SWGBCivResources.Add(read_buf);
         }
 
+        class_names.Clear();
+        class_names.Add("No Class/Invalid Class");   // Selection 0
+        if(GenieVersion < genie::GV_SWGB)
+        {
+            class_names.Add("0 - Archer");// archery-class
+            class_names.Add("1 - Artifact/Ruins");
+            class_names.Add("2 - Trade Boat");
+            class_names.Add("3 - Building");// building-class
+            class_names.Add("4 - Civilian");// villager-class
+            class_names.Add("5 - Ocean Fish");// ocean-fish-class
+            class_names.Add("6 - Infantry");// infantry-class
+            class_names.Add("7 - Berry Bush");// forage-food
+            class_names.Add("8 - Stone Mine");
+            class_names.Add("9 - Prey Animal");// deer-food
+            class_names.Add("10 - Predator Animal");// boar-food
+            class_names.Add("11 - Other/Dead/Projectile");
+            class_names.Add("12 - Cavalry");// cavalry-class
+            class_names.Add("13 - Siege Weapon");// siege-weapon-class
+            class_names.Add("14 - Terrain");
+            class_names.Add("15 - Tree");
+            class_names.Add("16 - Tree Stump");
+            class_names.Add("17 - Unused");
+            class_names.Add("18 - Priest");// monastery-class
+            class_names.Add("19 - Trade Cart");
+            class_names.Add("20 - Transport Boat");
+            class_names.Add("21 - Fishing Boat");
+            class_names.Add("22 - Warship");// warship-class
+            if(GenieVersion < genie::GV_AoKA)
+                class_names.Add("23 - Chariot Archer");
+            else
+                class_names.Add("23 - Conquistador");// cavalry-cannon-class
+            class_names.Add("24 - War Elephant");
+            class_names.Add("25 - Hero");
+            class_names.Add("26 - Elephant Archer");
+            class_names.Add("27 - Wall");// wall-class
+            class_names.Add("28 - Phalanx");
+            class_names.Add("29 - Domesticated Animal");
+            class_names.Add("30 - Flag");
+            class_names.Add("31 - Unknown Fish");
+            class_names.Add("32 - Gold Mine");
+            class_names.Add("33 - Shore Fish");// fish-food // shore-fish-class
+            class_names.Add("34 - Cliff");
+            if(GenieVersion < genie::GV_AoKA)
+                class_names.Add("35 - Chariot");
+            else
+                class_names.Add("35 - Petard");// petard-class
+            class_names.Add("36 - Cavalry Archer");// cavalry-archer-class
+            class_names.Add("37 - Dolphin/Smoke");
+            class_names.Add("38 - Bird");
+            if(GenieVersion < genie::GV_AoKA)
+                class_names.Add("39 - Slinger");
+            else
+                class_names.Add("39 - Gate");// gate-class
+            class_names.Add("40 - Pile");
+            class_names.Add("41 - Pile of Resource");
+            class_names.Add("42 - Relic");
+            class_names.Add("43 - Monk with Relic");
+            class_names.Add("44 - Hand Cannoneer");// archery-cannon-class
+            class_names.Add("45 - Two Handed Swordsman");
+            class_names.Add("46 - Pikeman");
+            class_names.Add("47 - Scout Cavalry");
+            class_names.Add("48 - Ore Mine");
+            class_names.Add("49 - Farm");// farm-food // farm-class
+            class_names.Add("50 - Spearman");
+            class_names.Add("51 - Packed Siege Unit");// packed-trebuchet-class
+            class_names.Add("52 - Tower");// tower-class
+            class_names.Add("53 - Boarding Boat");
+            class_names.Add("54 - Unpacked Siege Unit");// unpacked-trebuchet-class
+            class_names.Add("55 - Scorpion");// scorpion-class
+            class_names.Add("56 - Raider");
+            class_names.Add("57 - Cavalry Raider");
+            class_names.Add("58 - Livestock");// sheep-food // livestock-class
+            class_names.Add("59 - King");// king-class
+            class_names.Add("60 - Unused");
+            class_names.Add("61 - Horse");
+        }
+        else
+        {
+            class_names.Add("0 - Unused");   // Selection 1
+            class_names.Add("1 - Nerf/Bantha");
+            class_names.Add("2 - Fambaa");
+            class_names.Add("3 - Unused");
+            class_names.Add("4 - Wild Animal");
+            class_names.Add("5 - Monster/Trouble");
+            class_names.Add("6 - Wall");
+            class_names.Add("7 - Farm");
+            class_names.Add("8 - Gate");
+            class_names.Add("9 - Fortress/A-A Turret");
+            class_names.Add("10 - Turret");
+            class_names.Add("11 - Cruiser");
+            class_names.Add("12 - Unused");
+            class_names.Add("13 - Destroyer");
+            class_names.Add("14 - Utility Trawler");
+            class_names.Add("15 - Frigate 1");
+            class_names.Add("16 - A-A Destroyer 1");
+            class_names.Add("17 - Transport Ship");
+            class_names.Add("18 - Building");
+            class_names.Add("19 - Doppleganger");
+            class_names.Add("20 - Other/Dead/Projectile");
+            class_names.Add("21 - Command Base");
+            class_names.Add("22 - Cliff");
+            class_names.Add("23 - Fish");
+            class_names.Add("24 - Unused");
+            class_names.Add("25 - Shore Fish");
+            class_names.Add("26 - Game Engine Stuff");
+            class_names.Add("27 - Fruit Bush");
+            class_names.Add("28 - Holocron");
+            class_names.Add("29 - Nova");
+            class_names.Add("30 - Ore");
+            class_names.Add("31 - Tree/Carbon");
+            class_names.Add("32 - Artillery");
+            class_names.Add("33 - A-A Mobile");
+            class_names.Add("34 - Undeployed Cannon");
+            class_names.Add("35 - Pummel");
+            class_names.Add("36 - Cannon");
+            class_names.Add("37 - Unused");
+            class_names.Add("38 - Unused");
+            class_names.Add("39 - Frigate 2");
+            class_names.Add("40 - A-A Destroyer 2");
+            class_names.Add("41 - Unused");
+            class_names.Add("42 - Bridge/Eye Candy");
+            class_names.Add("43 - Bomber");
+            class_names.Add("44 - Bounty Hunter");
+            class_names.Add("45 - Cargo Trader");
+            class_names.Add("46 - Mixed 1");
+            class_names.Add("47 - Scout");
+            class_names.Add("48 - Fighter");
+            class_names.Add("49 - Grenade Trooper");
+            class_names.Add("50 - Jedi");
+            class_names.Add("51 - Jedi with Holocron");
+            class_names.Add("52 - Trooper");
+            class_names.Add("53 - War Machine");
+            class_names.Add("54 - Medic");
+            class_names.Add("55 - A-A Trooper");
+            class_names.Add("56 - Mounted Trooper");
+            class_names.Add("57 - Fambaa Shield Generator");
+            class_names.Add("58 - Workers");
+            class_names.Add("59 - Air Transport");
+            class_names.Add("60 - Horse-like Animal");
+            class_names.Add("61 - Power Droid");
+            class_names.Add("62 - Air Cruiser");
+            class_names.Add("63 - Geonosian Warrior");
+            class_names.Add("64 - Jedi Starfighter");
+        }
+
         for(size_t loop = 0; loop < 3; ++loop)
         {
-            Units_Class_ComboBox[loop]->Clear();
-            Units_Class_ComboBox[loop]->Append("No Class/Invalid Class");   // Selection 0
-            if(GenieVersion < genie::GV_SWGB)
-            {
-                Units_Class_ComboBox[loop]->Append("0 - Archer");// archery-class
-                Units_Class_ComboBox[loop]->Append("1 - Artifact/Ruins");
-                Units_Class_ComboBox[loop]->Append("2 - Trade Boat");
-                Units_Class_ComboBox[loop]->Append("3 - Building");// building-class
-                Units_Class_ComboBox[loop]->Append("4 - Civilian");// villager-class
-                Units_Class_ComboBox[loop]->Append("5 - Ocean Fish");// ocean-fish-class
-                Units_Class_ComboBox[loop]->Append("6 - Infantry");// infantry-class
-                Units_Class_ComboBox[loop]->Append("7 - Berry Bush");// forage-food
-                Units_Class_ComboBox[loop]->Append("8 - Stone Mine");
-                Units_Class_ComboBox[loop]->Append("9 - Prey Animal");// deer-food
-                Units_Class_ComboBox[loop]->Append("10 - Predator Animal");// boar-food
-                Units_Class_ComboBox[loop]->Append("11 - Other/Dead/Projectile");
-                Units_Class_ComboBox[loop]->Append("12 - Cavalry");// cavalry-class
-                Units_Class_ComboBox[loop]->Append("13 - Siege Weapon");// siege-weapon-class
-                Units_Class_ComboBox[loop]->Append("14 - Terrain");
-                Units_Class_ComboBox[loop]->Append("15 - Tree");
-                Units_Class_ComboBox[loop]->Append("16 - Tree Stump");
-                Units_Class_ComboBox[loop]->Append("17 - Unused");
-                Units_Class_ComboBox[loop]->Append("18 - Priest");// monastery-class
-                Units_Class_ComboBox[loop]->Append("19 - Trade Cart");
-                Units_Class_ComboBox[loop]->Append("20 - Transport Boat");
-                Units_Class_ComboBox[loop]->Append("21 - Fishing Boat");
-                Units_Class_ComboBox[loop]->Append("22 - Warship");// warship-class
-                if(GenieVersion < genie::GV_AoKA)
-                    Units_Class_ComboBox[loop]->Append("23 - Chariot Archer");
-                else
-                    Units_Class_ComboBox[loop]->Append("23 - Conquistador");// cavalry-cannon-class
-                Units_Class_ComboBox[loop]->Append("24 - War Elephant");
-                Units_Class_ComboBox[loop]->Append("25 - Hero");
-                Units_Class_ComboBox[loop]->Append("26 - Elephant Archer");
-                Units_Class_ComboBox[loop]->Append("27 - Wall");// wall-class
-                Units_Class_ComboBox[loop]->Append("28 - Phalanx");
-                Units_Class_ComboBox[loop]->Append("29 - Domesticated Animal");
-                Units_Class_ComboBox[loop]->Append("30 - Flag");
-                Units_Class_ComboBox[loop]->Append("31 - Unknown Fish");
-                Units_Class_ComboBox[loop]->Append("32 - Gold Mine");
-                Units_Class_ComboBox[loop]->Append("33 - Shore Fish");// fish-food // shore-fish-class
-                Units_Class_ComboBox[loop]->Append("34 - Cliff");
-                if(GenieVersion < genie::GV_AoKA)
-                    Units_Class_ComboBox[loop]->Append("35 - Chariot");
-                else
-                    Units_Class_ComboBox[loop]->Append("35 - Petard");// petard-class
-                Units_Class_ComboBox[loop]->Append("36 - Cavalry Archer");// cavalry-archer-class
-                Units_Class_ComboBox[loop]->Append("37 - Dolphin/Smoke");
-                Units_Class_ComboBox[loop]->Append("38 - Bird");
-                if(GenieVersion < genie::GV_AoKA)
-                    Units_Class_ComboBox[loop]->Append("39 - Slinger");
-                else
-                    Units_Class_ComboBox[loop]->Append("39 - Gate");// gate-class
-                Units_Class_ComboBox[loop]->Append("40 - Pile");
-                Units_Class_ComboBox[loop]->Append("41 - Pile of Resource");
-                Units_Class_ComboBox[loop]->Append("42 - Relic");
-                Units_Class_ComboBox[loop]->Append("43 - Monk with Relic");
-                Units_Class_ComboBox[loop]->Append("44 - Hand Cannoneer");// archery-cannon-class
-                Units_Class_ComboBox[loop]->Append("45 - Two Handed Swordsman");
-                Units_Class_ComboBox[loop]->Append("46 - Pikeman");
-                Units_Class_ComboBox[loop]->Append("47 - Scout Cavalry");
-                Units_Class_ComboBox[loop]->Append("48 - Ore Mine");
-                Units_Class_ComboBox[loop]->Append("49 - Farm");// farm-food // farm-class
-                Units_Class_ComboBox[loop]->Append("50 - Spearman");
-                Units_Class_ComboBox[loop]->Append("51 - Packed Siege Unit");// packed-trebuchet-class
-                Units_Class_ComboBox[loop]->Append("52 - Tower");// tower-class
-                Units_Class_ComboBox[loop]->Append("53 - Boarding Boat");
-                Units_Class_ComboBox[loop]->Append("54 - Unpacked Siege Unit");// unpacked-trebuchet-class
-                Units_Class_ComboBox[loop]->Append("55 - Scorpion");// scorpion-class
-                Units_Class_ComboBox[loop]->Append("56 - Raider");
-                Units_Class_ComboBox[loop]->Append("57 - Cavalry Raider");
-                Units_Class_ComboBox[loop]->Append("58 - Livestock");// sheep-food // livestock-class
-                Units_Class_ComboBox[loop]->Append("59 - King");// king-class
-                Units_Class_ComboBox[loop]->Append("60 - Unused");
-                Units_Class_ComboBox[loop]->Append("61 - Horse");
-            }
-            else
-            {
-                Units_Class_ComboBox[loop]->Append("0 - Unused");   // Selection 1
-                Units_Class_ComboBox[loop]->Append("1 - Nerf/Bantha");
-                Units_Class_ComboBox[loop]->Append("2 - Fambaa");
-                Units_Class_ComboBox[loop]->Append("3 - Unused");
-                Units_Class_ComboBox[loop]->Append("4 - Wild Animal");
-                Units_Class_ComboBox[loop]->Append("5 - Monster/Trouble");
-                Units_Class_ComboBox[loop]->Append("6 - Wall");
-                Units_Class_ComboBox[loop]->Append("7 - Farm");
-                Units_Class_ComboBox[loop]->Append("8 - Gate");
-                Units_Class_ComboBox[loop]->Append("9 - Fortress/A-A Turret");
-                Units_Class_ComboBox[loop]->Append("10 - Turret");
-                Units_Class_ComboBox[loop]->Append("11 - Cruiser");
-                Units_Class_ComboBox[loop]->Append("12 - Unused");
-                Units_Class_ComboBox[loop]->Append("13 - Destroyer");
-                Units_Class_ComboBox[loop]->Append("14 - Utility Trawler");
-                Units_Class_ComboBox[loop]->Append("15 - Frigate 1");
-                Units_Class_ComboBox[loop]->Append("16 - A-A Destroyer 1");
-                Units_Class_ComboBox[loop]->Append("17 - Transport Ship");
-                Units_Class_ComboBox[loop]->Append("18 - Building");
-                Units_Class_ComboBox[loop]->Append("19 - Doppleganger");
-                Units_Class_ComboBox[loop]->Append("20 - Other/Dead/Projectile");
-                Units_Class_ComboBox[loop]->Append("21 - Command Base");
-                Units_Class_ComboBox[loop]->Append("22 - Cliff");
-                Units_Class_ComboBox[loop]->Append("23 - Fish");
-                Units_Class_ComboBox[loop]->Append("24 - Unused");
-                Units_Class_ComboBox[loop]->Append("25 - Shore Fish");
-                Units_Class_ComboBox[loop]->Append("26 - Game Engine Stuff");
-                Units_Class_ComboBox[loop]->Append("27 - Fruit Bush");
-                Units_Class_ComboBox[loop]->Append("28 - Holocron");
-                Units_Class_ComboBox[loop]->Append("29 - Nova");
-                Units_Class_ComboBox[loop]->Append("30 - Ore");
-                Units_Class_ComboBox[loop]->Append("31 - Tree/Carbon");
-                Units_Class_ComboBox[loop]->Append("32 - Artillery");
-                Units_Class_ComboBox[loop]->Append("33 - A-A Mobile");
-                Units_Class_ComboBox[loop]->Append("34 - Undeployed Cannon");
-                Units_Class_ComboBox[loop]->Append("35 - Pummel");
-                Units_Class_ComboBox[loop]->Append("36 - Cannon");
-                Units_Class_ComboBox[loop]->Append("37 - Unused");
-                Units_Class_ComboBox[loop]->Append("38 - Unused");
-                Units_Class_ComboBox[loop]->Append("39 - Frigate 2");
-                Units_Class_ComboBox[loop]->Append("40 - A-A Destroyer 2");
-                Units_Class_ComboBox[loop]->Append("41 - Unused");
-                Units_Class_ComboBox[loop]->Append("42 - Bridge/Eye Candy");
-                Units_Class_ComboBox[loop]->Append("43 - Bomber");
-                Units_Class_ComboBox[loop]->Append("44 - Bounty Hunter");
-                Units_Class_ComboBox[loop]->Append("45 - Cargo Trader");
-                Units_Class_ComboBox[loop]->Append("46 - Mixed 1");
-                Units_Class_ComboBox[loop]->Append("47 - Scout");
-                Units_Class_ComboBox[loop]->Append("48 - Fighter");
-                Units_Class_ComboBox[loop]->Append("49 - Grenade Trooper");
-                Units_Class_ComboBox[loop]->Append("50 - Jedi");
-                Units_Class_ComboBox[loop]->Append("51 - Jedi with Holocron");
-                Units_Class_ComboBox[loop]->Append("52 - Trooper");
-                Units_Class_ComboBox[loop]->Append("53 - War Machine");
-                Units_Class_ComboBox[loop]->Append("54 - Medic");
-                Units_Class_ComboBox[loop]->Append("55 - A-A Trooper");
-                Units_Class_ComboBox[loop]->Append("56 - Mounted Trooper");
-                Units_Class_ComboBox[loop]->Append("57 - Fambaa Shield Generator");
-                Units_Class_ComboBox[loop]->Append("58 - Workers");
-                Units_Class_ComboBox[loop]->Append("59 - Air Transport");
-                Units_Class_ComboBox[loop]->Append("60 - Horse-like Animal");
-                Units_Class_ComboBox[loop]->Append("61 - Power Droid");
-                Units_Class_ComboBox[loop]->Append("62 - Air Cruiser");
-                Units_Class_ComboBox[loop]->Append("63 - Geonosian Warrior");
-                Units_Class_ComboBox[loop]->Append("64 - Jedi Starfighter");
-            }
+            Units_Class_ComboBox[loop]->Flash();
             Units_Class_ComboBox[loop]->SetSelection(0);
 
-            Attacks_Class_ComboBox[loop]->Clear();
             Attacks_Class_ComboBox[loop]->Append("Unused Type/No Type");    // Selection 0
             if(GenieVersion < genie::GV_AoKA) // AoE and RoR
             {   // Use "atc -1|arc -1|disa" to discover these!
                 for(size_t loop2 = 0; loop2 < AoE1Count; ++loop2)
-                Attacks_Class_ComboBox[loop]->Append(AoE1Armors[loop2]);
+                Attacks_Class_ComboBox[loop]->Append(armor_names[loop2]);
             }
             else if(GenieVersion < genie::GV_SWGB) // AoK and TC
             {
                 for(size_t loop2 = 0; loop2 < AoE2Count; ++loop2)
-                Attacks_Class_ComboBox[loop]->Append(AoE2Armors[loop2]);
+                Attacks_Class_ComboBox[loop]->Append(armor_names[loop2]);
             }
             else // SWGB and CC
             {
                 for(size_t loop2 = 0; loop2 < SWGBCount; ++loop2)
-                Attacks_Class_ComboBox[loop]->Append(SWGBArmors[loop2]);
+                Attacks_Class_ComboBox[loop]->Append(armor_names[loop2]);
             }
             Attacks_Class_ComboBox[loop]->SetSelection(0);
         }
@@ -1578,81 +1578,82 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 
         SetStatusText(lexical_cast<string>(dataset->FileVersion), 4);
 
-        Effects_AttributesC_ComboBox->Clear();
-        Effects_AttributesC_ComboBox->Append("No Attribute/Invalid Attribute");     // Selection 0
-        Effects_AttributesC_ComboBox->Append("0 - Hit Points");     // Selection 1
-        Effects_AttributesC_ComboBox->Append("1 - Line of Sight");
-        Effects_AttributesC_ComboBox->Append("2 - Garrison Capacity");
-        Effects_AttributesC_ComboBox->Append("3 - Unit Size X");
-        Effects_AttributesC_ComboBox->Append("4 - Unit Size Y");
-        Effects_AttributesC_ComboBox->Append("5 - Movement Speed (types 20-80)");
-        Effects_AttributesC_ComboBox->Append("6 - Rotation Speed (types 30-80)");
-        Effects_AttributesC_ComboBox->Append("7 - Unused");
+        effect_attribute_names.Clear();
+        effect_attribute_names.Add("No Attribute/Invalid Attribute");     // Selection 0
+        effect_attribute_names.Add("0 - Hit Points");     // Selection 1
+        effect_attribute_names.Add("1 - Line of Sight");
+        effect_attribute_names.Add("2 - Garrison Capacity");
+        effect_attribute_names.Add("3 - Unit Size X");
+        effect_attribute_names.Add("4 - Unit Size Y");
+        effect_attribute_names.Add("5 - Movement Speed (types 20-80)");
+        effect_attribute_names.Add("6 - Rotation Speed (types 30-80)");
+        effect_attribute_names.Add("7 - Unused");
         if(GenieVersion < genie::GV_AoKA)
         {
-            Effects_AttributesC_ComboBox->Append("8 - Armor (no multiply, types 50-80)");
-            Effects_AttributesC_ComboBox->Append("9 - Attack (no multiply, types 50-80)");
+            effect_attribute_names.Add("8 - Armor (no multiply, types 50-80)");
+            effect_attribute_names.Add("9 - Attack (no multiply, types 50-80)");
         }
         else
         {
-            Effects_AttributesC_ComboBox->Append("8 - Armor (types 50-80)");
-            Effects_AttributesC_ComboBox->Append("9 - Attack (types 50-80)");
+            effect_attribute_names.Add("8 - Armor (types 50-80)");
+            effect_attribute_names.Add("9 - Attack (types 50-80)");
         }
-        Effects_AttributesC_ComboBox->Append("10 - Attack Reloading Time (types 50-80)");
-        Effects_AttributesC_ComboBox->Append("11 - Accuracy Percent (types 50-80)");
-        Effects_AttributesC_ComboBox->Append("12 - Max Range (types 50-80)");
-        Effects_AttributesC_ComboBox->Append("13 - Working Rate (types 30-80)");
-        Effects_AttributesC_ComboBox->Append("14 - Resource Carriage");
-        Effects_AttributesC_ComboBox->Append("15 - Default Armor (types 50-80)");
-        Effects_AttributesC_ComboBox->Append("16 - Projectile Unit (types 50-80)");
-        Effects_AttributesC_ComboBox->Append("17 - Icon/Graphics Angle (type 80)");
-        Effects_AttributesC_ComboBox->Append("18 - Ter restr to multiply dmg rcvd (always sets, types 50-80)");
+        effect_attribute_names.Add("10 - Attack Reloading Time (types 50-80)");
+        effect_attribute_names.Add("11 - Accuracy Percent (types 50-80)");
+        effect_attribute_names.Add("12 - Max Range (types 50-80)");
+        effect_attribute_names.Add("13 - Working Rate (types 30-80)");
+        effect_attribute_names.Add("14 - Resource Carriage");
+        effect_attribute_names.Add("15 - Default Armor (types 50-80)");
+        effect_attribute_names.Add("16 - Projectile Unit (types 50-80)");
+        effect_attribute_names.Add("17 - Icon/Graphics Angle (type 80)");
+        effect_attribute_names.Add("18 - Ter restr to multiply dmg rcvd (always sets, types 50-80)");
         if(GenieVersion < genie::GV_AoEB)
         {
-            Effects_AttributesC_ComboBox->Append("19 - Unused");
+            effect_attribute_names.Add("19 - Unused");
         }
         else
         {
-            Effects_AttributesC_ComboBox->Append("19 - Enable Intelligent Projectiles (type 60)");
+            effect_attribute_names.Add("19 - Enable Intelligent Projectiles (type 60)");
         }
         if(GenieVersion < genie::GV_AoKA)
         {
-            Effects_AttributesC_ComboBox->Append("20 - Unused");
-            Effects_AttributesC_ComboBox->Append("21 - Unused");
-            Effects_AttributesC_ComboBox->Append("22 - Unused");
-            Effects_AttributesC_ComboBox->Append("23 - Unused");
-            Effects_AttributesC_ComboBox->Append("100 - Resource Costs (types 70-80)");
+            effect_attribute_names.Add("20 - Unused");
+            effect_attribute_names.Add("21 - Unused");
+            effect_attribute_names.Add("22 - Unused");
+            effect_attribute_names.Add("23 - Unused");
+            effect_attribute_names.Add("100 - Resource Costs (types 70-80)");
             if(GenieVersion == genie::GV_RoR)
-            Effects_AttributesC_ComboBox->Append("101 - Amount of 1st resource storage (set only)");
+            effect_attribute_names.Add("101 - Amount of 1st resource storage (set only)");
         }
         else
         {
-            Effects_AttributesC_ComboBox->Append("20 - Min Range (types 50-80)");
-            Effects_AttributesC_ComboBox->Append("21 - Amount of 1st resource storage");
-            Effects_AttributesC_ComboBox->Append("22 - Blast Width (types 50-80)");
-            Effects_AttributesC_ComboBox->Append("23 - Search Radius (types 40-80)");
-            Effects_AttributesC_ComboBox->Append("100 - Resource Costs (types 70-80)");
-            Effects_AttributesC_ComboBox->Append("101 - Train Time (types 70-80)");
-            Effects_AttributesC_ComboBox->Append("102 - Total Missiles (types 70-80)");
-            Effects_AttributesC_ComboBox->Append("103 - Food Costs (types 70-80)");
+            effect_attribute_names.Add("20 - Min Range (types 50-80)");
+            effect_attribute_names.Add("21 - Amount of 1st resource storage");
+            effect_attribute_names.Add("22 - Blast Width (types 50-80)");
+            effect_attribute_names.Add("23 - Search Radius (types 40-80)");
+            effect_attribute_names.Add("100 - Resource Costs (types 70-80)");
+            effect_attribute_names.Add("101 - Train Time (types 70-80)");
+            effect_attribute_names.Add("102 - Total Missiles (types 70-80)");
+            effect_attribute_names.Add("103 - Food Costs (types 70-80)");
             if(GenieVersion < genie::GV_SWGB)
             {
-                Effects_AttributesC_ComboBox->Append("104 - Wood Costs (types 70-80)");
-                Effects_AttributesC_ComboBox->Append("105 - Gold Costs (types 70-80)");
-                Effects_AttributesC_ComboBox->Append("106 - Stone Costs (types 70-80)");
+                effect_attribute_names.Add("104 - Wood Costs (types 70-80)");
+                effect_attribute_names.Add("105 - Gold Costs (types 70-80)");
+                effect_attribute_names.Add("106 - Stone Costs (types 70-80)");
             }
             else
             {
-                Effects_AttributesC_ComboBox->Append("104 - Carbon Costs (types 70-80)");
-                Effects_AttributesC_ComboBox->Append("105 - Nova Costs (types 70-80)");
-                Effects_AttributesC_ComboBox->Append("106 - Ore Costs (types 70-80)");
+                effect_attribute_names.Add("104 - Carbon Costs (types 70-80)");
+                effect_attribute_names.Add("105 - Nova Costs (types 70-80)");
+                effect_attribute_names.Add("106 - Ore Costs (types 70-80)");
             }
-            Effects_AttributesC_ComboBox->Append("107 - Max Total Missiles (types 70-80)");
+            effect_attribute_names.Add("107 - Max Total Missiles (types 70-80)");
             if(GenieVersion >= genie::GV_AoKB)
-            Effects_AttributesC_ComboBox->Append("108 - Garrison Heal Rate (type 80)");
+            effect_attribute_names.Add("108 - Garrison Heal Rate (type 80)");
             if(GenieVersion == genie::GV_Cysion)
-            Effects_AttributesC_ComboBox->Append("109 - Regeneration Rate (types 40-80)");
+            effect_attribute_names.Add("109 - Regeneration Rate (types 40-80)");
         }
+        Effects_AttributesC_ComboBox->Flash();
         Effects_AttributesC_ComboBox->SetSelection(0);
 
         Units_GraphicSet->Clear();
@@ -1700,35 +1701,36 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         Units_GraphicSet->Append("9 Ask Tapsa for more!");
         Units_GraphicSet->SetSelection(0);
 
-        Effects_Type_ComboBox->Clear();
-        Effects_Type_ComboBox->Append("No Type/Invalid Type");  // Selection 0
-        Effects_Type_ComboBox->Append("0 - Attribute Modifier (Set)");  // Selection 1
-        Effects_Type_ComboBox->Append("1 - Resource Modifier (Set/+/-)");
-        Effects_Type_ComboBox->Append("2 - Enable/Disable Unit");
-        Effects_Type_ComboBox->Append("3 - Upgrade Unit");
-        Effects_Type_ComboBox->Append("4 - Attribute Modifier (+/-)");
-        Effects_Type_ComboBox->Append("5 - Attribute Modifier (Multiply)");
-        Effects_Type_ComboBox->Append("6 - Resource Modifier (Multiply)");
+        effect_type_names.Clear();
+        effect_type_names.Add("No Type/Invalid Type");  // Selection 0
+        effect_type_names.Add("0 - Attribute Modifier (Set)");  // Selection 1
+        effect_type_names.Add("1 - Resource Modifier (Set/+/-)");
+        effect_type_names.Add("2 - Enable/Disable Unit");
+        effect_type_names.Add("3 - Upgrade Unit");
+        effect_type_names.Add("4 - Attribute Modifier (+/-)");
+        effect_type_names.Add("5 - Attribute Modifier (Multiply)");
+        effect_type_names.Add("6 - Resource Modifier (Multiply)");
         if(GenieVersion == genie::GV_Cysion)
         {
-            Effects_Type_ComboBox->Append("10 - Team Attribute Modifier (Set)");    // Selection 8
-            Effects_Type_ComboBox->Append("11 - Team Resource Modifier (Set/+/-)");
-            Effects_Type_ComboBox->Append("12 - Team Enable/Disable Unit");
-            Effects_Type_ComboBox->Append("13 - Team Upgrade Unit");
-            Effects_Type_ComboBox->Append("14 - Team Attribute Modifier (+/-)");
-            Effects_Type_ComboBox->Append("15 - Team Attribute Modifier (Multiply)");
-            Effects_Type_ComboBox->Append("16 - Team Resource Modifier (Multiply)");
+            effect_type_names.Add("10 - Team Attribute Modifier (Set)");    // Selection 8
+            effect_type_names.Add("11 - Team Resource Modifier (Set/+/-)");
+            effect_type_names.Add("12 - Team Enable/Disable Unit");
+            effect_type_names.Add("13 - Team Upgrade Unit");
+            effect_type_names.Add("14 - Team Attribute Modifier (+/-)");
+            effect_type_names.Add("15 - Team Attribute Modifier (Multiply)");
+            effect_type_names.Add("16 - Team Resource Modifier (Multiply)");
         }
         else
         {
             for(size_t loop = 10; loop < 17; ++loop)
-            Effects_Type_ComboBox->Append(lexical_cast<string>(loop) + " - AoK HD only");
+            effect_type_names.Add(lexical_cast<string>(loop) + " - AoK HD only");
         }
-        if(GenieVersion < genie::GV_AoKA) Effects_Type_ComboBox->Append("101 - AoK+ only");
-        else Effects_Type_ComboBox->Append("101 - Research Cost Modifier (Set/+/-)");
-        Effects_Type_ComboBox->Append("102 - Disable Research");
-        if(GenieVersion < genie::GV_AoKA) Effects_Type_ComboBox->Append("103 - AoK+ only");
-        else Effects_Type_ComboBox->Append("103 - Research Time Modifier (Set/+/-)");   // Selection 17
+        if(GenieVersion < genie::GV_AoKA) effect_type_names.Add("101 - AoK+ only");
+        else effect_type_names.Add("101 - Research Cost Modifier (Set/+/-)");
+        effect_type_names.Add("102 - Disable Research");
+        if(GenieVersion < genie::GV_AoKA) effect_type_names.Add("103 - AoK+ only");
+        else effect_type_names.Add("103 - Research Time Modifier (Set/+/-)");   // Selection 17
+        Effects_Type_ComboBox->Flash();
         Effects_Type_ComboBox->SetSelection(0);
 
         DataOpened = true;
@@ -3600,15 +3602,14 @@ void AGE_Frame::virtualListing(AGEListView *list, vector<int> *oldies)
     How2List = SEARCH;
 }
 
-void AGE_Frame::FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString &names, const wxString &none)
+void AGE_Frame::FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString&, const wxString &none)
 {
-    wxArrayString* remove_me_pls = new wxArrayString(names);
     for(ComboBox_Plus1* &list: boxlist)
     {
         int selection = list->GetSelection();
         //list->Clear();
         list->Append("-1 - " + none);
-        list->Imbue(remove_me_pls);
+        list->Flash();
         list->SetSelection(selection < list->GetCount() ? selection : 0);
     }
 }
@@ -3620,22 +3621,22 @@ void AGE_AreaTT84::FillItemCombo(int selection, bool update)
     else lastList = lexical_cast<int>(Mode->GetValue());
     if(lastList != oldList || update)
     {
-        ItemCombo->Clear();
-        ItemCombo->Append("-1 - None");
+        //ItemCombo->Clear();
+        /*ItemCombo->Append("-1 - None");
         switch(lastList)
         {
             case 0:
-                ItemCombo->Append(ages);
+                ItemCombo->Append(age_names);
                 break;
             case 1:
             case 2:
-                ItemCombo->Append(units);
+                ItemCombo->Append(unit_names);
                 break;
             case 3:
-                ItemCombo->Append(researches);
+                ItemCombo->Append(research_names);
                 break;
             default: return;
-        }
+        }*/
     }
     ItemCombo->SetSelection(selection < ItemCombo->GetCount() ? selection : 0);
 }

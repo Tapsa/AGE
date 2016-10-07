@@ -30,8 +30,9 @@ void AGE_Frame::InitPlayerColors()
 
     Colors_Colors_ListV->names.clear();
     Colors_Colors_ListV->indexes.clear();
-    wxArrayString names;
-    names.Alloc(dataset->PlayerColours.size());
+    color_names.Clear();
+    color_names.Alloc(1 + dataset->PlayerColours.size());
+    color_names.Add("-1 - None");
 
     for(size_t loop = 0; loop < dataset->PlayerColours.size(); ++loop)
     {
@@ -41,15 +42,13 @@ void AGE_Frame::InitPlayerColors()
             Colors_Colors_ListV->names.Add(Name);
             Colors_Colors_ListV->indexes.push_back(loop);
         }
-        names.Add(Name);
+        color_names.Add(Name);
     }
 
     virtualListing(Colors_Colors_ListV, &ColorIDs);
 
     short selection = Graphics_PlayerColor_ComboBox->GetSelection();
-    Graphics_PlayerColor_ComboBox->Clear();
-    Graphics_PlayerColor_ComboBox->Append("-1 - None");
-    Graphics_PlayerColor_ComboBox->Append(names);
+    Graphics_PlayerColor_ComboBox->Flash();
     Graphics_PlayerColor_ComboBox->SetSelection(selection);
 }
 

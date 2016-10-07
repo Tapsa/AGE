@@ -28,8 +28,11 @@ void AGE_Frame::InitSounds(bool all)
 
     Sounds_Sounds_ListV->names.clear();
     Sounds_Sounds_ListV->indexes.clear();
-    wxArrayString names;
-    if(all) names.Alloc(dataset->Sounds.size());
+    if(all)
+    {
+        sound_names.Clear();
+        sound_names.Alloc(dataset->Sounds.size());
+    }
 
     for(size_t loop = 0; loop < dataset->Sounds.size(); ++loop)
     {
@@ -39,11 +42,11 @@ void AGE_Frame::InitSounds(bool all)
             Sounds_Sounds_ListV->names.Add(Name);
             Sounds_Sounds_ListV->indexes.push_back(loop);
         }
-        if(all) names.Add(Name);
+        if(all) sound_names.Add(Name);
     }
 
     virtualListing(Sounds_Sounds_ListV, &SoundIDs);
-    if(all) FillLists(SoundComboBoxList, names);
+    if(all) FillLists(SoundComboBoxList, sound_names);
 }
 
 void AGE_Frame::OnSoundsSelect(wxCommandEvent &event)
@@ -426,7 +429,7 @@ void AGE_Frame::CreateSoundControls()
     SoundItems_Civ_Holder = new wxBoxSizer(wxVERTICAL);
     SoundItems_Civ_Text = new SolidText(Tab_Sounds, " File Civilization");
     SoundItems_Civ = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, &popUp, Tab_Sounds);
-    SoundItems_Civ_ComboBox = new ComboBox_Plus1(Tab_Sounds, SoundItems_Civ);
+    SoundItems_Civ_ComboBox = new ComboBox_Plus1(Tab_Sounds, SoundItems_Civ, &civ_names);
     CivComboBoxList.push_back(SoundItems_Civ_ComboBox);
     SoundItems_Unknown_Holder = new wxBoxSizer(wxVERTICAL);
     SoundItems_Unknown_Text = new SolidText(Tab_Sounds, " File Player ID");

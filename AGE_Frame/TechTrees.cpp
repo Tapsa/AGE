@@ -2448,7 +2448,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Buildings_ID_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Buildings_ID_Text = new SolidText(TechTrees_ScrollerBuildings, " Building Number");
     TechTrees_Buildings_ID = AGETextCtrl::init(CLong, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
-    TechTrees_Buildings_ID_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerBuildings, TechTrees_Buildings_ID);
+    TechTrees_Buildings_ID_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerBuildings, TechTrees_Buildings_ID, &unit_names);
     UnitComboBoxList.push_back(TechTrees_Buildings_ID_ComboBox);
     TechTrees_Buildings_Always2_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Buildings_Always2_Text = new SolidText(TechTrees_ScrollerBuildings, " Status *");
@@ -2466,7 +2466,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Buildings_EnablingResearch_Text = new SolidText(TechTrees_ScrollerBuildings, " Enabling Research *");
     TechTrees_Buildings_EnablingResearch = AGETextCtrl::init(CLong, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
     TechTrees_Buildings_EnablingResearch->SetToolTip("Makes available\nUsed by buildings, which need a research to be available");
-    TechTrees_Buildings_EnablingResearch_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerBuildings, TechTrees_Buildings_EnablingResearch);
+    TechTrees_Buildings_EnablingResearch_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerBuildings, TechTrees_Buildings_EnablingResearch, &research_names);
     ResearchComboBoxList.push_back(TechTrees_Buildings_EnablingResearch_ComboBox);
 
     TechTrees_Data_Buildings = new wxBoxSizer(wxVERTICAL);
@@ -2514,7 +2514,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Units_ID_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_ID_Text = new SolidText(TechTrees_ScrollerUnits, " Unit Number");
     TechTrees_Units_ID = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
-    TechTrees_Units_ID_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_ID);
+    TechTrees_Units_ID_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_ID, &unit_names);
     UnitComboBoxList.push_back(TechTrees_Units_ID_ComboBox);
     TechTrees_Units_Always2_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_Always2_Text = new SolidText(TechTrees_ScrollerUnits, " Status *");
@@ -2523,7 +2523,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Units_UpperBuilding_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_UpperBuilding_Text = new SolidText(TechTrees_ScrollerUnits, " Upper Building");
     TechTrees_Units_UpperBuilding = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
-    TechTrees_Units_UpperBuilding_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_UpperBuilding);
+    TechTrees_Units_UpperBuilding_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_UpperBuilding, &unit_names);
     UnitComboBoxList.push_back(TechTrees_Units_UpperBuilding_ComboBox);
     TechTrees_Units_VerticalLine_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_VerticalLine_Text = new SolidText(TechTrees_ScrollerUnits, " Vertical Line Number");
@@ -2536,7 +2536,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Units_RequiredResearch_Text = new SolidText(TechTrees_ScrollerUnits, " Required Research *");
     TechTrees_Units_RequiredResearch = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
     TechTrees_Units_RequiredResearch->SetToolTip("Upgrades unit\nUsed by units, which aren't first in upgrade line");
-    TechTrees_Units_RequiredResearch_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_RequiredResearch);
+    TechTrees_Units_RequiredResearch_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_RequiredResearch, &research_names);
     ResearchComboBoxList.push_back(TechTrees_Units_RequiredResearch_ComboBox);
     TechTrees_Units_LineMode_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_LineMode_Text = new SolidText(TechTrees_ScrollerUnits, " Line Mode *");
@@ -2546,7 +2546,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Units_EnablingResearch_Text = new SolidText(TechTrees_ScrollerUnits, " Enabling Research *");
     TechTrees_Units_EnablingResearch = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
     TechTrees_Units_EnablingResearch->SetToolTip("Makes available\nUsed by units, which need a research to be available");
-    TechTrees_Units_EnablingResearch_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_EnablingResearch);
+    TechTrees_Units_EnablingResearch_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_EnablingResearch, &research_names);
     ResearchComboBoxList.push_back(TechTrees_Units_EnablingResearch_ComboBox);
 
     TechTrees_Data_Units = new wxBoxSizer(wxVERTICAL);
@@ -2591,7 +2591,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Researches_ID_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Researches_ID_Text = new SolidText(TechTrees_ScrollerResearches, " Research Number");
     TechTrees_Researches_ID = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
-    TechTrees_Researches_ID_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerResearches, TechTrees_Researches_ID);
+    TechTrees_Researches_ID_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerResearches, TechTrees_Researches_ID, &research_names);
     ResearchComboBoxList.push_back(TechTrees_Researches_ID_ComboBox);
     TechTrees_Researches_Always2_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Researches_Always2_Text = new SolidText(TechTrees_ScrollerResearches, " Status *");
@@ -2600,7 +2600,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Researches_UpperBuilding_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Researches_UpperBuilding_Text = new SolidText(TechTrees_ScrollerResearches, " Upper Building");
     TechTrees_Researches_UpperBuilding = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
-    TechTrees_Researches_UpperBuilding_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerResearches, TechTrees_Researches_UpperBuilding);
+    TechTrees_Researches_UpperBuilding_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerResearches, TechTrees_Researches_UpperBuilding, &unit_names);
     UnitComboBoxList.push_back(TechTrees_Researches_UpperBuilding_ComboBox);
     TechTrees_Researches_VerticalLine_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Researches_VerticalLine_Text = new SolidText(TechTrees_ScrollerResearches, " Vertical Line Number");

@@ -26,8 +26,11 @@ void AGE_Frame::InitTerrainBorders(bool all)
 
     Borders_ListV->names.clear();
     Borders_ListV->indexes.clear();
-    wxArrayString names;
-    if(all) names.Alloc(dataset->TerrainBlock.TerrainBorders.size());
+    if(all)
+    {
+        border_names.Clear();
+        border_names.Alloc(dataset->TerrainBlock.TerrainBorders.size());
+    }
 
     for(size_t loop = 0; loop < dataset->TerrainBlock.TerrainBorders.size(); ++loop)
     {
@@ -37,11 +40,11 @@ void AGE_Frame::InitTerrainBorders(bool all)
             Borders_ListV->names.Add(Name);
             Borders_ListV->indexes.push_back(loop);
         }
-        if(all) names.Add(Name);
+        if(all) border_names.Add(Name);
     }
 
     virtualListing(Borders_ListV, &BorderIDs);
-    if(all) FillLists(TerrainBorderComboBoxList, names);
+    if(all) FillLists(TerrainBorderComboBoxList, border_names);
 }
 
 void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &event)
@@ -391,7 +394,7 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_Terrain_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Terrain_Text = new SolidText(Tab_TerrainBorders, " Underlay Terrain");
     Borders_Terrain = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
-    Borders_Terrain_ComboBox = new ComboBox_Plus1(Tab_TerrainBorders, Borders_Terrain);
+    Borders_Terrain_ComboBox = new ComboBox_Plus1(Tab_TerrainBorders, Borders_Terrain, &terrain_names);
     TerrainComboBoxList.push_back(Borders_Terrain_ComboBox);
     Borders_BorderStyle_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_BorderStyle_Text = new SolidText(Tab_TerrainBorders, " Border Style *");

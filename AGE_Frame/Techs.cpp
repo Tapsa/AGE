@@ -89,9 +89,11 @@ void AGE_Frame::InitTechs(bool all)
 
     Techs_ListV->names.clear();
     Techs_ListV->indexes.clear();
-
-    wxArrayString names;
-    if(all) names.Alloc(dataset->Techages.size());
+    if(all)
+    {
+        tech_names.Clear();
+        tech_names.Alloc(dataset->Techages.size());
+    }
 
     for(size_t loop = 0; loop < dataset->Techages.size(); ++loop)
     {
@@ -101,11 +103,11 @@ void AGE_Frame::InitTechs(bool all)
             Techs_ListV->names.Add(Name);
             Techs_ListV->indexes.push_back(loop);
         }
-        if(all) names.Add(Name);
+        if(all) tech_names.Add(Name);
     }
 
     virtualListing(Techs_ListV, &TechIDs);
-    if(all) FillLists(TechComboBoxList, names);
+    if(all) FillLists(TechComboBoxList, tech_names);
 
     SearchAnd = ExcludeAnd = false;
 }
@@ -986,7 +988,7 @@ void AGE_Frame::CreateTechControls()
     Effects_Type_Text = new SolidText(Tab_Techs, " Effect Type *");
     Effects_Type = AGETextCtrl::init(CByte, &uiGroupTechEffect, this, &popUp, Tab_Techs);
     Effects_Type->SetToolTip("101 and 103 are only for\ntech tree and team bonus");
-    Effects_Type_ComboBox = new ComboBox_EffectType(Tab_Techs, Effects_Type);
+    Effects_Type_ComboBox = new ComboBox_EffectType(Tab_Techs, Effects_Type, &effect_type_names);
     Effects_Data_Holder = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effect Attributes");
     Effects_NeverHide = new wxCheckBox(Tab_Techs, wxID_ANY, "Never hide attributes", wxDefaultPosition, wxDefaultSize);
     Effects_DataA_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -1002,39 +1004,39 @@ void AGE_Frame::CreateTechControls()
     Effects_A_Text = new SolidText(Tab_Techs, "Attribute A ", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(100, -1));
     Effects_A = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
     Effects_A_ComboBox = new wxBoxSizer(wxHORIZONTAL);
-    Effects_UnitsA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A);
+    Effects_UnitsA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A, &unit_names);
     UnitComboBoxList.push_back(Effects_UnitsA_ComboBox);
-    Effects_ResourcesA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A);
+    Effects_ResourcesA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A, &resource_names);
     ResourceComboBoxList.push_back(Effects_ResourcesA_ComboBox);
-    Effects_ResearchsA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A);
+    Effects_ResearchsA_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_A, &research_names);
     ResearchComboBoxList.push_back(Effects_ResearchsA_ComboBox);
     Effects_Info_A = new SolidText(Tab_Techs, "");
     Effects_B_Text = new SolidText(Tab_Techs, "Attribute B ", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(100, -1));
     Effects_B = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
     Effects_B_ComboBox = new wxBoxSizer(wxHORIZONTAL);
     Effects_ModeB_CheckBox = new CheckBox_2State(Tab_Techs, "", Effects_B);
-    Units_Class_ComboBox[2] = new ComboBox_Plus1(Tab_Techs, Effects_B);
-    Effects_UnitsB_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_B);
+    Units_Class_ComboBox[2] = new ComboBox_Plus1(Tab_Techs, Effects_B, &class_names);
+    Effects_UnitsB_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_B, &unit_names);
     UnitComboBoxList.push_back(Effects_UnitsB_ComboBox);
-    Effects_ResourcesB_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_B);
+    Effects_ResourcesB_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_B, &resource_names);
     ResourceComboBoxList.push_back(Effects_ResourcesB_ComboBox);
     Effects_Info_B = new SolidText(Tab_Techs, " Info B");
     Effects_C_Text = new SolidText(Tab_Techs, "Attribute C ", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(100, -1));
     Effects_C = AGETextCtrl::init(CShort, &uiGroupTechEffect, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
     Effects_C_ComboBox = new wxBoxSizer(wxHORIZONTAL);
     Effects_ModeC_CheckBox = new CheckBox_2State(Tab_Techs, "", Effects_C);
-    Effects_AttributesC_ComboBox = new ComboBox_EffectAttribute(Tab_Techs, Effects_C);
+    Effects_AttributesC_ComboBox = new ComboBox_EffectAttribute(Tab_Techs, Effects_C, &effect_attribute_names);
     Effects_Info_C = new SolidText(Tab_Techs, " Info C");
     Effects_D_Text = new SolidText(Tab_Techs, "Attribute D ", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(100, -1));
     Effects_D = AGETextCtrl::init(CFloat, &uiGroupTechEffect, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
     Effects_D_ComboBox = new wxBoxSizer(wxHORIZONTAL);
-    Effects_ResearchsD_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_D);
+    Effects_ResearchsD_ComboBox = new ComboBox_Plus1(Tab_Techs, Effects_D, &research_names);
     ResearchComboBoxList.push_back(Effects_ResearchsD_ComboBox);
     Effects_Info_D = new SolidText(Tab_Techs, "");
     Effects_E = AGETextCtrl::init(CUByte, NULL, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
     Effects_F_Text = new SolidText(Tab_Techs, "Type ", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(100, -1));
     Effects_F = AGETextCtrl::init(CUByte, 0, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
-    Attacks_Class_ComboBox[2] = new ComboBox_Plus1(Tab_Techs, Effects_F);
+    Attacks_Class_ComboBox[2] = new ComboBox_Plus1(Tab_Techs, Effects_F, &armor_names);
 
     Techs_AllEffects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effects of all Technologies");
     Techs_AllEffects_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
