@@ -1,5 +1,28 @@
 #include "AGE_ComboBoxes.h"
 
+void AGEComboBox::SetSelection(int n)
+{
+    wxString str;
+
+    if(GetCount())
+    {
+        popup->SetSelection(n);
+
+        if(n >= 0)
+        {
+            str = popup->GetString(n);
+        }
+    }
+
+    // Refresh text portion in control
+    if(m_text)
+        m_text->ChangeValue(str);
+    else
+        m_valueString = str;
+
+    Refresh();
+}
+
 void ComboBox_Plus1::OnUpdate(wxCommandEvent&)
 {
     TextBox->ChangeValue(lexical_cast<string>(GetSelection() - 1));
