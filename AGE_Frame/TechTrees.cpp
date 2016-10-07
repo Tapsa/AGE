@@ -566,7 +566,7 @@ void AGE_Frame::SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common*
         }
 
         area.ModeCombo->SetSelection(*ItemPointer);
-        area.FillItemCombo(dataPointer->UnitResearch[TTItemIDs.front()] + 1);
+        FillItemCombo(area);
     }
     area.Item->update();
     area.Mode->update();
@@ -2417,11 +2417,11 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Data_Ages2 = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_Data_Ages1 = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_ConnectedHolder_Ages = new wxBoxSizer(wxHORIZONTAL);
-    TechTrees_Ages_Buildings.CreateControls(this, &popUp, TechTrees_ScrollerAges, "Connected Buildings", "ages");
+    TechTrees_Ages_Buildings.CreateControls(this, &popUp, TechTrees_ScrollerAges, "ages", "Connected Buildings", &unit_names);
     UnitComboBoxList.push_back(TechTrees_Ages_Buildings.ItemCombo);
-    TechTrees_Ages_Units.CreateControls(this, &popUp, TechTrees_ScrollerAges, "Connected Units", "ages");
+    TechTrees_Ages_Units.CreateControls(this, &popUp, TechTrees_ScrollerAges, "ages", "Connected Units", &unit_names);
     UnitComboBoxList.push_back(TechTrees_Ages_Units.ItemCombo);
-    TechTrees_Ages_Researches.CreateControls(this, &popUp, TechTrees_ScrollerAges, "Connected Researches", "ages");
+    TechTrees_Ages_Researches.CreateControls(this, &popUp, TechTrees_ScrollerAges, "ages", "Connected Researches", &research_names);
     ResearchComboBoxList.push_back(TechTrees_Ages_Researches.ItemCombo);
 
     TechTrees_Ages_Items.CreateControls(this, &popUp, TechTrees_ScrollerAges, "ages");
@@ -2474,11 +2474,11 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Data_Buildings3 = new wxBoxSizer(wxVERTICAL);
     TechTrees_Data_Buildings1 = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_ConnectedHolder_Buildings = new wxBoxSizer(wxHORIZONTAL);
-    TechTrees_Buildings_Buildings.CreateControls(this, &popUp, TechTrees_ScrollerBuildings, "Connected Buildings", "buildings");
+    TechTrees_Buildings_Buildings.CreateControls(this, &popUp, TechTrees_ScrollerBuildings, "buildings", "Connected Buildings", &unit_names);
     UnitComboBoxList.push_back(TechTrees_Buildings_Buildings.ItemCombo);
-    TechTrees_Buildings_Units.CreateControls(this, &popUp, TechTrees_ScrollerBuildings, "Connected Units", "buildings");
+    TechTrees_Buildings_Units.CreateControls(this, &popUp, TechTrees_ScrollerBuildings, "buildings", "Connected Units", &unit_names);
     UnitComboBoxList.push_back(TechTrees_Buildings_Units.ItemCombo);
-    TechTrees_Buildings_Researches.CreateControls(this, &popUp, TechTrees_ScrollerBuildings, "Connected Researches", "buildings");
+    TechTrees_Buildings_Researches.CreateControls(this, &popUp, TechTrees_ScrollerBuildings, "buildings", "Connected Researches", &research_names);
     ResearchComboBoxList.push_back(TechTrees_Buildings_Researches.ItemCombo);
 
     TechTrees_Buildings_Items.CreateControls(this, &popUp, TechTrees_ScrollerBuildings, "buildings");
@@ -2554,7 +2554,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Data_Units2 = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_ConnectedHolder_Units = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_Units_Items.CreateControls(this, &popUp, TechTrees_ScrollerUnits, "units");
-    TechTrees_Units_Units.CreateControls(this, &popUp, TechTrees_ScrollerUnits, "Connected Units", "units");
+    TechTrees_Units_Units.CreateControls(this, &popUp, TechTrees_ScrollerUnits, "units", "Connected Units", &unit_names);
     UnitComboBoxList.push_back(TechTrees_Units_Units.ItemCombo);
 
     TechTrees_MainList_Researches_Search = new wxTextCtrl(Tab_TechTreeResearches, wxID_ANY);
@@ -2581,11 +2581,11 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Data_Researches3 = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_Data_Researches4 = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_ConnectedHolder_Researches = new wxBoxSizer(wxHORIZONTAL);
-    TechTrees_Researches_Buildings.CreateControls(this, &popUp, TechTrees_ScrollerResearches, "Connected Buildings", "researches");
+    TechTrees_Researches_Buildings.CreateControls(this, &popUp, TechTrees_ScrollerResearches, "researches", "Connected Buildings", &unit_names);
     UnitComboBoxList.push_back(TechTrees_Researches_Buildings.ItemCombo);
-    TechTrees_Researches_Units.CreateControls(this, &popUp, TechTrees_ScrollerResearches, "Connected Units", "researches");
+    TechTrees_Researches_Units.CreateControls(this, &popUp, TechTrees_ScrollerResearches, "researches", "Connected Units", &unit_names);
     UnitComboBoxList.push_back(TechTrees_Researches_Units.ItemCombo);
-    TechTrees_Researches_Researches.CreateControls(this, &popUp, TechTrees_ScrollerResearches, "Connected Researches", "researches");
+    TechTrees_Researches_Researches.CreateControls(this, &popUp, TechTrees_ScrollerResearches, "researches", "Connected Researches", &research_names);
     ResearchComboBoxList.push_back(TechTrees_Researches_Researches.ItemCombo);
 
     TechTrees_Researches_ID_Holder = new wxBoxSizer(wxVERTICAL);

@@ -866,7 +866,8 @@ void AGE_Frame::InitUnits(short civ, bool all)
     if(all)
     {
         unit_names.Clear();
-        unit_names.Alloc(dataset->Civs.front().Units.size());
+        unit_names.Alloc(1 + dataset->Civs.front().Units.size());
+        unit_names.Add("-1 - None");
     }
 
     short matcher = genie::UT_Trees;
@@ -913,10 +914,10 @@ void AGE_Frame::InitUnits(short civ, bool all)
         FillLists(UnitComboBoxList, unit_names);
         if(GenieVersion >= genie::GV_AoKA)
         {
-            TechTrees_Ages_Items.FillItemCombo(TechTrees_Ages_Items.ItemCombo->GetSelection(), true);
-            TechTrees_Buildings_Items.FillItemCombo(TechTrees_Buildings_Items.ItemCombo->GetSelection(), true);
-            TechTrees_Units_Items.FillItemCombo(TechTrees_Units_Items.ItemCombo->GetSelection(), true);
-            TechTrees_Researches_Items.FillItemCombo(TechTrees_Researches_Items.ItemCombo->GetSelection(), true);
+            FillItemCombo(TechTrees_Ages_Items, true);
+            FillItemCombo(TechTrees_Buildings_Items, true);
+            FillItemCombo(TechTrees_Units_Items, true);
+            FillItemCombo(TechTrees_Researches_Items, true);
         }
     }
 
@@ -2522,6 +2523,7 @@ void AGE_Frame::ListUnitCommands()
     Units_UnitCommands_ListV->names.clear();
     Units_UnitCommands_ListV->indexes.clear();
     action_names.Clear();
+    action_names.Add("-1 - None");
 
     if(GenieVersion >= genie::GV_AoK)   // AoK, TC, SWGB or CC
     {

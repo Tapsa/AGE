@@ -152,7 +152,7 @@ void SharedComboPopup::OnDrawItem(wxDC &dc, const wxRect &rect, size_t n) const
     int flags = 0;
 
     // Set correct text colour for selected items
-    if(wxVListBox::GetSelection() == (int) n)
+    if(wxVListBox::GetSelection() == (int)n)
     {
         dc.SetTextForeground(wxSystemSettings::GetColour(wxSYS_COLOUR_HIGHLIGHTTEXT));
         flags |= SCB_PAINTING_SELECTED;
@@ -817,10 +817,15 @@ void SharedComboPopup::Imbue(wxArrayString *choices)
 
 void SharedComboPopup::Flash()
 {
+    int selection = wxVListBox::GetSelection();
     int n = s_strings->GetCount();
 
     m_widths.SetCount(n, -1);
     m_widthsDirty = true;
 
-    if(IsCreated()) wxVListBox::SetItemCount(n);
+    if(IsCreated())
+    {
+        wxVListBox::SetItemCount(n);
+        wxVListBox::SetSelection(selection < n ? selection : 0);
+    }
 }

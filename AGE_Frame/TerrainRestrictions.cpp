@@ -44,7 +44,8 @@ void AGE_Frame::InitTerrainRestrictions(bool all)
     if(all)
     {
         restriction_names.Clear();
-        restriction_names.Alloc(dataset->TerrainRestrictions.size());
+        restriction_names.Alloc(1 + dataset->TerrainRestrictions.size());
+        restriction_names.Add("-1 - None");
     }
 
     for(size_t loop = 0; loop < dataset->TerrainRestrictions.size(); ++loop)
