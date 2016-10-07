@@ -509,9 +509,9 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         UnitCommands_Type_ComboBox->SetSelection(0);
 
         age_names.Clear();
+        age_names.Add("0 - None");
         if(GenieVersion >= genie::GV_SWGB)
         {
-            age_names.Add("0 - None");
             age_names.Add("1st Tech Level");
             age_names.Add("2nd Tech Level");
             age_names.Add("3rd Tech Level");
@@ -520,7 +520,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         }
         else if(GenieVersion >= genie::GV_AoKA)
         {
-            age_names.Add("0 - None");
             age_names.Add("Dark Age");
             age_names.Add("Feudal Age");
             age_names.Add("Castle Age");
@@ -1299,26 +1298,37 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             Customs.Write("Count/AoKCivResCount", (int)DefAoKCivRes.GetCount());
         if(!Customs.Read("Count/SWGBCivResCount", &SWGBCountCR, DefSWGBCivRes.GetCount()))
             Customs.Write("Count/SWGBCivResCount", (int)DefSWGBCivRes.GetCount());
-        armor_names.Clear();
         wxString read_buf;
+
+        armor_names.Clear();
+        armor_names.Add("Unused Type/No Type");
+        if(GenieVersion < genie::GV_AoKA) // AoE and RoR
         for(size_t loop = 0; loop < AoE1Count; ++loop)
         {
             if(!Customs.Read("AoE1Names/"+lexical_cast<string>(loop), &read_buf, DefAoE1Armors[loop]))
                 Customs.Write("AoE1Names/"+lexical_cast<string>(loop), DefAoE1Armors[loop]);
             armor_names.Add(read_buf);
         }
+        else if(GenieVersion < genie::GV_SWGB) // AoK and TC
         for(size_t loop = 0; loop < AoE2Count; ++loop)
         {
             if(!Customs.Read("AoE2Names/"+lexical_cast<string>(loop), &read_buf, DefAoE2Armors[loop]))
                 Customs.Write("AoE2Names/"+lexical_cast<string>(loop), DefAoE2Armors[loop]);
             armor_names.Add(read_buf);
         }
+        else // SWGB and CC
         for(size_t loop = 0; loop < SWGBCount; ++loop)
         {
             if(!Customs.Read("SWGBNames/"+lexical_cast<string>(loop), &read_buf, DefSWGBArmors[loop]))
                 Customs.Write("SWGBNames/"+lexical_cast<string>(loop), DefSWGBArmors[loop]);
             armor_names.Add(read_buf);
         }
+        Effects_89_Type_CB1->Flash();
+        for(size_t loop = 0; loop < 2; ++loop)
+        {
+            Attacks_Class_ComboBox[loop]->Flash();
+        }
+
         for(size_t loop = 0; loop < AoE1CountTR; ++loop)
         {
             if(!Customs.Read("AoE1TerrainRestrictionNames/"+lexical_cast<string>(loop), &read_buf, DefAoE1TerrainRests[loop]))
@@ -1500,33 +1510,12 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             class_names.Add("63 - Geonosian Warrior");
             class_names.Add("64 - Jedi Starfighter");
         }
-
-        for(size_t loop = 0; loop < 3; ++loop)
-        {
-            Units_Class_ComboBox[loop]->Flash();
-            Units_Class_ComboBox[loop]->SetSelection(0);
-
-            Attacks_Class_ComboBox[loop]->Append("Unused Type/No Type");    // Selection 0
-            if(GenieVersion < genie::GV_AoKA) // AoE and RoR
-            {   // Use "atc -1|arc -1|disa" to discover these!
-                for(size_t loop2 = 0; loop2 < AoE1Count; ++loop2)
-                Attacks_Class_ComboBox[loop]->Append(armor_names[loop2]);
-            }
-            else if(GenieVersion < genie::GV_SWGB) // AoK and TC
-            {
-                for(size_t loop2 = 0; loop2 < AoE2Count; ++loop2)
-                Attacks_Class_ComboBox[loop]->Append(armor_names[loop2]);
-            }
-            else // SWGB and CC
-            {
-                for(size_t loop2 = 0; loop2 < SWGBCount; ++loop2)
-                Attacks_Class_ComboBox[loop]->Append(armor_names[loop2]);
-            }
-            Attacks_Class_ComboBox[loop]->SetSelection(0);
-        }
+        Effects_B_ComboBox->Flash();
 
         for(size_t loop = 0; loop < 2; ++loop)
         {
+            Units_Class_ComboBox[loop]->Flash();
+
             Units_SearchFilters[loop]->Clear();
             Units_SearchFilters[loop]->Append("*Choose*");
             Units_SearchFilters[loop]->Append(Type20);
@@ -1653,8 +1642,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
             if(GenieVersion == genie::GV_Cysion)
             effect_attribute_names.Add("109 - Regeneration Rate (types 40-80)");
         }
-        Effects_AttributesC_ComboBox->Flash();
-        Effects_AttributesC_ComboBox->SetSelection(0);
+        Effects_C_ComboBox->Flash();
 
         Units_GraphicSet->Clear();
         if(GenieVersion < genie::GV_AoKA)
@@ -1731,7 +1719,6 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         if(GenieVersion < genie::GV_AoKA) effect_type_names.Add("103 - AoK+ only");
         else effect_type_names.Add("103 - Research Time Modifier (Set/+/-)");   // Selection 17
         Effects_Type_ComboBox->Flash();
-        Effects_Type_ComboBox->SetSelection(0);
 
         DataOpened = true;
         TabBar_Main->Freeze();
@@ -3602,43 +3589,36 @@ void AGE_Frame::virtualListing(AGEListView *list, vector<int> *oldies)
     How2List = SEARCH;
 }
 
-void AGE_Frame::FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString&, const wxString &none)
+void AGE_Frame::FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString&)
 {
     for(ComboBox_Plus1* &list: boxlist)
     {
-        int selection = list->GetSelection();
-        //list->Clear();
-        list->Append("-1 - " + none);
         list->Flash();
-        list->SetSelection(selection < list->GetCount() ? selection : 0);
     }
 }
 
-void AGE_AreaTT84::FillItemCombo(int selection, bool update)
+void AGE_Frame::FillItemCombo(AGE_AreaTT84 &piece, bool update)
 {
-    int oldList = lastList;
-    if(Mode->GetValue().empty()) lastList = 0;
-    else lastList = lexical_cast<int>(Mode->GetValue());
-    if(lastList != oldList || update)
+    int old_list = piece.last_list;
+    piece.last_list = piece.Mode->GetValue().empty() ? 0 : lexical_cast<int>(piece.Mode->GetValue());
+    if(piece.last_list != old_list || update)
     {
-        //ItemCombo->Clear();
-        /*ItemCombo->Append("-1 - None");
-        switch(lastList)
+        switch(piece.last_list)
         {
             case 0:
-                ItemCombo->Append(age_names);
+                piece.ItemCombo->SwapList(&age_names);
                 break;
             case 1:
             case 2:
-                ItemCombo->Append(unit_names);
+                piece.ItemCombo->SwapList(&unit_names);
                 break;
             case 3:
-                ItemCombo->Append(research_names);
+                piece.ItemCombo->SwapList(&research_names);
                 break;
             default: return;
-        }*/
+        }
     }
-    ItemCombo->SetSelection(selection < ItemCombo->GetCount() ? selection : 0);
+    piece.ItemCombo->Flash();
 }
 
 bool AGE_Frame::Paste11Check(size_t pastes, size_t copies)

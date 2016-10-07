@@ -30,10 +30,7 @@ public:
     void SetSelection(int n);
     int GetSelection() const {return popup->GetSelection();}
     void Flash() {popup->Flash();}
-
-//  Temporary functions
-    int Append(const wxString&) {return 0;}
-    int Append(const wxArrayString&) {return 0;}
+    void SwapList(wxArrayString *choices) {popup->Imbue(choices);}
 
 protected:
     void enable(bool yes){Enable(yes);}

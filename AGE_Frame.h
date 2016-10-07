@@ -181,7 +181,8 @@ private:
     void getSelectedItems(const int selections, const AGEListView* list, vector<int> &indexes);
     //void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
     void virtualListing(AGEListView *list, vector<int> *oldies = 0);
-    void FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString &names, const wxString &none = "None");
+    void FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString &names);
+    void FillItemCombo(AGE_AreaTT84 &piece, bool update = false);
     void UnitLangDLLConverter(wxCommandEvent &event);
     void ResearchLangDLLConverter(wxCommandEvent &event);
     void SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch);
@@ -1535,11 +1536,12 @@ private:
     wxBoxSizer *Effects_B_Holder;
     wxBoxSizer *Effects_C_Holder;
     wxBoxSizer *Effects_D_Holder;
-    wxBoxSizer *Effects_F_Holder;   // for attack/armor class
+    wxBoxSizer *Effects_89_Type_Holder;   // for attack/armor class
 
-    wxTextCtrl *Effects_E;  // amount
-    SolidText *Effects_F_Text;
-    AGETextCtrl *Effects_F; // class
+    wxTextCtrl *Effects_89_Amount;  // amount
+    SolidText *Effects_89_Type_Text;
+    AGETextCtrl *Effects_89_Type; // class
+    ComboBox_Plus1 *Effects_89_Type_CB1;
 
     wxStaticBoxSizer *Techs_Techs;
     wxBoxSizer *Techs_Searches[2];
@@ -1593,28 +1595,24 @@ private:
     wxStaticBoxSizer *Effects_Data_Holder;
     SolidText *Effects_A_Text;
     AGETextCtrl *Effects_A;
-    wxBoxSizer *Effects_A_ComboBox; // Space reserver, never used.
-    ComboBox_Plus1 *Effects_UnitsA_ComboBox;    // for Effects 0, 2, 3, 4, 5
-    ComboBox_Plus1 *Effects_ResourcesA_ComboBox;    // for Effects 1, 6
-    ComboBox_Plus1 *Effects_ResearchsA_ComboBox;    // for Effects 101, 103
+    ComboBox_Plus1 *Effects_A_ComboBox; // for effects 0 - 6, 101, 103
     SolidText *Effects_Info_A;
     SolidText *Effects_B_Text;
     AGETextCtrl *Effects_B;
-    wxBoxSizer *Effects_B_ComboBox; // Space reserver, never used.
-    CheckBox_2State *Effects_ModeB_CheckBox;    // for Effects 1, 2
-    ComboBox_Plus1 *Effects_UnitsB_ComboBox;    // for Effects 3
-    ComboBox_Plus1 *Effects_ResourcesB_ComboBox;    // for Effects 101
+    wxBoxSizer *Effects_B_Boxes;
+    CheckBox_2State *Effects_B_CheckBox;    // for effects 1, 2
+    ComboBox_Plus1 *Effects_B_ComboBox;    // for effects 0, 3, 4, 5, 101
     SolidText *Effects_Info_B;
     SolidText *Effects_C_Text;
     AGETextCtrl *Effects_C;
-    wxBoxSizer *Effects_C_ComboBox; // Space reserver, never used.
-    CheckBox_2State *Effects_ModeC_CheckBox;    // for Effects 101, 103
-    ComboBox_EffectAttribute *Effects_AttributesC_ComboBox; // for Effects 0, 4, 5
+    wxBoxSizer *Effects_C_Boxes;
+    CheckBox_2State *Effects_C_CheckBox;    // for effects 101, 103
+    ComboBox_EffectAttribute *Effects_C_ComboBox; // for effects 0, 4, 5
     SolidText *Effects_Info_C;
     SolidText *Effects_D_Text;
     AGETextCtrl *Effects_D;
-    wxBoxSizer *Effects_D_ComboBox; // Space reserver, never used.
-    ComboBox_Plus1 *Effects_ResearchsD_ComboBox;    // for Effects 102
+    wxBoxSizer *Effects_D_Boxes;
+    ComboBox_Plus1 *Effects_D_ComboBox;    // for effect 102
     SolidText *Effects_Info_D;
 
 //  Civs user interface
@@ -1689,7 +1687,7 @@ private:
     AGETextCtrl *Units_LanguageDLLCreation;
     TextCtrl_DLL *Units_DLL_LanguageCreation;
     AGETextCtrl *Units_Class;
-    ComboBox_Plus1 *Units_Class_ComboBox[3];
+    ComboBox_Plus1 *Units_Class_ComboBox[2];
     AGETextCtrl *Units_StandingGraphic[2];
     ComboBox_Plus1 *Units_StandingGraphic_ComboBox[2];
     AGETextCtrl *Units_DyingGraphic[2];
@@ -2301,7 +2299,7 @@ private:
     wxBoxSizer *Units_Attacks_Holder;
     wxGridSizer *Units_Attacks_Holder_Data;
     AGETextCtrl *Attacks_Class;
-    ComboBox_Plus1 *Attacks_Class_ComboBox[3];
+    ComboBox_Plus1 *Attacks_Class_ComboBox[2];
     AGETextCtrl *Attacks_Amount;
     SolidText *Attacks_Class_Text;
     SolidText *Attacks_Amount_Text;

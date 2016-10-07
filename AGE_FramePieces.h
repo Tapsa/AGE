@@ -18,16 +18,16 @@ public:
     AGETextCtrl *Item;
     ComboBox_Plus1 *ItemCombo;
     wxButton *Add, *Insert, *Delete, *Copy, *Paste, *PasteInsert, *CopyAllToSelected;
-    wxArrayString item_names;
 
-    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller, const wxString &listName, const wxString &itemName)
+    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller, const wxString &itemName,
+        const wxString &listName, wxArrayString *choices)
     {
         ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
         Search = new wxTextCtrl(scroller, wxID_ANY);
         SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
         List = new AGEListView(scroller, wxSize(10, 100));
         Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
-        ItemCombo = new ComboBox_Plus1(scroller, Item, &item_names);
+        ItemCombo = new ComboBox_Plus1(scroller, Item, choices);
         Buttons = new wxGridSizer(3, 0, 0);
         Add = new wxButton(scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
         Insert = new wxButton(scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -60,7 +60,6 @@ private:
     wxGridSizer *Buttons;
     wxBoxSizer *ItemList, *UsedItems_H, *Item_H;
     SolidText *UsedItems_T;
-    int lastList;
 public:
     AGE_AreaTT84() {}
     virtual ~AGE_AreaTT84() {}
@@ -73,17 +72,10 @@ public:
     wxOwnerDrawnComboBox *ModeCombo;
     wxButton *Copy, *Paste, *CopyAllToSelected;
     wxArrayString item_names;
-
-    void FillItemCombo(int selection, bool update = false);
-    void ClearItemCombo()
-    {
-        lastList = 4;
-        ItemCombo->Clear();
-    }
+    int last_list = 4;
 
     void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller, const wxString &itemName)
     {
-        lastList = 4;
         Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Connected Items");
         ItemList = new wxBoxSizer(wxVERTICAL);
         UsedItems_H = new wxBoxSizer(wxVERTICAL);
