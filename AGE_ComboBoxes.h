@@ -26,13 +26,13 @@ public:
     //void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
     virtual void OnUpdate(wxCommandEvent&)=0;
     void Imbue(wxArrayString *choices) {popup->Imbue(choices);}
+    unsigned int GetCount() const {return popup->GetCount();}
+    void SetSelection(int n);
+    int GetSelection() const {return popup->GetSelection();}
 
 //  Temporary functions
     int Append(const wxString&) {return 0;}
     int Append(const wxArrayString&) {return 0;}
-    virtual unsigned int GetCount() const {return 0;}
-    virtual void SetSelection(int n) {}
-    virtual int GetSelection() const {return 0;}
 
 protected:
     void enable(bool yes){Enable(yes);}
