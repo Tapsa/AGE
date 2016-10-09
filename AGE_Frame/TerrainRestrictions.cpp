@@ -59,8 +59,8 @@ void AGE_Frame::InitTerrainRestrictions(bool all)
         if(all) restriction_names.Add(Name);
     }
 
-    virtualListing(TerRestrict_TerRestrict_ListV, &TerRestrictIDs);
-    if(all) FillLists(TerrainRestrictionComboBoxList, restriction_names);
+    RefreshList(TerRestrict_TerRestrict_ListV, &TerRestrictIDs);
+    if(all) for(auto &list: TerrainRestrictionComboBoxList) list->Flash();
 }
 
 void AGE_Frame::OnTerrainRestrictionsSelect(wxCommandEvent &event)

@@ -45,7 +45,7 @@ void AGE_Frame::InitPlayerColors()
         color_names.Add(Name);
     }
 
-    virtualListing(Colors_Colors_ListV, &ColorIDs);
+    RefreshList(Colors_Colors_ListV, &ColorIDs);
     Graphics_PlayerColor_ComboBox->Flash();
 }
 
