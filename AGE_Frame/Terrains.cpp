@@ -975,6 +975,6 @@ void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &event)
 
 void AGE_Frame::OnUpdateCombo_Terrains(wxCommandEvent &event)
 {
-    ((AGEComboBox*)event.GetEventObject())->OnUpdate(event);
+    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
     ListTerrainsBorders();
 }

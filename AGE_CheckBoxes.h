@@ -1,31 +1,19 @@
 #pragma once
 #include "AGE_TextControls.h"
 
-class AGECheckBox: public wxCheckBox, public AGELinkedBox
+class CheckBox_2State: public wxCheckBox, public AGELinkedBox
 {
 public:
-    AGECheckBox(wxWindow *parent, wxString label):
-    wxCheckBox(parent, wxID_ANY, label){}
-
-    virtual void OnUpdate(wxCommandEvent&)=0;
-protected:
-    void enable(bool yes){Enable(yes);}
-
-    AGETextCtrl *TextBox;
-};
-
-class CheckBox_2State: public AGECheckBox
-{
-public:
-    CheckBox_2State(wxWindow *parent, wxString label, AGETextCtrl *Pointer):
-    AGECheckBox(parent, label)
+    CheckBox_2State(wxWindow *parent, wxString label, AGETextCtrl *ptr):
+    wxCheckBox(parent, wxID_ANY, label)
     {
-        TextBox = Pointer;
+        TextBox = ptr;
         TextBox->LinkedBoxes.push_back(this);
-        Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &CheckBox_2State::OnUpdate, this);
+        Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &CheckBox_2State::OnChoose, this);
     }
 
-protected:
-    void OnUpdate(wxCommandEvent&);
-    void update(int value);
+private:
+    void OnChoose(wxCommandEvent&);
+    void SetChoice(int value) {SetValue(value);}
+    void EnableCtrl(bool yes) {Enable(yes);}
 };

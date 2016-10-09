@@ -5977,7 +5977,7 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &event)
         ListUnitCommands();
         return;
     }
-    ((AGEComboBox*)event.GetEventObject())->OnUpdate(event);
+    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
     if(event.GetId() == Attacks_Class_ComboBox[0]->GetId())
     {
         ListUnitAttacks();
