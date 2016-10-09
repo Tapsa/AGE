@@ -547,7 +547,7 @@ void AGE_Frame::ListTTAgeItems()
     OnTTAgeItemTimer(E);
 }
 
-void AGE_Frame::SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* dataPointer)
+void AGE_Frame::SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common *tt_cmn_ptr)
 {
     wxBusyCursor WaitCursor;
     auto selections = area.List->GetSelectedItemCount();
@@ -557,16 +557,36 @@ void AGE_Frame::SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common*
     {
         getSelectedItems(selections, area.List, TTItemIDs);
 
-        int32_t * ItemPointer;
+        int32_t *item_ptr;
         for(auto loop = selections; loop--> 0;)
         {
-            ItemPointer = &dataPointer->Mode[TTItemIDs[loop]];
-            area.Mode->prepend(ItemPointer);
-            area.Item->prepend(&dataPointer->UnitResearch[TTItemIDs[loop]]);
+            item_ptr = &tt_cmn_ptr->Mode[TTItemIDs[loop]];
+            area.Mode->prepend(item_ptr);
+            area.Item->prepend(&tt_cmn_ptr->UnitResearch[TTItemIDs[loop]]);
         }
 
-        area.ModeCombo->SetSelection(*ItemPointer);
-        FillItemCombo(area);
+        int32_t mode = *item_ptr;
+        bool mode_valid = true;
+        switch(mode)
+        {
+            case 0:
+                area.ItemCombo->SwapList(&age_names);
+                break;
+            case 1:
+            case 2:
+                area.ItemCombo->SwapList(&unit_names);
+                break;
+            case 3:
+                area.ItemCombo->SwapList(&research_names);
+                break;
+            default:
+                mode_valid = false;
+                break;
+        }
+        area.ModeCombo->Show(mode_valid);
+        area.ItemCombo->Show(mode_valid);
+        area.ModeCombo->SetSelection(mode_valid ? mode : 0);
+        area.ItemCombo->Flash();
     }
     area.Item->update();
     area.Mode->update();
@@ -1650,32 +1670,32 @@ void AGE_Frame::OnTTUnitUnitCopyToUnits(wxCommandEvent &event)
     }
 }
 
-void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* dataPointer)
+void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common *tt_cmn_ptr)
 {
     InitSearch(area.Search->GetValue().MakeLower(), area.SearchRecursive->GetValue().MakeLower());
 
     area.List->names.clear();
     area.List->indexes.clear();
 
-    for(size_t loop = 0; loop < dataPointer->getSlots(); ++loop)
+    for(size_t loop = 0; loop < tt_cmn_ptr->getSlots(); ++loop)
     {
         wxString Name = " ";
-        switch(dataPointer->Mode[loop])
+        switch(tt_cmn_ptr->Mode[loop])
         {
             case 0:
-                Name += "Age: "+lexical_cast<string>(dataPointer->UnitResearch[loop]);
+                Name += "Age: "+lexical_cast<string>(tt_cmn_ptr->UnitResearch[loop]);
                 break;
             case 1:
-                Name += "Building: "+GetBuildingName(dataPointer->UnitResearch[loop]);
+                Name += "Building: "+GetBuildingName(tt_cmn_ptr->UnitResearch[loop]);
                 break;
             case 2:
-                Name += "Unit: "+GetBuildingName(dataPointer->UnitResearch[loop]);
+                Name += "Unit: "+GetBuildingName(tt_cmn_ptr->UnitResearch[loop]);
                 break;
             case 3:
-                Name += "Research: "+GetSimpleResearchName(dataPointer->UnitResearch[loop]);
+                Name += "Research: "+GetSimpleResearchName(tt_cmn_ptr->UnitResearch[loop]);
                 break;
             default:
-                Name += lexical_cast<string>(dataPointer->Mode[loop])+" None: "+lexical_cast<string>(dataPointer->UnitResearch[loop]);
+                Name += lexical_cast<string>(tt_cmn_ptr->Mode[loop])+" None: "+lexical_cast<string>(tt_cmn_ptr->UnitResearch[loop]);
         }
         if(SearchMatches(Name.Lower()))
         {
@@ -3132,7 +3152,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Ages_Units.ItemCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
     TechTrees_Ages_Researches.ItemCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
     TechTrees_Ages_Items.ItemCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Ages_Items.ModeCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
+    TechTrees_Ages_Items.ModeCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTreeMode, this);
     TechTrees_Buildings_ID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
     TechTrees_Buildings_Buildings.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
     TechTrees_Buildings_Units.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
@@ -3154,17 +3174,17 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Buildings_Units.ItemCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
     TechTrees_Buildings_Researches.ItemCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
     TechTrees_Buildings_Items.ItemCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Buildings_Items.ModeCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
+    TechTrees_Buildings_Items.ModeCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTreeMode, this);
     TechTrees_Units_ID_ComboBox->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
     TechTrees_Units_Units.ItemCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
     TechTrees_Units_Items.ItemCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Units_Items.ModeCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
+    TechTrees_Units_Items.ModeCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTreeMode, this);
     TechTrees_Researches_ID_ComboBox->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
     TechTrees_Researches_Buildings.ItemCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
     TechTrees_Researches_Units.ItemCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
     TechTrees_Researches_Researches.ItemCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
     TechTrees_Researches_Items.ItemCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Researches_Items.ModeCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTrees, this);
+    TechTrees_Researches_Items.ModeCombo->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_TechTreeMode, this);
 }
 
 void AGE_Frame::OnKillFocus_TechTrees(wxFocusEvent &event)
@@ -3259,7 +3279,7 @@ void AGE_Frame::OnKillFocus_TechTrees(wxFocusEvent &event)
     }
 }
 
-void AGE_Frame::OnUpdateCombo_TechTrees(wxCommandEvent &event)
+void AGE_Frame::OnUpdateCombo_TechTreeMode(wxCommandEvent &event)
 {
     if(event.GetId() == TechTrees_Ages_Items.ModeCombo->GetId())
     {
@@ -3289,6 +3309,10 @@ void AGE_Frame::OnUpdateCombo_TechTrees(wxCommandEvent &event)
         ListTTResearchItems();
         return;
     }
+}
+
+void AGE_Frame::OnUpdateCombo_TechTrees(wxCommandEvent &event)
+{
     ((AGEComboBox*)event.GetEventObject())->OnUpdate(event);
     if(event.GetId() == TechTrees_Ages_Buildings.ItemCombo->GetId())
     {
