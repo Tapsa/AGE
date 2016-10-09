@@ -156,10 +156,10 @@ void AGE_Frame::InitResearches(bool all)
         if(all) research_names.Add(" "+FormatInt(loop)+" - "+GetResearchName(loop));
     }
 
-    virtualListing(Research_Research_ListV, &ResearchIDs);
+    RefreshList(Research_Research_ListV, &ResearchIDs);
     if(all)
     {
-        FillLists(ResearchComboBoxList, research_names);
+        for(auto &list: ResearchComboBoxList) list->Flash();
         if(GenieVersion >= genie::GV_AoKA)
         {
             TechTrees_Ages_Items.ItemCombo->Flash();
@@ -415,7 +415,7 @@ void AGE_Frame::CreateResearchControls()
     for(size_t loop = 0; loop < 2; ++loop)
     {
         Research_Research_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-        Research_SearchFilters[loop] = new AGEODComboBox(Tab_Research);
+        Research_SearchFilters[loop] = new AGEComboBox(Tab_Research, &research_filters);
     }
     Research_Research_ListV = new AGEListView(Tab_Research, wxSize(200, 100));
     Research_Research_Buttons = new wxGridSizer(3, 0, 0);

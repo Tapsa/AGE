@@ -107,8 +107,8 @@ void AGE_Frame::InitTechs(bool all)
         if(all) tech_names.Add(Name);
     }
 
-    virtualListing(Techs_ListV, &TechIDs);
-    if(all) FillLists(TechComboBoxList, tech_names);
+    RefreshList(Techs_ListV, &TechIDs);
+    if(all) for(auto &list: TechComboBoxList) list->Flash();
 
     SearchAnd = ExcludeAnd = false;
 }
@@ -335,7 +335,7 @@ void AGE_Frame::ListEffects()
             Techs_Effects_ListV->indexes.push_back(loop);
         }
     }
-    virtualListing(Techs_Effects_ListV, &EffectIDs);
+    RefreshList(Techs_Effects_ListV, &EffectIDs);
 
     SearchAnd = ExcludeAnd = false;
 
@@ -877,7 +877,7 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
         }
     }
 
-    virtualListing(Techs_AllEffects_ListV);
+    RefreshList(Techs_AllEffects_ListV);
     //Techs_AllEffects_ListV->SetFocus(); You need to check if searched or not.
 
     SearchAnd = ExcludeAnd = false;

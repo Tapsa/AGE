@@ -138,8 +138,8 @@ void AGE_Frame::InitGraphics(bool all)
         if(all) graphic_names.Add(" "+FormatInt(loop)+" - "+GetGraphicName(loop));
     }
 
-    virtualListing(Graphics_Graphics_ListV, &GraphicIDs);
-    if(all) FillLists(GraphicComboBoxList, graphic_names);
+    RefreshList(Graphics_Graphics_ListV, &GraphicIDs);
+    if(all) for(auto &list: GraphicComboBoxList) list->Flash();
 
     SearchAnd = ExcludeAnd = false;
 }
@@ -723,7 +723,7 @@ void AGE_Frame::ListGraphicDeltas()
             Graphics_Deltas_ListV->indexes.push_back(loop);
         }
     }
-    virtualListing(Graphics_Deltas_ListV, &DeltaIDs);
+    RefreshList(Graphics_Deltas_ListV, &DeltaIDs);
 
     wxTimerEvent E;
     OnGraphicDeltasTimer(E);
@@ -864,7 +864,7 @@ void AGE_Frame::ListGraphicAttackSounds()
         Graphics_AttackSounds_ListV->indexes.push_back(loop);
     }
 
-    virtualListing(Graphics_AttackSounds_ListV, &AttackSoundIDs);
+    RefreshList(Graphics_AttackSounds_ListV, &AttackSoundIDs);
 
     wxTimerEvent E;
     OnGraphicAttackSoundsTimer(E);
@@ -935,7 +935,7 @@ void AGE_Frame::CreateGraphicsControls()
     for(size_t loop = 0; loop < 2; ++loop)
     {
         Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-        Graphics_SearchFilters[loop] = new AGEODComboBox(Tab_Graphics);
+        Graphics_SearchFilters[loop] = new AGEComboBox(Tab_Graphics, &graphic_filters);
     }
     Graphics_Graphics_ListV = new AGEListView(Tab_Graphics, wxSize(200, 100));
     Graphics_Graphics_Buttons = new wxGridSizer(3, 0, 0);
@@ -1107,30 +1107,30 @@ void AGE_Frame::CreateGraphicsControls()
     Deltas_Unknowns_Holder = new wxBoxSizer(wxHORIZONTAL);
     Graphics_AttackSoundArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Graphics_Scroller, "Attack Sounds");
 
+    graphic_filters.Add("Internal Name");  // 0
+    graphic_filters.Add("SLP Name");
+    graphic_filters.Add("SLP");
+    graphic_filters.Add("Disabler");
+    graphic_filters.Add("Old Color Flag");
+    graphic_filters.Add("Layer");
+    graphic_filters.Add("Player Color Forcer");
+    graphic_filters.Add("Transparent Picking");
+    graphic_filters.Add("Sound");
+    graphic_filters.Add("Coordinates");
+    graphic_filters.Add("Delta Count");
+    graphic_filters.Add("Attack Sound Used");
+    graphic_filters.Add("Frames per Angle");
+    graphic_filters.Add("Angle Count");
+    graphic_filters.Add("New Speed");
+    graphic_filters.Add("Frame Duration");
+    graphic_filters.Add("Replay Delay");
+    graphic_filters.Add("Sequence Type");
+    graphic_filters.Add("Mirroring Mode");
+    graphic_filters.Add("Old Editor Flag");
+    graphic_filters.Add("Pointer");
     for(size_t loop = 0; loop < 2; ++loop)
     {
-        Graphics_SearchFilters[loop]->Append("Internal Name");  // 0
-        Graphics_SearchFilters[loop]->Append("SLP Name");
-        Graphics_SearchFilters[loop]->Append("SLP");
-        Graphics_SearchFilters[loop]->Append("Disabler");
-        Graphics_SearchFilters[loop]->Append("Old Color Flag");
-        Graphics_SearchFilters[loop]->Append("Layer");
-        Graphics_SearchFilters[loop]->Append("Player Color Forcer");
-        Graphics_SearchFilters[loop]->Append("Transparent Picking");
-        Graphics_SearchFilters[loop]->Append("Sound");
-        Graphics_SearchFilters[loop]->Append("Coordinates");
-        Graphics_SearchFilters[loop]->Append("Delta Count");
-        Graphics_SearchFilters[loop]->Append("Attack Sound Used");
-        Graphics_SearchFilters[loop]->Append("Frames per Angle");
-        Graphics_SearchFilters[loop]->Append("Angle Count");
-        Graphics_SearchFilters[loop]->Append("New Speed");
-        Graphics_SearchFilters[loop]->Append("Frame Duration");
-        Graphics_SearchFilters[loop]->Append("Replay Delay");
-        Graphics_SearchFilters[loop]->Append("Sequence Type");
-        Graphics_SearchFilters[loop]->Append("Mirroring Mode");
-        Graphics_SearchFilters[loop]->Append("Old Editor Flag");
-        Graphics_SearchFilters[loop]->Append("Pointer");
-        Graphics_SearchFilters[loop]->SetSelection(0);
+        Graphics_SearchFilters[loop]->Flash();
     }
 
     Graphics_Graphics_Buttons->Add(Graphics_Add, 1, wxEXPAND);
