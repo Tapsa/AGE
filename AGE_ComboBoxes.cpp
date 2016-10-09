@@ -23,6 +23,13 @@ void AGEComboBox::SetSelection(int n)
     Refresh();
 }
 
+void AGEComboBox::Flash()
+{
+    int sel = GetSelection();
+    popup->Flash();
+    SetSelection(sel < GetCount() ? sel : 0);
+}
+
 void ComboBox_Plus1::OnUpdate(wxCommandEvent&)
 {
     TextBox->ChangeValue(lexical_cast<string>(GetSelection() - 1));

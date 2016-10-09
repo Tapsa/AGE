@@ -124,7 +124,6 @@ protected:
 
     wxFont                  m_useFont;
 
-    //wxString                m_stringValue; // displayed text (may be different than (*s_strings)[m_value])
     int                     m_value; // selection
     int                     m_itemHover; // on which item the cursor is
     int                     m_itemHeight; // default item height (calculate from font size

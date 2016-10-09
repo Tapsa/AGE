@@ -914,10 +914,10 @@ void AGE_Frame::InitUnits(short civ, bool all)
         FillLists(UnitComboBoxList, unit_names);
         if(GenieVersion >= genie::GV_AoKA)
         {
-            FillItemCombo(TechTrees_Ages_Items, true);
-            FillItemCombo(TechTrees_Buildings_Items, true);
-            FillItemCombo(TechTrees_Units_Items, true);
-            FillItemCombo(TechTrees_Researches_Items, true);
+            TechTrees_Ages_Items.ItemCombo->Flash();
+            TechTrees_Buildings_Items.ItemCombo->Flash();
+            TechTrees_Units_Items.ItemCombo->Flash();
+            TechTrees_Researches_Items.ItemCombo->Flash();
         }
     }
 
