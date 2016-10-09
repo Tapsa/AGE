@@ -141,6 +141,7 @@ private:
 
     void OnUpdateCombo_Techs(wxCommandEvent &event);
     void OnUpdateCombo_TechTrees(wxCommandEvent &event);
+    void OnUpdateCombo_TechTreeMode(wxCommandEvent &event);
     void OnUpdateCombo_Units(wxCommandEvent &event);
     void OnUpdateCombo_UnitLines(wxCommandEvent &event);
     void OnUpdateCombo_Graphics(wxCommandEvent &event);
@@ -182,7 +183,6 @@ private:
     //void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
     void virtualListing(AGEListView *list, vector<int> *oldies = 0);
     void FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString &names);
-    void FillItemCombo(AGE_AreaTT84 &piece, bool update = false);
     void UnitLangDLLConverter(wxCommandEvent &event);
     void ResearchLangDLLConverter(wxCommandEvent &event);
     void SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch);
@@ -507,8 +507,8 @@ private:
     void OnTTUnitUnitPasteInsert(wxCommandEvent &event);
     void OnTTUnitUnitCopyToUnits(wxCommandEvent &event);
 
-    void ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* dataPointer);
-    void SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common* dataPointer);
+    void ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common *tt_cmn_ptr);
+    void SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common *tt_cmn_ptr);
     void ListTTUnitItems();
     void OnTTUnitItemSearch(wxCommandEvent &event);
     void OnTTUnitItemTimer(wxTimerEvent&);

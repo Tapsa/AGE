@@ -29,7 +29,7 @@ public:
     unsigned int GetCount() const {return popup->GetCount();}
     void SetSelection(int n);
     int GetSelection() const {return popup->GetSelection();}
-    void Flash() {popup->Flash();}
+    void Flash();
     void SwapList(wxArrayString *choices) {popup->Imbue(choices);}
 
 protected:

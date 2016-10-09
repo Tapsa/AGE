@@ -655,7 +655,7 @@ void SharedComboPopup::CalcWidths()
     // Measure items with dirty width.
     if(m_widthsDirty)
     {
-        unsigned int n = m_widths.GetCount();
+        unsigned int n = s_strings->GetCount();
         int dirtyHandled = 0;
         wxArrayInt &widths = m_widths;
 
@@ -715,7 +715,7 @@ void SharedComboPopup::CalcWidths()
 
     if(doFindWidest)
     {
-        unsigned int n = m_widths.GetCount();
+        unsigned int n = s_strings->GetCount();
 
         int bestWidth = -1;
         int bestIndex = -1;
@@ -804,28 +804,17 @@ wxSize SharedComboPopup::GetAdjustedSize(int minWidth, int prefHeight, int maxHe
 
 void SharedComboPopup::Imbue(wxArrayString *choices)
 {
-    int n = choices->GetCount();
-
     s_strings = choices;
 
-    m_widths.SetCount(n, -1);
-    m_widthsDirty = true;
-
-    if(IsCreated()) wxVListBox::SetItemCount(n);
-
+    Flash();
 }
 
 void SharedComboPopup::Flash()
 {
-    int selection = wxVListBox::GetSelection();
     int n = s_strings->GetCount();
 
     m_widths.SetCount(n, -1);
     m_widthsDirty = true;
 
-    if(IsCreated())
-    {
-        wxVListBox::SetItemCount(n);
-        wxVListBox::SetSelection(selection < n ? selection : 0);
-    }
+    if(IsCreated()) wxVListBox::SetItemCount(n);
 }

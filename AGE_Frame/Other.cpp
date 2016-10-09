@@ -3597,30 +3597,6 @@ void AGE_Frame::FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString&)
     }
 }
 
-void AGE_Frame::FillItemCombo(AGE_AreaTT84 &piece, bool update)
-{
-    int old_list = piece.last_list;
-    piece.last_list = piece.Mode->GetValue().empty() ? 0 : lexical_cast<int>(piece.Mode->GetValue());
-    if(piece.last_list != old_list || update)
-    {
-        switch(piece.last_list)
-        {
-            case 0:
-                piece.ItemCombo->SwapList(&age_names);
-                break;
-            case 1:
-            case 2:
-                piece.ItemCombo->SwapList(&unit_names);
-                break;
-            case 3:
-                piece.ItemCombo->SwapList(&research_names);
-                break;
-            default: return;
-        }
-    }
-    piece.ItemCombo->Flash();
-}
-
 bool AGE_Frame::Paste11Check(size_t pastes, size_t copies)
 {
     bool result = copies == pastes;
