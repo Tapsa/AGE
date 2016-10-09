@@ -170,8 +170,8 @@ void AGE_Frame::InitTerrains1(bool all)
 
     SearchAnd = ExcludeAnd = false;
 
-    virtualListing(Terrains_Terrains_ListV, &TerrainIDs);
-    if(all) FillLists(TerrainComboBoxList, terrain_names);
+    RefreshList(Terrains_Terrains_ListV, &TerrainIDs);
+    if(all) for(auto &list: TerrainComboBoxList) list->Flash();
     InitTerrains2();
 }
 
@@ -192,7 +192,7 @@ void AGE_Frame::InitTerrains2()
             TerRestrict_Terrains_ListV->indexes.push_back(loop);
         }
     }
-    virtualListing(TerRestrict_Terrains_ListV, &TerRestrictTerIDs);
+    RefreshList(TerRestrict_Terrains_ListV, &TerRestrictTerIDs);
 }
 
 void AGE_Frame::OnTerrainsSelect(wxCommandEvent &event)
@@ -477,7 +477,7 @@ void AGE_Frame::ListTerrainsBorders()
             Terrains_Borders_ListV->indexes.push_back(loop);
         }
     }
-    virtualListing(Terrains_Borders_ListV, &TerBorderIDs);
+    RefreshList(Terrains_Borders_ListV, &TerBorderIDs);
 
     wxTimerEvent E;
     OnTerrainsBorderTimer(E);
@@ -548,7 +548,7 @@ void AGE_Frame::CreateTerrainControls()
     for(size_t loop = 0; loop < 2; ++loop)
     {
         Terrains_Terrains_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-        Terrains_SearchFilters[loop] = new AGEODComboBox(Tab_Terrains);
+        Terrains_SearchFilters[loop] = new AGEComboBox(Tab_Terrains, &terrain_filters);
     }
     Terrains_Terrains_ListV = new AGEListView(Tab_Terrains, wxSize(200, 100));
     Terrains_UsedCountHolder = new wxBoxSizer(wxHORIZONTAL);
@@ -718,28 +718,28 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_Drawn_Text = new SolidText(Terrains_Scroller, " Drawn");
     Terrains_Drawn = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
 
+    terrain_filters.Add("Internal Name");  // 0
+    terrain_filters.Add("SLP Name");
+    terrain_filters.Add("SLP");
+    terrain_filters.Add("Enabled");
+    terrain_filters.Add("Random");
+    terrain_filters.Add("Unknown 3");
+    terrain_filters.Add("Sound");
+    terrain_filters.Add("Blend Priority");
+    terrain_filters.Add("Blend Type");
+    terrain_filters.Add("Colors");
+    terrain_filters.Add("Cliff Colors");
+    terrain_filters.Add("Passable Terrain");
+    terrain_filters.Add("Impassable Terrain");
+    terrain_filters.Add("Frame Count");
+    terrain_filters.Add("Angle Count");
+    terrain_filters.Add("Terrain to Draw");
+    terrain_filters.Add("Terrain Dimensions");
+    terrain_filters.Add("Terrain Units Used");
+    terrain_filters.Add("Unknown 1");
     for(size_t loop = 0; loop < 2; ++loop)
     {
-        Terrains_SearchFilters[loop]->Append("Internal Name");  // 0
-        Terrains_SearchFilters[loop]->Append("SLP Name");
-        Terrains_SearchFilters[loop]->Append("SLP");
-        Terrains_SearchFilters[loop]->Append("Enabled");
-        Terrains_SearchFilters[loop]->Append("Random");
-        Terrains_SearchFilters[loop]->Append("Unknown 3");
-        Terrains_SearchFilters[loop]->Append("Sound");
-        Terrains_SearchFilters[loop]->Append("Blend Priority");
-        Terrains_SearchFilters[loop]->Append("Blend Type");
-        Terrains_SearchFilters[loop]->Append("Colors");
-        Terrains_SearchFilters[loop]->Append("Cliff Colors");
-        Terrains_SearchFilters[loop]->Append("Passable Terrain");
-        Terrains_SearchFilters[loop]->Append("Impassable Terrain");
-        Terrains_SearchFilters[loop]->Append("Frame Count");
-        Terrains_SearchFilters[loop]->Append("Angle Count");
-        Terrains_SearchFilters[loop]->Append("Terrain to Draw");
-        Terrains_SearchFilters[loop]->Append("Terrain Dimensions");
-        Terrains_SearchFilters[loop]->Append("Terrain Units Used");
-        Terrains_SearchFilters[loop]->Append("Unknown 1");
-        Terrains_SearchFilters[loop]->SetSelection(0);
+        Terrains_SearchFilters[loop]->Flash();
     }
 
     Terrains_UsedCountHolder->Add(Terrains_UsedCountText);

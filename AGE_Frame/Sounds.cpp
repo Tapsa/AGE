@@ -46,8 +46,8 @@ void AGE_Frame::InitSounds(bool all)
         if(all) sound_names.Add(Name);
     }
 
-    virtualListing(Sounds_Sounds_ListV, &SoundIDs);
-    if(all) FillLists(SoundComboBoxList, sound_names);
+    RefreshList(Sounds_Sounds_ListV, &SoundIDs);
+    if(all) for(auto &list: SoundComboBoxList) list->Flash();
 }
 
 void AGE_Frame::OnSoundsSelect(wxCommandEvent &event)
@@ -210,7 +210,7 @@ void AGE_Frame::ListSoundItems()
             Sounds_Items_ListV->indexes.push_back(loop);
         }
     }
-    virtualListing(Sounds_Items_ListV, &SoundItemIDs);
+    RefreshList(Sounds_Items_ListV, &SoundItemIDs);
 
     SearchAnd = ExcludeAnd = false;
 
@@ -341,7 +341,7 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
         }
     }
 
-    virtualListing(Sounds_AllItems_ListV);
+    RefreshList(Sounds_AllItems_ListV);
     //Sounds_AllItems_ListV->SetFocus(); You need to check if searched or not.
 
     SearchAnd = ExcludeAnd = false;
@@ -391,7 +391,7 @@ void AGE_Frame::CreateSoundControls()
     for(size_t loop = 0; loop < 2; ++loop)
     {
         Sounds_Items_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-        Sounds_Items_SearchFilters[loop] = new AGEODComboBox(Tab_Sounds);
+        Sounds_Items_SearchFilters[loop] = new AGEComboBox(Tab_Sounds, &soundfile_filters);
     }
     Sounds_Items_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
     Sounds_Items_UseAnd[0] = new wxCheckBox(Tab_Sounds, wxID_ANY, "And");
@@ -446,10 +446,10 @@ void AGE_Frame::CreateSoundControls()
     wxSizer *TargetCiv_Holder = new wxBoxSizer(wxHORIZONTAL);
     SolidText *SourceCiv_Text = new SolidText(Tab_Sounds, " Source ");
     SolidText *TargetCiv_Text = new SolidText(Tab_Sounds, " Target ");
-    SoundFile_Source_Civ = new AGEODComboBox(Tab_Sounds);
-    SoundFile_Target_Civ = new AGEODComboBox(Tab_Sounds);
-    CivComboBoxListNormal.push_back(SoundFile_Source_Civ);
-    CivComboBoxListNormal.push_back(SoundFile_Target_Civ);
+    SoundFile_Source_Civ = new AGEComboBox(Tab_Sounds, &civ_names_only);
+    SoundFile_Target_Civ = new AGEComboBox(Tab_Sounds, &civ_names_only);
+    CivComboBoxList.push_back(SoundFile_Source_Civ);
+    CivComboBoxList.push_back(SoundFile_Target_Civ);
 
     Sounds_AllItems = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Files of all Sounds");
     Sounds_AllItems_Searches[0] = new wxBoxSizer(wxHORIZONTAL);

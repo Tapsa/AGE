@@ -69,11 +69,11 @@ public:
     AGEListView *List;
     AGETextCtrl *Item, *Mode, *UsedItems;
     ComboBox_Plus1 *ItemCombo;
-    wxOwnerDrawnComboBox *ModeCombo;
+    AGEComboBox *ModeCombo;
     wxButton *Copy, *Paste, *CopyAllToSelected;
-    wxArrayString item_names;
 
-    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller, const wxString &itemName)
+    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller, const wxString &itemName,
+        wxArrayString *choices)
     {
         Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Connected Items");
         ItemList = new wxBoxSizer(wxVERTICAL);
@@ -86,19 +86,15 @@ public:
         List = new AGEListView(scroller, wxSize(10, 100));
         Item_H = new wxBoxSizer(wxHORIZONTAL);
         Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
-        ItemCombo = new ComboBox_Plus1(scroller, Item, &item_names);
+        ItemCombo = new ComboBox_Plus1(scroller, Item, choices);
         Mode = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller, AGETextCtrl::MEDIUM);
-        ModeCombo = new AGEODComboBox(scroller);
+        ModeCombo = new AGEComboBox(scroller, choices);
         Buttons = new wxGridSizer(2, 0, 0);
         Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
         Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
         CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected " + itemName, wxDefaultPosition, wxSize(10, -1));
 
-        ModeCombo->Append("Age");
-        ModeCombo->Append("Building");
-        ModeCombo->Append("Unit");
-        ModeCombo->Append("Research");
-        ModeCombo->SetSelection(0);
+        ModeCombo->Flash();
 
         Buttons->Add(Copy, 1, wxEXPAND);
         Buttons->Add(Paste, 1, wxEXPAND);
