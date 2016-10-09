@@ -27,7 +27,9 @@ void AGE_Frame::InitCivs(bool all)
     if(all)
     {
         civ_names.Clear();
+        civ_names_only.Clear();
         civ_names.Alloc(1 + dataset->Civs.size());
+        civ_names_only.Alloc(dataset->Civs.size());
         civ_names.Add("-1 - Any");
     }
 
@@ -39,22 +41,15 @@ void AGE_Frame::InitCivs(bool all)
             Civs_Civs_ListV->names.Add(Name);
             Civs_Civs_ListV->indexes.push_back(loop);
         }
-        if(all) civ_names.Add(Name);
-    }
-
-    virtualListing(Civs_Civs_ListV, &CivIDs);
-    if(all)
-    {
-        FillLists(CivComboBoxList, civ_names);
-        for(auto &box: CivComboBoxListNormal)
+        if(all)
         {
-            short selection = box->GetSelection();
-            box->Clear();
-            box->Append(civ_names);
-            box->Delete(0);
-            box->SetSelection(selection < box->GetCount() ? selection : 0);
+            civ_names.Add(Name);
+            civ_names_only.Add(Name);
         }
     }
+
+    RefreshList(Civs_Civs_ListV, &CivIDs);
+    if(all) for(auto &list: CivComboBoxList) list->Flash();
 }
 
 void AGE_Frame::OnCivsSelect(wxCommandEvent &event)
@@ -275,8 +270,8 @@ void AGE_Frame::ListResources(bool all)
         if(all) resource_names.Add(" "+FormatInt(loop)+" - "+GetResourceName(loop));
     }
 
-    virtualListing(Civs_Resources_ListV, &ResourceIDs);
-    if(all) FillLists(ResourceComboBoxList, resource_names);
+    RefreshList(Civs_Resources_ListV, &ResourceIDs);
+    if(all) for(auto &list: ResourceComboBoxList) list->Flash();
 
     wxTimerEvent E;
     OnResourcesTimer(E);

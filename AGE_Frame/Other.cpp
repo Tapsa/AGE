@@ -452,61 +452,61 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
 
         How2List = SEARCH;
 
-        UnitCommands_Type_ComboBox->Clear();
-        UnitCommands_Type_ComboBox->Append("Unused Ability/Invalid Ability");   // Selection 0
-        //UnitCommands_Type_ComboBox->Append("0: Unknown Ability");
-        UnitCommands_Type_ComboBox->Append("1: Move to");
-        UnitCommands_Type_ComboBox->Append("2: Follow");
-        UnitCommands_Type_ComboBox->Append("3: Garrison");
-        UnitCommands_Type_ComboBox->Append("4: Explore");
-        UnitCommands_Type_ComboBox->Append("5: Gather/Rebuild");
-        UnitCommands_Type_ComboBox->Append("6: Natural Wonders Cheat");
-        UnitCommands_Type_ComboBox->Append("7: Attack");
-        UnitCommands_Type_ComboBox->Append("8: Shoot");
-        UnitCommands_Type_ComboBox->Append("10: Fly");
-        UnitCommands_Type_ComboBox->Append("11: Scare/Hunt");
-        UnitCommands_Type_ComboBox->Append("12: Unload (Boat-Like)");
-        UnitCommands_Type_ComboBox->Append("13: Guard");
-        UnitCommands_Type_ComboBox->Append("14: Siege Tower Ability");
-        //UnitCommands_Type_ComboBox->Append("15: Unknown Ability");
-        //UnitCommands_Type_ComboBox->Append("17: Unknown Ability");
-        //UnitCommands_Type_ComboBox->Append("18: Unknown Ability");
-        //UnitCommands_Type_ComboBox->Append("19: Unknown Ability");
-        UnitCommands_Type_ComboBox->Append("20: Escape?");
-        UnitCommands_Type_ComboBox->Append("21: Make");
-        //UnitCommands_Type_ComboBox->Append("22: Unknown Ability");
-        //UnitCommands_Type_ComboBox->Append("24: Unknown Ability");
-        //UnitCommands_Type_ComboBox->Append("100: Unknown Ability");
-        UnitCommands_Type_ComboBox->Append("101: Build");
-        UnitCommands_Type_ComboBox->Append("102: Make an Object");
-        UnitCommands_Type_ComboBox->Append("103: Make a Tech");
-        UnitCommands_Type_ComboBox->Append("104: Convert");
-        UnitCommands_Type_ComboBox->Append("105: Heal");
-        UnitCommands_Type_ComboBox->Append("106: Repair");
-        UnitCommands_Type_ComboBox->Append("107: Get Auto-converted");
-        UnitCommands_Type_ComboBox->Append("108: Discovery");
-        UnitCommands_Type_ComboBox->Append("109: Retreat to Shooting Range");
-        UnitCommands_Type_ComboBox->Append("110: Hunt");
-        UnitCommands_Type_ComboBox->Append("111: Trade");
-        //UnitCommands_Type_ComboBox->Append("112: Unknown Ability");
-        //UnitCommands_Type_ComboBox->Append("113: Unknown Ability");
-        UnitCommands_Type_ComboBox->Append("120: Generate Wonder Victory");
-        UnitCommands_Type_ComboBox->Append("121: Deselect when Tasked");
-        UnitCommands_Type_ComboBox->Append("122: Loot");
-        UnitCommands_Type_ComboBox->Append("123: Housing");
-        UnitCommands_Type_ComboBox->Append("124: Pack");
-        UnitCommands_Type_ComboBox->Append("125: Unpack & Attack");
-        UnitCommands_Type_ComboBox->Append("130: Off-Map Trade 1");
-        UnitCommands_Type_ComboBox->Append("131: Off-Map Trade 2");
-        UnitCommands_Type_ComboBox->Append("132: Pickup Unit");
-        UnitCommands_Type_ComboBox->Append("133: Unknown Pickup Ability");
-        UnitCommands_Type_ComboBox->Append("134: Unknown Pickup Ability");
-        UnitCommands_Type_ComboBox->Append("135: Kidnap Unit");
-        UnitCommands_Type_ComboBox->Append("136: Deposit Unit");    // Selection 33
-        UnitCommands_Type_ComboBox->Append("149: Shear");   // Selection 33
-        UnitCommands_Type_ComboBox->Append("150: Regeneration");
-        UnitCommands_Type_ComboBox->Append("151: Feitoria Ability");
-        UnitCommands_Type_ComboBox->SetSelection(0);
+        action_type_names.Clear();
+        action_type_names.Add("Unused Ability/Invalid Ability");   // Selection 0
+        //action_type_names.Add("0: Unknown Ability");
+        action_type_names.Add("1: Move to");
+        action_type_names.Add("2: Follow");
+        action_type_names.Add("3: Garrison");
+        action_type_names.Add("4: Explore");
+        action_type_names.Add("5: Gather/Rebuild");
+        action_type_names.Add("6: Natural Wonders Cheat");
+        action_type_names.Add("7: Attack");
+        action_type_names.Add("8: Shoot");
+        action_type_names.Add("10: Fly");
+        action_type_names.Add("11: Scare/Hunt");
+        action_type_names.Add("12: Unload (Boat-Like)");
+        action_type_names.Add("13: Guard");
+        action_type_names.Add("14: Siege Tower Ability");
+        //action_type_names.Add("15: Unknown Ability");
+        //action_type_names.Add("17: Unknown Ability");
+        //action_type_names.Add("18: Unknown Ability");
+        //action_type_names.Add("19: Unknown Ability");
+        action_type_names.Add("20: Escape?");
+        action_type_names.Add("21: Make");
+        //action_type_names.Add("22: Unknown Ability");
+        //action_type_names.Add("24: Unknown Ability");
+        //action_type_names.Add("100: Unknown Ability");
+        action_type_names.Add("101: Build");
+        action_type_names.Add("102: Make an Object");
+        action_type_names.Add("103: Make a Tech");
+        action_type_names.Add("104: Convert");
+        action_type_names.Add("105: Heal");
+        action_type_names.Add("106: Repair");
+        action_type_names.Add("107: Get Auto-converted");
+        action_type_names.Add("108: Discovery");
+        action_type_names.Add("109: Retreat to Shooting Range");
+        action_type_names.Add("110: Hunt");
+        action_type_names.Add("111: Trade");
+        //action_type_names.Add("112: Unknown Ability");
+        //action_type_names.Add("113: Unknown Ability");
+        action_type_names.Add("120: Generate Wonder Victory");
+        action_type_names.Add("121: Deselect when Tasked");
+        action_type_names.Add("122: Loot");
+        action_type_names.Add("123: Housing");
+        action_type_names.Add("124: Pack");
+        action_type_names.Add("125: Unpack & Attack");
+        action_type_names.Add("130: Off-Map Trade 1");
+        action_type_names.Add("131: Off-Map Trade 2");
+        action_type_names.Add("132: Pickup Unit");
+        action_type_names.Add("133: Unknown Pickup Ability");
+        action_type_names.Add("134: Unknown Pickup Ability");
+        action_type_names.Add("135: Kidnap Unit");
+        action_type_names.Add("136: Deposit Unit");    // Selection 33
+        action_type_names.Add("149: Shear");   // Selection 33
+        action_type_names.Add("150: Regeneration");
+        action_type_names.Add("151: Feitoria Ability");
+        UnitCommands_Type_ComboBox->Flash();
 
         age_names.Clear();
         age_names.Add("0 - None");
@@ -1512,57 +1512,59 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         }
         Effects_B_ComboBox->Flash();
 
+        // This is here in case filters will be made game version dependent.
+        unit_filters.Clear();
+        unit_filters.Add("*Choose*");
+        for(wxString &filter: Type20) unit_filters.Add(filter);
+        for(wxString &filter: Type30) unit_filters.Add(filter);
+        for(wxString &filter: Type40) unit_filters.Add(filter);
+        for(wxString &filter: Type50) unit_filters.Add(filter);
+        for(wxString &filter: Type60) unit_filters.Add(filter);
+        for(wxString &filter: Type70) unit_filters.Add(filter);
+        for(wxString &filter: Type80) unit_filters.Add(filter);
+        unit_filters.Sort();
+
+        research_filters.Clear();
+        research_filters.Add("Lang File Name"); // 0
+        research_filters.Add("Internal Name");
+        research_filters.Add("Required Researches");
+        research_filters.Add("Min. Req. Researches");
+        research_filters.Add("Research Location");
+        research_filters.Add("Research Time");
+        research_filters.Add("Technology");
+        research_filters.Add("Type");
+        research_filters.Add("Icon");
+        research_filters.Add("Button");
+        research_filters.Add("Lang File Pointer 1");
+        research_filters.Add("Lang File Pointer 2");
+        research_filters.Add("Pointer 3");
+        research_filters.Add("Cost Types");
+        research_filters.Add("Cost Amounts");
+        research_filters.Add("Cost Uses");
+        if(GenieVersion >= genie::GV_AoK)
+        {
+            research_filters.Add("Civilization");
+            research_filters.Add("Full Tech Mode");
+            if(GenieVersion >= genie::GV_SWGB)
+            research_filters.Add("Internal Name 2");
+        }
+
+        soundfile_filters.Clear();
+        soundfile_filters.Add("Filename");   // 0
+        soundfile_filters.Add("DRS");
+        soundfile_filters.Add("Probability");
+        if(GenieVersion >= genie::GV_AoKE3)
+        {
+            soundfile_filters.Add("Civilization");
+            soundfile_filters.Add("Unknown");
+        }
+
         for(size_t loop = 0; loop < 2; ++loop)
         {
             Units_Class_ComboBox[loop]->Flash();
-
-            Units_SearchFilters[loop]->Clear();
-            Units_SearchFilters[loop]->Append("*Choose*");
-            Units_SearchFilters[loop]->Append(Type20);
-            Units_SearchFilters[loop]->Append(Type30);
-            Units_SearchFilters[loop]->Append(Type40);
-            Units_SearchFilters[loop]->Append(Type50);
-            Units_SearchFilters[loop]->Append(Type60);
-            Units_SearchFilters[loop]->Append(Type70);
-            Units_SearchFilters[loop]->Append(Type80);
-            Units_SearchFilters[loop]->SetSelection(0);
-
-            Research_SearchFilters[loop]->Clear();
-            Research_SearchFilters[loop]->Append("Lang File Name"); // 0
-            Research_SearchFilters[loop]->Append("Internal Name");
-            Research_SearchFilters[loop]->Append("Required Researches");
-            Research_SearchFilters[loop]->Append("Min. Req. Researches");
-            Research_SearchFilters[loop]->Append("Research Location");
-            Research_SearchFilters[loop]->Append("Research Time");
-            Research_SearchFilters[loop]->Append("Technology");
-            Research_SearchFilters[loop]->Append("Type");
-            Research_SearchFilters[loop]->Append("Icon");
-            Research_SearchFilters[loop]->Append("Button");
-            Research_SearchFilters[loop]->Append("Lang File Pointer 1");
-            Research_SearchFilters[loop]->Append("Lang File Pointer 2");
-            Research_SearchFilters[loop]->Append("Pointer 3");
-            Research_SearchFilters[loop]->Append("Cost Types");
-            Research_SearchFilters[loop]->Append("Cost Amounts");
-            Research_SearchFilters[loop]->Append("Cost Uses");
-            if(GenieVersion >= genie::GV_AoK)
-            {
-                Research_SearchFilters[loop]->Append("Civilization");
-                Research_SearchFilters[loop]->Append("Full Tech Mode");
-                if(GenieVersion >= genie::GV_SWGB)
-                Research_SearchFilters[loop]->Append("Internal Name 2");
-            }
-            Research_SearchFilters[loop]->SetSelection(0);
-
-            Sounds_Items_SearchFilters[loop]->Clear();
-            Sounds_Items_SearchFilters[loop]->Append("Filename");   // 0
-            Sounds_Items_SearchFilters[loop]->Append("DRS");
-            Sounds_Items_SearchFilters[loop]->Append("Probability");
-            if(GenieVersion >= genie::GV_AoKE3)
-            {
-                Sounds_Items_SearchFilters[loop]->Append("Civilization");
-                Sounds_Items_SearchFilters[loop]->Append("Unknown");
-            }
-            Sounds_Items_SearchFilters[loop]->SetSelection(0);
+            Units_SearchFilters[loop]->Flash();
+            Research_SearchFilters[loop]->Flash();
+            Sounds_Items_SearchFilters[loop]->Flash();
         }
 
         SetStatusText(lexical_cast<string>(dataset->FileVersion), 4);
@@ -1644,50 +1646,50 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         }
         Effects_C_ComboBox->Flash();
 
-        Units_GraphicSet->Clear();
+        graphicset_names.Clear();
         if(GenieVersion < genie::GV_AoKA)
         {
             // AoE
-            Units_GraphicSet->Append("0 West Middle Easterns");
-            Units_GraphicSet->Append("1 Greeks");
-            Units_GraphicSet->Append("2 East Middle Easterns");
-            Units_GraphicSet->Append("3 Asians");
+            graphicset_names.Add("0 West Middle Easterns");
+            graphicset_names.Add("1 Greeks");
+            graphicset_names.Add("2 East Middle Easterns");
+            graphicset_names.Add("3 Asians");
             // + RoR
-            Units_GraphicSet->Append("4 Romans");
-            Units_GraphicSet->Append("5 Unused");
-            Units_GraphicSet->Append("6 Unused");
-            Units_GraphicSet->Append("7 Unused");
-            Units_GraphicSet->Append("8 Unused");
+            graphicset_names.Add("4 Romans");
+            graphicset_names.Add("5 Unused");
+            graphicset_names.Add("6 Unused");
+            graphicset_names.Add("7 Unused");
+            graphicset_names.Add("8 Unused");
         }
         else if(GenieVersion < genie::GV_SWGB)
         {
-            Units_GraphicSet->Append("0 Unused");
+            graphicset_names.Add("0 Unused");
             // AoK
-            Units_GraphicSet->Append("1 East Europeans");
-            Units_GraphicSet->Append("2 West Europeans");
-            Units_GraphicSet->Append("3 Asians");
-            Units_GraphicSet->Append("4 Arabs");
+            graphicset_names.Add("1 East Europeans");
+            graphicset_names.Add("2 West Europeans");
+            graphicset_names.Add("3 Asians");
+            graphicset_names.Add("4 Arabs");
             // + TC
-            Units_GraphicSet->Append("5 Americans");
-            Units_GraphicSet->Append("6 Unused");
-            Units_GraphicSet->Append("7 Unused");
-            Units_GraphicSet->Append("8 Unused");
+            graphicset_names.Add("5 Americans");
+            graphicset_names.Add("6 Unused");
+            graphicset_names.Add("7 Unused");
+            graphicset_names.Add("8 Unused");
         }
         else
         {
             // SWGB
-            Units_GraphicSet->Append("0 Unused");
-            Units_GraphicSet->Append("1 Galactic Empire");
-            Units_GraphicSet->Append("2 Gungans");
-            Units_GraphicSet->Append("3 Rebels");
-            Units_GraphicSet->Append("4 Royal Naboo");
-            Units_GraphicSet->Append("5 Trade Federation");
-            Units_GraphicSet->Append("6 Wookiees");
-            Units_GraphicSet->Append("7 Republic");
-            Units_GraphicSet->Append("8 Confederacy");
+            graphicset_names.Add("0 Unused");
+            graphicset_names.Add("1 Galactic Empire");
+            graphicset_names.Add("2 Gungans");
+            graphicset_names.Add("3 Rebels");
+            graphicset_names.Add("4 Royal Naboo");
+            graphicset_names.Add("5 Trade Federation");
+            graphicset_names.Add("6 Wookiees");
+            graphicset_names.Add("7 Republic");
+            graphicset_names.Add("8 Confederacy");
         }
-        Units_GraphicSet->Append("9 Ask Tapsa for more!");
-        Units_GraphicSet->SetSelection(0);
+        graphicset_names.Add("9 Ask Tapsa for more!");
+        Units_GraphicSet->Flash();
 
         effect_type_names.Clear();
         effect_type_names.Add("No Type/Invalid Type");  // Selection 0
@@ -3522,7 +3524,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
     How2List = SEARCH;
 }*/
 
-void AGE_Frame::virtualListing(AGEListView *list, vector<int> *oldies)
+void AGE_Frame::RefreshList(AGEListView *list, vector<int> *oldies)
 {
     long firstVisible = list->GetTopItem();
     long firstSelected = list->GetFirstSelected();
@@ -3587,14 +3589,6 @@ void AGE_Frame::virtualListing(AGEListView *list, vector<int> *oldies)
     }
     list->Refresh();
     How2List = SEARCH;
-}
-
-void AGE_Frame::FillLists(vector<ComboBox_Plus1*> &boxlist, wxArrayString&)
-{
-    for(ComboBox_Plus1* &list: boxlist)
-    {
-        list->Flash();
-    }
 }
 
 bool AGE_Frame::Paste11Check(size_t pastes, size_t copies)

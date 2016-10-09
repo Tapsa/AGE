@@ -46,7 +46,7 @@ void AGE_Frame::PrepUnitSearch()
     {
         auto selection = Units_SearchFilters[loop]->GetSelection();
         if(selection < 1) continue;
-        wxString label = Units_SearchFilters[loop]->GetString(selection);
+        wxString label = unit_filters[selection];
 
         if(label.compare(Type20[0]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -908,10 +908,10 @@ void AGE_Frame::InitUnits(short civ, bool all)
         }
     }
 
-    virtualListing(Units_ListV, &UnitIDs);
+    RefreshList(Units_ListV, &UnitIDs);
     if(all)
     {
-        FillLists(UnitComboBoxList, unit_names);
+        for(auto &list: UnitComboBoxList) list->Flash();
         if(GenieVersion >= genie::GV_AoKA)
         {
             TechTrees_Ages_Items.ItemCombo->Flash();
@@ -1745,7 +1745,7 @@ void AGE_Frame::ListUnitDamageGraphics()
     {
         Units_DamageGraphics_Add->Enable(false);
     }
-    virtualListing(Units_DamageGraphics_ListV, &DamageGraphicIDs);
+    RefreshList(Units_DamageGraphics_ListV, &DamageGraphicIDs);
 
     wxTimerEvent E;
     OnUnitDamageGraphicsTimer(E);
@@ -2000,7 +2000,7 @@ void AGE_Frame::ListUnitAttacks()
     {
         Units_Attacks_Add->Enable(false);
     }
-    virtualListing(Units_Attacks_ListV, &AttackIDs);
+    RefreshList(Units_Attacks_ListV, &AttackIDs);
 
     wxTimerEvent E;
     OnUnitAttacksTimer(E);
@@ -2248,7 +2248,7 @@ void AGE_Frame::ListUnitArmors()
     {
         Units_Armors_Add->Enable(false);
     }
-    virtualListing(Units_Armors_ListV, &ArmorIDs);
+    RefreshList(Units_Armors_ListV, &ArmorIDs);
 
     wxTimerEvent E;
     OnUnitArmorsTimer(E);
@@ -2464,48 +2464,48 @@ wxString AGE_Frame::GetUnitCommandName(int index)
     short CommandType = (GenieVersion >= genie::GV_AoK) ? dataset->UnitHeaders[UnitIDs.front()].Commands[index].Type : dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.Commands[index].Type;
     switch(CommandType)
     {
-        case 1: return UnitCommands_Type_ComboBox->GetString(1);
-        case 2: return UnitCommands_Type_ComboBox->GetString(2);
-        case 3: return UnitCommands_Type_ComboBox->GetString(3);
-        case 4: return UnitCommands_Type_ComboBox->GetString(4);
-        case 5: return UnitCommands_Type_ComboBox->GetString(5);
-        case 6: return UnitCommands_Type_ComboBox->GetString(6);
-        case 7: return UnitCommands_Type_ComboBox->GetString(7);
-        case 8: return UnitCommands_Type_ComboBox->GetString(8);
-        case 10: return UnitCommands_Type_ComboBox->GetString(9);
-        case 11: return UnitCommands_Type_ComboBox->GetString(10);
-        case 12: return UnitCommands_Type_ComboBox->GetString(11);
-        case 13: return UnitCommands_Type_ComboBox->GetString(12);
-        case 14: return UnitCommands_Type_ComboBox->GetString(13);
-        case 20: return UnitCommands_Type_ComboBox->GetString(14);
-        case 21: return UnitCommands_Type_ComboBox->GetString(15);
-        case 101: return UnitCommands_Type_ComboBox->GetString(16);
-        case 102: return UnitCommands_Type_ComboBox->GetString(17);
-        case 103: return UnitCommands_Type_ComboBox->GetString(18);
-        case 104: return UnitCommands_Type_ComboBox->GetString(19);
-        case 105: return UnitCommands_Type_ComboBox->GetString(20);
-        case 106: return UnitCommands_Type_ComboBox->GetString(21);
-        case 107: return UnitCommands_Type_ComboBox->GetString(22);
-        case 108: return UnitCommands_Type_ComboBox->GetString(23);
-        case 109: return UnitCommands_Type_ComboBox->GetString(24);
-        case 110: return UnitCommands_Type_ComboBox->GetString(25);
-        case 111: return UnitCommands_Type_ComboBox->GetString(26);
-        case 120: return UnitCommands_Type_ComboBox->GetString(27);
-        case 121: return UnitCommands_Type_ComboBox->GetString(28);
-        case 122: return UnitCommands_Type_ComboBox->GetString(29);
-        case 123: return UnitCommands_Type_ComboBox->GetString(30);
-        case 124: return UnitCommands_Type_ComboBox->GetString(31);
-        case 125: return UnitCommands_Type_ComboBox->GetString(32);
-        case 130: return UnitCommands_Type_ComboBox->GetString(33);
-        case 131: return UnitCommands_Type_ComboBox->GetString(34);
-        case 132: return UnitCommands_Type_ComboBox->GetString(35);
-        case 133: return UnitCommands_Type_ComboBox->GetString(36);
-        case 134: return UnitCommands_Type_ComboBox->GetString(37);
-        case 135: return UnitCommands_Type_ComboBox->GetString(38);
-        case 136: return UnitCommands_Type_ComboBox->GetString(39);
-        case 149: return UnitCommands_Type_ComboBox->GetString(40);
-        case 150: return UnitCommands_Type_ComboBox->GetString(41);
-        case 151: return UnitCommands_Type_ComboBox->GetString(42);
+        case 1: return action_type_names[1];
+        case 2: return action_type_names[2];
+        case 3: return action_type_names[3];
+        case 4: return action_type_names[4];
+        case 5: return action_type_names[5];
+        case 6: return action_type_names[6];
+        case 7: return action_type_names[7];
+        case 8: return action_type_names[8];
+        case 10: return action_type_names[9];
+        case 11: return action_type_names[10];
+        case 12: return action_type_names[11];
+        case 13: return action_type_names[12];
+        case 14: return action_type_names[13];
+        case 20: return action_type_names[14];
+        case 21: return action_type_names[15];
+        case 101: return action_type_names[16];
+        case 102: return action_type_names[17];
+        case 103: return action_type_names[18];
+        case 104: return action_type_names[19];
+        case 105: return action_type_names[20];
+        case 106: return action_type_names[21];
+        case 107: return action_type_names[22];
+        case 108: return action_type_names[23];
+        case 109: return action_type_names[24];
+        case 110: return action_type_names[25];
+        case 111: return action_type_names[26];
+        case 120: return action_type_names[27];
+        case 121: return action_type_names[28];
+        case 122: return action_type_names[29];
+        case 123: return action_type_names[30];
+        case 124: return action_type_names[31];
+        case 125: return action_type_names[32];
+        case 130: return action_type_names[33];
+        case 131: return action_type_names[34];
+        case 132: return action_type_names[35];
+        case 133: return action_type_names[36];
+        case 134: return action_type_names[37];
+        case 135: return action_type_names[38];
+        case 136: return action_type_names[39];
+        case 149: return action_type_names[40];
+        case 150: return action_type_names[41];
+        case 151: return action_type_names[42];
         default: return "Unk. Type "+lexical_cast<string>(CommandType);
     }
 }
@@ -2571,9 +2571,8 @@ void AGE_Frame::ListUnitCommands()
             Units_UnitCommands_Add->Enable(false);
         }
     }
-    virtualListing(Units_UnitCommands_ListV, &CommandIDs);
-    vector<ComboBox_Plus1*> boxlist{Units_ActionWhenDiscoveredID_ComboBox};
-    FillLists(boxlist, action_names);
+    RefreshList(Units_UnitCommands_ListV, &CommandIDs);
+    Units_ActionWhenDiscoveredID_ComboBox->Flash();
 
     wxTimerEvent E;
     OnUnitCommandsTimer(E);
@@ -2987,17 +2986,17 @@ void AGE_Frame::CreateUnitControls()
     Units_Units = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "Units");
     //Units_Line = new wxStaticLine(Tab_Units, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL, "");
     Units_Special = new wxBoxSizer(wxHORIZONTAL);
-    Units_Civs_List = new wxOwnerDrawnComboBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
-    CivComboBoxListNormal.push_back(Units_Civs_List);
+    Units_Civs_List = new AGEComboBox(Tab_Units, &civ_names_only);
+    CivComboBoxList.push_back(Units_Civs_List);
     Units_Search = new wxTextCtrl(Tab_Units, wxID_ANY);
     Units_UseAnd[0] = new wxCheckBox(Tab_Units, wxID_ANY, "And");
     Units_Search_R = new wxTextCtrl(Tab_Units, wxID_ANY);
     Units_UseAnd[1] = new wxCheckBox(Tab_Units, wxID_ANY, "And");
-    Units_FilterSelector = new AGEODComboBox(Tab_Units);
+    Units_FilterSelector = new AGEComboBox(Tab_Units, &unit_filter_options);
     for(size_t loop = 0; loop < 2; ++loop)
     {
         Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-        Units_SearchFilters[loop] = new AGEODComboBox(Tab_Units, AGETextCtrl::LARGE, wxCB_SORT | wxCB_READONLY);
+        Units_SearchFilters[loop] = new AGEComboBox(Tab_Units, &unit_filters, AGETextCtrl::LARGE);
     }
     Units_ListV = new AGEListView(Tab_Units, wxSize(200, 100));
     wxGridSizer *Units_Buttons = new wxGridSizer(3, 0, 0);
@@ -3019,18 +3018,18 @@ void AGE_Frame::CreateUnitControls()
     Units_SpecialPaste = new wxButton(Tab_Units, wxID_ANY, "S paste", wxDefaultPosition, wxSize(10, -1));
     Units_Enable = new wxButton(Tab_Units, wxID_ANY, "Exist", wxDefaultPosition, wxSize(10, -1));
     Units_Disable = new wxButton(Tab_Units, wxID_ANY, "Wipe Out", wxDefaultPosition, wxSize(10, -1));
-    Units_SpecialCopy_Options = new AGEODComboBox(Tab_Units, AGETextCtrl::NORMAL);
+    Units_SpecialCopy_Options = new AGEComboBox(Tab_Units, &specialcopy_names, AGETextCtrl::NORMAL);
     Units_SpecialCopy_Civs = new wxCheckBox(Tab_Units, wxID_ANY, "All civs *");
     Units_SpecialCopy_Civs->SetToolTip("Whether buttons of units operate on all civilizations or just on the selected one\nNote that adding, inserting and deleting units always affect all civilizations!");
 
-    Units_FilterSelector->Append("Types 10, 15, 90, 20+");
-    Units_FilterSelector->Append("Types 30+");
-    Units_FilterSelector->Append("Types 40+");
-    Units_FilterSelector->Append("Types 50+");
-    Units_FilterSelector->Append("Type 60");
-    Units_FilterSelector->Append("Types 70+");
-    Units_FilterSelector->Append("Type 80");
-    Units_FilterSelector->SetSelection(0);
+    unit_filter_options.Add("Types 10, 15, 90, 20+");
+    unit_filter_options.Add("Types 30+");
+    unit_filter_options.Add("Types 40+");
+    unit_filter_options.Add("Types 50+");
+    unit_filter_options.Add("Type 60");
+    unit_filter_options.Add("Types 70+");
+    unit_filter_options.Add("Type 80");
+    Units_FilterSelector->Flash();
 
     Units_DataArea = new wxBoxSizer(wxVERTICAL);
     Units_Top_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -3043,13 +3042,13 @@ void AGE_Frame::CreateUnitControls()
     Units_SelectAll = new wxButton(Tab_Units, wxID_ANY, "All", wxDefaultPosition, wxSize(40, -1));
     Units_SelectClear = new wxButton(Tab_Units, wxID_ANY, "None", wxDefaultPosition, wxSize(40, -1));
     Units_GraphicSetText = new SolidText(Tab_Units, " Graphic set: ");
-    Units_GraphicSet = new AGEODComboBox(Tab_Units, AGETextCtrl::NORMAL);
+    Units_GraphicSet = new AGEComboBox(Tab_Units, &graphicset_names, AGETextCtrl::NORMAL);
     visibleUnitCiv = new SolidText(Tab_Units, "Civ ", wxST_NO_AUTORESIZE, wxSize(AGETextCtrl::NORMAL, -1));
     Units_Identity_Holder = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "");
     Units_Type_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_Type_Text = new SolidText(Tab_Units, "Type ");
     Units_Type = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Tab_Units, AGETextCtrl::SMALL);
-    Units_Type_ComboBox = new AGEODComboBox(Tab_Units, AGETextCtrl::LARGE, 0);
+    Units_Type_ComboBox = new AGEComboBox(Tab_Units, &unit_type_names, AGETextCtrl::LARGE, 0);
     Units_Class = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Tab_Units);
     Units_Class->SetToolTip("Determines many things and works in conjunction with other variables");
     Units_Class_ComboBox[0] = new ComboBox_Plus1(Tab_Units, Units_Class, &class_names);
@@ -4010,7 +4009,7 @@ void AGE_Frame::CreateUnitControls()
     UnitCommands_Type_Holder = new wxBoxSizer(wxVERTICAL);
     UnitCommands_Type_Text = new SolidText(Units_Scroller, " Action Type");
     UnitCommands_Type = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, &popUp, Units_Scroller);
-    UnitCommands_Type_ComboBox = new AGEODComboBox(Units_Scroller, AGETextCtrl::GIANT, 0);
+    UnitCommands_Type_ComboBox = new AGEComboBox(Units_Scroller, &action_type_names, AGETextCtrl::GIANT, 0);
     UnitCommands_ClassID_Holder = new wxBoxSizer(wxVERTICAL);
     UnitCommands_ClassID_Text = new SolidText(Units_Scroller, " Class");
     UnitCommands_ClassID = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, &popUp, Units_Scroller);
@@ -4121,19 +4120,19 @@ void AGE_Frame::CreateUnitControls()
 
 //  UnitControls actual interface
 
-    Units_Type_ComboBox->Append("No Type/Invalid Type");
-    Units_Type_ComboBox->Append("10 - Eye Candy");
-    Units_Type_ComboBox->Append("15 - Tree (AoK)");
-    Units_Type_ComboBox->Append("20 - Flag");
-    Units_Type_ComboBox->Append("25 - Doppleganger");
-    Units_Type_ComboBox->Append("30 - Dead/Fish");
-    Units_Type_ComboBox->Append("40 - Bird");
-    Units_Type_ComboBox->Append("50 - Unknown");
-    Units_Type_ComboBox->Append("60 - Projectile");
-    Units_Type_ComboBox->Append("70 - Living");
-    Units_Type_ComboBox->Append("80 - Building");
-    Units_Type_ComboBox->Append("90 - Tree (AoE)");
-    Units_Type_ComboBox->SetSelection(0);
+    unit_type_names.Add("No Type/Invalid Type");
+    unit_type_names.Add("10 - Eye Candy");
+    unit_type_names.Add("15 - Tree (AoK)");
+    unit_type_names.Add("20 - Flag");
+    unit_type_names.Add("25 - Doppleganger");
+    unit_type_names.Add("30 - Dead/Fish");
+    unit_type_names.Add("40 - Bird");
+    unit_type_names.Add("50 - Unknown");
+    unit_type_names.Add("60 - Projectile");
+    unit_type_names.Add("70 - Living");
+    unit_type_names.Add("80 - Building");
+    unit_type_names.Add("90 - Tree (AoE)");
+    Units_Type_ComboBox->Flash();
 
     Type20.Add("Type");
     Type20.Add("ID1");
@@ -4294,8 +4293,8 @@ void AGE_Frame::CreateUnitControls()
     Type80.Add("PileUnit");
     Type80.Add("LootingTable 6 bytes");
 
-    Units_SpecialCopy_Options->Append("Special: graphics only");
-    Units_SpecialCopy_Options->SetSelection(0);
+    specialcopy_names.Add("Special: graphics only");
+    Units_SpecialCopy_Options->Flash();
 
     Units_Buttons->Add(Units_Add, 1, wxEXPAND);
     Units_Buttons->Add(Units_Delete, 1, wxEXPAND);

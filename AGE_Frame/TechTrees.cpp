@@ -35,7 +35,7 @@ void AGE_Frame::InitTTAges()
         }
     }
 
-    virtualListing(TechTrees_MainList_Ages_ListV, &TTAgeIDs);
+    RefreshList(TechTrees_MainList_Ages_ListV, &TTAgeIDs);
 }
 
 void AGE_Frame::OnTTAgesSelect(wxCommandEvent &event)
@@ -178,7 +178,7 @@ void AGE_Frame::ListTTAgeBuildings()
             TechTrees_Ages_Buildings.List->indexes.push_back(loop);
         }
     }
-    virtualListing(TechTrees_Ages_Buildings.List, &TTAgeBuildIDs);
+    RefreshList(TechTrees_Ages_Buildings.List, &TTAgeBuildIDs);
 
     wxTimerEvent E;
     OnTTAgesBuildingTimer(E);
@@ -299,7 +299,7 @@ void AGE_Frame::ListTTAgeUnits()
             TechTrees_Ages_Units.List->indexes.push_back(loop);
         }
     }
-    virtualListing(TechTrees_Ages_Units.List, &TTAgeUnitIDs);
+    RefreshList(TechTrees_Ages_Units.List, &TTAgeUnitIDs);
 
     wxTimerEvent E;
     OnTTAgesUnitTimer(E);
@@ -435,7 +435,7 @@ void AGE_Frame::ListTTAgeResearches()
             TechTrees_Ages_Researches.List->indexes.push_back(loop);
         }
     }
-    virtualListing(TechTrees_Ages_Researches.List, &TTAgeResIDs);
+    RefreshList(TechTrees_Ages_Researches.List, &TTAgeResIDs);
 
     wxTimerEvent E;
     OnTTAgesResearchTimer(E);
@@ -658,7 +658,7 @@ void AGE_Frame::ListTTAgeUnknownItems()
             TechTrees_Ages_UnknownItems.List->indexes.push_back(loop);
         }
     }
-    virtualListing(TechTrees_Ages_UnknownItems.List, &TTUnknownItemIDs);
+    RefreshList(TechTrees_Ages_UnknownItems.List, &TTUnknownItemIDs);
 
     wxTimerEvent E;
     OnTTAgeUnknownItemTimer(E);
@@ -822,7 +822,7 @@ void AGE_Frame::InitTTBuildings()
         }
     }
 
-    virtualListing(TechTrees_MainList_Buildings_ListV, &TTBuildConIDs);
+    RefreshList(TechTrees_MainList_Buildings_ListV, &TTBuildConIDs);
 
     SearchAnd = ExcludeAnd = false;
 }
@@ -952,7 +952,7 @@ void AGE_Frame::ListTTBuildingBuildings()
             TechTrees_Buildings_Buildings.List->indexes.push_back(loop);
         }
     }
-    virtualListing(TechTrees_Buildings_Buildings.List, &TTBuildBuildIDs);
+    RefreshList(TechTrees_Buildings_Buildings.List, &TTBuildBuildIDs);
 
     wxTimerEvent E;
     OnTTBuildingBuildingTimer(E);
@@ -1073,7 +1073,7 @@ void AGE_Frame::ListTTBuildingUnits()
             TechTrees_Buildings_Units.List->indexes.push_back(loop);
         }
     }
-    virtualListing(TechTrees_Buildings_Units.List, &TTBuildUnitIDs);
+    RefreshList(TechTrees_Buildings_Units.List, &TTBuildUnitIDs);
 
     wxTimerEvent E;
     OnTTBuildingUnitTimer(E);
@@ -1194,7 +1194,7 @@ void AGE_Frame::ListTTBuildingResearches()
             TechTrees_Buildings_Researches.List->indexes.push_back(loop);
         }
     }
-    virtualListing(TechTrees_Buildings_Researches.List, &TTBuildResIDs);
+    RefreshList(TechTrees_Buildings_Researches.List, &TTBuildResIDs);
 
     wxTimerEvent E;
     OnTTBuildingResearchTimer(E);
@@ -1445,7 +1445,7 @@ void AGE_Frame::InitTTUnits()
         }
     }
 
-    virtualListing(TechTrees_MainList_Units_ListV, &TTUnitConIDs);
+    RefreshList(TechTrees_MainList_Units_ListV, &TTUnitConIDs);
 
     SearchAnd = ExcludeAnd = false;
 }
@@ -1571,7 +1571,7 @@ void AGE_Frame::ListTTUnitUnits()
             TechTrees_Units_Units.List->indexes.push_back(loop);
         }
     }
-    virtualListing(TechTrees_Units_Units.List, &TTUnitUnitIDs);
+    RefreshList(TechTrees_Units_Units.List, &TTUnitUnitIDs);
 
     wxTimerEvent E;
     OnTTUnitUnitTimer(E);
@@ -1703,7 +1703,7 @@ void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common *t
             area.List->indexes.push_back(loop);
         }
     }
-    virtualListing(area.List, &TTItemIDs);
+    RefreshList(area.List, &TTItemIDs);
 }
 
 void AGE_Frame::OnTTUnitItemSearch(wxCommandEvent &event)
@@ -1852,7 +1852,7 @@ void AGE_Frame::InitTTResearches()
         }
     }
 
-    virtualListing(TechTrees_MainList_Researches_ListV, &TTResConIDs);
+    RefreshList(TechTrees_MainList_Researches_ListV, &TTResConIDs);
 
     SearchAnd = ExcludeAnd = false;
 }
@@ -1978,7 +1978,7 @@ void AGE_Frame::ListTTResearchBuildings()
             TechTrees_Researches_Buildings.List->indexes.push_back(loop);
         }
     }
-    virtualListing(TechTrees_Researches_Buildings.List, &TTResBuildIDs);
+    RefreshList(TechTrees_Researches_Buildings.List, &TTResBuildIDs);
 
     wxTimerEvent E;
     OnTTResearchBuildingTimer(E);
@@ -2099,7 +2099,7 @@ void AGE_Frame::ListTTResearchUnits()
             TechTrees_Researches_Units.List->indexes.push_back(loop);
         }
     }
-    virtualListing(TechTrees_Researches_Units.List, &TTResUnitIDs);
+    RefreshList(TechTrees_Researches_Units.List, &TTResUnitIDs);
 
     wxTimerEvent E;
     OnTTResearchUnitTimer(E);
@@ -2220,7 +2220,7 @@ void AGE_Frame::ListTTResearchResearches()
             TechTrees_Researches_Researches.List->indexes.push_back(loop);
         }
     }
-    virtualListing(TechTrees_Researches_Researches.List, &TTResResIDs);
+    RefreshList(TechTrees_Researches_Researches.List, &TTResResIDs);
 
     wxTimerEvent E;
     OnTTResearchResearchTimer(E);
@@ -2393,6 +2393,11 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_ScrollerUnits = new wxScrolled<wxPanel>(Tab_TechTreeUnits, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
     TechTrees_ScrollerResearches = new wxScrolled<wxPanel>(Tab_TechTreeResearches, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 
+    mode_names.Add("Age");
+    mode_names.Add("Building");
+    mode_names.Add("Unit");
+    mode_names.Add("Research");
+
     wxString StatusHelp = "0 generic\n1 ?\n2 default\n3 marks this as not available\n4 upgrading or constructing or creating\n5 research completed or building built";
     wxString LocationInAgeHelp = "0 Hidden\n1 First\n2 Second";
     wxString LineModeHelp = "0 research: First age\n1 age: ?\n2 unit: First in vertical line\n3 unit: Not first\n4 research: Others\n5 building: One or more connections\n6 building: No connections";
@@ -2444,7 +2449,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Ages_Researches.CreateControls(this, &popUp, TechTrees_ScrollerAges, "ages", "Connected Researches", &research_names);
     ResearchComboBoxList.push_back(TechTrees_Ages_Researches.ItemCombo);
 
-    TechTrees_Ages_Items.CreateControls(this, &popUp, TechTrees_ScrollerAges, "ages");
+    TechTrees_Ages_Items.CreateControls(this, &popUp, TechTrees_ScrollerAges, "ages", &mode_names);
     TechTrees_Ages_UnknownItems.CreateControls(this, &popUp, TechTrees_ScrollerAges);
 
     TechTrees_MainList_Buildings_Search = new wxTextCtrl(Tab_TechTreeBuildings, wxID_ANY);
@@ -2454,7 +2459,7 @@ void AGE_Frame::CreateTechTreeControls()
     for(size_t loop = 0; loop < 2; ++loop)
     {
         TechTrees_MainList_Buildings_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-        TechTrees_MainList_Buildings_SearchFilters[loop] = new AGEODComboBox(Tab_TechTreeBuildings);
+        TechTrees_MainList_Buildings_SearchFilters[loop] = new AGEComboBox(Tab_TechTreeBuildings, &tt_building_filters);
     }
     TechTrees_MainList_Buildings_ListV = new AGEListView(Tab_TechTreeBuildings, wxSize(200, 300));
     TechTrees_MainList_Buildings_Buttons = new wxGridSizer(3, 0, 0);
@@ -2501,7 +2506,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Buildings_Researches.CreateControls(this, &popUp, TechTrees_ScrollerBuildings, "buildings", "Connected Researches", &research_names);
     ResearchComboBoxList.push_back(TechTrees_Buildings_Researches.ItemCombo);
 
-    TechTrees_Buildings_Items.CreateControls(this, &popUp, TechTrees_ScrollerBuildings, "buildings");
+    TechTrees_Buildings_Items.CreateControls(this, &popUp, TechTrees_ScrollerBuildings, "buildings", &mode_names);
 
     TechTrees_Buildings_TotalUnitsTechs_Holder[0] = new wxStaticBoxSizer(wxHORIZONTAL, TechTrees_ScrollerBuildings, "Total units and techs by age *");
     TechTrees_Buildings_TotalUnitsTechs_Holder[1] = new wxStaticBoxSizer(wxHORIZONTAL, TechTrees_ScrollerBuildings, "Total units and techs at first in age *");
@@ -2520,7 +2525,7 @@ void AGE_Frame::CreateTechTreeControls()
     for(size_t loop = 0; loop < 2; ++loop)
     {
         TechTrees_MainList_Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-        TechTrees_MainList_Units_SearchFilters[loop] = new AGEODComboBox(Tab_TechTreeUnits);
+        TechTrees_MainList_Units_SearchFilters[loop] = new AGEComboBox(Tab_TechTreeUnits, &tt_unit_filters);
     }
     TechTrees_MainList_Units_ListV = new AGEListView(Tab_TechTreeUnits, wxSize(200, 300));
     TechTrees_MainList_Units_Buttons = new wxGridSizer(3, 0, 0);
@@ -2573,7 +2578,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Data_Units1 = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_Data_Units2 = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_ConnectedHolder_Units = new wxBoxSizer(wxHORIZONTAL);
-    TechTrees_Units_Items.CreateControls(this, &popUp, TechTrees_ScrollerUnits, "units");
+    TechTrees_Units_Items.CreateControls(this, &popUp, TechTrees_ScrollerUnits, "units", &mode_names);
     TechTrees_Units_Units.CreateControls(this, &popUp, TechTrees_ScrollerUnits, "units", "Connected Units", &unit_names);
     UnitComboBoxList.push_back(TechTrees_Units_Units.ItemCombo);
 
@@ -2584,7 +2589,7 @@ void AGE_Frame::CreateTechTreeControls()
     for(size_t loop = 0; loop < 2; ++loop)
     {
         TechTrees_MainList_Researches_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
-        TechTrees_MainList_Researches_SearchFilters[loop] = new AGEODComboBox(Tab_TechTreeResearches);
+        TechTrees_MainList_Researches_SearchFilters[loop] = new AGEComboBox(Tab_TechTreeResearches, &tt_research_filters);
     }
     TechTrees_MainList_Researches_ListV = new AGEListView(Tab_TechTreeResearches, wxSize(200, 300));
     TechTrees_MainList_Researches_Buttons = new wxGridSizer(3, 0, 0);
@@ -2634,7 +2639,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Researches_LineMode = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
     TechTrees_Researches_LineMode->SetToolTip(LineModeHelp);
 
-    TechTrees_Researches_Items.CreateControls(this, &popUp, TechTrees_ScrollerResearches, "researches");
+    TechTrees_Researches_Items.CreateControls(this, &popUp, TechTrees_ScrollerResearches, "researches", &mode_names);
 
     TabBar_TechTree->AddPage(Tab_TechTreeAges, "Ages");
     TabBar_TechTree->AddPage(Tab_TechTreeBuildings, "Buildings");
@@ -2642,40 +2647,38 @@ void AGE_Frame::CreateTechTreeControls()
     TabBar_TechTree->AddPage(Tab_TechTreeResearches, "Researches");
     TabBar_TechTree->ChangeSelection(0);
 
+    tt_unit_filters.Add("Normal Name");    // 0
+    tt_unit_filters.Add("Status");
+    tt_unit_filters.Add("Upper Building");
+    tt_unit_filters.Add("Required Items");
+    tt_unit_filters.Add("Age (1st Item)");
+    tt_unit_filters.Add("Vertical Line Number");
+    tt_unit_filters.Add("Location in Age");
+    tt_unit_filters.Add("Required Research");
+    tt_unit_filters.Add("Line Mode");
+    tt_unit_filters.Add("Enabling Research");
+    tt_building_filters.Add("Normal Name");    // 0
+    tt_building_filters.Add("Status");
+    tt_building_filters.Add("Required Items");
+    tt_building_filters.Add("Age (1st Item)");
+    tt_building_filters.Add("Location in Age");
+    tt_building_filters.Add("Units & Techs by Age");
+    tt_building_filters.Add("Units & Techs @ 1st by Age");
+    tt_building_filters.Add("Line Mode");
+    tt_building_filters.Add("Enabling Research");
+    tt_research_filters.Add("Normal Name");   // 0
+    tt_research_filters.Add("Status");
+    tt_research_filters.Add("Upper Building");
+    tt_research_filters.Add("Required Items");
+    tt_research_filters.Add("Age (1st Item)");
+    tt_research_filters.Add("Vertical Line Number");
+    tt_research_filters.Add("Location in Age");
+    tt_research_filters.Add("Line Mode");
     for(size_t loop = 0; loop < 2; ++loop)
     {
-        TechTrees_MainList_Units_SearchFilters[loop]->Append("Normal Name");    // 0
-        TechTrees_MainList_Units_SearchFilters[loop]->Append("Status");
-        TechTrees_MainList_Units_SearchFilters[loop]->Append("Upper Building");
-        TechTrees_MainList_Units_SearchFilters[loop]->Append("Required Items");
-        TechTrees_MainList_Units_SearchFilters[loop]->Append("Age (1st Item)");
-        TechTrees_MainList_Units_SearchFilters[loop]->Append("Vertical Line Number");
-        TechTrees_MainList_Units_SearchFilters[loop]->Append("Location in Age");
-        TechTrees_MainList_Units_SearchFilters[loop]->Append("Required Research");
-        TechTrees_MainList_Units_SearchFilters[loop]->Append("Line Mode");
-        TechTrees_MainList_Units_SearchFilters[loop]->Append("Enabling Research");
-        TechTrees_MainList_Units_SearchFilters[loop]->SetSelection(0);
-
-        TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Normal Name");    // 0
-        TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Status");
-        TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Required Items");
-        TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Age (1st Item)");
-        TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Location in Age");
-        TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Units & Techs by Age");
-        TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Units & Techs @ 1st by Age");
-        TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Line Mode");
-        TechTrees_MainList_Buildings_SearchFilters[loop]->Append("Enabling Research");
-        TechTrees_MainList_Buildings_SearchFilters[loop]->SetSelection(0);
-
-        TechTrees_MainList_Researches_SearchFilters[loop]->Append("Normal Name");   // 0
-        TechTrees_MainList_Researches_SearchFilters[loop]->Append("Status");
-        TechTrees_MainList_Researches_SearchFilters[loop]->Append("Upper Building");
-        TechTrees_MainList_Researches_SearchFilters[loop]->Append("Required Items");
-        TechTrees_MainList_Researches_SearchFilters[loop]->Append("Age (1st Item)");
-        TechTrees_MainList_Researches_SearchFilters[loop]->Append("Vertical Line Number");
-        TechTrees_MainList_Researches_SearchFilters[loop]->Append("Location in Age");
-        TechTrees_MainList_Researches_SearchFilters[loop]->Append("Line Mode");
-        TechTrees_MainList_Researches_SearchFilters[loop]->SetSelection(0);
+        TechTrees_MainList_Units_SearchFilters[loop]->Flash();
+        TechTrees_MainList_Buildings_SearchFilters[loop]->Flash();
+        TechTrees_MainList_Researches_SearchFilters[loop]->Flash();
     }
 
     for(size_t loop = 0; loop < General_TTUnknown.size(); ++loop)
