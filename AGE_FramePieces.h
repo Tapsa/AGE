@@ -72,7 +72,6 @@ public:
     wxOwnerDrawnComboBox *ModeCombo;
     wxButton *Copy, *Paste, *CopyAllToSelected;
     wxArrayString item_names;
-    int last_list = 4;
 
     void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller, const wxString &itemName)
     {
@@ -111,8 +110,8 @@ public:
         ItemList->Add(SearchRecursive, 0, wxEXPAND);
         ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
         ItemList->Add(Item_H, 0, wxEXPAND);
-        ItemList->Add(ItemCombo, 0, wxEXPAND);
-        ItemList->Add(ModeCombo, 0, wxEXPAND);
+        ItemList->Add(ItemCombo, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+        ItemList->Add(ModeCombo, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
         ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
         ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
 
