@@ -408,7 +408,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent&)
                     Effects_89_Type_CB1->Show(true);
                     uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
                     Effects_89_Type->ChangeValue(lexical_cast<string>(attack_type)); // Correct class
-                    Effects_89_Type_CB1->update(attack_type);
+                    Effects_89_Type_CB1->SetSelection(attack_type);
                     Effects_89_Type_Text->SetLabel("Type ");
                 }
                 else
@@ -545,7 +545,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent&)
                     Effects_89_Type_CB1->Show(true);
                     uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
                     Effects_89_Type->ChangeValue(lexical_cast<string>(attack_type)); // Correct class
-                    Effects_89_Type_CB1->update(attack_type);
+                    Effects_89_Type_CB1->SetSelection(attack_type);
                     Effects_D_Text->SetLabel("Amount [+] ");
                     Effects_89_Type_Text->SetLabel("Type ");
                 }
@@ -592,7 +592,7 @@ void AGE_Frame::OnEffectsTimer(wxTimerEvent&)
                     Effects_89_Type_CB1->Show(true);
                     uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
                     Effects_89_Type->ChangeValue(lexical_cast<string>(attack_type)); // Correct class
-                    Effects_89_Type_CB1->update(attack_type);
+                    Effects_89_Type_CB1->SetSelection(attack_type);
                     Effects_D_Text->SetLabel("Amount [%] ");
                     Effects_89_Type_Text->SetLabel("Type ");
                 }
@@ -1224,7 +1224,7 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &event)
 
 void AGE_Frame::OnUpdateCheck_Techs(wxCommandEvent &event)
 {
-    ((AGECheckBox*)event.GetEventObject())->OnUpdate(event);
+    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
     ListEffects();
 }
 
@@ -1240,6 +1240,6 @@ void AGE_Frame::OnUpdateCombo_Techs(wxCommandEvent &event)
         ListEffects();
         return;
     }
-    ((AGEComboBox*)event.GetEventObject())->OnUpdate(event);
+    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
     ListEffects();
 }
