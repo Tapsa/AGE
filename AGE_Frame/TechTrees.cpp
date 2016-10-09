@@ -3313,7 +3313,7 @@ void AGE_Frame::OnUpdateCombo_TechTreeMode(wxCommandEvent &event)
 
 void AGE_Frame::OnUpdateCombo_TechTrees(wxCommandEvent &event)
 {
-    ((AGEComboBox*)event.GetEventObject())->OnUpdate(event);
+    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
     if(event.GetId() == TechTrees_Ages_Buildings.ItemCombo->GetId())
     {
         ListTTAgeBuildings();

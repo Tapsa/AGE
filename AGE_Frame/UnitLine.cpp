@@ -410,6 +410,6 @@ void AGE_Frame::OnKillFocus_UnitLines(wxFocusEvent &event)
 
 void AGE_Frame::OnUpdateCombo_UnitLines(wxCommandEvent &event)
 {
-    ((AGEComboBox*)event.GetEventObject())->OnUpdate(event);
+    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
     ListUnitLineUnits();
 }

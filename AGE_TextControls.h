@@ -22,13 +22,18 @@ private:
     wxString OnGetItemText(long item, long column) const;
 };
 
+class AGETextCtrl;
 class AGELinkedBox
 {
 public:
-    virtual void update(int)=0; // Belongs to AGEBaseCtrl.
-    virtual void enable(bool)=0; // Only useful for check boxes, they too might change.
+    virtual void OnChoose(wxCommandEvent&)=0;
+    virtual void SetChoice(int)=0;
+    virtual void EnableCtrl(bool)=0;
+
+    AGETextCtrl *TextBox;
 };
 
+// This could be used if linked box system gets abolished.
 class AGEBaseCtrl
 {
 public:
@@ -71,8 +76,8 @@ public:
             if(!LinkedBoxes.empty())
             for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
             {
-                (*it)->update(-1);
-                (*it)->enable(false);
+                (*it)->SetChoice(-1);
+                (*it)->EnableCtrl(false);
             }
             return;
         }
@@ -127,7 +132,7 @@ protected:
         if(!LinkedBoxes.empty())
         for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
         {
-            (*it)->update(casted);
+            (*it)->SetChoice(casted);
         }
         frame->SetStatusText("Edits: "+lexical_cast<string>(editor->unSaved)+" + "+lexical_cast<string>(edits), 3);
         editor->unSaved += edits;

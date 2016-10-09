@@ -462,8 +462,8 @@ void TextCtrl_Byte::replenish()
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->update(*(int8_t*)container.back());
-        (*it)->enable(true);
+        (*it)->SetChoice(*(int8_t*)container.back());
+        (*it)->EnableCtrl(true);
     }
 }
 
@@ -483,8 +483,8 @@ void TextCtrl_UByte::replenish()
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->update(*(uint8_t*)container.back());
-        (*it)->enable(true);
+        (*it)->SetChoice(*(uint8_t*)container.back());
+        (*it)->EnableCtrl(true);
     }
 }
 
@@ -516,8 +516,8 @@ void TextCtrl_Float::replenish()
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->update(*(float*)container.back());
-        (*it)->enable(true);
+        (*it)->SetChoice(*(float*)container.back());
+        (*it)->EnableCtrl(true);
     }
 }
 
@@ -537,8 +537,8 @@ void TextCtrl_Long::replenish()
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->update(*(int32_t*)container.back());
-        (*it)->enable(true);
+        (*it)->SetChoice(*(int32_t*)container.back());
+        (*it)->EnableCtrl(true);
     }
 }
 
@@ -558,8 +558,8 @@ void TextCtrl_Short::replenish()
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->update(*(int16_t*)container.back());
-        (*it)->enable(true);
+        (*it)->SetChoice(*(int16_t*)container.back());
+        (*it)->EnableCtrl(true);
     }
 }
 
@@ -579,8 +579,8 @@ void TextCtrl_UShort::replenish()
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
-        (*it)->update(*(uint16_t*)container.back());
-        (*it)->enable(true);
+        (*it)->SetChoice(*(uint16_t*)container.back());
+        (*it)->EnableCtrl(true);
     }
 }
 

@@ -30,13 +30,13 @@ void AGEComboBox::Flash()
     SetSelection(sel < GetCount() ? sel : 0);
 }
 
-void ComboBox_Plus1::OnUpdate(wxCommandEvent&)
+void ComboBox_Plus1::OnChoose(wxCommandEvent&)
 {
     TextBox->ChangeValue(lexical_cast<string>(GetSelection() - 1));
     TextBox->SaveEdits();
 }
 
-void ComboBox_EffectType::OnUpdate(wxCommandEvent&)
+void ComboBox_EffectType::OnChoose(wxCommandEvent&)
 {
     switch(GetSelection())
     {
@@ -62,7 +62,7 @@ void ComboBox_EffectType::OnUpdate(wxCommandEvent&)
     TextBox->SaveEdits();
 }
 
-void ComboBox_EffectAttribute::OnUpdate(wxCommandEvent&)
+void ComboBox_EffectAttribute::OnChoose(wxCommandEvent&)
 {
     int selection = GetSelection();
     selection = (selection < 25) ? selection - 1 : selection + 75;
@@ -70,7 +70,7 @@ void ComboBox_EffectAttribute::OnUpdate(wxCommandEvent&)
     TextBox->SaveEdits();
 }
 
-void ComboBox_Plus1::update(int value)
+void ComboBox_Plus1::SetChoice(int value)
 {
     if(GetCount() == 0) return;
     if(++value < GetCount())
@@ -78,7 +78,7 @@ void ComboBox_Plus1::update(int value)
     else SetSelection(0);
 }
 
-void ComboBox_EffectType::update(int value)
+void ComboBox_EffectType::SetChoice(int value)
 {
     if(GetCount() == 0) return;
     if((value >= 0) && (value <= 6))
@@ -99,7 +99,7 @@ void ComboBox_EffectType::update(int value)
     }
 }
 
-void ComboBox_EffectAttribute::update(int value)
+void ComboBox_EffectAttribute::SetChoice(int value)
 {
     if(GetCount() == 0) return;
     if((value >= 0) && (value <= 23))
