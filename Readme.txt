@@ -16,9 +16,9 @@ wxWidgets 3.1.0
 Unpack the zip file.
 In cmd.exe go to \wxWidgets\build\msw
 mingw32-make -f makefile.gcc BUILD=debug clean
-mingw32-make -f makefile.gcc BUILD=debug SHARED=1 USE_RIBBON=0 CXXFLAGS="-std=gnu++0x"
+mingw32-make -f makefile.gcc BUILD=debug SHARED=1
 mingw32-make -f makefile.gcc BUILD=release clean
-mingw32-make -f makefile.gcc BUILD=release SHARED=1 USE_RIBBON=0 CXXFLAGS="-std=gnu++0x"
+mingw32-make -f makefile.gcc BUILD=release SHARED=1
 del /s *.o
 del /s *.o.d
 
@@ -28,7 +28,7 @@ In cmd.exe go to \boost_1_60_0\tools\build
 bootstrap.bat gcc
 Copy b2.exe to \boost_1_60_0
 Run from \boost_1_60_0
-b2 toolset=gcc link=shared runtime-link=shared threading=multi install
+b2 toolset=gcc link=shared runtime-link=shared threading=multi install --with-iostreams
 You can safely delete boost_1_60_0 folder after build completes.
 
 You'll need to download Apre's DAT library from here:
