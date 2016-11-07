@@ -63,7 +63,7 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, const wxFont &font)
     SetSizerAndFit(Main);
     SetDefaultItem(ButtonOK);
 
-    Button_RawDecompress->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    Button_RawDecompress->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
         genie::DatFile *raw;
         wxString filename = Path_RawDecompress->GetPath();

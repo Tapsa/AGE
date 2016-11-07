@@ -222,7 +222,7 @@ void AGE_Frame::CalcDrawCenter(wxPanel *canvas, int &centerX, int &centerY)
 
 void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
 {
-    wxPanel *canvas = (wxPanel*)event.GetEventObject();
+    wxPanel *canvas = static_cast<wxPanel*>(event.GetEventObject());
     wxBufferedPaintDC dc(canvas);
     dc.SetBackground(slp_background_brush);
     dc.Clear();
@@ -1373,7 +1373,7 @@ void AGE_Frame::CreateGraphicsControls()
 void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
 {
     event.Skip();
-    if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
+    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
     if(event.GetId() == Graphics_Name->GetId())
     {
         ListGraphics();
@@ -1408,7 +1408,7 @@ void AGE_Frame::OnKillFocus_Graphics(wxFocusEvent &event)
 
 void AGE_Frame::OnUpdateCheck_Graphics(wxCommandEvent &event)
 {
-    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
+    static_cast<CheckBox_2State*>(event.GetEventObject())->OnChoose(event);
     if(dataset->Graphics[GraphicIDs.front()].AttackSoundUsed == 0) return;
 
     for(size_t loop = 0; loop < GraphicIDs.size(); ++loop)
@@ -1420,7 +1420,7 @@ void AGE_Frame::OnUpdateCheck_Graphics(wxCommandEvent &event)
 
 void AGE_Frame::OnUpdateCombo_Graphics(wxCommandEvent &event)
 {
-    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
+    static_cast<ComboBox_Plus1*>(event.GetEventObject())->OnChoose(event);
     graphicSLP.slpID = -2;
     ListGraphicDeltas();
     if(slp_window && ShowDeltas) slp_view->Refresh();

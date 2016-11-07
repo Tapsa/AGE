@@ -3268,7 +3268,7 @@ wxString AGE_Frame::LangDLLstring(int ID, int Letters)
 void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &event)
 {
     event.Skip();
-    TextCtrl_DLL *control = (TextCtrl_DLL*)event.GetEventObject();
+    TextCtrl_DLL *control = static_cast<TextCtrl_DLL*>(event.GetEventObject());
     if(control->IsModified())
     {
         control->DiscardEdits();
