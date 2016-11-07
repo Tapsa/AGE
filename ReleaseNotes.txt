@@ -12,6 +12,9 @@ For editing language files in The Conquerors, I recommend [url=http://aok.heaven
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2016.11.7[/b]:
+-Removed broken batch editing from strings.
+
 Version [b]2016.10.9[/b]:
 -Reduced memory usage of combo boxes that share strings.
 
