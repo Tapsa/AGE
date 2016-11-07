@@ -129,7 +129,6 @@ protected:
     }
     void HandleResults(int casted)
     {
-        if(!LinkedBoxes.empty())
         for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
         {
             (*it)->SetChoice(casted);

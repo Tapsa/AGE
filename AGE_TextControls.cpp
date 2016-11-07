@@ -400,7 +400,8 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
     string value = string(GetValue().mb_str());
     if(*(string*)container.back() != value || forced) // Has been changed
     {
-        if(value.size() > 2)
+        // Broken, strings like "C-Bonus" are interpret as batch mode 2.
+        /*if(value.size() > 2)
         {
             short batchMode = 0;
             BatchCheck(value, batchMode);
@@ -421,7 +422,7 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
                 HandleResults(0);
                 return 0;
             }
-        }
+        }*/
         if(value.size() <= maxSize)
         {
             for(auto &pointer: container)
