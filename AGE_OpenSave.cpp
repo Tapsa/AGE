@@ -107,7 +107,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     Button_DefaultSWGB->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultSWGB, this);
     Button_DefaultCC->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultCC, this);
     CheckBox_Recent->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_OpenSave::OnRecent, this);
-    ButtonOK->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&){EndModal(wxID_OK);});
+    ButtonOK->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&){EndModal(wxID_OK);});
 #ifdef WIN32
     Button_PathFromRegistry->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnPathFromRegistry, this);
 #endif

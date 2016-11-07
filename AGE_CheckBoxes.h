@@ -11,9 +11,9 @@ public:
         TextBox->LinkedBoxes.push_back(this);
         Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &CheckBox_2State::OnChoose, this);
     }
+    void OnChoose(wxCommandEvent&);
 
 private:
-    void OnChoose(wxCommandEvent&);
     void SetChoice(int value) {SetValue(value);}
     void EnableCtrl(bool yes) {Enable(yes);}
 };

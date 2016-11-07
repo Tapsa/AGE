@@ -11,7 +11,7 @@ public:
         popup = new SharedComboPopup();
         SetPopupControl(popup);
         popup->Imbue(choices);
-        Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
+        Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
     //void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
     unsigned int GetCount() const {return popup->GetCount();}
@@ -34,9 +34,9 @@ public:
         TextBox->LinkedBoxes.push_back(this);
         Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_Plus1::OnChoose, this);
     }
+    void OnChoose(wxCommandEvent&);
 
 private:
-    void OnChoose(wxCommandEvent&);
     void SetChoice(int);
     void EnableCtrl(bool yes) {Enable(yes);}
 };
@@ -50,9 +50,9 @@ public:
         TextBox = ptr;
         TextBox->LinkedBoxes.push_back(this);
     }
+    void OnChoose(wxCommandEvent&);
 
 private:
-    void OnChoose(wxCommandEvent&);
     void SetChoice(int);
     void EnableCtrl(bool yes) {Enable(yes);}
 };
@@ -66,9 +66,9 @@ public:
         TextBox = ptr;
         TextBox->LinkedBoxes.push_back(this);
     }
+    void OnChoose(wxCommandEvent&);
 
 private:
-    void OnChoose(wxCommandEvent&);
     void SetChoice(int);
     void EnableCtrl(bool yes) {Enable(yes);}
 };
