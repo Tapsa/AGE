@@ -1211,7 +1211,7 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &event)
         ListEffects();
         return;
     }
-    if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
+    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
     if(event.GetId() == Techs_Name->GetId())
     {
         ListTechs();
@@ -1224,7 +1224,7 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &event)
 
 void AGE_Frame::OnUpdateCheck_Techs(wxCommandEvent &event)
 {
-    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
+    static_cast<CheckBox_2State*>(event.GetEventObject())->OnChoose(event);
     ListEffects();
 }
 
@@ -1240,6 +1240,6 @@ void AGE_Frame::OnUpdateCombo_Techs(wxCommandEvent &event)
         ListEffects();
         return;
     }
-    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
+    static_cast<ComboBox_Plus1*>(event.GetEventObject())->OnChoose(event);
     ListEffects();
 }

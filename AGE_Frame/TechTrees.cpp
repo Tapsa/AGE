@@ -3193,7 +3193,7 @@ void AGE_Frame::CreateTechTreeControls()
 void AGE_Frame::OnKillFocus_TechTrees(wxFocusEvent &event)
 {
     event.Skip();
-    if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
+    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
     if(event.GetId() == TechTrees_Ages_ID->GetId())
     {
         ListTTAges();
@@ -3316,7 +3316,7 @@ void AGE_Frame::OnUpdateCombo_TechTreeMode(wxCommandEvent &event)
 
 void AGE_Frame::OnUpdateCombo_TechTrees(wxCommandEvent &event)
 {
-    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
+    static_cast<ComboBox_Plus1*>(event.GetEventObject())->OnChoose(event);
     if(event.GetId() == TechTrees_Ages_Buildings.ItemCombo->GetId())
     {
         ListTTAgeBuildings();

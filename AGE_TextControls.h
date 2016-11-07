@@ -12,7 +12,7 @@ public:
     {
         SetItemCount(0);
         InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, wxLIST_AUTOSIZE_USEHEADER);
-        Bind(wxEVT_SIZE, [=](wxSizeEvent&){SetColumnWidth(0, GetClientSize().GetWidth());});
+        Bind(wxEVT_SIZE, [this](wxSizeEvent&){SetColumnWidth(0, GetClientSize().GetWidth());});
     }
 
     wxArrayString names;
@@ -148,7 +148,7 @@ public:
     TextCtrl_DLL(wxWindow *parent, wxSize dimensions):
     wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, dimensions, wxTE_MULTILINE)
     {
-        Bind(wxEVT_MOUSEWHEEL, [=](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
+        Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
 
     int index;

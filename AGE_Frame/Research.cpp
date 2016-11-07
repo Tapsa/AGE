@@ -365,7 +365,7 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &event)
     int32_t DLLValue;
     try
     {
-        DLLValue = lexical_cast<int32_t>(((wxTextCtrl*)event.GetEventObject())->GetValue());
+        DLLValue = lexical_cast<int32_t>(static_cast<wxTextCtrl*>(event.GetEventObject())->GetValue());
     }
     catch(bad_lexical_cast e)
     {
@@ -730,7 +730,7 @@ void AGE_Frame::CreateResearchControls()
 void AGE_Frame::OnKillFocus_Research(wxFocusEvent &event)
 {
     event.Skip();
-    if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
+    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
     if(event.GetId() == Research_Name[0]->GetId() || event.GetId() == Research_LangDLLName->GetId())
     {
         ListResearches();
