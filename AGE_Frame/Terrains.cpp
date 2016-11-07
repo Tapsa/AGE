@@ -113,8 +113,8 @@ void AGE_Frame::ListTerrainNumbers()
 void AGE_Frame::OnTerrainCountChange(wxFocusEvent &event)
 {
     event.Skip();
-    if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
-    uint16_t UsedTerrains = lexical_cast<uint16_t>(((wxTextCtrl*)event.GetEventObject())->GetValue());
+    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
+    uint16_t UsedTerrains = lexical_cast<uint16_t>(static_cast<wxTextCtrl*>(event.GetEventObject())->GetValue());
     // Resize terrain restrictions
     for(size_t loop = 0; loop < dataset->TerrainRestrictions.size(); ++loop)
     {
@@ -957,7 +957,7 @@ void AGE_Frame::CreateTerrainControls()
 void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &event)
 {
     event.Skip();
-    if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
+    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
     if(event.GetId() == Terrains_Name->GetId())
     {
         ListTerrains1();
@@ -975,6 +975,6 @@ void AGE_Frame::OnKillFocus_Terrains(wxFocusEvent &event)
 
 void AGE_Frame::OnUpdateCombo_Terrains(wxCommandEvent &event)
 {
-    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
+    static_cast<ComboBox_Plus1*>(event.GetEventObject())->OnChoose(event);
     ListTerrainsBorders();
 }

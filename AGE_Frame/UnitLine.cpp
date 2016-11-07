@@ -397,7 +397,7 @@ void AGE_Frame::CreateUnitLineControls()
 void AGE_Frame::OnKillFocus_UnitLines(wxFocusEvent &event)
 {
     event.Skip();
-    if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
+    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
     if(event.GetId() == UnitLines_Name->GetId())
     {
         ListUnitLines();
@@ -410,6 +410,6 @@ void AGE_Frame::OnKillFocus_UnitLines(wxFocusEvent &event)
 
 void AGE_Frame::OnUpdateCombo_UnitLines(wxCommandEvent &event)
 {
-    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
+    static_cast<ComboBox_Plus1*>(event.GetEventObject())->OnChoose(event);
     ListUnitLineUnits();
 }

@@ -1899,7 +1899,8 @@ void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &event)
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
                 // Consume copies.
-                if(copies.Dat.UnitDamageGraphicExists[civ] > 255) ++copy; continue;
+                if(copies.Dat.UnitDamageGraphicExists[civ] > 255) ++copy;
+                continue;
             }
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitDamageGraphicExists[civ] > 255 && copy < copies.Dat.UnitDamageGraphics.size())
@@ -1932,7 +1933,8 @@ void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &event)
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
                 // Consume copies.
-                if(copies.Dat.UnitDamageGraphicExists[civ] > 255) copy++; continue;
+                if(copies.Dat.UnitDamageGraphicExists[civ] > 255) ++copy;
+                continue;
             }
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitDamageGraphicExists[civ] > 255 && copy < copies.Dat.UnitDamageGraphics.size())
@@ -2148,7 +2150,8 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &event)
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
                 // Consume copies.
-                if(copies.Dat.UnitAttackExists[civ] > 255) ++copy; continue;
+                if(copies.Dat.UnitAttackExists[civ] > 255) ++copy;
+                continue;
             }
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitAttackExists[civ] > 255 && copy < copies.Dat.UnitAttacks.size())
@@ -2180,7 +2183,8 @@ void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &event)
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
                 // Consume copies.
-                if(copies.Dat.UnitAttackExists[civ] > 255) copy++; continue;
+                if(copies.Dat.UnitAttackExists[civ] > 255) ++copy;
+                continue;
             }
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitAttackExists[civ] > 255 && copy < copies.Dat.UnitAttacks.size())
@@ -2396,7 +2400,8 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &event)
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
                 // Consume copies.
-                if(copies.Dat.UnitArmorExists[civ] > 255) ++copy; continue;
+                if(copies.Dat.UnitArmorExists[civ] > 255) ++copy;
+                continue;
             }
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitArmorExists[civ] > 255 && copy < copies.Dat.UnitArmors.size())
@@ -2428,7 +2433,8 @@ void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &event)
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
                 // Consume copies.
-                if(copies.Dat.UnitArmorExists[civ] > 255) copy++; continue;
+                if(copies.Dat.UnitArmorExists[civ] > 255) ++copy;
+                continue;
             }
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitArmorExists[civ] > 255 && copy < copies.Dat.UnitArmors.size())
@@ -2859,7 +2865,8 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &event)
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
                 // Consume copies.
-                if(copies.Dat.UnitCommandExists[civ] > 255) ++copy; continue;
+                if(copies.Dat.UnitCommandExists[civ] > 255) ++copy;
+                continue;
             }
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitCommandExists.size() > 0 && copies.Dat.UnitCommandExists[civ] > 255 && copy < copies.Dat.UnitCommands.size())
@@ -2895,7 +2902,8 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &event)
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
             {
                 // Consume copies.
-                if(copies.Dat.UnitCommandExists[civ] > 255) copy++; continue;
+                if(copies.Dat.UnitCommandExists[civ] > 255) ++copy;
+                continue;
             }
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitCommandExists.size() > 0 && copies.Dat.UnitCommandExists[civ] > 255 && copy < copies.Dat.UnitCommands.size())
@@ -2939,7 +2947,7 @@ void AGE_Frame::UnitLangDLLConverter(wxCommandEvent &event)
     int32_t DLLValue;
     try
     {
-        DLLValue = lexical_cast<int32_t>(((wxTextCtrl*)event.GetEventObject())->GetValue());
+        DLLValue = lexical_cast<int32_t>(static_cast<wxTextCtrl*>(event.GetEventObject())->GetValue());
     }
     catch(bad_lexical_cast e)
     {
@@ -5243,7 +5251,7 @@ void AGE_Frame::CreateUnitControls()
 
     Units_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnUnitsSearch, this);
     Units_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnUnitsSearch, this);
-    Units_FilterSelector->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, [=](wxCommandEvent&)
+    Units_FilterSelector->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, [this](wxCommandEvent&)
     {
         ListUnits(UnitCivID, false);
         Units_Search->SetFocus();
@@ -5251,7 +5259,7 @@ void AGE_Frame::CreateUnitControls()
     for(size_t loop = 0; loop < 2; ++loop)
     {
         Units_UseAnd[loop]->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnUnitsSearch, this);
-        Units_SearchFilters[loop]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, [=](wxCommandEvent&)
+        Units_SearchFilters[loop]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, [this](wxCommandEvent&)
         {
             ListUnits(UnitCivID, false);
             Units_Search->SetFocus();
@@ -5262,7 +5270,7 @@ void AGE_Frame::CreateUnitControls()
     Units_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnUnitsSelect, this);
     Units_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnUnitsSelect, this);
 
-    Units_Add->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    Units_Add->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
         if(!dataset) return;
 
@@ -5294,7 +5302,7 @@ void AGE_Frame::CreateUnitControls()
         if(GenieVersion < genie::GV_SWGB && dataset->Civs.front().Units.size() > 900) SetStatusText("Units between 900 and 1000 mess up the AI!", 0);
     });
 
-    Units_Insert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    Units_Insert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
         auto selections = Units_ListV->GetSelectedItemCount();
         if(selections < 1) return;
@@ -5326,7 +5334,7 @@ void AGE_Frame::CreateUnitControls()
         ListUnits(UnitCivID);
     });
 
-    Units_Delete->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    Units_Delete->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
         auto selections = Units_ListV->GetSelectedItemCount();
         if(selections < 1) return;
@@ -5358,7 +5366,7 @@ void AGE_Frame::CreateUnitControls()
         ListUnits(UnitCivID);
     });
 
-    Units_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    Units_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
         auto selections = Units_ListV->GetSelectedItemCount();
         if(selections < 1) return;
@@ -5418,7 +5426,7 @@ void AGE_Frame::CreateUnitControls()
         Units_ListV->SetFocus();
     });
 
-    Units_SpecialCopy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    Units_SpecialCopy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
         auto selections = Units_ListV->GetSelectedItemCount();
         if(selections < 1) return;
@@ -5445,7 +5453,7 @@ void AGE_Frame::CreateUnitControls()
         Units_ListV->SetFocus();
     });
 
-    Units_SpecialPaste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    Units_SpecialPaste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
         short CopyCount = copies.Dat.UnitGraphics.front().size();
         if(!Units_ListV->GetSelectedItemCount() || CopyCount == 0) return;
@@ -5499,7 +5507,7 @@ void AGE_Frame::CreateUnitControls()
         Units_ListV->SetFocus();
     });
 
-    Units_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    Units_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
         if(!Units_ListV->GetSelectedItemCount() || copies.Dat.UnitExists.size() == 0) return;
 
@@ -5580,7 +5588,7 @@ void AGE_Frame::CreateUnitControls()
         popUp.unSaved += copies.Dat.UnitCopies.front().size();
     });
 
-    Units_PasteInsert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    Units_PasteInsert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
         if(!Units_ListV->GetSelectedItemCount() || copies.Dat.UnitExists.size() == 0) return;
 
@@ -5622,7 +5630,7 @@ void AGE_Frame::CreateUnitControls()
         ListUnits(UnitCivID);
     });
 
-    Units_Enable->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    Units_Enable->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
         auto selections = Units_ListV->GetSelectedItemCount();
         if(selections < 1) return;
@@ -5685,7 +5693,7 @@ void AGE_Frame::CreateUnitControls()
         ListUnits(UnitCivID);
     });
 
-    Units_Disable->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    Units_Disable->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
         auto selections = Units_ListV->GetSelectedItemCount();
         if(selections < 1) return;
@@ -5857,7 +5865,7 @@ void AGE_Frame::CreateUnitControls()
 void AGE_Frame::OnKillFocus_Units(wxFocusEvent &event)
 {
     event.Skip();
-    if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
+    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
     if(event.GetId() == Units_Name->GetId() || event.GetId() == Units_LanguageDLLName->GetId())
     {
         ListUnits(UnitCivID);
@@ -5976,7 +5984,7 @@ void AGE_Frame::OnUpdateCombo_Units(wxCommandEvent &event)
         ListUnitCommands();
         return;
     }
-    ((AGELinkedBox*)event.GetEventObject())->OnChoose(event);
+    static_cast<ComboBox_Plus1*>(event.GetEventObject())->OnChoose(event);
     if(event.GetId() == Attacks_Class_ComboBox[0]->GetId())
     {
         ListUnitAttacks();

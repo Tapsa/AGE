@@ -1750,7 +1750,7 @@ void AGE_Frame::CreateUnknownControls()
 void AGE_Frame::OnKillFocus_Unknown(wxFocusEvent &event)
 {
     event.Skip();
-    if(((AGETextCtrl*)event.GetEventObject())->SaveEdits() != 0) return;
+    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
     if(event.GetId() == Unknowns_UnknownLevel->GetId())
     {
         ListRandomMaps();

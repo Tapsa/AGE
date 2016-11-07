@@ -225,7 +225,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     TabBar_Main->ChangeSelection(4);
 
     Bind(wxEVT_CLOSE_WINDOW, &AGE_Frame::OnExit, this);
-    Bind(wxEVT_IDLE, [=](wxIdleEvent&)
+    Bind(wxEVT_IDLE, [this](wxIdleEvent&)
     {
         if(popUp.hasMessage)
         {
@@ -245,7 +245,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     Bind(wxEVT_COMMAND_MENU_SELECTED, &AGE_Frame::OnMenuOption, this, hotWin1, closeAll);
 
     Units_AutoCopy->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnAutoCopy, this);
-    Units_CopyTo->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [=](wxCommandEvent&)
+    Units_CopyTo->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
         auto selections = Units_ListV->GetSelectedItemCount();
         if(selections < 1) return;
