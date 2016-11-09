@@ -196,7 +196,7 @@ private:
     bool Paste11Check(size_t pastes, size_t copies);
     void OnDrawIconSLP(wxPaintEvent &event);
     void OnDrawGraphicSLP(wxPaintEvent &event);
-    void CalcDrawCenter(wxPanel*, int&, int&);
+    void CalcDrawCenter(APanel*, int&, int&);
     void CalcAngle(AGE_SLP&);
     void SetDisplayBearings(AGE_SLP&, const genie::GraphicDelta&);
     void OnDrawTechSLP(wxPaintEvent &event);
@@ -857,7 +857,7 @@ private:
     int CustomTerrains, SLPareaPerCent, paletteView = 0, SLPbackR, SLPbackG, SLPbackB;
     wxBrush slp_background_brush;
     wxFrame *slp_window = 0;
-    wxPanel *slp_view;
+    APanel *slp_view;
     wxSizer *slp_sizer;
     wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save, *slp_prev, *slp_first, *slp_tool, *slp_merge_shadow;
     wxFilePickerCtrl *slp_source1, *slp_source2, *slp_target1;
@@ -970,7 +970,7 @@ private:
 
     wxNotebook *TabBar_Main, *TabBar_TechTree;
 
-    wxPanel *Tab_General, *Tab_Research, *Tab_Techs, *Tab_TechTrees, *Tab_Civs,
+    APanel *Tab_General, *Tab_Research, *Tab_Techs, *Tab_TechTrees, *Tab_Civs,
         *Tab_Units, *Tab_UnitLine, *Tab_Graphics, *Tab_Terrains, *Tab_TerrainBorders,
         *Tab_TerrainRestrictions, *Tab_Sounds, *Tab_PlayerColors, *Tab_Unknown,
         *Tab_TechTreeAges, *Tab_TechTreeBuildings, *Tab_TechTreeUnits, *Tab_TechTreeResearches;
@@ -983,7 +983,7 @@ private:
     SolidText *General_CalcBoxes_Text;
     SolidText *General_CalcBoxesMiddle_Text;
     wxTextCtrl *General_CalcBoxes[5];
-    wxScrolled<wxPanel> *General_Scroller;
+    wxScrolled<APanel> *General_Scroller;
     wxBoxSizer *General_ScrollSpace;
     SolidText *General_TileSizes_Text;
     wxGridSizer *General_TileSizes_Grid;
@@ -1171,7 +1171,7 @@ private:
     wxBoxSizer *Borders_Flag2_Holder;
     SolidText *Borders_Flag2_Text;
     AGETextCtrl *Borders_Flag2;
-    wxPanel *Border_Shape_SLP;
+    APanel *Border_Shape_SLP;
     wxBoxSizer *Borders_DrawTile_Holder;
     SolidText *Borders_DrawTile_Text;
     AGETextCtrl *Borders_DrawTile;
@@ -1232,7 +1232,7 @@ private:
     AGETextCtrl *General_Unknown2;
 
     wxBoxSizer *Unknown_Main;
-    wxScrolled<wxPanel> *Unknown_Scroller;
+    wxScrolled<APanel> *Unknown_Scroller;
     wxBoxSizer *Unknown_ScrollSpace;
 
     vector<AGETextCtrl*> uiGroupRandomMap, uiGroupRMBase, uiGroupRMTerrain, uiGroupRMUnit, uiGroupRMUnknown;
@@ -1415,7 +1415,7 @@ private:
 
     wxBoxSizer *Research_Main;
     wxGridSizer *Research_Research_Buttons;
-    wxScrolled<wxPanel> *Research_Scroller;
+    wxScrolled<APanel> *Research_Scroller;
     wxBoxSizer *Research_ScrollSpace;
     wxBoxSizer *Research_LangDLLArea_Holder;
     wxBoxSizer *Research_Misc2_Holder;
@@ -1500,7 +1500,7 @@ private:
     wxBoxSizer *Research_IconID_Holder;
     SolidText *Research_IconID_Text;
     AGETextCtrl *Research_IconID;
-    wxPanel *Research_IconID_SLP;
+    APanel *Research_IconID_SLP;
 
     wxBoxSizer *Research_ButtonID_Holder;
     SolidText *Research_ButtonID_Text;
@@ -1683,7 +1683,7 @@ private:
 
 //  Type 10+
 
-    wxScrolled<wxPanel> *Units_Scroller;    // Scrollable unit section
+    wxScrolled<APanel> *Units_Scroller;    // Scrollable unit section
 
     SolidText *visibleUnitCiv;
     AGETextCtrl *Units_Type;
@@ -2108,7 +2108,7 @@ private:
     wxBoxSizer *Units_PlacementMode_Holder;
     wxBoxSizer *Units_AirMode_Holder;
     wxBoxSizer *Units_IconID_Holder;
-    wxPanel *Units_IconID_SLP;
+    APanel *Units_IconID_SLP;
     wxBoxSizer *Units_HideInEditor_Holder;
     wxBoxSizer *Units_Unknown1_Holder;
     wxBoxSizer *Units_Enabled_Holder;
@@ -2555,7 +2555,7 @@ private:
     wxButton *Graphics_Enable;
     wxButton *Graphics_Disable;
 
-    wxScrolled<wxPanel> *Graphics_Scroller;
+    wxScrolled<APanel> *Graphics_Scroller;
     wxBoxSizer *Graphics_ScrollSpace;
 
     vector<AGETextCtrl*> uiGroupGraphic, uiGroupGraphicDelta, uiGroupGraphicSound;
@@ -2730,7 +2730,7 @@ private:
     wxButton *Terrains_Borders_Paste;
     wxButton *Terrains_Borders_CopyToTerrains;
 
-    wxScrolled<wxPanel> *Terrains_Scroller;
+    wxScrolled<APanel> *Terrains_Scroller;
     wxBoxSizer *Terrains_ScrollSpace;
     wxBoxSizer *Terrains_NameArea_Holder;
     wxBoxSizer *Terrains_Area1_Grid;
@@ -3010,7 +3010,7 @@ private:
     AGETextCtrl *Colors_Unknown3;
     AGETextCtrl *Colors_Unknown4;
     AGETextCtrl *Colors_StatisticsText;
-    wxPanel *Colors_Palette_Display;
+    APanel *Colors_Palette_Display;
 
 //  Unitline user interface
 
@@ -3061,10 +3061,10 @@ private:
     wxBoxSizer *TechTrees_TabBuildings;
     wxBoxSizer *TechTrees_TabUnits;
     wxBoxSizer *TechTrees_TabResearches;
-    wxScrolled<wxPanel> *TechTrees_ScrollerAges;
-    wxScrolled<wxPanel> *TechTrees_ScrollerBuildings;
-    wxScrolled<wxPanel> *TechTrees_ScrollerUnits;
-    wxScrolled<wxPanel> *TechTrees_ScrollerResearches;
+    wxScrolled<APanel> *TechTrees_ScrollerAges;
+    wxScrolled<APanel> *TechTrees_ScrollerBuildings;
+    wxScrolled<APanel> *TechTrees_ScrollerUnits;
+    wxScrolled<APanel> *TechTrees_ScrollerResearches;
     wxBoxSizer *TechTrees_MainList_Ages;
     wxBoxSizer *TechTrees_MainList_Buildings;
     wxBoxSizer *TechTrees_MainList_Units;

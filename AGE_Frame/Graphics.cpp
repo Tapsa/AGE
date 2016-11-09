@@ -213,7 +213,7 @@ void AGE_Frame::OnGraphicsTimer(wxTimerEvent&)
     if(slp_window) slp_view->Refresh();
 }
 
-void AGE_Frame::CalcDrawCenter(wxPanel *canvas, int &centerX, int &centerY)
+void AGE_Frame::CalcDrawCenter(APanel *canvas, int &centerX, int &centerY)
 {
     canvas->GetClientSize(&centerX, &centerY);
     centerX *= 0.5f;
@@ -222,7 +222,7 @@ void AGE_Frame::CalcDrawCenter(wxPanel *canvas, int &centerX, int &centerY)
 
 void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
 {
-    wxPanel *canvas = static_cast<wxPanel*>(event.GetEventObject());
+    APanel *canvas = static_cast<APanel*>(event.GetEventObject());
     wxBufferedPaintDC dc(canvas);
     dc.SetBackground(slp_background_brush);
     dc.Clear();
@@ -924,7 +924,7 @@ void AGE_Frame::OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &event)
 
 void AGE_Frame::CreateGraphicsControls()
 {
-    Tab_Graphics = new wxPanel(TabBar_Main);
+    Tab_Graphics = new APanel(TabBar_Main);
     Graphics_Main = new wxBoxSizer(wxHORIZONTAL);
     Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Sprites");
 
@@ -948,7 +948,7 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_Enable = new wxButton(Tab_Graphics, wxID_ANY, "Exist", wxDefaultPosition, wxSize(10, -1));
     Graphics_Disable = new wxButton(Tab_Graphics, wxID_ANY, "Wipe Out", wxDefaultPosition, wxSize(10, -1));
 
-    Graphics_Scroller = new wxScrolled<wxPanel>(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    Graphics_Scroller = new wxScrolled<APanel>(Tab_Graphics, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
     Graphics_ScrollSpace = new wxBoxSizer(wxVERTICAL);
     Graphics_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
     Graphics_Name_Holder = new wxBoxSizer(wxVERTICAL);

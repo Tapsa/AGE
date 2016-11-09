@@ -153,7 +153,7 @@ void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
 
 void AGE_Frame::CreateGeneralControls()
 {
-    Tab_General = new wxPanel(TabBar_Main);
+    Tab_General = new APanel(TabBar_Main);
 
     General_Main = new wxBoxSizer(wxVERTICAL);
     General_TopRow = new wxBoxSizer(wxHORIZONTAL);
@@ -163,7 +163,7 @@ void AGE_Frame::CreateGeneralControls()
     General_CalcBoxesMiddle_Text = new SolidText(Tab_General, " = ");
     for(size_t loop = 0; loop < 5; ++loop)
     General_CalcBoxes[loop] = new wxTextCtrl(Tab_General, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(70, -1));
-    General_Scroller = new wxScrolled<wxPanel>(Tab_General, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    General_Scroller = new wxScrolled<APanel>(Tab_General, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
     General_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 
     const wxString SWUNKNOWNSINFO = "Unknowns 2 to 5 are in the beginning of the file,\nright after civilization count (first of the two) and\nbefore terrain restrictions";
@@ -1227,10 +1227,10 @@ void AGE_Frame::OnRMSUnknownCopyToMaps(wxCommandEvent &event)
 
 void AGE_Frame::CreateUnknownControls()
 {
-    Tab_Unknown = new wxPanel(TabBar_Main);
+    Tab_Unknown = new APanel(TabBar_Main);
 
     Unknown_Main = new wxBoxSizer(wxVERTICAL);
-    Unknown_Scroller = new wxScrolled<wxPanel>(Tab_Unknown, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    Unknown_Scroller = new wxScrolled<APanel>(Tab_Unknown, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
     Unknown_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 
     Unknown_UnknownPointer_Text = new SolidText(Tab_Unknown, " Random Map Pointer");

@@ -2376,22 +2376,22 @@ void AGE_Frame::OnTTResearchItemCopyToResearches(wxCommandEvent &event)
 
 void AGE_Frame::CreateTechTreeControls()
 {
-    Tab_TechTrees = new wxPanel(TabBar_Main);
+    Tab_TechTrees = new APanel(TabBar_Main);
 
     TechTrees_Main = new wxBoxSizer(wxVERTICAL);
     TabBar_TechTree = new wxNotebook(Tab_TechTrees, wxID_ANY);
-    Tab_TechTreeAges = new wxPanel(TabBar_TechTree);
-    Tab_TechTreeBuildings = new wxPanel(TabBar_TechTree);
-    Tab_TechTreeUnits = new wxPanel(TabBar_TechTree);
-    Tab_TechTreeResearches = new wxPanel(TabBar_TechTree);
+    Tab_TechTreeAges = new APanel(TabBar_TechTree);
+    Tab_TechTreeBuildings = new APanel(TabBar_TechTree);
+    Tab_TechTreeUnits = new APanel(TabBar_TechTree);
+    Tab_TechTreeResearches = new APanel(TabBar_TechTree);
     TechTrees_TabAges = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_TabBuildings = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_TabUnits = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_TabResearches = new wxBoxSizer(wxHORIZONTAL);
-    TechTrees_ScrollerAges = new wxScrolled<wxPanel>(Tab_TechTreeAges, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
-    TechTrees_ScrollerBuildings = new wxScrolled<wxPanel>(Tab_TechTreeBuildings, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
-    TechTrees_ScrollerUnits = new wxScrolled<wxPanel>(Tab_TechTreeUnits, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
-    TechTrees_ScrollerResearches = new wxScrolled<wxPanel>(Tab_TechTreeResearches, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    TechTrees_ScrollerAges = new wxScrolled<APanel>(Tab_TechTreeAges, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    TechTrees_ScrollerBuildings = new wxScrolled<APanel>(Tab_TechTreeBuildings, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    TechTrees_ScrollerUnits = new wxScrolled<APanel>(Tab_TechTreeUnits, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    TechTrees_ScrollerResearches = new wxScrolled<APanel>(Tab_TechTreeResearches, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
 
     mode_names.Add("Age");
     mode_names.Add("Building");

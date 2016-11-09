@@ -539,7 +539,7 @@ void AGE_Frame::CreateTerrainControls()
 {
     Terrains_Main = new wxBoxSizer(wxHORIZONTAL);
     Terrains_Terrains_Buttons = new wxGridSizer(2, 0, 0);
-    Tab_Terrains = new wxPanel(TabBar_Main);
+    Tab_Terrains = new APanel(TabBar_Main);
     Terrains_Terrains = new wxStaticBoxSizer(wxVERTICAL, Tab_Terrains, "Terrains");
     Terrains_Terrains_Search = new wxTextCtrl(Tab_Terrains, wxID_ANY);
     Terrains_Terrains_UseAnd[0] = new wxCheckBox(Tab_Terrains, wxID_ANY, "And");
@@ -560,7 +560,7 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_Copy = new wxButton(Tab_Terrains, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
     Terrains_Paste = new wxButton(Tab_Terrains, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
 
-    Terrains_Scroller = new wxScrolled<wxPanel>(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    Terrains_Scroller = new wxScrolled<APanel>(Tab_Terrains, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
     Terrains_ScrollSpace = new wxBoxSizer(wxVERTICAL);
     Terrains_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
     Terrains_Area1_Grid = new wxBoxSizer(wxHORIZONTAL);
