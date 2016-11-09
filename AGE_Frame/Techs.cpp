@@ -906,7 +906,7 @@ void AGE_Frame::OnAllTechEffectTimer(wxTimerEvent&)
 
 void AGE_Frame::CreateTechControls()
 {
-    Tab_Techs = new wxPanel(TabBar_Main);
+    Tab_Techs = new APanel(TabBar_Main);
 
     Techs_Main = new wxBoxSizer(wxHORIZONTAL);
     Techs_Buttons = new wxGridSizer(3, 0, 0);
