@@ -274,7 +274,7 @@ void AGE_Frame::OnUnitLineUnitsCopyToUnitLines(wxCommandEvent &event)
 
 void AGE_Frame::CreateUnitLineControls()
 {
-    Tab_UnitLine = new wxPanel(TabBar_Main);
+    Tab_UnitLine = new APanel(TabBar_Main);
     UnitLines_Main = new wxBoxSizer(wxHORIZONTAL);
     UnitLines_UnitLines_Buttons = new wxGridSizer(3, 0, 0);
     UnitLines_UnitLineUnits_Buttons = new wxGridSizer(3, 0, 0);

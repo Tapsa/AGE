@@ -203,7 +203,7 @@ void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &event)
 void AGE_Frame::CreatePlayerColorControls()
 {
     Colors_Main = new wxBoxSizer(wxHORIZONTAL);
-    Tab_PlayerColors = new wxPanel(TabBar_Main);
+    Tab_PlayerColors = new APanel(TabBar_Main);
 
     Colors_Colors = new wxStaticBoxSizer(wxVERTICAL, Tab_PlayerColors, "Player Colors");
     Colors_Colors_Search = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
@@ -252,7 +252,7 @@ void AGE_Frame::CreatePlayerColorControls()
     Colors_Unknown3 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
     Colors_Unknown4 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
     Colors_StatisticsText = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
-    Colors_Palette_Display = new wxPanel(Tab_PlayerColors, wxID_ANY, wxDefaultPosition, wxSize(256, 256));
+    Colors_Palette_Display = new APanel(Tab_PlayerColors, wxSize(256, 256));
 
     Colors_Colors_Buttons->Add(Colors_Add, 1, wxEXPAND);
     Colors_Colors_Buttons->Add(Colors_Delete, 1, wxEXPAND);

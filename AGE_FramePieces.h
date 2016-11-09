@@ -19,7 +19,7 @@ public:
     ComboBox_Plus1 *ItemCombo;
     wxButton *Add, *Insert, *Delete, *Copy, *Paste, *PasteInsert, *CopyAllToSelected;
 
-    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller, const wxString &itemName,
+    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<APanel>* scroller, const wxString &itemName,
         const wxString &listName, wxArrayString *choices)
     {
         ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
@@ -72,7 +72,7 @@ public:
     AGEComboBox *ModeCombo;
     wxButton *Copy, *Paste, *CopyAllToSelected;
 
-    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller, const wxString &itemName,
+    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<APanel>* scroller, const wxString &itemName,
         wxArrayString *choices)
     {
         Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Connected Items");
@@ -134,7 +134,7 @@ public:
     AGETextCtrl *Unknown1, *Unknown2, *UsedItems, *Unknown;
     wxButton *Copy, *Paste, *CopyAllToSelected;
 
-    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<wxPanel>* &scroller)
+    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, wxScrolled<APanel>* scroller)
     {
         Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Unknown Items");
         ItemList = new wxBoxSizer(wxVERTICAL);

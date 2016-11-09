@@ -2988,7 +2988,7 @@ void AGE_Frame::CreateUnitControls()
 {
 //  UnitControls new things
 
-    Tab_Units = new wxPanel(TabBar_Main);
+    Tab_Units = new APanel(TabBar_Main);
 
     Units_Main = new wxBoxSizer(wxHORIZONTAL);
     Units_Units = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "Units");
@@ -3060,7 +3060,7 @@ void AGE_Frame::CreateUnitControls()
     Units_Class = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Tab_Units);
     Units_Class->SetToolTip("Determines many things and works in conjunction with other variables");
     Units_Class_ComboBox[0] = new ComboBox_Plus1(Tab_Units, Units_Class, &class_names);
-    Units_Scroller = new wxScrolled<wxPanel>(Tab_Units, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    Units_Scroller = new wxScrolled<APanel>(Tab_Units, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
     Units_ScrollSpace = new wxBoxSizer(wxVERTICAL);
     Units_TypeArea_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_LangDLLArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Language Files");
@@ -3530,7 +3530,7 @@ void AGE_Frame::CreateUnitControls()
 
     Units_IconID = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
     Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
-    Units_IconID_SLP = new wxPanel(Units_Scroller, wxID_ANY, wxDefaultPosition, wxSize(55, 50));
+    Units_IconID_SLP = new APanel(Units_Scroller, wxSize(55, 50));
     Units_IconAngle = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Units_Scroller, AGETextCtrl::SMALL);
     Units_IconAngle->SetToolTip("Tech attribute 17 changes this\n0 Default\n1+ Use icon from 2nd age etc\nIn AoE 1 can be used to set the unit\nhave icon graphics of later ages straight in stone age");
     Units_ChargingGraphic = AGETextCtrl::init(CLong, &uiGroupUnit, this, &popUp, Units_Scroller);

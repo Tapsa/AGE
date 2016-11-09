@@ -375,7 +375,7 @@ void AGE_Frame::CreateSoundControls()
     Sounds_Items_Buttons = new wxGridSizer(3, 0, 0);
     Sounds_DataArea = new wxBoxSizer(wxVERTICAL);
 
-    Tab_Sounds = new wxPanel(TabBar_Main);
+    Tab_Sounds = new APanel(TabBar_Main);
     Sounds_Sounds = new wxStaticBoxSizer(wxVERTICAL, Tab_Sounds, "Sounds");
     Sounds_Sounds_Search = new wxTextCtrl(Tab_Sounds, wxID_ANY);
     Sounds_Sounds_Search_R = new wxTextCtrl(Tab_Sounds, wxID_ANY);
