@@ -341,7 +341,7 @@ void AGE_Frame::OnTerrainBorderBorderShapeCopyToBorders(wxCommandEvent &event)
 
 void AGE_Frame::CreateTerrainBorderControls()
 {
-    Tab_TerrainBorders = new wxPanel(TabBar_Main);
+    Tab_TerrainBorders = new APanel(TabBar_Main);
 
     Borders_Main = new wxBoxSizer(wxHORIZONTAL);
     Borders_Buttons = new wxGridSizer(2, 0, 0);
@@ -431,7 +431,7 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_Flag2_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Flag2_Text = new SolidText(Tab_TerrainBorders, " Shape (Frame) Index");
     Borders_Flag2 = AGETextCtrl::init(CShort, &uiGroupBorderFrame, this, &popUp, Tab_TerrainBorders);
-    Border_Shape_SLP = new wxPanel(Tab_TerrainBorders, wxID_ANY, wxDefaultPosition, wxSize(55, 50));
+    Border_Shape_SLP = new APanel(Tab_TerrainBorders, wxSize(55, 50));
 
     Borders_Animation_Grid1 = new wxBoxSizer(wxHORIZONTAL);
     Borders_Animation_Grid2 = new wxBoxSizer(wxHORIZONTAL);

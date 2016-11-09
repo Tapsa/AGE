@@ -404,7 +404,7 @@ void AGE_Frame::CreateResearchControls()
     Translations.Read("Research/Tab", &langTabResearch, "Researches");
     Translations.Read("Global/Name", &langGlobalName, "Name");*/
 
-    Tab_Research = new wxPanel(TabBar_Main);
+    Tab_Research = new APanel(TabBar_Main);
 
     Research_Main = new wxBoxSizer(wxHORIZONTAL);
     Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, "Researches");
@@ -426,7 +426,7 @@ void AGE_Frame::CreateResearchControls()
     Research_Paste = new wxButton(Tab_Research, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
     Research_PasteInsert = new wxButton(Tab_Research, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
-    Research_Scroller = new wxScrolled<wxPanel>(Tab_Research, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    Research_Scroller = new wxScrolled<APanel>(Tab_Research, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
     Research_ScrollSpace = new wxBoxSizer(wxVERTICAL);
     Research_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
     Research_Name_Text[0] = new SolidText(Research_Scroller, " Name");
@@ -496,7 +496,7 @@ void AGE_Frame::CreateResearchControls()
     Research_IconID_Holder = new wxBoxSizer(wxVERTICAL);
     Research_IconID_Text = new SolidText(Research_Scroller, " Icon");
     Research_IconID = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-    Research_IconID_SLP = new wxPanel(Research_Scroller, wxID_ANY, wxDefaultPosition, wxSize(55, 50));
+    Research_IconID_SLP = new APanel(Research_Scroller, wxSize(55, 50));
     Research_ButtonID_Holder = new wxBoxSizer(wxVERTICAL);
     Research_ButtonID_Text = new SolidText(Research_Scroller, " Button");
     Research_ButtonID = AGETextCtrl::init(CByte, &uiGroupResearch, this, &popUp, Research_Scroller);

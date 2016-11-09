@@ -2418,8 +2418,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_window->SetBackgroundColour(wxColour(240, 240, 240));
                 slp_window->SetIcon(wxIcon(Tree32_xpm));
                 slp_window->SetFont(font);
-                wxPanel *panel = new wxPanel(slp_window);
-                slp_view = new wxPanel(panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
+                APanel *panel = new APanel(slp_window);
+                slp_view = new APanel(panel);//, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
                 slp_next = new wxButton(panel, eNextFrame, "Show -> frame");
                 slp_prev = new wxButton(panel, ePrevFrame, "Show <- frame");
                 slp_first = new wxButton(panel, eFirstFrame, "Show first frame");
@@ -2510,7 +2510,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_view->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawGraphicSLP, this);
                 slp_view->Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});
                 slp_view->Bind(wxEVT_RIGHT_DOWN, &AGE_Frame::OnFrameMouse, this);
-                slp_view->Bind(wxEVT_CHAR, &AGE_Frame::OnFrameKey, this);
+                slp_view->Bind(wxEVT_KEY_DOWN, &AGE_Frame::OnFrameKey, this);
                 slp_window->Bind(wxEVT_CLOSE_WINDOW, &AGE_Frame::OnExitSLP, this);
                 slp_first->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this);
                 slp_next->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this);

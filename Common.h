@@ -109,3 +109,18 @@ public:
         Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});
     }
 };
+
+class APanel: public wxPanel
+{
+public:
+    APanel(): wxPanel() {fixes();}
+    APanel(wxWindow *parent, const wxSize &size = wxDefaultSize):
+    wxPanel(parent, wxID_ANY, wxDefaultPosition, size) {fixes();}
+
+private:
+    void fixes()
+    {
+        Bind(wxEVT_CHILD_FOCUS, [](wxChildFocusEvent&){});
+        Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent&){SetFocusIgnoringChildren();});
+    }
+};
