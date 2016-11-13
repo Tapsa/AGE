@@ -12,7 +12,11 @@ public:
     {
         SetItemCount(0);
         InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, wxLIST_AUTOSIZE_USEHEADER);
-        Bind(wxEVT_SIZE, [this](wxSizeEvent&){SetColumnWidth(0, GetClientSize().GetWidth());});
+
+        // Broken piece of code. Skipping this size event fixes nothing.
+        // Also broken if vertical scroll bar appears only sometimes -> adds horizontal scroll bar.
+        // The useless added horizontal scroll bar sometimes has old Win 95 graphics.
+        //Bind(wxEVT_SIZE, [this](wxSizeEvent&){SetColumnWidth(0, GetClientSize().GetWidth());});
     }
 
     wxArrayString names;
