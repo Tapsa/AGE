@@ -4,26 +4,27 @@
 //  The purpose of these custom text controls is that you get specified error messages
 //  when your mouse cursor focus gets off from a data edit box.
 
-class AGEListView: public wxListView
+// TODO: Remove useless timers and extra binds.
+class ProperList: public wxVListBox
 {
 public:
-    AGEListView(wxWindow *parent, const wxSize &size):
-    wxListView(parent, wxID_ANY, wxDefaultPosition, size, wxLC_VIRTUAL | wxLC_REPORT | wxLC_NO_HEADER)
+    ProperList(wxWindow *parent, const wxSize &size):
+    wxVListBox(parent, wxID_ANY, wxDefaultPosition, size, wxLB_INT_HEIGHT | wxLB_MULTIPLE)//wxLB_EXTENDED)
     {
         SetItemCount(0);
-        InsertColumn(0, wxEmptyString, wxLIST_FORMAT_LEFT, wxLIST_AUTOSIZE_USEHEADER);
-
-        // Broken piece of code. Skipping this size event fixes nothing.
-        // Also broken if vertical scroll bar appears only sometimes -> adds horizontal scroll bar.
-        // The useless added horizontal scroll bar sometimes has old Win 95 graphics.
-        //Bind(wxEVT_SIZE, [this](wxSizeEvent&){SetColumnWidth(0, GetClientSize().GetWidth());});
+        row_height = GetCharHeight();
     }
+    void EnsureVisible(size_t n);
 
     wxArrayString names;
     vector<size_t> indexes;
 
 private:
-    wxString OnGetItemText(long item, long column) const;
+    wxCoord OnMeasureItem(size_t) const override {return row_height;}
+    void OnDrawItem(wxDC &dc, const wxRect &rect, size_t n) const override;
+    void OnDrawBackground(wxDC &dc, const wxRect &rect, size_t n) const override;
+
+    int row_height = 0;
 };
 
 class AGETextCtrl;
@@ -167,7 +168,7 @@ public:
         this->editor = editor;
         SetBackgroundColour(wxColour(255, 235, 215));
         Bind(wxEVT_KILL_FOCUS, &TextCtrl_Byte::OnKillFocus, this);    // Must-have
-        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_Byte::OnEnter, this);
+        Bind(wxEVT_TEXT_ENTER, &TextCtrl_Byte::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
@@ -183,7 +184,7 @@ public:
         this->editor = editor;
         SetBackgroundColour(wxColour(255, 235, 215));
         Bind(wxEVT_KILL_FOCUS, &TextCtrl_UByte::OnKillFocus, this);
-        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_UByte::OnEnter, this);
+        Bind(wxEVT_TEXT_ENTER, &TextCtrl_UByte::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
@@ -199,7 +200,7 @@ public:
         this->editor = editor;
         SetBackgroundColour(wxColour(255, 225, 255));
         Bind(wxEVT_KILL_FOCUS, &TextCtrl_Float::OnKillFocus, this);
-        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_Float::OnEnter, this);
+        Bind(wxEVT_TEXT_ENTER, &TextCtrl_Float::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
@@ -215,7 +216,7 @@ public:
         this->editor = editor;
         SetBackgroundColour(wxColour(215, 255, 255));
         Bind(wxEVT_KILL_FOCUS, &TextCtrl_Long::OnKillFocus, this);
-        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_Long::OnEnter, this);
+        Bind(wxEVT_TEXT_ENTER, &TextCtrl_Long::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
@@ -231,7 +232,7 @@ public:
         this->editor = editor;
         SetBackgroundColour(wxColour(210, 230, 255));
         Bind(wxEVT_KILL_FOCUS, &TextCtrl_Short::OnKillFocus, this);
-        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_Short::OnEnter, this);
+        Bind(wxEVT_TEXT_ENTER, &TextCtrl_Short::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
@@ -247,7 +248,7 @@ public:
         this->editor = editor;
         SetBackgroundColour(wxColour(210, 230, 255));
         Bind(wxEVT_KILL_FOCUS, &TextCtrl_UShort::OnKillFocus, this);
-        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_UShort::OnEnter, this);
+        Bind(wxEVT_TEXT_ENTER, &TextCtrl_UShort::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();
@@ -264,7 +265,7 @@ public:
         maxSize = CLength;
         SetBackgroundColour(wxColour(220, 255, 220));
         Bind(wxEVT_KILL_FOCUS, &TextCtrl_String::OnKillFocus, this);
-        Bind(wxEVT_COMMAND_TEXT_ENTER, &TextCtrl_String::OnEnter, this);
+        Bind(wxEVT_TEXT_ENTER, &TextCtrl_String::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();

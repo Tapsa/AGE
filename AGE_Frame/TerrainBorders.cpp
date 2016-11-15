@@ -57,7 +57,7 @@ void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &event)
 void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent&)
 {
     borderTimer.Stop();
-    auto selections = Borders_ListV->GetSelectedItemCount();
+    auto selections = Borders_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Borders_ListV, BorderIDs);
 
@@ -113,7 +113,7 @@ void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent&)
 
 void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &event)
 {
-    if(Borders_ListV->GetSelectedItemCount()) return;
+    if(Borders_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder);
@@ -122,7 +122,7 @@ void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &event)
 {
-    if(Borders_ListV->GetSelectedItemCount()) return;
+    if(Borders_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder, false);
@@ -194,7 +194,7 @@ void AGE_Frame::OnTerrainBorderTileTypeSelect(wxCommandEvent &event)
 void AGE_Frame::OnTerrainBorderTileTypeTimer(wxTimerEvent&)
 {
     borderTileTypeTimer.Stop();
-    auto selections = Borders_TileTypes_ListV->GetSelectedItemCount();
+    auto selections = Borders_TileTypes_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Borders_TileTypes_ListV, BorderTileTypeIDs);
 
@@ -203,7 +203,7 @@ void AGE_Frame::OnTerrainBorderTileTypeTimer(wxTimerEvent&)
 
 void AGE_Frame::OnTerrainBorderTileTypeCopy(wxCommandEvent &event)
 {
-    if(!Borders_TileTypes_ListV->GetSelectedItemCount()) return;
+    if(!Borders_TileTypes_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders, BorderTileTypeIDs, copies.BorderBorder);
@@ -212,7 +212,7 @@ void AGE_Frame::OnTerrainBorderTileTypeCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainBorderTileTypePaste(wxCommandEvent &event)
 {
-    if(!Borders_TileTypes_ListV->GetSelectedItemCount()) return;
+    if(!Borders_TileTypes_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     PasteToListNoGV(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders, BorderTileTypeIDs, copies.BorderBorder, false);
@@ -272,7 +272,7 @@ void AGE_Frame::OnTerrainBorderBorderShapeSelect(wxCommandEvent &event)
 void AGE_Frame::OnTerrainBorderBorderShapeTimer(wxTimerEvent&)
 {
     borderBorderShapeTimer.Stop();
-    auto selections = Borders_BorderShapes_ListV->GetSelectedItemCount();
+    auto selections = Borders_BorderShapes_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Borders_BorderShapes_ListV, BorderShapeIDs);
 
@@ -315,7 +315,7 @@ void AGE_Frame::OnDrawBorderSLP(wxPaintEvent &event)
 
 void AGE_Frame::OnTerrainBorderBorderShapeCopy(wxCommandEvent &event)
 {
-    if(!Borders_BorderShapes_ListV->GetSelectedItemCount()) return;
+    if(!Borders_BorderShapes_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()], BorderShapeIDs, copies.FrameData);
@@ -324,7 +324,7 @@ void AGE_Frame::OnTerrainBorderBorderShapeCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainBorderBorderShapePaste(wxCommandEvent &event)
 {
-    if(!Borders_BorderShapes_ListV->GetSelectedItemCount()) return;
+    if(!Borders_BorderShapes_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()], BorderShapeIDs, copies.FrameData, false);
@@ -348,7 +348,7 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_Borders = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainBorders, "Terrain Borders");
     Borders_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
     Borders_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
-    Borders_ListV = new AGEListView(Tab_TerrainBorders, wxSize(200, 220));
+    Borders_ListV = new ProperList(Tab_TerrainBorders, wxSize(200, 220));
     Borders_UsedCountHolder = new wxBoxSizer(wxHORIZONTAL);
     Borders_UsedCountText = new SolidText(Tab_TerrainBorders, " Borders Used *");
     Borders_UsedCount = AGETextCtrl::init(CUShort, NULL, this, &popUp, Tab_TerrainBorders);
@@ -408,7 +408,7 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_TileTypes_Buttons = new wxGridSizer(2, 0, 0);
     Borders_TileTypes_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
     Borders_TileTypes_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
-    Borders_TileTypes_ListV = new AGEListView(Tab_TerrainBorders, wxSize(200, 220));
+    Borders_TileTypes_ListV = new ProperList(Tab_TerrainBorders, wxSize(200, 220));
     TileTypes_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
     TileTypes_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
     TileTypes_CopyToBorders = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy all to selected terrain borders", wxDefaultPosition, wxSize(10, -1));
@@ -416,7 +416,7 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_BorderShapes_Buttons = new wxGridSizer(2, 0, 0);
     Borders_BorderShapes_Search = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
     Borders_BorderShapes_Search_R = new wxTextCtrl(Tab_TerrainBorders, wxID_ANY);
-    Borders_BorderShapes_ListV = new AGEListView(Tab_TerrainBorders, wxSize(200, 220));
+    Borders_BorderShapes_ListV = new ProperList(Tab_TerrainBorders, wxSize(200, 220));
     BorderShapes_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
     BorderShapes_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
     BorderShapes_CopyToBorders = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy all to selected tile types", wxDefaultPosition, wxSize(10, -1));
@@ -609,29 +609,29 @@ void AGE_Frame::CreateTerrainBorderControls()
 
     Tab_TerrainBorders->SetSizer(Borders_Main);
 
-    Borders_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnTerrainBordersSearch, this);
-    Borders_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnTerrainBordersSearch, this);
-    Borders_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnTerrainBordersSelect, this);
+    Borders_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainBordersSearch, this);
+    Borders_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainBordersSearch, this);
+    Borders_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnTerrainBordersSelect, this);
     Borders_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnTerrainBordersSelect, this);
     Borders_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnTerrainBordersSelect, this);
-    Borders_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnTerrainBordersCopy, this);
-    Borders_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnTerrainBordersPaste, this);
-    Borders_TileTypes_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnTerrainBorderTileTypeSearch, this);
-    Borders_TileTypes_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnTerrainBorderTileTypeSearch, this);
-    Borders_TileTypes_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnTerrainBorderTileTypeSelect, this);
+    Borders_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBordersCopy, this);
+    Borders_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBordersPaste, this);
+    Borders_TileTypes_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainBorderTileTypeSearch, this);
+    Borders_TileTypes_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainBorderTileTypeSearch, this);
+    Borders_TileTypes_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnTerrainBorderTileTypeSelect, this);
     Borders_TileTypes_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnTerrainBorderTileTypeSelect, this);
     Borders_TileTypes_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnTerrainBorderTileTypeSelect, this);
-    TileTypes_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnTerrainBorderTileTypeCopy, this);
-    TileTypes_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnTerrainBorderTileTypePaste, this);
-    TileTypes_CopyToBorders->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnTerrainBorderTileTypeCopyToBorders, this);
-    Borders_BorderShapes_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnTerrainBorderBorderShapeSearch, this);
-    Borders_BorderShapes_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnTerrainBorderBorderShapeSearch, this);
-    Borders_BorderShapes_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnTerrainBorderBorderShapeSelect, this);
+    TileTypes_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderTileTypeCopy, this);
+    TileTypes_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderTileTypePaste, this);
+    TileTypes_CopyToBorders->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderTileTypeCopyToBorders, this);
+    Borders_BorderShapes_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainBorderBorderShapeSearch, this);
+    Borders_BorderShapes_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainBorderBorderShapeSearch, this);
+    Borders_BorderShapes_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnTerrainBorderBorderShapeSelect, this);
     Borders_BorderShapes_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnTerrainBorderBorderShapeSelect, this);
     Borders_BorderShapes_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnTerrainBorderBorderShapeSelect, this);
-    BorderShapes_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnTerrainBorderBorderShapeCopy, this);
-    BorderShapes_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnTerrainBorderBorderShapePaste, this);
-    BorderShapes_CopyToBorders->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnTerrainBorderBorderShapeCopyToBorders, this);
+    BorderShapes_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderBorderShapeCopy, this);
+    BorderShapes_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderBorderShapePaste, this);
+    BorderShapes_CopyToBorders->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderBorderShapeCopyToBorders, this);
 
     borderTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnTerrainBordersTimer, this);
     borderTileTypeTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnTerrainBorderTileTypeTimer, this);

@@ -61,7 +61,7 @@ void AGE_Frame::OnCivsSelect(wxCommandEvent &event)
 void AGE_Frame::OnCivsTimer(wxTimerEvent&)
 {
     civTimer.Stop();
-    auto selections = Civs_Civs_ListV->GetSelectedItemCount();
+    auto selections = Civs_Civs_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Civs_Civs_ListV, CivIDs);
 
@@ -118,7 +118,7 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnCivsInsert(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedItemCount();
+    auto selections = Civs_Civs_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -139,7 +139,7 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnCivsDelete(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedItemCount();
+    auto selections = Civs_Civs_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -150,7 +150,7 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnCivsCopy(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedItemCount();
+    auto selections = Civs_Civs_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -160,7 +160,7 @@ void AGE_Frame::OnCivsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnCivsPaste(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedItemCount();
+    auto selections = Civs_Civs_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -171,7 +171,7 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedItemCount();
+    auto selections = Civs_Civs_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -195,7 +195,7 @@ void AGE_Frame::OnCivCountChange()
             Units_CivBoxes.push_back(new wxCheckBox(Tab_Units, wxID_ANY, "", wxDefaultPosition, wxSize(36, -1)));
             Units_CivBoxes[loop]->SetValue(true);
             Units_TopGrid_Holder->Add(Units_CivBoxes[loop], 0, wxRIGHT, 1);
-            Units_CivBoxes[loop]->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnAutoCopy, this);
+            Units_CivBoxes[loop]->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnAutoCopy, this);
         }
     }
     else if(Units_CivBoxes.size() > CivCount)
@@ -286,7 +286,7 @@ void AGE_Frame::OnResourcesSelect(wxCommandEvent &event)
 void AGE_Frame::OnResourcesTimer(wxTimerEvent&)
 {
     resourceTimer.Stop();
-    auto selections = Civs_Resources_ListV->GetSelectedItemCount();
+    auto selections = Civs_Resources_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Civs_Resources_ListV, ResourceIDs);
 
@@ -304,7 +304,7 @@ void AGE_Frame::OnResourcesTimer(wxTimerEvent&)
 
 void AGE_Frame::OnResourcesAdd(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedItemCount();
+    auto selections = Civs_Civs_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -316,7 +316,7 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesInsert(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedItemCount();
+    auto selections = Civs_Resources_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -328,7 +328,7 @@ void AGE_Frame::OnResourcesInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesDelete(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedItemCount();
+    auto selections = Civs_Resources_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -343,7 +343,7 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesCopy(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedItemCount();
+    auto selections = Civs_Resources_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -353,7 +353,7 @@ void AGE_Frame::OnResourcesCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesPaste(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedItemCount();
+    auto selections = Civs_Resources_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -363,7 +363,7 @@ void AGE_Frame::OnResourcesPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedItemCount();
+    auto selections = Civs_Resources_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -373,7 +373,7 @@ void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedItemCount();
+    auto selections = Civs_Resources_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -394,7 +394,7 @@ void AGE_Frame::CreateCivControls()
     Civs_Civs = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Civilizations");
     Civs_Civs_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
     Civs_Civs_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
-    Civs_Civs_ListV = new AGEListView(Tab_Civs, wxSize(200, 100));
+    Civs_Civs_ListV = new ProperList(Tab_Civs, wxSize(200, 100));
     Civs_Add = new wxButton(Tab_Civs, wxID_ANY, "Add *", wxDefaultPosition, wxSize(10, -1));
     Civs_Add->SetToolTip("I highly recommend you to download UserPatch\nfrom xOmicron, if you play The Conquerors.\nWith it you can use added civilizations.\nStar Wars versions can already have more civilizations.");
     Civs_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -441,7 +441,7 @@ void AGE_Frame::CreateCivControls()
     Civs_ResourceValue_Holder = new wxBoxSizer(wxVERTICAL);
     Civs_ResourceValue_Text = new SolidText(Tab_Civs, " Resource Value");
     Civs_ResourceValue = AGETextCtrl::init(CFloat, NULL, this, &popUp, Tab_Civs);
-    Civs_Resources_ListV = new AGEListView(Tab_Civs, wxSize(200, 100));
+    Civs_Resources_ListV = new ProperList(Tab_Civs, wxSize(200, 100));
     Civs_Resources_Buttons = new wxGridSizer(3, 0, 0);
     Resources_Add = new wxButton(Tab_Civs, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Resources_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -520,29 +520,29 @@ void AGE_Frame::CreateCivControls()
 
     Tab_Civs->SetSizer(Civs_Main);
 
-    Civs_Civs_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnCivsSearch, this);
-    Civs_Civs_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnCivsSearch, this);
-    Civs_Civs_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnCivsSelect, this);
+    Civs_Civs_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnCivsSearch, this);
+    Civs_Civs_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnCivsSearch, this);
+    Civs_Civs_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnCivsSelect, this);
     Civs_Civs_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnCivsSelect, this);
     Civs_Civs_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnCivsSelect, this);
-    Civs_Add->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnCivsAdd, this);
-    Civs_Insert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnCivsInsert, this);
-    Civs_Delete->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnCivsDelete, this);
-    Civs_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnCivsCopy, this);
-    Civs_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnCivsPaste, this);
-    Civs_PasteInsert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnCivsPasteInsert, this);
-    Civs_Resources_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnResourcesSearch, this);
-    Civs_Resources_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnResourcesSearch, this);
-    Civs_Resources_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnResourcesSelect, this);
+    Civs_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnCivsAdd, this);
+    Civs_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnCivsInsert, this);
+    Civs_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnCivsDelete, this);
+    Civs_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnCivsCopy, this);
+    Civs_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnCivsPaste, this);
+    Civs_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnCivsPasteInsert, this);
+    Civs_Resources_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnResourcesSearch, this);
+    Civs_Resources_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnResourcesSearch, this);
+    Civs_Resources_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnResourcesSelect, this);
     Civs_Resources_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnResourcesSelect, this);
     Civs_Resources_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnResourcesSelect, this);
-    Resources_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnResourcesCopy, this);
-    Resources_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnResourcesPaste, this);
-    Resources_PasteInsert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnResourcesPasteInsert, this);
-    Resources_Add->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnResourcesAdd, this);
-    Resources_Insert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnResourcesInsert, this);
-    Resources_Delete->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnResourcesDelete, this);
-    Resources_CopyToAll->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnResourcesCopyToAll, this);
+    Resources_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnResourcesCopy, this);
+    Resources_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnResourcesPaste, this);
+    Resources_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnResourcesPasteInsert, this);
+    Resources_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnResourcesAdd, this);
+    Resources_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnResourcesInsert, this);
+    Resources_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnResourcesDelete, this);
+    Resources_CopyToAll->Bind(wxEVT_BUTTON, &AGE_Frame::OnResourcesCopyToAll, this);
 
     civTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnCivsTimer, this);
     resourceTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnResourcesTimer, this);
