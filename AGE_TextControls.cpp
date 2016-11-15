@@ -4,9 +4,34 @@ const wxString AGEBaseCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwh
 const wxString AGEBaseCtrl::BWTITLE = "Incorrect batch script!";
 const wxString AGEBaseCtrl::IETITLE = "Invalid entry!";
 
-wxString AGEListView::OnGetItemText(long item, long column) const
+void ProperList::OnDrawItem(wxDC &dc, const wxRect &rect, size_t n) const
 {
-    return names[item];
+    dc.SetTextForeground(wxSystemSettings::GetColour(IsSelected(n) ?
+        wxSYS_COLOUR_HIGHLIGHTTEXT : wxSYS_COLOUR_WINDOWTEXT));
+    dc.DrawText(names[n], rect.x, rect.y);
+}
+
+void ProperList::OnDrawBackground(wxDC &dc, const wxRect &rect, size_t n) const
+{
+    if(IsSelected(n))
+    wxRendererNative::Get().DrawItemSelectionRect(const_cast<ProperList*>(this),
+    dc, rect, wxCONTROL_SELECTED | wxCONTROL_FOCUSED);
+}
+
+void ProperList::EnsureVisible(size_t n)
+{
+    if(!IsRowVisible(n))
+    {
+        size_t ve = GetVisibleRowsEnd();
+        if(n > ve)
+        {
+            ScrollRows(n - ve);
+        }
+        else
+        {
+            ScrollToRow(n);
+        }
+    }
 }
 
 AGETextCtrl* AGETextCtrl::init(const ContainerType type, vector<AGETextCtrl*> *group,

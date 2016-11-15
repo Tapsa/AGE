@@ -87,12 +87,10 @@ bool SharedComboPopup::Create(wxWindow *parent)
                              wxBORDER_SIMPLE | wxLB_INT_HEIGHT | wxWANTS_CHARS))
         return false;
 
-    m_useFont = m_combo->GetFont();
-
     wxVListBox::SetItemCount(s_strings->GetCount());
 
     // TODO: Move this to SetFont
-    m_itemHeight = GetCharHeight() + 0;
+    m_itemHeight = GetCharHeight();
 
     return true;
 }
@@ -146,9 +144,6 @@ void SharedComboPopup::PaintComboControl(wxDC &dc, const wxRect &rect)
 
 void SharedComboPopup::OnDrawItem(wxDC &dc, const wxRect &rect, size_t n) const
 {
-    // TODO: Maybe this code could be moved to wxVListBox::OnPaint?
-    dc.SetFont(m_useFont);
-
     int flags = 0;
 
     // Set correct text colour for selected items
@@ -163,11 +158,6 @@ void SharedComboPopup::OnDrawItem(wxDC &dc, const wxRect &rect, size_t n) const
     }
 
     OnDrawItem(dc,rect,(int)n,flags);
-}
-
-wxCoord SharedComboPopup::OnMeasureItem(size_t) const
-{
-    return m_itemHeight;
 }
 
 wxCoord SharedComboPopup::OnMeasureItemWidth(size_t) const
@@ -663,9 +653,6 @@ void SharedComboPopup::CalcWidths()
         // wxWindow::GetTextExtent (assuming same dc is used
         // for all calls, as we do here).
         wxClientDC dc(m_combo);
-        if(!m_useFont.IsOk())
-            m_useFont = m_combo->GetFont();
-        dc.SetFont(m_useFont);
 
         for(unsigned int i=0; i<n; ++i)
         {
