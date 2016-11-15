@@ -14,7 +14,7 @@ public:
 
     wxStaticBoxSizer *ItemList;
     wxTextCtrl *Search, *SearchRecursive;
-    AGEListView *List;
+    ProperList *List;
     AGETextCtrl *Item;
     ComboBox_Plus1 *ItemCombo;
     wxButton *Add, *Insert, *Delete, *Copy, *Paste, *PasteInsert, *CopyAllToSelected;
@@ -25,7 +25,7 @@ public:
         ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
         Search = new wxTextCtrl(scroller, wxID_ANY);
         SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
-        List = new AGEListView(scroller, wxSize(10, 100));
+        List = new ProperList(scroller, wxSize(10, 100));
         Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
         ItemCombo = new ComboBox_Plus1(scroller, Item, choices);
         Buttons = new wxGridSizer(3, 0, 0);
@@ -66,7 +66,7 @@ public:
 
     wxStaticBoxSizer *Area;
     wxTextCtrl *Search, *SearchRecursive;
-    AGEListView *List;
+    ProperList *List;
     AGETextCtrl *Item, *Mode, *UsedItems;
     ComboBox_Plus1 *ItemCombo;
     AGEComboBox *ModeCombo;
@@ -83,7 +83,7 @@ public:
 
         Search = new wxTextCtrl(scroller, wxID_ANY);
         SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
-        List = new AGEListView(scroller, wxSize(10, 100));
+        List = new ProperList(scroller, wxSize(10, 100));
         Item_H = new wxBoxSizer(wxHORIZONTAL);
         Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
         ItemCombo = new ComboBox_Plus1(scroller, Item, choices);
@@ -130,7 +130,7 @@ public:
 
     wxStaticBoxSizer *Area;
     wxTextCtrl *Search, *SearchRecursive;
-    AGEListView *List;
+    ProperList *List;
     AGETextCtrl *Unknown1, *Unknown2, *UsedItems, *Unknown;
     wxButton *Copy, *Paste, *CopyAllToSelected;
 
@@ -148,7 +148,7 @@ public:
 
         Search = new wxTextCtrl(scroller, wxID_ANY);
         SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
-        List = new AGEListView(scroller, wxSize(10, 100));
+        List = new ProperList(scroller, wxSize(10, 100));
         Unknowns_H = new wxBoxSizer(wxHORIZONTAL);
         Unknown1 = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
         Unknown2 = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);

@@ -944,7 +944,7 @@ void AGE_Frame::OnUnitsSelect(wxCommandEvent&)
 void AGE_Frame::OnUnitsTimer(wxTimerEvent&)
 {
     unitTimer.Stop();
-    auto selections = Units_ListV->GetSelectedItemCount();
+    auto selections = Units_ListV->GetSelectedCount();
 
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Units_ListV, UnitIDs);
@@ -1727,7 +1727,7 @@ void AGE_Frame::ListUnitDamageGraphics()
     Units_DamageGraphics_ListV->names.clear();
     Units_DamageGraphics_ListV->indexes.clear();
 
-    if(Units_ListV->GetSelectedItemCount()
+    if(Units_ListV->GetSelectedCount()
     && dataset->Civs[UnitCivID].UnitPointers[UnitIDs.front()] != 0)
     {
         Units_DamageGraphics_Add->Enable(true);
@@ -1760,7 +1760,7 @@ void AGE_Frame::OnUnitDamageGraphicsSelect(wxCommandEvent &event)
 void AGE_Frame::OnUnitDamageGraphicsTimer(wxTimerEvent&)
 {
     dmgGraphicTimer.Stop();
-    auto selections = Units_DamageGraphics_ListV->GetSelectedItemCount();
+    auto selections = Units_DamageGraphics_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     for(auto &box: uiGroupUnitDmgGraphic) box->clear();
     if(selections > 0)
@@ -1804,7 +1804,7 @@ void AGE_Frame::OnUnitDamageGraphicsTimer(wxTimerEvent&)
 
 void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &event)
 {
-    if(!Units_ListV->GetSelectedItemCount()) return;
+    if(!Units_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     genie::unit::DamageGraphic Temp;
@@ -1820,7 +1820,7 @@ void AGE_Frame::OnUnitDamageGraphicsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent &event)
 {
-    if(!Units_DamageGraphics_ListV->GetSelectedItemCount()) return;
+    if(!Units_DamageGraphics_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     genie::unit::DamageGraphic Temp;
@@ -1836,7 +1836,7 @@ void AGE_Frame::OnUnitDamageGraphicsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &event)
 {
-    auto selections = Units_DamageGraphics_ListV->GetSelectedItemCount();
+    auto selections = Units_DamageGraphics_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -1853,7 +1853,7 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent &event)
 {
-    if(!Units_DamageGraphics_ListV->GetSelectedItemCount()) return;
+    if(!Units_DamageGraphics_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     if(Units_SpecialCopy_Civs->GetValue()) copies.Dat.AllCivs |= 0x10; else copies.Dat.AllCivs &= ~0x10;
@@ -1889,7 +1889,7 @@ void AGE_Frame::OnUnitDamageGraphicsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &event)
 {
-    if(!Units_DamageGraphics_ListV->GetSelectedItemCount()) return;
+    if(!Units_DamageGraphics_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     if(copies.Dat.AllCivs & 0x10)
@@ -1922,7 +1922,7 @@ void AGE_Frame::OnUnitDamageGraphicsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitDamageGraphicsPasteInsert(wxCommandEvent &event)
 {
-    if(!Units_DamageGraphics_ListV->GetSelectedItemCount()) return;
+    if(!Units_DamageGraphics_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     genie::unit::DamageGraphic Temp;
@@ -1982,7 +1982,7 @@ void AGE_Frame::ListUnitAttacks()
     Units_Attacks_ListV->names.clear();
     Units_Attacks_ListV->indexes.clear();
 
-    if(Units_ListV->GetSelectedItemCount()
+    if(Units_ListV->GetSelectedCount()
     && dataset->Civs[UnitCivID].UnitPointers[UnitIDs.front()] != 0
     && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type >= 50
     && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type <= 80)
@@ -2017,7 +2017,7 @@ void AGE_Frame::OnUnitAttacksSelect(wxCommandEvent &event)
 void AGE_Frame::OnUnitAttacksTimer(wxTimerEvent&)
 {
     attackTimer.Stop();
-    auto selections = Units_Attacks_ListV->GetSelectedItemCount();
+    auto selections = Units_Attacks_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     Attacks_Class->clear();
     Attacks_Amount->clear();
@@ -2055,7 +2055,7 @@ void AGE_Frame::OnUnitAttacksTimer(wxTimerEvent&)
 
 void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &event)
 {
-    if(!Units_ListV->GetSelectedItemCount()) return;
+    if(!Units_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     genie::unit::AttackOrArmor Temp;
@@ -2071,7 +2071,7 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &event)
 {
-    if(!Units_Attacks_ListV->GetSelectedItemCount()) return;
+    if(!Units_Attacks_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     genie::unit::AttackOrArmor Temp;
@@ -2087,7 +2087,7 @@ void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &event)
 {
-    auto selections = Units_Attacks_ListV->GetSelectedItemCount();
+    auto selections = Units_Attacks_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -2104,7 +2104,7 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &event)
 {
-    if(!Units_Attacks_ListV->GetSelectedItemCount()) return;
+    if(!Units_Attacks_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     if(Units_SpecialCopy_Civs->GetValue()) copies.Dat.AllCivs |= 0x20; else copies.Dat.AllCivs &= ~0x20;
@@ -2140,7 +2140,7 @@ void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &event)
 {
-    if(!Units_Attacks_ListV->GetSelectedItemCount()) return;
+    if(!Units_Attacks_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     if(copies.Dat.AllCivs & 0x20)
@@ -2173,7 +2173,7 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &event)
 {
-    if(!Units_Attacks_ListV->GetSelectedItemCount()) return;
+    if(!Units_Attacks_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     if(copies.Dat.AllCivs & 0x20)
@@ -2232,7 +2232,7 @@ void AGE_Frame::ListUnitArmors()
     Units_Armors_ListV->names.clear();
     Units_Armors_ListV->indexes.clear();
 
-    if(Units_ListV->GetSelectedItemCount()
+    if(Units_ListV->GetSelectedCount()
     && dataset->Civs[UnitCivID].UnitPointers[UnitIDs.front()] != 0
     && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type >= 50
     && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type <= 80)
@@ -2267,7 +2267,7 @@ void AGE_Frame::OnUnitArmorsSelect(wxCommandEvent &event)
 void AGE_Frame::OnUnitArmorsTimer(wxTimerEvent&)
 {
     armorTimer.Stop();
-    auto selections = Units_Armors_ListV->GetSelectedItemCount();
+    auto selections = Units_Armors_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     Armors_Class->clear();
     Armors_Amount->clear();
@@ -2305,7 +2305,7 @@ void AGE_Frame::OnUnitArmorsTimer(wxTimerEvent&)
 
 void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &event)
 {
-    if(!Units_ListV->GetSelectedItemCount()) return;
+    if(!Units_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     genie::unit::AttackOrArmor Temp;
@@ -2321,7 +2321,7 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &event)
 {
-    if(!Units_Armors_ListV->GetSelectedItemCount()) return;
+    if(!Units_Armors_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     genie::unit::AttackOrArmor Temp;
@@ -2337,7 +2337,7 @@ void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &event)
 {
-    auto selections = Units_Armors_ListV->GetSelectedItemCount();
+    auto selections = Units_Armors_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -2354,7 +2354,7 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &event)
 {
-    if(!Units_Armors_ListV->GetSelectedItemCount()) return;
+    if(!Units_Armors_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     if(Units_SpecialCopy_Civs->GetValue()) copies.Dat.AllCivs |= 0x40; else copies.Dat.AllCivs &= ~0x40;
@@ -2390,7 +2390,7 @@ void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &event)
 {
-    if(!Units_Armors_ListV->GetSelectedItemCount()) return;
+    if(!Units_Armors_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     if(copies.Dat.AllCivs & 0x40)
@@ -2423,7 +2423,7 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &event)
 {
-    if(!Units_Armors_ListV->GetSelectedItemCount()) return;
+    if(!Units_Armors_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     if(copies.Dat.AllCivs & 0x40)
@@ -2533,7 +2533,7 @@ void AGE_Frame::ListUnitCommands()
 
     if(GenieVersion >= genie::GV_AoK)   // AoK, TC, SWGB or CC
     {
-        if(Units_ListV->GetSelectedItemCount())
+        if(Units_ListV->GetSelectedCount())
         for(size_t loop = 0; loop < dataset->UnitHeaders[UnitIDs.front()].Commands.size(); ++loop)
         {
             wxString Name = " "+FormatInt(loop)+" - "+GetUnitCommandName(loop);
@@ -2551,7 +2551,7 @@ void AGE_Frame::ListUnitCommands()
     }
     else    // AoE or RoR
     {
-        if(Units_ListV->GetSelectedItemCount()
+        if(Units_ListV->GetSelectedCount()
         && dataset->Civs[UnitCivID].UnitPointers[UnitIDs.front()] != 0
         && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type >= 40
         && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type <= 80)
@@ -2593,7 +2593,7 @@ void AGE_Frame::OnUnitCommandsSelect(wxCommandEvent &event)
 void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent&)
 {
     actionTimer.Stop();
-    auto selections = Units_UnitCommands_ListV->GetSelectedItemCount();
+    auto selections = Units_UnitCommands_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     for(auto &box: uiGroupUnitCommand) box->clear();
     UnitCommands_ID->clear();
@@ -2714,7 +2714,7 @@ void AGE_Frame::OnUnitCommandsTimer(wxTimerEvent&)
 
 void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &event)
 {
-    if(!Units_ListV->GetSelectedItemCount()) return;
+    if(!Units_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     genie::UnitCommand Temp;
@@ -2743,7 +2743,7 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &event)
 {
-    if(!Units_UnitCommands_ListV->GetSelectedItemCount()) return;
+    if(!Units_UnitCommands_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     genie::UnitCommand Temp;
@@ -2774,7 +2774,7 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &event)
 {
-    auto selections = Units_UnitCommands_ListV->GetSelectedItemCount();
+    auto selections = Units_UnitCommands_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -2807,7 +2807,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &event)
 {
-    if(!Units_UnitCommands_ListV->GetSelectedItemCount()) return;
+    if(!Units_UnitCommands_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     if(GenieVersion >= genie::GV_AoK)
@@ -2851,7 +2851,7 @@ void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &event)
 {
-    if(!Units_UnitCommands_ListV->GetSelectedItemCount()) return;
+    if(!Units_UnitCommands_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     if(GenieVersion >= genie::GV_AoK)
@@ -2888,7 +2888,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &event)
 {
-    if(!Units_UnitCommands_ListV->GetSelectedItemCount()) return;
+    if(!Units_UnitCommands_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     if(GenieVersion >= genie::GV_AoK)
@@ -3006,7 +3006,7 @@ void AGE_Frame::CreateUnitControls()
         Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
         Units_SearchFilters[loop] = new AGEComboBox(Tab_Units, &unit_filters, AGETextCtrl::LARGE);
     }
-    Units_ListV = new AGEListView(Tab_Units, wxSize(200, 100));
+    Units_ListV = new ProperList(Tab_Units, wxSize(200, 100));
     wxGridSizer *Units_Buttons = new wxGridSizer(3, 0, 0);
     wxBoxSizer *Units_Buttons1 = new wxBoxSizer(wxHORIZONTAL);
     Units_Add = new wxButton(Tab_Units, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
@@ -3499,7 +3499,7 @@ void AGE_Frame::CreateUnitControls()
     Units_DamageGraphics_ListArea = new wxBoxSizer(wxVERTICAL);
     Units_DamageGraphics_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
     Units_DamageGraphics_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-    Units_DamageGraphics_ListV = new AGEListView(Units_Scroller, wxSize(140, 100));
+    Units_DamageGraphics_ListV = new ProperList(Units_Scroller, wxSize(140, 100));
     Units_DamageGraphics_Buttons = new wxGridSizer(3, 0, 0);
     Units_DamageGraphics_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Units_DamageGraphics_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -3586,7 +3586,7 @@ void AGE_Frame::CreateUnitControls()
     Units_Attacks_DataArea = new wxBoxSizer(wxVERTICAL);
     Units_Attacks_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
     Units_Attacks_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-    Units_Attacks_ListV = new AGEListView(Units_Scroller, wxSize(140, 100));
+    Units_Attacks_ListV = new ProperList(Units_Scroller, wxSize(140, 100));
     Units_Attacks_Buttons = new wxGridSizer(3, 0, 0);
     Units_Attacks_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Units_Attacks_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -3625,7 +3625,7 @@ void AGE_Frame::CreateUnitControls()
     Units_Armors_DataArea = new wxBoxSizer(wxVERTICAL);
     Units_Armors_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
     Units_Armors_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-    Units_Armors_ListV = new AGEListView(Units_Scroller, wxSize(140, 100));
+    Units_Armors_ListV = new ProperList(Units_Scroller, wxSize(140, 100));
     Units_Armors_Buttons = new wxGridSizer(3, 0, 0);
     Units_Armors_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Units_Armors_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -3983,7 +3983,7 @@ void AGE_Frame::CreateUnitControls()
     Units_UnitHeads_Name = new SolidText(Units_Scroller, "Unit Header");
     Units_UnitCommands_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
     Units_UnitCommands_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-    Units_UnitCommands_ListV = new AGEListView(Units_Scroller, wxSize(140, 190));
+    Units_UnitCommands_ListV = new ProperList(Units_Scroller, wxSize(140, 190));
     Units_UnitCommands_Buttons = new wxGridSizer(3, 0, 0);
     Units_UnitCommands_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Units_UnitCommands_Insert = new wxButton(Units_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -5249,28 +5249,28 @@ void AGE_Frame::CreateUnitControls()
 
     Tab_Units->SetSizer(Units_Main);
 
-    Units_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnUnitsSearch, this);
-    Units_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnUnitsSearch, this);
-    Units_FilterSelector->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, [this](wxCommandEvent&)
+    Units_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitsSearch, this);
+    Units_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitsSearch, this);
+    Units_FilterSelector->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent&)
     {
         ListUnits(UnitCivID, false);
         Units_Search->SetFocus();
     });
     for(size_t loop = 0; loop < 2; ++loop)
     {
-        Units_UseAnd[loop]->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnUnitsSearch, this);
-        Units_SearchFilters[loop]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, [this](wxCommandEvent&)
+        Units_UseAnd[loop]->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnUnitsSearch, this);
+        Units_SearchFilters[loop]->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent&)
         {
             ListUnits(UnitCivID, false);
             Units_Search->SetFocus();
         });
     }
-    Units_Civs_List->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUnitsSearch, this);
-    Units_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnUnitsSelect, this);
+    Units_Civs_List->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUnitsSearch, this);
+    Units_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitsSelect, this);
     Units_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnUnitsSelect, this);
     Units_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnUnitsSelect, this);
 
-    Units_Add->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
+    Units_Add->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
     {
         if(!dataset) return;
 
@@ -5302,9 +5302,9 @@ void AGE_Frame::CreateUnitControls()
         if(GenieVersion < genie::GV_SWGB && dataset->Civs.front().Units.size() > 900) SetStatusText("Units between 900 and 1000 mess up the AI!", 0);
     });
 
-    Units_Insert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
+    Units_Insert->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
     {
-        auto selections = Units_ListV->GetSelectedItemCount();
+        auto selections = Units_ListV->GetSelectedCount();
         if(selections < 1) return;
 
         wxBusyCursor WaitCursor;
@@ -5334,9 +5334,9 @@ void AGE_Frame::CreateUnitControls()
         ListUnits(UnitCivID);
     });
 
-    Units_Delete->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
+    Units_Delete->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
     {
-        auto selections = Units_ListV->GetSelectedItemCount();
+        auto selections = Units_ListV->GetSelectedCount();
         if(selections < 1) return;
 
         wxBusyCursor WaitCursor;
@@ -5366,9 +5366,9 @@ void AGE_Frame::CreateUnitControls()
         ListUnits(UnitCivID);
     });
 
-    Units_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
+    Units_Copy->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
     {
-        auto selections = Units_ListV->GetSelectedItemCount();
+        auto selections = Units_ListV->GetSelectedCount();
         if(selections < 1) return;
 
         wxBusyCursor WaitCursor;
@@ -5426,9 +5426,9 @@ void AGE_Frame::CreateUnitControls()
         Units_ListV->SetFocus();
     });
 
-    Units_SpecialCopy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
+    Units_SpecialCopy->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
     {
-        auto selections = Units_ListV->GetSelectedItemCount();
+        auto selections = Units_ListV->GetSelectedCount();
         if(selections < 1) return;
 
         wxBusyCursor WaitCursor;
@@ -5453,10 +5453,10 @@ void AGE_Frame::CreateUnitControls()
         Units_ListV->SetFocus();
     });
 
-    Units_SpecialPaste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
+    Units_SpecialPaste->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
     {
         short CopyCount = copies.Dat.UnitGraphics.front().size();
-        if(!Units_ListV->GetSelectedItemCount() || CopyCount == 0) return;
+        if(!Units_ListV->GetSelectedCount() || CopyCount == 0) return;
 
         wxBusyCursor WaitCursor;
         if(Paste11)
@@ -5507,9 +5507,9 @@ void AGE_Frame::CreateUnitControls()
         Units_ListV->SetFocus();
     });
 
-    Units_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
+    Units_Paste->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
     {
-        if(!Units_ListV->GetSelectedItemCount() || copies.Dat.UnitExists.size() == 0) return;
+        if(!Units_ListV->GetSelectedCount() || copies.Dat.UnitExists.size() == 0) return;
 
         wxBusyCursor WaitCursor;
         if(Paste11)
@@ -5588,9 +5588,9 @@ void AGE_Frame::CreateUnitControls()
         popUp.unSaved += copies.Dat.UnitCopies.front().size();
     });
 
-    Units_PasteInsert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
+    Units_PasteInsert->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
     {
-        if(!Units_ListV->GetSelectedItemCount() || copies.Dat.UnitExists.size() == 0) return;
+        if(!Units_ListV->GetSelectedCount() || copies.Dat.UnitExists.size() == 0) return;
 
         wxBusyCursor WaitCursor;
         if(GenieVersion >= genie::GV_AoK)
@@ -5630,9 +5630,9 @@ void AGE_Frame::CreateUnitControls()
         ListUnits(UnitCivID);
     });
 
-    Units_Enable->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
+    Units_Enable->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
     {
-        auto selections = Units_ListV->GetSelectedItemCount();
+        auto selections = Units_ListV->GetSelectedCount();
         if(selections < 1) return;
 
         wxBusyCursor WaitCursor;
@@ -5693,9 +5693,9 @@ void AGE_Frame::CreateUnitControls()
         ListUnits(UnitCivID);
     });
 
-    Units_Disable->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
+    Units_Disable->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
     {
-        auto selections = Units_ListV->GetSelectedItemCount();
+        auto selections = Units_ListV->GetSelectedCount();
         if(selections < 1) return;
 
         wxBusyCursor WaitCursor;
@@ -5712,61 +5712,61 @@ void AGE_Frame::CreateUnitControls()
         ListUnits(UnitCivID);
     });
 
-    Units_UnitCommands_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnUnitCommandsSelect, this);
+    Units_UnitCommands_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitCommandsSelect, this);
     Units_UnitCommands_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnUnitCommandsSelect, this);
     Units_UnitCommands_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnUnitCommandsSelect, this);
-    Units_UnitCommands_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnUnitCommandsSearch, this);
-    Units_UnitCommands_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnUnitCommandsSearch, this);
-    Units_UnitCommands_Add->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitCommandsAdd, this);
-    Units_UnitCommands_Insert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitCommandsInsert, this);
-    Units_UnitCommands_Delete->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitCommandsDelete, this);
-    Units_UnitCommands_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitCommandsCopy, this);
-    Units_UnitCommands_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitCommandsPaste, this);
-    Units_UnitCommands_PasteInsert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitCommandsPasteInsert, this);
-    Units_UnitCommands_CopyToUnits->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitCommandsCopyToUnits, this);
-    Units_DamageGraphics_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnUnitDamageGraphicsSearch, this);
-    Units_DamageGraphics_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnUnitDamageGraphicsSearch, this);
-    Units_DamageGraphics_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnUnitDamageGraphicsSelect, this);
+    Units_UnitCommands_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitCommandsSearch, this);
+    Units_UnitCommands_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitCommandsSearch, this);
+    Units_UnitCommands_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitCommandsAdd, this);
+    Units_UnitCommands_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitCommandsInsert, this);
+    Units_UnitCommands_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitCommandsDelete, this);
+    Units_UnitCommands_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitCommandsCopy, this);
+    Units_UnitCommands_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitCommandsPaste, this);
+    Units_UnitCommands_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitCommandsPasteInsert, this);
+    Units_UnitCommands_CopyToUnits->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitCommandsCopyToUnits, this);
+    Units_DamageGraphics_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitDamageGraphicsSearch, this);
+    Units_DamageGraphics_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitDamageGraphicsSearch, this);
+    Units_DamageGraphics_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitDamageGraphicsSelect, this);
     Units_DamageGraphics_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnUnitDamageGraphicsSelect, this);
     Units_DamageGraphics_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnUnitDamageGraphicsSelect, this);
-    Units_DamageGraphics_Add->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitDamageGraphicsAdd, this);
-    Units_DamageGraphics_Insert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitDamageGraphicsInsert, this);
-    Units_DamageGraphics_Delete->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitDamageGraphicsDelete, this);
-    Units_DamageGraphics_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitDamageGraphicsCopy, this);
-    Units_DamageGraphics_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitDamageGraphicsPaste, this);
-    Units_DamageGraphics_PasteInsert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitDamageGraphicsPasteInsert, this);
-    Units_DamageGraphics_CopyToUnits->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitDamageGraphicsCopyToUnits, this);
-    Units_Attacks_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnUnitAttacksSearch, this);
-    Units_Attacks_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnUnitAttacksSearch, this);
-    Units_Attacks_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnUnitAttacksSelect, this);
+    Units_DamageGraphics_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitDamageGraphicsAdd, this);
+    Units_DamageGraphics_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitDamageGraphicsInsert, this);
+    Units_DamageGraphics_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitDamageGraphicsDelete, this);
+    Units_DamageGraphics_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitDamageGraphicsCopy, this);
+    Units_DamageGraphics_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitDamageGraphicsPaste, this);
+    Units_DamageGraphics_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitDamageGraphicsPasteInsert, this);
+    Units_DamageGraphics_CopyToUnits->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitDamageGraphicsCopyToUnits, this);
+    Units_Attacks_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitAttacksSearch, this);
+    Units_Attacks_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitAttacksSearch, this);
+    Units_Attacks_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitAttacksSelect, this);
     Units_Attacks_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnUnitAttacksSelect, this);
     Units_Attacks_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnUnitAttacksSelect, this);
-    Units_Attacks_Add->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitAttacksAdd, this);
-    Units_Attacks_Insert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitAttacksInsert, this);
-    Units_Attacks_Delete->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitAttacksDelete, this);
-    Units_Attacks_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitAttacksCopy, this);
-    Units_Attacks_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitAttacksPaste, this);
-    Units_Attacks_PasteInsert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitAttacksPasteInsert, this);
-    Units_Attacks_CopyToUnits->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitAttacksCopyToUnits, this);
-    Units_Armors_Search->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnUnitArmorsSearch, this);
-    Units_Armors_Search_R->Bind(wxEVT_COMMAND_TEXT_UPDATED, &AGE_Frame::OnUnitArmorsSearch, this);
-    Units_Armors_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_SELECTED, &AGE_Frame::OnUnitArmorsSelect, this);
+    Units_Attacks_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitAttacksAdd, this);
+    Units_Attacks_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitAttacksInsert, this);
+    Units_Attacks_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitAttacksDelete, this);
+    Units_Attacks_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitAttacksCopy, this);
+    Units_Attacks_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitAttacksPaste, this);
+    Units_Attacks_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitAttacksPasteInsert, this);
+    Units_Attacks_CopyToUnits->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitAttacksCopyToUnits, this);
+    Units_Armors_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitArmorsSearch, this);
+    Units_Armors_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitArmorsSearch, this);
+    Units_Armors_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitArmorsSelect, this);
     Units_Armors_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnUnitArmorsSelect, this);
     Units_Armors_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnUnitArmorsSelect, this);
-    Units_Armors_Add->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitArmorsAdd, this);
-    Units_Armors_Insert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitArmorsInsert, this);
-    Units_Armors_Delete->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitArmorsDelete, this);
-    Units_Armors_Copy->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitArmorsCopy, this);
-    Units_Armors_Paste->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitArmorsPaste, this);
-    Units_Armors_PasteInsert->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitArmorsPasteInsert, this);
-    Units_Armors_CopyToUnits->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnUnitArmorsCopyToUnits, this);
-    Units_LanguageDLLConverter[0]->Bind(wxEVT_COMMAND_TEXT_ENTER, &AGE_Frame::UnitLangDLLConverter, this);
-    Units_LanguageDLLConverter[1]->Bind(wxEVT_COMMAND_TEXT_ENTER, &AGE_Frame::UnitLangDLLConverter, this);
-    slp_radio->Bind(wxEVT_COMMAND_RADIOBOX_SELECTED, &AGE_Frame::OnChooseGraphic, this);
-    slp_unit_actions->Bind(wxEVT_COMMAND_RADIOBOX_SELECTED, &AGE_Frame::OnChooseGraphic, this);
-    slp_dmg_unit->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnChooseGraphic, this);
-    slp_snow->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnChooseGraphic, this);
-    slp_garrison->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnChooseGraphic, this);
+    Units_Armors_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitArmorsAdd, this);
+    Units_Armors_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitArmorsInsert, this);
+    Units_Armors_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitArmorsDelete, this);
+    Units_Armors_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitArmorsCopy, this);
+    Units_Armors_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitArmorsPaste, this);
+    Units_Armors_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitArmorsPasteInsert, this);
+    Units_Armors_CopyToUnits->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitArmorsCopyToUnits, this);
+    Units_LanguageDLLConverter[0]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::UnitLangDLLConverter, this);
+    Units_LanguageDLLConverter[1]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::UnitLangDLLConverter, this);
+    slp_radio->Bind(wxEVT_RADIOBOX, &AGE_Frame::OnChooseGraphic, this);
+    slp_unit_actions->Bind(wxEVT_RADIOBOX, &AGE_Frame::OnChooseGraphic, this);
+    slp_dmg_unit->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnChooseGraphic, this);
+    slp_snow->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnChooseGraphic, this);
+    slp_garrison->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnChooseGraphic, this);
 
     unitTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnUnitsTimer, this);
     dmgGraphicTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnUnitDamageGraphicsTimer, this);
@@ -5782,7 +5782,7 @@ void AGE_Frame::CreateUnitControls()
 //  Listing and Auto-Copy
 
     Units_Type->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
-    Units_Type_ComboBox->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_Type_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
 
     Units_Name->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
     Units_Name2->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
@@ -5795,7 +5795,7 @@ void AGE_Frame::CreateUnitControls()
     Units_GarrisonType->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
 
     DamageGraphics_GraphicID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
-    DamageGraphics_GraphicID_ComboBox->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
+    DamageGraphics_GraphicID_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     DamageGraphics_DamagePercent->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
     DamageGraphics_ApplyMode->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
     Attacks_Class->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
@@ -5803,15 +5803,15 @@ void AGE_Frame::CreateUnitControls()
     Armors_Class->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
     Armors_Amount->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
     for(size_t loop = 0; loop < 2; ++loop)
-    Attacks_Class_ComboBox[loop]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
+    Attacks_Class_ComboBox[loop]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
 
     UnitCommands_Type->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
     UnitCommands_ProductivityResource->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
-    UnitCommands_Type_ComboBox->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
+    UnitCommands_Type_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     for(size_t loop = 0; loop < 8; ++loop)
     {
-        Units_Attribute_CheckBox[loop]->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnUpdateCheck_UnitAttribute, this);
-        Units_GarrisonType_CheckBox[loop]->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnUpdateCheck_UnitGarrisonType, this);
+        Units_Attribute_CheckBox[loop]->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnUpdateCheck_UnitAttribute, this);
+        Units_GarrisonType_CheckBox[loop]->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnUpdateCheck_UnitGarrisonType, this);
     }
     Units_IconID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
     Units_IconAngle->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
@@ -5834,21 +5834,21 @@ void AGE_Frame::CreateUnitControls()
     UnitCommands_Graphics[1]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
     UnitCommands_Graphics[2]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
     UnitCommands_Graphics[3]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
-    Units_ConstructionGraphicID_ComboBox->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    Units_SnowGraphicID_ComboBox->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    Units_GarrisonGraphic_ComboBox->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    Units_ChargingGraphic_ComboBox->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    Units_AttackGraphic_ComboBox->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    Units_WalkingGraphic_ComboBox[0]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    Units_WalkingGraphic_ComboBox[1]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    Units_StandingGraphic_ComboBox[0]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    Units_StandingGraphic_ComboBox[1]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    Units_DyingGraphic_ComboBox[0]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    Units_DyingGraphic_ComboBox[1]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    UnitCommands_Graphics_ComboBox[0]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    UnitCommands_Graphics_ComboBox[1]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    UnitCommands_Graphics_ComboBox[2]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
-    UnitCommands_Graphics_ComboBox[3]->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_ConstructionGraphicID_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_SnowGraphicID_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_GarrisonGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_ChargingGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_AttackGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_WalkingGraphic_ComboBox[0]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_WalkingGraphic_ComboBox[1]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_StandingGraphic_ComboBox[0]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_StandingGraphic_ComboBox[1]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_DyingGraphic_ComboBox[0]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_DyingGraphic_ComboBox[1]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    UnitCommands_Graphics_ComboBox[0]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    UnitCommands_Graphics_ComboBox[1]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    UnitCommands_Graphics_ComboBox[2]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    UnitCommands_Graphics_ComboBox[3]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_SizeRadius[0]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
     Units_SizeRadius[1]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
     Units_ClearanceSize[0]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Units, this);
