@@ -91,7 +91,7 @@ protected:
     virtual void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
 
     // This is same as in wxVListBox
-    virtual wxCoord OnMeasureItem(size_t item) const wxOVERRIDE;
+    virtual wxCoord OnMeasureItem(size_t) const wxOVERRIDE {return m_itemHeight;}
 
     // Return item width, or -1 for calculating from text extent (default)
     virtual wxCoord OnMeasureItemWidth(size_t item) const;
@@ -121,8 +121,6 @@ protected:
     void StopPartialCompletion();
 
     wxArrayString           *s_strings;
-
-    wxFont                  m_useFont;
 
     int                     m_value; // selection
     int                     m_itemHover; // on which item the cursor is

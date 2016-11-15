@@ -2,12 +2,12 @@
 
 IMPLEMENT_APP(AGE)
 
-wxWindow* AGE_Frame::openEditors[4]{0};
+wxWindow *AGE_Frame::openEditors[4]{0};
 Copies AGE_Frame::copies;
 
 bool AGE::OnInit()
 {
-	AGE_Frame* window;
+	AGE_Frame *window;
     wxImage::AddHandler(new wxPNGHandler);
 	wxString argPath = (wxApp::argc > 1) ? wxApp::argv[1] : "";
 	{

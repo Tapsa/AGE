@@ -10,6 +10,7 @@ public:
     {
         popup = new SharedComboPopup();
         SetPopupControl(popup);
+        popup->SetFont(parent->GetFont());
         popup->Imbue(choices);
         Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
@@ -32,7 +33,7 @@ public:
     {
         TextBox = ptr;
         TextBox->LinkedBoxes.push_back(this);
-        Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &ComboBox_Plus1::OnChoose, this);
+        Bind(wxEVT_COMBOBOX, &ComboBox_Plus1::OnChoose, this);
     }
     void OnChoose(wxCommandEvent&);
 

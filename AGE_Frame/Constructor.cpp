@@ -239,15 +239,15 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
             }
         }
     });
-    Bind(wxEVT_COMMAND_MENU_SELECTED, &AGE_Frame::OnOpen, this, eOpen);
-    Bind(wxEVT_COMMAND_MENU_SELECTED, &AGE_Frame::OnSave, this, eSave);
-    Bind(wxEVT_COMMAND_MENU_SELECTED, &AGE_Frame::OnMenuOption, this, ePrompt, eAddWindow);
-    Bind(wxEVT_COMMAND_MENU_SELECTED, &AGE_Frame::OnMenuOption, this, hotWin1, closeAll);
+    Bind(wxEVT_MENU, &AGE_Frame::OnOpen, this, eOpen);
+    Bind(wxEVT_MENU, &AGE_Frame::OnSave, this, eSave);
+    Bind(wxEVT_MENU, &AGE_Frame::OnMenuOption, this, ePrompt, eAddWindow);
+    Bind(wxEVT_MENU, &AGE_Frame::OnMenuOption, this, hotWin1, closeAll);
 
-    Units_AutoCopy->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnAutoCopy, this);
-    Units_CopyTo->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
+    Units_AutoCopy->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnAutoCopy, this);
+    Units_CopyTo->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
     {
-        auto selections = Units_ListV->GetSelectedItemCount();
+        auto selections = Units_ListV->GetSelectedCount();
         if(selections < 1) return;
 
         int edits = 0;
@@ -272,46 +272,46 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(edits), 3);
         popUp.unSaved += edits;
     });
-    Units_SelectAll->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnAutoCopy, this);
-    Units_SelectClear->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnAutoCopy, this);
-    Units_CopyGraphics->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnAutoCopy, this);
-    Units_GraphicSet->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_Frame::OnAutoCopy, this);
-    TabBar_Main->Bind(wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, &AGE_Frame::OnMenuOption, this, eTabBar);
+    Units_SelectAll->Bind(wxEVT_BUTTON, &AGE_Frame::OnAutoCopy, this);
+    Units_SelectClear->Bind(wxEVT_BUTTON, &AGE_Frame::OnAutoCopy, this);
+    Units_CopyGraphics->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnAutoCopy, this);
+    Units_GraphicSet->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnAutoCopy, this);
+    TabBar_Main->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, &AGE_Frame::OnMenuOption, this, eTabBar);
 
-    wxCommandEvent ShowUnknownsCmd(wxEVT_COMMAND_MENU_SELECTED, eUnknown);
+    wxCommandEvent ShowUnknownsCmd(wxEVT_MENU, eUnknown);
     ShowUnknownsCmd.SetInt(ShowUnknowns);
     ProcessEvent(ShowUnknownsCmd);
 
-    wxCommandEvent ShowButtonsCmd(wxEVT_COMMAND_MENU_SELECTED, eButtons);
+    wxCommandEvent ShowButtonsCmd(wxEVT_MENU, eButtons);
     ShowButtonsCmd.SetInt(ResizeTerrains);
     ProcessEvent(ShowButtonsCmd);
 
     if(StayOnTop)
     {
-        wxCommandEvent StayOnTopCmd(wxEVT_COMMAND_MENU_SELECTED, eStayOnTop);
+        wxCommandEvent StayOnTopCmd(wxEVT_MENU, eStayOnTop);
         StayOnTopCmd.SetInt(true);
         ProcessEvent(StayOnTopCmd);
     }
 
-    wxCommandEvent Paste11Cmd(wxEVT_COMMAND_MENU_SELECTED, ePaste);
+    wxCommandEvent Paste11Cmd(wxEVT_MENU, ePaste);
     Paste11Cmd.SetInt(Paste11);
     ProcessEvent(Paste11Cmd);
 
-    wxCommandEvent ReselectionCmd(wxEVT_COMMAND_MENU_SELECTED, eReselection);
+    wxCommandEvent ReselectionCmd(wxEVT_MENU, eReselection);
     ReselectionCmd.SetInt(Reselection);
     ProcessEvent(ReselectionCmd);
 
     if(!window && TimesOpened < 2)
     {
-        wxCommandEvent ShowHelpCmd(wxEVT_COMMAND_MENU_SELECTED, eHelp);
+        wxCommandEvent ShowHelpCmd(wxEVT_MENU, eHelp);
         ProcessEvent(ShowHelpCmd);
     }
 
-    wxCommandEvent ShowSLPCmd(wxEVT_COMMAND_MENU_SELECTED, eShowSLP);
+    wxCommandEvent ShowSLPCmd(wxEVT_MENU, eShowSLP);
     ShowSLPCmd.SetInt(ShowSLP);
     ProcessEvent(ShowSLPCmd);
 
-    wxCommandEvent ShowIconsCmd(wxEVT_COMMAND_MENU_SELECTED, eShowIcons);
+    wxCommandEvent ShowIconsCmd(wxEVT_MENU, eShowIcons);
     ShowIconsCmd.SetInt(ShowIcons);
     ProcessEvent(ShowIconsCmd);
 

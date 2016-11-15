@@ -17,7 +17,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
         {
             if(answer == wxYES)
             {
-                wxCommandEvent SaveFiles(wxEVT_COMMAND_MENU_SELECTED, eSave);
+                wxCommandEvent SaveFiles(wxEVT_MENU, eSave);
                 ProcessEvent(SaveFiles);
             }
             else return;
@@ -341,7 +341,7 @@ void AGE_Frame::OnOpen(wxCommandEvent &event)
     }
 
     GetToolBar()->ToggleTool(eDRS, false);
-    wxCommandEvent loadDRS(wxEVT_COMMAND_MENU_SELECTED, eDRS);
+    wxCommandEvent loadDRS(wxEVT_MENU, eDRS);
     loadDRS.SetInt(false);
     ProcessEvent(loadDRS);
     if(UseDRS)
@@ -1753,8 +1753,8 @@ void AGE_Frame::LoadLists()
     }
     else
     {
-        UnitLines_UnitLines_ListV->DeleteAllItems();
-        UnitLines_UnitLineUnits_ListV->DeleteAllItems();
+        UnitLines_UnitLines_ListV->Clear();
+        UnitLines_UnitLineUnits_ListV->Clear();
     }
     //InitCivs(true);
     InitUnits(GenieVersion <= genie::GV_RoR, true);
@@ -1768,20 +1768,20 @@ void AGE_Frame::LoadLists()
     }
     else
     {
-        TechTrees_MainList_Ages_ListV->DeleteAllItems();
-        TechTrees_Ages_Buildings.List->DeleteAllItems();
-        TechTrees_Ages_Units.List->DeleteAllItems();
-        TechTrees_Ages_Researches.List->DeleteAllItems();
-        TechTrees_MainList_Buildings_ListV->DeleteAllItems();
-        TechTrees_Buildings_Buildings.List->DeleteAllItems();
-        TechTrees_Buildings_Units.List->DeleteAllItems();
-        TechTrees_Buildings_Researches.List->DeleteAllItems();
-        TechTrees_MainList_Units_ListV->DeleteAllItems();
-        TechTrees_Units_Units.List->DeleteAllItems();
-        TechTrees_MainList_Researches_ListV->DeleteAllItems();
-        TechTrees_Researches_Buildings.List->DeleteAllItems();
-        TechTrees_Researches_Units.List->DeleteAllItems();
-        TechTrees_Researches_Researches.List->DeleteAllItems();
+        TechTrees_MainList_Ages_ListV->Clear();
+        TechTrees_Ages_Buildings.List->Clear();
+        TechTrees_Ages_Units.List->Clear();
+        TechTrees_Ages_Researches.List->Clear();
+        TechTrees_MainList_Buildings_ListV->Clear();
+        TechTrees_Buildings_Buildings.List->Clear();
+        TechTrees_Buildings_Units.List->Clear();
+        TechTrees_Buildings_Researches.List->Clear();
+        TechTrees_MainList_Units_ListV->Clear();
+        TechTrees_Units_Units.List->Clear();
+        TechTrees_MainList_Researches_ListV->Clear();
+        TechTrees_Researches_Buildings.List->Clear();
+        TechTrees_Researches_Units.List->Clear();
+        TechTrees_Researches_Researches.List->Clear();
     }
 
     wxTimerEvent E;
@@ -2101,7 +2101,7 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
 {
     AGE_SaveDialog SaveBox(this, font);
     SaveDialog = &SaveBox;
-    SaveBox.SyncWithReadPaths->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnSyncSaveWithOpen, this);
+    SaveBox.SyncWithReadPaths->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnSyncSaveWithOpen, this);
 
     int RecentItems;
     {
@@ -2152,7 +2152,7 @@ void AGE_Frame::OnSave(wxCommandEvent &event)
     if(SyncSaveWithOpen)
     {
         SaveBox.SyncWithReadPaths->SetValue(true); // I wish this call was enough.
-        wxCommandEvent sync(wxEVT_COMMAND_CHECKBOX_CLICKED, SaveBox.SyncWithReadPaths->GetId());
+        wxCommandEvent sync(wxEVT_CHECKBOX, SaveBox.SyncWithReadPaths->GetId());
         sync.SetInt(true);
         SaveBox.SyncWithReadPaths->GetEventHandler()->ProcessEvent(sync);
     }
@@ -2512,27 +2512,27 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_view->Bind(wxEVT_RIGHT_DOWN, &AGE_Frame::OnFrameMouse, this);
                 slp_view->Bind(wxEVT_KEY_DOWN, &AGE_Frame::OnFrameKey, this);
                 slp_window->Bind(wxEVT_CLOSE_WINDOW, &AGE_Frame::OnExitSLP, this);
-                slp_first->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_next->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_prev->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_frame_export->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_frame_import->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_save->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_tool->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_merge_shadow->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_hotspot->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_animate->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_shadow->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_outline->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_delta->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_stack->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_annex->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_terrain->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_collision->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_clearance->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_selection->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this);
-                slp_background->Bind(wxEVT_COMMAND_COLOURPICKER_CHANGED, &AGE_Frame::OnFrameButton, this);
-                slp_show_angles->Bind(wxEVT_COMMAND_CHECKBOX_CLICKED, &AGE_Frame::OnFrameButton, this);
+                slp_first->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
+                slp_next->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
+                slp_prev->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
+                slp_frame_export->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
+                slp_frame_import->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
+                slp_save->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
+                slp_tool->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
+                slp_merge_shadow->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
+                slp_hotspot->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
+                slp_animate->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
+                slp_shadow->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
+                slp_outline->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
+                slp_delta->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
+                slp_stack->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
+                slp_annex->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
+                slp_terrain->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
+                slp_collision->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
+                slp_clearance->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
+                slp_selection->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
+                slp_background->Bind(wxEVT_COLOURPICKER_CHANGED, &AGE_Frame::OnFrameButton, this);
+                slp_show_angles->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
                 slp_window->Show();
             }
             else
@@ -2814,7 +2814,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             {
                 AGE_Frame* newWindow = new AGE_Frame("AGE " + AGE_AboutDialog::AGE_VER + " window "+lexical_cast<string>(win+1), win);
                 FixSize(newWindow);
-                wxCommandEvent OpenFiles(wxEVT_COMMAND_MENU_SELECTED, newWindow->eOpen);
+                wxCommandEvent OpenFiles(wxEVT_MENU, newWindow->eOpen);
                 newWindow->GetEventHandler()->ProcessEvent(OpenFiles);
                 break;
             }
@@ -3524,34 +3524,28 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
     How2List = SEARCH;
 }*/
 
-void AGE_Frame::RefreshList(AGEListView *list, vector<int> *oldies)
+void AGE_Frame::RefreshList(ProperList *list, vector<int> *oldies)
 {
-    long firstVisible = list->GetTopItem();
-    long firstSelected = list->GetFirstSelected();
-    int lastItemCount = list->GetItemCount();
+    unsigned long cookie;
+    auto firstVisible = list->GetVisibleRowsBegin();
+    auto firstSelected = list->GetFirstSelected(cookie);
+    auto lastItemCount = list->GetItemCount();
 
     //list->SetItemCount(0); // Clears selections and makes all calls to SetItemPosition be ignored.
     list->SetItemCount(list->names.size());
-    list->SetColumnWidth(0, wxLIST_AUTOSIZE_USEHEADER);
     if(list->names.empty()) return;
 
     // Set selections and first visible item.
-    if(firstSelected == -1)
+    if(firstSelected == wxNOT_FOUND)
     {
         firstSelected = 0;
     }
-    long sweeper = firstSelected;
-    while(true)
-    {
-        list->Select(sweeper, false);
-        if(!list->GetSelectedItemCount()) break;
-        sweeper = list->GetNextSelected(sweeper);
-    }
+    list->DeselectAll();
     if(How2List == ADD || firstSelected >= list->names.size())
     {
         firstSelected = list->names.size() - 1;
     }
-    list->SetItemPosition(firstVisible, wxPoint(0, 0));
+    list->ScrollToRow(firstVisible);
     if(Reselection && How2List != ADD && oldies)
     {
         // Select old indexes again.
@@ -3578,7 +3572,7 @@ void AGE_Frame::RefreshList(AGEListView *list, vector<int> *oldies)
         }
         list->EnsureVisible(firstSelected);
     }
-    if(!list->GetSelectedItemCount())
+    if(!list->GetSelectedCount())
     {
         list->Select(firstSelected, true);
     }
@@ -3599,17 +3593,19 @@ bool AGE_Frame::Paste11Check(size_t pastes, size_t copies)
     return result;
 }
 
-void AGE_Frame::SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch)
+void AGE_Frame::SearchAllSubVectors(ProperList *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch)
 {
-    int selections = list->GetSelectedItemCount();
+    size_t selections = list->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    if(selections < 1) return;
+    if(selections == 0) return;
 
+    unsigned long cookie;
     set<uint32_t> topNums, subNums;
-    for(size_t loop = 0, lastItem = -1; loop < selections; ++loop)
+    int last = list->GetFirstSelected(cookie);
+    for(size_t loop = 0; loop < selections; ++loop)
     {
-        lastItem = list->GetNextSelected(lastItem);
-        string line(list->GetItemText(lastItem));
+        string line(list->names[last]);
+        last = list->GetNextSelected(cookie);
         size_t found = line.find(" ", 3);
         topNums.insert(lexical_cast<uint32_t>(line.substr(2, found - 2)));
         subNums.insert(lexical_cast<uint32_t>(line.substr(2 + found, line.find(" ", found + 3) - found - 2)));
@@ -3637,16 +3633,17 @@ void AGE_Frame::SearchAllSubVectors(AGEListView *list, wxTextCtrl *topSearch, wx
     return -1;
 }*/
 
-void AGE_Frame::getSelectedItems(const int selections, const AGEListView* list, vector<int> &indexes)
+void AGE_Frame::getSelectedItems(const size_t selections, const ProperList *list, vector<int> &indexes)
 {
-    ++randomi;
+    unsigned long cookie;
     indexes.resize(selections);
-    for(int sel = 0, lastItem = -1; sel < selections; ++sel)
+    int last = list->GetFirstSelected(cookie);
+    for(size_t sel = 0; sel < selections; ++sel)
     {
-        lastItem = list->GetNextSelected(lastItem);
-        indexes[sel] = list->indexes[lastItem];
+        indexes[sel] = list->indexes[last];
+        last = list->GetNextSelected(cookie);
     }
-    SetStatusText("Times listed: "+lexical_cast<string>(randomi), 2);
+    SetStatusText("Times listed: "+lexical_cast<string>(++times_listed), 2);
 }
 
 // To show contents of last selected item instead of first selection.
@@ -4050,7 +4047,7 @@ void AGE_Frame::OnFrameKey(wxKeyEvent &event)
 void AGE_Frame::OnExitSLP(wxCloseEvent &event)
 {
     SubMenu_SLP->Check(eShowSLP, false);
-    wxCommandEvent closeSLP(wxEVT_COMMAND_MENU_SELECTED, eShowSLP);
+    wxCommandEvent closeSLP(wxEVT_MENU, eShowSLP);
     closeSLP.SetInt(false);
     ProcessEvent(closeSLP);
 }
@@ -4099,7 +4096,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         {
             if(answer == wxYES)
             {
-                wxCommandEvent SaveFiles(wxEVT_COMMAND_MENU_SELECTED, eSave);
+                wxCommandEvent SaveFiles(wxEVT_MENU, eSave);
                 ProcessEvent(SaveFiles);
             }
             else
@@ -4112,7 +4109,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
     }
 
     GetToolBar()->ToggleTool(eDRS, false);
-    wxCommandEvent loadDRS(wxEVT_COMMAND_MENU_SELECTED, eDRS);
+    wxCommandEvent loadDRS(wxEVT_MENU, eDRS);
     loadDRS.SetInt(false);
     ProcessEvent(loadDRS);
 
