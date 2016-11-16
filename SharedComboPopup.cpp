@@ -134,12 +134,12 @@ void SharedComboPopup::PaintComboControl(wxDC &dc, const wxRect &rect)
 
         if(m_value >= 0)
         {
-            OnDrawItem(dc,rect,m_value,flags);
+            OnDrawItem(dc, rect, m_value, flags);
             return;
         }
     }
 
-    wxComboPopup::PaintComboControl(dc,rect);
+    wxComboPopup::PaintComboControl(dc, rect);
 }
 
 void SharedComboPopup::OnDrawItem(wxDC &dc, const wxRect &rect, size_t n) const
@@ -157,7 +157,7 @@ void SharedComboPopup::OnDrawItem(wxDC &dc, const wxRect &rect, size_t n) const
         dc.SetTextForeground(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT));
     }
 
-    OnDrawItem(dc,rect,(int)n,flags);
+    OnDrawItem(dc, rect, n, flags);
 }
 
 wxCoord SharedComboPopup::OnMeasureItemWidth(size_t) const
@@ -167,14 +167,11 @@ wxCoord SharedComboPopup::OnMeasureItemWidth(size_t) const
 
 void SharedComboPopup::OnDrawBg(wxDC &dc, const wxRect &rect, int item, int flags) const
 {
-    if(IsCurrent((size_t)item) && !(flags & SCB_PAINTING_CONTROL))
-        flags |= SCB_PAINTING_SELECTED;
-
     // We need only to explicitly draw background for items
     // that should have selected background. Also, call PrepareBackground
     // always when painting the control so that clipping is done properly.
 
-    if((flags & SCB_PAINTING_SELECTED) || ((flags & SCB_PAINTING_CONTROL) && m_combo->HasFlag(wxCB_READONLY)))
+    if((flags & SCB_PAINTING_SELECTED) || IsCurrent(item))
     {
         int bgFlags = wxCONTROL_SELECTED;
 
@@ -187,7 +184,7 @@ void SharedComboPopup::OnDrawBg(wxDC &dc, const wxRect &rect, int item, int flag
 
 void SharedComboPopup::OnDrawBackground(wxDC &dc, const wxRect &rect, size_t n) const
 {
-    OnDrawBg(dc,rect,(int)n,0);
+    OnDrawBg(dc, rect, n, 0);
 }
 
 // This is called from SharedComboPopup::OnDrawItem, with text colour and font prepared

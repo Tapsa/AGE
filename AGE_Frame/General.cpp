@@ -477,22 +477,22 @@ string AGE_Frame::GetRandomMapName(int index)
 {
     if(GenieVersion >= genie::GV_AoK)
     {
-        return "Map "+lexical_cast<string>(dataset->RandomMaps.MapHeaders[index].ScriptNumber)+" ";
+        return "Map "+lexical_cast<string>(dataset->RandomMaps.MapHeaders[index].ScriptNumber);
     }
-    string Name = "";
+    string Name;
     switch(index)
     {
-        case 0: Name += "Small Islands ("; break;
-        case 1: Name += "Large Islands ("; break;
-        case 2: Name += "Coastal ("; break;
-        case 3: Name += "Inland ("; break;
-        case 4: Name += "Highland ("; break;
-        case 5: Name += "Continental ("; break;
-        case 6: Name += "Mediterranean ("; break;
-        case 7: Name += "Hill Country ("; break;
-        case 8: Name += "Narrows ("; break;
-        case 9: Name += "Gigantic ("; break;
-        default: Name += "Map (";
+        case 0: Name = "Small Islands ("; break;
+        case 1: Name = "Large Islands ("; break;
+        case 2: Name = "Coastal ("; break;
+        case 3: Name = "Inland ("; break;
+        case 4: Name = "Highland ("; break;
+        case 5: Name = "Continental ("; break;
+        case 6: Name = "Mediterranean ("; break;
+        case 7: Name = "Hill Country ("; break;
+        case 8: Name = "Narrows ("; break;
+        case 9: Name = "Gigantic ("; break;
+        default: Name = "Map (";
     }
     return Name += lexical_cast<string>(dataset->RandomMaps.MapHeaders[index].ScriptNumber)+")";
 }
@@ -500,21 +500,20 @@ string AGE_Frame::GetRandomMapName(int index)
 void AGE_Frame::ListRandomMaps()
 {
     InitRandomMaps();
-    wxTimerEvent E;
-    OnRandomMapTimer(E);
+    wxCommandEvent e;
+    OnRandomMapSelect(e);
 }
 
 void AGE_Frame::InitRandomMaps()
 {
     InitSearch(Unknowns_Search->GetValue().MakeLower(), Unknowns_Search_R->GetValue().MakeLower());
 
-    Unknowns_ListV->names.clear();
-    Unknowns_ListV->indexes.clear();
+    Unknowns_ListV->Sweep();
 
     for(size_t loop = 0; loop < dataset->RandomMaps.MapHeaders.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetRandomMapName(loop);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetRandomMapName(loop);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             Unknowns_ListV->names.Add(Name);
             Unknowns_ListV->indexes.push_back(loop);
@@ -525,13 +524,6 @@ void AGE_Frame::InitRandomMaps()
 
 void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
 {
-    if(!randomMapTimer.IsRunning())
-        randomMapTimer.Start(150);
-}
-
-void AGE_Frame::OnRandomMapTimer(wxTimerEvent&)
-{
-    randomMapTimer.Stop();
     auto selections = Unknowns_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Unknowns_ListV, RandomMapIDs);
@@ -657,21 +649,20 @@ void AGE_Frame::OnRMSBaseZoneSearch(wxCommandEvent &event)
 
 string AGE_Frame::GetRMSBaseZonesName(int index)
 {
-    return "Base Zone "+lexical_cast<string>(dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones[index].Unknown1)+" ";
+    return "Base Zone "+lexical_cast<string>(dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones[index].Unknown1);
 }
 
 void AGE_Frame::ListRMSBaseZones()
 {
     InitSearch(RMSBaseZones_Search->GetValue().MakeLower(), RMSBaseZones_Search_R->GetValue().MakeLower());
 
-    RMSBaseZones_ListV->names.clear();
-    RMSBaseZones_ListV->indexes.clear();
+    RMSBaseZones_ListV->Sweep();
 
     if(dataset->RandomMaps.Maps.size())
     for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetRMSBaseZonesName(loop);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetRMSBaseZonesName(loop);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             RMSBaseZones_ListV->names.Add(Name);
             RMSBaseZones_ListV->indexes.push_back(loop);
@@ -679,19 +670,12 @@ void AGE_Frame::ListRMSBaseZones()
     }
     RefreshList(RMSBaseZones_ListV, &UnknownFSIDs);
 
-    wxTimerEvent E;
-    OnRMSBaseZoneTimer(E);
+    wxCommandEvent e;
+    OnRMSBaseZoneSelect(e);
 }
 
 void AGE_Frame::OnRMSBaseZoneSelect(wxCommandEvent &event)
 {
-    if(!rmBaseTimer.IsRunning())
-        rmBaseTimer.Start(150);
-}
-
-void AGE_Frame::OnRMSBaseZoneTimer(wxTimerEvent&)
-{
-    rmBaseTimer.Stop();
     auto selections = RMSBaseZones_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, RMSBaseZones_ListV, UnknownFSIDs);
@@ -801,9 +785,9 @@ void AGE_Frame::OnRMSTerrainSearch(wxCommandEvent &event)
     ListRMSTerrains();
 }
 
-string AGE_Frame::GetRMSTerrainName(int Terrain)
+wxString AGE_Frame::GetRMSTerrainName(int Terrain)
 {
-    string Name = lexical_cast<string>(Terrain)+" ";
+    wxString Name = FormatInt(Terrain) + " ";
     if(dataset->TerrainBlock.Terrains.size() <= Terrain) return Name + "Nonexistent Terrain";
     if(!dataset->TerrainBlock.Terrains[Terrain].Name.empty())
     {
@@ -816,14 +800,13 @@ void AGE_Frame::ListRMSTerrains()
 {
     InitSearch(RMSTerrain_Search->GetValue().MakeLower(), RMSTerrain_Search_R->GetValue().MakeLower());
 
-    RMSTerrain_ListV->names.clear();
-    RMSTerrain_ListV->indexes.clear();
+    RMSTerrain_ListV->Sweep();
 
     if(dataset->RandomMaps.Maps.size())
     for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetRMSTerrainName(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains[loop].Terrain);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetRMSTerrainName(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains[loop].Terrain);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             RMSTerrain_ListV->names.Add(Name);
             RMSTerrain_ListV->indexes.push_back(loop);
@@ -831,19 +814,12 @@ void AGE_Frame::ListRMSTerrains()
     }
     RefreshList(RMSTerrain_ListV, &UnknownSSIDs);
 
-    wxTimerEvent E;
-    OnRMSTerrainTimer(E);
+    wxCommandEvent e;
+    OnRMSTerrainSelect(e);
 }
 
 void AGE_Frame::OnRMSTerrainSelect(wxCommandEvent &event)
 {
-    if(!rmTerrainTimer.IsRunning())
-        rmTerrainTimer.Start(150);
-}
-
-void AGE_Frame::OnRMSTerrainTimer(wxTimerEvent&)
-{
-    rmTerrainTimer.Stop();
     auto selections = RMSTerrain_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, RMSTerrain_ListV, UnknownSSIDs);
@@ -950,14 +926,13 @@ void AGE_Frame::ListRMSUnits()
 {
     InitSearch(RMSUnit_Search->GetValue().MakeLower(), RMSUnit_Search_R->GetValue().MakeLower());
 
-    RMSUnit_ListV->names.clear();
-    RMSUnit_ListV->indexes.clear();
+    RMSUnit_ListV->Sweep();
 
     if(dataset->RandomMaps.Maps.size())
     for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits[loop].Unit);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits[loop].Unit);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             RMSUnit_ListV->names.Add(Name);
             RMSUnit_ListV->indexes.push_back(loop);
@@ -965,19 +940,12 @@ void AGE_Frame::ListRMSUnits()
     }
     RefreshList(RMSUnit_ListV, &UnknownTSIDs);
 
-    wxTimerEvent E;
-    OnRMSUnitTimer(E);
+    wxCommandEvent e;
+    OnRMSUnitSelect(e);
 }
 
 void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &event)
 {
-    if(!rmUnitTimer.IsRunning())
-        rmUnitTimer.Start(150);
-}
-
-void AGE_Frame::OnRMSUnitTimer(wxTimerEvent&)
-{
-    rmUnitTimer.Stop();
     auto selections = RMSUnit_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, RMSUnit_ListV, UnknownTSIDs);
@@ -1086,9 +1054,9 @@ void AGE_Frame::OnRMSUnknownSearch(wxCommandEvent &event)
     ListRMSUnknowns();
 }
 
-string AGE_Frame::GetRMSUnknownName(int Terrain)
+wxString AGE_Frame::GetRMSUnknownName(int Terrain)
 {
-    string Name = lexical_cast<string>(Terrain)+" ";
+    wxString Name = FormatInt(Terrain) + " ";
     if(dataset->TerrainBlock.Terrains.size() <= Terrain) return Name + "Nonexistent Terrain";
     if(!dataset->TerrainBlock.Terrains[Terrain].Name.empty())
     {
@@ -1101,14 +1069,13 @@ void AGE_Frame::ListRMSUnknowns()
 {
     InitSearch(RMSUnknown_Search->GetValue().MakeLower(), RMSUnknown_Search_R->GetValue().MakeLower());
 
-    RMSUnknown_ListV->names.clear();
-    RMSUnknown_ListV->indexes.clear();
+    RMSUnknown_ListV->Sweep();
 
     if(dataset->RandomMaps.Maps.size())
     for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetRMSUnknownName(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns[loop].Unknown2);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetRMSUnknownName(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns[loop].Unknown2);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             RMSUnknown_ListV->names.Add(Name);
             RMSUnknown_ListV->indexes.push_back(loop);
@@ -1116,19 +1083,12 @@ void AGE_Frame::ListRMSUnknowns()
     }
     RefreshList(RMSUnknown_ListV, &Unknown4SIDs);
 
-    wxTimerEvent E;
-    OnRMSUnknownTimer(E);
+    wxCommandEvent e;
+    OnRMSUnknownSelect(e);
 }
 
 void AGE_Frame::OnRMSUnknownSelect(wxCommandEvent &event)
 {
-    if(!rmUnknownTimer.IsRunning())
-        rmUnknownTimer.Start(150);
-}
-
-void AGE_Frame::OnRMSUnknownTimer(wxTimerEvent&)
-{
-    rmUnknownTimer.Stop();
     auto selections = RMSUnknown_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, RMSUnknown_ListV, Unknown4SIDs);
@@ -1678,8 +1638,6 @@ void AGE_Frame::CreateUnknownControls()
     Unknowns_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnRandomMapSearch, this);
     Unknowns_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnRandomMapSearch, this);
     Unknowns_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnRandomMapSelect, this);
-    Unknowns_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnRandomMapSelect, this);
-    Unknowns_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnRandomMapSelect, this);
     Unknowns_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnRandomMapAdd, this);
     Unknowns_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRandomMapInsert, this);
     Unknowns_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnRandomMapDelete, this);
@@ -1689,8 +1647,6 @@ void AGE_Frame::CreateUnknownControls()
     RMSBaseZones_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSBaseZoneSearch, this);
     RMSBaseZones_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSBaseZoneSearch, this);
     RMSBaseZones_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnRMSBaseZoneSelect, this);
-    RMSBaseZones_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnRMSBaseZoneSelect, this);
-    RMSBaseZones_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnRMSBaseZoneSelect, this);
     RMSBaseZones_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSBaseZoneAdd, this);
     RMSBaseZones_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSBaseZoneInsert, this);
     RMSBaseZones_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSBaseZoneDelete, this);
@@ -1701,8 +1657,6 @@ void AGE_Frame::CreateUnknownControls()
     RMSTerrain_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSTerrainSearch, this);
     RMSTerrain_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSTerrainSearch, this);
     RMSTerrain_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnRMSTerrainSelect, this);
-    RMSTerrain_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnRMSTerrainSelect, this);
-    RMSTerrain_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnRMSTerrainSelect, this);
     RMSTerrain_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSTerrainAdd, this);
     RMSTerrain_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSTerrainInsert, this);
     RMSTerrain_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSTerrainDelete, this);
@@ -1713,8 +1667,6 @@ void AGE_Frame::CreateUnknownControls()
     RMSUnit_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSUnitSearch, this);
     RMSUnit_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSUnitSearch, this);
     RMSUnit_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnRMSUnitSelect, this);
-    RMSUnit_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnRMSUnitSelect, this);
-    RMSUnit_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnRMSUnitSelect, this);
     RMSUnit_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnitAdd, this);
     RMSUnit_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnitInsert, this);
     RMSUnit_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnitDelete, this);
@@ -1725,8 +1677,6 @@ void AGE_Frame::CreateUnknownControls()
     RMSUnknown_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSUnknownSearch, this);
     RMSUnknown_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSUnknownSearch, this);
     RMSUnknown_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnRMSUnknownSelect, this);
-    RMSUnknown_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnRMSUnknownSelect, this);
-    RMSUnknown_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnRMSUnknownSelect, this);
     RMSUnknown_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnknownAdd, this);
     RMSUnknown_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnknownInsert, this);
     RMSUnknown_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnknownDelete, this);
@@ -1735,11 +1685,6 @@ void AGE_Frame::CreateUnknownControls()
     RMSUnknown_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnknownPasteInsert, this);
     RMSUnknown_CopyToMaps->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnknownCopyToMaps, this);
 
-    randomMapTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnRandomMapTimer, this);
-    rmBaseTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnRMSBaseZoneTimer, this);
-    rmTerrainTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnRMSTerrainTimer, this);
-    rmUnitTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnRMSUnitTimer, this);
-    rmUnknownTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnRMSUnknownTimer, this);
     Unknowns_UnknownLevel->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Unknown, this);
     RMSBaseZones_Unknown1->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Unknown, this);
     RMSTerrain_Unknown1[1]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Unknown, this);

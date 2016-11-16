@@ -1,8 +1,8 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetResearchName(int index, bool Filter)
+wxString AGE_Frame::GetResearchName(int index, bool Filter)
 {
-    string Name = "";
+    wxString Name;
     if(Filter)
     {
         short Selection[2];
@@ -107,7 +107,7 @@ string AGE_Frame::GetResearchName(int index, bool Filter)
 
     if(!LangDLLstring(dataset->Researchs[index].LanguageDLLName, 2).empty())
     {
-        return Name + string(LangDLLstring(dataset->Researchs[index].LanguageDLLName, 64));
+        return Name + LangDLLstring(dataset->Researchs[index].LanguageDLLName, 64);
     }
 InternalName:
     if(!dataset->Researchs[index].Name.empty())
@@ -126,8 +126,8 @@ void AGE_Frame::OnResearchSearch(wxCommandEvent &event)
 void AGE_Frame::ListResearches(bool all)
 {
     InitResearches(all);
-    wxTimerEvent E;
-    OnResearchTimer(E);
+    wxCommandEvent e;
+    OnResearchSelect(e);
 }
 
 void AGE_Frame::InitResearches(bool all)
@@ -136,8 +136,7 @@ void AGE_Frame::InitResearches(bool all)
     SearchAnd = Research_Research_UseAnd[0]->GetValue();
     ExcludeAnd = Research_Research_UseAnd[1]->GetValue();
 
-    Research_Research_ListV->names.clear();
-    Research_Research_ListV->indexes.clear();
+    Research_Research_ListV->Sweep();
     if(all)
     {
         research_names.Clear();
@@ -147,13 +146,13 @@ void AGE_Frame::InitResearches(bool all)
 
     for(size_t loop = 0; loop < dataset->Researchs.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetResearchName(loop, true);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetResearchName(loop, true);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             Research_Research_ListV->names.Add(Name);
             Research_Research_ListV->indexes.push_back(loop);
         }
-        if(all) research_names.Add(" "+FormatInt(loop)+" - "+GetResearchName(loop));
+        if(all) research_names.Add(FormatInt(loop)+" - "+GetResearchName(loop));
     }
 
     RefreshList(Research_Research_ListV, &ResearchIDs);
@@ -174,13 +173,6 @@ void AGE_Frame::InitResearches(bool all)
 
 void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
 {
-    if(!researchTimer.IsRunning())
-        researchTimer.Start(150);
-}
-
-void AGE_Frame::OnResearchTimer(wxTimerEvent&)
-{
-    researchTimer.Stop();
     // If trying to select an existing item, don't deselect?
     auto selections = Research_Research_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
@@ -384,8 +376,8 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &event)
         else DLLValue += 140000;
         dataset->Researchs[ResearchIDs.front()].LanguageDLLTechTree = DLLValue;
     }
-    wxTimerEvent E;
-    OnResearchTimer(E);
+    wxCommandEvent e;
+    OnResearchSelect(e);
 }
 
 void AGE_Frame::CreateResearchControls()
@@ -698,8 +690,6 @@ void AGE_Frame::CreateResearchControls()
         Research_SearchFilters[loop]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnSelection_SearchFilters, this);
     }
     Research_Research_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnResearchSelect, this);
-    Research_Research_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnResearchSelect, this);
-    Research_Research_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnResearchSelect, this);
     Research_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnResearchAdd, this);
     Research_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnResearchInsert, this);
     Research_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnResearchDelete, this);
@@ -709,7 +699,6 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLConverter[0]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::ResearchLangDLLConverter, this);
     Research_LanguageDLLConverter[1]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::ResearchLangDLLConverter, this);
 
-    researchTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnResearchTimer, this);
     Research_LangDLLName->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
     Research_LangDLLDescription->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
     Research_Name[0]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
@@ -737,7 +726,7 @@ void AGE_Frame::OnKillFocus_Research(wxFocusEvent &event)
     }
     else
     {
-        wxTimerEvent E;
-        OnResearchTimer(E);
+        wxCommandEvent e;
+        OnResearchSelect(e);
     }
 }
