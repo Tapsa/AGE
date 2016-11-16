@@ -18,7 +18,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 : wxFrame(NULL, wxID_ANY, title), font(GetFont())
 {
     SetBackgroundStyle(wxBG_STYLE_SYSTEM);
-    SetBackgroundColour(wxColour(255, 255, 255)); // Fixes most of the GUI drawing lag.
+    SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW)); // Fixes most of the GUI drawing lag.
     window_num = window;
     argPath = aP;
     font.SetPointSize(8);

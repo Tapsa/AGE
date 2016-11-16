@@ -1784,26 +1784,26 @@ void AGE_Frame::LoadLists()
         TechTrees_Researches_Researches.List->Clear();
     }
 
-    wxTimerEvent E;
-    OnCivsTimer(E);
-    OnUnitsTimer(E);
-    OnResearchTimer(E);
-    OnTechTimer(E);
-    OnGraphicsTimer(E);
-    OnSoundsTimer(E);
-    OnTerrainsTimer(E);
-    OnTerrainRestrictionsTerrainTimer(E);
-    OnPlayerColorsTimer(E);
-    OnTerrainBordersTimer(E);
-    OnRandomMapTimer(E);
+    wxCommandEvent e;
+    OnCivSelect(e);
+    OnUnitSelect(e);
+    OnResearchSelect(e);
+    OnTechSelect(e);
+    OnGraphicSelect(e);
+    OnSoundSelect(e);
+    OnTerrainSelect(e);
+    OnTerrainRestrictionsTerrainSelect(e);
+    OnPlayerColorSelect(e);
+    OnTerrainBorderSelect(e);
+    OnRandomMapSelect(e);
     if(GenieVersion >= genie::GV_AoKA)
     {
-        OnTTAgesTimer(E);
-        OnTTBuildingTimer(E);
-        OnTTUnitTimer(E);
-        OnTTResearchTimer(E);
+        OnTTAgeSelect(e);
+        OnTTBuildingSelect(e);
+        OnTTUnitSelect(e);
+        OnTTResearchSelect(e);
         if(GenieVersion >= genie::GV_SWGB)
-        OnUnitLinesTimer(E);
+        OnUnitLineSelect(e);
     }
 }
 
@@ -2644,7 +2644,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             }
             GetToolBar()->SetToolNormalBitmap(eDRS, wxBitmap(DRS_unlock_xpm));
             // Unload DRS files, stop animations.
-            graphicAnimTimer.Stop();
+            animater.Stop();
             if(!UseTXT)
             {
                 for(auto &file: datafiles) delete file;
@@ -3796,7 +3796,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             {
                 BitMaptoSLP(&graphicSLP);
             }
-            graphicAnimTimer.Start(100);
+            animater.Start(100);
             break;
         }
         case eSaveSLP:
@@ -4038,8 +4038,8 @@ void AGE_Frame::OnFrameKey(wxKeyEvent &event)
         default: return;
     }
     popUp.unSaved += DeltaIDs.size();
-    wxTimerEvent E;
-    OnGraphicDeltasTimer(E);
+    wxCommandEvent e;
+    OnGraphicDeltaSelect(e);
     graphicSLP.slpID = -3;
     slp_view->Refresh();
 }
@@ -4122,7 +4122,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
     }
 
     AGE_Frame::openEditors[window_num] = 0;
-    while(graphicAnimTimer.IsRunning())
+    while(animater.IsRunning())
     {
         if(event.CanVeto())
         {

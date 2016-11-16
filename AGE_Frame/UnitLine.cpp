@@ -16,24 +16,23 @@ void AGE_Frame::OnUnitLinesSearch(wxCommandEvent &event)
 void AGE_Frame::ListUnitLines()
 {
     InitUnitLines();
-    wxTimerEvent E;
-    OnUnitLinesTimer(E);
+    wxCommandEvent e;
+    OnUnitLineSelect(e);
 }
 
 void AGE_Frame::InitUnitLines()
 {
     InitSearch(UnitLines_UnitLines_Search->GetValue().MakeLower(), UnitLines_UnitLines_Search_R->GetValue().MakeLower());
 
-    UnitLines_UnitLines_ListV->names.clear();
-    UnitLines_UnitLines_ListV->indexes.clear();
+    UnitLines_UnitLines_ListV->Sweep();
     unitline_names.Clear();
     unitline_names.Alloc(1 + dataset->UnitLines.size());
     unitline_names.Add("-1 - None");
 
     for(size_t loop = 0; loop < dataset->UnitLines.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineName(loop);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetUnitLineName(loop);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             UnitLines_UnitLines_ListV->names.Add(Name);
             UnitLines_UnitLines_ListV->indexes.push_back(loop);
@@ -45,15 +44,8 @@ void AGE_Frame::InitUnitLines()
     Units_Unitline_ComboBox->Flash();
 }
 
-void AGE_Frame::OnUnitLinesSelect(wxCommandEvent &event)
+void AGE_Frame::OnUnitLineSelect(wxCommandEvent &event)
 {
-    if(!unitLineTimer.IsRunning())
-        unitLineTimer.Start(150);
-}
-
-void AGE_Frame::OnUnitLinesTimer(wxTimerEvent&)
-{
-    unitLineTimer.Stop();
     auto selections = UnitLines_UnitLines_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, UnitLines_UnitLines_ListV, UnitLineIDs);
@@ -135,13 +127,13 @@ void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &event)
     ListUnitLines();
 }
 
-string AGE_Frame::GetUnitLineUnitName(int Unit)
+wxString AGE_Frame::GetUnitLineUnitName(int Unit)
 {
-    string Name = lexical_cast<string>(Unit)+" ";
+    wxString Name = FormatInt(Unit) + " ";
     if(dataset->Civs.front().Units.size() <= Unit) return Name + "Nonexistent Unit";
     if(!LangDLLstring(dataset->Civs.front().Units[Unit].LanguageDLLName, 2).empty())
     {
-        return Name + string(LangDLLstring(dataset->Civs.front().Units[Unit].LanguageDLLName, 64));
+        return Name + LangDLLstring(dataset->Civs.front().Units[Unit].LanguageDLLName, 64);
     }
     if(!dataset->Civs.front().Units[Unit].Name.empty())
     {
@@ -160,13 +152,12 @@ void AGE_Frame::ListUnitLineUnits()
 {
     InitSearch(UnitLines_UnitLineUnits_Search->GetValue().MakeLower(), UnitLines_UnitLineUnits_Search_R->GetValue().MakeLower());
 
-    UnitLines_UnitLineUnits_ListV->names.clear();
-    UnitLines_UnitLineUnits_ListV->indexes.clear();
+    UnitLines_UnitLineUnits_ListV->Sweep();
 
     for(size_t loop = 0; loop < dataset->UnitLines[UnitLineIDs.front()].UnitIDs.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->UnitLines[UnitLineIDs.front()].UnitIDs[loop]);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->UnitLines[UnitLineIDs.front()].UnitIDs[loop]);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             UnitLines_UnitLineUnits_ListV->names.Add(Name);
             UnitLines_UnitLineUnits_ListV->indexes.push_back(loop);
@@ -174,19 +165,12 @@ void AGE_Frame::ListUnitLineUnits()
     }
     RefreshList(UnitLines_UnitLineUnits_ListV, &UnitLineUnitIDs);
 
-    wxTimerEvent E;
-    OnUnitLineUnitsTimer(E);
+    wxCommandEvent e;
+    OnUnitLineUnitSelect(e);
 }
 
-void AGE_Frame::OnUnitLineUnitsSelect(wxCommandEvent &event)
+void AGE_Frame::OnUnitLineUnitSelect(wxCommandEvent &event)
 {
-    if(!unitLineUnitTimer.IsRunning())
-        unitLineUnitTimer.Start(150);
-}
-
-void AGE_Frame::OnUnitLineUnitsTimer(wxTimerEvent&)
-{
-    unitLineUnitTimer.Stop();
     auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     UnitLineUnits_Units->clear();
@@ -363,9 +347,7 @@ void AGE_Frame::CreateUnitLineControls()
 
     Tab_UnitLine->SetSizer(UnitLines_Main);
 
-    UnitLines_UnitLines_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitLinesSelect, this);
-    UnitLines_UnitLines_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnUnitLinesSelect, this);
-    UnitLines_UnitLines_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnUnitLinesSelect, this);
+    UnitLines_UnitLines_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitLineSelect, this);
     UnitLines_UnitLines_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitLinesSearch, this);
     UnitLines_UnitLines_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitLinesSearch, this);
     UnitLines_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitLinesAdd, this);
@@ -374,9 +356,7 @@ void AGE_Frame::CreateUnitLineControls()
     UnitLines_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitLinesCopy, this);
     UnitLines_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitLinesPaste, this);
     UnitLines_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitLinesPasteInsert, this);
-    UnitLines_UnitLineUnits_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitLineUnitsSelect, this);
-    UnitLines_UnitLineUnits_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnUnitLineUnitsSelect, this);
-    UnitLines_UnitLineUnits_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnUnitLineUnitsSelect, this);
+    UnitLines_UnitLineUnits_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitLineUnitSelect, this);
     UnitLines_UnitLineUnits_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitLineUnitsSearch, this);
     UnitLines_UnitLineUnits_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitLineUnitsSearch, this);
     UnitLineUnits_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitLineUnitsAdd, this);
@@ -387,8 +367,6 @@ void AGE_Frame::CreateUnitLineControls()
     UnitLineUnits_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitLineUnitsPasteInsert, this);
     UnitLineUnits_CopyToUnitLines->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitLineUnitsCopyToUnitLines, this);
 
-    unitLineTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnUnitLinesTimer, this);
-    unitLineUnitTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnUnitLineUnitsTimer, this);
     UnitLines_Name->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_UnitLines, this);
     UnitLineUnits_Units->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_UnitLines, this);
     UnitLineUnits_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_UnitLines, this);

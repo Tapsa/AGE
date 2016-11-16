@@ -16,16 +16,15 @@ void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent &event)
 void AGE_Frame::ListTerrainBorders(bool all)
 {
     InitTerrainBorders(all);
-    wxTimerEvent E;
-    OnTerrainBordersTimer(E);
+    wxCommandEvent e;
+    OnTerrainBorderSelect(e);
 }
 
 void AGE_Frame::InitTerrainBorders(bool all)
 {
     InitSearch(Borders_Search->GetValue().MakeLower(), Borders_Search_R->GetValue().MakeLower());
 
-    Borders_ListV->names.clear();
-    Borders_ListV->indexes.clear();
+    Borders_ListV->Sweep();
     if(all)
     {
         border_names.Clear();
@@ -35,8 +34,8 @@ void AGE_Frame::InitTerrainBorders(bool all)
 
     for(size_t loop = 0; loop < dataset->TerrainBlock.TerrainBorders.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetTerrainBorderName(loop);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetTerrainBorderName(loop);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             Borders_ListV->names.Add(Name);
             Borders_ListV->indexes.push_back(loop);
@@ -48,15 +47,8 @@ void AGE_Frame::InitTerrainBorders(bool all)
     if(all) for(auto &list: TerrainBorderComboBoxList) list->Flash();
 }
 
-void AGE_Frame::OnTerrainBordersSelect(wxCommandEvent &event)
+void AGE_Frame::OnTerrainBorderSelect(wxCommandEvent &event)
 {
-    if(!borderTimer.IsRunning())
-        borderTimer.Start(150);
-}
-
-void AGE_Frame::OnTerrainBordersTimer(wxTimerEvent&)
-{
-    borderTimer.Stop();
     auto selections = Borders_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Borders_ListV, BorderIDs);
@@ -133,26 +125,26 @@ string AGE_Frame::GetTerrainBorderTileTypeName(int index)
 {
     switch(index)
     {
-        case 0: return "Flat Tile ";
-        case 1: return "Hillside Tile N ";
-        case 2: return "Hillside Tile S ";
-        case 3: return "Hillside Tile E ";
-        case 4: return "Hillside Tile W ";
-        case 5: return "Hillside Tile NE ";
-        case 6: return "Hillside Tile SE ";
-        case 7: return "Hillside Tile NW ";
-        case 8: return "Hillside Tile SW ";
-        case 9: return "Pit Pair Tile N ";
-        case 10: return "Pit Pair Tile S ";
-        case 11: return "Pit Pair Tile E ";
-        case 12: return "Pit Pair Tile W ";
-        case 13: return "Pit Tile N ";
-        case 14: return "Pit Tile S ";
-        case 15: return "Pit Tile W ";
-        case 16: return "Pit Tile E ";
-        case 17: return "1:1 Tile A ";
-        case 18: return "1:1 Tile B ";
-        default: return "Tile Type "+lexical_cast<string>(index)+" ";
+        case 0: return "Flat Tile";
+        case 1: return "Hillside Tile N";
+        case 2: return "Hillside Tile S";
+        case 3: return "Hillside Tile E";
+        case 4: return "Hillside Tile W";
+        case 5: return "Hillside Tile NE";
+        case 6: return "Hillside Tile SE";
+        case 7: return "Hillside Tile NW";
+        case 8: return "Hillside Tile SW";
+        case 9: return "Pit Pair Tile N";
+        case 10: return "Pit Pair Tile S";
+        case 11: return "Pit Pair Tile E";
+        case 12: return "Pit Pair Tile W";
+        case 13: return "Pit Tile N";
+        case 14: return "Pit Tile S";
+        case 15: return "Pit Tile W";
+        case 16: return "Pit Tile E";
+        case 17: return "1:1 Tile A";
+        case 18: return "1:1 Tile B";
+        default: return "Tile Type "+lexical_cast<string>(index);
     }
 }
 
@@ -166,13 +158,12 @@ void AGE_Frame::ListTerrainBorderTileTypes()
 {
     InitSearch(Borders_TileTypes_Search->GetValue().MakeLower(), Borders_TileTypes_Search_R->GetValue().MakeLower());
 
-    Borders_TileTypes_ListV->names.clear();
-    Borders_TileTypes_ListV->indexes.clear();
+    Borders_TileTypes_ListV->Sweep();
 
     for(size_t loop = 0; loop < dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetTerrainBorderTileTypeName(loop);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetTerrainBorderTileTypeName(loop);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             Borders_TileTypes_ListV->names.Add(Name);
             Borders_TileTypes_ListV->indexes.push_back(loop);
@@ -181,19 +172,12 @@ void AGE_Frame::ListTerrainBorderTileTypes()
 
     RefreshList(Borders_TileTypes_ListV, &BorderTileTypeIDs);
 
-    wxTimerEvent E;
-    OnTerrainBorderTileTypeTimer(E);
+    wxCommandEvent e;
+    OnTerrainBorderTileTypeSelect(e);
 }
 
 void AGE_Frame::OnTerrainBorderTileTypeSelect(wxCommandEvent &event)
 {
-    if(!borderTileTypeTimer.IsRunning())
-        borderTileTypeTimer.Start(150);
-}
-
-void AGE_Frame::OnTerrainBorderTileTypeTimer(wxTimerEvent&)
-{
-    borderTileTypeTimer.Stop();
     auto selections = Borders_TileTypes_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Borders_TileTypes_ListV, BorderTileTypeIDs);
@@ -231,7 +215,7 @@ string AGE_Frame::GetTerrainBorderBorderShapeName(int index)
 {
     return "FC "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].FrameCount)
     +", A "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].AngleCount)
-    +", SI "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].ShapeID)+" ";
+    +", SI "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].ShapeID);
 }
 
 void AGE_Frame::OnTerrainBorderBorderShapeSearch(wxCommandEvent &event)
@@ -244,13 +228,12 @@ void AGE_Frame::ListTerrainBorderBorderShapes()
 {
     InitSearch(Borders_BorderShapes_Search->GetValue().MakeLower(), Borders_BorderShapes_Search_R->GetValue().MakeLower());
 
-    Borders_BorderShapes_ListV->names.clear();
-    Borders_BorderShapes_ListV->indexes.clear();
+    Borders_BorderShapes_ListV->Sweep();
 
     for(size_t loop = 0; loop < dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()].size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetTerrainBorderBorderShapeName(loop);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetTerrainBorderBorderShapeName(loop);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             Borders_BorderShapes_ListV->names.Add(Name);
             Borders_BorderShapes_ListV->indexes.push_back(loop);
@@ -259,19 +242,12 @@ void AGE_Frame::ListTerrainBorderBorderShapes()
 
     RefreshList(Borders_BorderShapes_ListV, &BorderShapeIDs);
 
-    wxTimerEvent E;
-    OnTerrainBorderBorderShapeTimer(E);
+    wxCommandEvent e;
+    OnTerrainBorderBorderShapeSelect(e);
 }
 
 void AGE_Frame::OnTerrainBorderBorderShapeSelect(wxCommandEvent &event)
 {
-    if(!borderBorderShapeTimer.IsRunning())
-        borderBorderShapeTimer.Start(150);
-}
-
-void AGE_Frame::OnTerrainBorderBorderShapeTimer(wxTimerEvent&)
-{
-    borderBorderShapeTimer.Stop();
     auto selections = Borders_BorderShapes_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Borders_BorderShapes_ListV, BorderShapeIDs);
@@ -611,31 +587,22 @@ void AGE_Frame::CreateTerrainBorderControls()
 
     Borders_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainBordersSearch, this);
     Borders_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainBordersSearch, this);
-    Borders_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnTerrainBordersSelect, this);
-    Borders_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnTerrainBordersSelect, this);
-    Borders_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnTerrainBordersSelect, this);
+    Borders_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnTerrainBorderSelect, this);
     Borders_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBordersCopy, this);
     Borders_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBordersPaste, this);
     Borders_TileTypes_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainBorderTileTypeSearch, this);
     Borders_TileTypes_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainBorderTileTypeSearch, this);
     Borders_TileTypes_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnTerrainBorderTileTypeSelect, this);
-    Borders_TileTypes_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnTerrainBorderTileTypeSelect, this);
-    Borders_TileTypes_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnTerrainBorderTileTypeSelect, this);
     TileTypes_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderTileTypeCopy, this);
     TileTypes_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderTileTypePaste, this);
     TileTypes_CopyToBorders->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderTileTypeCopyToBorders, this);
     Borders_BorderShapes_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainBorderBorderShapeSearch, this);
     Borders_BorderShapes_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainBorderBorderShapeSearch, this);
     Borders_BorderShapes_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnTerrainBorderBorderShapeSelect, this);
-    Borders_BorderShapes_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnTerrainBorderBorderShapeSelect, this);
-    Borders_BorderShapes_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnTerrainBorderBorderShapeSelect, this);
     BorderShapes_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderBorderShapeCopy, this);
     BorderShapes_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderBorderShapePaste, this);
     BorderShapes_CopyToBorders->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderBorderShapeCopyToBorders, this);
 
-    borderTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnTerrainBordersTimer, this);
-    borderTileTypeTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnTerrainBorderTileTypeTimer, this);
-    borderBorderShapeTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnTerrainBorderBorderShapeTimer, this);
     for(size_t loop = 0; loop < 2; ++loop)
     Borders_Name[loop]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Borders, this);
     Borders_FrameID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Borders, this);
