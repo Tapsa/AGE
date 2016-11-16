@@ -15,6 +15,8 @@ After installing MinGW add its bin folder to the system path.
 wxWidgets 3.1.0
 Unpack the zip file.
 In cmd.exe go to \wxWidgets\build\msw
+These flags can be used to build fewer libraries:
+USE_AUI=0 USE_PROPGRID=0 USE_RIBBON=0 USE_STC=0 USE_WEBVIEW=0 USE_RICHTEXT=0 USE_XML=0
 mingw32-make -f makefile.gcc BUILD=debug clean
 mingw32-make -f makefile.gcc BUILD=debug SHARED=1
 mingw32-make -f makefile.gcc BUILD=release clean
@@ -38,7 +40,7 @@ https://github.com/Tapsa/pcrio
 Place them into the same folder where AGE's folder is.
 Update paths in build*.bat files, and then you are ready to go.
 
-If building shared libs copy necessary DLL files to execution path or to C:\Windows\System32 or add lib paths to system path.
+If building shared libs copy necessary DLL files to execution path or add lib paths to system path.
 wx: base, core, adv
 Boost: iostreams
 genieutils (after each change)

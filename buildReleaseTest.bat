@@ -1,4 +1,4 @@
-cd buildR/
+CD buildR/
 SET wxWidgetsRF="C:/Cpp/wxWidgets"
 SET zlibIF="C:/Cpp/mingw-w64/mingw32/i686-w64-mingw32/include"
 SET zlibLL="C:/Cpp/mingw-w64/mingw32/i686-w64-mingw32/lib/libz.a"
@@ -9,5 +9,5 @@ mingw32-make -j4
 strip AdvancedGenieEditor3.exe
 robocopy extern/genieutils/ . libgenieutils.dll /XO /NC /NDL /NJH /NJS
 strip libgenieutils.dll
-cd ..
+CD ..
 PAUSE

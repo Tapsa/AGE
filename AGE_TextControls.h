@@ -15,6 +15,8 @@ public:
         row_height = GetCharHeight();
     }
     void EnsureVisible(size_t n);
+    inline void Sweep() {names.clear(); indexes.clear();}
+    //inline void Add(const wxString &name, size_t i);
 
     wxArrayString names;
     vector<size_t> indexes;

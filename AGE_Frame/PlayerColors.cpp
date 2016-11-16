@@ -14,30 +14,29 @@ string AGE_Frame::GetPlayerColorName(int index)
 {
     if(GenieVersion < genie::GV_AoKE3)
         return dataset->PlayerColours[index].Name;
-    return "Color "+lexical_cast<string>(index)+" ";
+    return "Color "+lexical_cast<string>(index);
 }
 
 void AGE_Frame::ListPlayerColors()
 {
     InitPlayerColors();
-    wxTimerEvent E;
-    OnPlayerColorsTimer(E);
+    wxCommandEvent e;
+    OnPlayerColorSelect(e);
 }
 
 void AGE_Frame::InitPlayerColors()
 {
     InitSearch(Colors_Colors_Search->GetValue().MakeLower(), Colors_Colors_Search_R->GetValue().MakeLower());
 
-    Colors_Colors_ListV->names.clear();
-    Colors_Colors_ListV->indexes.clear();
+    Colors_Colors_ListV->Sweep();
     color_names.Clear();
     color_names.Alloc(1 + dataset->PlayerColours.size());
     color_names.Add("-1 - None");
 
     for(size_t loop = 0; loop < dataset->PlayerColours.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetPlayerColorName(loop);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetPlayerColorName(loop);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             Colors_Colors_ListV->names.Add(Name);
             Colors_Colors_ListV->indexes.push_back(loop);
@@ -49,15 +48,8 @@ void AGE_Frame::InitPlayerColors()
     Graphics_PlayerColor_ComboBox->Flash();
 }
 
-void AGE_Frame::OnPlayerColorsSelect(wxCommandEvent &event)
+void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
 {
-    if(!colorTimer.IsRunning())
-        colorTimer.Start(150);
-}
-
-void AGE_Frame::OnPlayerColorsTimer(wxTimerEvent&)
-{
-    colorTimer.Stop();
     auto selections = Colors_Colors_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Colors_Colors_ListV, ColorIDs);
@@ -310,16 +302,13 @@ void AGE_Frame::CreatePlayerColorControls()
 
     Colors_Colors_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnPlayerColorsSearch, this);
     Colors_Colors_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnPlayerColorsSearch, this);
-    Colors_Colors_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnPlayerColorsSelect, this);
-    Colors_Colors_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnPlayerColorsSelect, this);
-    Colors_Colors_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnPlayerColorsSelect, this);
+    Colors_Colors_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnPlayerColorSelect, this);
     Colors_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnPlayerColorsAdd, this);
     Colors_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnPlayerColorsInsert, this);
     Colors_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnPlayerColorsDelete, this);
     Colors_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnPlayerColorsCopy, this);
     Colors_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnPlayerColorsPaste, this);
     Colors_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnPlayerColorsPasteInsert, this);
-    colorTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnPlayerColorsTimer, this);
     Colors_Name->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Colors, this);
     Colors_Palette_Display->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawPalette, this);
     Colors_Palette_Display->Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});

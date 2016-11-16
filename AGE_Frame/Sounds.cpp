@@ -4,9 +4,9 @@ string AGE_Frame::GetSoundName(int sound)
 {
     if(dataset->Sounds[sound].Items.empty()) return "Empty";
     else if(dataset->Sounds[sound].Items.size() == 1)
-    return "File: " + GetSoundItemName(0, sound) + " ";
+    return "File: " + GetSoundItemName(0, sound);
     else
-    return "Files: " + lexical_cast<string>(dataset->Sounds[sound].Items.size()) + " ";
+    return "Files: " + lexical_cast<string>(dataset->Sounds[sound].Items.size());
 }
 
 void AGE_Frame::OnSoundsSearch(wxCommandEvent &event)
@@ -18,16 +18,15 @@ void AGE_Frame::OnSoundsSearch(wxCommandEvent &event)
 void AGE_Frame::ListSounds(bool all)
 {
     InitSounds(all);
-    wxTimerEvent E;
-    OnSoundsTimer(E);
+    wxCommandEvent e;
+    OnSoundSelect(e);
 }
 
 void AGE_Frame::InitSounds(bool all)
 {
     InitSearch(Sounds_Sounds_Search->GetValue().MakeLower(), Sounds_Sounds_Search_R->GetValue().MakeLower());
 
-    Sounds_Sounds_ListV->names.clear();
-    Sounds_Sounds_ListV->indexes.clear();
+    Sounds_Sounds_ListV->Sweep();
     if(all)
     {
         sound_names.Clear();
@@ -37,8 +36,8 @@ void AGE_Frame::InitSounds(bool all)
 
     for(size_t loop = 0; loop < dataset->Sounds.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetSoundName(loop);
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetSoundName(loop);
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             Sounds_Sounds_ListV->names.Add(Name);
             Sounds_Sounds_ListV->indexes.push_back(loop);
@@ -50,15 +49,8 @@ void AGE_Frame::InitSounds(bool all)
     if(all) for(auto &list: SoundComboBoxList) list->Flash();
 }
 
-void AGE_Frame::OnSoundsSelect(wxCommandEvent &event)
+void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
 {
-    if(!soundTimer.IsRunning())
-        soundTimer.Start(150);
-}
-
-void AGE_Frame::OnSoundsTimer(wxTimerEvent&)
-{
-    soundTimer.Stop();
     auto selections = Sounds_Sounds_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Sounds_Sounds_ListV, SoundIDs);
@@ -144,7 +136,7 @@ void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &event)
 
 string AGE_Frame::GetSoundItemName(int item, int set)
 {
-    string Name = "";
+    string Name;
     short Selection[2];
     for(size_t loop = 0; loop < 2; ++loop)
     Selection[loop] = Sounds_Items_SearchFilters[loop]->GetSelection();
@@ -197,14 +189,13 @@ void AGE_Frame::ListSoundItems()
     SearchAnd = Sounds_Items_UseAnd[0]->GetValue();
     ExcludeAnd = Sounds_Items_UseAnd[1]->GetValue();
 
-    Sounds_Items_ListV->names.clear();
-    Sounds_Items_ListV->indexes.clear();
+    Sounds_Items_ListV->Sweep();
 
     if(SoundIDs.size())
     for(size_t loop = 0; loop < dataset->Sounds[SoundIDs.front()].Items.size(); ++loop)
     {
-        wxString Name = " "+FormatInt(loop)+" - "+GetSoundItemName(loop, SoundIDs.front());
-        if(SearchMatches(Name.Lower()))
+        wxString Name = FormatInt(loop)+" - "+GetSoundItemName(loop, SoundIDs.front());
+        if(SearchMatches(" " + Name.Lower() + " "))
         {
             Sounds_Items_ListV->names.Add(Name);
             Sounds_Items_ListV->indexes.push_back(loop);
@@ -214,19 +205,12 @@ void AGE_Frame::ListSoundItems()
 
     SearchAnd = ExcludeAnd = false;
 
-    wxTimerEvent E;
-    OnSoundItemsTimer(E);
+    wxCommandEvent e;
+    OnSoundItemSelect(e);
 }
 
-void AGE_Frame::OnSoundItemsSelect(wxCommandEvent &event)
+void AGE_Frame::OnSoundItemSelect(wxCommandEvent &event)
 {
-    if(!soundFileTimer.IsRunning())
-        soundFileTimer.Start(150);
-}
-
-void AGE_Frame::OnSoundItemsTimer(wxTimerEvent&)
-{
-    soundFileTimer.Stop();
     auto selections = Sounds_Items_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     for(auto &box: uiGroupSoundFile) box->clear();
@@ -327,14 +311,14 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
     SearchAnd = Sounds_AllItems_UseAnd[0]->GetValue();
     ExcludeAnd = Sounds_AllItems_UseAnd[1]->GetValue();
 
-    Sounds_AllItems_ListV->names.clear();
+    Sounds_AllItems_ListV->Sweep();
 
     for(short sound = 0; sound < dataset->Sounds.size(); ++sound)
     {
         for(short file = 0; file < dataset->Sounds[sound].Items.size(); ++file)
         {
             Name = " S"+lexical_cast<string>(sound)+" F"+lexical_cast<string>(file)+" - "+GetSoundItemName(file, sound);
-            if(SearchMatches(Name.Lower()))
+            if(SearchMatches(" " + Name.Lower() + " "))
             {
                 Sounds_AllItems_ListV->names.Add(Name);
             }
@@ -346,8 +330,8 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
 
     SearchAnd = ExcludeAnd = false;
 
-    wxTimerEvent E;
-    OnAllSoundFileTimer(E);
+    wxCommandEvent e;
+    OnAllSoundFileSelect(e);
 }
 
 void AGE_Frame::ClearAllSoundFiles(wxCommandEvent &event)
@@ -358,13 +342,6 @@ void AGE_Frame::ClearAllSoundFiles(wxCommandEvent &event)
 
 void AGE_Frame::OnAllSoundFileSelect(wxCommandEvent &event)
 {
-    if(!allSoundFilesTimer.IsRunning())
-        allSoundFilesTimer.Start(150);
-}
-
-void AGE_Frame::OnAllSoundFileTimer(wxTimerEvent&)
-{
-    allSoundFilesTimer.Stop();
     SearchAllSubVectors(Sounds_AllItems_ListV, Sounds_Sounds_Search, Sounds_Items_Search);
 }
 
@@ -563,9 +540,7 @@ void AGE_Frame::CreateSoundControls()
         Sounds_Items_SearchFilters[loop]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnSelection_SearchFilters, this);
         Sounds_AllItems_UseAnd[loop]->Bind(wxEVT_CHECKBOX, &AGE_Frame::LoadAllSoundFiles, this);
     }
-    Sounds_Sounds_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnSoundsSelect, this);
-    Sounds_Sounds_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnSoundsSelect, this);
-    Sounds_Sounds_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnSoundsSelect, this);
+    Sounds_Sounds_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnSoundSelect, this);
     Sounds_Sounds_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnSoundsSearch, this);
     Sounds_Sounds_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnSoundsSearch, this);
     Sounds_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnSoundsAdd, this);
@@ -574,9 +549,7 @@ void AGE_Frame::CreateSoundControls()
     Sounds_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnSoundsCopy, this);
     Sounds_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnSoundsPaste, this);
     Sounds_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnSoundsPasteInsert, this);
-    Sounds_Items_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnSoundItemsSelect, this);
-    Sounds_Items_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnSoundItemsSelect, this);
-    Sounds_Items_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnSoundItemsSelect, this);
+    Sounds_Items_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnSoundItemSelect, this);
     Sounds_Items_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnSoundItemsSearch, this);
     Sounds_Items_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnSoundItemsSearch, this);
     SoundItems_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnSoundItemsAdd, this);
@@ -589,8 +562,6 @@ void AGE_Frame::CreateSoundControls()
     Sounds_AllItems_Search->Bind(wxEVT_TEXT, &AGE_Frame::LoadAllSoundFiles, this);
     Sounds_AllItems_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::LoadAllSoundFiles, this);
     Sounds_AllItems_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnAllSoundFileSelect, this);
-    Sounds_AllItems_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_DESELECTED, &AGE_Frame::OnAllSoundFileSelect, this);
-    Sounds_AllItems_ListV->Bind(wxEVT_COMMAND_LIST_ITEM_FOCUSED, &AGE_Frame::OnAllSoundFileSelect, this);
     Sounds_AllItems_Load->Bind(wxEVT_BUTTON, &AGE_Frame::LoadAllSoundFiles, this);
     Sounds_AllItems_Clear->Bind(wxEVT_BUTTON, &AGE_Frame::ClearAllSoundFiles, this);
     SoundFile_Play->Bind(wxEVT_BUTTON, &AGE_Frame::playWAV, this);
@@ -599,9 +570,6 @@ void AGE_Frame::CreateSoundControls()
     SoundFile_AutoIncrement->Bind(wxEVT_BUTTON, &AGE_Frame::autoDrsIncrement, this);
     SoundFile_CopyCivToCiv->Bind(wxEVT_BUTTON, &AGE_Frame::copySoundsFromCivToCiv, this);
 
-    soundTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnSoundsTimer, this);
-    soundFileTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnSoundItemsTimer, this);
-    allSoundFilesTimer.Bind(wxEVT_TIMER, &AGE_Frame::OnAllSoundFileTimer, this);
     for(auto &box: uiGroupSoundFile)
     box->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Sounds, this);
 }
