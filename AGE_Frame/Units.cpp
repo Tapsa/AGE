@@ -3015,7 +3015,7 @@ void AGE_Frame::CreateUnitControls()
     Units_Type_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_Type_Text = new SolidText(Tab_Units, "Type ");
     Units_Type = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Tab_Units, AGETextCtrl::SMALL);
-    Units_Type_ComboBox = new AGEComboBox(Tab_Units, &unit_type_names, AGETextCtrl::LARGE, 0);
+    Units_Type_ComboBox = new AGEComboBox(Tab_Units, &unit_type_names, AGETextCtrl::LARGE);
     Units_Class = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Tab_Units);
     Units_Class->SetToolTip("Determines many things and works in conjunction with other variables");
     Units_Class_ComboBox[0] = new ComboBox_Plus1(Tab_Units, Units_Class, &class_names);
@@ -3976,7 +3976,7 @@ void AGE_Frame::CreateUnitControls()
     UnitCommands_Type_Holder = new wxBoxSizer(wxVERTICAL);
     UnitCommands_Type_Text = new SolidText(Units_Scroller, " Action Type");
     UnitCommands_Type = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, &popUp, Units_Scroller);
-    UnitCommands_Type_ComboBox = new AGEComboBox(Units_Scroller, &action_type_names, AGETextCtrl::GIANT, 0);
+    UnitCommands_Type_ComboBox = new AGEComboBox(Units_Scroller, &action_type_names, AGETextCtrl::GIANT);
     UnitCommands_ClassID_Holder = new wxBoxSizer(wxVERTICAL);
     UnitCommands_ClassID_Text = new SolidText(Units_Scroller, " Class");
     UnitCommands_ClassID = AGETextCtrl::init(CShort, &uiGroupUnitCommand, this, &popUp, Units_Scroller);

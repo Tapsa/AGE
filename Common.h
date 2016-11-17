@@ -118,9 +118,10 @@ public:
     wxPanel(parent, wxID_ANY, wxDefaultPosition, size) {fixes();}
 
 private:
+    // Prevent jumping back to last focused child or sibling
     void fixes()
     {
-        Bind(wxEVT_CHILD_FOCUS, [](wxChildFocusEvent&){});
+        Bind(wxEVT_CHILD_FOCUS, [](wxChildFocusEvent&){}); // No scrolling
         Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent&){SetFocusIgnoringChildren();});
     }
 };
