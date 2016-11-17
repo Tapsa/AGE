@@ -434,11 +434,6 @@ void SharedComboPopup::OnMouseMove(wxMouseEvent &event)
     }
 }
 
-void SharedComboPopup::OnLeftClick(wxMouseEvent&)
-{
-    DismissWithEvent();
-}
-
 void SharedComboPopup::OnKey(wxKeyEvent &event)
 {
     // Hide popup if certain key or key combination was pressed
@@ -565,11 +560,6 @@ void SharedComboPopup::Clear()
         SetSelection(wxNOT_FOUND);
 }*/
 
-int SharedComboPopup::FindString(const wxString &s, bool bCase) const
-{
-    return s_strings->Index(s, bCase);
-}
-
 bool SharedComboPopup::FindItem(const wxString &item, wxString *trueItem)
 {
     int idx = s_strings->Index(item, false);
@@ -580,26 +570,11 @@ bool SharedComboPopup::FindItem(const wxString &item, wxString *trueItem)
     return true;
 }
 
-unsigned int SharedComboPopup::GetCount() const
-{
-    return s_strings->GetCount();
-}
-
-wxString SharedComboPopup::GetString(int item) const
-{
-    return (*s_strings)[item];
-}
-
 /*void SharedComboPopup::SetString(int item, const wxString &str)
 {
     (*s_strings)[item] = str;
     ItemWidthChanged(item);
 }*/
-
-wxString SharedComboPopup::GetStringValue() const
-{
-    return m_stringValue;
-}
 
 void SharedComboPopup::SetSelection(int item)
 {
@@ -615,11 +590,6 @@ void SharedComboPopup::SetSelection(int item)
 
     if(IsCreated())
         wxVListBox::SetSelection(item);
-}
-
-int SharedComboPopup::GetSelection() const
-{
-    return m_value;
 }
 
 void SharedComboPopup::SetStringValue(const wxString &value)

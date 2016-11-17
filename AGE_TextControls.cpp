@@ -8,7 +8,7 @@ void ProperList::OnDrawItem(wxDC &dc, const wxRect &rect, size_t n) const
 {
     dc.SetTextForeground(wxSystemSettings::GetColour(IsSelected(n) ?
         wxSYS_COLOUR_HIGHLIGHTTEXT : wxSYS_COLOUR_WINDOWTEXT));
-    dc.DrawText(names[n], rect.x, rect.y);
+    dc.DrawText(names[n], rect.x + 2, rect.y);
 }
 
 void ProperList::OnDrawBackground(wxDC &dc, const wxRect &rect, size_t n) const
