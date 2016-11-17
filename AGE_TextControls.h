@@ -1,10 +1,6 @@
 #pragma once
 #include "Common.h"
 
-//  The purpose of these custom text controls is that you get specified error messages
-//  when your mouse cursor focus gets off from a data edit box.
-
-// TODO: Remove useless timers and extra binds.
 class ProperList: public wxVListBox
 {
 public:
@@ -28,6 +24,9 @@ private:
 
     int row_height = 0;
 };
+
+//  The purpose of these custom text controls is that you get specified error messages
+//  when your mouse cursor focus gets off from a data edit box.
 
 class AGETextCtrl;
 class AGELinkedBox

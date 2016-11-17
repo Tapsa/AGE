@@ -5,8 +5,8 @@
 class AGEComboBox: public wxComboCtrl
 {
 public:
-    AGEComboBox(wxWindow *parent, wxArrayString *choices, int width = AGETextCtrl::LARGE, long style = wxCB_READONLY):
-    wxComboCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxTE_PROCESS_ENTER | style)
+    AGEComboBox(wxWindow *parent, wxArrayString *choices, int width = AGETextCtrl::LARGE):
+    wxComboCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxCB_READONLY)
     {
         popup = new SharedComboPopup();
         SetPopupControl(popup);
@@ -14,7 +14,6 @@ public:
         popup->Imbue(choices);
         Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
-    //void OnDrawItem(wxDC &dc, const wxRect &rect, int item, int flags) const;
     unsigned int GetCount() const {return popup->GetCount();}
     void SetSelection(int n);
     int GetSelection() const {return popup->GetSelection();}
@@ -29,7 +28,7 @@ class ComboBox_Plus1: public AGEComboBox, public AGELinkedBox
 {
 public:
     ComboBox_Plus1(wxWindow *parent, AGETextCtrl *ptr, wxArrayString *choices, int width = AGETextCtrl::LARGE):
-    AGEComboBox(parent, choices, width, 0)
+    AGEComboBox(parent, choices, width)
     {
         TextBox = ptr;
         TextBox->LinkedBoxes.push_back(this);
@@ -46,7 +45,7 @@ class ComboBox_EffectType: public AGEComboBox, public AGELinkedBox
 {
 public:
     ComboBox_EffectType(wxWindow *parent, AGETextCtrl *ptr, wxArrayString *choices):
-    AGEComboBox(parent, choices, AGETextCtrl::GIANT, 0)
+    AGEComboBox(parent, choices, AGETextCtrl::GIANT)
     {
         TextBox = ptr;
         TextBox->LinkedBoxes.push_back(this);
@@ -62,7 +61,7 @@ class ComboBox_EffectAttribute: public AGEComboBox, public AGELinkedBox
 {
 public:
     ComboBox_EffectAttribute(wxWindow *parent, AGETextCtrl *ptr, wxArrayString *choices):
-    AGEComboBox(parent, choices, AGETextCtrl::LARGE, 0)
+    AGEComboBox(parent, choices, AGETextCtrl::LARGE)
     {
         TextBox = ptr;
         TextBox->LinkedBoxes.push_back(this);
