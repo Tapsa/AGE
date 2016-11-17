@@ -33,7 +33,7 @@ public:
     virtual void SetFocus() wxOVERRIDE;
     virtual wxWindow *GetControl() wxOVERRIDE {return this;}
     virtual void SetStringValue(const wxString &value) wxOVERRIDE;
-    virtual wxString GetStringValue() const wxOVERRIDE;
+    virtual wxString GetStringValue() const wxOVERRIDE {return m_stringValue;}
 
     // more customization
     virtual void OnPopup() wxOVERRIDE;
@@ -48,10 +48,9 @@ public:
     // Item management
     void SetSelection(int item);
     void Clear();
-    wxString GetString(int item) const;
-    unsigned int GetCount() const;
-    int FindString(const wxString &s, bool bCase = false) const;
-    int GetSelection() const;
+    wxString GetString(int item) const {return (*s_strings)[item];}
+    unsigned int GetCount() const {return s_strings->GetCount();}
+    int GetSelection() const {return m_value;}
 
     void Imbue(wxArrayString *choices);
     void Flash();
@@ -109,7 +108,7 @@ protected:
     void OnMouseMove(wxMouseEvent &event);
     void OnKey(wxKeyEvent &event);
     void OnChar(wxKeyEvent &event);
-    void OnLeftClick(wxMouseEvent &event);
+    void OnLeftClick(wxMouseEvent&) {DismissWithEvent();}
 
     // Return the widest item width (recalculating it if necessary)
     int GetWidestItemWidth() {CalcWidths(); return m_widestWidth;}
