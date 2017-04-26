@@ -2570,8 +2570,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     wxArrayString FilesToRead;
                     if(GenieVersion == genie::GV_TC)
                     {
-                        FilesToRead.Add("\\gamedata_x1_p1.drs");
                         FilesToRead.Add("\\gamedata_x1.drs");
+                        FilesToRead.Add("\\gamedata_x1_p1.drs");
                         FilesToRead.Add("\\sounds_x1.drs");
                     }
                     else if(GenieVersion == genie::GV_CC)
