@@ -46,6 +46,7 @@ void AGE_Frame::InitPlayerColors()
 
     RefreshList(Colors_Colors_ListV, &ColorIDs);
     Graphics_PlayerColor_ComboBox->Flash();
+    Colors_ReferenceID_ComboBox->Flash();
 }
 
 void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
@@ -63,20 +64,22 @@ void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
         PlayerColorPointer = &dataset->PlayerColours[ColorIDs[loop]];
 
         Colors_ID->prepend(&PlayerColorPointer->ID);
-        Colors_ColorL->prepend(&PlayerColorPointer->Colour);
-        Colors_Unknown1->prepend(&PlayerColorPointer->Unknown1);
-        Colors_Unknown2->prepend(&PlayerColorPointer->Unknown2);
+        Colors_MinimapColor->prepend(&PlayerColorPointer->MinimapColour);
         if(GenieVersion < genie::GV_AoKE3)  //  AoE and RoR
         {
             Colors_Name->prepend(&PlayerColorPointer->Name);
+            Colors_ResourceID->prepend(&PlayerColorPointer->ResourceID);
+            Colors_Type->prepend(&PlayerColorPointer->Type);
         }
         else    //  Above AoE and RoR
         {
-            Colors_Palette->prepend(&PlayerColorPointer->Palette);
-            Colors_MinimapColor->prepend(&PlayerColorPointer->MinimapColour);
-            Colors_Unknown3->prepend(&PlayerColorPointer->Unknown3);
-            Colors_Unknown4->prepend(&PlayerColorPointer->Unknown4);
-            Colors_StatisticsText->prepend(&PlayerColorPointer->StatisticsText);
+            Colors_PlayerPalette->prepend(&PlayerColorPointer->PlayerColorBase);
+            Colors_OutlineColor->prepend(&PlayerColorPointer->UnitOutlineColor);
+            Colors_SelectionColor1->prepend(&PlayerColorPointer->UnitSelectionColor1);
+            Colors_SelectionColor2->prepend(&PlayerColorPointer->UnitSelectionColor2);
+            Colors_MinimapColor2->prepend(&PlayerColorPointer->MinimapColor2);
+            Colors_MinimapColor3->prepend(&PlayerColorPointer->MinimapColor3);
+            Colors_ReferenceID->prepend(&PlayerColorPointer->StatisticsText);
         }
     }
     SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected color: "+lexical_cast<string>(ColorIDs.front()), 0);
@@ -85,17 +88,32 @@ void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
     Colors_ID->refill();
     if(PlayerColorPointer && !palettes.empty() && !palettes.front().empty())
     {
-        genie::Color playerColor = palettes.front()[(uint8_t)PlayerColorPointer->Colour];
-        genie::Color paletteStart = palettes.front()[(uint8_t)PlayerColorPointer->Palette];
         genie::Color minimap = palettes.front()[(uint8_t)PlayerColorPointer->MinimapColour];
-        setForeAndBackColors(Colors_Palette, wxColour(paletteStart.r, paletteStart.g, paletteStart.b));
-        setForeAndBackColors(Colors_ColorL, wxColour(playerColor.r, playerColor.g, playerColor.b));
         setForeAndBackColors(Colors_MinimapColor, wxColour(minimap.r, minimap.g, minimap.b));
 
         if(GenieVersion < genie::GV_AoKE3)
-        AGE_SLP::playerColorStart = uint8_t(16 * (1 + ColorIDs.front()));
-        else AGE_SLP::playerColorStart = (uint8_t)PlayerColorPointer->Palette;
-        AGE_SLP::playerColorID = (uint8_t)PlayerColorPointer->Colour;
+        {
+            AGE_SLP::playerColorStart = uint8_t(16 * (1 + ColorIDs.front()));
+        }
+        else
+        {
+            AGE_SLP::playerColorID = (uint8_t)PlayerColorPointer->UnitOutlineColor;
+            AGE_SLP::playerColorStart = (uint8_t)PlayerColorPointer->PlayerColorBase;
+
+            genie::Color playerColor = palettes.front()[AGE_SLP::playerColorID];
+            genie::Color paletteStart = palettes.front()[AGE_SLP::playerColorStart];
+            genie::Color minimap2 = palettes.front()[(uint8_t)PlayerColorPointer->MinimapColor2];
+            genie::Color minimap3 = palettes.front()[(uint8_t)PlayerColorPointer->MinimapColor3];
+            genie::Color selection1 = palettes.front()[(uint8_t)PlayerColorPointer->UnitSelectionColor1];
+            genie::Color selection2 = palettes.front()[(uint8_t)PlayerColorPointer->UnitSelectionColor2];
+
+            setForeAndBackColors(Colors_OutlineColor, wxColour(playerColor.r, playerColor.g, playerColor.b));
+            setForeAndBackColors(Colors_PlayerPalette, wxColour(paletteStart.r, paletteStart.g, paletteStart.b));
+            setForeAndBackColors(Colors_SelectionColor1, wxColour(selection1.r, selection1.g, selection1.b));
+            setForeAndBackColors(Colors_SelectionColor2, wxColour(selection2.r, selection2.g, selection2.b));
+            setForeAndBackColors(Colors_MinimapColor2, wxColour(minimap2.r, minimap2.g, minimap2.b));
+            setForeAndBackColors(Colors_MinimapColor3, wxColour(minimap3.r, minimap3.g, minimap3.b));
+        }
     }
 }
 
@@ -209,41 +227,55 @@ void AGE_Frame::CreatePlayerColorControls()
     Colors_Paste = new wxButton(Tab_PlayerColors, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
     Colors_PasteInsert = new wxButton(Tab_PlayerColors, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
+    const wxString COL_TT = "Index of the main color palette";
     Colors_DataArea = new wxBoxSizer(wxVERTICAL);
     Colors_WrapArea = new wxWrapSizer();
     Colors_Name_Holder = new wxBoxSizer(wxVERTICAL);
     Colors_ID_Holder = new wxBoxSizer(wxVERTICAL);
-    Colors_Palette_Holder = new wxBoxSizer(wxVERTICAL);
-    Colors_Color_Holder = new wxBoxSizer(wxVERTICAL);
+    Colors_ResourceID_Holder = new wxBoxSizer(wxVERTICAL);
+    Colors_PlayerPalette_Holder = new wxBoxSizer(wxVERTICAL);
+    Colors_OutlineColor_Holder = new wxBoxSizer(wxVERTICAL);
     Colors_MinimapColor_Holder = new wxBoxSizer(wxVERTICAL);
-    Colors_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-    Colors_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
-    Colors_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
-    Colors_Unknown4_Holder = new wxBoxSizer(wxVERTICAL);
-    Colors_StatisticsText_Holder = new wxBoxSizer(wxVERTICAL);
-    Colors_Name_Text = new SolidText(Tab_PlayerColors, " Name");
+    Colors_SelectionColor1_Holder = new wxBoxSizer(wxVERTICAL);
+    Colors_SelectionColor2_Holder = new wxBoxSizer(wxVERTICAL);
+    Colors_MinimapColor2_Holder = new wxBoxSizer(wxVERTICAL);
+    Colors_MinimapColor3_Holder = new wxBoxSizer(wxVERTICAL);
+    Colors_Type_Holder = new wxBoxSizer(wxVERTICAL);
+    Colors_ReferenceID_Holder = new wxBoxSizer(wxVERTICAL);
+    Colors_Name_Text = new SolidText(Tab_PlayerColors, " Filename");
     Colors_ID_Text = new SolidText(Tab_PlayerColors, " ID");
-    Colors_Palette_Text = new SolidText(Tab_PlayerColors, " Palette *");
-    Colors_Color_Text = new SolidText(Tab_PlayerColors, " Color *");
+    Colors_ResourceID_Text = new SolidText(Tab_PlayerColors, "DRS Resource *");
+    Colors_PlayerPalette_Text = new SolidText(Tab_PlayerColors, " Player Color Base *");
+    Colors_OutlineColor_Text = new SolidText(Tab_PlayerColors, " Outline Color *");
+    Colors_SelectionColor1_Text = new SolidText(Tab_PlayerColors, " Select Color 1 *");
+    Colors_SelectionColor2_Text = new SolidText(Tab_PlayerColors, " Select Color 2 *");
     Colors_MinimapColor_Text = new SolidText(Tab_PlayerColors, " Minimap Color *");
-    Colors_Unknown1_Text = new SolidText(Tab_PlayerColors, " Unknown 1");
-    Colors_Unknown2_Text = new SolidText(Tab_PlayerColors, " Unknown 2");
-    Colors_Unknown3_Text = new SolidText(Tab_PlayerColors, " Unknown 3");
-    Colors_Unknown4_Text = new SolidText(Tab_PlayerColors, " Unknown 4");
-    Colors_StatisticsText_Text = new SolidText(Tab_PlayerColors, " Statistics Text");
+    Colors_MinimapColor2_Text = new SolidText(Tab_PlayerColors, " Minimap Color 2 *");
+    Colors_MinimapColor3_Text = new SolidText(Tab_PlayerColors, " Minimap Color 3 *");
+    Colors_Type_Text = new SolidText(Tab_PlayerColors, " Type *");
+    Colors_ReferenceID_Text = new SolidText(Tab_PlayerColors, " Statistics Text");
     Colors_Name = AGETextCtrl::init(CString, &uiGroupColor, this, &popUp, Tab_PlayerColors, 30);
     Colors_ID = AGETextCtrl::init(CLong, 0, this, &popUp, Tab_PlayerColors);
-    Colors_Palette = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
-    Colors_Palette->SetToolTip("Starting index of the main color palette\nfrom where 8 colors are dedicated to this player color");
-    Colors_ColorL = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
-    Colors_ColorL->SetToolTip("Index of the main color palette");
+    Colors_ResourceID = AGETextCtrl::init(CShort, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+    Colors_ResourceID->SetToolTip("Unused");
+    Colors_PlayerPalette = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+    Colors_PlayerPalette->SetToolTip("Starting index of the main color palette\nfrom where 8 colors are dedicated to this player color");
+    Colors_OutlineColor = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+    Colors_OutlineColor->SetToolTip(COL_TT);
     Colors_MinimapColor = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
-    Colors_MinimapColor->SetToolTip("Index of the main color palette");
-    Colors_Unknown1 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
-    Colors_Unknown2 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
-    Colors_Unknown3 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
-    Colors_Unknown4 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
-    Colors_StatisticsText = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+    Colors_MinimapColor->SetToolTip(COL_TT);
+    Colors_MinimapColor2 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+    Colors_MinimapColor2->SetToolTip("Unused");
+    Colors_MinimapColor3 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+    Colors_MinimapColor3->SetToolTip("Unused");
+    Colors_SelectionColor1 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+    Colors_SelectionColor1->SetToolTip("Unused");
+    Colors_SelectionColor2 = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+    Colors_SelectionColor2->SetToolTip("Unused");
+    Colors_Type = AGETextCtrl::init(CUByte, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+    Colors_Type->SetToolTip("0   Transform\n1   Transform player color\n2   Shadow\n3   Translucent");
+    Colors_ReferenceID = AGETextCtrl::init(CLong, &uiGroupColor, this, &popUp, Tab_PlayerColors);
+    Colors_ReferenceID_ComboBox = new ComboBox_Plus1(Tab_PlayerColors, Colors_ReferenceID, &color_names);
     Colors_Palette_Display = new APanel(Tab_PlayerColors, wxSize(256, 256));
 
     Colors_Colors_Buttons->Add(Colors_Add, 1, wxEXPAND);
@@ -261,41 +293,47 @@ void AGE_Frame::CreatePlayerColorControls()
     Colors_Name_Holder->Add(Colors_Name_Text);
     Colors_Name_Holder->Add(Colors_Name, 0, wxRESERVE_SPACE_EVEN_IF_HIDDEN | wxRIGHT, 5);
     Colors_ID_Holder->Add(Colors_ID_Text);
-    Colors_ID_Holder->Add(Colors_ID, 0, wxEXPAND);
-    Colors_Palette_Holder->Add(Colors_Palette_Text);
-    Colors_Palette_Holder->Add(Colors_Palette, 0, wxEXPAND);
-    Colors_Color_Holder->Add(Colors_Color_Text);
-    Colors_Color_Holder->Add(Colors_ColorL, 0, wxEXPAND);
+    Colors_ID_Holder->Add(Colors_ID);
+    Colors_ResourceID_Holder->Add(Colors_ResourceID_Text);
+    Colors_ResourceID_Holder->Add(Colors_ResourceID);
+    Colors_PlayerPalette_Holder->Add(Colors_PlayerPalette_Text);
+    Colors_PlayerPalette_Holder->Add(Colors_PlayerPalette);
+    Colors_OutlineColor_Holder->Add(Colors_OutlineColor_Text);
+    Colors_OutlineColor_Holder->Add(Colors_OutlineColor);
     Colors_MinimapColor_Holder->Add(Colors_MinimapColor_Text);
-    Colors_MinimapColor_Holder->Add(Colors_MinimapColor, 0, wxEXPAND);
-    Colors_Unknown1_Holder->Add(Colors_Unknown1_Text);
-    Colors_Unknown1_Holder->Add(Colors_Unknown1, 0, wxEXPAND);
-    Colors_Unknown2_Holder->Add(Colors_Unknown2_Text);
-    Colors_Unknown2_Holder->Add(Colors_Unknown2, 0, wxEXPAND);
-    Colors_Unknown3_Holder->Add(Colors_Unknown3_Text);
-    Colors_Unknown3_Holder->Add(Colors_Unknown3, 0, wxEXPAND);
-    Colors_Unknown4_Holder->Add(Colors_Unknown4_Text);
-    Colors_Unknown4_Holder->Add(Colors_Unknown4, 0, wxEXPAND);
-    Colors_StatisticsText_Holder->Add(Colors_StatisticsText_Text);
-    Colors_StatisticsText_Holder->Add(Colors_StatisticsText, 0, wxEXPAND);
+    Colors_MinimapColor_Holder->Add(Colors_MinimapColor);
+    Colors_SelectionColor1_Holder->Add(Colors_SelectionColor1_Text);
+    Colors_SelectionColor1_Holder->Add(Colors_SelectionColor1);
+    Colors_SelectionColor2_Holder->Add(Colors_SelectionColor2_Text);
+    Colors_SelectionColor2_Holder->Add(Colors_SelectionColor2);
+    Colors_MinimapColor2_Holder->Add(Colors_MinimapColor2_Text);
+    Colors_MinimapColor2_Holder->Add(Colors_MinimapColor2);
+    Colors_MinimapColor3_Holder->Add(Colors_MinimapColor3_Text);
+    Colors_MinimapColor3_Holder->Add(Colors_MinimapColor3);
+    Colors_Type_Holder->Add(Colors_Type_Text);
+    Colors_Type_Holder->Add(Colors_Type);
+    Colors_ReferenceID_Holder->Add(Colors_ReferenceID_Text);
+    Colors_ReferenceID_Holder->Add(Colors_ReferenceID, 1, wxEXPAND);
+    Colors_ReferenceID_Holder->Add(Colors_ReferenceID_ComboBox);
 
     Colors_DataArea->Add(Colors_Name_Holder, 0, wxTOP | wxRIGHT | wxLEFT, 5);
     Colors_WrapArea->Add(Colors_ID_Holder, 0, wxTOP | wxLEFT, 5);
-    Colors_WrapArea->Add(Colors_Palette_Holder, 0, wxTOP | wxLEFT, 5);
-    Colors_WrapArea->Add(Colors_Color_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_ResourceID_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_PlayerPalette_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_OutlineColor_Holder, 0, wxTOP | wxLEFT, 5);
     Colors_WrapArea->Add(Colors_MinimapColor_Holder, 0, wxTOP | wxLEFT, 5);
-    Colors_WrapArea->Add(Colors_Unknown1_Holder, 0, wxTOP | wxLEFT, 5);
-    Colors_WrapArea->Add(Colors_Unknown2_Holder, 0, wxTOP | wxLEFT, 5);
-    Colors_WrapArea->Add(Colors_Unknown3_Holder, 0, wxTOP | wxLEFT, 5);
-    Colors_WrapArea->Add(Colors_Unknown4_Holder, 0, wxTOP | wxLEFT, 5);
-    Colors_WrapArea->Add(Colors_StatisticsText_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_MinimapColor2_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_MinimapColor3_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_SelectionColor1_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_SelectionColor2_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_Type_Holder, 0, wxTOP | wxLEFT, 5);
+    Colors_WrapArea->Add(Colors_ReferenceID_Holder, 0, wxTOP | wxLEFT, 5);
     Colors_DataArea->Add(Colors_WrapArea, 0, wxTOP, 5);
 
     Colors_Main->Add(Colors_Colors, 1, wxEXPAND | wxTOP | wxLEFT | wxBOTTOM, 5);
     Colors_Main->Add(Colors_DataArea);
     Colors_Main->Add(Colors_Palette_Display, 2, wxEXPAND);
 
-    if(EnableIDFix)
     Colors_ID->Enable(false);
 
     Tab_PlayerColors->SetSizer(Colors_Main);
@@ -310,8 +348,15 @@ void AGE_Frame::CreatePlayerColorControls()
     Colors_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnPlayerColorsPaste, this);
     Colors_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnPlayerColorsPasteInsert, this);
     Colors_Name->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Colors, this);
+    Colors_Name->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Colors, this);
     Colors_Palette_Display->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawPalette, this);
     Colors_Palette_Display->Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});
+}
+
+void AGE_Frame::OnEnter_Colors(wxCommandEvent &event)
+{
+    static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+    ListPlayerColors();
 }
 
 void AGE_Frame::OnKillFocus_Colors(wxFocusEvent &event)

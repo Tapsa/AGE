@@ -1,51 +1,51 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetTechName(int index)
+wxString AGE_Frame::GetEffectName(int index)
 {
-    if(!dataset->Techages[index].Name.empty())
-        return dataset->Techages[index].Name;
-    return "New Technology ";
+    if(!dataset->Effects[index].Name.empty())
+        return dataset->Effects[index].Name;
+    return "New Effect";
 }
 
-void AGE_Frame::OnTechRenameGE2(wxCommandEvent &event)
+void AGE_Frame::OnEffectRenameGE2(wxCommandEvent &event)
 {
     if(!dataset) return;
 
-    for(auto &tech: dataset->Techages)
+    for(auto &tech: dataset->Effects)
     {
-        tech.Name = "Tech";
+        tech.Name = "Effect";
     }
-    ListTechs();
+    ListEffects();
 }
 
-void AGE_Frame::OnTechRename(wxCommandEvent &event)
+void AGE_Frame::OnEffectRename(wxCommandEvent &event)
 {
     if(!dataset) return;
 
-    for(auto &tech: dataset->Techages)
+    for(auto &tech: dataset->Effects)
     {
-        if(tech.Effects.size()) // Other than empty techs, not researches if research loop doesn't rename them.
+        if(tech.EffectCommands.size()) // Other than empty techs, not researches if research loop doesn't rename them.
         {
-            tech.Name = "Non-Research";
+            tech.Name = "Non-Tech";
         }
         else // Empty techs.
         {
-            tech.Name = "New Technology";
+            tech.Name = "New Effect";
         }
     }
     short ResearchTechID = 0;
-    for(size_t loop=dataset->Researchs.size(); loop--> 0;) // Rename of techs. Make it reverse loop.
+    for(size_t loop=dataset->Techs.size(); loop--> 0;) // Rename of techs. Make it reverse loop.
     {
-        ResearchTechID = dataset->Researchs[loop].TechageID;
+        ResearchTechID = dataset->Techs[loop].EffectID;
         if(ResearchTechID >= 0) // Only researches which have techs.
         {
-            if(!LangDLLstring(dataset->Researchs[loop].LanguageDLLName, 2).empty()) // has a lang dll name
+            if(!TranslatedText(dataset->Techs[loop].LanguageDLLName, 2).empty()) // has a lang dll name
             {
-                dataset->Techages[ResearchTechID].Name = LangDLLstring(dataset->Researchs[loop].LanguageDLLName, 31);
+                dataset->Effects[ResearchTechID].Name = TranslatedText(dataset->Techs[loop].LanguageDLLName, 31);
             }
             else // Use internal name instead.
             {
-                dataset->Techages[ResearchTechID].Name = dataset->Researchs[loop].Name;
+                dataset->Effects[ResearchTechID].Name = dataset->Techs[loop].Name;
             }
         }
     }
@@ -58,27 +58,27 @@ void AGE_Frame::OnTechRename(wxCommandEvent &event)
         CivTeamBonusID = dataset->Civs[loop2].TeamBonusID;
         if(CivTechTreeID >= 0)
         {
-            dataset->Techages[CivTechTreeID].Name = CivName+" Tech. Tree"; // Under 31 chars.
+            dataset->Effects[CivTechTreeID].Name = CivName+" Tech Tree"; // Under 31 chars.
         }
         if(CivTeamBonusID >= 0)
         {
-            dataset->Techages[CivTeamBonusID].Name = CivName+" Team Bonus"; // Under 31 chars.
+            dataset->Effects[CivTeamBonusID].Name = CivName+" Team Bonus"; // Under 31 chars.
         }
     }
-    ListTechs();
+    ListEffects();
 }
 
-void AGE_Frame::OnTechSearch(wxCommandEvent &event)
+void AGE_Frame::OnEffectSearch(wxCommandEvent &event)
 {
     How2List = SEARCH;
-    ListTechs(false);
+    ListEffects(false);
 }
 
-void AGE_Frame::ListTechs(bool all)
+void AGE_Frame::ListEffects(bool all)
 {
     InitTechs(all);
     wxCommandEvent e;
-    OnTechSelect(e);
+    OnEffectSelect(e);
 }
 
 void AGE_Frame::InitTechs(bool all)
@@ -91,13 +91,13 @@ void AGE_Frame::InitTechs(bool all)
     if(all)
     {
         tech_names.Clear();
-        tech_names.Alloc(1 + dataset->Techages.size());
+        tech_names.Alloc(1 + dataset->Effects.size());
         tech_names.Add("-1 - None");
     }
 
-    for(size_t loop = 0; loop < dataset->Techages.size(); ++loop)
+    for(size_t loop = 0; loop < dataset->Effects.size(); ++loop)
     {
-        wxString Name = FormatInt(loop)+" - "+GetTechName(loop);
+        wxString Name = FormatInt(loop)+" - "+GetEffectName(loop);
         if(SearchMatches(" " + Name.Lower() + " "))
         {
             Techs_ListV->names.Add(Name);
@@ -112,7 +112,7 @@ void AGE_Frame::InitTechs(bool all)
     SearchAnd = ExcludeAnd = false;
 }
 
-void AGE_Frame::OnTechSelect(wxCommandEvent &event)
+void AGE_Frame::OnEffectSelect(wxCommandEvent &event)
 {
     auto selections = Techs_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
@@ -120,134 +120,134 @@ void AGE_Frame::OnTechSelect(wxCommandEvent &event)
 
     Techs_Name->clear();
 
-    genie::Techage * TechPointer;
+    genie::Effect * TechPointer;
     for(auto loop = selections; loop--> 0;)
     {
-        TechPointer = &dataset->Techages[TechIDs[loop]];
+        TechPointer = &dataset->Effects[TechIDs[loop]];
         Techs_Name->prepend(&TechPointer->Name);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected tech: "+lexical_cast<string>(TechIDs.front()), 0);
+    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected effect: "+lexical_cast<string>(TechIDs.front()), 0);
 
     Techs_Name->update();
-    ListEffects();
+    ListEffectCmds();
 }
 
-void AGE_Frame::OnTechAdd(wxCommandEvent &event)    // Works.
+void AGE_Frame::OnEffectAdd(wxCommandEvent &event)    // Works.
 {
     if(!dataset) return;
 
     wxBusyCursor WaitCursor;
-    AddToList(dataset->Techages);
-    ListTechs();
+    AddToList(dataset->Effects);
+    ListEffects();
 }
 
-void AGE_Frame::OnTechInsert(wxCommandEvent &event) // Works.
+void AGE_Frame::OnEffectInsert(wxCommandEvent &event) // Works.
 {
     auto selections = Techs_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    InsertToList(dataset->Techages, TechIDs.front());
-    ListTechs();
+    InsertToList(dataset->Effects, TechIDs.front());
+    ListEffects();
 }
 
-void AGE_Frame::OnTechDelete(wxCommandEvent &event) // Works.
+void AGE_Frame::OnEffectDelete(wxCommandEvent &event) // Works.
 {
     auto selections = Techs_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    DeleteFromList(dataset->Techages, TechIDs);
-    ListTechs();
+    DeleteFromList(dataset->Effects, TechIDs);
+    ListEffects();
 }
 
-void AGE_Frame::OnTechCopy(wxCommandEvent &event)   // Works.
+void AGE_Frame::OnEffectCopy(wxCommandEvent &event)   // Works.
 {
     auto selections = Techs_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    CopyFromList(dataset->Techages, TechIDs, copies.Tech);
+    CopyFromList(dataset->Effects, TechIDs, copies.Effect);
     Techs_ListV->SetFocus();
 }
 
-void AGE_Frame::OnTechPaste(wxCommandEvent &event)  // Works.
+void AGE_Frame::OnEffectPaste(wxCommandEvent &event)  // Works.
 {
     auto selections = Techs_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    PasteToList(dataset->Techages, TechIDs, copies.Tech);
-    ListTechs();
+    PasteToList(dataset->Effects, TechIDs, copies.Effect);
+    ListEffects();
 }
 
-void AGE_Frame::OnTechPasteInsert(wxCommandEvent &event)    // Works.
+void AGE_Frame::OnEffectPasteInsert(wxCommandEvent &event)    // Works.
 {
     auto selections = Techs_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToList(dataset->Techages, TechIDs.front(), copies.Tech);
-    ListTechs();
+    PasteInsertToList(dataset->Effects, TechIDs.front(), copies.Effect);
+    ListEffects();
 }
 
-inline string Tester(genie::TechageEffect effect, string how)
+wxString AGE_Frame::Tester(genie::EffectCommand effect, wxString how)
 {
     return ((effect.C == 8 || effect.C == 9) ? (effect.C == 8 ? "armor type " : "attack type ")
-        + lexical_cast<string>((uint16_t)effect.D >> 8) + how + lexical_cast<string>(uint16_t((uint8_t)effect.D))
-        : "attr " + lexical_cast<string>(effect.C) + how + lexical_cast<string>(effect.D))
-        + ((effect.B == -1) ? " for unit " + lexical_cast<string>(effect.A) : " for class " + lexical_cast<string>(effect.B));
+        + FormatInt((uint16_t)effect.D >> 8) + how + FormatInt(uint16_t((uint8_t)effect.D))
+        : "attr " + FormatInt(effect.C) + how + FormatFloat(effect.D))
+        + ((effect.B == -1) ? " for unit " + FormatInt(effect.A) : " for class " + FormatInt(effect.B));
 }
 
-string AGE_Frame::GetEffectName(int effect, int tech)
+wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
 {
-    string Name;
-    switch(dataset->Techages[tech].Effects[effect].Type)
+    wxString Name;
+    switch(dataset->Effects[tech].EffectCommands[effect].Type)
     {
         case 10:
             Name = "Team ";
         case 0:
         {
             //Name = "Attribute Modifier (Set)";
-            Name += "Set " + Tester(dataset->Techages[tech].Effects[effect], " to ");
+            Name += "Set " + Tester(dataset->Effects[tech].EffectCommands[effect], " to ");
             break;
         }
         case 11:
             Name = "Team ";
         case 1:
             //Name = "Resource Modifier (Set/+/-)";
-            if(dataset->Techages[tech].Effects[effect].B == 0)
+            if(dataset->Effects[tech].EffectCommands[effect].B == 0)
             {
-                Name += "Set resource "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
-                +" to "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
+                Name += "Set resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             }
             else
             {
-                Name += "Change resource "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
-                +" by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
+                Name += "Change resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             }
             break;
         case 12:
             Name = "Team ";
         case 2:
-            if(dataset->Techages[tech].Effects[effect].B == 0)
+            if(dataset->Effects[tech].EffectCommands[effect].B == 0)
                 Name += "Disable";
             else
                 Name += "Enable";
-            Name += " unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A);
+            Name += " unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A);
             break;
         case 13:
             Name = "Team ";
         case 3:
-            Name += "Upgrade unit "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
-            +" to "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B);
+            Name += "Upgrade unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+            +" to "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B);
             break;
         case 14:
             Name = "Team ";
         case 4:
         {
             //Name = "Attribute Modifier (+/-)";
-            Name += "Change " + Tester(dataset->Techages[tech].Effects[effect], " by ");
+            Name += "Change " + Tester(dataset->Effects[tech].EffectCommands[effect], " by ");
             break;
         }
         case 15:
@@ -255,45 +255,45 @@ string AGE_Frame::GetEffectName(int effect, int tech)
         case 5:
         {
             //Name = "Attribute Modifier (Multiply)";
-            Name += "Multiply " + Tester(dataset->Techages[tech].Effects[effect], " by ");
+            Name += "Multiply " + Tester(dataset->Effects[tech].EffectCommands[effect], " by ");
             break;
         }
         case 16:
             Name = "Team ";
         case 6:
             //Name = "Resource Modifier (Multiply)";
-            Name += "Multiply resource "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
-            +" by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
+            Name += "Multiply resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+            +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             break;
         case 101:
-            //Name = "Research Cost Modifier (Set/+/-)";
-            if(dataset->Techages[tech].Effects[effect].C == 0)
+            //Name = "Tech Cost Modifier (Set/+/-)";
+            if(dataset->Effects[tech].EffectCommands[effect].C == 0)
             {
-                Name = "Set research "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
-                +" cost type "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B)
-                +" to "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
+                Name = "Set tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B)
+                +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             }
             else
             {
-                Name = "Change research "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
-                +" cost type "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].B)
-                +" by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
+                Name = "Change tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B)
+                +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             }
             break;
         case 102:
-            Name = "Disable research "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
+            Name = "Disable tech "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             break;
         case 103:
-            //Name = "Research Time Modifier (Set/+/-)";
-            if(dataset->Techages[tech].Effects[effect].C == 0)
+            //Name = "Tech Time Modifier (Set/+/-)";
+            if(dataset->Effects[tech].EffectCommands[effect].C == 0)
             {
-                Name = "Set research "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
-                +" time to "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
+                Name = "Set tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                +" time to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             }
             else
             {
-                Name = "Change research "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].A)
-                +" time by "+lexical_cast<string>(dataset->Techages[tech].Effects[effect].D);
+                Name = "Change tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                +" time by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             }
             break;
         default:
@@ -302,13 +302,13 @@ string AGE_Frame::GetEffectName(int effect, int tech)
     return Name;
 }
 
-void AGE_Frame::OnEffectsSearch(wxCommandEvent &event)
+void AGE_Frame::OnEffectCmdSearch(wxCommandEvent &event)
 {
     How2List = SEARCH;
-    ListEffects();
+    ListEffectCmds();
 }
 
-void AGE_Frame::ListEffects()
+void AGE_Frame::ListEffectCmds()
 {
     InitSearch(Techs_Effects_Search->GetValue().MakeLower(), Techs_Effects_Search_R->GetValue().MakeLower());
     SearchAnd = Techs_Effects_UseAnd[0]->GetValue();
@@ -316,10 +316,10 @@ void AGE_Frame::ListEffects()
 
     Techs_Effects_ListV->Sweep();
 
-    if(dataset->Techages.size())
-    for(size_t loop = 0; loop < dataset->Techages[TechIDs.front()].Effects.size(); ++loop)
+    if(dataset->Effects.size())
+    for(size_t loop = 0; loop < dataset->Effects[TechIDs.front()].EffectCommands.size(); ++loop)
     {
-        wxString Name = FormatInt(loop)+" - "+GetEffectName(loop, TechIDs.front());
+        wxString Name = FormatInt(loop)+" - "+GetEffectCmdName(loop, TechIDs.front());
         if(SearchMatches(" " + Name.Lower() + " "))
         {
             Techs_Effects_ListV->names.Add(Name);
@@ -331,10 +331,10 @@ void AGE_Frame::ListEffects()
     SearchAnd = ExcludeAnd = false;
 
     wxCommandEvent e;
-    OnEffectSelect(e);
+    OnEffectCmdSelect(e);
 }
 
-void AGE_Frame::OnEffectSelect(wxCommandEvent &event)
+void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
 {
     auto selections = Techs_Effects_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
@@ -345,10 +345,10 @@ void AGE_Frame::OnEffectSelect(wxCommandEvent &event)
         getSelectedItems(selections, Techs_Effects_ListV, EffectIDs);
         Effects_Type_Holder->Show(true);
 
-        genie::TechageEffect * EffectPointer;
+        genie::EffectCommand * EffectPointer;
         for(auto loop = selections; loop--> 0;)
         {
-            EffectPointer = &dataset->Techages[TechIDs.front()].Effects[EffectIDs[loop]];
+            EffectPointer = &dataset->Effects[TechIDs.front()].EffectCommands[EffectIDs[loop]];
             Effects_Type->prepend(&EffectPointer->Type);
             Effects_A->prepend(&EffectPointer->A);
             Effects_B->prepend(&EffectPointer->B);
@@ -392,7 +392,7 @@ void AGE_Frame::OnEffectSelect(wxCommandEvent &event)
                     Effects_89_Type_CB1->Show(true);
                     uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
                     Effects_89_Type->ChangeValue(lexical_cast<string>(attack_type)); // Correct class
-                    Effects_89_Type_CB1->SetSelection(attack_type);
+                    static_cast<AGELinkedBox*>(Effects_89_Type_CB1)->SetChoice(attack_type);
                     Effects_89_Type_Text->SetLabel("Type ");
                 }
                 else
@@ -529,7 +529,7 @@ void AGE_Frame::OnEffectSelect(wxCommandEvent &event)
                     Effects_89_Type_CB1->Show(true);
                     uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
                     Effects_89_Type->ChangeValue(lexical_cast<string>(attack_type)); // Correct class
-                    Effects_89_Type_CB1->SetSelection(attack_type);
+                    static_cast<AGELinkedBox*>(Effects_89_Type_CB1)->SetChoice(attack_type);
                     Effects_D_Text->SetLabel("Amount [+] ");
                     Effects_89_Type_Text->SetLabel("Type ");
                 }
@@ -576,7 +576,7 @@ void AGE_Frame::OnEffectSelect(wxCommandEvent &event)
                     Effects_89_Type_CB1->Show(true);
                     uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
                     Effects_89_Type->ChangeValue(lexical_cast<string>(attack_type)); // Correct class
-                    Effects_89_Type_CB1->SetSelection(attack_type);
+                    static_cast<AGELinkedBox*>(Effects_89_Type_CB1)->SetChoice(attack_type);
                     Effects_D_Text->SetLabel("Amount [%] ");
                     Effects_89_Type_Text->SetLabel("Type ");
                 }
@@ -637,7 +637,7 @@ void AGE_Frame::OnEffectSelect(wxCommandEvent &event)
                 Effects_89_Amount->Show(false); // only for attributes 8, 9
                 Effects_89_Type->Show(false); // only for attributes 8, 9
 
-                Effects_A_Text->SetLabel("Research ");  /* add combo box */
+                Effects_A_Text->SetLabel("Tech ");  /* add combo box */
                 Effects_B_Text->SetLabel("Resource ");  /* add combo box */
                 Effects_C_Text->SetLabel("Mode ");
                 if(EffectPointer->C == 0) // unchecked
@@ -673,7 +673,7 @@ void AGE_Frame::OnEffectSelect(wxCommandEvent &event)
                 Effects_A_Text->SetLabel("Unused ");
                 Effects_B_Text->SetLabel("Unused ");
                 Effects_C_Text->SetLabel("Unused ");
-                Effects_D_Text->SetLabel("Research ");  /* add combo box */
+                Effects_D_Text->SetLabel("Tech ");  /* add combo box */
                 Effects_89_Type_Text->SetLabel("");
 
                 Effects_Info_B->SetLabel("");
@@ -697,7 +697,7 @@ void AGE_Frame::OnEffectSelect(wxCommandEvent &event)
                 Effects_89_Amount->Show(false); // only for attributes 8, 9
                 Effects_89_Type->Show(false); // only for attributes 8, 9
 
-                Effects_A_Text->SetLabel("Research ");  /* add combo box */
+                Effects_A_Text->SetLabel("Tech ");  /* add combo box */
                 Effects_B_Text->SetLabel("Unused ");
                 Effects_C_Text->SetLabel("Mode ");  /* add boolean */
                 if(EffectPointer->C == 0) // unchecked
@@ -772,88 +772,87 @@ void AGE_Frame::OnEffectSelect(wxCommandEvent &event)
 //  Refresh(); // Too much lag.
 }
 
-void AGE_Frame::OnEffectsAdd(wxCommandEvent &event) // Works.
+void AGE_Frame::OnEffectCmdAdd(wxCommandEvent &event) // Works.
 {
     auto selections = Techs_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    AddToList(dataset->Techages[TechIDs.front()].Effects);
-    ListEffects();
+    AddToList(dataset->Effects[TechIDs.front()].EffectCommands);
+    ListEffectCmds();
 }
 
-void AGE_Frame::OnEffectsInsert(wxCommandEvent &event)  // Works.
+void AGE_Frame::OnEffectCmdInsert(wxCommandEvent &event)  // Works.
 {
     auto selections = Techs_Effects_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    InsertToList(dataset->Techages[TechIDs.front()].Effects, EffectIDs.front());
-    ListEffects();
+    InsertToList(dataset->Effects[TechIDs.front()].EffectCommands, EffectIDs.front());
+    ListEffectCmds();
 }
 
-void AGE_Frame::OnEffectsDelete(wxCommandEvent &event)  // Works.
+void AGE_Frame::OnEffectCmdDelete(wxCommandEvent &event)  // Works.
 {
     auto selections = Techs_Effects_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    DeleteFromList(dataset->Techages[TechIDs.front()].Effects, EffectIDs);
-    ListEffects();
+    DeleteFromList(dataset->Effects[TechIDs.front()].EffectCommands, EffectIDs);
+    ListEffectCmds();
 }
 
-void AGE_Frame::OnEffectsCopy(wxCommandEvent &event)    // Works.
+void AGE_Frame::OnEffectCmdCopy(wxCommandEvent &event)    // Works.
 {
     auto selections = Techs_Effects_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    CopyFromList(dataset->Techages[TechIDs.front()].Effects, EffectIDs, copies.Effect);
+    CopyFromList(dataset->Effects[TechIDs.front()].EffectCommands, EffectIDs, copies.EffectCmd);
     Techs_Effects_ListV->SetFocus();
 }
 
-void AGE_Frame::OnEffectsPaste(wxCommandEvent &event)   // Works.
+void AGE_Frame::OnEffectCmdPaste(wxCommandEvent &event)   // Works.
 {
     auto selections = Techs_Effects_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    PasteToList(dataset->Techages[TechIDs.front()].Effects, EffectIDs, copies.Effect);
-    ListEffects();
+    PasteToList(dataset->Effects[TechIDs.front()].EffectCommands, EffectIDs, copies.EffectCmd);
+    ListEffectCmds();
 }
 
-void AGE_Frame::OnEffectsPasteInsert(wxCommandEvent &event) // Works.
+void AGE_Frame::OnEffectCmdPasteInsert(wxCommandEvent &event) // Works.
 {
     auto selections = Techs_Effects_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToList(dataset->Techages[TechIDs.front()].Effects, EffectIDs.front(), copies.Effect);
-    ListEffects();
+    PasteInsertToList(dataset->Effects[TechIDs.front()].EffectCommands, EffectIDs.front(), copies.EffectCmd);
+    ListEffectCmds();
 }
 
-void AGE_Frame::OnEffectsCopyToTechs(wxCommandEvent &event)
+void AGE_Frame::OnEffectCmdCopyToTechs(wxCommandEvent &event)
 {
     for(size_t loop=1; loop < TechIDs.size(); ++loop)
     {
-        dataset->Techages[TechIDs[loop]].Effects = dataset->Techages[TechIDs.front()].Effects;
+        dataset->Effects[TechIDs[loop]].EffectCommands = dataset->Effects[TechIDs.front()].EffectCommands;
     }
 }
 
-void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
+void AGE_Frame::LoadAllEffects(wxCommandEvent &event)
 {
-    wxString Name;
     InitSearch(Techs_AllEffects_Search->GetValue().MakeLower(), Techs_AllEffects_Search_R->GetValue().MakeLower());
     SearchAnd = Techs_AllEffects_UseAnd[0]->GetValue();
     ExcludeAnd = Techs_AllEffects_UseAnd[1]->GetValue();
 
     Techs_AllEffects_ListV->Sweep();
 
-    for(short tech = 0; tech < dataset->Techages.size(); ++tech)
+    for(short tech = 0; tech < dataset->Effects.size(); ++tech)
     {
-        for(short effect = 0; effect < dataset->Techages[tech].Effects.size(); ++effect)
+        for(short effect = 0; effect < dataset->Effects[tech].EffectCommands.size(); ++effect)
         {
-            Name = " T"+lexical_cast<string>(tech)+" E"+lexical_cast<string>(effect)+" - "+GetEffectName(effect, tech);
+            wxString Name = " T"+lexical_cast<string>(tech)+" E"+lexical_cast<string>(effect)+" - "+GetEffectCmdName(effect, tech);
             if(SearchMatches(" " + Name.Lower() + " "))
             {
                 Techs_AllEffects_ListV->names.Add(Name);
@@ -867,16 +866,16 @@ void AGE_Frame::LoadAllTechEffects(wxCommandEvent &event)
     SearchAnd = ExcludeAnd = false;
 
     wxCommandEvent e;
-    OnAllTechEffectSelect(e);
+    OnAllEffectSelect(e);
 }
 
-void AGE_Frame::ClearAllTechEffects(wxCommandEvent &event)
+void AGE_Frame::ClearAllEffects(wxCommandEvent &event)
 {
     Techs_Search->SetValue("");
     Techs_Effects_Search->SetValue("");
 }
 
-void AGE_Frame::OnAllTechEffectSelect(wxCommandEvent &event)
+void AGE_Frame::OnAllEffectSelect(wxCommandEvent &event)
 {
     SearchAllSubVectors(Techs_AllEffects_ListV, Techs_Search, Techs_Effects_Search);
 }
@@ -891,7 +890,7 @@ void AGE_Frame::CreateTechControls()
     Effects_ListArea = new wxBoxSizer(wxVERTICAL);
     Techs_Effects_Buttons = new wxGridSizer(3, 0, 0);
     Effects_DataAreaProperties = new wxBoxSizer(wxVERTICAL);
-    Techs_Techs = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Technologies");
+    Techs_Techs = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effects");
     Techs_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
     Techs_Searches[1] = new wxBoxSizer(wxHORIZONTAL);
     Techs_Search = new wxTextCtrl(Tab_Techs, wxID_ANY);
@@ -905,13 +904,13 @@ void AGE_Frame::CreateTechControls()
     Techs_Copy = new wxButton(Tab_Techs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
     Techs_Paste = new wxButton(Tab_Techs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
     Techs_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
-    Techs_Rename = new wxButton(Tab_Techs, wxID_ANY, "Rename technologies");
+    Techs_Rename = new wxButton(Tab_Techs, wxID_ANY, "Rename effects");
     Techs_Restore = new wxButton(Tab_Techs, wxID_ANY, "Rename for GeniEd 2");
 
-    Techs_Name_Text = new SolidText(Tab_Techs, " Technology Name");
+    Techs_Name_Text = new SolidText(Tab_Techs, " Effect Name");
     Techs_Name = AGETextCtrl::init(CString, NULL, this, &popUp, Tab_Techs, 31);
 
-    Techs_Effects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effects");
+    Techs_Effects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effect Commands");
     Techs_Effects_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
     Techs_Effects_Searches[1] = new wxBoxSizer(wxHORIZONTAL);
     Techs_Effects_Search = new wxTextCtrl(Tab_Techs, wxID_ANY);
@@ -925,11 +924,11 @@ void AGE_Frame::CreateTechControls()
     Techs_Effects_Copy = new wxButton(Tab_Techs, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
     Techs_Effects_Paste = new wxButton(Tab_Techs, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
     Techs_Effects_PasteInsert = new wxButton(Tab_Techs, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
-    Techs_Effects_CopyToTechs = new wxButton(Tab_Techs, wxID_ANY, "Copy all to selected techs", wxDefaultPosition, wxSize(10, -1));
+    Techs_Effects_CopyToTechs = new wxButton(Tab_Techs, wxID_ANY, "Copy all to selected effects", wxDefaultPosition, wxSize(10, -1));
 
     Effects_Type_Holder = new wxBoxSizer(wxVERTICAL);
     Effects_Type2_Holder = new wxBoxSizer(wxHORIZONTAL);
-    Effects_Type_Text = new SolidText(Tab_Techs, " Effect Type *");
+    Effects_Type_Text = new SolidText(Tab_Techs, " Command Type *");
     Effects_Type = AGETextCtrl::init(CByte, &uiGroupTechEffect, this, &popUp, Tab_Techs);
     Effects_Type->SetToolTip("101 and 103 are only for\ntech tree and team bonus");
     Effects_Type_ComboBox = new ComboBox_EffectType(Tab_Techs, Effects_Type, &effect_type_names);
@@ -977,7 +976,7 @@ void AGE_Frame::CreateTechControls()
     Effects_89_Type = AGETextCtrl::init(CUByte, 0, this, &popUp, Tab_Techs, AGETextCtrl::LARGE);
     Effects_89_Type_CB1 = new ComboBox_Plus1(Tab_Techs, Effects_89_Type, &armor_names);
 
-    Techs_AllEffects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effects of all Technologies");
+    Techs_AllEffects = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Commands of all Effects");
     Techs_AllEffects_Searches[0] = new wxBoxSizer(wxHORIZONTAL);
     Techs_AllEffects_Searches[1] = new wxBoxSizer(wxHORIZONTAL);
     Techs_AllEffects_Search = new wxTextCtrl(Tab_Techs, wxID_ANY);
@@ -998,9 +997,9 @@ void AGE_Frame::CreateTechControls()
     Techs_Buttons->Add(Techs_PasteInsert, 1, wxEXPAND);
 
     Techs_Searches[0]->Add(Techs_Search, 1, wxEXPAND);
-    Techs_Searches[0]->Add(Techs_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
+    Techs_Searches[0]->Add(Techs_UseAnd[0], 0, wxLEFT, 2);
     Techs_Searches[1]->Add(Techs_Search_R, 1, wxEXPAND);
-    Techs_Searches[1]->Add(Techs_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
+    Techs_Searches[1]->Add(Techs_UseAnd[1], 0, wxLEFT, 2);
     Techs_Techs->Add(Techs_Searches[0], 0, wxEXPAND);
     Techs_Techs->Add(Techs_Searches[1], 0, wxEXPAND);
     Techs_Techs->Add(Techs_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
@@ -1019,9 +1018,9 @@ void AGE_Frame::CreateTechControls()
     Effects_ListArea->Add(Techs_Restore, 0, wxEXPAND);
 
     Techs_Effects_Searches[0]->Add(Techs_Effects_Search, 1, wxEXPAND);
-    Techs_Effects_Searches[0]->Add(Techs_Effects_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
+    Techs_Effects_Searches[0]->Add(Techs_Effects_UseAnd[0], 0, wxLEFT, 2);
     Techs_Effects_Searches[1]->Add(Techs_Effects_Search_R, 1, wxEXPAND);
-    Techs_Effects_Searches[1]->Add(Techs_Effects_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
+    Techs_Effects_Searches[1]->Add(Techs_Effects_UseAnd[1], 0, wxLEFT, 2);
     Techs_Effects->Add(Techs_Effects_Searches[0], 0, wxEXPAND);
     Techs_Effects->Add(Techs_Effects_Searches[1], 0, wxEXPAND);
     Techs_Effects->Add(Techs_Effects_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
@@ -1083,9 +1082,9 @@ void AGE_Frame::CreateTechControls()
     Effects_Data_Holder->Add(Effects_DataF_Holder);
 
     Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_Search, 1, wxEXPAND);
-    Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
+    Techs_AllEffects_Searches[0]->Add(Techs_AllEffects_UseAnd[0], 0, wxLEFT, 2);
     Techs_AllEffects_Searches[1]->Add(Techs_AllEffects_Search_R, 1, wxEXPAND);
-    Techs_AllEffects_Searches[1]->Add(Techs_AllEffects_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
+    Techs_AllEffects_Searches[1]->Add(Techs_AllEffects_UseAnd[1], 0, wxLEFT, 2);
     Techs_AllEffects->Add(Techs_AllEffects_Searches[0], 0, wxEXPAND);
     Techs_AllEffects->Add(Techs_AllEffects_Searches[1], 0, wxEXPAND);
     Techs_AllEffects->Add(Techs_AllEffects_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
@@ -1115,46 +1114,54 @@ void AGE_Frame::CreateTechControls()
 
     for(size_t loop = 0; loop < 2; ++loop)
     {
-        Techs_UseAnd[loop]->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnTechSearch, this);
-        Techs_Effects_UseAnd[loop]->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnEffectsSearch, this);
-        Techs_AllEffects_UseAnd[loop]->Bind(wxEVT_CHECKBOX, &AGE_Frame::LoadAllTechEffects, this);
+        Techs_UseAnd[loop]->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnEffectSearch, this);
+        Techs_Effects_UseAnd[loop]->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnEffectCmdSearch, this);
+        Techs_AllEffects_UseAnd[loop]->Bind(wxEVT_CHECKBOX, &AGE_Frame::LoadAllEffects, this);
     }
-    Techs_Rename->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechRename, this);
-    Techs_Restore->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechRenameGE2, this);
-    Techs_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnTechSelect, this);
-    Techs_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnTechSearch, this);
-    Techs_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnTechSearch, this);
-    Techs_Effects_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnEffectSelect, this);
-    Techs_Effects_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnEffectsSearch, this);
-    Techs_Effects_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnEffectsSearch, this);
-    Techs_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechAdd, this);
-    Techs_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechInsert, this);
-    Techs_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechDelete, this);
-    Techs_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechCopy, this);
-    Techs_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechPaste, this);
-    Techs_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechPasteInsert, this);
-    Techs_Effects_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectsAdd, this);
-    Techs_Effects_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectsInsert, this);
-    Techs_Effects_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectsDelete, this);
-    Techs_Effects_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectsCopy, this);
-    Techs_Effects_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectsPaste, this);
-    Techs_Effects_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectsPasteInsert, this);
-    Techs_Effects_CopyToTechs->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectsCopyToTechs, this);
-    Effects_89_Amount->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Techs, this);
-    Effects_89_Type->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Techs, this);
-    Techs_AllEffects_Search->Bind(wxEVT_TEXT, &AGE_Frame::LoadAllTechEffects, this);
-    Techs_AllEffects_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::LoadAllTechEffects, this);
-    Techs_AllEffects_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnAllTechEffectSelect, this);
-    Techs_AllEffects_Load->Bind(wxEVT_BUTTON, &AGE_Frame::LoadAllTechEffects, this);
-    Techs_AllEffects_Clear->Bind(wxEVT_BUTTON, &AGE_Frame::ClearAllTechEffects, this);
+    Techs_Rename->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectRename, this);
+    Techs_Restore->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectRenameGE2, this);
+    Techs_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnEffectSelect, this);
+    Techs_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnEffectSearch, this);
+    Techs_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnEffectSearch, this);
+    Techs_Effects_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnEffectCmdSelect, this);
+    Techs_Effects_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnEffectCmdSearch, this);
+    Techs_Effects_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnEffectCmdSearch, this);
+    Techs_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectAdd, this);
+    Techs_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectInsert, this);
+    Techs_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectDelete, this);
+    Techs_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectCopy, this);
+    Techs_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectPaste, this);
+    Techs_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectPasteInsert, this);
+    Techs_Effects_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectCmdAdd, this);
+    Techs_Effects_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectCmdInsert, this);
+    Techs_Effects_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectCmdDelete, this);
+    Techs_Effects_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectCmdCopy, this);
+    Techs_Effects_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectCmdPaste, this);
+    Techs_Effects_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectCmdPasteInsert, this);
+    Techs_Effects_CopyToTechs->Bind(wxEVT_BUTTON, &AGE_Frame::OnEffectCmdCopyToTechs, this);
+    Effects_89_Amount->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Effects89, this);
+    Effects_89_Amount->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Effects89, this);
+    Effects_89_Type->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Effects89, this);
+    Effects_89_Type->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Effects89, this);
+    Techs_AllEffects_Search->Bind(wxEVT_TEXT, &AGE_Frame::LoadAllEffects, this);
+    Techs_AllEffects_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::LoadAllEffects, this);
+    Techs_AllEffects_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnAllEffectSelect, this);
+    Techs_AllEffects_Load->Bind(wxEVT_BUTTON, &AGE_Frame::LoadAllEffects, this);
+    Techs_AllEffects_Clear->Bind(wxEVT_BUTTON, &AGE_Frame::ClearAllEffects, this);
 
     Techs_Name->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Techs, this);
+    Techs_Name->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Techs, this);
     Effects_Type->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Techs, this);
+    Effects_Type->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Techs, this);
     Effects_Type_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Techs, this);
     Effects_A->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Techs, this);
+    Effects_A->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Techs, this);
     Effects_B->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Techs, this);
+    Effects_B->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Techs, this);
     Effects_C->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Techs, this);
+    Effects_C->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Techs, this);
     Effects_D->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Techs, this);
+    Effects_D->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Techs, this);
     Effects_A_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Techs, this);
     Effects_B_CheckBox->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnUpdateCheck_Techs, this);
     Effects_B_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Techs, this);
@@ -1164,36 +1171,59 @@ void AGE_Frame::CreateTechControls()
     Effects_89_Type_CB1->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Techs, this);
 }
 
-void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &event)
+void AGE_Frame::OnSaveEdits_Techs(int id)
 {
-    event.Skip();
-    if(event.GetId() == Effects_89_Amount->GetId() || event.GetId() == Effects_89_Type->GetId())
+    if(id == Techs_Name->GetId())
     {
-        if(!Effects_89_Amount->IsEmpty() && !Effects_89_Type->IsEmpty()) // if has something, then update float value.
-        {
-            uint16_t Class = lexical_cast<int>(Effects_89_Type->GetValue()) << 8;
-            uint8_t Amount = lexical_cast<int>(Effects_89_Amount->GetValue());
-            Effects_D->ChangeValue(lexical_cast<string>(Amount + Class));
-            Effects_D->SaveEdits();
-        }
         ListEffects();
-        return;
-    }
-    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
-    if(event.GetId() == Techs_Name->GetId())
-    {
-        ListTechs();
     }
     else
     {
-        ListEffects();
+        ListEffectCmds();
     }
+}
+
+void AGE_Frame::OnEnter_Techs(wxCommandEvent &event)
+{
+    static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+    OnSaveEdits_Techs(event.GetId());
+}
+
+void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &event)
+{
+    event.Skip();
+    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
+    OnSaveEdits_Techs(event.GetId());
+}
+
+void AGE_Frame::OnSaveEdits_Effects89(bool forced)
+{
+    // if has something, then update float value.
+    if(!Effects_89_Amount->IsEmpty() && !Effects_89_Type->IsEmpty())
+    {
+        uint16_t Class = lexical_cast<int>(Effects_89_Type->GetValue()) << 8;
+        uint8_t Amount = lexical_cast<int>(Effects_89_Amount->GetValue());
+        Effects_D->ChangeValue(lexical_cast<string>(Amount + Class));
+        Effects_D->SaveEdits(forced);
+    }
+    ListEffectCmds();
+}
+
+void AGE_Frame::OnEnter_Effects89(wxCommandEvent &event)
+{
+    OnSaveEdits_Effects89(true);
+}
+
+void AGE_Frame::OnKillFocus_Effects89(wxFocusEvent &event)
+{
+    event.Skip();
+    OnSaveEdits_Effects89(false);
 }
 
 void AGE_Frame::OnUpdateCheck_Techs(wxCommandEvent &event)
 {
     static_cast<CheckBox_2State*>(event.GetEventObject())->OnChoose(event);
-    ListEffects();
+    ListEffectCmds();
 }
 
 void AGE_Frame::OnUpdateCombo_Techs(wxCommandEvent &event)
@@ -1205,9 +1235,9 @@ void AGE_Frame::OnUpdateCombo_Techs(wxCommandEvent &event)
         Effects_D->ChangeValue(lexical_cast<string>(Amount + Class));
         Effects_D->SaveEdits();
 
-        ListEffects();
+        ListEffectCmds();
         return;
     }
     static_cast<ComboBox_Plus1*>(event.GetEventObject())->OnChoose(event);
-    ListEffects();
+    ListEffectCmds();
 }

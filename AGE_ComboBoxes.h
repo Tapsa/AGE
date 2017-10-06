@@ -5,13 +5,14 @@
 class AGEComboBox: public wxComboCtrl
 {
 public:
-    AGEComboBox(wxWindow *parent, wxArrayString *choices, int width = AGETextCtrl::LARGE):
+    AGEComboBox(wxWindow *parent, wxArrayString *choices, int width = AGETextCtrl::LARGE, bool pass = true):
     wxComboCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxCB_READONLY)
     {
         popup = new SharedComboPopup();
         SetPopupControl(popup);
         popup->SetFont(parent->GetFont());
         popup->Imbue(choices);
+        if(pass)
         Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
     unsigned int GetCount() const {return popup->GetCount();}

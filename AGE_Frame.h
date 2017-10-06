@@ -1,30 +1,222 @@
 #pragma once
-#include "AGE_FramePieces.h"
+#include "AGE_TextControls.h"
+#include "AGE_ComboBoxes.h"
+#include "AGE_CheckBoxes.h"
 #include "AGE_OpenDialog.h"
 #include "AGE_SaveDialog.h"
 #include "AGE_AboutDialog.h"
 #include "AGE_Copies.hpp"
 
+#define RELOAD -2
+
+const float PI2A = 6.28319f, PI2 = 6.2832f;
+
 class AGE_SLP
 {
 public:
-    int32_t slpID = -1, frameID, datID = -1, lastSlpID = -1, startframe;
+    int32_t slpID = -1, frameID, datID = -1, lastSlpID = RELOAD, startframe;
     uint16_t angles, fpa, frames, mirror;
-    string filename = "";
+    wxString filename = "";
     genie::SlpFilePtr slp;
     wxBitmap bitmap;
-    int16_t xpos = 0, ypos = 0, xdelta = 0, ydelta = 0;
-    bool flip = false;
-    float beginbearing = 0, endbearing = 6.28319f;
+    sf::SoundBuffer buffers[4];// Actual data
+    sf::Sound sounds[4];// To play data
+    int16_t xpos = 0, ypos = 0, xdelta = 0, ydelta = 0, delays[4] = {0, -1, -1, -1};
+    bool flip = false, is32 = false;
+    float beginbearing = 0.f, endbearing = PI2A;
 
-    set<uint16_t> angleset;
-    multimap<int, AGE_SLP> deltas;
-    enum SHOW {NONE, UNIT, GRAPHIC};
-    static SHOW currentDisplay;
+    static enum SHOW {NONE, UNIT, GRAPHIC} currentDisplay;
     static unsigned setbearing;
     static float bearing;
     static uint8_t playerColorStart, playerColorID;
-    bool initStats(unsigned int graphicID, genie::DatFile &dataset);
+};
+
+class AGE_SLPs: public AGE_SLP
+{
+public:
+    multimap<int, AGE_SLP> deltas;
+    bool pause = false;
+};
+
+class AGE_List32Box
+{
+private:
+    wxGridSizer *Buttons;
+public:
+    AGE_List32Box() {}
+    virtual ~AGE_List32Box() {}
+
+    wxStaticBoxSizer *ItemList;
+    wxTextCtrl *Search, *SearchRecursive;
+    ProperList *List;
+    AGETextCtrl *Item;
+    ComboBox_Plus1 *ItemCombo;
+    wxButton *Add, *Insert, *Delete, *Copy, *Paste, *PasteInsert, *CopyAllToSelected;
+
+    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, AScrolled* scroller, const wxString &itemName,
+        const wxString &listName, wxArrayString *choices)
+    {
+        ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
+        Search = new wxTextCtrl(scroller, wxID_ANY);
+        SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
+        List = new ProperList(scroller, wxSize(10, 100));
+        Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
+        ItemCombo = new ComboBox_Plus1(scroller, Item, choices);
+        Buttons = new wxGridSizer(3, 0, 0);
+        Add = new wxButton(scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+        Insert = new wxButton(scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
+        Delete = new wxButton(scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+        Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+        Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+        PasteInsert = new wxButton(scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
+        CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected " + itemName, wxDefaultPosition, wxSize(10, -1));
+
+        Buttons->Add(Add, 1, wxEXPAND);
+        Buttons->Add(Delete, 1, wxEXPAND);
+        Buttons->Add(Insert, 1, wxEXPAND);
+        Buttons->Add(Copy, 1, wxEXPAND);
+        Buttons->Add(Paste, 1, wxEXPAND);
+        Buttons->Add(PasteInsert, 1, wxEXPAND);
+
+        ItemList->Add(Search, 0, wxEXPAND);
+        ItemList->Add(SearchRecursive, 0, wxEXPAND);
+        ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
+        ItemList->Add(Item, 0, wxEXPAND);
+        ItemList->Add(ItemCombo, 0, wxEXPAND);
+        ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
+        ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
+    }
+};
+
+class AGE_AreaTT84
+{
+private:
+    wxGridSizer *Buttons;
+    wxBoxSizer *ItemList, *UsedItems_H, *Item_H;
+    SolidText *UsedItems_T;
+
+public:
+    AGE_AreaTT84() {}
+    virtual ~AGE_AreaTT84() {}
+
+    wxStaticBoxSizer *Area;
+    wxTextCtrl *Search, *SearchRecursive;
+    ProperList *List;
+    AGETextCtrl *Item, *Mode, *UsedItems;
+    ComboBox_Plus1 *ItemCombo;
+    AGEComboBox *ModeCombo;
+    wxButton *Copy, *Paste, *CopyAllToSelected;
+
+    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, AScrolled* scroller, const wxString &itemName,
+        wxArrayString *choices)
+    {
+        Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Connected Items");
+        ItemList = new wxBoxSizer(wxVERTICAL);
+        UsedItems_H = new wxBoxSizer(wxVERTICAL);
+        UsedItems_T = new SolidText(scroller, " Used Ages/Units/Techs");
+        UsedItems = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
+
+        Search = new wxTextCtrl(scroller, wxID_ANY);
+        SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
+        List = new ProperList(scroller, wxSize(10, 100));
+        Item_H = new wxBoxSizer(wxHORIZONTAL);
+        Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
+        ItemCombo = new ComboBox_Plus1(scroller, Item, choices);
+        Mode = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller, AGETextCtrl::MEDIUM);
+        ModeCombo = new AGEComboBox(scroller, choices);
+        Buttons = new wxGridSizer(2, 0, 0);
+        Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+        Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+        CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected " + itemName, wxDefaultPosition, wxSize(10, -1));
+
+        ModeCombo->Flash();
+
+        Buttons->Add(Copy, 1, wxEXPAND);
+        Buttons->Add(Paste, 1, wxEXPAND);
+
+        Item_H->Add(Mode);
+        Item_H->Add(Item, 2, wxEXPAND | wxLEFT, 2);
+
+        ItemList->Add(Search, 0, wxEXPAND);
+        ItemList->Add(SearchRecursive, 0, wxEXPAND);
+        ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
+        ItemList->Add(Item_H, 0, wxEXPAND);
+        ItemList->Add(ItemCombo, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+        ItemList->Add(ModeCombo, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+        ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
+        ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
+
+        UsedItems_H->Add(UsedItems_T, 0, wxEXPAND);
+        UsedItems_H->Add(UsedItems, 0, wxEXPAND);
+        Area->Add(UsedItems_H, 0, wxEXPAND);
+        Area->Add(ItemList, 0, wxEXPAND | wxTOP, 2);
+    }
+};
+
+class AGE_AreaTT31020
+{
+private:
+    wxGridSizer *Buttons;
+    wxBoxSizer *ItemList, *UsedItems_H, *Unknowns_H, *Unknown_H, *Top;
+    SolidText *UsedItems_T, *Unknown_T;
+
+public:
+    AGE_AreaTT31020() {}
+    virtual ~AGE_AreaTT31020() {}
+
+    wxStaticBoxSizer *Area;
+    wxTextCtrl *Search, *SearchRecursive;
+    ProperList *List;
+    AGETextCtrl *Unknown1, *Unknown2, *UsedItems, *Unknown;
+    wxButton *Copy, *Paste, *CopyAllToSelected;
+
+    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, AScrolled* scroller)
+    {
+        Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Unused Zone Data");
+        ItemList = new wxBoxSizer(wxVERTICAL);
+        Top = new wxBoxSizer(wxHORIZONTAL);
+        UsedItems_H = new wxBoxSizer(wxVERTICAL);
+        UsedItems_T = new SolidText(scroller, " Building Levels");
+        UsedItems = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
+        Unknown_H = new wxBoxSizer(wxVERTICAL);
+        Unknown_T = new SolidText(scroller, " Max Age Length");
+        Unknown = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
+
+        Search = new wxTextCtrl(scroller, wxID_ANY);
+        SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
+        List = new ProperList(scroller, wxSize(10, 100));
+        Unknowns_H = new wxBoxSizer(wxHORIZONTAL);
+        Unknown1 = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
+        Unknown2 = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
+        Unknown1->SetToolTip("Buildings per zone");
+        Unknown2->SetToolTip("Group length per zone");
+        Buttons = new wxGridSizer(2, 0, 0);
+        Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+        Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+        CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected ages", wxDefaultPosition, wxSize(10, -1));
+
+        Buttons->Add(Copy, 1, wxEXPAND);
+        Buttons->Add(Paste, 1, wxEXPAND);
+
+        Unknowns_H->Add(Unknown1, 1, wxEXPAND);
+        Unknowns_H->Add(Unknown2, 1, wxEXPAND | wxLEFT, 2);
+
+        ItemList->Add(Search, 0, wxEXPAND);
+        ItemList->Add(SearchRecursive, 0, wxEXPAND);
+        ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
+        ItemList->Add(Unknowns_H, 0, wxEXPAND);
+        ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
+        ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
+
+        UsedItems_H->Add(UsedItems_T, 0, wxEXPAND);
+        UsedItems_H->Add(UsedItems, 0, wxEXPAND);
+        Unknown_H->Add(Unknown_T, 0, wxEXPAND);
+        Unknown_H->Add(Unknown, 0, wxEXPAND);
+        Top->Add(UsedItems_H, 1, wxEXPAND);
+        Top->Add(Unknown_H, 1, wxEXPAND | wxLEFT, 5);
+        Area->Add(Top, 0, wxEXPAND);
+        Area->Add(ItemList, 1, wxEXPAND | wxTOP, 2);
+    }
 };
 
 class AGE_Frame;
@@ -62,10 +254,11 @@ public:
 //  Stuff related to editing multiple files at once
 
     static std::ofstream log_out;
-    static wxWindow *openEditors[];
+    static AGE_Frame *openEditors[];
     static Copies copies;
-    wxString argPath;
-    wxFont font;
+
+    void OnOpen(wxCommandEvent &event);
+    void OnExit(wxCloseEvent &event);
 
 private:
 //  Constructions Methods
@@ -85,8 +278,6 @@ private:
     void CreatePlayerColorControls();
     void CreateUnknownControls();
 
-//  void CreateDRSControls();
-
 //  Other Events
 
     bool DataOpened = false;
@@ -96,8 +287,6 @@ private:
     void LoadLists();
     void OnGameVersionChange();
     void OnSave(wxCommandEvent &event);
-    void OnOpen(wxCommandEvent &event);
-    void OnExit(wxCloseEvent &event);
     void OnMenuOption(wxCommandEvent &event);
     void OnAutoCopy(wxCommandEvent &event);
     void OnExitSLP(wxCloseEvent &event);
@@ -122,6 +311,7 @@ private:
 
     void OnKillFocus_Research(wxFocusEvent &event);
     void OnKillFocus_Techs(wxFocusEvent &event);
+    void OnKillFocus_Effects89(wxFocusEvent &event);
     void OnKillFocus_TechTrees(wxFocusEvent &event);
     void OnKillFocus_Civs(wxFocusEvent &event);
     void OnKillFocus_Units(wxFocusEvent &event);
@@ -132,7 +322,34 @@ private:
     void OnKillFocus_TerRestrict(wxFocusEvent &event);
     void OnKillFocus_Sounds(wxFocusEvent &event);
     void OnKillFocus_Colors(wxFocusEvent &event);
-    void OnKillFocus_Unknown(wxFocusEvent &event);
+    void OnKillFocus_RMS(wxFocusEvent &event);
+
+    void OnEnter_Research(wxCommandEvent &event);
+    void OnEnter_Techs(wxCommandEvent &event);
+    void OnEnter_Effects89(wxCommandEvent &event);
+    void OnEnter_TechTrees(wxCommandEvent &event);
+    void OnEnter_Civs(wxCommandEvent &event);
+    void OnEnter_Units(wxCommandEvent &event);
+    void OnEnter_UnitLines(wxCommandEvent &event);
+    void OnEnter_Graphics(wxCommandEvent &event);
+    void OnEnter_Terrains(wxCommandEvent &event);
+    void OnEnter_Borders(wxCommandEvent &event);
+    void OnEnter_TerRestrict(wxCommandEvent &event);
+    void OnEnter_Sounds(wxCommandEvent &event);
+    void OnEnter_Colors(wxCommandEvent &event);
+    void OnEnter_RMS(wxCommandEvent &event);
+
+    void OnSaveEdits_Research(int id);
+    void OnSaveEdits_Techs(int id);
+    void OnSaveEdits_Effects89(bool forced);
+    void OnSaveEdits_TechTrees(int id);
+    void OnSaveEdits_Civs(int id);
+    void OnSaveEdits_Units(int id);
+    void OnSaveEdits_UnitLines(int id);
+    void OnSaveEdits_Graphics(int id);
+    void OnSaveEdits_Terrains(int id);
+    void OnSaveEdits_Borders(int id);
+    void OnSaveEdits_RMS(int id);
 
     void OnUpdateCheck_Techs(wxCommandEvent &event);
     void OnUpdateCheck_Graphics(wxCommandEvent &event);
@@ -151,8 +368,12 @@ private:
 //  Other Methods
 
     void InitSearch(const wxString &yes, const wxString &no);
+    bool initArt(AGE_SLP&, unsigned);
+    void initSounds(AGE_SLP&, unsigned, size_t);
+    void ReloadAngles();
+    void ResizeAngles();
     wxTimer animater;
-    wxArrayString SearchYes, SearchNo;
+    wxArrayString SearchYes, SearchNo, soundfolders;
     wxString FormatFloat(float);
     wxString FormatInt(int);
     wxString CurrentTime();
@@ -170,9 +391,9 @@ private:
     void UnitLangDLLConverter(wxCommandEvent &event);
     void ResearchLangDLLConverter(wxCommandEvent &event);
     void SearchAllSubVectors(ProperList *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch);
-    void LoadAllTechEffects(wxCommandEvent &event);
-    void ClearAllTechEffects(wxCommandEvent &event);
-    void OnAllTechEffectSelect(wxCommandEvent &event);
+    void LoadAllEffects(wxCommandEvent &event);
+    void ClearAllEffects(wxCommandEvent &event);
+    void OnAllEffectSelect(wxCommandEvent &event);
     void LoadAllSoundFiles(wxCommandEvent &event);
     void ClearAllSoundFiles(wxCommandEvent &event);
     void OnAllSoundFileSelect(wxCommandEvent &event);
@@ -187,21 +408,23 @@ private:
     void OnDrawPalette(wxPaintEvent &event);
     void OnGraphicAnim(wxTimerEvent &event);
     int ShouldAnimate(AGE_SLP&, bool&);
+    void Listen(AGE_SLP&);
     void ChooseNextFrame(AGE_SLP&, bool&);
     void ChoosePreviousFrame(AGE_SLP&, bool&);
-    void HandleLastFrame(const AGE_SLP&, bool, unsigned);
+    void HandleLastFrame(const uint16_t, bool, unsigned);
     int loadChosenGraphic(unsigned int unitID);
     void AddAnnexAndStackGraphics(unsigned int unitID, int offsetX = 0, int offsetY = 0, int apply = 0);
     void CalcAnnexCoords(const genie::unit::BuildingAnnex *annex);
-    void DrawGraphics(wxBufferedPaintDC &dc, AGE_SLP &graphic, int centerX, int centerY);
-    void loadPalette(const wxString &folder);
+    void DrawGraphics(wxBufferedPaintDC&, AGE_SLPs&, int, int);
+    void DrawAngle(wxBufferedPaintDC&, int, int, int, int);
+    bool loadPalette(const wxString &folder);
     void addFilesToRead(const wxArrayString &files, const wxString &folder);
     void addDRSFolders4SLPs(wxArrayString &folders, const wxString &folder);
     void addSLPFolders4SLPs(wxArrayString &folders, wxString folder);
     void setForeAndBackColors(AGETextCtrl *box, wxColour color);
     void OnChooseGraphic(wxCommandEvent&);
     void playWAV(wxCommandEvent &event);
-    AGE_SLP* getCurrentGraphics();
+    AGE_SLPs* getCurrentGraphics();
     int produceRecentValues(wxArrayString&, vector<wxArrayString>&);
     void autoOdds(wxCommandEvent &event);
     void autoDrsIncrement(wxCommandEvent &event);
@@ -243,55 +466,53 @@ private:
     void OnRandomMapCopy(wxCommandEvent &event);
     void OnRandomMapPaste(wxCommandEvent &event);
     void OnRandomMapPasteInsert(wxCommandEvent &event);
-    string GetRandomMapName(int);
+    wxString GetRandomMapName(int);
 
-    void ListRMSBaseZones();
-    void OnRMSBaseZoneSearch(wxCommandEvent &event);
-    void OnRMSBaseZoneSelect(wxCommandEvent &event);
-    void OnRMSBaseZoneAdd(wxCommandEvent &event);
-    void OnRMSBaseZoneInsert(wxCommandEvent &event);
-    void OnRMSBaseZoneDelete(wxCommandEvent &event);
-    void OnRMSBaseZoneCopy(wxCommandEvent &event);
-    void OnRMSBaseZonePaste(wxCommandEvent &event);
-    void OnRMSBaseZonePasteInsert(wxCommandEvent &event);
-    void OnRMSBaseZoneCopyToMaps(wxCommandEvent &event);
-    string GetRMSBaseZonesName(int);
+    void ListMapLands();
+    void OnMapLandSearch(wxCommandEvent &event);
+    void OnMapLandSelect(wxCommandEvent &event);
+    void OnMapLandAdd(wxCommandEvent &event);
+    void OnMapLandInsert(wxCommandEvent &event);
+    void OnMapLandDelete(wxCommandEvent &event);
+    void OnMapLandCopy(wxCommandEvent &event);
+    void OnMapLandPaste(wxCommandEvent &event);
+    void OnMapLandPasteInsert(wxCommandEvent &event);
+    void OnMapLandCopyToMaps(wxCommandEvent &event);
+    wxString GetMapLandName(int);
 
-    void ListRMSTerrains();
-    void OnRMSTerrainSearch(wxCommandEvent &event);
-    void OnRMSTerrainSelect(wxCommandEvent &event);
-    void OnRMSTerrainAdd(wxCommandEvent &event);
-    void OnRMSTerrainInsert(wxCommandEvent &event);
-    void OnRMSTerrainDelete(wxCommandEvent &event);
-    void OnRMSTerrainCopy(wxCommandEvent &event);
-    void OnRMSTerrainPaste(wxCommandEvent &event);
-    void OnRMSTerrainPasteInsert(wxCommandEvent &event);
-    void OnRMSTerrainCopyToMaps(wxCommandEvent &event);
-    wxString GetRMSTerrainName(int);
+    void ListMapTerrains();
+    void OnMapTerrainSearch(wxCommandEvent &event);
+    void OnMapTerrainSelect(wxCommandEvent &event);
+    void OnMapTerrainAdd(wxCommandEvent &event);
+    void OnMapTerrainInsert(wxCommandEvent &event);
+    void OnMapTerrainDelete(wxCommandEvent &event);
+    void OnMapTerrainCopy(wxCommandEvent &event);
+    void OnMapTerrainPaste(wxCommandEvent &event);
+    void OnMapTerrainPasteInsert(wxCommandEvent &event);
+    void OnMapTerrainCopyToMaps(wxCommandEvent &event);
+    wxString GetMapTerrainName(int);
 
-    void ListRMSUnits();
-    void OnRMSUnitSearch(wxCommandEvent &event);
-    void OnRMSUnitSelect(wxCommandEvent &event);
-    void OnRMSUnitAdd(wxCommandEvent &event);
-    void OnRMSUnitInsert(wxCommandEvent &event);
-    void OnRMSUnitDelete(wxCommandEvent &event);
-    void OnRMSUnitCopy(wxCommandEvent &event);
-    void OnRMSUnitPaste(wxCommandEvent &event);
-    void OnRMSUnitPasteInsert(wxCommandEvent &event);
-    void OnRMSUnitCopyToMaps(wxCommandEvent &event);
-    string GetRMSUnitName(int);
+    void ListMapUnits();
+    void OnMapUnitSearch(wxCommandEvent &event);
+    void OnMapUnitSelect(wxCommandEvent &event);
+    void OnMapUnitAdd(wxCommandEvent &event);
+    void OnMapUnitInsert(wxCommandEvent &event);
+    void OnMapUnitDelete(wxCommandEvent &event);
+    void OnMapUnitCopy(wxCommandEvent &event);
+    void OnMapUnitPaste(wxCommandEvent &event);
+    void OnMapUnitPasteInsert(wxCommandEvent &event);
+    void OnMapUnitCopyToMaps(wxCommandEvent &event);
 
-    void ListRMSUnknowns();
-    void OnRMSUnknownSearch(wxCommandEvent &event);
-    void OnRMSUnknownSelect(wxCommandEvent &event);
-    void OnRMSUnknownAdd(wxCommandEvent &event);
-    void OnRMSUnknownInsert(wxCommandEvent &event);
-    void OnRMSUnknownDelete(wxCommandEvent &event);
-    void OnRMSUnknownCopy(wxCommandEvent &event);
-    void OnRMSUnknownPaste(wxCommandEvent &event);
-    void OnRMSUnknownPasteInsert(wxCommandEvent &event);
-    void OnRMSUnknownCopyToMaps(wxCommandEvent &event);
-    wxString GetRMSUnknownName(int);
+    void ListMapElevations();
+    void OnMapElevationSearch(wxCommandEvent &event);
+    void OnMapElevationSelect(wxCommandEvent &event);
+    void OnMapElevationAdd(wxCommandEvent &event);
+    void OnMapElevationInsert(wxCommandEvent &event);
+    void OnMapElevationDelete(wxCommandEvent &event);
+    void OnMapElevationCopy(wxCommandEvent &event);
+    void OnMapElevationPaste(wxCommandEvent &event);
+    void OnMapElevationPasteInsert(wxCommandEvent &event);
+    void OnMapElevationCopyToMaps(wxCommandEvent &event);
 
 //  Research Events
 
@@ -308,30 +529,31 @@ private:
 
 //  Tech Events
 
-    void ListTechs(bool all = true);
-    void OnTechSearch(wxCommandEvent &event);
-    void OnTechSelect(wxCommandEvent &event);
-    void OnTechAdd(wxCommandEvent &event);
-    void OnTechInsert(wxCommandEvent &event);
-    void OnTechDelete(wxCommandEvent &event);
-    void OnTechCopy(wxCommandEvent &event);
-    void OnTechPaste(wxCommandEvent &event);
-    void OnTechPasteInsert(wxCommandEvent &event);
-    void OnTechRename(wxCommandEvent &event);
-    void OnTechRenameGE2(wxCommandEvent &event);
-    string GetTechName(int);
-
-    void ListEffects();
-    void OnEffectsSearch(wxCommandEvent &event);
+    void ListEffects(bool all = true);
+    void OnEffectSearch(wxCommandEvent &event);
     void OnEffectSelect(wxCommandEvent &event);
-    void OnEffectsAdd(wxCommandEvent &event);
-    void OnEffectsInsert(wxCommandEvent &event);
-    void OnEffectsDelete(wxCommandEvent &event);
-    void OnEffectsCopy(wxCommandEvent &event);
-    void OnEffectsPaste(wxCommandEvent &event);
-    void OnEffectsPasteInsert(wxCommandEvent &event);
-    void OnEffectsCopyToTechs(wxCommandEvent &event);
-    string GetEffectName(int, int);
+    void OnEffectAdd(wxCommandEvent &event);
+    void OnEffectInsert(wxCommandEvent &event);
+    void OnEffectDelete(wxCommandEvent &event);
+    void OnEffectCopy(wxCommandEvent &event);
+    void OnEffectPaste(wxCommandEvent &event);
+    void OnEffectPasteInsert(wxCommandEvent &event);
+    void OnEffectRename(wxCommandEvent &event);
+    void OnEffectRenameGE2(wxCommandEvent &event);
+    wxString GetEffectName(int);
+
+    void ListEffectCmds();
+    void OnEffectCmdSearch(wxCommandEvent &event);
+    void OnEffectCmdSelect(wxCommandEvent &event);
+    void OnEffectCmdAdd(wxCommandEvent &event);
+    void OnEffectCmdInsert(wxCommandEvent &event);
+    void OnEffectCmdDelete(wxCommandEvent &event);
+    void OnEffectCmdCopy(wxCommandEvent &event);
+    void OnEffectCmdPaste(wxCommandEvent &event);
+    void OnEffectCmdPasteInsert(wxCommandEvent &event);
+    void OnEffectCmdCopyToTechs(wxCommandEvent &event);
+    inline wxString Tester(genie::EffectCommand, wxString);
+    wxString GetEffectCmdName(int, int);
 
 //  Tech Tree Events
 
@@ -667,12 +889,12 @@ private:
     void OnGraphicDeltasCopyToGraphics(wxCommandEvent &event);
     string GetGraphicDeltaName(int);
 
-    void ListGraphicAttackSounds();
-    void OnGraphicAttackSoundsSearch(wxCommandEvent &event);
-    void OnGraphicAttackSoundSelect(wxCommandEvent &event);
-    void OnGraphicAttackSoundsCopy(wxCommandEvent &event);
-    void OnGraphicAttackSoundsCopyToGraphics(wxCommandEvent &event);
-    string GetGraphicAttackSoundName(int);
+    void ListGraphicAngleSounds();
+    void OnGraphicAngleSoundsSearch(wxCommandEvent &event);
+    void OnGraphicAngleSoundSelect(wxCommandEvent &event);
+    void OnGraphicAngleSoundsCopy(wxCommandEvent &event);
+    void OnGraphicAngleSoundsCopyToGraphics(wxCommandEvent &event);
+    wxString GetGraphicAngleSoundName(int);
 
 //  Terrain Events
 
@@ -748,7 +970,7 @@ private:
     void OnSoundsCopy(wxCommandEvent &event);
     void OnSoundsPaste(wxCommandEvent &event);
     void OnSoundsPasteInsert(wxCommandEvent &event);
-    string GetSoundName(int);
+    wxString GetSoundName(int);
 
     void ListSoundItems();
     void OnSoundItemsSearch(wxCommandEvent &event);
@@ -760,7 +982,7 @@ private:
     void OnSoundItemsPaste(wxCommandEvent &event);
     void OnSoundItemsPasteInsert(wxCommandEvent &event);
     void OnSoundItemsCopyToSounds(wxCommandEvent &event);
-    string GetSoundItemName(int, int);
+    wxString GetSoundItemName(int, int);
 
 //  Player Color Events
 
@@ -777,28 +999,31 @@ private:
 
 //  Application Variables
 
-    float EditorVersion;
+    float EditorVersion, slp_zoom = 1, boxWidthMultiplier;
     wxString EditorVersionString, slp_extra_info;
-    bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, StayOnTopSLP;
+    bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, KeepViewOnTop;
     vector<short> SelectedCivs;
-    bool SearchAnd = false, ExcludeAnd = false, EnableIDFix, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11, Reselection;
-    bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false, DrawTerrain;
-    bool DrawCollisionShape, DrawClearanceShape, DrawSelectionShape, DrawAngles = false;
+    bool SearchAnd = false, ExcludeAnd = false, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11, Reselection;
+    bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false;
+    bool DrawTerrain, RotateAngles;
+    bool DrawCollisionShape, DrawClearanceShape, DrawOutline, DrawAngles, PlaySounds, AutoCopyAngles;
     vector<genie::DrsFile*> datafiles;
-    vector<vector<genie::Color>> palettes;
+    vector<vector<genie::Color>> palettes, pc_palettes;
     genie::DatFile *dataset = 0;
     genie::LangFile *Lang = 0, *LangX = 0, *LangXP = 0;
-    int CustomTerrains, SLPareaPerCent, paletteView = 0, SLPbackR, SLPbackG, SLPbackB;
+    int CustomTerrains, paletteView = 0, ViewBackR, ViewBackG, ViewBackB, ViewPosX, ViewPosY;
     wxBrush slp_background_brush;
     wxFrame *slp_window = 0;
     APanel *slp_view;
     wxSizer *slp_sizer;
-    wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save, *slp_prev, *slp_first, *slp_tool, *slp_merge_shadow;
+    wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save, *slp_prev, *slp_first,
+        *slp_tool, *slp_merge_shadow, *slp_zoom_btn;
     wxFilePickerCtrl *slp_source1, *slp_source2, *slp_target1;
     wxFlexGridSizer *slp_tool_layout;
     wxRadioBox *slp_radio, *slp_unit_actions;
     wxCheckBox *slp_dmg_unit, *slp_snow, *slp_garrison, *slp_hotspot, *slp_collision, *slp_clearance, *slp_selection;
-    wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain, *slp_angles, *slp_show_angles;
+    wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain;
+    wxCheckBox *slp_angles, *slp_show_angles, *slp_sounds;
     wxColourPickerCtrl *slp_background;
     DelayedPopUp popUp;
     int times_listed = 0;
@@ -824,30 +1049,32 @@ private:
     vector<float> TerrainRestrictionSubCopyAccess;
 
     bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, SyncSaveWithOpen,
-        UseCustomPath, UseTXT = false, UseDRS, UseMod, UseExtra, FilterAllSubs;
+        UseTXT = false, UseDRS, UseMod, UseExtra, FilterAllSubs, UseLooseSLP, LooseHD;
     enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
     short How2List;
     int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidthV2, MinWindowWidth;
     void FixSizes();
     chrono::time_point<chrono::system_clock> endTime;
     genie::GameVersion GenieVersion = genie::GV_None;
-    wxString DriveLetter, Language, CustomFolder;
-    wxString DatFileName, SaveDatFileName, FolderDRS, FolderDRS2, Path1stDRS;
+    wxString DriveLetter, Language, CustomFolder, PalettesPath;
+    wxString DatFileName, SaveDatFileName, FolderDRS, FolderDRS2, Path1stDRS, PathSLP;
     int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
-    wxString LangCharset;
+    wxString LangCharset, AlexZoom;
     wxString LangFileName, LangX1FileName, LangX1P1FileName;
     wxString SaveLangFileName, SaveLangX1FileName, SaveLangX1P1FileName;
 
-    map<int, string> LangTxt;
+    genie::GameVersion version(int);
+    map<size_t, string> LangTxt;
     HINSTANCE LanguageDLL[3];
-    wxString LangDLLstring(int ID, int Letters = 0);
-    //void WriteLangDLLstring(int ID, wxString Name);
+    wxString TranslatedText(int ID, int Letters = 0);
+    //void WriteTranslatedText(int ID, wxString Name);
     bool exportFrame = false;
     void LoadTXT(const wxString &filename);
-    void LoadSLPFrame(AGE_SLP*);
-    void SLPtoBitMap(AGE_SLP*);
-    void BitMaptoSLP(AGE_SLP*);
-    AGE_SLP iconSLP, graphicSLP, unitSLP, techSLP, tileSLP, borderSLP;
+    bool LoadSLP(AGE_SLP*);
+    void FrameToBitmap(AGE_SLP*);
+    void BitmapToSLP(AGE_SLP*);
+    AGE_SLP iconSLP, techSLP, tileSLP, borderSLP;
+    AGE_SLPs gallery, museum;
 
 public:
 //  Constants, remove unneeded entries.
@@ -855,9 +1082,9 @@ public:
     enum
     {
         // menus and tool bar
-        ePrompt = wxID_HIGHEST + 1,
-        eIdFix, eButtons, eShowSLP, eShowIcons, eTips, eStayOnTop, eStayOnTopSLP, eAbout,
-        eBackup, eUnknown, eHelp, eDRS, eHex, eFloat, ePaste, eReselection, eAddWindow,
+        ePrompt = wxID_HIGHEST + 1, eVasili,
+        eButtons, eShowSLP, eShowIcons, eTips, eStayOnTop, eStayOnTopSLP, eAbout, eSlpPals, eSlpPCPal, eCacheDepth, eSlpZoom,
+        eBackup, eUnknown, eHelp, eDRS, eHex, eFloat, ePaste, eReselection, eAddWindow, eCompileList, eBoxWidth,
 
         // open and save
         eOpen,
@@ -867,11 +1094,11 @@ public:
         eTabBar,
 
         // buttons
-        eNextFrame, ePrevFrame, eFirstFrame, eExportFrame, eImportFrame, eSaveSLP, eSLPTool, eSLPMergeShadow,
+        eNextFrame, ePrevFrame, eFirstFrame, eExportFrame, eImportFrame, eSaveSLP, eSLPTool, eSLPMergeShadow, eZoom,
 
         // check boxes
         eShowHotspot, eAnimSLP, eShowShadows, eShowOutline, eShowDeltas, eShowStack, eShowAnnexes, eShowTerrain,
-        eCollisionShape, eClearanceShape, eSelectionShape, eShowAngles,
+        eCollisionShape, eClearanceShape, eOutline, eShowAngles, eRotateAngles, ePlaySounds,
 
         // color picker
         ePickBgColor,
@@ -896,7 +1123,7 @@ private:
         tt_building_filters, soundfile_filters, research_filters, graphic_filters,
 
     //  Miscellaneous combo box strings
-        action_type_names, unit_type_names, graphicset_names, specialcopy_names,
+        task_names, unit_type_names, graphicset_names, specialcopy_names,
         unit_filter_options, civ_names_only, mode_names;
 
     wxMenuBar *MenuBar_Main;
@@ -917,16 +1144,16 @@ private:
     SolidText *General_CalcBoxes_Text;
     SolidText *General_CalcBoxesMiddle_Text;
     wxTextCtrl *General_CalcBoxes[5];
-    wxScrolled<APanel> *General_Scroller;
+    AScrolled *General_Scroller;
     wxBoxSizer *General_ScrollSpace;
     SolidText *General_TileSizes_Text;
     wxGridSizer *General_TileSizes_Grid;
     array<wxBoxSizer*, 19> General_TileSizes_Sizers;
     array<AGETextCtrl*, 57> General_TileSizes;
 
-    wxBoxSizer *UnknownPointer1_Sizer;
-    SolidText *UnknownPointer1_Text;
-    AGETextCtrl *UnknownPointer1;
+    wxBoxSizer *MapRowOffset_Sizer;
+    SolidText *MapRowOffset_Text;
+    AGETextCtrl *MapRowOffset;
     wxBoxSizer *MapMinX_Sizer;
     SolidText *MapMinX_Text;
     AGETextCtrl *MapMinX;
@@ -983,12 +1210,12 @@ private:
     SolidText *BlockEndCol_Text;
     AGETextCtrl *BlockEndCol;
 
-    wxBoxSizer *UnknownPointer2_Sizer;
-    SolidText *UnknownPointer2_Text;
-    AGETextCtrl *UnknownPointer2;
-    wxBoxSizer *UnknownPointer3_Sizer;
-    SolidText *UnknownPointer3_Text;
-    AGETextCtrl *UnknownPointer3;
+    wxBoxSizer *SearchMapPtr_Sizer;
+    SolidText *SearchMapPtr_Text;
+    AGETextCtrl *SearchMapPtr;
+    wxBoxSizer *SearchMapRowsPtr_Sizer;
+    SolidText *SearchMapRowsPtr_Text;
+    AGETextCtrl *SearchMapRowsPtr;
     wxBoxSizer *AnyFrameChange_Sizer;
     SolidText *AnyFrameChange_Text;
     AGETextCtrl *AnyFrameChange;
@@ -1054,9 +1281,9 @@ private:
     wxBoxSizer *Borders_SLP_Holder;
     SolidText *Borders_SLP_Text;
     AGETextCtrl *Borders_SLP;
-    wxBoxSizer *Borders_Unknown3_Holder;
-    SolidText *Borders_Unknown3_Text;
-    AGETextCtrl *Borders_Unknown3;
+    wxBoxSizer *Borders_ShapePtr_Holder;
+    SolidText *Borders_ShapePtr_Text;
+    AGETextCtrl *Borders_ShapePtr;
     wxBoxSizer *Borders_Sound_Holder;
     SolidText *Borders_Sound_Text;
     AGETextCtrl *Borders_Sound;
@@ -1106,9 +1333,9 @@ private:
     SolidText *Borders_Flag2_Text;
     AGETextCtrl *Borders_Flag2;
     APanel *Border_Shape_SLP;
-    wxBoxSizer *Borders_DrawTile_Holder;
-    SolidText *Borders_DrawTile_Text;
-    AGETextCtrl *Borders_DrawTile;
+    wxBoxSizer *Borders_DrawTerrain_Holder;
+    SolidText *Borders_DrawTerrain_Text;
+    AGETextCtrl *Borders_DrawTerrain;
     wxBoxSizer *Borders_Terrain_Holder;
     SolidText *Borders_Terrain_Text;
     AGETextCtrl *Borders_Terrain;
@@ -1139,16 +1366,16 @@ private:
     wxBoxSizer *General_SUnknown5_Holder;
     SolidText *General_SUnknown5_Text;
     AGETextCtrl *General_SUnknown5;
-    array<wxBoxSizer*, 8> General_TTUnknown_Holder;
-    array<SolidText*, 8> General_TTUnknown_Text;
-    array<AGETextCtrl*, 8> General_TTUnknown;
+    array<wxBoxSizer*, 8> General_TTKnown_Holder;
+    array<SolidText*, 8> General_TTKnown_Text;
+    array<AGETextCtrl*, 8> General_TTKnown;
 
     wxBoxSizer *General_MapPointer_Holder;
     SolidText *General_MapPointer_Text;
     AGETextCtrl *General_MapPointer;
-    wxBoxSizer *General_Unknown1_Holder;
-    SolidText *General_Unknown1_Text;
-    AGETextCtrl *General_Unknown1;
+    wxBoxSizer *General_VFP_Holder;
+    SolidText *General_VFP_Text;
+    AGETextCtrl *General_VFP;
     wxBoxSizer *General_MapWidth_Holder;
     SolidText *General_MapWidth_Text;
     AGETextCtrl *General_MapWidth;
@@ -1161,17 +1388,17 @@ private:
     wxBoxSizer *General_WorldHeight_Holder;
     SolidText *General_WorldHeight_Text;
     AGETextCtrl *General_WorldHeight;
-    wxBoxSizer *General_Unknown2_Holder;
-    SolidText *General_Unknown2_Text;
-    AGETextCtrl *General_Unknown2;
+    wxBoxSizer *General_TileSizesPadding_Holder;
+    SolidText *General_TileSizesPadding_Text;
+    AGETextCtrl *General_TileSizesPadding;
 
     wxBoxSizer *Unknown_Main;
-    wxScrolled<APanel> *Unknown_Scroller;
+    AScrolled *RMS_Scroller;
     wxBoxSizer *Unknown_ScrollSpace;
 
     vector<AGETextCtrl*> uiGroupRandomMap, uiGroupRMBase, uiGroupRMTerrain, uiGroupRMUnit, uiGroupRMUnknown;
-    SolidText *Unknown_UnknownPointer_Text;
-    AGETextCtrl *Unknown_UnknownPointer;
+    SolidText *RMS_MapsPtr_Text;
+    AGETextCtrl *RMS_MapsPtr;
 
     wxStaticBoxSizer *Unknowns;
     wxBoxSizer *Unknowns_ListArea;
@@ -1186,170 +1413,186 @@ private:
     wxButton *Unknowns_Paste;
     wxButton *Unknowns_PasteInsert;
 
-    SolidText *Unknowns_UnknownLevel_Text;
-    AGETextCtrl *Unknowns_UnknownLevel;
-    wxGridSizer *Unknowns_Unknown1_Grid;
-    array<wxBoxSizer*, 9> Unknowns_Unknown1_Holder;
-    array<SolidText*, 9> Unknowns_Unknown1_Text;
-    array<AGETextCtrl*, 9> Unknowns_Unknown1;
-    SolidText *Unknowns_Pointer1_Text;
-    AGETextCtrl *Unknowns_Pointer1;
-    SolidText *Unknowns_Pointer2_Text;
-    AGETextCtrl *Unknowns_Pointer2;
-    SolidText *Unknowns_Pointer3_Text;
-    AGETextCtrl *Unknowns_Pointer3;
-    SolidText *Unknowns_Pointer4_Text;
-    AGETextCtrl *Unknowns_Pointer4;
+    SolidText *RMS_MapID_Text;
+    AGETextCtrl *RMS_MapID;
+    wxGridSizer *RMS_LandData_Grid;
+    wxBoxSizer *RMS_MapID_Holder;
+    array<wxBoxSizer*, 9> RMS_LandData_Holder;
+    array<SolidText*, 9> RMS_LandData_Text;
+    array<AGETextCtrl*, 9> RMS_LandData;
+    SolidText *RMS_LandsPtr_Text;
+    AGETextCtrl *RMS_LandsPtr;
+    SolidText *RMS_TerrainsPtr_Text;
+    AGETextCtrl *RMS_TerrainsPtr;
+    SolidText *RMS_UnitsPtr_Text;
+    AGETextCtrl *RMS_UnitsPtr;
+    SolidText *RMS_ElevationsPtr_Text;
+    AGETextCtrl *RMS_ElevationsPtr;
 
-    wxStaticBoxSizer *RMSBaseZones;
-    wxBoxSizer *RMSBaseZones_ListArea;
-    wxTextCtrl *RMSBaseZones_Search;
-    wxTextCtrl *RMSBaseZones_Search_R;
-    ProperList *RMSBaseZones_ListV;
-    wxGridSizer *RMSBaseZones_Buttons;
-    wxButton *RMSBaseZones_Add;
-    wxButton *RMSBaseZones_Insert;
-    wxButton *RMSBaseZones_Delete;
-    wxButton *RMSBaseZones_Copy;
-    wxButton *RMSBaseZones_Paste;
-    wxButton *RMSBaseZones_PasteInsert;
-    wxButton *RMSBaseZones_CopyToMaps;
+    wxStaticBoxSizer *RMSMapLands;
+    wxBoxSizer *RMS_Land_ListArea;
+    wxTextCtrl *RMS_Land_Search;
+    wxTextCtrl *RMS_Land_Search_R;
+    ProperList *RMS_Land_ListV;
+    wxGridSizer *RMS_Land_Buttons;
+    wxButton *RMS_Land_Add;
+    wxButton *RMS_Land_Insert;
+    wxButton *RMS_Land_Delete;
+    wxButton *RMS_Land_Copy;
+    wxButton *RMS_Land_Paste;
+    wxButton *RMS_Land_PasteInsert;
+    wxButton *RMS_Land_CopyToMaps;
 
-    wxGridSizer *RMSBaseZones_Unknown1_Grid;
+    wxGridSizer *RMS_Land_LandID_Grid;
 
-    wxBoxSizer *RMSBaseZones_Unknown1_Holder;
-    SolidText *RMSBaseZones_Unknown1_Text;
-    AGETextCtrl *RMSBaseZones_Unknown1;
-    wxBoxSizer *RMSBaseZones_BaseTerrain_Holder;
-    SolidText *RMSBaseZones_BaseTerrain_Text;
-    AGETextCtrl *RMSBaseZones_BaseTerrain;
-    wxBoxSizer *RMSBaseZones_SpacingBetweenPlayers_Holder;
-    SolidText *RMSBaseZones_SpacingBetweenPlayers_Text;
-    AGETextCtrl *RMSBaseZones_SpacingBetweenPlayers;
-    wxBoxSizer *RMSBaseZones_Unknown4_Holder;
-    SolidText *RMSBaseZones_Unknown4_Text;
-    AGETextCtrl *RMSBaseZones_Unknown4;
+    wxBoxSizer *RMS_Land_LandID_Holder;
+    SolidText *RMS_Land_LandID_Text;
+    AGETextCtrl *RMS_Land_LandID;
+    wxBoxSizer *RMS_Land_BaseTerrain_Holder;
+    SolidText *RMS_Land_BaseTerrain_Text;
+    AGETextCtrl *RMS_Land_BaseTerrain;
+    wxBoxSizer *RMS_Land_PlayerSpacing_Holder;
+    SolidText *RMS_Land_PlayerSpacing_Text;
+    AGETextCtrl *RMS_Land_PlayerSpacing;
+    wxBoxSizer *RMS_Land_BaseSize_Holder;
+    SolidText *RMS_Land_BaseSize_Text;
+    AGETextCtrl *RMS_Land_BaseSize;
 
-    wxBoxSizer *RMSBaseZones_Unknown5_Holder;
-    wxGridSizer *RMSBaseZones_Unknown5_Grid;
-    SolidText *RMSBaseZones_Unknown5_Text;
-    array<AGETextCtrl*, 4> RMSBaseZones_Unknown5;
+    wxBoxSizer *RMS_Land_Zone_Holder;
+    SolidText *RMS_Land_Zone_Text;
+    AGETextCtrl *RMS_Land_Zone;
+    wxBoxSizer *RMS_Land_PlacementType_Holder;
+    SolidText *RMS_Land_PlacementType_Text;
+    AGETextCtrl *RMS_Land_PlacementType;
+    wxBoxSizer *RMS_Land_Padding1_Holder;
+    SolidText *RMS_Land_Padding1_Text;
+    AGETextCtrl *RMS_Land_Padding1;
 
-    wxBoxSizer *RMSBaseZones_Unknown6_Holder;
-    SolidText *RMSBaseZones_Unknown6_Text;
-    AGETextCtrl *RMSBaseZones_Unknown6;
-    wxBoxSizer *RMSBaseZones_Unknown7_Holder;
-    SolidText *RMSBaseZones_Unknown7_Text;
-    AGETextCtrl *RMSBaseZones_Unknown7;
+    wxBoxSizer *RMS_Land_X_Holder;
+    SolidText *RMS_Land_X_Text;
+    AGETextCtrl *RMS_Land_X;
+    wxBoxSizer *RMS_Land_Y_Holder;
+    SolidText *RMS_Land_Y_Text;
+    AGETextCtrl *RMS_Land_Y;
 
-    wxBoxSizer *RMSBaseZones_Unknown8_Holder;
-    wxGridSizer *RMSBaseZones_Unknown8_Grid;
-    SolidText *RMSBaseZones_Unknown8_Text;
-    array<AGETextCtrl*, 4> RMSBaseZones_Unknown8;
+    wxBoxSizer *RMS_Land_LandProportion_Holder;
+    SolidText *RMS_Land_LandProportion_Text;
+    AGETextCtrl *RMS_Land_LandProportion;
+    wxBoxSizer *RMS_Land_ByPlayerFlag_Holder;
+    SolidText *RMS_Land_ByPlayerFlag_Text;
+    AGETextCtrl *RMS_Land_ByPlayerFlag;
+    wxBoxSizer *RMS_Land_Padding2_Holder;
+    SolidText *RMS_Land_Padding2_Text;
+    AGETextCtrl *RMS_Land_Padding2;
 
-    wxBoxSizer *RMSBaseZones_StartAreaRadius_Holder;
-    SolidText *RMSBaseZones_StartAreaRadius_Text;
-    AGETextCtrl *RMSBaseZones_StartAreaRadius;
-    wxBoxSizer *RMSBaseZones_Unknown10_Holder;
-    SolidText *RMSBaseZones_Unknown10_Text;
-    AGETextCtrl *RMSBaseZones_Unknown10;
-    wxBoxSizer *RMSBaseZones_Unknown11_Holder;
-    SolidText *RMSBaseZones_Unknown11_Text;
-    AGETextCtrl *RMSBaseZones_Unknown11;
+    wxBoxSizer *RMS_Land_StartAreaRadius_Holder;
+    SolidText *RMS_Land_StartAreaRadius_Text;
+    AGETextCtrl *RMS_Land_StartAreaRadius;
+    wxBoxSizer *RMS_Land_TerrainEdgeFade_Holder;
+    SolidText *RMS_Land_TerrainEdgeFade_Text;
+    AGETextCtrl *RMS_Land_TerrainEdgeFade;
+    wxBoxSizer *RMS_Land_Clumpiness_Holder;
+    SolidText *RMS_Land_Clumpiness_Text;
+    AGETextCtrl *RMS_Land_Clumpiness;
 
     wxStaticBoxSizer *RMSTerrain;
-    wxBoxSizer *RMSTerrain_ListArea;
-    wxTextCtrl *RMSTerrain_Search;
-    wxTextCtrl *RMSTerrain_Search_R;
-    ProperList *RMSTerrain_ListV;
-    wxGridSizer *RMSTerrain_Buttons;
-    wxButton *RMSTerrain_Add;
-    wxButton *RMSTerrain_Insert;
-    wxButton *RMSTerrain_Delete;
-    wxButton *RMSTerrain_Copy;
-    wxButton *RMSTerrain_Paste;
-    wxButton *RMSTerrain_PasteInsert;
-    wxButton *RMSTerrain_CopyToMaps;
+    wxBoxSizer *RMS_Terrain_ListArea;
+    wxTextCtrl *RMS_Terrain_Search;
+    wxTextCtrl *RMS_Terrain_Search_R;
+    ProperList *RMS_Terrain_ListV;
+    wxGridSizer *RMS_Terrain_Buttons;
+    wxButton *RMS_Terrain_Add;
+    wxButton *RMS_Terrain_Insert;
+    wxButton *RMS_Terrain_Delete;
+    wxButton *RMS_Terrain_Copy;
+    wxButton *RMS_Terrain_Paste;
+    wxButton *RMS_Terrain_PasteInsert;
+    wxButton *RMS_Terrain_CopyToMaps;
 
-    wxGridSizer *RMSTerrain_Unknown1_Grid;
-    array<wxBoxSizer*, 6> RMSTerrain_Unknown1_Holder;
-    array<SolidText*, 6> RMSTerrain_Unknown1_Text;
-    array<AGETextCtrl*, 6> RMSTerrain_Unknown1;
+    wxGridSizer *RMS_TerrainData_Grid;
+    array<wxBoxSizer*, 6> RMS_TerrainData_Holder;
+    array<SolidText*, 6> RMS_TerrainData_Text;
+    array<AGETextCtrl*, 6> RMS_TerrainData;
 
     wxStaticBoxSizer *RMSUnit;
-    wxBoxSizer *RMSUnit_ListArea;
-    wxTextCtrl *RMSUnit_Search;
-    wxTextCtrl *RMSUnit_Search_R;
-    ProperList *RMSUnit_ListV;
-    wxGridSizer *RMSUnit_Buttons;
-    wxButton *RMSUnit_Add;
-    wxButton *RMSUnit_Insert;
-    wxButton *RMSUnit_Delete;
-    wxButton *RMSUnit_Copy;
-    wxButton *RMSUnit_Paste;
-    wxButton *RMSUnit_PasteInsert;
-    wxButton *RMSUnit_CopyToMaps;
+    wxBoxSizer *RMS_Unit_ListArea;
+    wxTextCtrl *RMS_Unit_Search;
+    wxTextCtrl *RMS_Unit_Search_R;
+    ProperList *RMS_Unit_ListV;
+    wxGridSizer *RMS_Unit_Buttons;
+    wxButton *RMS_Unit_Add;
+    wxButton *RMS_Unit_Insert;
+    wxButton *RMS_Unit_Delete;
+    wxButton *RMS_Unit_Copy;
+    wxButton *RMS_Unit_Paste;
+    wxButton *RMS_Unit_PasteInsert;
+    wxButton *RMS_Unit_CopyToMaps;
 
-    wxGridSizer *RMSUnit_Unknown1_Grid;
-    wxBoxSizer *RMSUnit_Unit_Holder;
-    SolidText *RMSUnit_Unit_Text;
-    AGETextCtrl *RMSUnit_Unit;
-    wxBoxSizer *RMSUnit_HostTerrain_Holder;
-    SolidText *RMSUnit_HostTerrain_Text;
-    AGETextCtrl *RMSUnit_HostTerrain;
-    wxBoxSizer *RMSUnit_Unknown3_Holder;
-    wxGridSizer *RMSUnit_Unknown3_Grid;
-    SolidText *RMSUnit_Unknown3_Text;
-    array<AGETextCtrl*, 4> RMSUnit_Unknown3;
-    wxBoxSizer *RMSUnit_ObjectsPerPlayer_Holder;
-    SolidText *RMSUnit_ObjectsPerPlayer_Text;
-    AGETextCtrl *RMSUnit_ObjectsPerPlayer;
-    wxBoxSizer *RMSUnit_Unknown5_Holder;
-    SolidText *RMSUnit_Unknown5_Text;
-    AGETextCtrl *RMSUnit_Unknown5;
-    wxBoxSizer *RMSUnit_GroupsPerPlayer_Holder;
-    SolidText *RMSUnit_GroupsPerPlayer_Text;
-    AGETextCtrl *RMSUnit_GroupsPerPlayer;
-    wxBoxSizer *RMSUnit_Unknown7_Holder;
-    SolidText *RMSUnit_Unknown7_Text;
-    AGETextCtrl *RMSUnit_Unknown7;
-    wxBoxSizer *RMSUnit_OwnAtStart_Holder;
-    SolidText *RMSUnit_OwnAtStart_Text;
-    AGETextCtrl *RMSUnit_OwnAtStart;
-    wxBoxSizer *RMSUnit_SetPlaceForAllPlayers_Holder;
-    SolidText *RMSUnit_SetPlaceForAllPlayers_Text;
-    AGETextCtrl *RMSUnit_SetPlaceForAllPlayers;
-    wxBoxSizer *RMSUnit_MinDistanceToPlayers_Holder;
-    SolidText *RMSUnit_MinDistanceToPlayers_Text;
-    AGETextCtrl *RMSUnit_MinDistanceToPlayers;
-    wxBoxSizer *RMSUnit_MaxDistanceToPlayers_Holder;
-    SolidText *RMSUnit_MaxDistanceToPlayers_Text;
-    AGETextCtrl *RMSUnit_MaxDistanceToPlayers;
+    wxGridSizer *RMS_Unit_Unknown1_Grid;
+    wxBoxSizer *RMS_Unit_Unit_Holder;
+    SolidText *RMS_Unit_Unit_Text;
+    AGETextCtrl *RMS_Unit_Unit;
+    wxBoxSizer *RMS_Unit_HostTerrain_Holder;
+    SolidText *RMS_Unit_HostTerrain_Text;
+    AGETextCtrl *RMS_Unit_HostTerrain;
+    wxBoxSizer *RMS_Unit_GroupPlacing_Holder;
+    SolidText *RMS_Unit_GroupPlacing_Text;
+    AGETextCtrl *RMS_Unit_GroupPlacing;
+    wxBoxSizer *RMS_Unit_ScaleFlag_Holder;
+    SolidText *RMS_Unit_ScaleFlag_Text;
+    AGETextCtrl *RMS_Unit_ScaleFlag;
+    wxBoxSizer *RMS_Unit_Padding1_Holder;
+    SolidText *RMS_Unit_Padding1_Text;
+    AGETextCtrl *RMS_Unit_Padding1;
+    wxBoxSizer *RMS_Unit_ObjectsPerPlayer_Holder;
+    SolidText *RMS_Unit_ObjectsPerPlayer_Text;
+    AGETextCtrl *RMS_Unit_ObjectsPerPlayer;
+    wxBoxSizer *RMS_Unit_Fluctuation_Holder;
+    SolidText *RMS_Unit_Fluctuation_Text;
+    AGETextCtrl *RMS_Unit_Fluctuation;
+    wxBoxSizer *RMS_Unit_GroupsPerPlayer_Holder;
+    SolidText *RMS_Unit_GroupsPerPlayer_Text;
+    AGETextCtrl *RMS_Unit_GroupsPerPlayer;
+    wxBoxSizer *RMS_Unit_GroupArea_Holder;
+    SolidText *RMS_Unit_GroupArea_Text;
+    AGETextCtrl *RMS_Unit_GroupArea;
+    wxBoxSizer *RMS_Unit_PlayerID_Holder;
+    SolidText *RMS_Unit_PlayerID_Text;
+    AGETextCtrl *RMS_Unit_PlayerID;
+    wxBoxSizer *RMS_Unit_SetPlaceForAllPlayers_Holder;
+    SolidText *RMS_Unit_SetPlaceForAllPlayers_Text;
+    AGETextCtrl *RMS_Unit_SetPlaceForAllPlayers;
+    wxBoxSizer *RMS_Unit_MinDistanceToPlayers_Holder;
+    SolidText *RMS_Unit_MinDistanceToPlayers_Text;
+    AGETextCtrl *RMS_Unit_MinDistanceToPlayers;
+    wxBoxSizer *RMS_Unit_MaxDistanceToPlayers_Holder;
+    SolidText *RMS_Unit_MaxDistanceToPlayers_Text;
+    AGETextCtrl *RMS_Unit_MaxDistanceToPlayers;
 
     wxStaticBoxSizer *RMSUnknown;
-    wxBoxSizer *RMSUnknown_ListArea;
-    wxTextCtrl *RMSUnknown_Search;
-    wxTextCtrl *RMSUnknown_Search_R;
-    ProperList *RMSUnknown_ListV;
-    wxGridSizer *RMSUnknown_Buttons;
-    wxButton *RMSUnknown_Add;
-    wxButton *RMSUnknown_Insert;
-    wxButton *RMSUnknown_Delete;
-    wxButton *RMSUnknown_Copy;
-    wxButton *RMSUnknown_Paste;
-    wxButton *RMSUnknown_PasteInsert;
-    wxButton *RMSUnknown_CopyToMaps;
+    wxBoxSizer *RMS_Elevation_ListArea;
+    wxTextCtrl *RMS_Elevation_Search;
+    wxTextCtrl *RMS_Elevation_Search_R;
+    ProperList *RMS_Elevation_ListV;
+    wxGridSizer *RMS_Elevation_Buttons;
+    wxButton *RMS_Elevation_Add;
+    wxButton *RMS_Elevation_Insert;
+    wxButton *RMS_Elevation_Delete;
+    wxButton *RMS_Elevation_Copy;
+    wxButton *RMS_Elevation_Paste;
+    wxButton *RMS_Elevation_PasteInsert;
+    wxButton *RMS_Elevation_CopyToMaps;
 
-    wxGridSizer *RMSUnknown_Unknown1_Grid;
-    array<wxBoxSizer*, 6> RMSUnknown_Unknown1_Holder;
-    array<SolidText*, 6> RMSUnknown_Unknown1_Text;
-    array<AGETextCtrl*, 6> RMSUnknown_Unknown1;
+    wxGridSizer *RMS_ElevationData_Grid;
+    array<wxBoxSizer*, 6> RMS_ElevationData_Holder;
+    array<SolidText*, 6> RMS_ElevationData_Text;
+    array<AGETextCtrl*, 6> RMS_ElevationData;
 
-//  Researchs user interface
+//  Techs user interface
 
     wxBoxSizer *Research_Main;
     wxGridSizer *Research_Research_Buttons;
-    wxScrolled<APanel> *Research_Scroller;
+    AScrolled *Research_Scroller;
     wxBoxSizer *Research_ScrollSpace;
     wxBoxSizer *Research_LangDLLArea_Holder;
     wxBoxSizer *Research_Misc2_Holder;
@@ -1617,7 +1860,7 @@ private:
 
 //  Type 10+
 
-    wxScrolled<APanel> *Units_Scroller;    // Scrollable unit section
+    AScrolled *Units_Scroller;    // Scrollable unit section
 
     SolidText *visibleUnitCiv;
     AGETextCtrl *Units_Type;
@@ -1633,24 +1876,26 @@ private:
     ComboBox_Plus1 *Units_StandingGraphic_ComboBox[2];
     AGETextCtrl *Units_DyingGraphic[2];
     ComboBox_Plus1 *Units_DyingGraphic_ComboBox[2];
-    AGETextCtrl *Units_DeathMode;
-    CheckBox_2State *Units_DeathMode_CheckBox;
+    AGETextCtrl *Units_UndeadMode;
+    CheckBox_2State *Units_UndeadMode_CheckBox;
     AGETextCtrl *Units_HitPoints;
     AGETextCtrl *Units_LineOfSight;
     AGETextCtrl *Units_GarrisonCapacity;
     AGETextCtrl *Units_SizeRadius[2];
     AGETextCtrl *Units_HPBarHeight1;
-    AGETextCtrl *Units_TrainSound[2];
-    ComboBox_Plus1 *Units_TrainSound_ComboBox[2];
+    AGETextCtrl *Units_TrainSound;
+    AGETextCtrl *Units_DamageSound;
+    ComboBox_Plus1 *Units_TrainSound_ComboBox;
+    ComboBox_Plus1 *Units_DamageSound_ComboBox;
     AGETextCtrl *Units_DeadUnitID;
     ComboBox_Plus1 *Units_DeadUnitID_ComboBox;
-    AGETextCtrl *Units_PlacementMode;
-    AGETextCtrl *Units_AirMode;
-    CheckBox_2State *Units_AirMode_CheckBox;
+    AGETextCtrl *Units_SortNumber;
+    AGETextCtrl *Units_CanBeBuiltOn;
+    CheckBox_2State *Units_CanBeBuiltOn_CheckBox;
     AGETextCtrl *Units_IconID;
     AGETextCtrl *Units_HideInEditor;
     CheckBox_2State *Units_HideInEditor_CheckBox;
-    AGETextCtrl *Units_Unknown1;
+    AGETextCtrl *Units_Portrait;
     AGETextCtrl *Units_Enabled;
     CheckBox_2State *Units_Enabled_CheckBox;
     AGETextCtrl *Units_Disabled;
@@ -1661,8 +1906,8 @@ private:
     ComboBox_Plus1 *Units_PlacementTerrain_ComboBox[2];
     AGETextCtrl *Units_ClearanceSize[2];
     AGETextCtrl *Units_HillMode;
-    AGETextCtrl *Units_VisibleInFog;
-    SolidText *Units_VisibleInFog_Text;
+    AGETextCtrl *Units_FogVisibility;
+    SolidText *Units_FogVisibility_Text;
     AGETextCtrl *Units_TerrainRestriction;
     ComboBox_Plus1 *Units_TerrainRestriction_ComboBox;
     AGETextCtrl *Units_FlyMode;
@@ -1670,11 +1915,11 @@ private:
     AGETextCtrl *Units_ResourceCapacity;
     AGETextCtrl *Units_ResourceDecay;
     AGETextCtrl *Units_BlastDefenseLevel;
-    AGETextCtrl *Units_SubType;
+    AGETextCtrl *Units_CombatLevel;
     AGETextCtrl *Units_InteractionMode;
     AGETextCtrl *Units_MinimapMode;
-    AGETextCtrl *Units_CommandID;
-    AGETextCtrl *Units_Unknown3A;
+    AGETextCtrl *Units_InterfaceKind;
+    AGETextCtrl *Units_MultipleAttributeMode;
     AGETextCtrl *Units_MinimapColor;
     AGETextCtrl *Units_LanguageDLLHelp;
     TextCtrl_DLL *Units_DLL_LanguageHelp;
@@ -1683,17 +1928,17 @@ private:
     TextCtrl_DLL *Units_DLL_LanguageHKText;
     AGETextCtrl *Units_HotKey;
     TextCtrl_DLL *Units_DLL_HotKey4;
-    AGETextCtrl *Units_Unselectable;
-    CheckBox_2State *Units_Unselectable_CheckBox;
-    AGETextCtrl *Units_Unknown6;
-    AGETextCtrl *Units_Unknown7;
-    AGETextCtrl *Units_Unknown8;
-    AGETextCtrl *Units_SelectionMask;
-    AGETextCtrl *Units_SelectionShapeType;
-    AGETextCtrl *Units_SelectionShape;
-    AGETextCtrl *Units_Attribute;
-    wxBoxSizer *Units_Attribute_Grid;
-    wxCheckBox *Units_Attribute_CheckBox[8];
+    AGETextCtrl *Units_Recyclable;
+    CheckBox_2State *Units_Recyclable_CheckBox;
+    AGETextCtrl *Units_TrackAsResource;
+    AGETextCtrl *Units_CreateDoppelgangerOnDeath;
+    AGETextCtrl *Units_ResourceGroup;
+    AGETextCtrl *Units_OcclusionMode;
+    AGETextCtrl *Units_ObstructionType;
+    AGETextCtrl *Units_ObstructionClass;
+    AGETextCtrl *Units_Trait;
+    wxBoxSizer *Units_Trait_Grid;
+    wxCheckBox *Units_Trait_CheckBox[8];
     AGETextCtrl *Units_Civ;
     ComboBox_Plus1 *Units_Civ_ComboBox;
     AGETextCtrl *Units_Nothing;
@@ -1705,21 +1950,21 @@ private:
     AGETextCtrl *ResourceStorage_Type[3];
     ComboBox_Plus1 *ResourceStorage_Type_ComboBox[3];
     AGETextCtrl *ResourceStorage_Amount[3];
-    AGETextCtrl *ResourceStorage_Enabled[3];
+    AGETextCtrl *ResourceStorage_Mode[3];
     AGETextCtrl *Units_SelectionSound;
     ComboBox_Plus1 *Units_SelectionSound_ComboBox;
     AGETextCtrl *Units_DyingSound;
     ComboBox_Plus1 *Units_DyingSound_ComboBox;
-    AGETextCtrl *Units_AttackMode;
-    AGETextCtrl *Units_Unknown10;
+    AGETextCtrl *Units_AttackReaction;
+    AGETextCtrl *Units_ConvertTerrain;
     AGETextCtrl *Units_Name;
     AGETextCtrl *Units_Name2;
     AGETextCtrl *Units_Unitline;
     ComboBox_Plus1 *Units_Unitline_ComboBox;
     AGETextCtrl *Units_MinTechLevel;
     ComboBox_Plus1 *Units_MinTechLevel_ComboBox;
-    AGETextCtrl *Units_ID2;
-    AGETextCtrl *Units_ID3;
+    AGETextCtrl *Units_CopyID;
+    AGETextCtrl *Units_BaseID;
 
 //  Type 20+
 
@@ -1730,45 +1975,45 @@ private:
     AGETextCtrl *Units_WalkingGraphic[2];
     ComboBox_Plus1 *Units_WalkingGraphic_ComboBox[2];
     AGETextCtrl *Units_RotationSpeed;
-    AGETextCtrl *Units_Unknown11;
+    AGETextCtrl *Units_SizeClass;
     AGETextCtrl *Units_TrackingUnit;
     ComboBox_Plus1 *Units_TrackingUnit_ComboBox;
-    AGETextCtrl *Units_TrackingUnitUsed;
+    AGETextCtrl *Units_TrackingUnitMode;
     AGETextCtrl *Units_TrackingUnitDensity;
-    AGETextCtrl *Units_Unknown16;
+    AGETextCtrl *Units_MoveAlgorithm;
     array<AGETextCtrl*, 5> Units_RotationAngles;
 
 //  Type 40+
 
-    SolidText *Units_ActionWhenDiscoveredID_Text;
-    AGETextCtrl *Units_ActionWhenDiscoveredID;
-    ComboBox_Plus1 *Units_ActionWhenDiscoveredID_ComboBox;
+    SolidText *Units_DefaultTaskID_Text;
+    AGETextCtrl *Units_DefaultTaskID;
+    ComboBox_Plus1 *Units_DefaultTaskID_ComboBox;
     AGETextCtrl *Units_SearchRadius;
     AGETextCtrl *Units_WorkRate;
     AGETextCtrl *Units_DropSite[2];
     ComboBox_Plus1 *Units_DropSite_ComboBox[2];
-    AGETextCtrl *Units_TaskSwapID;
+    AGETextCtrl *Units_TaskSwapGroup;
     AGETextCtrl *Units_AttackSound;
     ComboBox_Plus1 *Units_AttackSound_ComboBox;
     AGETextCtrl *Units_MoveSound;
     ComboBox_Plus1 *Units_MoveSound_ComboBox;
-    AGETextCtrl *Units_AnimalMode;
-    CheckBox_2State *Units_AnimalMode_CheckBox;
+    AGETextCtrl *Units_RunPattern;
+    SolidText *Units_RunPattern_Text;
     AGETextCtrl *Units_Exists;
 
 //  Type 50+
 
-    AGETextCtrl *Units_DefaultArmor;
-    AGETextCtrl *Units_TerRestrictionForDmgMultiply;
-    ComboBox_Plus1 *Units_TerRestrictionForDmgMultiply_ComboBox;
+    AGETextCtrl *Units_BaseArmor;
+    AGETextCtrl *Units_DefenseTerrainBonus;
+    ComboBox_Plus1 *Units_DefenseTerrainBonus_ComboBox;
     AGETextCtrl *Units_MaxRange;
     AGETextCtrl *Units_BlastWidth;
-    AGETextCtrl *Units_ReloadTime1;
+    AGETextCtrl *Units_ReloadTime;
     AGETextCtrl *Units_ProjectileUnitID;
     ComboBox_Plus1 *Units_ProjectileUnitID_ComboBox;
     AGETextCtrl *Units_AccuracyPercent;
     AGETextCtrl *Units_TowerMode;
-    CheckBox_2State *Units_TowerMode_CheckBox;
+    SolidText *Units_TowerMode_Text;
     AGETextCtrl *Units_Delay;
     AGETextCtrl *Units_GraphicDisplacement[3];
     AGETextCtrl *Units_BlastAttackLevel;
@@ -1779,15 +2024,15 @@ private:
     AGETextCtrl *Units_DisplayedMeleeArmour;
     AGETextCtrl *Units_DisplayedAttack;
     AGETextCtrl *Units_DisplayedRange;
-    AGETextCtrl *Units_ReloadTime2;
+    AGETextCtrl *Units_DisplayedReloadTime;
 
 //  Type 60 only
 
-    AGETextCtrl *Units_StretchMode;
+    AGETextCtrl *Units_ProjectileType;
     AGETextCtrl *Units_SmartMode;
-    AGETextCtrl *Units_DropAnimationMode;
-    AGETextCtrl *Units_PenetrationMode;
-    AGETextCtrl *Units_Unknown24;
+    AGETextCtrl *Units_HitMode;
+    AGETextCtrl *Units_VanishMode;
+    AGETextCtrl *Units_AreaEffectSpecials;
     AGETextCtrl *Units_ProjectileArc;
 
 //  Type 70+
@@ -1801,9 +2046,9 @@ private:
     AGETextCtrl *Units_TrainLocationID;
     ComboBox_Plus1 *Units_TrainLocationID_ComboBox;
     AGETextCtrl *Units_ButtonID;
-    AGETextCtrl *Units_Unknown26;
-    AGETextCtrl *Units_Unknown27;
-    AGETextCtrl *Units_UnknownType;
+    AGETextCtrl *Units_RearAttackModifier;
+    AGETextCtrl *Units_FlankAttackModifier;
+    AGETextCtrl *Units_CreatableType;
     AGETextCtrl *Units_HeroMode;
     CheckBox_2State *Units_HeroMode_CheckBox;
     AGETextCtrl *Units_GarrisonGraphic;
@@ -1828,15 +2073,15 @@ private:
     CheckBox_2State *Units_AdjacentMode_CheckBox;
     AGETextCtrl *Units_IconAngle;
     AGETextCtrl *Units_DisappearsWhenBuilt;
-    CheckBox_2State *Units_Unknown31b_CheckBox;
+    CheckBox_2State *Units_BuildAndVanish_CheckBox;
     AGETextCtrl *Units_StackUnitID;
     ComboBox_Plus1 *Units_StackUnitID_ComboBox;
     AGETextCtrl *Units_TerrainID;
     ComboBox_Plus1 *Units_TerrainID_ComboBox;
-    AGETextCtrl *Units_OldTerrainLikeID;
+    AGETextCtrl *Units_OldOverlayID;
     AGETextCtrl *Units_ResearchID;
     ComboBox_Plus1 *Units_ResearchID_ComboBox;
-    AGETextCtrl *Units_Unknown33;
+    AGETextCtrl *Units_CanBurn;
     AGETextCtrl *Units_AnnexUnit[4];
     ComboBox_Plus1 *Units_AnnexUnit_ComboBox[4];
     AGETextCtrl *Units_AnnexUnitMisplacement[4][2];
@@ -1844,15 +2089,15 @@ private:
     ComboBox_Plus1 *Units_HeadUnit_ComboBox;
     AGETextCtrl *Units_TransformUnit;
     ComboBox_Plus1 *Units_TransformUnit_ComboBox;
-    AGETextCtrl *Units_UnknownSound;
-    ComboBox_Plus1 *Units_UnknownSound_ComboBox;
+    AGETextCtrl *Units_TransformSound;
+    ComboBox_Plus1 *Units_TransformSound_ComboBox;
     AGETextCtrl *Units_ConstructionSound;
     ComboBox_Plus1 *Units_ConstructionSound_ComboBox;
     AGETextCtrl *Units_GarrisonType;
     wxBoxSizer *Units_GarrisonType_Grid;
     wxCheckBox *Units_GarrisonType_CheckBox[8];
     AGETextCtrl *Units_GarrisonHealRate;
-    AGETextCtrl *Units_Unknown35;
+    AGETextCtrl *Units_GarrisonRepairRate;
     AGETextCtrl *Units_PileUnit;
     ComboBox_Plus1 *Units_PileUnit_ComboBox;
     array<AGETextCtrl*, 6> Units_LootSwitch;
@@ -1872,10 +2117,11 @@ private:
     SolidText *Units_GarrisonCapacity_Text;
     SolidText *Units_SizeRadius_Text;
     SolidText *Units_TrainSound_Text;
+    SolidText *Units_DamageSound_Text;
     SolidText *Units_DeadUnitID_Text;
-    SolidText *Units_PlacementMode_Text;
+    SolidText *Units_SortNumber_Text;
     SolidText *Units_IconID_Text;
-    SolidText *Units_Unknown1_Text;
+    SolidText *Units_Portrait_Text;
     SolidText *Units_PlacementSideTerrain_Text;
     SolidText *Units_PlacementTerrain_Text;
     SolidText *Units_ClearanceSize_Text;
@@ -1884,23 +2130,23 @@ private:
     SolidText *Units_ResourceCapacity_Text;
     SolidText *Units_ResourceDecay_Text;
     SolidText *Units_BlastDefenseLevel_Text;
-    SolidText *Units_SubType_Text;
+    SolidText *Units_CombatLevel_Text;
     SolidText *Units_InteractionMode_Text;
     SolidText *Units_MinimapMode_Text;
-    SolidText *Units_CommandID_Text;
-    SolidText *Units_Unknown3A_Text;
+    SolidText *Units_InterfaceKind_Text;
+    SolidText *Units_MultipleAttributeMode_Text;
     SolidText *Units_MinimapColor_Text;
     SolidText *Units_LanguageDLLHelp_Text;
     SolidText *Units_LanguageDLLConverter_Text[2];
     SolidText *Units_LanguageDLLHotKeyText_Text;
     SolidText *Units_HotKey_Text;
-    SolidText *Units_Unknown6_Text;
-    SolidText *Units_Unknown7_Text;
-    SolidText *Units_Unknown8_Text;
-    SolidText *Units_SelectionMask_Text;
-    SolidText *Units_SelectionShapeType_Text;
-    SolidText *Units_SelectionShape_Text;
-    SolidText *Units_Attribute_Text;
+    CheckBox_2State *Units_TrackAsResource_CheckBox;
+    SolidText *Units_CreateDoppelgangerOnDeath_Text;
+    SolidText *Units_ResourceGroup_Text;
+    SolidText *Units_OcclusionMode_Text;
+    SolidText *Units_ObstructionType_Text;
+    SolidText *Units_ObstructionClass_Text;
+    SolidText *Units_Trait_Text;
     SolidText *Units_Civ_Text;
     SolidText *Units_Nothing_Text;
     SolidText *Units_SelectionEffect_Text;
@@ -1908,17 +2154,17 @@ private:
     SolidText *Units_SelectionRadius_Text;
     SolidText *ResourceStorage_Type_Text;
     SolidText *ResourceStorage_Amount_Text;
-    SolidText *ResourceStorage_Enabled_Text;
+    SolidText *ResourceStorage_Mode_Text;
     SolidText *Units_SelectionSound_Text;
     SolidText *Units_DyingSound_Text;
-    SolidText *Units_AttackMode_Text;
-    SolidText *Units_Unknown10_Text;
+    SolidText *Units_AttackReaction_Text;
+    SolidText *Units_ConvertTerrain_Text;
     SolidText *Units_Name_Text;
     SolidText *Units_Name2_Text;
     SolidText *Units_Unitline_Text;
     SolidText *Units_MinTechLevel_Text;
-    SolidText *Units_ID2_Text;
-    SolidText *Units_ID3_Text;
+    SolidText *Units_CopyID_Text;
+    SolidText *Units_BaseID_Text;
 
 //  Type 20+
 
@@ -1928,31 +2174,32 @@ private:
 
     SolidText *Units_WalkingGraphic_Text;
     SolidText *Units_RotationSpeed_Text;
-    SolidText *Units_Unknown11_Text;
+    SolidText *Units_SizeClass_Text;
     SolidText *Units_TrackingUnit_Text;
-    SolidText *Units_TrackingUnitUsed_Text;
+    SolidText *Units_TrackingUnitMode_Text;
     SolidText *Units_TrackingUnitDensity_Text;
-    SolidText *Units_Unknown16_Text;
+    SolidText *Units_MoveAlgorithm_Text;
     SolidText *Units_RotationAngles_Text;
     wxString Units_RotationAngles_Label;
+    array<SolidText*, 5> Units_TurnStats_Text;
 
 //  Type 40+
 
     SolidText *Units_SearchRadius_Text;
     SolidText *Units_WorkRate_Text;
     SolidText *Units_DropSite_Text;
-    SolidText *Units_TaskSwapID_Text;
+    SolidText *Units_TaskSwapGroup_Text;
     SolidText *Units_AttackSound_Text;
     SolidText *Units_MoveSound_Text;
     SolidText *Units_Exists_Text;
 
 //  Type 50+
 
-    SolidText *Units_DefaultArmor_Text;
-    SolidText *Units_TerRestrictionForDmgMultiply_Text;
+    SolidText *Units_BaseArmor_Text;
+    SolidText *Units_DefenseTerrainBonus_Text;
     SolidText *Units_MaxRange_Text;
     SolidText *Units_BlastWidth_Text;
-    SolidText *Units_ReloadTime1_Text;
+    SolidText *Units_ReloadTime_Text;
     SolidText *Units_ProjectileUnitID_Text;
     SolidText *Units_AccuracyPercent_Text;
     SolidText *Units_Delay_Text;
@@ -1964,15 +2211,15 @@ private:
     SolidText *Units_DisplayedMeleeArmour_Text;
     SolidText *Units_DisplayedAttack_Text;
     SolidText *Units_DisplayedRange_Text;
-    SolidText *Units_ReloadTime2_Text;
+    SolidText *Units_DisplayedReloadTime_Text;
 
 //  Type 60 only
 
-    SolidText *Units_StretchMode_Text;
+    SolidText *Units_ProjectileType_Text;
     SolidText *Units_SmartMode_Text;
-    SolidText *Units_DropAnimationMode_Text;
-    SolidText *Units_PenetrationMode_Text;
-    SolidText *Units_Unknown24_Text;
+    SolidText *Units_HitMode_Text;
+    SolidText *Units_VanishMode_Text;
+    SolidText *Units_AreaEffectSpecials_Text;
     SolidText *Units_ProjectileArc_Text;
 
 //  Type 70+
@@ -1983,9 +2230,9 @@ private:
     SolidText *Units_TrainTime_Text;
     SolidText *Units_TrainLocationID_Text;
     SolidText *Units_ButtonID_Text;
-    SolidText *Units_Unknown26_Text;
-    SolidText *Units_Unknown27_Text;
-    SolidText *Units_UnknownType_Text;
+    SolidText *Units_RearAttackModifier_Text;
+    SolidText *Units_FlankAttackModifier_Text;
+    SolidText *Units_CreatableType_Text;
     SolidText *Units_GarrisonGraphic_Text;
     SolidText *Units_MissileCount_Text;
     SolidText *Units_MissileDuplicationCount_Text;
@@ -2002,18 +2249,18 @@ private:
     SolidText *Units_IconAngle_Text;
     SolidText *Units_StackUnitID_Text;
     SolidText *Units_TerrainID_Text;
-    SolidText *Units_OldTerrainLikeID_Text;
+    SolidText *Units_OldOverlayID_Text;
     SolidText *Units_ResearchID_Text;
-    SolidText *Units_Unknown33_Text;
+    SolidText *Units_CanBurn_Text;
     SolidText *Units_AnnexUnit_Text;
     SolidText *Units_AnnexUnitMisplacement_Text;
     SolidText *Units_HeadUnit_Text;
     SolidText *Units_TransformUnit_Text;
-    SolidText *Units_UnknownSound_Text;
+    SolidText *Units_TransformSound_Text;
     SolidText *Units_ConstructionSound_Text;
     SolidText *Units_GarrisonType_Text;
     SolidText *Units_GarrisonHealRate_Text;
-    SolidText *Units_Unknown35_Text;
+    SolidText *Units_GarrisonRepairRate_Text;
     SolidText *Units_PileUnit_Text;
     SolidText *Units_LootSwitch_Text;
 
@@ -2028,23 +2275,21 @@ private:
     wxGridSizer *Units_StandingGraphic_Grid;
     wxBoxSizer *Units_DyingGraphic_Holder;
     wxGridSizer *Units_DyingGraphic_Grid;
-    wxBoxSizer *Units_DeathMode_Holder;
+    wxBoxSizer *Units_UndeadMode_Holder;
     wxBoxSizer *Units_HitPoints_Holder;
     wxBoxSizer *Units_LineOfSight_Holder;
     wxBoxSizer *Units_GarrisonCapacity_Holder;
     wxBoxSizer *Units_SizeRadius_Holder;
     wxBoxSizer *Units_SizeRadius_Grid;
     wxBoxSizer *Units_TrainSound_Holder;
-    wxBoxSizer *Units_TrainSound1_Holder;
-    wxBoxSizer *Units_TrainSound2_Holder;
-    wxBoxSizer *Units_TrainSound3_Holder;
+    wxBoxSizer *Units_DamageSound_Holder;
     wxBoxSizer *Units_DeadUnitID_Holder;
-    wxBoxSizer *Units_PlacementMode_Holder;
-    wxBoxSizer *Units_AirMode_Holder;
+    wxBoxSizer *Units_SortNumber_Holder;
+    wxBoxSizer *Units_CanBeBuiltOn_Holder;
     wxBoxSizer *Units_IconID_Holder;
     APanel *Units_IconID_SLP;
     wxBoxSizer *Units_HideInEditor_Holder;
-    wxBoxSizer *Units_Unknown1_Holder;
+    wxBoxSizer *Units_Portrait_Holder;
     wxBoxSizer *Units_Enabled_Holder;
     wxBoxSizer *Units_Disabled_Holder;
     wxBoxSizer *Units_PlacementSideTerrain_Holder;
@@ -2054,30 +2299,30 @@ private:
     wxBoxSizer *Units_ClearanceSize_Holder;
     wxBoxSizer *Units_ClearanceSize_Grid;
     wxBoxSizer *Units_HillMode_Holder;
-    wxBoxSizer *Units_VisibleInFog_Holder;
+    wxBoxSizer *Units_FogVisibility_Holder;
     wxBoxSizer *Units_TerrainRestriction_Holder;
     wxBoxSizer *Units_FlyMode_Holder;
     wxBoxSizer *Units_ResourceCapacity_Holder;
     wxBoxSizer *Units_ResourceDecay_Holder;
     wxBoxSizer *Units_BlastDefenseLevel_Holder;
-    wxBoxSizer *Units_SubType_Holder;
+    wxBoxSizer *Units_CombatLevel_Holder;
     wxBoxSizer *Units_InteractionMode_Holder;
     wxBoxSizer *Units_MinimapMode_Holder;
-    wxBoxSizer *Units_CommandID_Holder;
-    wxBoxSizer *Units_Unknown3A_Holder;
+    wxBoxSizer *Units_InterfaceKind_Holder;
+    wxBoxSizer *Units_MultipleAttributeMode_Holder;
     wxBoxSizer *Units_MinimapColor_Holder;
     wxBoxSizer *Units_LanguageDLLHelp_Holder;
     wxBoxSizer *Units_LanguageDLLConverter_Holder[2];
     wxBoxSizer *Units_LanguageDLLHotKeyText_Holder;
     wxBoxSizer *Units_HotKey_Holder;
-    wxBoxSizer *Units_Unselectable_Holder;
-    wxBoxSizer *Units_Unknown6_Holder;
-    wxBoxSizer *Units_Unknown7_Holder;
-    wxBoxSizer *Units_Unknown8_Holder;
-    wxBoxSizer *Units_SelectionMask_Holder;
-    wxBoxSizer *Units_SelectionShapeType_Holder;
-    wxBoxSizer *Units_SelectionShape_Holder;
-    wxBoxSizer *Units_Attribute_Holder;
+    wxBoxSizer *Units_Recyclable_Holder;
+    wxBoxSizer *Units_TrackAsResource_Holder;
+    wxBoxSizer *Units_CreateDoppelgangerOnDeath_Holder;
+    wxBoxSizer *Units_ResourceGroup_Holder;
+    wxBoxSizer *Units_OcclusionMode_Holder;
+    wxBoxSizer *Units_ObstructionType_Holder;
+    wxBoxSizer *Units_ObstructionClass_Holder;
+    wxBoxSizer *Units_Trait_Holder;
     wxBoxSizer *Units_Civ_Holder;
     wxBoxSizer *Units_Nothing_Holder;
     wxBoxSizer *Units_SelectionEffect_Holder;
@@ -2088,14 +2333,14 @@ private:
     array<wxBoxSizer*, 3> Units_ResourceStorage_Holder;
     wxBoxSizer *Units_SelectionSound_Holder;
     wxBoxSizer *Units_DyingSound_Holder;
-    wxBoxSizer *Units_AttackMode_Holder;
-    wxBoxSizer *Units_Unknown10_Holder;
+    wxBoxSizer *Units_AttackReaction_Holder;
+    wxBoxSizer *Units_ConvertTerrain_Holder;
     wxBoxSizer *Units_Name_Holder;
     wxBoxSizer *Units_Name2_Holder;
     wxBoxSizer *Units_Unitline_Holder;
     wxBoxSizer *Units_MinTechLevel_Holder;
-    wxBoxSizer *Units_ID2_Holder;
-    wxBoxSizer *Units_ID3_Holder;
+    wxBoxSizer *Units_CopyID_Holder;
+    wxBoxSizer *Units_BaseID_Holder;
 
 //  Type 20+
 
@@ -2106,34 +2351,33 @@ private:
     wxBoxSizer *Units_WalkingGraphic_Holder;
     wxGridSizer *Units_WalkingGraphic_Grid;
     wxBoxSizer *Units_RotationSpeed_Holder;
-    wxBoxSizer *Units_Unknown11_Holder;
+    wxBoxSizer *Units_SizeClass_Holder;
     wxBoxSizer *Units_TrackingUnit_Holder;
-    wxBoxSizer *Units_TrackingUnitUsed_Holder;
-    wxBoxSizer *Units_TrackingUnitUsedBox_Holder;
+    wxBoxSizer *Units_TrackingUnitMode_Holder;
     wxBoxSizer *Units_TrackingUnitDensity_Holder;
-    wxBoxSizer *Units_Unknown16_Holder;
+    wxBoxSizer *Units_MoveAlgorithm_Holder;
     wxBoxSizer *Units_RotationAngles_Holder;
-    wxBoxSizer *Units_RotationAngles_Grid;
+    wxGridSizer *Units_RotationAngles_Grid;
 
 //  Type 40+
 
-    wxBoxSizer *Units_ActionWhenDiscoveredID_Holder;
+    wxBoxSizer *Units_DefaultTaskID_Holder;
     wxBoxSizer *Units_SearchRadius_Holder;
     wxBoxSizer *Units_WorkRate_Holder;
     wxGridSizer *Units_DropSite_Grid;
-    wxBoxSizer *Units_TaskSwapID_Holder;
+    wxBoxSizer *Units_TaskSwapGroup_Holder;
     wxBoxSizer *Units_AttackSound_Holder;
     wxBoxSizer *Units_MoveSound_Holder;
-    wxBoxSizer *Units_AnimalMode_Holder;
+    wxBoxSizer *Units_RunPattern_Holder;
     wxBoxSizer *Units_Exists_Holder;
 
 //  Type 50+
 
-    wxBoxSizer *Units_DefaultArmor_Holder;
-    wxBoxSizer *Units_TerRestrictionForDmgMultiply_Holder;
+    wxBoxSizer *Units_BaseArmor_Holder;
+    wxBoxSizer *Units_DefenseTerrainBonus_Holder;
     wxBoxSizer *Units_MaxRange_Holder;
     wxBoxSizer *Units_BlastWidth_Holder;
-    wxBoxSizer *Units_ReloadTime1_Holder;
+    wxBoxSizer *Units_ReloadTime_Holder;
     wxBoxSizer *Units_ProjectileUnitID_Holder;
     wxBoxSizer *Units_AccuracyPercent_Holder;
     wxBoxSizer *Units_TowerMode_Holder;
@@ -2147,15 +2391,15 @@ private:
     wxBoxSizer *Units_DisplayedMeleeArmour_Holder;
     wxBoxSizer *Units_DisplayedAttack_Holder;
     wxBoxSizer *Units_DisplayedRange_Holder;
-    wxBoxSizer *Units_ReloadTime2_Holder;
+    wxBoxSizer *Units_DisplayedReloadTime_Holder;
 
 //  Type 60 only
 
-    wxBoxSizer *Units_StretchMode_Holder;
+    wxBoxSizer *Units_ProjectileType_Holder;
     wxBoxSizer *Units_SmartMode_Holder;
-    wxBoxSizer *Units_DropAnimationMode_Holder;
-    wxBoxSizer *Units_PenetrationMode_Holder;
-    wxBoxSizer *Units_Unknown24_Holder;
+    wxBoxSizer *Units_HitMode_Holder;
+    wxBoxSizer *Units_VanishMode_Holder;
+    wxBoxSizer *Units_AreaEffectSpecials_Holder;
     wxBoxSizer *Units_ProjectileArc_Holder;
 
 //  Type 70+
@@ -2166,9 +2410,9 @@ private:
     wxBoxSizer *Units_TrainTime_Holder;
     wxBoxSizer *Units_TrainLocationID_Holder;
     wxBoxSizer *Units_ButtonID_Holder;
-    wxBoxSizer *Units_Unknown26_Holder;
-    wxBoxSizer *Units_Unknown27_Holder;
-    wxBoxSizer *Units_UnknownType_Holder;
+    wxBoxSizer *Units_RearAttackModifier_Holder;
+    wxBoxSizer *Units_FlankAttackModifier_Holder;
+    wxBoxSizer *Units_CreatableType_Holder;
     wxBoxSizer *Units_HeroMode_Holder;
     wxBoxSizer *Units_GarrisonGraphic_Holder;
     wxBoxSizer *Units_MissileCount_Holder;
@@ -2186,23 +2430,23 @@ private:
     wxBoxSizer *Units_SnowGraphicID_Holder;
     wxBoxSizer *Units_AdjacentMode_Holder;
     wxBoxSizer *Units_IconAngle_Holder;
-    wxBoxSizer *Units_Unknown31b_Holder;
+    wxBoxSizer *Units_BuildAndVanish_Holder;
     wxBoxSizer *Units_StackUnitID_Holder;
     wxBoxSizer *Units_TerrainID_Holder;
-    wxBoxSizer *Units_OldTerrainLikeID_Holder;
+    wxBoxSizer *Units_OldOverlayID_Holder;
     wxBoxSizer *Units_ResearchID_Holder;
-    wxBoxSizer *Units_Unknown33_Holder;
+    wxBoxSizer *Units_CanBurn_Holder;
     wxGridSizer *Units_AnnexUnit_Grid;
     wxBoxSizer *Units_AnnexUnit1_Holder;
     wxGridSizer *Units_AnnexUnitMisplacement_Grid;
     wxBoxSizer *Units_AnnexUnitMisplacement1_Holder;
     wxBoxSizer *Units_HeadUnit_Holder;
     wxBoxSizer *Units_TransformUnit_Holder;
-    wxBoxSizer *Units_UnknownSound_Holder;
+    wxBoxSizer *Units_TransformSound_Holder;
     wxBoxSizer *Units_ConstructionSound_Holder;
     wxBoxSizer *Units_GarrisonType_Holder;
     wxBoxSizer *Units_GarrisonHealRate_Holder;
-    wxBoxSizer *Units_Unknown35_Holder;
+    wxBoxSizer *Units_GarrisonRepairRate_Holder;
     wxBoxSizer *Units_PileUnit_Holder;
     wxBoxSizer *Units_LootSwitch_Holder;
     wxGridSizer *Units_LootSwitch_Grid;
@@ -2213,16 +2457,16 @@ private:
     AGETextCtrl *DamageGraphics_GraphicID;
     ComboBox_Plus1 *DamageGraphics_GraphicID_ComboBox;
     AGETextCtrl *DamageGraphics_DamagePercent;
+    AGETextCtrl *DamageGraphics_Useless;
     AGETextCtrl *DamageGraphics_ApplyMode;
-    AGETextCtrl *DamageGraphics_Unknown2;
     SolidText *DamageGraphics_GraphicID_Text;
     SolidText *DamageGraphics_DamagePercent_Text;
+    SolidText *DamageGraphics_Useless_Text;
     SolidText *DamageGraphics_ApplyMode_Text;
-    SolidText *DamageGraphics_Unknown2_Text;
     wxBoxSizer *DamageGraphics_GraphicID_Holder;
     wxBoxSizer *DamageGraphics_DamagePercent_Holder;
+    wxBoxSizer *DamageGraphics_Useless_Holder;
     wxBoxSizer *DamageGraphics_ApplyMode_Holder;
-    wxBoxSizer *DamageGraphics_Unknown2_Holder;
     wxStaticBoxSizer *Units_DamageGraphics;
     wxBoxSizer *Units_DamageGraphics_ListArea;
     wxTextCtrl *Units_DamageGraphics_Search;
@@ -2319,7 +2563,7 @@ private:
 
     wxBoxSizer *Units_DataArea; // Unit window other-than unit-list-section
 
-    vector<AGETextCtrl*> uiGroupUnit, uiGroupUnitDmgGraphic, uiGroupUnitCommand;
+    vector<AGETextCtrl*> uiGroupUnit, uiGroupUnitDmgGraphic, uiGroupUnitTask;
     wxBoxSizer *Units_ScrollSpace;
     wxStaticBoxSizer *Units_Identity_Holder;
     wxBoxSizer *Units_TypeArea_Holder;
@@ -2340,17 +2584,14 @@ private:
     wxGridSizer *Units_A5_Grid, *Units_AM1_Grid, *Units_AB1_Grid;
     wxBoxSizer *Units_LangRegular_Holder;
     wxBoxSizer *Units_LangHotKey_Holder;
-    wxBoxSizer *Units_AttributesTracking_Grid;
-    wxBoxSizer *Units_AttributesTrain1_Grid;
+    wxBoxSizer *Units_Tracking_Grid;
+    wxBoxSizer *Units_Training_Grid;
     wxStaticBoxSizer *Units_SoundsArea_Holder;
     wxBoxSizer *Units_SoundsArea1_Holder;
     wxBoxSizer *Units_SoundsArea2_Grid;
-    wxGridSizer *Units_UnknownArea_Holder;
-    wxStaticBoxSizer *Units_Type10plusUnknownArea_Holder;
-    wxStaticBoxSizer *Units_Type30plusUnknownArea_Holder;
-    wxStaticBoxSizer *Units_Type70plusUnknownArea_Holder;
-    wxStaticBoxSizer *Units_Type80plusUnknownArea_Holder;
-    wxStaticBoxSizer *Units_CommandsArea_Holder;
+    wxGridSizer *Units_Obsoletes_Holder;
+    wxStaticBoxSizer *Units_Obsoletes_Area;
+    wxStaticBoxSizer *TasksArea_Holder;
     wxBoxSizer *Units_Top_Holder;
     wxWrapSizer *Units_TopGrid_Holder;
     vector<wxCheckBox*> Units_CivBoxes;
@@ -2366,106 +2607,106 @@ private:
 
 //  Unit Attributes section
 
-    wxBoxSizer *Units_CommandHolder_Lists;
+    wxBoxSizer *TaskHolder_Lists;
     SolidText *Units_UnitHeads_Name;
 
-    wxTextCtrl *Units_UnitCommands_Search;
-    wxTextCtrl *Units_UnitCommands_Search_R;
-    ProperList *Units_UnitCommands_ListV;
-    wxGridSizer *Units_UnitCommands_Buttons;
-    wxButton *Units_UnitCommands_Add;
-    wxButton *Units_UnitCommands_Insert;
-    wxButton *Units_UnitCommands_Delete;
-    wxButton *Units_UnitCommands_Copy;
-    wxButton *Units_UnitCommands_Paste;
-    wxButton *Units_UnitCommands_PasteInsert;
-    wxButton *Units_UnitCommands_CopyToUnits;
+    wxTextCtrl *Units_Tasks_Search;
+    wxTextCtrl *Units_Tasks_Search_R;
+    ProperList *Units_Tasks_ListV;
+    wxGridSizer *Units_Tasks_Buttons;
+    wxButton *Units_Tasks_Add;
+    wxButton *Units_Tasks_Insert;
+    wxButton *Units_Tasks_Delete;
+    wxButton *Units_Tasks_Copy;
+    wxButton *Units_Tasks_Paste;
+    wxButton *Units_Tasks_PasteInsert;
+    wxButton *Units_Tasks_CopyToUnits;
 
-    wxBoxSizer *Units_CommandHolder_Data;
-    wxBoxSizer *Unit_Command_Known1, *Unit_Command_Known3;
-    wxGridSizer *Unit_Command_Known2, *Unit_Command_Known4, *Unit_Command_Unknowns;
-    wxBoxSizer *UnitCommands_One_Holder;
-    wxBoxSizer *UnitCommands_ID_Holder;
-    wxBoxSizer *UnitCommands_Unknown1_Holder;
-    wxBoxSizer *UnitCommands_Type_Holder;
-    wxBoxSizer *UnitCommands_ProductivityResource_Holder;
-    wxBoxSizer *UnitCommands_ClassID_Holder;
-    wxBoxSizer *UnitCommands_UnitID_Holder;
-    wxBoxSizer *UnitCommands_TerrainID_Holder;
-    wxBoxSizer *UnitCommands_ResourceIn_Holder;
-    wxBoxSizer *UnitCommands_ResourceOut_Holder;
-    wxBoxSizer *UnitCommands_Resource_Holder;
-    wxBoxSizer *UnitCommands_WorkRateMultiplier_Holder;
-    wxBoxSizer *UnitCommands_ExecutionRadius_Holder;
-    wxBoxSizer *UnitCommands_ExtraRange_Holder;
-    wxBoxSizer *UnitCommands_Unknown4_Holder;
-    wxBoxSizer *UnitCommands_Unknown5_Holder;
-    wxBoxSizer *UnitCommands_SelectionEnabler_Holder;
-    wxBoxSizer *UnitCommands_Unknown7_Holder;
-    wxBoxSizer *UnitCommands_Unknown8_Holder;
-    wxBoxSizer *UnitCommands_Unknown9_Holder;
-    wxBoxSizer *UnitCommands_SelectionMode_Holder;
-    wxBoxSizer *UnitCommands_RightClickMode_Holder;
-    wxBoxSizer *UnitCommands_Unknown12_Holder;
-    array<wxBoxSizer*, 6> UnitCommands_Graphics_Holder;
+    wxBoxSizer *TaskHolder_Data;
+    wxBoxSizer *Tasks_Known1, *Tasks_Known3;
+    wxGridSizer *Tasks_Known2, *Tasks_Known4, *Tasks_Known5;
+    wxBoxSizer *Tasks_Type_Holder;
+    wxBoxSizer *Tasks_ID_Holder;
+    wxBoxSizer *Tasks_IsDefault_Holder;
+    wxBoxSizer *Tasks_ActionType_Holder;
+    wxBoxSizer *Tasks_ProdResource_Holder;
+    wxBoxSizer *Tasks_ClassID_Holder;
+    wxBoxSizer *Tasks_UnitID_Holder;
+    wxBoxSizer *Tasks_TerrainID_Holder;
+    wxBoxSizer *Tasks_ResourceIn_Holder;
+    wxBoxSizer *Tasks_ResourceOut_Holder;
+    wxBoxSizer *Tasks_Resource_Holder;
+    wxBoxSizer *Tasks_WorkValue1_Holder;
+    wxBoxSizer *Tasks_WorkValue2_Holder;
+    wxBoxSizer *Tasks_WorkRange_Holder;
+    wxBoxSizer *Tasks_AutoSearchTargets_Holder;
+    wxBoxSizer *Tasks_SearchWaitTime_Holder;
+    wxBoxSizer *Tasks_EnableTargeting_Holder;
+    wxBoxSizer *Tasks_CombatLevelFlag_Holder;
+    wxBoxSizer *Tasks_GatherType_Holder;
+    wxBoxSizer *Tasks_WorkFlag2_Holder;
+    wxBoxSizer *Tasks_TargetDiplomacy_Holder;
+    wxBoxSizer *Tasks_CarryCheck_Holder;
+    wxBoxSizer *Tasks_PickForConstruction_Holder;
+    array<wxBoxSizer*, 6> Tasks_Graphics_Holder;
 
-    SolidText *UnitCommands_One_Text;
-    SolidText *UnitCommands_ID_Text;
-    SolidText *UnitCommands_Unknown1_Text;
-    SolidText *UnitCommands_Type_Text;
-    SolidText *UnitCommands_ClassID_Text;
-    SolidText *UnitCommands_UnitID_Text;
-    SolidText *UnitCommands_TerrainID_Text;
-    SolidText *UnitCommands_ResourceIn_Text;
-    SolidText *UnitCommands_ProductivityResource_Text;
-    SolidText *UnitCommands_ResourceOut_Text;
-    SolidText *UnitCommands_Resource_Text;
-    SolidText *UnitCommands_WorkRateMultiplier_Text;
-    SolidText *UnitCommands_ExecutionRadius_Text;
-    SolidText *UnitCommands_ExtraRange_Text;
-    SolidText *UnitCommands_Unknown4_Text;
-    SolidText *UnitCommands_Unknown5_Text;
-    SolidText *UnitCommands_SelectionEnabler_Text;
-    SolidText *UnitCommands_Unknown7_Text;
-    SolidText *UnitCommands_Unknown8_Text;
-    SolidText *UnitCommands_Unknown9_Text;
-    SolidText *UnitCommands_SelectionMode_Text;
-    SolidText *UnitCommands_RightClickMode_Text;
-    SolidText *UnitCommands_Unknown12_Text;
-    array<SolidText*, 6> UnitCommands_Graphics_Text;
+    SolidText *Tasks_Type_Text;
+    SolidText *Tasks_ID_Text;
+    CheckBox_2State *Tasks_IsDefault_Text;
+    SolidText *Tasks_ActionType_Text;
+    SolidText *Tasks_ClassID_Text;
+    SolidText *Tasks_UnitID_Text;
+    SolidText *Tasks_TerrainID_Text;
+    SolidText *Tasks_ResourceIn_Text;
+    SolidText *Tasks_ProdResource_Text;
+    SolidText *Tasks_ResourceOut_Text;
+    SolidText *Tasks_Resource_Text;
+    SolidText *Tasks_WorkValue1_Text;
+    SolidText *Tasks_WorkValue2_Text;
+    SolidText *Tasks_WorkRange_Text;
+    SolidText *Tasks_AutoSearchTargets_Text;
+    SolidText *Tasks_SearchWaitTime_Text;
+    SolidText *Tasks_EnableTargeting_Text;
+    CheckBox_2State *Tasks_CombatLevelFlag_Text;
+    SolidText *Tasks_GatherType_Text;
+    SolidText *Tasks_WorkFlag2_Text;
+    SolidText *Tasks_TargetDiplomacy_Text;
+    CheckBox_2State *Tasks_CarryCheck_Text;
+    CheckBox_2State *Tasks_PickForConstruction_Text;
+    array<SolidText*, 6> Tasks_Graphics_Text;
 
-    AGETextCtrl *UnitCommands_One;
-    AGETextCtrl *UnitCommands_ID;
-    AGETextCtrl *UnitCommands_Unknown1;
-    AGETextCtrl *UnitCommands_Type;
-    AGEComboBox *UnitCommands_Type_ComboBox;
-    AGETextCtrl *UnitCommands_ClassID;
-    AGETextCtrl *UnitCommands_UnitID;
-    ComboBox_Plus1 *UnitCommands_UnitID_ComboBox;
-    AGETextCtrl *UnitCommands_TerrainID;
-    ComboBox_Plus1 *UnitCommands_TerrainID_ComboBox;
-    AGETextCtrl *UnitCommands_ResourceIn;
-    ComboBox_Plus1 *UnitCommands_ResourceIn_ComboBox;
-    AGETextCtrl *UnitCommands_ProductivityResource;
-    ComboBox_Plus1 *UnitCommands_ProductivityResource_ComboBox;
-    AGETextCtrl *UnitCommands_ResourceOut;
-    ComboBox_Plus1 *UnitCommands_ResourceOut_ComboBox;
-    AGETextCtrl *UnitCommands_Resource;
-    ComboBox_Plus1 *UnitCommands_Resource_ComboBox;
-    AGETextCtrl *UnitCommands_WorkRateMultiplier;
-    AGETextCtrl *UnitCommands_ExecutionRadius;
-    AGETextCtrl *UnitCommands_ExtraRange;
-    AGETextCtrl *UnitCommands_Unknown4;
-    AGETextCtrl *UnitCommands_Unknown5;
-    AGETextCtrl *UnitCommands_SelectionEnabler;
-    AGETextCtrl *UnitCommands_Unknown7;
-    AGETextCtrl *UnitCommands_Unknown8;
-    AGETextCtrl *UnitCommands_Unknown9;
-    AGETextCtrl *UnitCommands_SelectionMode;
-    AGETextCtrl *UnitCommands_RightClickMode;
-    AGETextCtrl *UnitCommands_Unknown12;
-    array<AGETextCtrl*, 6> UnitCommands_Graphics;
-    array<ComboBox_Plus1*, 6> UnitCommands_Graphics_ComboBox;
+    AGETextCtrl *Tasks_Type;
+    AGETextCtrl *Tasks_ID;
+    AGETextCtrl *Tasks_IsDefault;
+    AGETextCtrl *Tasks_ActionType;
+    AGEComboBox *Tasks_ActionType_ComboBox;
+    AGETextCtrl *Tasks_ClassID;
+    AGETextCtrl *Tasks_UnitID;
+    ComboBox_Plus1 *Tasks_UnitID_ComboBox;
+    AGETextCtrl *Tasks_TerrainID;
+    ComboBox_Plus1 *Tasks_TerrainID_ComboBox;
+    AGETextCtrl *Tasks_ResourceIn;
+    ComboBox_Plus1 *Tasks_ResourceIn_ComboBox;
+    AGETextCtrl *Tasks_ProdResource;
+    ComboBox_Plus1 *Tasks_ProdResource_ComboBox;
+    AGETextCtrl *Tasks_ResourceOut;
+    ComboBox_Plus1 *Tasks_ResourceOut_ComboBox;
+    AGETextCtrl *Tasks_Resource;
+    ComboBox_Plus1 *Tasks_Resource_ComboBox;
+    AGETextCtrl *Tasks_WorkValue1;
+    AGETextCtrl *Tasks_WorkValue2;
+    AGETextCtrl *Tasks_WorkRange;
+    AGETextCtrl *Tasks_AutoSearchTargets;
+    AGETextCtrl *Tasks_SearchWaitTime;
+    AGETextCtrl *Tasks_EnableTargeting;
+    AGETextCtrl *Tasks_CombatLevelFlag;
+    AGETextCtrl *Tasks_GatherType;
+    AGETextCtrl *Tasks_WorkFlag2;
+    AGETextCtrl *Tasks_TargetDiplomacy;
+    AGETextCtrl *Tasks_CarryCheck;
+    AGETextCtrl *Tasks_PickForConstruction;
+    array<AGETextCtrl*, 6> Tasks_Graphics;
+    array<ComboBox_Plus1*, 6> Tasks_Graphics_ComboBox;
 
 //  Graphics user interface
 
@@ -2486,33 +2727,36 @@ private:
     wxButton *Graphics_PasteInsert;
     //wxButton *Graphics_Extract;
     //wxButton *Graphics_Import;
+    wxButton *Graphics_NoMirror;
     wxButton *Graphics_Enable;
     wxButton *Graphics_Disable;
+    wxButton *Graphics_CopyToEnd;
+    wxButton *Graphics_MakeLast;
 
-    wxScrolled<APanel> *Graphics_Scroller;
+    AScrolled *Graphics_Scroller;
     wxBoxSizer *Graphics_ScrollSpace;
 
     vector<AGETextCtrl*> uiGroupGraphic, uiGroupGraphicDelta, uiGroupGraphicSound;
     wxBoxSizer *Graphics_NameArea_Holder;
     wxBoxSizer *Graphics_Name_Holder;
-    wxBoxSizer *Graphics_Name2_Holder;
+    wxBoxSizer *Graphics_FileName_Holder;
     wxBoxSizer *Graphics_SLP_Holder;
     wxBoxSizer *Graphics_Loaded_Holder;
     wxBoxSizer *Graphics_ColorFlag_Holder;
-    wxBoxSizer *Graphics_FrameType_Holder;
+    wxBoxSizer *Graphics_DrawLevel_Holder;
     wxBoxSizer *Graphics_PlayerColor_Holder;
     wxBoxSizer *Graphics_Rainbow_Holder;
     wxBoxSizer *Graphics_TransparentPicking_Holder;
     wxBoxSizer *Graphics_Coordinates_Holder;
     wxBoxSizer *Graphics_CoordinateGrid_Holder;
     wxBoxSizer *Graphics_SoundID_Holder;
-    wxBoxSizer *Graphics_AttackSoundUsed_Holder;
-    wxBoxSizer *Graphics_AttackSoundUsed1_Holder;
+    wxBoxSizer *Graphics_AngleSoundsUsed_Holder;
+    wxBoxSizer *Graphics_AngleSoundsUsed1_Holder;
     wxBoxSizer *Graphics_4_Holder;
     wxBoxSizer *Graphics_5_Holder;
     wxBoxSizer *Graphics_FrameCount_Holder;
     wxBoxSizer *Graphics_AngleCount_Holder;
-    wxBoxSizer *Graphics_NewSpeed_Holder;
+    wxBoxSizer *Graphics_SpeedMultiplier_Holder;
     wxBoxSizer *Graphics_FrameDuration_Holder;
     wxBoxSizer *Graphics_ReplayDelay_Holder;
     wxBoxSizer *Graphics_SequenceType_Holder;
@@ -2525,20 +2769,20 @@ private:
     wxBoxSizer *Graphics_Unknowns_Grid;
 
     SolidText *Graphics_Name_Text;
-    SolidText *Graphics_Name2_Text;
+    SolidText *Graphics_FileName_Text;
     SolidText *Graphics_SLP_Text;
     SolidText *Graphics_Loaded_Text;
     SolidText *Graphics_ColorFlag_Text;
-    SolidText *Graphics_FrameType_Text;
+    SolidText *Graphics_DrawLevel_Text;
     SolidText *Graphics_PlayerColor_Text;
     SolidText *Graphics_Rainbow_Text;
     SolidText *Graphics_TransparentPicking_Text;
     SolidText *Graphics_Coordinates_Text;
     SolidText *Graphics_SoundID_Text;
-    SolidText *Graphics_AttackSoundUsed_Text;
+    SolidText *Graphics_AngleSoundsUsed_Text;
     SolidText *Graphics_FrameCount_Text;
     SolidText *Graphics_AngleCount_Text;
-    SolidText *Graphics_NewSpeed_Text;
+    SolidText *Graphics_SpeedMultiplier_Text;
     SolidText *Graphics_FrameDuration_Text;
     SolidText *Graphics_ReplayDelay_Text;
     SolidText *Graphics_SequenceType_Text;
@@ -2547,11 +2791,11 @@ private:
     SolidText *Graphics_EditorFlag_Text;
 
     AGETextCtrl *Graphics_Name;
-    AGETextCtrl *Graphics_Name2;
+    AGETextCtrl *Graphics_FileName;
     AGETextCtrl *Graphics_SLP;
     AGETextCtrl *Graphics_Loaded;
     AGETextCtrl *Graphics_ColorFlag;
-    AGETextCtrl *Graphics_FrameType;
+    AGETextCtrl *Graphics_DrawLevel;
     AGETextCtrl *Graphics_PlayerColor;
     ComboBox_Plus1 *Graphics_PlayerColor_ComboBox;
     AGETextCtrl *Graphics_Rainbow;
@@ -2559,11 +2803,11 @@ private:
     AGETextCtrl *Graphics_Coordinates[4];
     AGETextCtrl *Graphics_SoundID;
     ComboBox_Plus1 *Graphics_SoundID_ComboBox;
-    AGETextCtrl *Graphics_AttackSoundUsed;
-    CheckBox_2State *Graphics_AttackSoundUsed_CheckBox;
+    AGETextCtrl *Graphics_AngleSoundsUsed;
+    CheckBox_2State *Graphics_AngleSoundsUsed_CheckBox;
     AGETextCtrl *Graphics_FrameCount;
     AGETextCtrl *Graphics_AngleCount;
-    AGETextCtrl *Graphics_NewSpeed;
+    AGETextCtrl *Graphics_SpeedMultiplier;
     AGETextCtrl *Graphics_FrameDuration;
     AGETextCtrl *Graphics_ReplayDelay;
     AGETextCtrl *Graphics_SequenceType;
@@ -2583,49 +2827,47 @@ private:
     wxButton *Deltas_Paste;
     wxButton *Deltas_PasteInsert;
     wxButton *Deltas_CopyToGraphics;
-    wxBoxSizer *Graphics_AttackSounds;
-    ProperList *Graphics_AttackSounds_ListV;
-    wxButton *AttackSounds_Copy;
-    wxButton *AttackSounds_CopyToGraphics;
+    wxBoxSizer *Graphics_AngleSounds;
+    ProperList *Graphics_AngleSounds_ListV;
+    wxCheckBox *AngleSounds_AutoCopy;
+    wxButton *AngleSounds_Copy;
+    wxButton *AngleSounds_CopyToGraphics;
 
     wxStaticBoxSizer *Graphics_Deltas_Holder;
     wxBoxSizer *Graphics_Deltas_Holder_Data;
     wxBoxSizer *Deltas_Holder;
     wxBoxSizer *Deltas_Unknowns_Holder;
-    wxStaticBoxSizer *Graphics_AttackSoundArea_Holder;
+    wxStaticBoxSizer *Graphics_AngleSoundArea_Holder;
 
     wxBoxSizer *GraphicDeltas_GraphicID_Holder;
     SolidText *GraphicDeltas_GraphicID_Text;
     AGETextCtrl *GraphicDeltas_GraphicID;
     ComboBox_Plus1 *GraphicDeltas_GraphicID_ComboBox;
-    wxBoxSizer *GraphicDeltas_Unknown1_Holder;
-    SolidText *GraphicDeltas_Unknown1_Text;
-    AGETextCtrl *GraphicDeltas_Unknown1;
-    wxBoxSizer *GraphicDeltas_Unknown2_Holder;
-    SolidText *GraphicDeltas_Unknown2_Text;
-    AGETextCtrl *GraphicDeltas_Unknown2;
-    wxBoxSizer *GraphicDeltas_Unknown3_Holder;
-    SolidText *GraphicDeltas_Unknown3_Text;
-    AGETextCtrl *GraphicDeltas_Unknown3;
-    wxBoxSizer *GraphicDeltas_DirectionX_Holder;
-    SolidText *GraphicDeltas_DirectionX_Text;
-    AGETextCtrl *GraphicDeltas_DirectionX;
-    wxBoxSizer *GraphicDeltas_DirectionY_Holder;
-    SolidText *GraphicDeltas_DirectionY_Text;
-    AGETextCtrl *GraphicDeltas_DirectionY;
+    wxBoxSizer *GraphicDeltas_Padding1_Holder;
+    SolidText *GraphicDeltas_Padding1_Text;
+    AGETextCtrl *GraphicDeltas_Padding1;
+    wxBoxSizer *GraphicDeltas_SpritePtr_Holder;
+    SolidText *GraphicDeltas_SpritePtr_Text;
+    AGETextCtrl *GraphicDeltas_SpritePtr;
+    wxBoxSizer *GraphicDeltas_OffsetX_Holder;
+    SolidText *GraphicDeltas_OffsetX_Text;
+    AGETextCtrl *GraphicDeltas_OffsetX;
+    wxBoxSizer *GraphicDeltas_OffsetY_Holder;
+    SolidText *GraphicDeltas_OffsetY_Text;
+    AGETextCtrl *GraphicDeltas_OffsetY;
     wxBoxSizer *GraphicDeltas_DisplayAngle_Holder;
     SolidText *GraphicDeltas_DisplayAngle_Text;
     AGETextCtrl *GraphicDeltas_DisplayAngle;
-    wxBoxSizer *GraphicDeltas_Unknown5_Holder;
-    SolidText *GraphicDeltas_Unknown5_Text;
-    AGETextCtrl *GraphicDeltas_Unknown5;
-    wxBoxSizer *Graphics_AttackSounds_Holder;
-    SolidText *Graphics_AttackSounds_Text;
-    wxBoxSizer *Graphics_AttackSoundDelays_Holder;
-    SolidText *Graphics_AttackSoundDelays_Text;
-    AGETextCtrl *Graphics_AttackSoundDelay[3];
-    AGETextCtrl *Graphics_AttackSoundID[3];
-    ComboBox_Plus1 *Graphics_AttackSoundID_ComboBox[3];
+    wxBoxSizer *GraphicDeltas_Padding2_Holder;
+    SolidText *GraphicDeltas_Padding2_Text;
+    AGETextCtrl *GraphicDeltas_Padding2;
+    wxBoxSizer *Graphics_AngleSounds_Holder;
+    SolidText *Graphics_AngleSounds_Text;
+    wxBoxSizer *Graphics_AngleFrameNums_Holder;
+    SolidText *Graphics_AngleFrameNums_Text;
+    AGETextCtrl *Graphics_AngleFrameNum[3];
+    AGETextCtrl *Graphics_AngleSoundID[3];
+    ComboBox_Plus1 *Graphics_AngleSoundID_ComboBox[3];
 
 //  Terrains user interface
 
@@ -2664,16 +2906,16 @@ private:
     wxButton *Terrains_Borders_Paste;
     wxButton *Terrains_Borders_CopyToTerrains;
 
-    wxScrolled<APanel> *Terrains_Scroller;
+    AScrolled *Terrains_Scroller;
     wxBoxSizer *Terrains_ScrollSpace;
     wxBoxSizer *Terrains_NameArea_Holder;
     wxBoxSizer *Terrains_Area1_Grid;
     wxBoxSizer *Terrains_Area2_Grid;
     wxBoxSizer *Terrains_GridX1;
-    wxBoxSizer *Terrains_GridX2;
-    wxBoxSizer *Terrains_Unknown1_Holder;
-    SolidText *Terrains_Unknown1_Text;
-    AGETextCtrl *Terrains_Unknown1;
+    wxGridSizer *Terrains_GridX2;
+    wxBoxSizer *Terrains_Phantom_Holder;
+    SolidText *Terrains_Phantom_Text;
+    AGETextCtrl *Terrains_Phantom;
     wxBoxSizer *Terrains_Enabled_Holder;
     wxBoxSizer *Terrains_Enabled1_Holder;
     SolidText *Terrains_Enabled_Text;
@@ -2685,15 +2927,15 @@ private:
     wxBoxSizer *Terrains_Name_Holder;
     SolidText *Terrains_Name_Text;
     AGETextCtrl *Terrains_Name;
-    wxBoxSizer *Terrains_Name2_Holder;
-    SolidText *Terrains_Name2_Text;
-    AGETextCtrl *Terrains_Name2;
+    wxBoxSizer *Terrains_FileName_Holder;
+    SolidText *Terrains_FileName_Text;
+    AGETextCtrl *Terrains_FileName;
     wxBoxSizer *Terrains_SLP_Holder;
     SolidText *Terrains_SLP_Text;
     AGETextCtrl *Terrains_SLP;
-    wxBoxSizer *Terrains_Unknown3_Holder;
-    SolidText *Terrains_Unknown3_Text;
-    AGETextCtrl *Terrains_Unknown3;
+    wxBoxSizer *Terrains_ShapePtr_Holder;
+    SolidText *Terrains_ShapePtr_Text;
+    AGETextCtrl *Terrains_ShapePtr;
     wxBoxSizer *Terrains_SoundID_Holder;
     SolidText *Terrains_SoundID_Text;
     AGETextCtrl *Terrains_SoundID;
@@ -2855,12 +3097,12 @@ private:
     wxBoxSizer *Sounds_ID_Holder;
     SolidText *Sounds_ID_Text;
     AGETextCtrl *Sounds_ID;
-    wxBoxSizer *Sounds_Unknown1_Holder;
-    SolidText *Sounds_Unknown1_Text;
-    AGETextCtrl *Sounds_Unknown1;
-    wxBoxSizer *Sounds_Unknown2_Holder;
-    SolidText *Sounds_Unknown2_Text;
-    AGETextCtrl *Sounds_Unknown2;
+    wxBoxSizer *Sounds_PlayDelay_Holder;
+    SolidText *Sounds_PlayDelay_Text;
+    AGETextCtrl *Sounds_PlayDelay;
+    wxBoxSizer *Sounds_CacheTime_Holder;
+    SolidText *Sounds_CacheTime_Text;
+    AGETextCtrl *Sounds_CacheTime;
     wxBoxSizer *SoundItems_Name_Holder;
     SolidText *SoundItems_Name_Text;
     AGETextCtrl *SoundItems_Name;
@@ -2874,15 +3116,17 @@ private:
     SolidText *SoundItems_Civ_Text;
     AGETextCtrl *SoundItems_Civ;
     ComboBox_Plus1 *SoundItems_Civ_ComboBox;
-    wxBoxSizer *SoundItems_Unknown_Holder;
-    SolidText *SoundItems_Unknown_Text;
-    AGETextCtrl *SoundItems_Unknown;
+    wxBoxSizer *SoundItems_IconSet_Holder;
+    SolidText *SoundItems_IconSet_Text;
+    AGETextCtrl *SoundItems_IconSet;
     wxButton *SoundFile_Play;
     wxCheckBox *SoundFile_Loop;
     wxButton *SoundFile_Stop;
     wxButton *SoundFile_AutoProbability;
     wxButton *SoundFile_AutoIncrement;
     wxButton *SoundFile_CopyCivToCiv;
+    wxSizer *SourceCiv_Holder;
+    wxSizer *TargetCiv_Holder;
     AGEComboBox *SoundFile_Source_Civ;
     AGEComboBox *SoundFile_Target_Civ;
 
@@ -2916,34 +3160,41 @@ private:
     wxWrapSizer *Colors_WrapArea;
     wxBoxSizer *Colors_Name_Holder;
     wxBoxSizer *Colors_ID_Holder;
-    wxBoxSizer *Colors_Palette_Holder;
-    wxBoxSizer *Colors_Color_Holder;
+    wxBoxSizer *Colors_ResourceID_Holder;
+    wxBoxSizer *Colors_PlayerPalette_Holder;
+    wxBoxSizer *Colors_OutlineColor_Holder;
     wxBoxSizer *Colors_MinimapColor_Holder;
-    wxBoxSizer *Colors_Unknown1_Holder;
-    wxBoxSizer *Colors_Unknown2_Holder;
-    wxBoxSizer *Colors_Unknown3_Holder;
-    wxBoxSizer *Colors_Unknown4_Holder;
-    wxBoxSizer *Colors_StatisticsText_Holder;
+    wxBoxSizer *Colors_SelectionColor1_Holder;
+    wxBoxSizer *Colors_SelectionColor2_Holder;
+    wxBoxSizer *Colors_MinimapColor2_Holder;
+    wxBoxSizer *Colors_MinimapColor3_Holder;
+    wxBoxSizer *Colors_Type_Holder;
+    wxBoxSizer *Colors_ReferenceID_Holder;
     SolidText *Colors_Name_Text;
     SolidText *Colors_ID_Text;
-    SolidText *Colors_Palette_Text;
-    SolidText *Colors_Color_Text;
+    SolidText *Colors_ResourceID_Text;
+    SolidText *Colors_PlayerPalette_Text;
+    SolidText *Colors_OutlineColor_Text;
     SolidText *Colors_MinimapColor_Text;
-    SolidText *Colors_Unknown1_Text;
-    SolidText *Colors_Unknown2_Text;
-    SolidText *Colors_Unknown3_Text;
-    SolidText *Colors_Unknown4_Text;
-    SolidText *Colors_StatisticsText_Text;
+    SolidText *Colors_SelectionColor1_Text;
+    SolidText *Colors_SelectionColor2_Text;
+    SolidText *Colors_MinimapColor2_Text;
+    SolidText *Colors_MinimapColor3_Text;
+    SolidText *Colors_Type_Text;
+    SolidText *Colors_ReferenceID_Text;
     AGETextCtrl *Colors_Name;
     AGETextCtrl *Colors_ID;
-    AGETextCtrl *Colors_Palette;
-    AGETextCtrl *Colors_ColorL;
+    AGETextCtrl *Colors_ResourceID;
+    AGETextCtrl *Colors_PlayerPalette;
+    AGETextCtrl *Colors_OutlineColor;
     AGETextCtrl *Colors_MinimapColor;
-    AGETextCtrl *Colors_Unknown1;
-    AGETextCtrl *Colors_Unknown2;
-    AGETextCtrl *Colors_Unknown3;
-    AGETextCtrl *Colors_Unknown4;
-    AGETextCtrl *Colors_StatisticsText;
+    AGETextCtrl *Colors_SelectionColor1;
+    AGETextCtrl *Colors_SelectionColor2;
+    AGETextCtrl *Colors_MinimapColor2;
+    AGETextCtrl *Colors_MinimapColor3;
+    AGETextCtrl *Colors_Type;
+    AGETextCtrl *Colors_ReferenceID;
+    ComboBox_Plus1 *Colors_ReferenceID_ComboBox;
     APanel *Colors_Palette_Display;
 
 //  Unitline user interface
@@ -2995,10 +3246,10 @@ private:
     wxBoxSizer *TechTrees_TabBuildings;
     wxBoxSizer *TechTrees_TabUnits;
     wxBoxSizer *TechTrees_TabResearches;
-    wxScrolled<APanel> *TechTrees_ScrollerAges;
-    wxScrolled<APanel> *TechTrees_ScrollerBuildings;
-    wxScrolled<APanel> *TechTrees_ScrollerUnits;
-    wxScrolled<APanel> *TechTrees_ScrollerResearches;
+    AScrolled *TechTrees_ScrollerAges;
+    AScrolled *TechTrees_ScrollerBuildings;
+    AScrolled *TechTrees_ScrollerUnits;
+    AScrolled *TechTrees_ScrollerResearches;
     wxBoxSizer *TechTrees_MainList_Ages;
     wxBoxSizer *TechTrees_MainList_Buildings;
     wxBoxSizer *TechTrees_MainList_Units;
@@ -3064,7 +3315,7 @@ private:
     AGE_List32Box TechTrees_Researches_Units;
     AGE_List32Box TechTrees_Researches_Researches;
     AGE_AreaTT84 TechTrees_Ages_Items;
-    AGE_AreaTT31020 TechTrees_Ages_UnknownItems;
+    AGE_AreaTT31020 TechTrees_Ages_ZoneData;
     AGE_AreaTT84 TechTrees_Buildings_Items;
     AGE_AreaTT84 TechTrees_Units_Items;
     AGE_AreaTT84 TechTrees_Researches_Items;
@@ -3092,9 +3343,9 @@ private:
     wxBoxSizer *TechTrees_Ages_ID_Holder;
     SolidText *TechTrees_Ages_ID_Text;
     AGETextCtrl *TechTrees_Ages_ID;
-    wxBoxSizer *TechTrees_Ages_Unknown2_Holder;
-    SolidText *TechTrees_Ages_Unknown2_Text;
-    AGETextCtrl *TechTrees_Ages_Unknown2;
+    wxBoxSizer *TechTrees_Ages_Status_Holder;
+    SolidText *TechTrees_Ages_Status_Text;
+    AGETextCtrl *TechTrees_Ages_Status;
     wxBoxSizer *TechTrees_Ages_LineMode_Holder;
     SolidText *TechTrees_Ages_LineMode_Text;
     AGETextCtrl *TechTrees_Ages_LineMode;
@@ -3103,9 +3354,9 @@ private:
     SolidText *TechTrees_Buildings_ID_Text;
     AGETextCtrl *TechTrees_Buildings_ID;
     ComboBox_Plus1 *TechTrees_Buildings_ID_ComboBox;
-    wxBoxSizer *TechTrees_Buildings_Always2_Holder;
-    SolidText *TechTrees_Buildings_Always2_Text;
-    AGETextCtrl *TechTrees_Buildings_Always2;
+    wxBoxSizer *TechTrees_Buildings_Status_Holder;
+    SolidText *TechTrees_Buildings_Status_Text;
+    AGETextCtrl *TechTrees_Buildings_Status;
 
     wxBoxSizer *TechTrees_Buildings_LocationInAge_Holder;
     SolidText *TechTrees_Buildings_LocationInAge_Text;
@@ -3124,9 +3375,9 @@ private:
     SolidText *TechTrees_Units_ID_Text;
     AGETextCtrl *TechTrees_Units_ID;
     ComboBox_Plus1 *TechTrees_Units_ID_ComboBox;
-    wxBoxSizer *TechTrees_Units_Always2_Holder;
-    SolidText *TechTrees_Units_Always2_Text;
-    AGETextCtrl *TechTrees_Units_Always2;
+    wxBoxSizer *TechTrees_Units_Status_Holder;
+    SolidText *TechTrees_Units_Status_Text;
+    AGETextCtrl *TechTrees_Units_Status;
     wxBoxSizer *TechTrees_Units_UpperBuilding_Holder;
     SolidText *TechTrees_Units_UpperBuilding_Text;
     AGETextCtrl *TechTrees_Units_UpperBuilding;
@@ -3155,9 +3406,9 @@ private:
     SolidText *TechTrees_Researches_ID_Text;
     AGETextCtrl *TechTrees_Researches_ID;
     ComboBox_Plus1 *TechTrees_Researches_ID_ComboBox;
-    wxBoxSizer *TechTrees_Researches_Always2_Holder;
-    SolidText *TechTrees_Researches_Always2_Text;
-    AGETextCtrl *TechTrees_Researches_Always2;
+    wxBoxSizer *TechTrees_Researches_Status_Holder;
+    SolidText *TechTrees_Researches_Status_Text;
+    AGETextCtrl *TechTrees_Researches_Status;
     wxBoxSizer *TechTrees_Researches_UpperBuilding_Holder;
     SolidText *TechTrees_Researches_UpperBuilding_Text;
     AGETextCtrl *TechTrees_Researches_UpperBuilding;
@@ -3212,7 +3463,6 @@ private:
     {
         path.emplace_back();
         path.back().setGameVersion(GenieVersion);
-        if(EnableIDFix)
         path.back().ID = path.size() - 1; // ID Fix
         How2List = ADD;
     }
@@ -3235,7 +3485,6 @@ private:
     {
         path.emplace(path.begin() + place);
         path[place].setGameVersion(GenieVersion);
-        if(EnableIDFix)
         for(auto loop = path.size(); loop--> place;) // ID Fix
         path[loop].ID = loop;
         How2List = INSNEW;
@@ -3253,7 +3502,6 @@ private:
     {
         for(auto loop = places.size(); loop--> 0;)
         path.erase(path.begin() + places[loop]);
-        if(EnableIDFix)
         for(auto loop = path.size(); loop--> places.front();) // ID Fix
         path[loop].ID = loop;
         How2List = DEL;
@@ -3269,7 +3517,7 @@ private:
 
     // Common paste check
     template <class P, class C>
-    inline size_t PasteCheck(P &path, vector<int> &places, C &copies, bool resize)
+    inline size_t PasteCheck(P &path, const vector<int> &places, const C &copies, bool resize)
     {
         if(Paste11)
         {
@@ -3282,13 +3530,16 @@ private:
         else
         {
             size_t new_size = places.front() + copies.size();
-            if(resize)
+            if(new_size > path.size())
             {
-                if(new_size > path.size()) path.resize(new_size);
-            }
-            else
-            {
-                return copies.size() - (new_size - path.size());
+                if(resize)
+                {
+                    path.resize(new_size);
+                }
+                else
+                {
+                    return copies.size() - (new_size - path.size());
+                }
             }
         }
         return copies.size();
@@ -3329,7 +3580,6 @@ private:
             size_t loc = Paste11 ? places[loop] : places.front() + loop;
             copies[loop].setGameVersion(GenieVersion);
             path[loc] = copies[loop];
-            if(EnableIDFix)
             path[loc].ID = loc;
         }
         How2List = PASTE;
@@ -3355,10 +3605,23 @@ private:
         for(auto loop = copies.size(); loop--> 0;)
         copies[loop].setGameVersion(GenieVersion);
         path.insert(path.begin() + place, copies.begin(), copies.end());
-        if(EnableIDFix)
         for(auto loop = path.size(); loop--> place;) // ID Fix
         path[loop].ID = loop;
         How2List = INSPASTE;
+    }
+
+    template <class P>
+    inline void MoveUpInList(P &path, int place, int number)
+    {
+        auto beg = path.begin() + place;
+        rotate(beg, beg + 1, beg + number);
+    }
+
+    template <class P>
+    inline void MoveDownInList(P &path, int place, int number)
+    {
+        auto beg = path.begin() + place;
+        rotate(beg, beg - 1 + number, beg + number);
     }
 
 protected:
@@ -3366,4 +3629,8 @@ protected:
     wxCriticalSection TerrainLoaderCS;
     friend class Loader;
     short window_num;
+    wxString argPath;
+    wxFont font;
+    sf::SoundBuffer waves;
+    sf::Sound speaker;
 };
