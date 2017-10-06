@@ -1,7 +1,5 @@
 #pragma once
-#include "Common.h"
-#include "AGE_Frame.h"
-#include "AGE_Copies.hpp"
+#include <wx/app.h>
 
 class AGE: public wxApp
 {

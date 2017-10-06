@@ -24,6 +24,6 @@ public:
     wxButton *Button_RawDecompress;
     wxFilePickerCtrl *Path_RawDecompress, *Path_DRS3;
     wxTextCtrl *TerrainsBox;
-    AGE_PairedCheckBox *CheckBox_DRSPath, *CheckBox_DRSPath2, *CheckBox_DRSPath3;
-    wxDirPickerCtrl *Path_DRS, *Path_DRS2;
+    AGE_PairedCheckBox *CheckBox_DRSPath, *CheckBox_DRSPath2, *CheckBox_DRSPath3, *CheckBox_SlpPath;
+    wxDirPickerCtrl *Path_DRS, *Path_DRS2, *Path_SLP;
 };

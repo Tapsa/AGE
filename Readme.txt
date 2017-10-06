@@ -1,22 +1,22 @@
 To compile you need to download MinGW, wxWidgets, Boost, and CMake.
+I am using SFML for simultaneous audio playback.
+Hopefully it will support MP3 in the year 2018.
 
-CMake 2.8.12.1: (3.2.3 fails to do debug builds with wxWidgets 2.8)
+CMake 3.9.4
 Install normally and select it to update PATH automatically.
 You may need to edit version numbers in
-\CMake 2.8\share\cmake-2.8\Modules\Find*.cmake
+CMake\share\cmake-3.9\Modules\Find*.cmake
 files to find wxWidgets and Boost.
 
-Install/extract rest of the stuff into C:/Cpp or another folder which you like.
+Install/extract rest of the stuff into C:\Cpp or another folder which you like.
 
-Mingw-builds 5.3.0: (includes gdb, libiconf, python, zlib)
+Mingw-builds 7.1.0 (includes gdb, libiconf, python, zlib)
 Choose posix threads with dwarf exception handling.
 After installing MinGW add its bin folder to the system path.
 
 wxWidgets 3.1.0
 Unpack the zip file.
-In cmd.exe go to \wxWidgets\build\msw
-These flags can be used to build fewer libraries:
-USE_AUI=0 USE_PROPGRID=0 USE_RIBBON=0 USE_STC=0 USE_WEBVIEW=0 USE_RICHTEXT=0 USE_XML=0
+In cmd.exe go to wxWidgets\build\msw
 mingw32-make -f makefile.gcc BUILD=debug clean
 mingw32-make -f makefile.gcc BUILD=debug SHARED=1
 mingw32-make -f makefile.gcc BUILD=release clean
@@ -24,14 +24,21 @@ mingw32-make -f makefile.gcc BUILD=release SHARED=1
 del /s *.o
 del /s *.o.d
 
-Boost 1.60.0:
+Boost 1.65.1
 Unpack the zip file.
-In cmd.exe go to \boost_1_60_0\tools\build
+In cmd.exe go to boost_1_65_1\tools\build
 bootstrap.bat gcc
-Copy b2.exe to \boost_1_60_0
-Run from \boost_1_60_0
+Copy b2.exe to boost_1_65_1
+Run from boost_1_65_1
 b2 toolset=gcc link=shared runtime-link=shared threading=multi install --with-iostreams
-You can safely delete boost_1_60_0 folder after build completes.
+You can safely delete boost_1_65_1 folder after build completes.
+
+SFML 2.0
+Easiest way is using cmake-gui.
+Choose source and build folders and tick BUILD_SHARED_LIBS.
+Set CMAKE_BUILD_TYPE to Debug and generate configuration.
+Run mingw32-make on the chosen build folder.
+Do the same with CMAKE_BUILD_TYPE set to Release.
 
 You'll need to download Apre's DAT library from here:
 https://github.com/Tapsa/genieutils

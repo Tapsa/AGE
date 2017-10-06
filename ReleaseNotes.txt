@@ -1,16 +1,63 @@
 [b]Advanced Genie Editor[/b]
 for Age of Empires, Rise of Rome, Age of Kings, The Conquerors (including HD), Star Wars Galactic Battlegrounds and Clone Campaigns.
 
-This is a program for editing data of genie (DAT and DLL) files. It can edit units, civilizations, graphics, researches, technologies, technology trees, terrains, terrain restrictions, sounds, player colors and some other things.
+This is a program for editing data of genie (DAT and DLL) files. It can edit properties of units, civilizations, technologies, graphics, terrains, sounds, player colors and some other things.
 
-[url=http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44059&st=recent&f=9,44059,0,365]Advanced Genie Editor Forum Topic[/url]
+Please, ask questions on the [url=http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44059&st=recent&f=9,44059,0,365]forums[/url].
 
 [color=blue]Check out [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=11349]this[/url] program also. It's for graphical modding.
 
-For editing language files in The Conquerors, I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819]this download[/url].[/color]
+For editing language files in The Conquerors,
+I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819]this download[/url].[/color]
 
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
+
+Version [b]2017.10.6[/b]:
+-Saving an SLP handles player color properly.
+-Deleting terrain tables uses correct indexes.
+-Unit terrain table defaults to 0.
+-Small improvements here and there.
+
+Version [b]2017.5.17[/b]:
+-Fixed loading order of DRS files.
+-Fixed a problem with angle sound count.
+-Editing box widths are customizable.
+-New icon by gagman.
+
+Version [b]2017.3.14[/b]:
+-Scrolling lag fixed.
+-Graphic sounds can be heard.
+-Many unknowns named.
+-Able to show loose SLP files along with DRS.
+-Fixed bugs in saving data with enter.
+-Can save as different game version.
+-Fixed bugs in relisting.
+-Improved tooltips all over.
+-Fixed switching between building and unit icons.
+-Pause between animations visible.
+-SLP cache improved.
+
+Version [b]2017.1.10[/b]:
+-Fixed pasting terrains.
+-Fixed buttons on terrain tables and borders.
+-Mirrored graphics with two angles display properly.
+-Added some helpful buttons to graphics tab.
+
+Version [b]2016.12.30[/b]:
+-Deltas with display angle should show properly.
+-The actual terrain that is drawn is shown when selecting terrains.
+
+Version [b]2016.12.23[/b]:
+-Added WASD keys back to SLP view.
+-SLP view can be zoomed.
+-Fixed SLP view missing angles.
+-Show angles dynamically shows exact angles.
+-Better registry paths.
+
+Version [b]2016.12.11[/b]:
+-Fixed selection bug in armor combo box in effects.
+-User interface fixes and improvements.
 
 Version [b]2016.11.13[/b]:
 -Fixed refreshing lists.
@@ -27,144 +74,9 @@ Version [b]2016.10.2[/b]:
 Version [b]2016.9.12[/b]:
 -Registry button works better now.
 
-Version [b]2016.8.28[/b]:
--Fixed an offsets bug in SLP view when browsing units.
--Some new info about graphics.
-
-Version [b]2016.8.7[/b]:
--Restored the grid layout more or less.
--Able to read a game version from July 1998.
--SLP view takes display angle into account. <- Some angles broke.
-
-Version [b]2016.3.6[/b]:
--1:1 unit paste fixed. Was sequential for some reason.
--Exist and wipe out unit buttons use proper civilization.
--Reselection when relisting is optional now.
-
-Version [b]2016.3.2[/b]:
--SLP view now tolerates incorrect graphic data.
--Old font size restored.
-
-Version [b]2016.2.24[/b]:
--Fixed referenced techs for AoE and RoR.
--Improved layout all around.
-
-Version [b]2016.2.21[/b]:
--Text scaling should work better now.
--SLP view controls reactivated.
-
-Version [b]2016.2.18[/b]:
--Refreshing a list no longer resets its selection.
--Improved search algorithm.
-
-Version [b]2016.2.14[/b]:
--Unit search filters work again.
-
-Version [b]2016.2.10[/b]:
--SLP view improved.
--Game path can be read from registry.
--Pressing control + 1...4 changes focus between editors.
--Civilization resource names are customizable via text file.
--Added a button to sync save paths with open paths.
-
-Version [b]2016.1.24[/b]:
--New lines handled properly when editing language DLL files.
--User interface fixes and improvements.
-
-Version [b]2016.1.20[/b]:
--Multiple renames in the user interface of units and techs.
--SLP based terrains can be shown in the SLP view.
-
-Version [b]2015.12.27[/b]:
--Unit size shapes can be viewed in the SLP view.
-
-Version [b]2015.12.17[/b]:
--Improved SLP view when stack option is unchecked.
--Fixed black shadows on saved SLPs.
-
-Version [b]2015.12.11[/b]:
--Added copy sounds from civ to civ button to sounds tab.
--Added an option to merge shadow from another SLP.
-
-Version [b]2015.12.2[/b]:
--Terrain restriction tab updated.
-
-Version [b]2015.11.26[/b]:
--Renamed enable/disable buttons.
--Added a button to enable automatic backups.
--Added new handy buttons to sounds tab.
-
-Version [b]2015.11.24[/b]:
--New/better information here and there.
-
-Version [b]2015.11.18[/b]:
--Terrain restriction names customizable.
--Updates for Age of Empires 1.
-
-Version [b]2015.11.16[/b]:
--Added an option to load one extra first priority DRS file.
--Updated techs tab for team effects.
--All unit filters combined.
-
-Version [b]2015.11.5[/b]:
--Updates for The African Kingdoms.
--Only last language file gets saved if only it was edited.
-
-Version [b]2015.10.16[/b]:
--Bugfix: Language strings are shown again for buildings.
-
-Version [b]2015.9.24[/b]:
--Sorted recent paths.
--House graphics with fire animate properly.
--Villager mode renamed.
--Option to keep main window on top.
-
-Version [b]2015.8.28[/b]:
--Simple animations synced.
--SLP view angle settable by mouse right click.
--Angle rotation rate based on available angles.
--Fixed showing trebuchet/cannon icons.
--Fixed showing tech icons and unit action graphics in SWGB and CC.
-
-Version [b]2015.8.26[/b]:
--SLP view background color changeable.
--Added previous and first frame buttons.
--Fixed runtime error in bitmask boxes of units tab.
-
-Version [b]2015.8.25[/b]:
--Immediately refresh graphics when editing them.
--Can play external terrain sounds.
--Fixed massive lag when selecting units.
-
-Version [b]2015.8.23[/b]:
--Icons show without SLP view.
--Looping optional for WAV sounds.
--SLP showing options refresh the view.
--Optional SLP anchor.
--Shield outline shown properly.
--Fixed tech tree loading if you opened AoE 1 first.
-
-Version [b]2015.8.20[/b]:
--Load PNG into 32-bit SLP frame.
--Ability to save SLP graphics as SLP or PNG.
--Play WAV files directly from sounds tab.
-
-Version [b]2015.8.16[/b]:
--Ability to load and show 32-bit HD SLP graphics.
--Rotate palette view from player color copy button.
-
-Version [b]2015.8.13[/b]:
--SLP files are released after reading.
--Dynamically load extra HD palettes.
--Unit action graphics are viewable now.
-
-Version [b]2015.8.12[/b]:
--Added separate SLP view window.
--Ability to choose which unit graphics are shown.
-
 [b]Notes[/b]
 
-[color=red]Make your own backups![/color]
+[color=BA0000]Make your own backups or use the auto-backup feature![/color]
 Extract to anywhere and run.
 You may need to run the program as administrator.
 No help files are included.
@@ -173,10 +85,10 @@ You may be able to undo changes by going back to the text box and pressing Ctrl 
 
 [b]Tips[/b]
 
-[color=blue]Oncoming versions will have more popup tooltips![/color]
-You can have multiple search entries separated with "|" letter. Upper search boxes are inclusive and lower ones exclusive.
+You can have multiple search entries separated with "|" letter.
+Upper search boxes are inclusive and lower ones exclusive.
 Example: "tower|ship|ram"
-You can switch from [i]or[/i] finding to [i]and[/i] finding with check boxes. Meaning that every search entry has to match.
+Use the check boxes to force matching all entries.
 
 [b]Developers[/b]
 
@@ -190,13 +102,11 @@ Ykkrosh - GeniEd 1 source code
 Scenario_t_c - GeniEd 2 source code
 Alexandra "Taichi San", DarkRain654 - data file research
 DiGiT, JustTesting1234, AOHH - genie file structure
-Cysion, Skybox Labs, Sarthos - important help
+Cysion, Kris, Sarthos - important help
 BF_Tanks - some help
 Donnieboy, Sarn, chab - tooltip texts
-Leif Ericson - new icon
+gagman - new icon
 
 Follow coding [url=https://github.com/Tapsa/AGE/commits/master]here[/url] and [url=https://github.com/Tapsa/genieutils/commits/master]here[/url].
 
 [url=http://aok.heavengames.com/blacksmith/lister.php?&pauthor=keisari%20tapsa&start=0&s=d&o=d]My other uploads[/url].
-
-Feedback is appreciated.

@@ -14,7 +14,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
     if(!General_CalcBoxes[0]->IsEmpty())
     {
         try{Result = lexical_cast<int32_t>(General_CalcBoxes[0]->GetValue());}
-        catch(bad_lexical_cast e){return;}
+        catch(bad_lexical_cast){return;}
     }
     else Result = 0;
     Result = (uint8_t)Result;
@@ -22,7 +22,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
     if(!General_CalcBoxes[1]->IsEmpty())
     {
         try{Temp = lexical_cast<int32_t>(General_CalcBoxes[1]->GetValue());}
-        catch(bad_lexical_cast e){return;}
+        catch(bad_lexical_cast){return;}
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 8;
@@ -30,7 +30,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
     if(!General_CalcBoxes[2]->IsEmpty())
     {
         try{Temp = lexical_cast<int32_t>(General_CalcBoxes[2]->GetValue());}
-        catch(bad_lexical_cast e){return;}
+        catch(bad_lexical_cast){return;}
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 16;
@@ -38,7 +38,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
     if(!General_CalcBoxes[3]->IsEmpty())
     {
         try{Temp = lexical_cast<int32_t>(General_CalcBoxes[3]->GetValue());}
-        catch(bad_lexical_cast e){return;}
+        catch(bad_lexical_cast){return;}
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 24;
@@ -53,7 +53,7 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
 
     int32_t Result;
     try{Result = lexical_cast<int32_t>(General_CalcBoxes[4]->GetValue());}
-    catch(bad_lexical_cast e){return;}
+    catch(bad_lexical_cast){return;}
 
     General_CalcBoxes[0]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
     Result >>= 8;
@@ -67,15 +67,15 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
 void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
 {
     for(auto &box: uiGroupMaps) box->clear();
+    General_VFP->prepend(&dataset->TerrainBlock.VirtualFunctionPtr);
     General_MapPointer->prepend(&dataset->TerrainBlock.MapPointer);
-    General_Unknown1->prepend(&dataset->TerrainBlock.Unknown1);
     General_MapWidth->prepend(&dataset->TerrainBlock.MapWidth);
     General_MapHeight->prepend(&dataset->TerrainBlock.MapHeight);
     General_WorldWidth->prepend(&dataset->TerrainBlock.WorldWidth);
     General_WorldHeight->prepend(&dataset->TerrainBlock.WorldHeight);
     if(GenieVersion >= genie::GV_AoE)
     {
-        General_Unknown2->prepend(&dataset->TerrainBlock.Unknown2);
+        General_TileSizesPadding->prepend(&dataset->TerrainBlock.PaddingTS);
     }
     for(size_t loop = 0, slot = 0; loop < genie::SharedTerrain::TILE_TYPE_COUNT; ++loop)
     {
@@ -91,7 +91,7 @@ void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
         }
     }
 
-    UnknownPointer1->prepend(&dataset->TerrainBlock.UnknownPointer1);
+    MapRowOffset->prepend(&dataset->TerrainBlock.MapRowOffset);
     if(GenieVersion >= genie::GV_AoKA)
     {
         MapMinX->prepend(&dataset->TerrainBlock.MapMinX);
@@ -116,8 +116,8 @@ void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
     BlockEndRow->prepend(&dataset->TerrainBlock.BlockEndRow);
     BlockBegCol->prepend(&dataset->TerrainBlock.BlockBegCol);
     BlockEndCol->prepend(&dataset->TerrainBlock.BlockEndCol);
-    UnknownPointer2->prepend(&dataset->TerrainBlock.UnknownPointer2);
-    UnknownPointer3->prepend(&dataset->TerrainBlock.UnknownPointer3);
+    SearchMapPtr->prepend(&dataset->TerrainBlock.SearchMapPtr);
+    SearchMapRowsPtr->prepend(&dataset->TerrainBlock.SearchMapRowsPtr);
     AnyFrameChange->prepend(&dataset->TerrainBlock.AnyFrameChange);
     MapVisibleFlag->prepend(&dataset->TerrainBlock.MapVisibleFlag);
     FogFlag->prepend(&dataset->TerrainBlock.FogFlag);
@@ -130,14 +130,17 @@ void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
     {
         General_Something[loop]->prepend(&dataset->TerrainBlock.SomeInt32[loop]);
     }
-    Unknown_UnknownPointer->prepend(&dataset->RandomMaps.RandomMapPointer);
+    RMS_MapsPtr->prepend(&dataset->RandomMaps.RandomMapsPtr);
     if(GenieVersion >= genie::GV_AoKA)
     {
-        for(long loop = 0;loop < General_TTUnknown.size(); ++loop)
-        {
-            General_TTUnknown[loop]->prepend(&dataset->UnknownPreTechTree[loop]);
-        }
-        General_TTUnknown[7]->prepend(&dataset->TechTree.Unknown2);
+        General_TTKnown[0]->prepend(&dataset->TimeSlice);
+        General_TTKnown[1]->prepend(&dataset->UnitKillRate);
+        General_TTKnown[2]->prepend(&dataset->UnitKillTotal);
+        General_TTKnown[3]->prepend(&dataset->UnitHitPointRate);
+        General_TTKnown[4]->prepend(&dataset->UnitHitPointTotal);
+        General_TTKnown[5]->prepend(&dataset->RazingKillRate);
+        General_TTKnown[6]->prepend(&dataset->RazingKillTotal);
+        General_TTKnown[7]->prepend(&dataset->TechTree.TotalUnitTechGroups);
         if(GenieVersion >= genie::GV_SWGB)
         {
             General_SUnknown2->prepend(&dataset->SUnknown2);
@@ -163,10 +166,10 @@ void AGE_Frame::CreateGeneralControls()
     General_CalcBoxesMiddle_Text = new SolidText(Tab_General, " = ");
     for(size_t loop = 0; loop < 5; ++loop)
     General_CalcBoxes[loop] = new wxTextCtrl(Tab_General, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(70, -1));
-    General_Scroller = new wxScrolled<APanel>(Tab_General, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    General_Scroller = new AScrolled(Tab_General);
     General_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 
-    const wxString SWUNKNOWNSINFO = "Unknowns 2 to 5 are in the beginning of the file,\nright after civilization count (first of the two) and\nbefore terrain restrictions";
+    const wxString SWUNKNOWNSINFO = "Unknowns 2 to 5 are in the beginning of the file,\nright after civilization count (first of the two) and\nbefore terrain tables";
     General_Variables2_Grid = new wxBoxSizer(wxHORIZONTAL);
     General_Variables1_Holder = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Star Wars Unknowns");
     General_SUnknown2_Holder = new wxBoxSizer(wxVERTICAL);
@@ -188,18 +191,18 @@ void AGE_Frame::CreateGeneralControls()
     General_SUnknown7_Holder = new wxBoxSizer(wxVERTICAL);
     General_SUnknown7_Text = new SolidText(General_Scroller, " Unkown 7 *");
     General_SUnknown7 = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller);
-    General_SUnknown7->SetToolTip("In the file this is\nright after civilizations and\nbefore researches");
+    General_SUnknown7->SetToolTip("In the file this is\nright after civilizations and\nbefore techs");
     General_SUnknown8_Holder = new wxBoxSizer(wxVERTICAL);
     General_SUnknown8_Text = new SolidText(General_Scroller, " Unkown 8 *");
     General_SUnknown8 = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller);
-    General_SUnknown8->SetToolTip("In the file this is\nright after researches and\nbefore technology trees");
+    General_SUnknown8->SetToolTip("In the file this is\nright after techs and\nbefore technology trees");
 
+    General_VFP_Holder = new wxBoxSizer(wxVERTICAL);
+    General_VFP_Text = new SolidText(General_Scroller, " __vfptr");
+    General_VFP = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_MapPointer_Holder = new wxBoxSizer(wxVERTICAL);
     General_MapPointer_Text = new SolidText(General_Scroller, " Map Pointer");
     General_MapPointer = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
-    General_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-    General_Unknown1_Text = new SolidText(General_Scroller, " Unknown 1");
-    General_Unknown1 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     General_MapWidth_Holder = new wxBoxSizer(wxVERTICAL);
     General_MapWidth_Text = new SolidText(General_Scroller, " Map Width");
     General_MapWidth = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
@@ -212,16 +215,16 @@ void AGE_Frame::CreateGeneralControls()
     General_WorldHeight_Holder = new wxBoxSizer(wxVERTICAL);
     General_WorldHeight_Text = new SolidText(General_Scroller, " World Height");
     General_WorldHeight = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
-    General_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
-    General_Unknown2_Text = new SolidText(General_Scroller, " Unkown 2");
-    General_Unknown2 = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
+    General_TileSizesPadding_Holder = new wxBoxSizer(wxVERTICAL);
+    General_TileSizesPadding_Text = new SolidText(General_Scroller, " Tile Sizes Padding");
+    General_TileSizesPadding = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
 
     General_TileSizes_Text = new SolidText(General_Scroller, " Tile Sizes   19 x (Width, Height, Delta Y)   1st is flat tile, then 2 x 8 elevation tiles, then 2 1:1 tiles");
     General_TileSizes_Grid = new wxFlexGridSizer(5, 0, 0);
 
-    UnknownPointer1_Sizer = new wxBoxSizer(wxVERTICAL);
-    UnknownPointer1_Text = new SolidText(General_Scroller, " Unknown Pointer 1");
-    UnknownPointer1 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
+    MapRowOffset_Sizer = new wxBoxSizer(wxVERTICAL);
+    MapRowOffset_Text = new SolidText(General_Scroller, " Map Row Offset");
+    MapRowOffset = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     MapMinX_Sizer = new wxBoxSizer(wxVERTICAL);
     MapMinX_Text = new SolidText(General_Scroller, " Map Min X");
     MapMinX = AGETextCtrl::init(CFloat, &uiGroupMaps, this, &popUp, General_Scroller);
@@ -278,12 +281,12 @@ void AGE_Frame::CreateGeneralControls()
     BlockEndCol_Text = new SolidText(General_Scroller, " Block End Col");
     BlockEndCol = AGETextCtrl::init(CShort, &uiGroupMaps, this, &popUp, General_Scroller);
 
-    UnknownPointer2_Sizer = new wxBoxSizer(wxVERTICAL);
-    UnknownPointer2_Text = new SolidText(General_Scroller, " Unknown Pointer 2");
-    UnknownPointer2 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
-    UnknownPointer3_Sizer = new wxBoxSizer(wxVERTICAL);
-    UnknownPointer3_Text = new SolidText(General_Scroller, " Unknown Pointer 3");
-    UnknownPointer3 = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
+    SearchMapPtr_Sizer = new wxBoxSizer(wxVERTICAL);
+    SearchMapPtr_Text = new SolidText(General_Scroller, " Search Map Ptr");
+    SearchMapPtr = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
+    SearchMapRowsPtr_Sizer = new wxBoxSizer(wxVERTICAL);
+    SearchMapRowsPtr_Text = new SolidText(General_Scroller, " Search Map Rows");
+    SearchMapRowsPtr = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller);
     AnyFrameChange_Sizer = new wxBoxSizer(wxVERTICAL);
     AnyFrameChange_Text = new SolidText(General_Scroller, " Any Frame Change");
     AnyFrameChange = AGETextCtrl::init(CByte, &uiGroupMaps, this, &popUp, General_Scroller);
@@ -308,11 +311,11 @@ void AGE_Frame::CreateGeneralControls()
     for(auto &box: General_Something)
     box = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, General_Scroller, AGETextCtrl::NORMAL);
 
-    General_TopRow->Add(General_Refresh, 0, wxEXPAND | wxRIGHT, 100);
+    General_TopRow->Add(General_Refresh, 0, wxRIGHT, 100);
     for(size_t loop = 0; loop < 4; ++loop)
-    General_TopRow->Add(General_CalcBoxes[loop], 0, wxEXPAND);
+    General_TopRow->Add(General_CalcBoxes[loop]);
     General_TopRow->Add(General_CalcBoxesMiddle_Text);
-    General_TopRow->Add(General_CalcBoxes[4], 0, wxEXPAND);
+    General_TopRow->Add(General_CalcBoxes[4]);
     General_TopRow->Add(General_CalcBoxes_Text);
 
     for(size_t loop = 0, tile = 0; loop < General_TileSizes.size();)
@@ -324,20 +327,20 @@ void AGE_Frame::CreateGeneralControls()
     for(auto &sizer: General_TileSizes_Sizers)
     General_TileSizes_Grid->Add(sizer);
 
-    UnknownPointer1_Sizer->Add(UnknownPointer1_Text);
+    MapRowOffset_Sizer->Add(MapRowOffset_Text);
     MapMinX_Sizer->Add(MapMinX_Text);
     MapMinY_Sizer->Add(MapMinY_Text);
     MapMaxX_Sizer->Add(MapMaxX_Text);
     MapMaxY_Sizer->Add(MapMaxY_Text);
     MapMaxXplus1_Sizer->Add(MapMaxXplus1_Text);
     MapMaxYplus1_Sizer->Add(MapMaxYplus1_Text);
-    UnknownPointer1_Sizer->Add(UnknownPointer1, 0, wxEXPAND);
-    MapMinX_Sizer->Add(MapMinX, 0, wxEXPAND);
-    MapMinY_Sizer->Add(MapMinY, 0, wxEXPAND);
-    MapMaxX_Sizer->Add(MapMaxX, 0, wxEXPAND);
-    MapMaxY_Sizer->Add(MapMaxY, 0, wxEXPAND);
-    MapMaxXplus1_Sizer->Add(MapMaxXplus1, 0, wxEXPAND);
-    MapMaxYplus1_Sizer->Add(MapMaxYplus1, 0, wxEXPAND);
+    MapRowOffset_Sizer->Add(MapRowOffset);
+    MapMinX_Sizer->Add(MapMinX);
+    MapMinY_Sizer->Add(MapMinY);
+    MapMaxX_Sizer->Add(MapMaxX);
+    MapMaxY_Sizer->Add(MapMaxY);
+    MapMaxXplus1_Sizer->Add(MapMaxXplus1);
+    MapMaxYplus1_Sizer->Add(MapMaxYplus1);
     MaxTerrain_Sizer->Add(MaxTerrain_Text);
     TileWidth_Sizer->Add(TileWidth_Text);
     TileHeight_Sizer->Add(TileHeight_Text);
@@ -345,35 +348,35 @@ void AGE_Frame::CreateGeneralControls()
     TileHalfWidth_Sizer->Add(TileHalfWidth_Text);
     ElevHeight_Sizer->Add(ElevHeight_Text);
     CurRow_Sizer->Add(CurRow_Text);
-    MaxTerrain_Sizer->Add(MaxTerrain, 0, wxEXPAND);
-    TileWidth_Sizer->Add(TileWidth, 0, wxEXPAND);
-    TileHeight_Sizer->Add(TileHeight, 0, wxEXPAND);
-    TileHalfHeight_Sizer->Add(TileHalfHeight, 0, wxEXPAND);
-    TileHalfWidth_Sizer->Add(TileHalfWidth, 0, wxEXPAND);
-    ElevHeight_Sizer->Add(ElevHeight, 0, wxEXPAND);
-    CurRow_Sizer->Add(CurRow, 0, wxEXPAND);
+    MaxTerrain_Sizer->Add(MaxTerrain);
+    TileWidth_Sizer->Add(TileWidth);
+    TileHeight_Sizer->Add(TileHeight);
+    TileHalfHeight_Sizer->Add(TileHalfHeight);
+    TileHalfWidth_Sizer->Add(TileHalfWidth);
+    ElevHeight_Sizer->Add(ElevHeight);
+    CurRow_Sizer->Add(CurRow);
     CurCol_Sizer->Add(CurCol_Text);
     BlockBegRow_Sizer->Add(BlockBegRow_Text);
     BlockEndRow_Sizer->Add(BlockEndRow_Text);
     BlockBegCol_Sizer->Add(BlockBegCol_Text);
     BlockEndCol_Sizer->Add(BlockEndCol_Text);
-    UnknownPointer2_Sizer->Add(UnknownPointer2_Text);
-    UnknownPointer3_Sizer->Add(UnknownPointer3_Text);
-    CurCol_Sizer->Add(CurCol, 0, wxEXPAND);
-    BlockBegRow_Sizer->Add(BlockBegRow, 0, wxEXPAND);
-    BlockEndRow_Sizer->Add(BlockEndRow, 0, wxEXPAND);
-    BlockBegCol_Sizer->Add(BlockBegCol, 0, wxEXPAND);
-    BlockEndCol_Sizer->Add(BlockEndCol, 0, wxEXPAND);
-    UnknownPointer2_Sizer->Add(UnknownPointer2, 0, wxEXPAND);
-    UnknownPointer3_Sizer->Add(UnknownPointer3, 0, wxEXPAND);
+    SearchMapPtr_Sizer->Add(SearchMapPtr_Text);
+    SearchMapRowsPtr_Sizer->Add(SearchMapRowsPtr_Text);
+    CurCol_Sizer->Add(CurCol);
+    BlockBegRow_Sizer->Add(BlockBegRow);
+    BlockEndRow_Sizer->Add(BlockEndRow);
+    BlockBegCol_Sizer->Add(BlockBegCol);
+    BlockEndCol_Sizer->Add(BlockEndCol);
+    SearchMapPtr_Sizer->Add(SearchMapPtr);
+    SearchMapRowsPtr_Sizer->Add(SearchMapRowsPtr);
     AnyFrameChange_Sizer->Add(AnyFrameChange_Text);
     MapVisibleFlag_Sizer->Add(MapVisibleFlag_Text);
     FogFlag_Sizer->Add(FogFlag_Text);
-    AnyFrameChange_Sizer->Add(AnyFrameChange, 0, wxEXPAND);
-    MapVisibleFlag_Sizer->Add(MapVisibleFlag, 0, wxEXPAND);
-    FogFlag_Sizer->Add(FogFlag, 0, wxEXPAND);
+    AnyFrameChange_Sizer->Add(AnyFrameChange);
+    MapVisibleFlag_Sizer->Add(MapVisibleFlag);
+    FogFlag_Sizer->Add(FogFlag);
 
-    General_TerrainRendering_Grid->Add(UnknownPointer1_Sizer);
+    General_TerrainRendering_Grid->Add(MapRowOffset_Sizer);
     General_TerrainRendering_Grid->Add(MapMinX_Sizer);
     General_TerrainRendering_Grid->Add(MapMinY_Sizer);
     General_TerrainRendering_Grid->Add(MapMaxX_Sizer);
@@ -392,8 +395,8 @@ void AGE_Frame::CreateGeneralControls()
     General_TerrainRendering_Grid->Add(BlockEndRow_Sizer);
     General_TerrainRendering_Grid->Add(BlockBegCol_Sizer);
     General_TerrainRendering_Grid->Add(BlockEndCol_Sizer);
-    General_TerrainRendering_Grid->Add(UnknownPointer2_Sizer);
-    General_TerrainRendering_Grid->Add(UnknownPointer3_Sizer);
+    General_TerrainRendering_Grid->Add(SearchMapPtr_Sizer);
+    General_TerrainRendering_Grid->Add(SearchMapRowsPtr_Sizer);
     General_TerrainRendering_Grid->Add(AnyFrameChange_Sizer);
     General_TerrainRendering_Grid->Add(MapVisibleFlag_Sizer);
     General_TerrainRendering_Grid->Add(FogFlag_Sizer);
@@ -422,36 +425,36 @@ void AGE_Frame::CreateGeneralControls()
     General_Variables1_Holder->Add(General_SUnknown7_Holder, 0, wxLEFT, 5);
     General_Variables1_Holder->Add(General_SUnknown8_Holder, 0, wxLEFT, 5);
 
+    General_VFP_Holder->Add(General_VFP_Text);
+    General_VFP_Holder->Add(General_VFP);
     General_MapPointer_Holder->Add(General_MapPointer_Text);
-    General_MapPointer_Holder->Add(General_MapPointer, 0, wxEXPAND);
-    General_Unknown1_Holder->Add(General_Unknown1_Text);
-    General_Unknown1_Holder->Add(General_Unknown1, 0, wxEXPAND);
+    General_MapPointer_Holder->Add(General_MapPointer);
     General_MapWidth_Holder->Add(General_MapWidth_Text);
-    General_MapWidth_Holder->Add(General_MapWidth, 0, wxEXPAND);
+    General_MapWidth_Holder->Add(General_MapWidth);
     General_MapHeight_Holder->Add(General_MapHeight_Text);
-    General_MapHeight_Holder->Add(General_MapHeight, 0, wxEXPAND);
+    General_MapHeight_Holder->Add(General_MapHeight);
     General_WorldWidth_Holder->Add(General_WorldWidth_Text);
-    General_WorldWidth_Holder->Add(General_WorldWidth, 0, wxEXPAND);
+    General_WorldWidth_Holder->Add(General_WorldWidth);
     General_WorldHeight_Holder->Add(General_WorldHeight_Text);
-    General_WorldHeight_Holder->Add(General_WorldHeight, 0, wxEXPAND);
-    General_Unknown2_Holder->Add(General_Unknown2_Text);
-    General_Unknown2_Holder->Add(General_Unknown2, 0, wxEXPAND);
-    General_Variables2_Grid->Add(General_MapPointer_Holder);
-    General_Variables2_Grid->Add(General_Unknown1_Holder, 0, wxLEFT, 5);
+    General_WorldHeight_Holder->Add(General_WorldHeight);
+    General_TileSizesPadding_Holder->Add(General_TileSizesPadding_Text);
+    General_TileSizesPadding_Holder->Add(General_TileSizesPadding);
+    General_Variables2_Grid->Add(General_VFP_Holder);
+    General_Variables2_Grid->Add(General_MapPointer_Holder, 0, wxLEFT, 5);
     General_Variables2_Grid->Add(General_MapWidth_Holder, 0, wxLEFT, 5);
     General_Variables2_Grid->Add(General_MapHeight_Holder, 0, wxLEFT, 5);
     General_Variables2_Grid->Add(General_WorldWidth_Holder, 0, wxLEFT, 5);
     General_Variables2_Grid->Add(General_WorldHeight_Holder, 0, wxLEFT, 5);
-    General_Variables2_Grid->Add(General_Unknown2_Holder, 0, wxLEFT, 5);
+    General_Variables2_Grid->Add(General_TileSizesPadding_Holder, 0, wxLEFT, 5);
 
-    General_ScrollSpace->Add(General_Variables1_Holder, 0, wxEXPAND);
-    General_ScrollSpace->Add(General_Variables2_Grid, 0, wxEXPAND | wxTOP | wxBOTTOM, 5);
+    General_ScrollSpace->Add(General_Variables1_Holder);
+    General_ScrollSpace->Add(General_Variables2_Grid, 0, wxTOP | wxBOTTOM, 5);
     General_ScrollSpace->Add(General_TileSizes_Text);
-    General_ScrollSpace->Add(General_TileSizes_Grid, 0, wxEXPAND);
-    General_ScrollSpace->Add(General_TerrainRendering_Grid, 0, wxEXPAND | wxTOP | wxBOTTOM, 5);
+    General_ScrollSpace->Add(General_TileSizes_Grid);
+    General_ScrollSpace->Add(General_TerrainRendering_Grid, 0, wxTOP | wxBOTTOM, 5);
     General_ScrollSpace->Add(General_TerrainRendering_Text);
-    General_ScrollSpace->Add(General_Something_Grid1, 0, wxEXPAND);
-    General_ScrollSpace->Add(General_Something_Grid2, 0, wxEXPAND);
+    General_ScrollSpace->Add(General_Something_Grid1);
+    General_ScrollSpace->Add(General_Something_Grid2);
 
     General_Scroller->SetSizer(General_ScrollSpace);
     General_Scroller->SetScrollRate(0, 15);
@@ -473,13 +476,13 @@ void AGE_Frame::OnRandomMapSearch(wxCommandEvent &event)
     ListRandomMaps();
 }
 
-string AGE_Frame::GetRandomMapName(int index)
+wxString AGE_Frame::GetRandomMapName(int index)
 {
     if(GenieVersion >= genie::GV_AoK)
     {
-        return "Map "+lexical_cast<string>(dataset->RandomMaps.MapHeaders[index].ScriptNumber);
+        return "Map "+lexical_cast<string>(dataset->RandomMaps.Maps[index].MapID);
     }
-    string Name;
+    wxString Name;
     switch(index)
     {
         case 0: Name = "Small Islands ("; break;
@@ -494,7 +497,7 @@ string AGE_Frame::GetRandomMapName(int index)
         case 9: Name = "Gigantic ("; break;
         default: Name = "Map (";
     }
-    return Name += lexical_cast<string>(dataset->RandomMaps.MapHeaders[index].ScriptNumber)+")";
+    return Name += lexical_cast<string>(dataset->RandomMaps.Maps[index].MapID)+")";
 }
 
 void AGE_Frame::ListRandomMaps()
@@ -510,7 +513,7 @@ void AGE_Frame::InitRandomMaps()
 
     Unknowns_ListV->Sweep();
 
-    for(size_t loop = 0; loop < dataset->RandomMaps.MapHeaders.size(); ++loop)
+    for(size_t loop = 0; loop < dataset->RandomMaps.Maps.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetRandomMapName(loop);
         if(SearchMatches(" " + Name.Lower() + " "))
@@ -530,48 +533,33 @@ void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
     for(auto &box: uiGroupRandomMap) box->clear();
     if(selections > 0)
     {
-        genie::MapHeader * MapPointer1;
-        genie::Map * MapPointer2;
+        genie::MapInfo * map_ptr;
         for(auto sel = selections; sel--> 0;)
         {
-            MapPointer1 = &dataset->RandomMaps.MapHeaders[RandomMapIDs[sel]];
-            MapPointer2 = &dataset->RandomMaps.Maps[RandomMapIDs[sel]];
+            map_ptr = &dataset->RandomMaps.Maps[RandomMapIDs[sel]];
 
-            Unknowns_UnknownLevel->prepend(&MapPointer1->ScriptNumber);
-            Unknowns_Unknown1[0]->prepend(&MapPointer1->BorderSouthWest);
-            Unknowns_Unknown1[0]->prepend(&MapPointer2->BorderSouthWest);
-            Unknowns_Unknown1[1]->prepend(&MapPointer1->BorderNorthWest);
-            Unknowns_Unknown1[1]->prepend(&MapPointer2->BorderNorthWest);
-            Unknowns_Unknown1[2]->prepend(&MapPointer1->BorderNorthEast);
-            Unknowns_Unknown1[2]->prepend(&MapPointer2->BorderNorthEast);
-            Unknowns_Unknown1[3]->prepend(&MapPointer1->BorderSouthEast);
-            Unknowns_Unknown1[3]->prepend(&MapPointer2->BorderSouthEast);
-            Unknowns_Unknown1[4]->prepend(&MapPointer1->BorderUsage);
-            Unknowns_Unknown1[4]->prepend(&MapPointer2->BorderUsage);
-            Unknowns_Unknown1[5]->prepend(&MapPointer1->WaterShape);
-            Unknowns_Unknown1[5]->prepend(&MapPointer2->WaterShape);
-            Unknowns_Unknown1[6]->prepend(&MapPointer1->NonBaseTerrain);
-            Unknowns_Unknown1[6]->prepend(&MapPointer2->NonBaseTerrain);
-            Unknowns_Unknown1[7]->prepend(&MapPointer1->BaseZoneCoverage);
-            Unknowns_Unknown1[7]->prepend(&MapPointer2->BaseZoneCoverage);
-            Unknowns_Unknown1[8]->prepend(&MapPointer1->Unknown9);
-            Unknowns_Unknown1[8]->prepend(&MapPointer2->Unknown9);
-            Unknowns_Pointer1->prepend(&MapPointer1->BaseZonePointer);
-            Unknowns_Pointer1->prepend(&MapPointer2->BaseZonePointer);
-            Unknowns_Pointer2->prepend(&MapPointer1->MapTerrainPointer);
-            Unknowns_Pointer2->prepend(&MapPointer2->MapTerrainPointer);
-            Unknowns_Pointer3->prepend(&MapPointer1->MapUnitPointer);
-            Unknowns_Pointer3->prepend(&MapPointer2->MapUnitPointer);
-            Unknowns_Pointer4->prepend(&MapPointer1->MapUnknownPointer);
-            Unknowns_Pointer4->prepend(&MapPointer2->MapUnknownPointer);
+            RMS_MapID->prepend(&map_ptr->MapID);
+            RMS_LandData[0]->prepend(&map_ptr->BorderSouthWest);
+            RMS_LandData[1]->prepend(&map_ptr->BorderNorthWest);
+            RMS_LandData[2]->prepend(&map_ptr->BorderNorthEast);
+            RMS_LandData[3]->prepend(&map_ptr->BorderSouthEast);
+            RMS_LandData[4]->prepend(&map_ptr->BorderUsage);
+            RMS_LandData[5]->prepend(&map_ptr->WaterShape);
+            RMS_LandData[6]->prepend(&map_ptr->BaseTerrain);
+            RMS_LandData[7]->prepend(&map_ptr->LandCoverage);
+            RMS_LandData[8]->prepend(&map_ptr->UnusedID);
+            RMS_LandsPtr->prepend(&map_ptr->MapLandsPtr);
+            RMS_TerrainsPtr->prepend(&map_ptr->MapTerrainsPtr);
+            RMS_UnitsPtr->prepend(&map_ptr->MapUnitsPtr);
+            RMS_ElevationsPtr->prepend(&map_ptr->MapElevationsPtr);
         }
         SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected random map: "+lexical_cast<string>(RandomMapIDs.front()), 0);
     }
     for(auto &box: uiGroupRandomMap) box->update();
-    ListRMSBaseZones();
-    ListRMSTerrains();
-    ListRMSUnits();
-    ListRMSUnknowns();
+    ListMapLands();
+    ListMapTerrains();
+    ListMapUnits();
+    ListMapElevations();
 }
 
 void AGE_Frame::OnRandomMapAdd(wxCommandEvent &event)
@@ -579,7 +567,6 @@ void AGE_Frame::OnRandomMapAdd(wxCommandEvent &event)
     if(!dataset) return;
 
     wxBusyCursor WaitCursor;
-    AddToList(dataset->RandomMaps.MapHeaders);
     AddToList(dataset->RandomMaps.Maps);
     ListRandomMaps();
 }
@@ -590,7 +577,6 @@ void AGE_Frame::OnRandomMapInsert(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    InsertToList(dataset->RandomMaps.MapHeaders, RandomMapIDs.front());
     InsertToList(dataset->RandomMaps.Maps, RandomMapIDs.front());
     ListRandomMaps();
 }
@@ -601,7 +587,6 @@ void AGE_Frame::OnRandomMapDelete(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    DeleteFromList(dataset->RandomMaps.MapHeaders, RandomMapIDs);
     DeleteFromList(dataset->RandomMaps.Maps, RandomMapIDs);
     ListRandomMaps();
 }
@@ -612,7 +597,6 @@ void AGE_Frame::OnRandomMapCopy(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    CopyFromList(dataset->RandomMaps.MapHeaders, RandomMapIDs, copies.MapHeader);
     CopyFromList(dataset->RandomMaps.Maps, RandomMapIDs, copies.Map);
     Unknowns_Paste->Enable(true);
     Unknowns_PasteInsert->Enable(true);
@@ -625,7 +609,6 @@ void AGE_Frame::OnRandomMapPaste(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    PasteToList(dataset->RandomMaps.MapHeaders, RandomMapIDs, copies.MapHeader);
     PasteToList(dataset->RandomMaps.Maps, RandomMapIDs, copies.Map);
     ListRandomMaps();
 }
@@ -636,156 +619,152 @@ void AGE_Frame::OnRandomMapPasteInsert(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToList(dataset->RandomMaps.MapHeaders, RandomMapIDs.front(), copies.MapHeader);
     PasteInsertToList(dataset->RandomMaps.Maps, RandomMapIDs.front(), copies.Map);
     ListRandomMaps();
 }
 
-void AGE_Frame::OnRMSBaseZoneSearch(wxCommandEvent &event)
+void AGE_Frame::OnMapLandSearch(wxCommandEvent &event)
 {
     How2List = SEARCH;
-    ListRMSBaseZones();
+    ListMapLands();
 }
 
-string AGE_Frame::GetRMSBaseZonesName(int index)
+wxString AGE_Frame::GetMapLandName(int index)
 {
-    return "Base Zone "+lexical_cast<string>(dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones[index].Unknown1);
+    return "Land "+lexical_cast<string>(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands[index].LandID);
 }
 
-void AGE_Frame::ListRMSBaseZones()
+void AGE_Frame::ListMapLands()
 {
-    InitSearch(RMSBaseZones_Search->GetValue().MakeLower(), RMSBaseZones_Search_R->GetValue().MakeLower());
+    InitSearch(RMS_Land_Search->GetValue().MakeLower(), RMS_Land_Search_R->GetValue().MakeLower());
 
-    RMSBaseZones_ListV->Sweep();
+    RMS_Land_ListV->Sweep();
 
     if(dataset->RandomMaps.Maps.size())
-    for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones.size(); ++loop)
+    for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands.size(); ++loop)
     {
-        wxString Name = FormatInt(loop)+" - "+GetRMSBaseZonesName(loop);
+        wxString Name = FormatInt(loop)+" - "+GetMapLandName(loop);
         if(SearchMatches(" " + Name.Lower() + " "))
         {
-            RMSBaseZones_ListV->names.Add(Name);
-            RMSBaseZones_ListV->indexes.push_back(loop);
+            RMS_Land_ListV->names.Add(Name);
+            RMS_Land_ListV->indexes.push_back(loop);
         }
     }
-    RefreshList(RMSBaseZones_ListV, &UnknownFSIDs);
+    RefreshList(RMS_Land_ListV, &UnknownFSIDs);
 
     wxCommandEvent e;
-    OnRMSBaseZoneSelect(e);
+    OnMapLandSelect(e);
 }
 
-void AGE_Frame::OnRMSBaseZoneSelect(wxCommandEvent &event)
+void AGE_Frame::OnMapLandSelect(wxCommandEvent &event)
 {
-    auto selections = RMSBaseZones_ListV->GetSelectedCount();
+    auto selections = RMS_Land_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    getSelectedItems(selections, RMSBaseZones_ListV, UnknownFSIDs);
+    getSelectedItems(selections, RMS_Land_ListV, UnknownFSIDs);
     for(auto &box: uiGroupRMBase) box->clear();
 
-    genie::BaseZone * UnknownPointer;
+    genie::MapLand * land_ptr;
     for(auto sel = selections; sel--> 0;)
     {
-        UnknownPointer = &dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones[UnknownFSIDs[sel]];
+        land_ptr = &dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands[UnknownFSIDs[sel]];
 
-        RMSBaseZones_Unknown1->prepend(&UnknownPointer->Unknown1);
-        RMSBaseZones_BaseTerrain->prepend(&UnknownPointer->BaseTerrain);
-        RMSBaseZones_SpacingBetweenPlayers->prepend(&UnknownPointer->SpacingBetweenPlayers);
-        RMSBaseZones_Unknown4->prepend(&UnknownPointer->Unknown4);
-        for(size_t loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
-        RMSBaseZones_Unknown5[loop]->prepend(&UnknownPointer->Unknown5[loop]);
-        RMSBaseZones_Unknown6->prepend(&UnknownPointer->Unknown6);
-        RMSBaseZones_Unknown7->prepend(&UnknownPointer->Unknown7);
-        for(size_t loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
-        RMSBaseZones_Unknown8[loop]->prepend(&UnknownPointer->Unknown8[loop]);
-        RMSBaseZones_StartAreaRadius->prepend(&UnknownPointer->StartAreaRadius);
-        RMSBaseZones_Unknown10->prepend(&UnknownPointer->Unknown10);
-        RMSBaseZones_Unknown11->prepend(&UnknownPointer->Unknown11);
+        RMS_Land_LandID->prepend(&land_ptr->LandID);
+        RMS_Land_BaseTerrain->prepend(&land_ptr->Terrain);
+        RMS_Land_PlayerSpacing->prepend(&land_ptr->LandSpacing);
+        RMS_Land_BaseSize->prepend(&land_ptr->BaseSize);
+        RMS_Land_Zone->prepend(&land_ptr->Zone);
+        RMS_Land_PlacementType->prepend(&land_ptr->PlacementType);
+        RMS_Land_Padding1->prepend(&land_ptr->Padding1);
+        RMS_Land_X->prepend(&land_ptr->BaseX);
+        RMS_Land_Y->prepend(&land_ptr->BaseY);
+        RMS_Land_LandProportion->prepend(&land_ptr->LandProportion);
+        RMS_Land_ByPlayerFlag->prepend(&land_ptr->ByPlayerFlag);
+        RMS_Land_Padding2->prepend(&land_ptr->Padding2);
+        RMS_Land_StartAreaRadius->prepend(&land_ptr->StartAreaRadius);
+        RMS_Land_TerrainEdgeFade->prepend(&land_ptr->TerrainEdgeFade);
+        RMS_Land_Clumpiness->prepend(&land_ptr->Clumpiness);
     }
 
     for(auto &box: uiGroupRMBase) box->update();
 }
 
-void AGE_Frame::OnRMSBaseZoneAdd(wxCommandEvent &event)
+void AGE_Frame::OnMapLandAdd(wxCommandEvent &event)
 {
     auto selections = Unknowns_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    AddToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].BaseZoneCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones.size();
-    ListRMSBaseZones();
+    AddToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands);
+    ListMapLands();
 }
 
-void AGE_Frame::OnRMSBaseZoneInsert(wxCommandEvent &event)
+void AGE_Frame::OnMapLandInsert(wxCommandEvent &event)
 {
-    auto selections = RMSBaseZones_ListV->GetSelectedCount();
+    auto selections = RMS_Land_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    InsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones, UnknownFSIDs.front());
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].BaseZoneCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones.size();
-    ListRMSBaseZones();
+    InsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands, UnknownFSIDs.front());
+    ListMapLands();
 }
 
-void AGE_Frame::OnRMSBaseZoneDelete(wxCommandEvent &event)
+void AGE_Frame::OnMapLandDelete(wxCommandEvent &event)
 {
-    auto selections = RMSBaseZones_ListV->GetSelectedCount();
+    auto selections = RMS_Land_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    DeleteFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones, UnknownFSIDs);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].BaseZoneCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones.size();
-    ListRMSBaseZones();
+    DeleteFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands, UnknownFSIDs);
+    ListMapLands();
 }
 
-void AGE_Frame::OnRMSBaseZoneCopy(wxCommandEvent &event)
+void AGE_Frame::OnMapLandCopy(wxCommandEvent &event)
 {
-    auto selections = RMSBaseZones_ListV->GetSelectedCount();
+    auto selections = RMS_Land_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    CopyFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones, UnknownFSIDs, copies.BaseZone);
-    RMSBaseZones_Paste->Enable(true);
-    RMSBaseZones_PasteInsert->Enable(true);
-    RMSBaseZones_ListV->SetFocus();
+    CopyFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands, UnknownFSIDs, copies.MapLand);
+    RMS_Land_Paste->Enable(true);
+    RMS_Land_PasteInsert->Enable(true);
+    RMS_Land_ListV->SetFocus();
 }
 
-void AGE_Frame::OnRMSBaseZonePaste(wxCommandEvent &event)
+void AGE_Frame::OnMapLandPaste(wxCommandEvent &event)
 {
-    auto selections = RMSBaseZones_ListV->GetSelectedCount();
+    auto selections = RMS_Land_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    PasteToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones, UnknownFSIDs, copies.BaseZone);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].BaseZoneCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones.size();
-    ListRMSBaseZones();
+    PasteToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands, UnknownFSIDs, copies.MapLand);
+    ListMapLands();
 }
 
-void AGE_Frame::OnRMSBaseZonePasteInsert(wxCommandEvent &event)
+void AGE_Frame::OnMapLandPasteInsert(wxCommandEvent &event)
 {
-    auto selections = RMSBaseZones_ListV->GetSelectedCount();
+    auto selections = RMS_Land_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones, UnknownFSIDs.front(), copies.BaseZone);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].BaseZoneCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones.size();
-    ListRMSBaseZones();
+    PasteInsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands, UnknownFSIDs.front(), copies.MapLand);
+    ListMapLands();
 }
 
-void AGE_Frame::OnRMSBaseZoneCopyToMaps(wxCommandEvent &event)
+void AGE_Frame::OnMapLandCopyToMaps(wxCommandEvent &event)
 {
     for(size_t loop=1; loop < RandomMapIDs.size(); ++loop)
     {
-        dataset->RandomMaps.Maps[RandomMapIDs[loop]].BaseZones = dataset->RandomMaps.Maps[RandomMapIDs.front()].BaseZones;
+        dataset->RandomMaps.Maps[RandomMapIDs[loop]].MapLands = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands;
     }
 }
 
-void AGE_Frame::OnRMSTerrainSearch(wxCommandEvent &event)
+void AGE_Frame::OnMapTerrainSearch(wxCommandEvent &event)
 {
     How2List = SEARCH;
-    ListRMSTerrains();
+    ListMapTerrains();
 }
 
-wxString AGE_Frame::GetRMSTerrainName(int Terrain)
+wxString AGE_Frame::GetMapTerrainName(int Terrain)
 {
     wxString Name = FormatInt(Terrain) + " ";
     if(dataset->TerrainBlock.Terrains.size() <= Terrain) return Name + "Nonexistent Terrain";
@@ -796,119 +775,114 @@ wxString AGE_Frame::GetRMSTerrainName(int Terrain)
     return Name + "New Terrain";
 }
 
-void AGE_Frame::ListRMSTerrains()
+void AGE_Frame::ListMapTerrains()
 {
-    InitSearch(RMSTerrain_Search->GetValue().MakeLower(), RMSTerrain_Search_R->GetValue().MakeLower());
+    InitSearch(RMS_Terrain_Search->GetValue().MakeLower(), RMS_Terrain_Search_R->GetValue().MakeLower());
 
-    RMSTerrain_ListV->Sweep();
+    RMS_Terrain_ListV->Sweep();
 
     if(dataset->RandomMaps.Maps.size())
     for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains.size(); ++loop)
     {
-        wxString Name = FormatInt(loop)+" - "+GetRMSTerrainName(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains[loop].Terrain);
+        wxString Name = FormatInt(loop)+" - "+GetMapTerrainName(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains[loop].Terrain);
         if(SearchMatches(" " + Name.Lower() + " "))
         {
-            RMSTerrain_ListV->names.Add(Name);
-            RMSTerrain_ListV->indexes.push_back(loop);
+            RMS_Terrain_ListV->names.Add(Name);
+            RMS_Terrain_ListV->indexes.push_back(loop);
         }
     }
-    RefreshList(RMSTerrain_ListV, &UnknownSSIDs);
+    RefreshList(RMS_Terrain_ListV, &UnknownSSIDs);
 
     wxCommandEvent e;
-    OnRMSTerrainSelect(e);
+    OnMapTerrainSelect(e);
 }
 
-void AGE_Frame::OnRMSTerrainSelect(wxCommandEvent &event)
+void AGE_Frame::OnMapTerrainSelect(wxCommandEvent &event)
 {
-    auto selections = RMSTerrain_ListV->GetSelectedCount();
+    auto selections = RMS_Terrain_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    getSelectedItems(selections, RMSTerrain_ListV, UnknownSSIDs);
+    getSelectedItems(selections, RMS_Terrain_ListV, UnknownSSIDs);
     for(auto &box: uiGroupRMTerrain) box->clear();
 
-    genie::MapTerrain * UnknownPointer;
+    genie::MapTerrain * terrain_ptr;
     for(auto sel = selections; sel--> 0;)
     {
-        UnknownPointer = &dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains[UnknownSSIDs[sel]];
+        terrain_ptr = &dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains[UnknownSSIDs[sel]];
 
-        RMSTerrain_Unknown1[0]->prepend(&UnknownPointer->Proportion);
-        RMSTerrain_Unknown1[1]->prepend(&UnknownPointer->Terrain);
-        RMSTerrain_Unknown1[2]->prepend(&UnknownPointer->NumberOfClumps);
-        RMSTerrain_Unknown1[3]->prepend(&UnknownPointer->SpacingToOtherTerrains);
-        RMSTerrain_Unknown1[4]->prepend(&UnknownPointer->PlacementZone);
-        RMSTerrain_Unknown1[5]->prepend(&UnknownPointer->Unknown6);
+        RMS_TerrainData[0]->prepend(&terrain_ptr->Proportion);
+        RMS_TerrainData[1]->prepend(&terrain_ptr->Terrain);
+        RMS_TerrainData[2]->prepend(&terrain_ptr->ClumpCount);
+        RMS_TerrainData[3]->prepend(&terrain_ptr->EdgeSpacing);
+        RMS_TerrainData[4]->prepend(&terrain_ptr->PlacementTerrain);
+        RMS_TerrainData[5]->prepend(&terrain_ptr->Clumpiness);
     }
 
     for(auto &box: uiGroupRMTerrain) box->update();
 }
 
-void AGE_Frame::OnRMSTerrainAdd(wxCommandEvent &event)
+void AGE_Frame::OnMapTerrainAdd(wxCommandEvent &event)
 {
     auto selections = Unknowns_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     AddToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapTerrainCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains.size();
-    ListRMSTerrains();
+    ListMapTerrains();
 }
 
-void AGE_Frame::OnRMSTerrainInsert(wxCommandEvent &event)
+void AGE_Frame::OnMapTerrainInsert(wxCommandEvent &event)
 {
-    auto selections = RMSTerrain_ListV->GetSelectedCount();
+    auto selections = RMS_Terrain_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains, UnknownSSIDs.front());
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapTerrainCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains.size();
-    ListRMSTerrains();
+    ListMapTerrains();
 }
 
-void AGE_Frame::OnRMSTerrainDelete(wxCommandEvent &event)
+void AGE_Frame::OnMapTerrainDelete(wxCommandEvent &event)
 {
-    auto selections = RMSTerrain_ListV->GetSelectedCount();
+    auto selections = RMS_Terrain_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains, UnknownSSIDs);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapTerrainCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains.size();
-    ListRMSTerrains();
+    ListMapTerrains();
 }
 
-void AGE_Frame::OnRMSTerrainCopy(wxCommandEvent &event)
+void AGE_Frame::OnMapTerrainCopy(wxCommandEvent &event)
 {
-    auto selections = RMSTerrain_ListV->GetSelectedCount();
+    auto selections = RMS_Terrain_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains, UnknownSSIDs, copies.MapTerrain);
-    RMSTerrain_Paste->Enable(true);
-    RMSTerrain_PasteInsert->Enable(true);
-    RMSTerrain_ListV->SetFocus();
+    RMS_Terrain_Paste->Enable(true);
+    RMS_Terrain_PasteInsert->Enable(true);
+    RMS_Terrain_ListV->SetFocus();
 }
 
-void AGE_Frame::OnRMSTerrainPaste(wxCommandEvent &event)
+void AGE_Frame::OnMapTerrainPaste(wxCommandEvent &event)
 {
-    auto selections = RMSTerrain_ListV->GetSelectedCount();
+    auto selections = RMS_Terrain_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains, UnknownSSIDs, copies.MapTerrain);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapTerrainCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains.size();
-    ListRMSTerrains();
+    ListMapTerrains();
 }
 
-void AGE_Frame::OnRMSTerrainPasteInsert(wxCommandEvent &event)
+void AGE_Frame::OnMapTerrainPasteInsert(wxCommandEvent &event)
 {
-    auto selections = RMSTerrain_ListV->GetSelectedCount();
+    auto selections = RMS_Terrain_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains, UnknownSSIDs.front(), copies.MapTerrain);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapTerrainCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains.size();
-    ListRMSTerrains();
+    ListMapTerrains();
 }
 
-void AGE_Frame::OnRMSTerrainCopyToMaps(wxCommandEvent &event)
+void AGE_Frame::OnMapTerrainCopyToMaps(wxCommandEvent &event)
 {
     for(size_t loop=1; loop < RandomMapIDs.size(); ++loop)
     {
@@ -916,17 +890,17 @@ void AGE_Frame::OnRMSTerrainCopyToMaps(wxCommandEvent &event)
     }
 }
 
-void AGE_Frame::OnRMSUnitSearch(wxCommandEvent &event)
+void AGE_Frame::OnMapUnitSearch(wxCommandEvent &event)
 {
     How2List = SEARCH;
-    ListRMSUnits();
+    ListMapUnits();
 }
 
-void AGE_Frame::ListRMSUnits()
+void AGE_Frame::ListMapUnits()
 {
-    InitSearch(RMSUnit_Search->GetValue().MakeLower(), RMSUnit_Search_R->GetValue().MakeLower());
+    InitSearch(RMS_Unit_Search->GetValue().MakeLower(), RMS_Unit_Search_R->GetValue().MakeLower());
 
-    RMSUnit_ListV->Sweep();
+    RMS_Unit_ListV->Sweep();
 
     if(dataset->RandomMaps.Maps.size())
     for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits.size(); ++loop)
@@ -934,113 +908,109 @@ void AGE_Frame::ListRMSUnits()
         wxString Name = FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits[loop].Unit);
         if(SearchMatches(" " + Name.Lower() + " "))
         {
-            RMSUnit_ListV->names.Add(Name);
-            RMSUnit_ListV->indexes.push_back(loop);
+            RMS_Unit_ListV->names.Add(Name);
+            RMS_Unit_ListV->indexes.push_back(loop);
         }
     }
-    RefreshList(RMSUnit_ListV, &UnknownTSIDs);
+    RefreshList(RMS_Unit_ListV, &UnknownTSIDs);
 
     wxCommandEvent e;
-    OnRMSUnitSelect(e);
+    OnMapUnitSelect(e);
 }
 
-void AGE_Frame::OnRMSUnitSelect(wxCommandEvent &event)
+void AGE_Frame::OnMapUnitSelect(wxCommandEvent &event)
 {
-    auto selections = RMSUnit_ListV->GetSelectedCount();
+    auto selections = RMS_Unit_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    getSelectedItems(selections, RMSUnit_ListV, UnknownTSIDs);
+    getSelectedItems(selections, RMS_Unit_ListV, UnknownTSIDs);
     for(auto &box: uiGroupRMUnit) box->clear();
 
-    genie::MapUnit * UnknownPointer;
+    genie::MapUnit * object_ptr;
     for(auto sel = selections; sel--> 0;)
     {
-        UnknownPointer = &dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits[UnknownTSIDs[sel]];
+        object_ptr = &dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits[UnknownTSIDs[sel]];
 
-        RMSUnit_Unit->prepend(&UnknownPointer->Unit);
-        RMSUnit_HostTerrain->prepend(&UnknownPointer->HostTerrain);
-        for(size_t loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
-        RMSUnit_Unknown3[loop]->prepend(&UnknownPointer->Unknown3[loop]);
-        RMSUnit_ObjectsPerPlayer->prepend(&UnknownPointer->ObjectsPerGroup);
-        RMSUnit_Unknown5->prepend(&UnknownPointer->Fluctuation);
-        RMSUnit_GroupsPerPlayer->prepend(&UnknownPointer->GroupsPerPlayer);
-        RMSUnit_Unknown7->prepend(&UnknownPointer->GroupRadius);
-        RMSUnit_OwnAtStart->prepend(&UnknownPointer->OwnAtStart);
-        RMSUnit_SetPlaceForAllPlayers->prepend(&UnknownPointer->SetPlaceForAllPlayers);
-        RMSUnit_MinDistanceToPlayers->prepend(&UnknownPointer->MinDistanceToPlayers);
-        RMSUnit_MaxDistanceToPlayers->prepend(&UnknownPointer->MaxDistanceToPlayers);
+        RMS_Unit_Unit->prepend(&object_ptr->Unit);
+        RMS_Unit_HostTerrain->prepend(&object_ptr->HostTerrain);
+        RMS_Unit_GroupPlacing->prepend(&object_ptr->GroupPlacing);
+        RMS_Unit_ScaleFlag->prepend(&object_ptr->ScaleFlag);
+        RMS_Unit_Padding1->prepend(&object_ptr->Padding1);
+        RMS_Unit_ObjectsPerPlayer->prepend(&object_ptr->ObjectsPerGroup);
+        RMS_Unit_Fluctuation->prepend(&object_ptr->Fluctuation);
+        RMS_Unit_GroupsPerPlayer->prepend(&object_ptr->GroupsPerPlayer);
+        RMS_Unit_GroupArea->prepend(&object_ptr->GroupArea);
+        RMS_Unit_PlayerID->prepend(&object_ptr->PlayerID);
+        RMS_Unit_SetPlaceForAllPlayers->prepend(&object_ptr->SetPlaceForAllPlayers);
+        RMS_Unit_MinDistanceToPlayers->prepend(&object_ptr->MinDistanceToPlayers);
+        RMS_Unit_MaxDistanceToPlayers->prepend(&object_ptr->MaxDistanceToPlayers);
     }
 
     for(auto &box: uiGroupRMUnit) box->update();
 }
 
-void AGE_Frame::OnRMSUnitAdd(wxCommandEvent &event)
+void AGE_Frame::OnMapUnitAdd(wxCommandEvent &event)
 {
     auto selections = Unknowns_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     AddToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapUnitCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits.size();
-    ListRMSUnits();
+    ListMapUnits();
 }
 
-void AGE_Frame::OnRMSUnitInsert(wxCommandEvent &event)
+void AGE_Frame::OnMapUnitInsert(wxCommandEvent &event)
 {
-    auto selections = RMSUnit_ListV->GetSelectedCount();
+    auto selections = RMS_Unit_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits, UnknownTSIDs.front());
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapUnitCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits.size();
-    ListRMSUnits();
+    ListMapUnits();
 }
 
-void AGE_Frame::OnRMSUnitDelete(wxCommandEvent &event)
+void AGE_Frame::OnMapUnitDelete(wxCommandEvent &event)
 {
-    auto selections = RMSUnit_ListV->GetSelectedCount();
+    auto selections = RMS_Unit_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits, UnknownTSIDs);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapUnitCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits.size();
-    ListRMSUnits();
+    ListMapUnits();
 }
 
-void AGE_Frame::OnRMSUnitCopy(wxCommandEvent &event)
+void AGE_Frame::OnMapUnitCopy(wxCommandEvent &event)
 {
-    auto selections = RMSUnit_ListV->GetSelectedCount();
+    auto selections = RMS_Unit_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits, UnknownTSIDs, copies.MapUnit);
-    RMSUnit_Paste->Enable(true);
-    RMSUnit_PasteInsert->Enable(true);
-    RMSUnit_ListV->SetFocus();
+    RMS_Unit_Paste->Enable(true);
+    RMS_Unit_PasteInsert->Enable(true);
+    RMS_Unit_ListV->SetFocus();
 }
 
-void AGE_Frame::OnRMSUnitPaste(wxCommandEvent &event)
+void AGE_Frame::OnMapUnitPaste(wxCommandEvent &event)
 {
-    auto selections = RMSUnit_ListV->GetSelectedCount();
+    auto selections = RMS_Unit_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits, UnknownTSIDs, copies.MapUnit);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapUnitCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits.size();
-    ListRMSUnits();
+    ListMapUnits();
 }
 
-void AGE_Frame::OnRMSUnitPasteInsert(wxCommandEvent &event)
+void AGE_Frame::OnMapUnitPasteInsert(wxCommandEvent &event)
 {
-    auto selections = RMSUnit_ListV->GetSelectedCount();
+    auto selections = RMS_Unit_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits, UnknownTSIDs.front(), copies.MapUnit);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapUnitCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits.size();
-    ListRMSUnits();
+    ListMapUnits();
 }
 
-void AGE_Frame::OnRMSUnitCopyToMaps(wxCommandEvent &event)
+void AGE_Frame::OnMapUnitCopyToMaps(wxCommandEvent &event)
 {
     for(size_t loop=1; loop < RandomMapIDs.size(); ++loop)
     {
@@ -1048,140 +1018,124 @@ void AGE_Frame::OnRMSUnitCopyToMaps(wxCommandEvent &event)
     }
 }
 
-void AGE_Frame::OnRMSUnknownSearch(wxCommandEvent &event)
+void AGE_Frame::OnMapElevationSearch(wxCommandEvent &event)
 {
     How2List = SEARCH;
-    ListRMSUnknowns();
+    ListMapElevations();
 }
 
-wxString AGE_Frame::GetRMSUnknownName(int Terrain)
+void AGE_Frame::ListMapElevations()
 {
-    wxString Name = FormatInt(Terrain) + " ";
-    if(dataset->TerrainBlock.Terrains.size() <= Terrain) return Name + "Nonexistent Terrain";
-    if(!dataset->TerrainBlock.Terrains[Terrain].Name.empty())
-    {
-        return Name + dataset->TerrainBlock.Terrains[Terrain].Name;
-    }
-    return Name + "New Terrain";
-}
+    InitSearch(RMS_Elevation_Search->GetValue().MakeLower(), RMS_Elevation_Search_R->GetValue().MakeLower());
 
-void AGE_Frame::ListRMSUnknowns()
-{
-    InitSearch(RMSUnknown_Search->GetValue().MakeLower(), RMSUnknown_Search_R->GetValue().MakeLower());
-
-    RMSUnknown_ListV->Sweep();
+    RMS_Elevation_ListV->Sweep();
 
     if(dataset->RandomMaps.Maps.size())
-    for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns.size(); ++loop)
+    for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations.size(); ++loop)
     {
-        wxString Name = FormatInt(loop)+" - "+GetRMSUnknownName(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns[loop].Unknown2);
+        wxString Name = FormatInt(loop)+" - Elevation (useless)";
         if(SearchMatches(" " + Name.Lower() + " "))
         {
-            RMSUnknown_ListV->names.Add(Name);
-            RMSUnknown_ListV->indexes.push_back(loop);
+            RMS_Elevation_ListV->names.Add(Name);
+            RMS_Elevation_ListV->indexes.push_back(loop);
         }
     }
-    RefreshList(RMSUnknown_ListV, &Unknown4SIDs);
+    RefreshList(RMS_Elevation_ListV, &Unknown4SIDs);
 
     wxCommandEvent e;
-    OnRMSUnknownSelect(e);
+    OnMapElevationSelect(e);
 }
 
-void AGE_Frame::OnRMSUnknownSelect(wxCommandEvent &event)
+void AGE_Frame::OnMapElevationSelect(wxCommandEvent &event)
 {
-    auto selections = RMSUnknown_ListV->GetSelectedCount();
+    auto selections = RMS_Elevation_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    getSelectedItems(selections, RMSUnknown_ListV, Unknown4SIDs);
+    getSelectedItems(selections, RMS_Elevation_ListV, Unknown4SIDs);
     for(auto &box: uiGroupRMUnknown) box->clear();
 
-    genie::MapUnknown * UnknownPointer;
+    genie::MapElevation * elevation_ptr;
     for(auto sel = selections; sel--> 0;)
     {
-        UnknownPointer = &dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns[Unknown4SIDs[sel]];
+        elevation_ptr = &dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations[Unknown4SIDs[sel]];
 
-        RMSUnknown_Unknown1[0]->prepend(&UnknownPointer->Unknown1);
-        RMSUnknown_Unknown1[1]->prepend(&UnknownPointer->Unknown2);
-        RMSUnknown_Unknown1[2]->prepend(&UnknownPointer->Unknown3);
-        RMSUnknown_Unknown1[3]->prepend(&UnknownPointer->Unknown4);
-        RMSUnknown_Unknown1[4]->prepend(&UnknownPointer->Unknown5);
-        RMSUnknown_Unknown1[5]->prepend(&UnknownPointer->Unknown6);
+        RMS_ElevationData[0]->prepend(&elevation_ptr->Proportion);
+        RMS_ElevationData[1]->prepend(&elevation_ptr->Terrain);
+        RMS_ElevationData[2]->prepend(&elevation_ptr->ClumpCount);
+        RMS_ElevationData[3]->prepend(&elevation_ptr->BaseTerrain);
+        RMS_ElevationData[4]->prepend(&elevation_ptr->BaseElevation);
+        RMS_ElevationData[5]->prepend(&elevation_ptr->TileSpacing);
     }
 
     for(auto &box: uiGroupRMUnknown) box->update();
 }
 
-void AGE_Frame::OnRMSUnknownAdd(wxCommandEvent &event)
+void AGE_Frame::OnMapElevationAdd(wxCommandEvent &event)
 {
     auto selections = Unknowns_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    AddToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapUnknownCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns.size();
-    ListRMSUnknowns();
+    AddToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations);
+    ListMapElevations();
 }
 
-void AGE_Frame::OnRMSUnknownInsert(wxCommandEvent &event)
+void AGE_Frame::OnMapElevationInsert(wxCommandEvent &event)
 {
-    auto selections = RMSUnknown_ListV->GetSelectedCount();
+    auto selections = RMS_Elevation_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    InsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns, Unknown4SIDs.front());
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapUnknownCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns.size();
-    ListRMSUnknowns();
+    InsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations, Unknown4SIDs.front());
+    ListMapElevations();
 }
 
-void AGE_Frame::OnRMSUnknownDelete(wxCommandEvent &event)
+void AGE_Frame::OnMapElevationDelete(wxCommandEvent &event)
 {
-    auto selections = RMSUnknown_ListV->GetSelectedCount();
+    auto selections = RMS_Elevation_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    DeleteFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns, Unknown4SIDs);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapUnknownCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns.size();
-    ListRMSUnknowns();
+    DeleteFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations, Unknown4SIDs);
+    ListMapElevations();
 }
 
-void AGE_Frame::OnRMSUnknownCopy(wxCommandEvent &event)
+void AGE_Frame::OnMapElevationCopy(wxCommandEvent &event)
 {
-    auto selections = RMSUnknown_ListV->GetSelectedCount();
+    auto selections = RMS_Elevation_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    CopyFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns, Unknown4SIDs, copies.MapUnknown);
-    RMSUnknown_Paste->Enable(true);
-    RMSUnknown_PasteInsert->Enable(true);
-    RMSUnknown_ListV->SetFocus();
+    CopyFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations, Unknown4SIDs, copies.MapElevation);
+    RMS_Elevation_Paste->Enable(true);
+    RMS_Elevation_PasteInsert->Enable(true);
+    RMS_Elevation_ListV->SetFocus();
 }
 
-void AGE_Frame::OnRMSUnknownPaste(wxCommandEvent &event)
+void AGE_Frame::OnMapElevationPaste(wxCommandEvent &event)
 {
-    auto selections = RMSUnknown_ListV->GetSelectedCount();
+    auto selections = RMS_Elevation_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    PasteToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns, Unknown4SIDs, copies.MapUnknown);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapUnknownCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns.size();
-    ListRMSUnknowns();
+    PasteToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations, Unknown4SIDs, copies.MapElevation);
+    ListMapElevations();
 }
 
-void AGE_Frame::OnRMSUnknownPasteInsert(wxCommandEvent &event)
+void AGE_Frame::OnMapElevationPasteInsert(wxCommandEvent &event)
 {
-    auto selections = RMSUnknown_ListV->GetSelectedCount();
+    auto selections = RMS_Elevation_ListV->GetSelectedCount();
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns, Unknown4SIDs.front(), copies.MapUnknown);
-    dataset->RandomMaps.MapHeaders[RandomMapIDs.front()].MapUnknownCount = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns.size();
-    ListRMSUnknowns();
+    PasteInsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations, Unknown4SIDs.front(), copies.MapElevation);
+    ListMapElevations();
 }
 
-void AGE_Frame::OnRMSUnknownCopyToMaps(wxCommandEvent &event)
+void AGE_Frame::OnMapElevationCopyToMaps(wxCommandEvent &event)
 {
     for(size_t loop=1; loop < RandomMapIDs.size(); ++loop)
     {
-        dataset->RandomMaps.Maps[RandomMapIDs[loop]].MapUnknowns = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnknowns;
+        dataset->RandomMaps.Maps[RandomMapIDs[loop]].MapElevations = dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations;
     }
 }
 
@@ -1190,11 +1144,14 @@ void AGE_Frame::CreateUnknownControls()
     Tab_Unknown = new APanel(TabBar_Main);
 
     Unknown_Main = new wxBoxSizer(wxVERTICAL);
-    Unknown_Scroller = new wxScrolled<APanel>(Tab_Unknown, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    RMS_Scroller = new AScrolled(Tab_Unknown);
     Unknown_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 
-    Unknown_UnknownPointer_Text = new SolidText(Tab_Unknown, " Random Map Pointer");
-    Unknown_UnknownPointer = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, Tab_Unknown);
+    wxString OVERWRITTEN = "Is overwritten";
+
+    RMS_MapsPtr_Text = new SolidText(Tab_Unknown, " Random Maps Pointer *");
+    RMS_MapsPtr = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, Tab_Unknown, AGETextCtrl::LARGE);
+    RMS_MapsPtr->SetToolTip(OVERWRITTEN);
 
     Unknowns = new wxStaticBoxSizer(wxHORIZONTAL, Tab_Unknown, "Random Map Scripts (Required in AoE/RoR)");
     Unknowns_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -1209,221 +1166,244 @@ void AGE_Frame::CreateUnknownControls()
     Unknowns_Paste = new wxButton(Tab_Unknown, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
     Unknowns_PasteInsert = new wxButton(Tab_Unknown, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
-    Unknowns_UnknownLevel_Text = new SolidText(Unknown_Scroller, " Script Number");
-    Unknowns_UnknownLevel = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
-    Unknowns_Unknown1_Grid = new wxFlexGridSizer(5, 5, 5);
-    for(size_t loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
+    RMS_MapID_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_MapID_Text = new SolidText(RMS_Scroller, " Script Number");
+    RMS_MapID = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, RMS_Scroller);
+    RMS_LandData_Grid = new wxFlexGridSizer(5, 5, 5);
+    for(size_t loop = 0; loop < RMS_LandData.size(); ++loop)
     {
-        Unknowns_Unknown1_Holder[loop] = new wxBoxSizer(wxVERTICAL);
-        Unknowns_Unknown1[loop] = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
+        RMS_LandData_Holder[loop] = new wxBoxSizer(wxVERTICAL);
+        RMS_LandData[loop] = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, RMS_Scroller);
     }
-    Unknowns_Unknown1_Text[0] = new SolidText(Unknown_Scroller, " Southwest Border *");
-    Unknowns_Unknown1[0]->SetToolTip("Distance from the map edge allocated for non-base zone");
-    Unknowns_Unknown1_Text[1] = new SolidText(Unknown_Scroller, " Northwest Border *");
-    Unknowns_Unknown1[1]->SetToolTip("Distance from the map edge allocated for non-base zone");
-    Unknowns_Unknown1_Text[2] = new SolidText(Unknown_Scroller, " Northeast Border *");
-    Unknowns_Unknown1[2]->SetToolTip("Distance from the map edge allocated for non-base zone");
-    Unknowns_Unknown1_Text[3] = new SolidText(Unknown_Scroller, " Southeast Border *");
-    Unknowns_Unknown1[3]->SetToolTip("Distance from the map edge allocated for non-base zone");
-    Unknowns_Unknown1_Text[4] = new SolidText(Unknown_Scroller, " Border Usage % *");
-    Unknowns_Unknown1[4]->SetToolTip("% of border area covered with non-base terrain");
-    Unknowns_Unknown1_Text[5] = new SolidText(Unknown_Scroller, " Water Shape?");
-    Unknowns_Unknown1_Text[6] = new SolidText(Unknown_Scroller, " Non-base Terrain *");
-    Unknowns_Unknown1[6]->SetToolTip("Used on the borders as well");
-    Unknowns_Unknown1_Text[7] = new SolidText(Unknown_Scroller, " Base Zone Cover % *");
-    Unknowns_Unknown1[7]->SetToolTip("Can be over 100");
-    Unknowns_Unknown1_Text[8] = new SolidText(Unknown_Scroller, " Unknown 9");
-    Unknowns_Pointer1_Text = new SolidText(Unknown_Scroller, " Base Zone Pointer");
-    Unknowns_Pointer1 = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
+    wxString MAPEDGEBUFFER = "Map Edge Buffer";
+    RMS_LandData_Text[0] = new SolidText(RMS_Scroller, " Border SW *");
+    RMS_LandData[0]->SetToolTip(MAPEDGEBUFFER);
+    RMS_LandData_Text[1] = new SolidText(RMS_Scroller, " Border NW *");
+    RMS_LandData[1]->SetToolTip(MAPEDGEBUFFER);
+    RMS_LandData_Text[2] = new SolidText(RMS_Scroller, " Border NE *");
+    RMS_LandData[2]->SetToolTip(MAPEDGEBUFFER);
+    RMS_LandData_Text[3] = new SolidText(RMS_Scroller, " Border SE *");
+    RMS_LandData[3]->SetToolTip(MAPEDGEBUFFER);
+    RMS_LandData_Text[4] = new SolidText(RMS_Scroller, " Border Usage % *");
+    RMS_LandData[4]->SetToolTip("Fuzzy map edges\n% of border area covered with non-base terrain");
+    RMS_LandData_Text[5] = new SolidText(RMS_Scroller, " Water Shape *");
+    RMS_LandData[5]->SetToolTip("Land Placement Edge");
+    RMS_LandData_Text[6] = new SolidText(RMS_Scroller, " Base Terrain *");
+    RMS_LandData[6]->SetToolTip("Used on the borders as well");
+    RMS_LandData_Text[7] = new SolidText(RMS_Scroller, " Land Cover % *");
+    RMS_LandData[7]->SetToolTip("Can be over 100");
+    RMS_LandData_Text[8] = new SolidText(RMS_Scroller, " Unused ID");
 
-    RMSBaseZones = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Base Zone Data");
-    RMSBaseZones_ListArea = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
-    RMSBaseZones_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
-    RMSBaseZones_ListV = new ProperList(Unknown_Scroller, wxSize(140, 100));
-    RMSBaseZones_Buttons = new wxGridSizer(3, 0, 0);
-    RMSBaseZones_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
-    RMSBaseZones_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
-    RMSBaseZones_Delete = new wxButton(Unknown_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
-    RMSBaseZones_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
-    RMSBaseZones_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
-    RMSBaseZones_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
-    RMSBaseZones_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(10, -1));
+    RMSMapLands = new wxStaticBoxSizer(wxHORIZONTAL, RMS_Scroller, "Base Land Data");
+    RMS_Land_ListArea = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_Search = new wxTextCtrl(RMS_Scroller, wxID_ANY);
+    RMS_Land_Search_R = new wxTextCtrl(RMS_Scroller, wxID_ANY);
+    RMS_Land_ListV = new ProperList(RMS_Scroller, wxSize(140, 100));
+    RMS_Land_Buttons = new wxGridSizer(3, 0, 0);
+    RMS_Land_Add = new wxButton(RMS_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+    RMS_Land_Insert = new wxButton(RMS_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
+    RMS_Land_Delete = new wxButton(RMS_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+    RMS_Land_Copy = new wxButton(RMS_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+    RMS_Land_Paste = new wxButton(RMS_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+    RMS_Land_PasteInsert = new wxButton(RMS_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
+    RMS_Land_CopyToMaps = new wxButton(RMS_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(10, -1));
 
-    RMSBaseZones_Unknown1_Grid = new wxFlexGridSizer(4, 5, 5);
+    RMS_Land_LandID_Grid = new wxFlexGridSizer(4, 5, 5);
 
-    RMSBaseZones_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown1_Text = new SolidText(Unknown_Scroller, " Unknown 1");
-    RMSBaseZones_Unknown1 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
-    RMSBaseZones_BaseTerrain_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_BaseTerrain_Text = new SolidText(Unknown_Scroller, " Base Terrain");
-    RMSBaseZones_BaseTerrain = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
-    RMSBaseZones_SpacingBetweenPlayers_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_SpacingBetweenPlayers_Text = new SolidText(Unknown_Scroller, " Player Spacing *");
-    RMSBaseZones_SpacingBetweenPlayers = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
-    RMSBaseZones_SpacingBetweenPlayers->SetToolTip("Non-base terrain (like rivers) space between players\nIf too large, they won't be created");
-    RMSBaseZones_Unknown4_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown4_Text = new SolidText(Unknown_Scroller, " Unknown 4");
-    RMSBaseZones_Unknown4 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
+    RMS_Land_LandID_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_LandID_Text = new SolidText(RMS_Scroller, " Land ID");
+    RMS_Land_LandID = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_BaseTerrain_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_BaseTerrain_Text = new SolidText(RMS_Scroller, " Base Terrain");
+    RMS_Land_BaseTerrain = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_PlayerSpacing_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_PlayerSpacing_Text = new SolidText(RMS_Scroller, " Land Spacing *");
+    RMS_Land_PlayerSpacing = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_PlayerSpacing->SetToolTip("Non-base terrain (like river) space between players.\nIf too large, they won't be created.");
+    RMS_Land_BaseSize_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_BaseSize_Text = new SolidText(RMS_Scroller, " Base Size");
+    RMS_Land_BaseSize = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, RMS_Scroller);
 
-    RMSBaseZones_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown5_Grid = new wxGridSizer(4, 0, 0);
-    RMSBaseZones_Unknown5_Text = new SolidText(Unknown_Scroller, " Min Dist Between Players *");
-    for(size_t loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
-    RMSBaseZones_Unknown5[loop] = AGETextCtrl::init(CByte, &uiGroupRMBase, this, &popUp, Unknown_Scroller, 32);
-    RMSBaseZones_Unknown5[1]->SetToolTip("Minimum distance in tiles between \"player initial zones\"");
+    RMS_Land_Zone_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_Zone_Text = new SolidText(RMS_Scroller, " Zone");
+    RMS_Land_Zone = AGETextCtrl::init(CByte, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_PlacementType_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_PlacementType_Text = new SolidText(RMS_Scroller, " Placement Type *");
+    RMS_Land_PlacementType = AGETextCtrl::init(CByte, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_PlacementType->SetToolTip("Base placement\n0   Random\n1   Given\n2   Spaced");
 
-    RMSBaseZones_Unknown6_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown6_Text = new SolidText(Unknown_Scroller, " Unknown 6");
-    RMSBaseZones_Unknown6 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
-    RMSBaseZones_Unknown7_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown7_Text = new SolidText(Unknown_Scroller, " Unknown 7");
-    RMSBaseZones_Unknown7 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
+    RMS_Land_X_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_X_Text = new SolidText(RMS_Scroller, " Base X");
+    RMS_Land_X = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_Y_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_Y_Text = new SolidText(RMS_Scroller, " Base Y");
+    RMS_Land_Y = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, RMS_Scroller);
 
-    RMSBaseZones_Unknown8_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown8_Grid = new wxGridSizer(4, 0, 0);
-    RMSBaseZones_Unknown8_Text = new SolidText(Unknown_Scroller, " Base Zone Radius *");
-    for(size_t loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
-    RMSBaseZones_Unknown8[loop] = AGETextCtrl::init(CByte, &uiGroupRMBase, this, &popUp, Unknown_Scroller, 32);
-    RMSBaseZones_Unknown8[1]->SetToolTip("Base zone is created for every player");
+    RMS_Land_LandProportion_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_LandProportion_Text = new SolidText(RMS_Scroller, " Land Proportion");
+    RMS_Land_LandProportion = AGETextCtrl::init(CByte, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_ByPlayerFlag_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_ByPlayerFlag_Text = new SolidText(RMS_Scroller, " Player Placement *");
+    RMS_Land_ByPlayerFlag = AGETextCtrl::init(CByte, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_ByPlayerFlag->SetToolTip("0   Not by player\n1   By player, overlap\n2   By player, seperate");
 
-    RMSBaseZones_StartAreaRadius_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_StartAreaRadius_Text = new SolidText(Unknown_Scroller, " Players' Start Area Radius *");
-    RMSBaseZones_StartAreaRadius = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
-    RMSBaseZones_StartAreaRadius->SetToolTip("This area cannot contain different elevations or terrains\nUnknown 10 affects this too");
-    RMSBaseZones_Unknown10_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown10_Text = new SolidText(Unknown_Scroller, " Unknown 10 *");
-    RMSBaseZones_Unknown10 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
-    RMSBaseZones_Unknown10->SetToolTip("Has something to do with players' starting area");
-    RMSBaseZones_Unknown11_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSBaseZones_Unknown11_Text = new SolidText(Unknown_Scroller, " Unknown 11");
-    RMSBaseZones_Unknown11 = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, Unknown_Scroller);
+    RMS_Land_StartAreaRadius_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_StartAreaRadius_Text = new SolidText(RMS_Scroller, " Player Base Size *");
+    RMS_Land_StartAreaRadius = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_StartAreaRadius->SetToolTip("This area cannot contain different elevations or terrains\nTerrain edge fading affects this");
+    RMS_Land_TerrainEdgeFade_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_TerrainEdgeFade_Text = new SolidText(RMS_Scroller, " Terrain Edge Fade *");
+    RMS_Land_TerrainEdgeFade = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_TerrainEdgeFade->SetToolTip("Used to fuzz edges");
+    RMS_Land_Clumpiness_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_Clumpiness_Text = new SolidText(RMS_Scroller, " Clumpiness Factor");
+    RMS_Land_Clumpiness = AGETextCtrl::init(CLong, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_Padding1_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_Padding1_Text = new SolidText(RMS_Scroller, " Padding 1 *");
+    RMS_Land_Padding1 = AGETextCtrl::init(CShort, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_Padding1->SetToolTip("Completely useless");
+    RMS_Land_Padding2_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Land_Padding2_Text = new SolidText(RMS_Scroller, " Padding 2 *");
+    RMS_Land_Padding2 = AGETextCtrl::init(CShort, &uiGroupRMBase, this, &popUp, RMS_Scroller);
+    RMS_Land_Padding2->SetToolTip("Completely useless");
 
-    Unknowns_Pointer2_Text = new SolidText(Unknown_Scroller, " Map Terrain Pointer");
-    Unknowns_Pointer2 = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
+    RMSTerrain = new wxStaticBoxSizer(wxHORIZONTAL, RMS_Scroller, "Terrains placed on the map");
+    RMS_Terrain_ListArea = new wxBoxSizer(wxVERTICAL);
+    RMS_Terrain_Search = new wxTextCtrl(RMS_Scroller, wxID_ANY);
+    RMS_Terrain_Search_R = new wxTextCtrl(RMS_Scroller, wxID_ANY);
+    RMS_Terrain_ListV = new ProperList(RMS_Scroller, wxSize(140, 100));
+    RMS_Terrain_Buttons = new wxGridSizer(3, 0, 0);
+    RMS_Terrain_Add = new wxButton(RMS_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+    RMS_Terrain_Insert = new wxButton(RMS_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
+    RMS_Terrain_Delete = new wxButton(RMS_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+    RMS_Terrain_Copy = new wxButton(RMS_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+    RMS_Terrain_Paste = new wxButton(RMS_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+    RMS_Terrain_PasteInsert = new wxButton(RMS_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
+    RMS_Terrain_CopyToMaps = new wxButton(RMS_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(10, -1));
 
-    RMSTerrain = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Terrains Placed on the Map");
-    RMSTerrain_ListArea = new wxBoxSizer(wxVERTICAL);
-    RMSTerrain_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
-    RMSTerrain_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
-    RMSTerrain_ListV = new ProperList(Unknown_Scroller, wxSize(140, 100));
-    RMSTerrain_Buttons = new wxGridSizer(3, 0, 0);
-    RMSTerrain_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
-    RMSTerrain_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
-    RMSTerrain_Delete = new wxButton(Unknown_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
-    RMSTerrain_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
-    RMSTerrain_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
-    RMSTerrain_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
-    RMSTerrain_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(10, -1));
-
-    RMSTerrain_Unknown1_Grid = new wxFlexGridSizer(4, 5, 5);
-    for(size_t loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
+    RMS_TerrainData_Grid = new wxFlexGridSizer(4, 5, 5);
+    for(size_t loop = 0; loop < RMS_TerrainData.size(); ++loop)
     {
-        RMSTerrain_Unknown1_Holder[loop] = new wxBoxSizer(wxVERTICAL);
-        RMSTerrain_Unknown1[loop] = AGETextCtrl::init(CLong, &uiGroupRMTerrain, this, &popUp, Unknown_Scroller);
+        RMS_TerrainData_Holder[loop] = new wxBoxSizer(wxVERTICAL);
+        RMS_TerrainData[loop] = AGETextCtrl::init(CLong, &uiGroupRMTerrain, this, &popUp, RMS_Scroller);
     }
-    RMSTerrain_Unknown1_Text[0] = new SolidText(Unknown_Scroller, " Proportion *");
-    RMSTerrain_Unknown1[0]->SetToolTip("% of the total map area");
-    RMSTerrain_Unknown1_Text[1] = new SolidText(Unknown_Scroller, " Terrain");
-    RMSTerrain_Unknown1_Text[2] = new SolidText(Unknown_Scroller, " Clump Count *");
-    RMSTerrain_Unknown1[2]->SetToolTip("Clusters in the map");
-    RMSTerrain_Unknown1_Text[3] = new SolidText(Unknown_Scroller, " Terrain Spacing *");
-    RMSTerrain_Unknown1[3]->SetToolTip("Minimum distance to base terrain (or non-base terrain)");
-    RMSTerrain_Unknown1_Text[4] = new SolidText(Unknown_Scroller, " Placement Terrain");
-    RMSTerrain_Unknown1_Text[5] = new SolidText(Unknown_Scroller, " Unknown 6");
+    RMS_TerrainData_Text[0] = new SolidText(RMS_Scroller, " Proportion *");
+    RMS_TerrainData[0]->SetToolTip("% of the total map area");
+    RMS_TerrainData_Text[1] = new SolidText(RMS_Scroller, " Terrain");
+    RMS_TerrainData_Text[2] = new SolidText(RMS_Scroller, " Clump Count *");
+    RMS_TerrainData[2]->SetToolTip("Clusters in the map");
+    RMS_TerrainData_Text[3] = new SolidText(RMS_Scroller, " Terrain Spacing *");
+    RMS_TerrainData[3]->SetToolTip("Minimum distance to another terrain");
+    RMS_TerrainData_Text[4] = new SolidText(RMS_Scroller, " Placement Terrain");
+    RMS_TerrainData_Text[5] = new SolidText(RMS_Scroller, " Clumpiness Factor");
 
-    Unknowns_Pointer3_Text = new SolidText(Unknown_Scroller, " Map Unit Pointer");
-    Unknowns_Pointer3 = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
+    RMSUnit = new wxStaticBoxSizer(wxHORIZONTAL, RMS_Scroller, "Units placed on the map (Some may appear anyway)");
+    RMS_Unit_ListArea = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_Search = new wxTextCtrl(RMS_Scroller, wxID_ANY);
+    RMS_Unit_Search_R = new wxTextCtrl(RMS_Scroller, wxID_ANY);
+    RMS_Unit_ListV = new ProperList(RMS_Scroller, wxSize(140, 250));
+    RMS_Unit_Buttons = new wxGridSizer(3, 0, 0);
+    RMS_Unit_Add = new wxButton(RMS_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+    RMS_Unit_Insert = new wxButton(RMS_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
+    RMS_Unit_Delete = new wxButton(RMS_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+    RMS_Unit_Copy = new wxButton(RMS_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+    RMS_Unit_Paste = new wxButton(RMS_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+    RMS_Unit_PasteInsert = new wxButton(RMS_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
+    RMS_Unit_CopyToMaps = new wxButton(RMS_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(10, -1));
 
-    RMSUnit = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Units Placed on the Map (Some may appear anyway)");
-    RMSUnit_ListArea = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
-    RMSUnit_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
-    RMSUnit_ListV = new ProperList(Unknown_Scroller, wxSize(140, 250));
-    RMSUnit_Buttons = new wxGridSizer(3, 0, 0);
-    RMSUnit_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
-    RMSUnit_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
-    RMSUnit_Delete = new wxButton(Unknown_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
-    RMSUnit_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
-    RMSUnit_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
-    RMSUnit_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
-    RMSUnit_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(10, -1));
+    RMS_Unit_Unknown1_Grid = new wxFlexGridSizer(4, 5, 5);
+    RMS_Unit_Unit_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_Unit_Text = new SolidText(RMS_Scroller, " Unit");
+    RMS_Unit_Unit = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_HostTerrain_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_HostTerrain_Text = new SolidText(RMS_Scroller, " Placement Terrain");
+    RMS_Unit_HostTerrain = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_GroupPlacing_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_GroupPlacing_Text = new SolidText(RMS_Scroller, " Group Mode *");
+    RMS_Unit_GroupPlacing = AGETextCtrl::init(CByte, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_GroupPlacing->SetToolTip("0   Single unit\n1   Place group\n2   Place cluster");
+    RMS_Unit_ScaleFlag_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_ScaleFlag_Text = new SolidText(RMS_Scroller, " Scale by Map Size");
+    RMS_Unit_ScaleFlag = AGETextCtrl::init(CByte, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_ObjectsPerPlayer_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_ObjectsPerPlayer_Text = new SolidText(RMS_Scroller, " Units per Group");
+    RMS_Unit_ObjectsPerPlayer = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_Fluctuation_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_Fluctuation_Text = new SolidText(RMS_Scroller, " Fluctuation *");
+    RMS_Unit_Fluctuation = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_Fluctuation->SetToolTip("Max randomness in the number of units per group");
+    RMS_Unit_GroupsPerPlayer_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_GroupsPerPlayer_Text = new SolidText(RMS_Scroller, " Groups per Player");
+    RMS_Unit_GroupsPerPlayer = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_GroupArea_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_GroupArea_Text = new SolidText(RMS_Scroller, " Group Radius *");
+    RMS_Unit_GroupArea = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_GroupArea->SetToolTip("Max distance from the center of the group");
+    RMS_Unit_PlayerID_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_PlayerID_Text = new SolidText(RMS_Scroller, " Player # *");
+    RMS_Unit_PlayerID = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_PlayerID->SetToolTip("-1 for every player");
+    RMS_Unit_SetPlaceForAllPlayers_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_SetPlaceForAllPlayers_Text = new SolidText(RMS_Scroller, " Base Land # *");
+    RMS_Unit_SetPlaceForAllPlayers = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_SetPlaceForAllPlayers->SetToolTip("0+  Place on all matching lands\n-1   Place anywhere\n-2   Avoid land spots");
+    RMS_Unit_MinDistanceToPlayers_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_MinDistanceToPlayers_Text = new SolidText(RMS_Scroller, " Min Dist to Players");
+    RMS_Unit_MinDistanceToPlayers = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_MaxDistanceToPlayers_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_MaxDistanceToPlayers_Text = new SolidText(RMS_Scroller, " Max Dist to Players *");
+    RMS_Unit_MaxDistanceToPlayers = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_MaxDistanceToPlayers->SetToolTip("Don't use 0 here for units that are owned at start.\n0 is okay for other units (gold/bushes/gazelle/etc).\nYou can use -1 as a wildcard for units that are owned at start.");
+    RMS_Unit_Padding1_Holder = new wxBoxSizer(wxVERTICAL);
+    RMS_Unit_Padding1_Text = new SolidText(RMS_Scroller, " Padding 1 *");
+    RMS_Unit_Padding1 = AGETextCtrl::init(CShort, &uiGroupRMUnit, this, &popUp, RMS_Scroller);
+    RMS_Unit_Padding1->SetToolTip("Completely useless");
 
-    RMSUnit_Unknown1_Grid = new wxFlexGridSizer(4, 5, 5);
-    RMSUnit_Unit_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_Unit_Text = new SolidText(Unknown_Scroller, " Unit");
-    RMSUnit_Unit = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
-    RMSUnit_HostTerrain_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_HostTerrain_Text = new SolidText(Unknown_Scroller, " Placement Terrain");
-    RMSUnit_HostTerrain = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
-    RMSUnit_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_Unknown3_Grid = new wxGridSizer(4, 0, 0);
-    RMSUnit_Unknown3_Text = new SolidText(Unknown_Scroller, " Group Mode *");
-    for(size_t loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
-    RMSUnit_Unknown3[loop] = AGETextCtrl::init(CByte, &uiGroupRMUnit, this, &popUp, Unknown_Scroller, 32);
-    RMSUnit_Unknown3[0]->SetToolTip("0 Only 1 unit is placed from group\n1 & 2 All units are placed from group");
-    RMSUnit_ObjectsPerPlayer_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_ObjectsPerPlayer_Text = new SolidText(Unknown_Scroller, " Objects per Group");
-    RMSUnit_ObjectsPerPlayer = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
-    RMSUnit_Unknown5_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_Unknown5_Text = new SolidText(Unknown_Scroller, " Fluctuation *");
-    RMSUnit_Unknown5 = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
-    RMSUnit_Unknown5->SetToolTip("Max random variation in the number of objects in the group");
-    RMSUnit_GroupsPerPlayer_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_GroupsPerPlayer_Text = new SolidText(Unknown_Scroller, " Groups per Player");
-    RMSUnit_GroupsPerPlayer = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
-    RMSUnit_Unknown7_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_Unknown7_Text = new SolidText(Unknown_Scroller, " Group Radius *");
-    RMSUnit_Unknown7 = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
-    RMSUnit_Unknown7->SetToolTip("Max distance in tiles, for each object of the group, to the central location of the group");
-    RMSUnit_OwnAtStart_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_OwnAtStart_Text = new SolidText(Unknown_Scroller, " Own at Start (-1=Yes) *");
-    RMSUnit_OwnAtStart = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
-    RMSUnit_OwnAtStart->SetToolTip("Doesn't work if the unit isn't placed for all players");
-    RMSUnit_SetPlaceForAllPlayers_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_SetPlaceForAllPlayers_Text = new SolidText(Unknown_Scroller, " Place for All Players *");
-    RMSUnit_SetPlaceForAllPlayers = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
-    RMSUnit_SetPlaceForAllPlayers->SetToolTip("1 = Done once per player\n-1 = Done once, whatever the number of players is\n-2 = same as -1 ? Cannot find a difference");
-    RMSUnit_MinDistanceToPlayers_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_MinDistanceToPlayers_Text = new SolidText(Unknown_Scroller, " Min Dist to Players");
-    RMSUnit_MinDistanceToPlayers = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
-    RMSUnit_MaxDistanceToPlayers_Holder = new wxBoxSizer(wxVERTICAL);
-    RMSUnit_MaxDistanceToPlayers_Text = new SolidText(Unknown_Scroller, " Max Dist to Players *");
-    RMSUnit_MaxDistanceToPlayers = AGETextCtrl::init(CLong, &uiGroupRMUnit, this, &popUp, Unknown_Scroller);
-    RMSUnit_MaxDistanceToPlayers->SetToolTip("- Don't use 0 here for units that are own at start\n- 0 is OK for other units (gold/bushes/gazelle/etc)\n- You can use -1 as a wildcard for units that are own at start");
+    RMSUnknown = new wxStaticBoxSizer(wxHORIZONTAL, RMS_Scroller, "Elevations placed on the map (These are ignored)");
+    RMS_Elevation_ListArea = new wxBoxSizer(wxVERTICAL);
+    RMS_Elevation_Search = new wxTextCtrl(RMS_Scroller, wxID_ANY);
+    RMS_Elevation_Search_R = new wxTextCtrl(RMS_Scroller, wxID_ANY);
+    RMS_Elevation_ListV = new ProperList(RMS_Scroller, wxSize(140, 100));
+    RMS_Elevation_Buttons = new wxGridSizer(3, 0, 0);
+    RMS_Elevation_Add = new wxButton(RMS_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+    RMS_Elevation_Insert = new wxButton(RMS_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
+    RMS_Elevation_Delete = new wxButton(RMS_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+    RMS_Elevation_Copy = new wxButton(RMS_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+    RMS_Elevation_Paste = new wxButton(RMS_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+    RMS_Elevation_PasteInsert = new wxButton(RMS_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
+    RMS_Elevation_CopyToMaps = new wxButton(RMS_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(10, -1));
 
-    Unknowns_Pointer4_Text = new SolidText(Unknown_Scroller, " Map Unknown Pointer");
-    Unknowns_Pointer4 = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, Unknown_Scroller);
-
-    RMSUnknown = new wxStaticBoxSizer(wxHORIZONTAL, Unknown_Scroller, "Unknowns Placed on the Map");
-    RMSUnknown_ListArea = new wxBoxSizer(wxVERTICAL);
-    RMSUnknown_Search = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
-    RMSUnknown_Search_R = new wxTextCtrl(Unknown_Scroller, wxID_ANY);
-    RMSUnknown_ListV = new ProperList(Unknown_Scroller, wxSize(140, 100));
-    RMSUnknown_Buttons = new wxGridSizer(3, 0, 0);
-    RMSUnknown_Add = new wxButton(Unknown_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
-    RMSUnknown_Insert = new wxButton(Unknown_Scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
-    RMSUnknown_Delete = new wxButton(Unknown_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
-    RMSUnknown_Copy = new wxButton(Unknown_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
-    RMSUnknown_Paste = new wxButton(Unknown_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
-    RMSUnknown_PasteInsert = new wxButton(Unknown_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
-    RMSUnknown_CopyToMaps = new wxButton(Unknown_Scroller, wxID_ANY, "Copy all to selected maps", wxDefaultPosition, wxSize(10, -1));
-
-    RMSUnknown_Unknown1_Grid = new wxFlexGridSizer(4, 5, 5);
-    for(size_t loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
+    RMS_ElevationData_Grid = new wxFlexGridSizer(4, 5, 5);
+    for(size_t loop = 0; loop < RMS_ElevationData.size(); ++loop)
     {
-        RMSUnknown_Unknown1_Holder[loop] = new wxBoxSizer(wxVERTICAL);
-        RMSUnknown_Unknown1[loop] = AGETextCtrl::init(CLong, &uiGroupRMUnknown, this, &popUp, Unknown_Scroller);
+        RMS_ElevationData_Holder[loop] = new wxBoxSizer(wxVERTICAL);
+        RMS_ElevationData[loop] = AGETextCtrl::init(CLong, &uiGroupRMUnknown, this, &popUp, RMS_Scroller);
     }
-    RMSUnknown_Unknown1_Text[0] = new SolidText(Unknown_Scroller, " Proportion *");
-    RMSUnknown_Unknown1[0]->SetToolTip("% of the total map area");
-    RMSUnknown_Unknown1_Text[1] = new SolidText(Unknown_Scroller, " Terrain");
-    RMSUnknown_Unknown1_Text[2] = new SolidText(Unknown_Scroller, " Clump Count *");
-    RMSUnknown_Unknown1[2]->SetToolTip("Clusters in the map");
-    RMSUnknown_Unknown1_Text[3] = new SolidText(Unknown_Scroller, " Terrain Spacing *");
-    RMSUnknown_Unknown1[3]->SetToolTip("Minimum distance to base terrain (or non-base terrain)");
-    RMSUnknown_Unknown1_Text[4] = new SolidText(Unknown_Scroller, " Placement Terrain");
-    RMSUnknown_Unknown1_Text[5] = new SolidText(Unknown_Scroller, " Unknown 6");
+    RMS_ElevationData_Text[0] = new SolidText(RMS_Scroller, " Proportion *");
+    RMS_ElevationData[0]->SetToolTip("% of the total map area");
+    RMS_ElevationData_Text[1] = new SolidText(RMS_Scroller, " Terrain");
+    RMS_ElevationData_Text[2] = new SolidText(RMS_Scroller, " Clump Count *");
+    RMS_ElevationData[2]->SetToolTip("Clusters in the map");
+    RMS_ElevationData_Text[3] = new SolidText(RMS_Scroller, " Base Terrain");
+    RMS_ElevationData_Text[4] = new SolidText(RMS_Scroller, " Base Elevation");
+    RMS_ElevationData_Text[5] = new SolidText(RMS_Scroller, " Tile Spacing");
+
+    wxGridSizer *pointers_box = new wxFlexGridSizer(4, 0, 5);
+    RMS_LandsPtr_Text = new SolidText(RMS_Scroller, " Lands Pointer *");
+    RMS_LandsPtr = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, RMS_Scroller);
+    RMS_LandsPtr->SetToolTip(OVERWRITTEN);
+
+    RMS_TerrainsPtr_Text = new SolidText(RMS_Scroller, " Terrains Pointer *");
+    RMS_TerrainsPtr = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, RMS_Scroller);
+    RMS_TerrainsPtr->SetToolTip(OVERWRITTEN);
+
+    RMS_UnitsPtr_Text = new SolidText(RMS_Scroller, " Units Pointer *");
+    RMS_UnitsPtr = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, RMS_Scroller);
+    RMS_UnitsPtr->SetToolTip(OVERWRITTEN);
+
+    RMS_ElevationsPtr_Text = new SolidText(RMS_Scroller, " Elevations Pointer *");
+    RMS_ElevationsPtr = AGETextCtrl::init(CLong, &uiGroupRandomMap, this, &popUp, RMS_Scroller);
+    RMS_ElevationsPtr->SetToolTip(OVERWRITTEN);
 
     Unknowns_Buttons->Add(Unknowns_Add, 1, wxEXPAND);
     Unknowns_Buttons->Add(Unknowns_Delete, 1, wxEXPAND);
@@ -1437,201 +1417,215 @@ void AGE_Frame::CreateUnknownControls()
     Unknowns_ListArea->Add(Unknowns_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
     Unknowns_ListArea->Add(Unknowns_Buttons, 0, wxEXPAND);
 
-    for(size_t loop = 0; loop < Unknowns_Unknown1.size(); ++loop)
+    RMS_MapID_Holder->Add(RMS_MapID_Text);
+    RMS_MapID_Holder->Add(RMS_MapID);
+    RMS_LandData_Grid->Add(RMS_MapID_Holder);
+    for(size_t loop = 0; loop < RMS_LandData.size(); ++loop)
     {
-        Unknowns_Unknown1_Holder[loop]->Add(Unknowns_Unknown1_Text[loop]);
-        Unknowns_Unknown1_Holder[loop]->Add(Unknowns_Unknown1[loop], 0, wxEXPAND);
-        Unknowns_Unknown1_Grid->Add(Unknowns_Unknown1_Holder[loop]);
+        RMS_LandData_Holder[loop]->Add(RMS_LandData_Text[loop]);
+        RMS_LandData_Holder[loop]->Add(RMS_LandData[loop]);
+        RMS_LandData_Grid->Add(RMS_LandData_Holder[loop]);
     }
 
-    RMSBaseZones_Buttons->Add(RMSBaseZones_Add, 1, wxEXPAND);
-    RMSBaseZones_Buttons->Add(RMSBaseZones_Delete, 1, wxEXPAND);
-    RMSBaseZones_Buttons->Add(RMSBaseZones_Insert, 1, wxEXPAND);
-    RMSBaseZones_Buttons->Add(RMSBaseZones_Copy, 1, wxEXPAND);
-    RMSBaseZones_Buttons->Add(RMSBaseZones_Paste, 1, wxEXPAND);
-    RMSBaseZones_Buttons->Add(RMSBaseZones_PasteInsert, 1, wxEXPAND);
+    RMS_Land_Buttons->Add(RMS_Land_Add, 1, wxEXPAND);
+    RMS_Land_Buttons->Add(RMS_Land_Delete, 1, wxEXPAND);
+    RMS_Land_Buttons->Add(RMS_Land_Insert, 1, wxEXPAND);
+    RMS_Land_Buttons->Add(RMS_Land_Copy, 1, wxEXPAND);
+    RMS_Land_Buttons->Add(RMS_Land_Paste, 1, wxEXPAND);
+    RMS_Land_Buttons->Add(RMS_Land_PasteInsert, 1, wxEXPAND);
 
-    RMSBaseZones_ListArea->Add(RMSBaseZones_Search, 0, wxEXPAND);
-    RMSBaseZones_ListArea->Add(RMSBaseZones_Search_R, 0, wxEXPAND);
-    RMSBaseZones_ListArea->Add(RMSBaseZones_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
-    RMSBaseZones_ListArea->Add(RMSBaseZones_Buttons, 0, wxEXPAND);
-    RMSBaseZones_ListArea->Add(RMSBaseZones_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
+    RMS_Land_ListArea->Add(RMS_Land_Search, 0, wxEXPAND);
+    RMS_Land_ListArea->Add(RMS_Land_Search_R, 0, wxEXPAND);
+    RMS_Land_ListArea->Add(RMS_Land_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+    RMS_Land_ListArea->Add(RMS_Land_Buttons, 0, wxEXPAND);
+    RMS_Land_ListArea->Add(RMS_Land_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
 
-    RMSBaseZones_Unknown1_Holder->Add(RMSBaseZones_Unknown1_Text);
-    RMSBaseZones_Unknown1_Holder->Add(RMSBaseZones_Unknown1, 0, wxEXPAND);
-    RMSBaseZones_BaseTerrain_Holder->Add(RMSBaseZones_BaseTerrain_Text);
-    RMSBaseZones_BaseTerrain_Holder->Add(RMSBaseZones_BaseTerrain, 0, wxEXPAND);
-    RMSBaseZones_SpacingBetweenPlayers_Holder->Add(RMSBaseZones_SpacingBetweenPlayers_Text);
-    RMSBaseZones_SpacingBetweenPlayers_Holder->Add(RMSBaseZones_SpacingBetweenPlayers, 0, wxEXPAND);
-    RMSBaseZones_Unknown4_Holder->Add(RMSBaseZones_Unknown4_Text);
-    RMSBaseZones_Unknown4_Holder->Add(RMSBaseZones_Unknown4, 0, wxEXPAND);
-    for(size_t loop = 0; loop < RMSBaseZones_Unknown5.size(); ++loop)
-    RMSBaseZones_Unknown5_Grid->Add(RMSBaseZones_Unknown5[loop], 0, wxEXPAND);
-    RMSBaseZones_Unknown5_Holder->Add(RMSBaseZones_Unknown5_Text);
-    RMSBaseZones_Unknown5_Holder->Add(RMSBaseZones_Unknown5_Grid, 0, wxEXPAND);
-    RMSBaseZones_Unknown6_Holder->Add(RMSBaseZones_Unknown6_Text);
-    RMSBaseZones_Unknown6_Holder->Add(RMSBaseZones_Unknown6, 0, wxEXPAND);
-    RMSBaseZones_Unknown7_Holder->Add(RMSBaseZones_Unknown7_Text);
-    RMSBaseZones_Unknown7_Holder->Add(RMSBaseZones_Unknown7, 0, wxEXPAND);
-    for(size_t loop = 0; loop < RMSBaseZones_Unknown8.size(); ++loop)
-    RMSBaseZones_Unknown8_Grid->Add(RMSBaseZones_Unknown8[loop], 0, wxEXPAND);
-    RMSBaseZones_Unknown8_Holder->Add(RMSBaseZones_Unknown8_Text);
-    RMSBaseZones_Unknown8_Holder->Add(RMSBaseZones_Unknown8_Grid, 0, wxEXPAND);
-    RMSBaseZones_StartAreaRadius_Holder->Add(RMSBaseZones_StartAreaRadius_Text);
-    RMSBaseZones_StartAreaRadius_Holder->Add(RMSBaseZones_StartAreaRadius, 0, wxEXPAND);
-    RMSBaseZones_Unknown10_Holder->Add(RMSBaseZones_Unknown10_Text);
-    RMSBaseZones_Unknown10_Holder->Add(RMSBaseZones_Unknown10, 0, wxEXPAND);
-    RMSBaseZones_Unknown11_Holder->Add(RMSBaseZones_Unknown11_Text);
-    RMSBaseZones_Unknown11_Holder->Add(RMSBaseZones_Unknown11, 0, wxEXPAND);
-    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown1_Holder);
-    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_BaseTerrain_Holder);
-    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_SpacingBetweenPlayers_Holder);
-    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown4_Holder);
-    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown5_Holder);
-    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown6_Holder);
-    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown7_Holder);
-    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown8_Holder);
-    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_StartAreaRadius_Holder);
-    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown10_Holder);
-    RMSBaseZones_Unknown1_Grid->Add(RMSBaseZones_Unknown11_Holder);
+    RMS_Land_LandID_Holder->Add(RMS_Land_LandID_Text);
+    RMS_Land_LandID_Holder->Add(RMS_Land_LandID);
+    RMS_Land_BaseTerrain_Holder->Add(RMS_Land_BaseTerrain_Text);
+    RMS_Land_BaseTerrain_Holder->Add(RMS_Land_BaseTerrain);
+    RMS_Land_PlayerSpacing_Holder->Add(RMS_Land_PlayerSpacing_Text);
+    RMS_Land_PlayerSpacing_Holder->Add(RMS_Land_PlayerSpacing);
+    RMS_Land_BaseSize_Holder->Add(RMS_Land_BaseSize_Text);
+    RMS_Land_BaseSize_Holder->Add(RMS_Land_BaseSize);
+    RMS_Land_Zone_Holder->Add(RMS_Land_Zone_Text);
+    RMS_Land_Zone_Holder->Add(RMS_Land_Zone);
+    RMS_Land_PlacementType_Holder->Add(RMS_Land_PlacementType_Text);
+    RMS_Land_PlacementType_Holder->Add(RMS_Land_PlacementType);
+    RMS_Land_Padding1_Holder->Add(RMS_Land_Padding1_Text);
+    RMS_Land_Padding1_Holder->Add(RMS_Land_Padding1);
+    RMS_Land_X_Holder->Add(RMS_Land_X_Text);
+    RMS_Land_X_Holder->Add(RMS_Land_X);
+    RMS_Land_Y_Holder->Add(RMS_Land_Y_Text);
+    RMS_Land_Y_Holder->Add(RMS_Land_Y);
+    RMS_Land_LandProportion_Holder->Add(RMS_Land_LandProportion_Text);
+    RMS_Land_LandProportion_Holder->Add(RMS_Land_LandProportion);
+    RMS_Land_ByPlayerFlag_Holder->Add(RMS_Land_ByPlayerFlag_Text);
+    RMS_Land_ByPlayerFlag_Holder->Add(RMS_Land_ByPlayerFlag);
+    RMS_Land_Padding2_Holder->Add(RMS_Land_Padding2_Text);
+    RMS_Land_Padding2_Holder->Add(RMS_Land_Padding2);
+    RMS_Land_StartAreaRadius_Holder->Add(RMS_Land_StartAreaRadius_Text);
+    RMS_Land_StartAreaRadius_Holder->Add(RMS_Land_StartAreaRadius);
+    RMS_Land_TerrainEdgeFade_Holder->Add(RMS_Land_TerrainEdgeFade_Text);
+    RMS_Land_TerrainEdgeFade_Holder->Add(RMS_Land_TerrainEdgeFade);
+    RMS_Land_Clumpiness_Holder->Add(RMS_Land_Clumpiness_Text);
+    RMS_Land_Clumpiness_Holder->Add(RMS_Land_Clumpiness);
+    RMS_Land_LandID_Grid->Add(RMS_Land_LandID_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_BaseTerrain_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_PlayerSpacing_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_BaseSize_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_Zone_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_PlacementType_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_X_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_Y_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_LandProportion_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_ByPlayerFlag_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_StartAreaRadius_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_TerrainEdgeFade_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_Clumpiness_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_Padding1_Holder);
+    RMS_Land_LandID_Grid->Add(RMS_Land_Padding2_Holder);
 
-    RMSBaseZones->Add(RMSBaseZones_ListArea, 1, wxEXPAND);
-    RMSBaseZones->Add(RMSBaseZones_Unknown1_Grid, 3, wxEXPAND | wxLEFT, 5);
+    RMSMapLands->Add(RMS_Land_ListArea, 1, wxEXPAND);
+    RMSMapLands->Add(RMS_Land_LandID_Grid, 3, wxEXPAND | wxLEFT, 5);
 
-    RMSTerrain_Buttons->Add(RMSTerrain_Add, 1, wxEXPAND);
-    RMSTerrain_Buttons->Add(RMSTerrain_Delete, 1, wxEXPAND);
-    RMSTerrain_Buttons->Add(RMSTerrain_Insert, 1, wxEXPAND);
-    RMSTerrain_Buttons->Add(RMSTerrain_Copy, 1, wxEXPAND);
-    RMSTerrain_Buttons->Add(RMSTerrain_Paste, 1, wxEXPAND);
-    RMSTerrain_Buttons->Add(RMSTerrain_PasteInsert, 1, wxEXPAND);
+    RMS_Terrain_Buttons->Add(RMS_Terrain_Add, 1, wxEXPAND);
+    RMS_Terrain_Buttons->Add(RMS_Terrain_Delete, 1, wxEXPAND);
+    RMS_Terrain_Buttons->Add(RMS_Terrain_Insert, 1, wxEXPAND);
+    RMS_Terrain_Buttons->Add(RMS_Terrain_Copy, 1, wxEXPAND);
+    RMS_Terrain_Buttons->Add(RMS_Terrain_Paste, 1, wxEXPAND);
+    RMS_Terrain_Buttons->Add(RMS_Terrain_PasteInsert, 1, wxEXPAND);
 
-    RMSTerrain_ListArea->Add(RMSTerrain_Search, 0, wxEXPAND);
-    RMSTerrain_ListArea->Add(RMSTerrain_Search_R, 0, wxEXPAND);
-    RMSTerrain_ListArea->Add(RMSTerrain_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
-    RMSTerrain_ListArea->Add(RMSTerrain_Buttons, 0, wxEXPAND);
-    RMSTerrain_ListArea->Add(RMSTerrain_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
+    RMS_Terrain_ListArea->Add(RMS_Terrain_Search, 0, wxEXPAND);
+    RMS_Terrain_ListArea->Add(RMS_Terrain_Search_R, 0, wxEXPAND);
+    RMS_Terrain_ListArea->Add(RMS_Terrain_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+    RMS_Terrain_ListArea->Add(RMS_Terrain_Buttons, 0, wxEXPAND);
+    RMS_Terrain_ListArea->Add(RMS_Terrain_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
 
-    for(size_t loop = 0; loop < RMSTerrain_Unknown1.size(); ++loop)
+    for(size_t loop = 0; loop < RMS_TerrainData.size(); ++loop)
     {
-        RMSTerrain_Unknown1_Holder[loop]->Add(RMSTerrain_Unknown1_Text[loop]);
-        RMSTerrain_Unknown1_Holder[loop]->Add(RMSTerrain_Unknown1[loop], 0, wxEXPAND);
-        RMSTerrain_Unknown1_Grid->Add(RMSTerrain_Unknown1_Holder[loop]);
+        RMS_TerrainData_Holder[loop]->Add(RMS_TerrainData_Text[loop]);
+        RMS_TerrainData_Holder[loop]->Add(RMS_TerrainData[loop]);
+        RMS_TerrainData_Grid->Add(RMS_TerrainData_Holder[loop]);
     }
 
-    RMSTerrain->Add(RMSTerrain_ListArea, 1, wxEXPAND);
-    RMSTerrain->Add(RMSTerrain_Unknown1_Grid, 3, wxEXPAND | wxLEFT, 5);
+    RMSTerrain->Add(RMS_Terrain_ListArea, 1, wxEXPAND);
+    RMSTerrain->Add(RMS_TerrainData_Grid, 3, wxEXPAND | wxLEFT, 5);
 
-    RMSUnit_Buttons->Add(RMSUnit_Add, 1, wxEXPAND);
-    RMSUnit_Buttons->Add(RMSUnit_Delete, 1, wxEXPAND);
-    RMSUnit_Buttons->Add(RMSUnit_Insert, 1, wxEXPAND);
-    RMSUnit_Buttons->Add(RMSUnit_Copy, 1, wxEXPAND);
-    RMSUnit_Buttons->Add(RMSUnit_Paste, 1, wxEXPAND);
-    RMSUnit_Buttons->Add(RMSUnit_PasteInsert, 1, wxEXPAND);
+    RMS_Unit_Buttons->Add(RMS_Unit_Add, 1, wxEXPAND);
+    RMS_Unit_Buttons->Add(RMS_Unit_Delete, 1, wxEXPAND);
+    RMS_Unit_Buttons->Add(RMS_Unit_Insert, 1, wxEXPAND);
+    RMS_Unit_Buttons->Add(RMS_Unit_Copy, 1, wxEXPAND);
+    RMS_Unit_Buttons->Add(RMS_Unit_Paste, 1, wxEXPAND);
+    RMS_Unit_Buttons->Add(RMS_Unit_PasteInsert, 1, wxEXPAND);
 
-    RMSUnit_ListArea->Add(RMSUnit_Search, 0, wxEXPAND);
-    RMSUnit_ListArea->Add(RMSUnit_Search_R, 0, wxEXPAND);
-    RMSUnit_ListArea->Add(RMSUnit_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
-    RMSUnit_ListArea->Add(RMSUnit_Buttons, 0, wxEXPAND);
-    RMSUnit_ListArea->Add(RMSUnit_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
+    RMS_Unit_ListArea->Add(RMS_Unit_Search, 0, wxEXPAND);
+    RMS_Unit_ListArea->Add(RMS_Unit_Search_R, 0, wxEXPAND);
+    RMS_Unit_ListArea->Add(RMS_Unit_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+    RMS_Unit_ListArea->Add(RMS_Unit_Buttons, 0, wxEXPAND);
+    RMS_Unit_ListArea->Add(RMS_Unit_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
 
-    RMSUnit_Unit_Holder->Add(RMSUnit_Unit_Text);
-    RMSUnit_Unit_Holder->Add(RMSUnit_Unit, 0, wxEXPAND);
-    RMSUnit_HostTerrain_Holder->Add(RMSUnit_HostTerrain_Text);
-    RMSUnit_HostTerrain_Holder->Add(RMSUnit_HostTerrain, 0, wxEXPAND);
-    for(size_t loop = 0; loop < RMSUnit_Unknown3.size(); ++loop)
-    RMSUnit_Unknown3_Grid->Add(RMSUnit_Unknown3[loop], 0, wxEXPAND);
-    RMSUnit_Unknown3_Holder->Add(RMSUnit_Unknown3_Text);
-    RMSUnit_Unknown3_Holder->Add(RMSUnit_Unknown3_Grid, 0, wxEXPAND);
-    RMSUnit_ObjectsPerPlayer_Holder->Add(RMSUnit_ObjectsPerPlayer_Text);
-    RMSUnit_ObjectsPerPlayer_Holder->Add(RMSUnit_ObjectsPerPlayer, 0, wxEXPAND);
-    RMSUnit_Unknown5_Holder->Add(RMSUnit_Unknown5_Text);
-    RMSUnit_Unknown5_Holder->Add(RMSUnit_Unknown5, 0, wxEXPAND);
-    RMSUnit_GroupsPerPlayer_Holder->Add(RMSUnit_GroupsPerPlayer_Text);
-    RMSUnit_GroupsPerPlayer_Holder->Add(RMSUnit_GroupsPerPlayer, 0, wxEXPAND);
-    RMSUnit_Unknown7_Holder->Add(RMSUnit_Unknown7_Text);
-    RMSUnit_Unknown7_Holder->Add(RMSUnit_Unknown7, 0, wxEXPAND);
-    RMSUnit_OwnAtStart_Holder->Add(RMSUnit_OwnAtStart_Text);
-    RMSUnit_OwnAtStart_Holder->Add(RMSUnit_OwnAtStart, 0, wxEXPAND);
-    RMSUnit_SetPlaceForAllPlayers_Holder->Add(RMSUnit_SetPlaceForAllPlayers_Text);
-    RMSUnit_SetPlaceForAllPlayers_Holder->Add(RMSUnit_SetPlaceForAllPlayers, 0, wxEXPAND);
-    RMSUnit_MinDistanceToPlayers_Holder->Add(RMSUnit_MinDistanceToPlayers_Text);
-    RMSUnit_MinDistanceToPlayers_Holder->Add(RMSUnit_MinDistanceToPlayers, 0, wxEXPAND);
-    RMSUnit_MaxDistanceToPlayers_Holder->Add(RMSUnit_MaxDistanceToPlayers_Text);
-    RMSUnit_MaxDistanceToPlayers_Holder->Add(RMSUnit_MaxDistanceToPlayers, 0, wxEXPAND);
-    RMSUnit_Unknown1_Grid->Add(RMSUnit_Unit_Holder);
-    RMSUnit_Unknown1_Grid->Add(RMSUnit_HostTerrain_Holder);
-    RMSUnit_Unknown1_Grid->Add(RMSUnit_Unknown3_Holder);
-    RMSUnit_Unknown1_Grid->Add(RMSUnit_ObjectsPerPlayer_Holder);
-    RMSUnit_Unknown1_Grid->Add(RMSUnit_Unknown5_Holder);
-    RMSUnit_Unknown1_Grid->Add(RMSUnit_GroupsPerPlayer_Holder);
-    RMSUnit_Unknown1_Grid->Add(RMSUnit_Unknown7_Holder);
-    RMSUnit_Unknown1_Grid->Add(RMSUnit_OwnAtStart_Holder);
-    RMSUnit_Unknown1_Grid->Add(RMSUnit_SetPlaceForAllPlayers_Holder);
-    RMSUnit_Unknown1_Grid->Add(RMSUnit_MinDistanceToPlayers_Holder);
-    RMSUnit_Unknown1_Grid->Add(RMSUnit_MaxDistanceToPlayers_Holder);
+    RMS_Unit_Unit_Holder->Add(RMS_Unit_Unit_Text);
+    RMS_Unit_Unit_Holder->Add(RMS_Unit_Unit);
+    RMS_Unit_HostTerrain_Holder->Add(RMS_Unit_HostTerrain_Text);
+    RMS_Unit_HostTerrain_Holder->Add(RMS_Unit_HostTerrain);
+    RMS_Unit_GroupPlacing_Holder->Add(RMS_Unit_GroupPlacing_Text);
+    RMS_Unit_GroupPlacing_Holder->Add(RMS_Unit_GroupPlacing);
+    RMS_Unit_ScaleFlag_Holder->Add(RMS_Unit_ScaleFlag_Text);
+    RMS_Unit_ScaleFlag_Holder->Add(RMS_Unit_ScaleFlag);
+    RMS_Unit_Padding1_Holder->Add(RMS_Unit_Padding1_Text);
+    RMS_Unit_Padding1_Holder->Add(RMS_Unit_Padding1);
+    RMS_Unit_ObjectsPerPlayer_Holder->Add(RMS_Unit_ObjectsPerPlayer_Text);
+    RMS_Unit_ObjectsPerPlayer_Holder->Add(RMS_Unit_ObjectsPerPlayer);
+    RMS_Unit_Fluctuation_Holder->Add(RMS_Unit_Fluctuation_Text);
+    RMS_Unit_Fluctuation_Holder->Add(RMS_Unit_Fluctuation);
+    RMS_Unit_GroupsPerPlayer_Holder->Add(RMS_Unit_GroupsPerPlayer_Text);
+    RMS_Unit_GroupsPerPlayer_Holder->Add(RMS_Unit_GroupsPerPlayer);
+    RMS_Unit_GroupArea_Holder->Add(RMS_Unit_GroupArea_Text);
+    RMS_Unit_GroupArea_Holder->Add(RMS_Unit_GroupArea);
+    RMS_Unit_PlayerID_Holder->Add(RMS_Unit_PlayerID_Text);
+    RMS_Unit_PlayerID_Holder->Add(RMS_Unit_PlayerID);
+    RMS_Unit_SetPlaceForAllPlayers_Holder->Add(RMS_Unit_SetPlaceForAllPlayers_Text);
+    RMS_Unit_SetPlaceForAllPlayers_Holder->Add(RMS_Unit_SetPlaceForAllPlayers);
+    RMS_Unit_MinDistanceToPlayers_Holder->Add(RMS_Unit_MinDistanceToPlayers_Text);
+    RMS_Unit_MinDistanceToPlayers_Holder->Add(RMS_Unit_MinDistanceToPlayers);
+    RMS_Unit_MaxDistanceToPlayers_Holder->Add(RMS_Unit_MaxDistanceToPlayers_Text);
+    RMS_Unit_MaxDistanceToPlayers_Holder->Add(RMS_Unit_MaxDistanceToPlayers);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_Unit_Holder);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_HostTerrain_Holder);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_GroupPlacing_Holder);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_ScaleFlag_Holder);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_ObjectsPerPlayer_Holder);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_Fluctuation_Holder);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_GroupsPerPlayer_Holder);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_GroupArea_Holder);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_PlayerID_Holder);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_SetPlaceForAllPlayers_Holder);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_MinDistanceToPlayers_Holder);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_MaxDistanceToPlayers_Holder);
+    RMS_Unit_Unknown1_Grid->Add(RMS_Unit_Padding1_Holder);
 
-    RMSUnit->Add(RMSUnit_ListArea, 1, wxEXPAND);
-    RMSUnit->Add(RMSUnit_Unknown1_Grid, 3, wxEXPAND | wxLEFT, 5);
+    RMSUnit->Add(RMS_Unit_ListArea, 1, wxEXPAND);
+    RMSUnit->Add(RMS_Unit_Unknown1_Grid, 3, wxEXPAND | wxLEFT, 5);
 
-    RMSUnknown_Buttons->Add(RMSUnknown_Add, 1, wxEXPAND);
-    RMSUnknown_Buttons->Add(RMSUnknown_Delete, 1, wxEXPAND);
-    RMSUnknown_Buttons->Add(RMSUnknown_Insert, 1, wxEXPAND);
-    RMSUnknown_Buttons->Add(RMSUnknown_Copy, 1, wxEXPAND);
-    RMSUnknown_Buttons->Add(RMSUnknown_Paste, 1, wxEXPAND);
-    RMSUnknown_Buttons->Add(RMSUnknown_PasteInsert, 1, wxEXPAND);
+    RMS_Elevation_Buttons->Add(RMS_Elevation_Add, 1, wxEXPAND);
+    RMS_Elevation_Buttons->Add(RMS_Elevation_Delete, 1, wxEXPAND);
+    RMS_Elevation_Buttons->Add(RMS_Elevation_Insert, 1, wxEXPAND);
+    RMS_Elevation_Buttons->Add(RMS_Elevation_Copy, 1, wxEXPAND);
+    RMS_Elevation_Buttons->Add(RMS_Elevation_Paste, 1, wxEXPAND);
+    RMS_Elevation_Buttons->Add(RMS_Elevation_PasteInsert, 1, wxEXPAND);
 
-    RMSUnknown_ListArea->Add(RMSUnknown_Search, 0, wxEXPAND);
-    RMSUnknown_ListArea->Add(RMSUnknown_Search_R, 0, wxEXPAND);
-    RMSUnknown_ListArea->Add(RMSUnknown_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
-    RMSUnknown_ListArea->Add(RMSUnknown_Buttons, 0, wxEXPAND);
-    RMSUnknown_ListArea->Add(RMSUnknown_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
+    RMS_Elevation_ListArea->Add(RMS_Elevation_Search, 0, wxEXPAND);
+    RMS_Elevation_ListArea->Add(RMS_Elevation_Search_R, 0, wxEXPAND);
+    RMS_Elevation_ListArea->Add(RMS_Elevation_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+    RMS_Elevation_ListArea->Add(RMS_Elevation_Buttons, 0, wxEXPAND);
+    RMS_Elevation_ListArea->Add(RMS_Elevation_CopyToMaps, 0, wxEXPAND | wxTOP, 2);
 
-    for(size_t loop = 0; loop < RMSUnknown_Unknown1.size(); ++loop)
+    for(size_t loop = 0; loop < RMS_ElevationData.size(); ++loop)
     {
-        RMSUnknown_Unknown1_Holder[loop]->Add(RMSUnknown_Unknown1_Text[loop]);
-        RMSUnknown_Unknown1_Holder[loop]->Add(RMSUnknown_Unknown1[loop], 0, wxEXPAND);
-        RMSUnknown_Unknown1_Grid->Add(RMSUnknown_Unknown1_Holder[loop]);
+        RMS_ElevationData_Holder[loop]->Add(RMS_ElevationData_Text[loop]);
+        RMS_ElevationData_Holder[loop]->Add(RMS_ElevationData[loop]);
+        RMS_ElevationData_Grid->Add(RMS_ElevationData_Holder[loop]);
     }
 
-    RMSUnknown->Add(RMSUnknown_ListArea, 1, wxEXPAND);
-    RMSUnknown->Add(RMSUnknown_Unknown1_Grid, 3, wxEXPAND | wxLEFT, 5);
+    RMSUnknown->Add(RMS_Elevation_ListArea, 1, wxEXPAND);
+    RMSUnknown->Add(RMS_ElevationData_Grid, 3, wxEXPAND | wxLEFT, 5);
 
-    Unknown_ScrollSpace->Add(Unknowns_UnknownLevel_Text);
-    Unknown_ScrollSpace->Add(Unknowns_UnknownLevel, 0, wxBOTTOM, 5);
-    Unknown_ScrollSpace->Add(Unknowns_Unknown1_Grid, 0, wxEXPAND, 5);
-    Unknown_ScrollSpace->Add(Unknowns_Pointer1_Text);
-    Unknown_ScrollSpace->Add(Unknowns_Pointer1, 0, wxBOTTOM, 5);
-    Unknown_ScrollSpace->Add(RMSBaseZones, 0, wxEXPAND | wxBOTTOM, 5);
-    Unknown_ScrollSpace->Add(Unknowns_Pointer2_Text);
-    Unknown_ScrollSpace->Add(Unknowns_Pointer2, 0, wxBOTTOM, 5);
+    Unknown_ScrollSpace->Add(RMS_LandData_Grid, 0, wxEXPAND | wxBOTTOM, 5);
+    pointers_box->Add(RMS_LandsPtr_Text);
+    pointers_box->Add(RMS_TerrainsPtr_Text);
+    pointers_box->Add(RMS_UnitsPtr_Text);
+    pointers_box->Add(RMS_ElevationsPtr_Text);
+    Unknown_ScrollSpace->Add(RMSMapLands, 0, wxEXPAND | wxBOTTOM, 5);
     Unknown_ScrollSpace->Add(RMSTerrain, 0, wxEXPAND | wxBOTTOM, 5);
-    Unknown_ScrollSpace->Add(Unknowns_Pointer3_Text);
-    Unknown_ScrollSpace->Add(Unknowns_Pointer3, 0, wxBOTTOM, 5);
     Unknown_ScrollSpace->Add(RMSUnit, 0, wxEXPAND | wxBOTTOM, 5);
-    Unknown_ScrollSpace->Add(Unknowns_Pointer4_Text);
-    Unknown_ScrollSpace->Add(Unknowns_Pointer4, 0, wxBOTTOM, 5);
-    Unknown_ScrollSpace->Add(RMSUnknown, 0, wxEXPAND, 5);
+    pointers_box->Add(RMS_LandsPtr);
+    pointers_box->Add(RMS_TerrainsPtr);
+    pointers_box->Add(RMS_UnitsPtr);
+    pointers_box->Add(RMS_ElevationsPtr);
+    Unknown_ScrollSpace->Add(RMSUnknown, 0, wxEXPAND | wxBOTTOM, 5);
+    Unknown_ScrollSpace->Add(pointers_box);
 
-    Unknown_Scroller->SetSizer(Unknown_ScrollSpace);
-    Unknown_Scroller->SetScrollRate(0, 15);
+    RMS_Scroller->SetSizer(Unknown_ScrollSpace);
+    RMS_Scroller->SetScrollRate(0, 15);
 
     Unknowns->Add(Unknowns_ListArea, 21, wxEXPAND | wxRIGHT, 5);
-    Unknowns->Add(Unknown_Scroller, 65, wxEXPAND);
+    Unknowns->Add(RMS_Scroller, 65, wxEXPAND);
 
-    Unknown_Main->Add(Unknown_UnknownPointer_Text, 0, wxTOP | wxLEFT, 5);
-    Unknown_Main->Add(Unknown_UnknownPointer, 0, wxLEFT, 5);
+    Unknown_Main->Add(RMS_MapsPtr_Text, 0, wxTOP | wxLEFT, 5);
+    Unknown_Main->Add(RMS_MapsPtr, 0, wxLEFT, 5);
     Unknown_Main->Add(Unknowns, 1, wxEXPAND | wxALL, 5);
 
     Unknowns_Paste->Enable(false);
     Unknowns_PasteInsert->Enable(false);
-    RMSBaseZones_Paste->Enable(false);
-    RMSBaseZones_PasteInsert->Enable(false);
-    RMSTerrain_Paste->Enable(false);
-    RMSTerrain_PasteInsert->Enable(false);
-    RMSUnit_Paste->Enable(false);
-    RMSUnit_PasteInsert->Enable(false);
-    RMSUnknown_Paste->Enable(false);
-    RMSUnknown_PasteInsert->Enable(false);
+    RMS_Land_Paste->Enable(false);
+    RMS_Land_PasteInsert->Enable(false);
+    RMS_Terrain_Paste->Enable(false);
+    RMS_Terrain_PasteInsert->Enable(false);
+    RMS_Unit_Paste->Enable(false);
+    RMS_Unit_PasteInsert->Enable(false);
+    RMS_Elevation_Paste->Enable(false);
+    RMS_Elevation_PasteInsert->Enable(false);
 
     Tab_Unknown->SetSizer(Unknown_Main);
 
@@ -1644,76 +1638,92 @@ void AGE_Frame::CreateUnknownControls()
     Unknowns_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnRandomMapCopy, this);
     Unknowns_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnRandomMapPaste, this);
     Unknowns_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRandomMapPasteInsert, this);
-    RMSBaseZones_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSBaseZoneSearch, this);
-    RMSBaseZones_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSBaseZoneSearch, this);
-    RMSBaseZones_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnRMSBaseZoneSelect, this);
-    RMSBaseZones_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSBaseZoneAdd, this);
-    RMSBaseZones_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSBaseZoneInsert, this);
-    RMSBaseZones_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSBaseZoneDelete, this);
-    RMSBaseZones_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSBaseZoneCopy, this);
-    RMSBaseZones_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSBaseZonePaste, this);
-    RMSBaseZones_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSBaseZonePasteInsert, this);
-    RMSBaseZones_CopyToMaps->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSBaseZoneCopyToMaps, this);
-    RMSTerrain_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSTerrainSearch, this);
-    RMSTerrain_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSTerrainSearch, this);
-    RMSTerrain_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnRMSTerrainSelect, this);
-    RMSTerrain_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSTerrainAdd, this);
-    RMSTerrain_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSTerrainInsert, this);
-    RMSTerrain_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSTerrainDelete, this);
-    RMSTerrain_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSTerrainCopy, this);
-    RMSTerrain_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSTerrainPaste, this);
-    RMSTerrain_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSTerrainPasteInsert, this);
-    RMSTerrain_CopyToMaps->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSTerrainCopyToMaps, this);
-    RMSUnit_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSUnitSearch, this);
-    RMSUnit_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSUnitSearch, this);
-    RMSUnit_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnRMSUnitSelect, this);
-    RMSUnit_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnitAdd, this);
-    RMSUnit_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnitInsert, this);
-    RMSUnit_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnitDelete, this);
-    RMSUnit_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnitCopy, this);
-    RMSUnit_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnitPaste, this);
-    RMSUnit_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnitPasteInsert, this);
-    RMSUnit_CopyToMaps->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnitCopyToMaps, this);
-    RMSUnknown_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSUnknownSearch, this);
-    RMSUnknown_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnRMSUnknownSearch, this);
-    RMSUnknown_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnRMSUnknownSelect, this);
-    RMSUnknown_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnknownAdd, this);
-    RMSUnknown_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnknownInsert, this);
-    RMSUnknown_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnknownDelete, this);
-    RMSUnknown_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnknownCopy, this);
-    RMSUnknown_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnknownPaste, this);
-    RMSUnknown_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnknownPasteInsert, this);
-    RMSUnknown_CopyToMaps->Bind(wxEVT_BUTTON, &AGE_Frame::OnRMSUnknownCopyToMaps, this);
+    RMS_Land_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnMapLandSearch, this);
+    RMS_Land_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnMapLandSearch, this);
+    RMS_Land_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnMapLandSelect, this);
+    RMS_Land_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapLandAdd, this);
+    RMS_Land_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapLandInsert, this);
+    RMS_Land_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapLandDelete, this);
+    RMS_Land_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapLandCopy, this);
+    RMS_Land_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapLandPaste, this);
+    RMS_Land_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapLandPasteInsert, this);
+    RMS_Land_CopyToMaps->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapLandCopyToMaps, this);
+    RMS_Terrain_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnMapTerrainSearch, this);
+    RMS_Terrain_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnMapTerrainSearch, this);
+    RMS_Terrain_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnMapTerrainSelect, this);
+    RMS_Terrain_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapTerrainAdd, this);
+    RMS_Terrain_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapTerrainInsert, this);
+    RMS_Terrain_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapTerrainDelete, this);
+    RMS_Terrain_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapTerrainCopy, this);
+    RMS_Terrain_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapTerrainPaste, this);
+    RMS_Terrain_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapTerrainPasteInsert, this);
+    RMS_Terrain_CopyToMaps->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapTerrainCopyToMaps, this);
+    RMS_Unit_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnMapUnitSearch, this);
+    RMS_Unit_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnMapUnitSearch, this);
+    RMS_Unit_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnMapUnitSelect, this);
+    RMS_Unit_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapUnitAdd, this);
+    RMS_Unit_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapUnitInsert, this);
+    RMS_Unit_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapUnitDelete, this);
+    RMS_Unit_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapUnitCopy, this);
+    RMS_Unit_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapUnitPaste, this);
+    RMS_Unit_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapUnitPasteInsert, this);
+    RMS_Unit_CopyToMaps->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapUnitCopyToMaps, this);
+    RMS_Elevation_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnMapElevationSearch, this);
+    RMS_Elevation_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnMapElevationSearch, this);
+    RMS_Elevation_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnMapElevationSelect, this);
+    RMS_Elevation_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapElevationAdd, this);
+    RMS_Elevation_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapElevationInsert, this);
+    RMS_Elevation_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapElevationDelete, this);
+    RMS_Elevation_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapElevationCopy, this);
+    RMS_Elevation_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapElevationPaste, this);
+    RMS_Elevation_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapElevationPasteInsert, this);
+    RMS_Elevation_CopyToMaps->Bind(wxEVT_BUTTON, &AGE_Frame::OnMapElevationCopyToMaps, this);
 
-    Unknowns_UnknownLevel->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Unknown, this);
-    RMSBaseZones_Unknown1->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Unknown, this);
-    RMSTerrain_Unknown1[1]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Unknown, this);
-    RMSUnknown_Unknown1[1]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Unknown, this);
-    RMSUnit_Unit->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Unknown, this);
+    RMS_MapID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_RMS, this);
+    RMS_MapID->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_RMS, this);
+    RMS_Land_LandID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_RMS, this);
+    RMS_Land_LandID->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_RMS, this);
+    RMS_TerrainData[1]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_RMS, this);
+    RMS_TerrainData[1]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_RMS, this);
+    RMS_ElevationData[1]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_RMS, this);
+    RMS_ElevationData[1]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_RMS, this);
+    RMS_Unit_Unit->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_RMS, this);
+    RMS_Unit_Unit->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_RMS, this);
 }
 
-void AGE_Frame::OnKillFocus_Unknown(wxFocusEvent &event)
+void AGE_Frame::OnSaveEdits_RMS(int id)
 {
-    event.Skip();
-    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
-    if(event.GetId() == Unknowns_UnknownLevel->GetId())
+    if(id == RMS_MapID->GetId())
     {
         ListRandomMaps();
     }
-    else if(event.GetId() == RMSBaseZones_Unknown1->GetId())
+    else if(id == RMS_Land_LandID->GetId())
     {
-        ListRMSBaseZones();
+        ListMapLands();
     }
-    else if(event.GetId() == RMSTerrain_Unknown1[1]->GetId())
+    else if(id == RMS_TerrainData[1]->GetId())
     {
-        ListRMSTerrains();
+        ListMapTerrains();
     }
-    else if(event.GetId() == RMSUnit_Unit->GetId())
+    else if(id == RMS_Unit_Unit->GetId())
     {
-        ListRMSUnits();
+        ListMapUnits();
     }
-    else if(event.GetId() == RMSUnknown_Unknown1[1]->GetId())
+    else if(id == RMS_ElevationData[1]->GetId())
     {
-        ListRMSUnknowns();
+        ListMapElevations();
     }
+}
+
+void AGE_Frame::OnEnter_RMS(wxCommandEvent &event)
+{
+    static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+    OnSaveEdits_RMS(event.GetId());
+}
+
+void AGE_Frame::OnKillFocus_RMS(wxFocusEvent &event)
+{
+    event.Skip();
+    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
+    OnSaveEdits_RMS(event.GetId());
 }

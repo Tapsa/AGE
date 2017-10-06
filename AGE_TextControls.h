@@ -70,7 +70,7 @@ public:
     AGETextCtrl(wxWindow *parent, int width):
     wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxTE_PROCESS_ENTER){edits = 0;}
 
-    static const unsigned SMALL=50, MEDIUM=70, NORMAL=100, LARGE=150, GIANT=200;
+    static unsigned SMALL, MEDIUM, NORMAL, LARGE, GIANT;
     static AGETextCtrl* init(const ContainerType type, vector<AGETextCtrl*> *group,
         wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned length = NORMAL);
     virtual void update()
@@ -115,7 +115,7 @@ public:
         case CString: SetBackgroundColour(wxColour(220, 255, 220)); break;
         }
     }
-    inline void setMaxChars(unsigned short size){maxSize = size;}
+    virtual inline void setMaxChars(unsigned short){}
 
     vector<AGELinkedBox*> LinkedBoxes; // These are for check boxes.
 
@@ -143,8 +143,6 @@ protected:
         editor->unSaved += edits;
         edits = 0;
     }
-
-    unsigned maxSize;
 };
 
 class TextCtrl_DLL: public wxTextCtrl
@@ -255,10 +253,12 @@ public:
     void replenish();
 };
 
+extern const unsigned short lengthiest;
+
 class TextCtrl_String: public AGETextCtrl
 {
 public:
-    TextCtrl_String(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned CLength = 0):
+    TextCtrl_String(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned short CLength = 0):
     AGETextCtrl(parent, AGETextCtrl::GIANT)
     {
         this->frame = frame;
@@ -270,4 +270,8 @@ public:
     }
     int SaveEdits(bool forced = false);
     void replenish();
+    inline void setMaxChars(unsigned short size) {maxSize = size;}
+
+private:
+    unsigned short maxSize;
 };
