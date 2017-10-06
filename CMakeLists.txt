@@ -14,11 +14,14 @@ find_package(Boost 1.55 REQUIRED iostreams)
 find_package(wxWidgets REQUIRED adv core base)
 include("${wxWidgets_USE_FILE}")
 
+find_package(SFML 2.4 REQUIRED system audio)
+
 set(GUTILS_TOOLS FALSE)
 set(GUTILS_TEST FALSE)
 
 include_directories(
     ${EXTERN_DIR}/genieutils/include
+    ${SFML_INCLUDE_DIR}
     ${Boost_INCLUDE_DIRS})
 
 add_subdirectory(${EXTERN_DIR}/genieutils extern/genieutils)
@@ -35,7 +38,6 @@ set(AGE_SRC Main.cpp
 
     AGE_Frame/Constructor.cpp
     AGE_Frame/Other.cpp
-    #AGE_Frame/DRS.cpp
     AGE_Frame/Civs.cpp
     AGE_Frame/General.cpp
     AGE_Frame/Graphics.cpp
@@ -53,5 +55,7 @@ set(AGE_SRC Main.cpp
     Resources.rc
     )
 
+find_library(PSAPI psapi)
+
 add_executable(AdvancedGenieEditor3 WIN32 ${AGE_SRC})
-target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils)
+target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils ${PSAPI} ${SFML_LIBRARIES})

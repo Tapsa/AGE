@@ -3,6 +3,8 @@
 const wxString AGEBaseCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
 const wxString AGEBaseCtrl::BWTITLE = "Incorrect batch script!";
 const wxString AGEBaseCtrl::IETITLE = "Invalid entry!";
+const unsigned short lengthiest = 0x7FFF;
+unsigned AGETextCtrl::SMALL=50, AGETextCtrl::MEDIUM=70, AGETextCtrl::NORMAL=100, AGETextCtrl::LARGE=150, AGETextCtrl::GIANT=200;
 
 void ProperList::OnDrawItem(wxDC &dc, const wxRect &rect, size_t n) const
 {
@@ -105,7 +107,7 @@ int TextCtrl_Byte::SaveEdits(bool forced)
                 return 2;
             }
         }
-        catch(bad_lexical_cast e)
+        catch(bad_lexical_cast)
         {
             editor->post("Please enter a number from -128 to 127", IETITLE, this);
             return 2;
@@ -171,7 +173,7 @@ int TextCtrl_UByte::SaveEdits(bool forced)
                 return 2;
             }
         }
-        catch(bad_lexical_cast e)
+        catch(bad_lexical_cast)
         {
             editor->post("Please enter a number from 0 to 255", IETITLE, this);
             return 2;
@@ -231,7 +233,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(bad_lexical_cast e)
+        catch(bad_lexical_cast)
         {
             editor->post("Please enter a valid floating point number", IETITLE, this);
             return 2;
@@ -289,7 +291,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(bad_lexical_cast e)
+        catch(bad_lexical_cast)
         {
             editor->post("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE, this);
             return 2;
@@ -347,7 +349,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(bad_lexical_cast e)
+        catch(bad_lexical_cast)
         {
             editor->post("Please enter a number from -32 768 to 32 767", IETITLE, this);
             return 2;
@@ -405,7 +407,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(bad_lexical_cast e)
+        catch(bad_lexical_cast)
         {
             editor->post("Please enter a number from 0 to 65 535", IETITLE, this);
             return 2;
@@ -478,7 +480,7 @@ void TextCtrl_Byte::replenish()
     {
         stringbuf buffer;
         ostream os (&buffer);
-        os << hex << setw(2) << setfill('0') << uppercase << (short)*(uint8_t*)container.back();
+        os << hex << setfill('0') << setw(2) << uppercase << (short)*(uint8_t*)container.back();
         ChangeValue(buffer.str());
     }
     else
@@ -499,7 +501,7 @@ void TextCtrl_UByte::replenish()
     {
         stringbuf buffer;
         ostream os (&buffer);
-        os << hex << setw(2) << setfill('0') << uppercase << (short)*(uint8_t*)container.back();
+        os << hex << setfill('0') << setw(2) << uppercase << (short)*(uint8_t*)container.back();
         ChangeValue(buffer.str());
     }
     else
@@ -520,7 +522,7 @@ void TextCtrl_Float::replenish()
     {
         stringbuf buffer;
         ostream os (&buffer);
-        os << hex << setw(8) << setfill('0') << uppercase << *(uint32_t*)container.back();
+        os << hex << setfill('0') << setw(8) << uppercase << *(uint32_t*)container.back();
         ChangeValue(buffer.str());
     }
     else
@@ -553,7 +555,7 @@ void TextCtrl_Long::replenish()
     {
         stringbuf buffer;
         ostream os (&buffer);
-        os << hex << setw(8) << setfill('0') << uppercase << *(uint32_t*)container.back();
+        os << hex << setfill('0') << setw(8) << uppercase << *(uint32_t*)container.back();
         ChangeValue(buffer.str());
     }
     else
@@ -574,7 +576,7 @@ void TextCtrl_Short::replenish()
     {
         stringbuf buffer;
         ostream os (&buffer);
-        os << hex << setw(4) << setfill('0') << uppercase << *(uint16_t*)container.back();
+        os << hex << setfill('0') << setw(4) << uppercase << *(uint16_t*)container.back();
         ChangeValue(buffer.str());
     }
     else
@@ -595,7 +597,7 @@ void TextCtrl_UShort::replenish()
     {
         stringbuf buffer;
         ostream os (&buffer);
-        os << hex << setw(4) << setfill('0') << uppercase << *(uint16_t*)container.back();
+        os << hex << setfill('0') << setw(4) << uppercase << *(uint16_t*)container.back();
         ChangeValue(buffer.str());
     }
     else

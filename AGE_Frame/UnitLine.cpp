@@ -131,9 +131,9 @@ wxString AGE_Frame::GetUnitLineUnitName(int Unit)
 {
     wxString Name = FormatInt(Unit) + " ";
     if(dataset->Civs.front().Units.size() <= Unit) return Name + "Nonexistent Unit";
-    if(!LangDLLstring(dataset->Civs.front().Units[Unit].LanguageDLLName, 2).empty())
+    if(!TranslatedText(dataset->Civs.front().Units[Unit].LanguageDLLName, 2).empty())
     {
-        return Name + LangDLLstring(dataset->Civs.front().Units[Unit].LanguageDLLName, 64);
+        return Name + TranslatedText(dataset->Civs.front().Units[Unit].LanguageDLLName, 64);
     }
     if(!dataset->Civs.front().Units[Unit].Name.empty())
     {
@@ -292,7 +292,7 @@ void AGE_Frame::CreateUnitLineControls()
     UnitLines_ID = AGETextCtrl::init(CShort, 0, this, &popUp, Tab_UnitLine);
     UnitLines_Name_Holder = new wxBoxSizer(wxVERTICAL);
     UnitLines_Name_Text = new SolidText(Tab_UnitLine, " Unitline Name");
-    UnitLines_Name = AGETextCtrl::init(CString, NULL, this, &popUp, Tab_UnitLine, 30);
+    UnitLines_Name = AGETextCtrl::init(CString, NULL, this, &popUp, Tab_UnitLine, lengthiest);
 
     UnitLineUnits_Holder = new wxBoxSizer(wxVERTICAL);
     UnitLineUnits_Text = new SolidText(Tab_UnitLine, " Unit");
@@ -326,9 +326,9 @@ void AGE_Frame::CreateUnitLineControls()
     UnitLines_UnitLineUnits->Add(UnitLineUnits_CopyToUnitLines, 0, wxEXPAND | wxTOP, 2);
 
     UnitLines_ID_Holder->Add(UnitLines_ID_Text);
-    UnitLines_ID_Holder->Add(UnitLines_ID, 0, wxEXPAND);
+    UnitLines_ID_Holder->Add(UnitLines_ID);
     UnitLines_Name_Holder->Add(UnitLines_Name_Text);
-    UnitLines_Name_Holder->Add(UnitLines_Name, 0, wxEXPAND);
+    UnitLines_Name_Holder->Add(UnitLines_Name);
     UnitLineUnits_Holder->Add(UnitLineUnits_Text);
     UnitLineUnits_Holder->Add(UnitLineUnits_Units, 0, wxEXPAND);
     UnitLineUnits_Holder->Add(UnitLineUnits_ComboBox);
@@ -342,7 +342,6 @@ void AGE_Frame::CreateUnitLineControls()
     UnitLines_Main->Add(UnitLines_DataArea);
     UnitLines_Main->AddStretchSpacer(1);
 
-    if(EnableIDFix)
     UnitLines_ID->Enable(false);
 
     Tab_UnitLine->SetSizer(UnitLines_Main);
@@ -368,22 +367,35 @@ void AGE_Frame::CreateUnitLineControls()
     UnitLineUnits_CopyToUnitLines->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitLineUnitsCopyToUnitLines, this);
 
     UnitLines_Name->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_UnitLines, this);
+    UnitLines_Name->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_UnitLines, this);
     UnitLineUnits_Units->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_UnitLines, this);
+    UnitLineUnits_Units->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_UnitLines, this);
     UnitLineUnits_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_UnitLines, this);
+}
+
+void AGE_Frame::OnSaveEdits_UnitLines(int id)
+{
+    if(id == UnitLines_Name->GetId())
+    {
+        ListUnitLines();
+    }
+    else if(id == UnitLineUnits_Units->GetId())
+    {
+        ListUnitLineUnits();
+    }
+}
+
+void AGE_Frame::OnEnter_UnitLines(wxCommandEvent &event)
+{
+    static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+    OnSaveEdits_UnitLines(event.GetId());
 }
 
 void AGE_Frame::OnKillFocus_UnitLines(wxFocusEvent &event)
 {
     event.Skip();
     if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
-    if(event.GetId() == UnitLines_Name->GetId())
-    {
-        ListUnitLines();
-    }
-    else if(event.GetId() == UnitLineUnits_Units->GetId())
-    {
-        ListUnitLineUnits();
-    }
+    OnSaveEdits_UnitLines(event.GetId());
 }
 
 void AGE_Frame::OnUpdateCombo_UnitLines(wxCommandEvent &event)

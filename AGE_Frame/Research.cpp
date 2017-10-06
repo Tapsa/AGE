@@ -14,54 +14,54 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
         {
             switch(Selection[loop])
             {
-                case 2: // Required Researches
+                case 2: // Required Techs
                 {
                     bool HasFore = false;
-                    for(size_t loop = 0; loop < dataset->Researchs[index].getRequiredTechsSize(); ++loop)
-                    if(dataset->Researchs[index].RequiredTechs[loop] != -1)
+                    for(size_t loop = 0; loop < dataset->Techs[index].getRequiredTechsSize(); ++loop)
+                    if(dataset->Techs[index].RequiredTechs[loop] != -1)
                     {
                         if(HasFore) Name += ", R"; else {Name += "R"; HasFore = true;}
-                        Name += lexical_cast<string>(dataset->Researchs[index].RequiredTechs[loop]);
+                        Name += lexical_cast<string>(dataset->Techs[index].RequiredTechs[loop]);
                     }
                 }   break;
-                case 3: // Min. Req. Researches
-                    Name += "MR "+lexical_cast<string>(dataset->Researchs[index].RequiredTechCount);
+                case 3: // Min. Req. Techs
+                    Name += "MR "+lexical_cast<string>(dataset->Techs[index].RequiredTechCount);
                     break;
                 case 4: // Research Location
-                    Name += "RL "+lexical_cast<string>(dataset->Researchs[index].ResearchLocation);
+                    Name += "RL "+lexical_cast<string>(dataset->Techs[index].ResearchLocation);
                     break;
                 case 5: // Research Time
-                    Name += "RT "+lexical_cast<string>(dataset->Researchs[index].ResearchTime);
+                    Name += "RT "+lexical_cast<string>(dataset->Techs[index].ResearchTime);
                     break;
-                case 6: // Technology
-                    Name += "Te "+lexical_cast<string>(dataset->Researchs[index].TechageID);
+                case 6: // Effect
+                    Name += "E "+lexical_cast<string>(dataset->Techs[index].EffectID);
                     break;
                 case 7: // Type
-                    Name += "T "+lexical_cast<string>(dataset->Researchs[index].Type);
+                    Name += "T "+lexical_cast<string>(dataset->Techs[index].Type);
                     break;
                 case 8: // Icon
-                    Name += "I "+lexical_cast<string>(dataset->Researchs[index].IconID);
+                    Name += "I "+lexical_cast<string>(dataset->Techs[index].IconID);
                     break;
                 case 9: // Button
-                    Name += "B "+lexical_cast<string>((short)dataset->Researchs[index].ButtonID);
+                    Name += "B "+lexical_cast<string>((short)dataset->Techs[index].ButtonID);
                     break;
                 case 10: // Lang File Pointer
-                    Name += "LP "+lexical_cast<string>(dataset->Researchs[index].LanguageDLLHelp);
+                    Name += "LH "+lexical_cast<string>(dataset->Techs[index].LanguageDLLHelp);
                     break;
                 case 11: // Pointer 2
-                    Name += "P2 "+lexical_cast<string>(dataset->Researchs[index].LanguageDLLTechTree);
+                    Name += "LT "+lexical_cast<string>(dataset->Techs[index].LanguageDLLTechTree);
                     break;
-                case 12: // Pointer 3
-                    Name += "P3 "+lexical_cast<string>(dataset->Researchs[index].Unknown1);
+                case 12: // Hot Key
+                    Name += "HK "+lexical_cast<string>(dataset->Techs[index].HotKey);
                     break;
                 case 13: // Cost Types
                 {
                     bool HasFore = false;
                     for(size_t loop = 0; loop < 3; ++loop)
-                    if(dataset->Researchs[index].ResourceCosts[loop].Type != -1)
+                    if(dataset->Techs[index].ResourceCosts[loop].Type != -1)
                     {
                         if(HasFore) Name += ", CT"; else {Name += "CT"; HasFore = true;}
-                        Name += lexical_cast<string>(dataset->Researchs[index].ResourceCosts[loop].Type);
+                        Name += lexical_cast<string>(dataset->Techs[index].ResourceCosts[loop].Type);
                     }
                 }   break;
                 case 14: // Cost Amounts
@@ -70,7 +70,7 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     for(size_t loop = 0; loop < 3; ++loop)
                     {
                         if(HasFore) Name += ", CA"; else {Name += "CA"; HasFore = true;}
-                        Name += lexical_cast<string>(dataset->Researchs[index].ResourceCosts[loop].Amount);
+                        Name += lexical_cast<string>(dataset->Techs[index].ResourceCosts[loop].Amount);
                     }
                 }   break;
                 case 15: // Cost Uses
@@ -79,22 +79,22 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     for(size_t loop = 0; loop < 3; ++loop)
                     {
                         if(HasFore) Name += ", CU"; else {Name += "CU"; HasFore = true;}
-                        Name += lexical_cast<string>((short)dataset->Researchs[index].ResourceCosts[loop].Enabled);
+                        Name += lexical_cast<string>((short)dataset->Techs[index].ResourceCosts[loop].Flag);
                     }
                 }   break;
                 if(GenieVersion >= genie::GV_AoKB)
                 {
                 case 16: // Civilization
-                    Name += "C "+lexical_cast<string>(dataset->Researchs[index].Civ);
+                    Name += "C "+lexical_cast<string>(dataset->Techs[index].Civ);
                     break;
-                case 17: // Full Tech. Mode
-                    Name += "F "+lexical_cast<string>(dataset->Researchs[index].FullTechMode);
+                case 17: // Full Tech Mode
+                    Name += "F "+lexical_cast<string>(dataset->Techs[index].FullTechMode);
                     break;
                 if(GenieVersion >= genie::GV_SWGB)
                 {
                 case 18: // Internal Name 2
-                    if(!dataset->Researchs[index].Name2.empty())
-                    return Name + dataset->Researchs[index].Name2;
+                    if(!dataset->Techs[index].Name2.empty())
+                    return Name + dataset->Techs[index].Name2;
                     else goto InternalName;
                 }
                 }
@@ -105,16 +105,16 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
         if(Selection[0] == 1) goto InternalName;
     }
 
-    if(!LangDLLstring(dataset->Researchs[index].LanguageDLLName, 2).empty())
+    if(!TranslatedText(dataset->Techs[index].LanguageDLLName, 2).empty())
     {
-        return Name + LangDLLstring(dataset->Researchs[index].LanguageDLLName, 64);
+        return Name + TranslatedText(dataset->Techs[index].LanguageDLLName, 64);
     }
 InternalName:
-    if(!dataset->Researchs[index].Name.empty())
+    if(!dataset->Techs[index].Name.empty())
     {
-        return Name + dataset->Researchs[index].Name;
+        return Name + dataset->Techs[index].Name;
     }
-    return Name + "New Research";
+    return Name + "New Tech";
 }
 
 void AGE_Frame::OnResearchSearch(wxCommandEvent &event)
@@ -140,11 +140,11 @@ void AGE_Frame::InitResearches(bool all)
     if(all)
     {
         research_names.Clear();
-        research_names.Alloc(1 + dataset->Researchs.size());
+        research_names.Alloc(1 + dataset->Techs.size());
         research_names.Add("-1 - None");
     }
 
-    for(size_t loop = 0; loop < dataset->Researchs.size(); ++loop)
+    for(size_t loop = 0; loop < dataset->Techs.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetResearchName(loop, true);
         if(SearchMatches(" " + Name.Lower() + " "))
@@ -180,10 +180,10 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
 
     for(auto &box: uiGroupResearch) box->clear();
 
-    genie::Research * ResearchPointer = 0;
+    genie::Tech * ResearchPointer = 0;
     for(auto loop = selections; loop--> 0;)
     {
-        ResearchPointer = &dataset->Researchs[ResearchIDs[loop]];
+        ResearchPointer = &dataset->Techs[ResearchIDs[loop]];
 
         for(size_t loop2 = 0; loop2 < ResearchPointer->getRequiredTechsSize(); ++loop2)
         {
@@ -196,9 +196,9 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
         Research_Amount[0]->prepend(&ResearchPointer->ResourceCosts[0].Amount);
         Research_Amount[1]->prepend(&ResearchPointer->ResourceCosts[1].Amount);
         Research_Amount[2]->prepend(&ResearchPointer->ResourceCosts[2].Amount);
-        Research_Used[0]->prepend(&ResearchPointer->ResourceCosts[0].Enabled);
-        Research_Used[1]->prepend(&ResearchPointer->ResourceCosts[1].Enabled);
-        Research_Used[2]->prepend(&ResearchPointer->ResourceCosts[2].Enabled);
+        Research_Used[0]->prepend(&ResearchPointer->ResourceCosts[0].Flag);
+        Research_Used[1]->prepend(&ResearchPointer->ResourceCosts[1].Flag);
+        Research_Used[2]->prepend(&ResearchPointer->ResourceCosts[2].Flag);
         if(GenieVersion >= genie::GV_AoKB)
         {
             Research_Civ->prepend(&ResearchPointer->Civ);
@@ -213,7 +213,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
             Research_LangDLLDescription->prepend(&ResearchPointer->LanguageDLLDescription);
         }
         Research_ResearchTime->prepend(&ResearchPointer->ResearchTime);
-        Research_TechID->prepend(&ResearchPointer->TechageID);
+        Research_TechID->prepend(&ResearchPointer->EffectID);
         Research_Type->prepend(&ResearchPointer->Type);
         Research_IconID->prepend(&ResearchPointer->IconID);
         Research_ButtonID->prepend(&ResearchPointer->ButtonID);
@@ -221,20 +221,20 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
         {
             Research_LanguageDLLHelp->prepend(&ResearchPointer->LanguageDLLHelp);
             Research_LanguageDLLName2->prepend(&ResearchPointer->LanguageDLLTechTree);
-            Research_HotKey->prepend(&ResearchPointer->Unknown1);
+            Research_HotKey->prepend(&ResearchPointer->HotKey);
         }
         Research_Name[0]->prepend(&ResearchPointer->Name);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected research: "+lexical_cast<string>(ResearchIDs.front()), 0);
+    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected technology: "+lexical_cast<string>(ResearchIDs.front()), 0);
 
     if(ResearchPointer && GenieVersion >= genie::GV_MATT)
     {
         Research_DLL_LangDLLName->index = ResearchPointer->LanguageDLLName;
-        Research_DLL_LangDLLName->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLName, 64));
+        Research_DLL_LangDLLName->SetLabel(TranslatedText(ResearchPointer->LanguageDLLName, 64));
         Research_DLL_LangDLLDescription->index = ResearchPointer->LanguageDLLDescription;
-        Research_DLL_LangDLLDescription->SetLabel(LangDLLstring(ResearchPointer->LanguageDLLDescription, 128));
-        Research_DLL_HotKey->index = ResearchPointer->Unknown1;
-        Research_DLL_HotKey->SetLabel(LangDLLstring(ResearchPointer->Unknown1, 16));
+        Research_DLL_LangDLLDescription->SetLabel(TranslatedText(ResearchPointer->LanguageDLLDescription, 128));
+        Research_DLL_HotKey->index = ResearchPointer->HotKey;
+        Research_DLL_HotKey->SetLabel(TranslatedText(ResearchPointer->HotKey, 16));
         if(GenieVersion >= genie::GV_AoEB)
         {
             if(GenieVersion < genie::GV_AoKB)
@@ -247,9 +247,9 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
                 Research_DLL_LanguageDLLHelp->index = ResearchPointer->LanguageDLLHelp - 79000;
                 Research_DLL_LanguageDLLName2->index = ResearchPointer->LanguageDLLTechTree - 140000;
             }
-            Research_DLL_LanguageDLLHelp->SetLabel(LangDLLstring(Research_DLL_LanguageDLLHelp->index, 512));
+            Research_DLL_LanguageDLLHelp->SetLabel(TranslatedText(Research_DLL_LanguageDLLHelp->index, 512));
             Research_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLHelp->index));
-            Research_DLL_LanguageDLLName2->SetLabel(LangDLLstring(Research_DLL_LanguageDLLName2->index, 64));
+            Research_DLL_LanguageDLLName2->SetLabel(TranslatedText(Research_DLL_LanguageDLLName2->index, 64));
             Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLName2->index));
         }
         if(GenieVersion == genie::GV_CC)
@@ -288,7 +288,7 @@ void AGE_Frame::OnDrawTechSLP(wxPaintEvent &event)
         dc.DrawLabel("No icon", wxNullBitmap, wxRect(0, 0, 100, 40));
         return;
     }
-    SLPtoBitMap(&techSLP);
+    if(UseDRS && LoadSLP(&techSLP)) FrameToBitmap(&techSLP);
     if(techSLP.bitmap.IsOk())
     dc.DrawBitmap(techSLP.bitmap, 0, 0, true);
 }
@@ -298,7 +298,7 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent &event)
     if(!dataset) return;
 
     wxBusyCursor WaitCursor;
-    AddToList(dataset->Researchs);
+    AddToList(dataset->Techs);
     ListResearches();
 }
 
@@ -308,7 +308,7 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    InsertToList(dataset->Researchs, ResearchIDs.front());
+    InsertToList(dataset->Techs, ResearchIDs.front());
     ListResearches();
 }
 
@@ -318,7 +318,7 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    DeleteFromList(dataset->Researchs, ResearchIDs);
+    DeleteFromList(dataset->Techs, ResearchIDs);
     ListResearches();
 }
 
@@ -328,7 +328,7 @@ void AGE_Frame::OnResearchCopy(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    CopyFromList(dataset->Researchs, ResearchIDs, copies.Research);
+    CopyFromList(dataset->Techs, ResearchIDs, copies.Tech);
     Research_Research_ListV->SetFocus();
 }
 
@@ -338,7 +338,7 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    PasteToList(dataset->Researchs, ResearchIDs, copies.Research);
+    PasteToList(dataset->Techs, ResearchIDs, copies.Tech);
     ListResearches();
 }
 
@@ -348,7 +348,7 @@ void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &event)
     if(selections < 1) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToList(dataset->Researchs, ResearchIDs.front(), copies.Research);
+    PasteInsertToList(dataset->Techs, ResearchIDs.front(), copies.Tech);
     ListResearches();
 }
 
@@ -359,7 +359,7 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &event)
     {
         DLLValue = lexical_cast<int32_t>(static_cast<wxTextCtrl*>(event.GetEventObject())->GetValue());
     }
-    catch(bad_lexical_cast e)
+    catch(bad_lexical_cast)
     {
         wxMessageBox("Incorrect input!");
         return;
@@ -368,13 +368,13 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &event)
     {
         if(GenieVersion < genie::GV_AoKA) DLLValue += 0x10000;
         else DLLValue += 79000;
-        dataset->Researchs[ResearchIDs.front()].LanguageDLLHelp = DLLValue;
+        dataset->Techs[ResearchIDs.front()].LanguageDLLHelp = DLLValue;
     }
     else
     {
         if(GenieVersion < genie::GV_AoKA) DLLValue += 0x20000;
         else DLLValue += 140000;
-        dataset->Researchs[ResearchIDs.front()].LanguageDLLTechTree = DLLValue;
+        dataset->Techs[ResearchIDs.front()].LanguageDLLTechTree = DLLValue;
     }
     wxCommandEvent e;
     OnResearchSelect(e);
@@ -382,24 +382,10 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &event)
 
 void AGE_Frame::CreateResearchControls()
 {
-    /*wxString langGlobalAnd, langGlobalAdd, langGlobalInsNew, langGlobalDel,   langGlobalCopy, langGlobalPaste, langGlobalInsCopies, langGlobalName;
-    wxString langTabResearch;
-
-    wxFileConfig Translations("AGE", "Tapsa", "age3trans.txt", wxEmptyString, wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-    Translations.Read("Global/And", &langGlobalAnd, "And");
-    Translations.Read("Global/Add", &langGlobalAdd, "Add");
-    Translations.Read("Global/InsertNew", &langGlobalInsNew, "Insert New");
-    Translations.Read("Global/Delete", &langGlobalDel, "Delete");
-    Translations.Read("Global/Copy", &langGlobalCopy, "Copy");
-    Translations.Read("Global/Paste", &langGlobalPaste, "Paste");
-    Translations.Read("Global/InsertCopies", &langGlobalInsCopies, "Ins Copies");
-    Translations.Read("Research/Tab", &langTabResearch, "Researches");
-    Translations.Read("Global/Name", &langGlobalName, "Name");*/
-
     Tab_Research = new APanel(TabBar_Main);
 
     Research_Main = new wxBoxSizer(wxHORIZONTAL);
-    Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, "Researches");
+    Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, "Technologies");
     Research_Research_Search = new wxTextCtrl(Tab_Research, wxID_ANY);
     Research_Research_UseAnd[0] = new wxCheckBox(Tab_Research, wxID_ANY, "And");
     Research_Research_Search_R = new wxTextCtrl(Tab_Research, wxID_ANY);
@@ -418,18 +404,20 @@ void AGE_Frame::CreateResearchControls()
     Research_Paste = new wxButton(Tab_Research, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
     Research_PasteInsert = new wxButton(Tab_Research, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
 
-    Research_Scroller = new wxScrolled<APanel>(Tab_Research, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL);
+    Research_Scroller = new AScrolled(Tab_Research);
     Research_ScrollSpace = new wxBoxSizer(wxVERTICAL);
     Research_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
     Research_Name_Text[0] = new SolidText(Research_Scroller, " Name");
-    Research_Name[0] = AGETextCtrl::init(CString, &uiGroupResearch, this, &popUp, Research_Scroller, 30);
+    Research_Name[0] = AGETextCtrl::init(CString, &uiGroupResearch, this, &popUp, Research_Scroller, lengthiest);
     Research_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
     Research_Name_Text[1] = new SolidText(Research_Scroller, " Name 2");
-    Research_Name[1] = AGETextCtrl::init(CString, &uiGroupResearch, this, &popUp, Research_Scroller, 30);
+    Research_Name[1] = AGETextCtrl::init(CString, &uiGroupResearch, this, &popUp, Research_Scroller, lengthiest);
     Research_LangDLLName_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LangDLLName_Text = new SolidText(Research_Scroller, " Language File Name *");
     Research_LangDLLName = AGETextCtrl::init(CUShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-    Research_LangDLLName->SetToolTip("Usual Research File Pattern for The Conquerors\nName: 7000-7999\nDescription: Name +1000\nHelp: Name +100000, in File Name +21000\nTech tree: Name +150000, in File Name +10000");
+    Research_LangDLLName->SetToolTip("Usual Technology File Pattern for The Conquerors\nName: 7000-7999\n"
+        "Description: Name +1000\nHelp: Name +100000, in file Name +21000\n"
+        "Tech tree: Name +150000, in file Name +10000");
     Research_DLL_LangDLLName = new TextCtrl_DLL(Research_Scroller, wxSize(AGETextCtrl::GIANT, 40));
     Research_LangDLLDescription_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LangDLLDescription_Text = new SolidText(Research_Scroller, " Language File Description");
@@ -449,7 +437,7 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLConverter_Holder[0] = new wxBoxSizer(wxVERTICAL);
     Research_LanguageDLLConverter_Text[0] = new SolidText(Research_Scroller, " Help Converter *");
     Research_LanguageDLLConverter[0] = new wxTextCtrl(Research_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
-    Research_LanguageDLLConverter[0]->SetToolTip("Language popup text in File\nHit enter to get the correction into dat file");
+    Research_LanguageDLLConverter[0]->SetToolTip("Language popup text in file\nHit enter to get the correction into dat file");
     Research_DLL_LanguageDLLHelp = new TextCtrl_DLL(Research_Scroller, wxSize(610, 40));
     Research_LanguageDLLName2_Text = new SolidText(Research_Scroller, " Lang File Tech Tree *");
     Research_LanguageDLLName2 = AGETextCtrl::init(CLong, &uiGroupResearch, this, &popUp, Research_Scroller);
@@ -457,12 +445,12 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLConverter_Holder[1] = new wxBoxSizer(wxVERTICAL);
     Research_LanguageDLLConverter_Text[1] = new SolidText(Research_Scroller, " Tech Tree Converter *");
     Research_LanguageDLLConverter[1] = new wxTextCtrl(Research_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
-    Research_LanguageDLLConverter[1]->SetToolTip("Language help text in File\nHit enter to get the correction into dat file");
+    Research_LanguageDLLConverter[1]->SetToolTip("Language help text in file\nHit enter to get the correction into dat file");
     Research_DLL_LanguageDLLName2 = new TextCtrl_DLL(Research_Scroller, wxSize(610, 40));
 
     Research_RequiredTechArea_Holder = new wxBoxSizer(wxVERTICAL);
     Research_RequiredTechs_Holder = new wxGridSizer(6, 0, 5);
-    Research_RequiredTechArea_Text = new SolidText(Research_Scroller, " Required Researches");
+    Research_RequiredTechArea_Text = new SolidText(Research_Scroller, " Required Techs");
     Research_LangDLLArea_Holder = new wxBoxSizer(wxHORIZONTAL);
     Research_Misc2_Holder = new wxBoxSizer(wxHORIZONTAL);
     Research_Misc3_Holder = new wxBoxSizer(wxHORIZONTAL);
@@ -476,12 +464,12 @@ void AGE_Frame::CreateResearchControls()
         ResearchComboBoxList.push_back(Research_RequiredTechs_ComboBox[loop]);
     }
     Research_RequiredTechCount_Holder = new wxBoxSizer(wxVERTICAL);
-    Research_RequiredTechCount_Text = new SolidText(Research_Scroller, " Min Req Researches");
+    Research_RequiredTechCount_Text = new SolidText(Research_Scroller, " Min Req Techs");
     Research_RequiredTechCount = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
     Research_Type_Holder = new wxBoxSizer(wxVERTICAL);
     Research_Type_Text = new SolidText(Research_Scroller, " Type *");
     Research_Type = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-    Research_Type->SetToolTip("0 Normal\n2 Show progress in age bar\nAoE/RoR usages:\n1 = dock\n2 = granary\n3 = temple\n4 = market\n5 = government center\n6 = storage pit\n7 = siege workshop\n8 = archery range\n9 = barracks\n10 = stable\n11 = academy\n12 = town center");
+    Research_Type->SetToolTip("AoK+\n0   Normal\n2   Show progress in age bar.\nAoE/RoR: Used to track similar\ntechnologies for modding purposes,\nwithout actual usage in the game.");
     Research_ResearchTime_Holder = new wxBoxSizer(wxVERTICAL);
     Research_ResearchTime_Text = new SolidText(Research_Scroller, " Research Time");
     Research_ResearchTime = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
@@ -493,7 +481,7 @@ void AGE_Frame::CreateResearchControls()
     Research_ButtonID_Text = new SolidText(Research_Scroller, " Button");
     Research_ButtonID = AGETextCtrl::init(CByte, &uiGroupResearch, this, &popUp, Research_Scroller);
     Research_TechID_Holder = new wxBoxSizer(wxVERTICAL);
-    Research_TechID_Text = new SolidText(Research_Scroller, " Technology");
+    Research_TechID_Text = new SolidText(Research_Scroller, " Effect");
     Research_TechID = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
     Research_TechID_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_TechID, &tech_names);
     TechComboBoxList.push_back(Research_TechID_ComboBox);
@@ -508,7 +496,7 @@ void AGE_Frame::CreateResearchControls()
     Research_Civ_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_Civ, &civ_names);
     CivComboBoxList.push_back(Research_Civ_ComboBox);
     Research_FullTechMode_Holder = new wxBoxSizer(wxVERTICAL);
-    Research_FullTechMode_Text = new SolidText(Research_Scroller, " Full Tech. Mode");
+    Research_FullTechMode_Text = new SolidText(Research_Scroller, " Full Tech Mode");
     Research_FullTechMode = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
     Research_FullTechMode_CheckBox = new CheckBox_2State(Research_Scroller, "Available", Research_FullTechMode);
 
@@ -518,7 +506,7 @@ void AGE_Frame::CreateResearchControls()
     sizer = new wxBoxSizer(wxVERTICAL);
     Research_Resources_Text = new SolidText(Research_Scroller, "Type", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(90, -1));
     Research_Amount_Text = new SolidText(Research_Scroller, "Amount", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(90, -1));
-    Research_Used_Text = new SolidText(Research_Scroller, "Is Paid", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(90, -1));
+    Research_Used_Text = new SolidText(Research_Scroller, "Deduct", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(90, -1));
     for(size_t loop = 0; loop < 3; ++loop)
     {
         Research_Resources[loop] = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
@@ -536,7 +524,7 @@ void AGE_Frame::CreateResearchControls()
     Translations.Write("Global/Copy", langGlobalCopy);
     Translations.Write("Global/Paste", langGlobalPaste);
     Translations.Write("Global/InsertCopies", langGlobalInsCopies);
-    Translations.Write("Research/Tab", langTabResearch);
+    Translations.Write("Tech/Tab", langTabResearch);
     Translations.Write("Global/Name", langGlobalName);*/
 
     Research_Research_Buttons->Add(Research_Add, 1, wxEXPAND);
@@ -547,9 +535,9 @@ void AGE_Frame::CreateResearchControls()
     Research_Research_Buttons->Add(Research_PasteInsert, 1, wxEXPAND);
 
     Research_Research_Searches[0]->Add(Research_Research_Search, 1, wxEXPAND);
-    Research_Research_Searches[0]->Add(Research_Research_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
+    Research_Research_Searches[0]->Add(Research_Research_UseAnd[0], 0, wxLEFT, 2);
     Research_Research_Searches[1]->Add(Research_Research_Search_R, 1, wxEXPAND);
-    Research_Research_Searches[1]->Add(Research_Research_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
+    Research_Research_Searches[1]->Add(Research_Research_UseAnd[1], 0, wxLEFT, 2);
     for(size_t loop = 0; loop < 2; ++loop)
     Research_Research->Add(Research_Research_Searches[loop], 0, wxEXPAND);
     for(size_t loop = 0; loop < 2; ++loop)
@@ -605,35 +593,35 @@ void AGE_Frame::CreateResearchControls()
     Research_RequiredTechArea_Holder->Add(Research_RequiredTechs_Holder);
 
     Research_RequiredTechCount_Holder->Add(Research_RequiredTechCount_Text);
-    Research_RequiredTechCount_Holder->Add(Research_RequiredTechCount, 0, wxEXPAND);
+    Research_RequiredTechCount_Holder->Add(Research_RequiredTechCount);
 
     Research_Civ_Holder->Add(Research_Civ_Text);
     Research_Civ_Holder->Add(Research_Civ, 0, wxEXPAND);
     Research_Civ_Holder->Add(Research_Civ_ComboBox);
 
     Research_FullTechMode_Holder->Add(Research_FullTechMode_Text);
-    Research_FullTechMode_Holder->Add(Research_FullTechMode, 0, wxEXPAND);
-    Research_FullTechMode_Holder->Add(Research_FullTechMode_CheckBox, 0, wxEXPAND);
+    Research_FullTechMode_Holder->Add(Research_FullTechMode);
+    Research_FullTechMode_Holder->Add(Research_FullTechMode_CheckBox);
 
     Research_ResearchLocation_Holder->Add(Research_ResearchLocation_Text);
     Research_ResearchLocation_Holder->Add(Research_ResearchLocation, 0, wxEXPAND);
     Research_ResearchLocation_Holder->Add(Research_ResearchLocation_ComboBox);
 
     Research_ResearchTime_Holder->Add(Research_ResearchTime_Text);
-    Research_ResearchTime_Holder->Add(Research_ResearchTime, 0, wxEXPAND);
+    Research_ResearchTime_Holder->Add(Research_ResearchTime);
 
     Research_TechID_Holder->Add(Research_TechID_Text);
     Research_TechID_Holder->Add(Research_TechID, 0, wxEXPAND);
     Research_TechID_Holder->Add(Research_TechID_ComboBox);
 
     Research_Type_Holder->Add(Research_Type_Text);
-    Research_Type_Holder->Add(Research_Type, 0, wxEXPAND);
+    Research_Type_Holder->Add(Research_Type);
 
     Research_IconID_Holder->Add(Research_IconID_Text);
-    Research_IconID_Holder->Add(Research_IconID, 0, wxEXPAND);
+    Research_IconID_Holder->Add(Research_IconID);
 
     Research_ButtonID_Holder->Add(Research_ButtonID_Text);
-    Research_ButtonID_Holder->Add(Research_ButtonID, 0, wxEXPAND);
+    Research_ButtonID_Holder->Add(Research_ButtonID);
 
     Research_Misc2_Holder->Add(Research_RequiredTechCount_Holder, 0, wxRIGHT, 5);
     Research_Misc2_Holder->Add(Research_Type_Holder, 0, wxRIGHT, 5);
@@ -649,13 +637,13 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLHelp_Holder->Add(Research_LanguageDLLHelp_Text);
     Research_LanguageDLLHelp_Holder->Add(Research_LanguageDLLHelp, 0, wxEXPAND);
     Research_LanguageDLLConverter_Holder[0]->Add(Research_LanguageDLLConverter_Text[0]);
-    Research_LanguageDLLConverter_Holder[0]->Add(Research_LanguageDLLConverter[0], 0, wxEXPAND);
+    Research_LanguageDLLConverter_Holder[0]->Add(Research_LanguageDLLConverter[0]);
     Research_LanguageDLLName2_Holder->Add(Research_LanguageDLLName2_Text);
     Research_LanguageDLLName2_Holder->Add(Research_LanguageDLLName2, 0, wxEXPAND);
     Research_LanguageDLLConverter_Holder[1]->Add(Research_LanguageDLLConverter_Text[1]);
-    Research_LanguageDLLConverter_Holder[1]->Add(Research_LanguageDLLConverter[1], 0, wxEXPAND);
+    Research_LanguageDLLConverter_Holder[1]->Add(Research_LanguageDLLConverter[1]);
     Research_HotKey_Holder->Add(Research_HotKey_Text);
-    Research_HotKey_Holder->Add(Research_HotKey, 0, wxEXPAND);
+    Research_HotKey_Holder->Add(Research_HotKey);
     Research_HotKey_Holder->Add(Research_DLL_HotKey);
 
     Research_PointerArea_Holder->Add(Research_LanguageDLLHelp_Holder);
@@ -664,14 +652,14 @@ void AGE_Frame::CreateResearchControls()
     Research_PointerArea_Holder->Add(Research_LanguageDLLConverter_Holder[1], 0, wxLEFT, 5);
     Research_LangDLLArea_Holder->Add(Research_HotKey_Holder, 0, wxLEFT, 5);
 
-    Research_ScrollSpace->Add(Research_Names_Holder, 0, wxEXPAND);
-    Research_ScrollSpace->Add(Research_LangDLLArea_Holder, 0, wxEXPAND | wxTOP, 5);
-    Research_ScrollSpace->Add(Research_PointerArea_Holder, 0, wxEXPAND | wxTOP, 5);
-    Research_ScrollSpace->Add(Research_DLL_LanguageDLLHelp, 0, wxEXPAND | wxTOP, 5);
+    Research_ScrollSpace->Add(Research_Names_Holder);
+    Research_ScrollSpace->Add(Research_LangDLLArea_Holder, 0, wxTOP, 5);
+    Research_ScrollSpace->Add(Research_PointerArea_Holder, 0, wxTOP | wxBOTTOM, 5);
+    Research_ScrollSpace->Add(Research_DLL_LanguageDLLHelp, 0, wxEXPAND);
     Research_ScrollSpace->Add(Research_DLL_LanguageDLLName2, 0, wxEXPAND);
-    Research_ScrollSpace->Add(Research_RequiredTechArea_Holder, 0, wxEXPAND | wxTOP, 5);
-    Research_ScrollSpace->Add(Research_Misc2_Holder, 0, wxEXPAND | wxTOP, 5);
-    Research_ScrollSpace->Add(Research_Misc3_Holder, 0, wxEXPAND | wxTOP, 5);
+    Research_ScrollSpace->Add(Research_RequiredTechArea_Holder, 0, wxTOP, 5);
+    Research_ScrollSpace->Add(Research_Misc2_Holder, 0, wxTOP, 5);
+    Research_ScrollSpace->Add(Research_Misc3_Holder, 0, wxTOP, 5);
     Research_ScrollSpace->Add(Research_CostHeader_Holder, 0, wxTOP, 5);
 
     Research_Scroller->SetSizer(Research_ScrollSpace);
@@ -700,27 +688,33 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLConverter[1]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::ResearchLangDLLConverter, this);
 
     Research_LangDLLName->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
+    Research_LangDLLName->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
     Research_LangDLLDescription->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
+    Research_LangDLLDescription->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
     Research_Name[0]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
+    Research_Name[0]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
     Research_Name[1]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
+    Research_Name[1]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
     Research_LanguageDLLHelp->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
+    Research_LanguageDLLHelp->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
     Research_LanguageDLLName2->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
+    Research_LanguageDLLName2->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
     Research_HotKey->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
+    Research_HotKey->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
     Research_DLL_LangDLLName->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
     Research_DLL_LangDLLDescription->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
     Research_DLL_LanguageDLLHelp->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
     Research_DLL_LanguageDLLName2->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
     Research_DLL_HotKey->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
     Research_IconID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
+    Research_IconID->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
     Research_IconID_SLP->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawTechSLP, this);
     Research_IconID_SLP->Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});
 }
 
-void AGE_Frame::OnKillFocus_Research(wxFocusEvent &event)
+void AGE_Frame::OnSaveEdits_Research(int id)
 {
-    event.Skip();
-    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
-    if(event.GetId() == Research_Name[0]->GetId() || event.GetId() == Research_LangDLLName->GetId())
+    if(id == Research_Name[0]->GetId() || id == Research_LangDLLName->GetId())
     {
         ListResearches();
     }
@@ -729,4 +723,17 @@ void AGE_Frame::OnKillFocus_Research(wxFocusEvent &event)
         wxCommandEvent e;
         OnResearchSelect(e);
     }
+}
+
+void AGE_Frame::OnEnter_Research(wxCommandEvent &event)
+{
+    static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+    OnSaveEdits_Research(event.GetId());
+}
+
+void AGE_Frame::OnKillFocus_Research(wxFocusEvent &event)
+{
+    event.Skip();
+    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
+    OnSaveEdits_Research(event.GetId());
 }

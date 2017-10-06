@@ -13,6 +13,7 @@
 #include <functional>
 #include <boost/lexical_cast.hpp>
 #include <boost/shared_ptr.hpp>
+#include <SFML/Audio.hpp>
 #include <wx/wx.h>
 #include <wx/aboutdlg.h>
 //#include <wx/collpane.h>
@@ -20,21 +21,23 @@
 #include <wx/fileconf.h>
 #include <wx/filename.h>
 #include <wx/filepicker.h>
+#include <wx/ffile.h>
 #include <wx/hyperlink.h>
 #include <wx/notebook.h>
 #include <wx/odcombo.h>
-#include <wx/listctrl.h>
+//#include <wx/listctrl.h>
 #include <wx/tooltip.h>
 #include <wx/timer.h>
 #include <wx/image.h>
 #include <wx/dcbuffer.h>
 #include <wx/dir.h>
-#include <wx/sound.h>
+//#include <wx/sound.h>
 #include <wx/clrpicker.h>
 #include <wx/thread.h>
 #include <wx/accel.h>
 #include <wx/tokenzr.h>
 #include <wx/wrapsizer.h>
+#include <wx/stdpaths.h>
 
 // uncomment to disable assert()
 // #define NDEBUG
@@ -43,6 +46,7 @@
 #ifdef WIN32
 #include <wx/msw/registry.h>
 #include <windows.h>
+#include <psapi.h>
 #else
 // dummies for code that is not used on linux
 #define HINSTANCE ssize_t
@@ -124,4 +128,21 @@ private:
         Bind(wxEVT_CHILD_FOCUS, [](wxChildFocusEvent&){}); // No scrolling
         Bind(wxEVT_LEFT_DOWN, [this](wxMouseEvent&){SetFocusIgnoringChildren();});
     }
+};
+
+class AScrolled: public wxScrolled<APanel>
+{
+public:
+    AScrolled(wxWindow *parent):
+    wxScrolled<APanel>(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL)
+    {
+        // Smooth scrolling
+        Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent &event)
+        {
+            GetViewStart(&pos, &pos);
+            Scroll(0, event.GetWheelRotation() < 0 ? pos + 3 : max(pos - 3, 0));
+        });
+    }
+
+    int pos;
 };

@@ -21,9 +21,11 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, const wxFont &font)
     CheckBox_DRSPath->SetToolTip("Path to the folder containing all drs files/folders");
     CheckBox_DRSPath2 = new AGE_PairedCheckBox(this, "Path for mod DRS files", (wxWindow**)&Path_DRS2);
     CheckBox_DRSPath3 = new AGE_PairedCheckBox(this, "Extra 1st priority DRS file", (wxWindow**)&Path_DRS3);
+    CheckBox_SlpPath = new AGE_PairedCheckBox(this, "Path for loose SLP files", (wxWindow**)&Path_SLP);
     Path_DRS = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     Path_DRS2 = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     Path_DRS3 = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DRS (*.drs)|*.drs", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+    Path_SLP = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
 
     Extras->Add(TerrainsText);
     Extras->Add(TerrainsBox);
@@ -48,11 +50,13 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, const wxFont &font)
     Layout->Add(Path_DRS2, 1, wxEXPAND);
     Layout->Add(CheckBox_DRSPath3, 1, wxEXPAND);
     Layout->Add(Path_DRS3, 1, wxEXPAND);
+    Layout->Add(CheckBox_SlpPath, 1, wxEXPAND);
+    Layout->Add(Path_SLP, 1, wxEXPAND);
     Layout->AddSpacer(15);
     Layout->AddSpacer(15);
 
     Layout->AddGrowableCol(1, 1);
-    Layout->AddGrowableRow(16, 1);
+    Layout->AddGrowableRow(17, 1);
 
     Main->Add(Defaults, 0, wxALIGN_LEFT | wxTOP | wxLEFT | wxRIGHT, 5);
     Main->Add(Defaults_StarWars, 0, wxALIGN_LEFT | wxBOTTOM | wxLEFT | wxRIGHT, 5);
