@@ -1,12 +1,12 @@
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetSoundName(int sound)
+wxString AGE_Frame::GetSoundName(int sound)
 {
     if(dataset->Sounds[sound].Items.empty()) return "Empty";
     else if(dataset->Sounds[sound].Items.size() == 1)
     return "File: " + GetSoundItemName(0, sound);
     else
-    return "Files: " + lexical_cast<string>(dataset->Sounds[sound].Items.size());
+    return "Files: " + FormatInt(dataset->Sounds[sound].Items.size());
 }
 
 void AGE_Frame::OnSoundsSearch(wxCommandEvent &event)
@@ -64,9 +64,9 @@ void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
         SoundPointer = &dataset->Sounds[SoundIDs[loop]];
 
         Sounds_ID->prepend(&SoundPointer->ID);
-        Sounds_Unknown1->prepend(&SoundPointer->PlayAtUpdateCount);
+        Sounds_PlayDelay->prepend(&SoundPointer->PlayDelay);
         if(GenieVersion >= genie::GV_TEST)
-        Sounds_Unknown2->prepend(&SoundPointer->CacheTime);
+        Sounds_CacheTime->prepend(&SoundPointer->CacheTime);
     }
     SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected sound: "+lexical_cast<string>(SoundIDs.front()), 0);
 
@@ -134,9 +134,9 @@ void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &event)
     ListSounds();
 }
 
-string AGE_Frame::GetSoundItemName(int item, int set)
+wxString AGE_Frame::GetSoundItemName(int item, int set)
 {
-    string Name;
+    wxString Name;
     short Selection[2];
     for(size_t loop = 0; loop < 2; ++loop)
     Selection[loop] = Sounds_Items_SearchFilters[loop]->GetSelection();
@@ -147,18 +147,18 @@ string AGE_Frame::GetSoundItemName(int item, int set)
         switch(Selection[loop])
         {
             case 1: // DRS
-                Name += "DRS "+lexical_cast<string>(dataset->Sounds[set].Items[item].ResourceID);
+                Name += "DRS "+FormatInt(dataset->Sounds[set].Items[item].ResourceID);
                 break;
             case 2: // Probability
-                Name += "P "+lexical_cast<string>(dataset->Sounds[set].Items[item].Probability);
+                Name += "P% "+FormatInt(dataset->Sounds[set].Items[item].Probability);
                 break;
             if(GenieVersion >= genie::GV_AoKE3)
             {
             case 3: // Civilization
-                Name += "C "+lexical_cast<string>(dataset->Sounds[set].Items[item].Culture);
+                Name += "C "+FormatInt(dataset->Sounds[set].Items[item].Civilization);
                 break;
             case 4: // Unknown
-                Name += "U "+lexical_cast<string>(dataset->Sounds[set].Items[item].PlayerID);
+                Name += "PI "+FormatInt(dataset->Sounds[set].Items[item].IconSet);
                 break;
             }
         }
@@ -228,8 +228,8 @@ void AGE_Frame::OnSoundItemSelect(wxCommandEvent &event)
             SoundItems_Probability->prepend(&SoundItemPointer->Probability);
             if(GenieVersion >= genie::GV_AoKE3)
             {
-                SoundItems_Civ->prepend(&SoundItemPointer->Culture);
-                SoundItems_Unknown->prepend(&SoundItemPointer->PlayerID);
+                SoundItems_Civ->prepend(&SoundItemPointer->Civilization);
+                SoundItems_IconSet->prepend(&SoundItemPointer->IconSet);
             }
         }
     }
@@ -306,7 +306,6 @@ void AGE_Frame::OnSoundItemsCopyToSounds(wxCommandEvent &event)
 
 void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
 {
-    wxString Name;
     InitSearch(Sounds_AllItems_Search->GetValue().MakeLower(), Sounds_AllItems_Search_R->GetValue().MakeLower());
     SearchAnd = Sounds_AllItems_UseAnd[0]->GetValue();
     ExcludeAnd = Sounds_AllItems_UseAnd[1]->GetValue();
@@ -317,7 +316,7 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
     {
         for(short file = 0; file < dataset->Sounds[sound].Items.size(); ++file)
         {
-            Name = " S"+lexical_cast<string>(sound)+" F"+lexical_cast<string>(file)+" - "+GetSoundItemName(file, sound);
+            wxString Name = " S"+lexical_cast<string>(sound)+" F"+lexical_cast<string>(file)+" - "+GetSoundItemName(file, sound);
             if(SearchMatches(" " + Name.Lower() + " "))
             {
                 Sounds_AllItems_ListV->names.Add(Name);
@@ -386,12 +385,12 @@ void AGE_Frame::CreateSoundControls()
     Sounds_ID_Holder = new wxBoxSizer(wxVERTICAL);
     Sounds_ID_Text = new SolidText(Tab_Sounds, " Sound ID");
     Sounds_ID = AGETextCtrl::init(CShort, 0, this, &popUp, Tab_Sounds);
-    Sounds_Unknown1_Holder = new wxBoxSizer(wxVERTICAL);
-    Sounds_Unknown1_Text = new SolidText(Tab_Sounds, " Play at Update Count");
-    Sounds_Unknown1 = AGETextCtrl::init(CShort, &uiGroupSound, this, &popUp, Tab_Sounds);
-    Sounds_Unknown2_Holder = new wxBoxSizer(wxVERTICAL);
-    Sounds_Unknown2_Text = new SolidText(Tab_Sounds, " Cache Time");
-    Sounds_Unknown2 = AGETextCtrl::init(CLong, &uiGroupSound, this, &popUp, Tab_Sounds);
+    Sounds_PlayDelay_Holder = new wxBoxSizer(wxVERTICAL);
+    Sounds_PlayDelay_Text = new SolidText(Tab_Sounds, " Play Delay");
+    Sounds_PlayDelay = AGETextCtrl::init(CShort, &uiGroupSound, this, &popUp, Tab_Sounds);
+    Sounds_CacheTime_Holder = new wxBoxSizer(wxVERTICAL);
+    Sounds_CacheTime_Text = new SolidText(Tab_Sounds, " Cache Time");
+    Sounds_CacheTime = AGETextCtrl::init(CLong, &uiGroupSound, this, &popUp, Tab_Sounds);
 
     SoundItems_Name_Holder = new wxBoxSizer(wxVERTICAL);
     SoundItems_Name_Text = new SolidText(Tab_Sounds, " Filename");
@@ -409,9 +408,9 @@ void AGE_Frame::CreateSoundControls()
     SoundItems_Civ = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, &popUp, Tab_Sounds);
     SoundItems_Civ_ComboBox = new ComboBox_Plus1(Tab_Sounds, SoundItems_Civ, &civ_names);
     CivComboBoxList.push_back(SoundItems_Civ_ComboBox);
-    SoundItems_Unknown_Holder = new wxBoxSizer(wxVERTICAL);
-    SoundItems_Unknown_Text = new SolidText(Tab_Sounds, " File Player ID");
-    SoundItems_Unknown = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, &popUp, Tab_Sounds);
+    SoundItems_IconSet_Holder = new wxBoxSizer(wxVERTICAL);
+    SoundItems_IconSet_Text = new SolidText(Tab_Sounds, " File Icon Set");
+    SoundItems_IconSet = AGETextCtrl::init(CShort, &uiGroupSoundFile, this, &popUp, Tab_Sounds);
     wxSizer *SoundFile_Holder = new wxBoxSizer(wxHORIZONTAL);
     SoundFile_Loop = new wxCheckBox(Tab_Sounds, wxID_ANY, "Loop");
     SoundFile_Play = new wxButton(Tab_Sounds, wxID_ANY, "Play WAV", wxDefaultPosition, wxSize(10, -1));
@@ -419,8 +418,8 @@ void AGE_Frame::CreateSoundControls()
     SoundFile_Loop->SetValue(true);
     SoundFile_CopyCivToCiv = new wxButton(Tab_Sounds, wxID_ANY, "Copy sounds from civ to civ *", wxDefaultPosition, wxSize(10, -1));
     SoundFile_CopyCivToCiv->SetToolTip("Applies to all sounds");
-    wxSizer *SourceCiv_Holder = new wxBoxSizer(wxHORIZONTAL);
-    wxSizer *TargetCiv_Holder = new wxBoxSizer(wxHORIZONTAL);
+    SourceCiv_Holder = new wxBoxSizer(wxHORIZONTAL);
+    TargetCiv_Holder = new wxBoxSizer(wxHORIZONTAL);
     SolidText *SourceCiv_Text = new SolidText(Tab_Sounds, " Source ");
     SolidText *TargetCiv_Text = new SolidText(Tab_Sounds, " Target ");
     SoundFile_Source_Civ = new AGEComboBox(Tab_Sounds, &civ_names_only);
@@ -461,9 +460,9 @@ void AGE_Frame::CreateSoundControls()
     Sounds_Items_Buttons->Add(SoundItems_PasteInsert, 1, wxEXPAND);
 
     Sounds_Items_Searches[0]->Add(Sounds_Items_Search, 1, wxEXPAND);
-    Sounds_Items_Searches[0]->Add(Sounds_Items_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
+    Sounds_Items_Searches[0]->Add(Sounds_Items_UseAnd[0], 0, wxLEFT, 2);
     Sounds_Items_Searches[1]->Add(Sounds_Items_Search_R, 1, wxEXPAND);
-    Sounds_Items_Searches[1]->Add(Sounds_Items_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
+    Sounds_Items_Searches[1]->Add(Sounds_Items_UseAnd[1], 0, wxLEFT, 2);
     Sounds_Items->Add(Sounds_Items_Searches[0], 0, wxEXPAND);
     Sounds_Items->Add(Sounds_Items_Searches[1], 0, wxEXPAND);
     Sounds_Items->Add(Sounds_Items_SearchFilters[0], 0, wxEXPAND);
@@ -473,11 +472,11 @@ void AGE_Frame::CreateSoundControls()
     Sounds_Items->Add(SoundItems_CopyToSounds, 0, wxEXPAND | wxTOP, 2);
 
     Sounds_ID_Holder->Add(Sounds_ID_Text);
-    Sounds_ID_Holder->Add(Sounds_ID, 0, wxEXPAND);
-    Sounds_Unknown1_Holder->Add(Sounds_Unknown1_Text);
-    Sounds_Unknown1_Holder->Add(Sounds_Unknown1, 0, wxEXPAND);
-    Sounds_Unknown2_Holder->Add(Sounds_Unknown2_Text);
-    Sounds_Unknown2_Holder->Add(Sounds_Unknown2, 0, wxEXPAND);
+    Sounds_ID_Holder->Add(Sounds_ID);
+    Sounds_PlayDelay_Holder->Add(Sounds_PlayDelay_Text);
+    Sounds_PlayDelay_Holder->Add(Sounds_PlayDelay);
+    Sounds_CacheTime_Holder->Add(Sounds_CacheTime_Text);
+    Sounds_CacheTime_Holder->Add(Sounds_CacheTime);
     SoundItems_Name_Holder->Add(SoundItems_Name_Text);
     SoundItems_Name_Holder->Add(SoundItems_Name, 0, wxEXPAND);
     SoundItems_Resource_Holder->Add(SoundItems_Resource);
@@ -487,13 +486,13 @@ void AGE_Frame::CreateSoundControls()
     SoundItems_Civ_Holder->Add(SoundItems_Civ_Text);
     SoundItems_Civ_Holder->Add(SoundItems_Civ, 0, wxEXPAND);
     SoundItems_Civ_Holder->Add(SoundItems_Civ_ComboBox);
-    SoundItems_Unknown_Holder->Add(SoundItems_Unknown_Text);
-    SoundItems_Unknown_Holder->Add(SoundItems_Unknown, 0, wxEXPAND);
+    SoundItems_IconSet_Holder->Add(SoundItems_IconSet_Text);
+    SoundItems_IconSet_Holder->Add(SoundItems_IconSet);
 
     Sounds_AllItems_Searches[0]->Add(Sounds_AllItems_Search, 1, wxEXPAND);
-    Sounds_AllItems_Searches[0]->Add(Sounds_AllItems_UseAnd[0], 0, wxEXPAND | wxLEFT, 2);
+    Sounds_AllItems_Searches[0]->Add(Sounds_AllItems_UseAnd[0], 0, wxLEFT, 2);
     Sounds_AllItems_Searches[1]->Add(Sounds_AllItems_Search_R, 1, wxEXPAND);
-    Sounds_AllItems_Searches[1]->Add(Sounds_AllItems_UseAnd[1], 0, wxEXPAND | wxLEFT, 2);
+    Sounds_AllItems_Searches[1]->Add(Sounds_AllItems_UseAnd[1], 0, wxLEFT, 2);
     Sounds_AllItems->Add(Sounds_AllItems_Searches[0], 0, wxEXPAND);
     Sounds_AllItems->Add(Sounds_AllItems_Searches[1], 0, wxEXPAND);
     Sounds_AllItems->Add(Sounds_AllItems_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
@@ -507,15 +506,15 @@ void AGE_Frame::CreateSoundControls()
     TargetCiv_Holder->Add(SoundFile_Target_Civ, 1, wxEXPAND);
 
     Sounds_DataArea->Add(Sounds_ID_Holder, 0, wxTOP, 5);
-    Sounds_DataArea->Add(Sounds_Unknown1_Holder, 0, wxTOP, 5);
-    Sounds_DataArea->Add(Sounds_Unknown2_Holder, 0, wxTOP, 5);
+    Sounds_DataArea->Add(Sounds_PlayDelay_Holder, 0, wxTOP, 5);
+    Sounds_DataArea->Add(Sounds_CacheTime_Holder, 0, wxTOP, 5);
     Sounds_DataArea->Add(SoundItems_Name_Holder, 0, wxEXPAND | wxTOP, 5);
     Sounds_DataArea->Add(SoundItems_Resource_Text, 0, wxTOP, 5);
     Sounds_DataArea->Add(SoundItems_Resource_Holder, 0, wxEXPAND);
     Sounds_DataArea->Add(SoundItems_Probability_Text, 0, wxTOP, 5);
     Sounds_DataArea->Add(SoundItems_Probability_Holder, 0, wxEXPAND);
     Sounds_DataArea->Add(SoundItems_Civ_Holder, 0, wxTOP, 5);
-    Sounds_DataArea->Add(SoundItems_Unknown_Holder, 0, wxEXPAND | wxTOP, 5);
+    Sounds_DataArea->Add(SoundItems_IconSet_Holder, 0, wxTOP, 5);
     SoundFile_Holder->Add(SoundFile_Loop);
     SoundFile_Holder->Add(SoundFile_Play, 1, wxEXPAND | wxLEFT, 5);
     SoundFile_Holder->Add(SoundFile_Stop, 1, wxEXPAND | wxLEFT, 5);
@@ -529,7 +528,6 @@ void AGE_Frame::CreateSoundControls()
     Sounds_Main->Add(Sounds_DataArea, 0, wxRIGHT, 5);
     Sounds_Main->Add(Sounds_AllItems, 1, wxEXPAND | wxRIGHT | wxTOP | wxBOTTOM, 5);
 
-    if(EnableIDFix)
     Sounds_ID->Enable(false);
 
     Tab_Sounds->SetSizer(Sounds_Main);
@@ -571,7 +569,16 @@ void AGE_Frame::CreateSoundControls()
     SoundFile_CopyCivToCiv->Bind(wxEVT_BUTTON, &AGE_Frame::copySoundsFromCivToCiv, this);
 
     for(auto &box: uiGroupSoundFile)
-    box->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Sounds, this);
+    {
+        box->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Sounds, this);
+        box->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Sounds, this);
+    }
+}
+
+void AGE_Frame::OnEnter_Sounds(wxCommandEvent &event)
+{
+    static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+    ListSoundItems();
 }
 
 void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &event)
@@ -579,6 +586,16 @@ void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &event)
     event.Skip();
     if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
     ListSoundItems();
+}
+
+void echo(sf::SoundBuffer &waves, sf::Sound &speaker, bool loop)
+{
+    if(waves.getSampleCount())
+    {
+        speaker.setBuffer(waves);
+        speaker.play();
+        speaker.setLoop(loop);
+    }
 }
 
 void AGE_Frame::playWAV(wxCommandEvent &event)
@@ -589,116 +606,38 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
 
     if(event.GetId() == SoundFile_Stop->GetId())
     {
-        wxSound::Stop();
+        speaker.stop();
         return;
     }
     if(SoundItemIDs.size() && dataset && SoundItemIDs.front() < dataset->Sounds[SoundIDs.front()].Items.size())
     {
         bool loop = SoundFile_Loop->GetValue();
-        if(UseTXT)
+        auto &sound_item = dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs.front()];
+        if(LooseHD)
         {
-            wxArrayString folders;
-            wxString folder = FolderDRS2;
-            if(UseMod && !folder.empty())
+            string soundname = GG::LoadSound(soundfolders, sound_item.FileName, sound_item.ResourceID);
+            if("" != soundname && waves.loadFromFile(soundname))
             {
-                wxString soundfolder = FolderDRS2;
-                soundfolder.Replace("drs", "sound\\terrain", false);
-                if(wxDir::Exists(soundfolder))
-                folders.Add(soundfolder + "\\");
-                if(wxDir::Exists(folder + "\\gamedata_x2"))
-                folders.Add(folder + "\\gamedata_x2\\");
-                if(wxDir::Exists(folder + "\\sounds"))
-                folders.Add(folder + "\\sounds\\");
-                if(wxDir::Exists(folder + "\\interface"))
-                folders.Add(folder + "\\interface\\");
-            }
-            folder = FolderDRS;
-            if(!folder.empty())
-            {
-                wxString soundfolder = FolderDRS;
-                soundfolder.Replace("drs", "sound\\terrain", false);
-                if(wxDir::Exists(soundfolder))
-                folders.Add(soundfolder + "\\");
-                if(wxDir::Exists(folder + "\\gamedata_x2"))
-                folders.Add(folder + "\\gamedata_x2\\");
-                if(wxDir::Exists(folder + "\\sounds"))
-                folders.Add(folder + "\\sounds\\");
-                if(wxDir::Exists(folder + "\\interface"))
-                folders.Add(folder + "\\interface\\");
-            }
-            for(int i=0; i < folders.size(); ++i)
-            {
-                wxString sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs.front()].FileName);
-                if(!wxFileName(sound).FileExists())
-                    sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs.front()].ResourceID) + ".wav";
-                if(wxFileName(sound).FileExists())
-                {
-                    wxSound playMe(sound);
-                    if(playMe.IsOk())
-                    {
-                        playMe.Play(loop ? wxSOUND_ASYNC | wxSOUND_LOOP : wxSOUND_ASYNC);
-                        return;
-                    }
-                }
+                echo(waves, speaker, loop); return;
             }
         }
         else
         {
-            for(auto &file: datafiles)
+            // Terrain sounds may be loose files.
+            string soundname = GG::LoadSound(soundfolders, sound_item.FileName, sound_item.ResourceID);
+            if("" != soundname && waves.loadFromFile(soundname))
             {
-                const unsigned char* sound = file->getWavPtr(dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs.front()].ResourceID);
-                if(sound)
-                {
-                    int size = *((uint32_t*)sound + 1);
-                    wxSound playMe(size, sound);
-                    if(playMe.IsOk())
-                    {
-                        playMe.Play(loop ? wxSOUND_ASYNC | wxSOUND_LOOP : wxSOUND_ASYNC);
-                        return;
-                    }
-                }
+                echo(waves, speaker, loop); return;
             }
-            wxArrayString folders;
-            wxString folder = FolderDRS2;
-            if(UseMod && !folder.empty())
+            const unsigned char* sounddata = GG::LoadSound(datafiles, sound_item.ResourceID);
+            if(0 != sounddata)
             {
-                if(GenieVersion <= genie::GV_RoR)
+                size_t size = *((uint32_t*)sounddata + 1) + 8;
+                if(waves.loadFromMemory(sounddata, size))
                 {
-                    folder.Replace("data", "sound", false);
+                    echo(waves, speaker, loop); return;
                 }
-                else
-                {
-                    folder.Replace("data", "sound\\terrain", false);
-                }
-                if(wxDir::Exists(folder))
-                folders.Add(folder + "\\");
-            }
-            folder = FolderDRS;
-            if(!folder.empty())
-            {
-                if(GenieVersion <= genie::GV_RoR)
-                {
-                    folder.Replace("data", "sound", false);
-                }
-                else
-                {
-                    folder.Replace("data", "sound\\terrain", false);
-                }
-                if(wxDir::Exists(folder))
-                folders.Add(folder + "\\");
-            }
-            for(int i=0; i < folders.size(); ++i)
-            {
-                wxString sound = folders[i] + lexical_cast<string>(dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs.front()].FileName);
-                if(wxFileName(sound).FileExists())
-                {
-                    wxSound playMe(sound);
-                    if(playMe.IsOk())
-                    {
-                        playMe.Play(loop ? wxSOUND_ASYNC | wxSOUND_LOOP : wxSOUND_ASYNC);
-                        return;
-                    }
-                }
+                wxMessageBox("Cannot load sound");
             }
         }
         wxMessageBox("No such sound");
@@ -740,12 +679,12 @@ void AGE_Frame::copySoundsFromCivToCiv(wxCommandEvent &event)
         vector<genie::SoundItem> copies;
         for(size_t file = 0; file < sound.Items.size(); ++file)
         {
-            if(sound.Items[file].Culture == sourceCiv)
+            if(sound.Items[file].Civilization == sourceCiv)
             {
                 copies.emplace_back(sound.Items[file]);
-                copies.back().Culture = targetCiv;
+                copies.back().Civilization = targetCiv;
             }
-            else if(sound.Items[file].Culture == targetCiv)
+            else if(sound.Items[file].Civilization == targetCiv)
             {
                 targets.emplace_back(file);
             }

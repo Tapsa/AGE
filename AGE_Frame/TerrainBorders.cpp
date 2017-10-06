@@ -66,7 +66,7 @@ void AGE_Frame::OnTerrainBorderSelect(wxCommandEvent &event)
         Borders_Name[1]->prepend(&BorderPointer->Name2);
         if(GenieVersion >= genie::GV_AoEB)
         Borders_SLP->prepend(&BorderPointer->SLP);
-        Borders_Unknown3->prepend(&BorderPointer->Unknown3);
+        Borders_ShapePtr->prepend(&BorderPointer->ShapePtr);
         Borders_Sound->prepend(&BorderPointer->SoundID);
         for(size_t loop = 0; loop < 3; ++loop)
         {
@@ -82,7 +82,7 @@ void AGE_Frame::OnTerrainBorderSelect(wxCommandEvent &event)
         Borders_AnimateLast->prepend(&BorderPointer->AnimateLast);
         Borders_FrameChanged->prepend(&BorderPointer->FrameChanged);
         Borders_Drawn->prepend(&BorderPointer->Drawn);
-        Borders_DrawTile->prepend(&BorderPointer->DrawTile);
+        Borders_DrawTerrain->prepend(&BorderPointer->DrawTerrain);
         Borders_Terrain->prepend(&BorderPointer->UnderlayTerrain);
         Borders_BorderStyle->prepend(&BorderPointer->BorderStyle);
     }
@@ -105,7 +105,7 @@ void AGE_Frame::OnTerrainBorderSelect(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &event)
 {
-    if(Borders_ListV->GetSelectedCount()) return;
+    if(!Borders_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder);
@@ -114,7 +114,7 @@ void AGE_Frame::OnTerrainBordersCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &event)
 {
-    if(Borders_ListV->GetSelectedCount()) return;
+    if(!Borders_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->TerrainBlock.TerrainBorders, BorderIDs, copies.TerrainBorder, false);
@@ -284,7 +284,7 @@ void AGE_Frame::OnDrawBorderSLP(wxPaintEvent &event)
         dc.DrawLabel("U w0t m8", wxNullBitmap, wxRect(0, 0, 100, 40));
         return;
     }
-    SLPtoBitMap(&borderSLP);
+    if(UseDRS && LoadSLP(&borderSLP)) FrameToBitmap(&borderSLP);
     if(borderSLP.bitmap.IsOk())
     dc.DrawBitmap(borderSLP.bitmap, 0, 0, true);
 }
@@ -350,13 +350,14 @@ void AGE_Frame::CreateTerrainBorderControls()
         Borders_Name[loop] = AGETextCtrl::init(CString, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, 13);
     }
     Borders_Name_Text[0] = new SolidText(Tab_TerrainBorders, " Name");
-    Borders_Name_Text[1] = new SolidText(Tab_TerrainBorders, " SLP Name ");
+    Borders_Name_Text[1] = new SolidText(Tab_TerrainBorders, " SLP Filename");
     Borders_SLP_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_SLP_Text = new SolidText(Tab_TerrainBorders, " SLP");
     Borders_SLP = AGETextCtrl::init(CLong, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
-    Borders_Unknown3_Holder = new wxBoxSizer(wxVERTICAL);
-    Borders_Unknown3_Text = new SolidText(Tab_TerrainBorders, " Unknown Pointer");
-    Borders_Unknown3 = AGETextCtrl::init(CLong, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_ShapePtr_Holder = new wxBoxSizer(wxVERTICAL);
+    Borders_ShapePtr_Text = new SolidText(Tab_TerrainBorders, " Shape Pointer *");
+    Borders_ShapePtr = AGETextCtrl::init(CLong, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_ShapePtr->SetToolTip("Assigned using SHP Filename");
     Borders_Sound_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Sound_Text = new SolidText(Tab_TerrainBorders, " Sound");
     Borders_Sound = AGETextCtrl::init(CLong, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
@@ -365,12 +366,13 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_Colors_Text = new SolidText(Tab_TerrainBorders, " Minimap Colors");
     for(size_t loop = 0; loop < 3; ++loop)
     Borders_Colors[loop] = AGETextCtrl::init(CUByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, AGETextCtrl::SMALL);
-    Borders_DrawTile_Holder = new wxBoxSizer(wxVERTICAL);
-    Borders_DrawTile_Text = new SolidText(Tab_TerrainBorders, " Draw Tile");
-    Borders_DrawTile = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_DrawTerrain_Holder = new wxBoxSizer(wxVERTICAL);
+    Borders_DrawTerrain_Text = new SolidText(Tab_TerrainBorders, " Draw Terrain");
+    Borders_DrawTerrain = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
     Borders_Terrain_Holder = new wxBoxSizer(wxVERTICAL);
-    Borders_Terrain_Text = new SolidText(Tab_TerrainBorders, " Underlay Terrain");
+    Borders_Terrain_Text = new SolidText(Tab_TerrainBorders, " Underlay Terrain *");
     Borders_Terrain = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_Terrain->SetToolTip("Used for terrain passability check");
     Borders_Terrain_ComboBox = new ComboBox_Plus1(Tab_TerrainBorders, Borders_Terrain, &terrain_names);
     TerrainComboBoxList.push_back(Borders_Terrain_ComboBox);
     Borders_BorderStyle_Holder = new wxBoxSizer(wxVERTICAL);
@@ -405,7 +407,7 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_Flag1_Text = new SolidText(Tab_TerrainBorders, " Animations");
     Borders_Flag1 = AGETextCtrl::init(CShort, &uiGroupBorderFrame, this, &popUp, Tab_TerrainBorders);
     Borders_Flag2_Holder = new wxBoxSizer(wxVERTICAL);
-    Borders_Flag2_Text = new SolidText(Tab_TerrainBorders, " Shape (Frame) Index");
+    Borders_Flag2_Text = new SolidText(Tab_TerrainBorders, " Frame Index");
     Borders_Flag2 = AGETextCtrl::init(CShort, &uiGroupBorderFrame, this, &popUp, Tab_TerrainBorders);
     Border_Shape_SLP = new APanel(Tab_TerrainBorders, wxSize(55, 50));
 
@@ -415,7 +417,7 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_IsAnimated_Text = new SolidText(Tab_TerrainBorders, " Is Animated");
     Borders_IsAnimated = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
     Borders_AnimationFrames_Holder = new wxBoxSizer(wxVERTICAL);
-    Borders_AnimationFrames_Text = new SolidText(Tab_TerrainBorders, " Animation Frames *");
+    Borders_AnimationFrames_Text = new SolidText(Tab_TerrainBorders, " Anim Frames *");
     Borders_AnimationFrames = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
     Borders_AnimationFrames->SetToolTip("Number of frames to animate through");
     Borders_PauseFames_Holder = new wxBoxSizer(wxVERTICAL);
@@ -453,14 +455,14 @@ void AGE_Frame::CreateTerrainBorderControls()
     for(size_t loop = 0; loop < 2; ++loop)
     {
         Borders_Name_Holder[loop]->Add(Borders_Name_Text[loop]);
-        Borders_Name_Holder[loop]->Add(Borders_Name[loop], 0, wxEXPAND);
+        Borders_Name_Holder[loop]->Add(Borders_Name[loop]);
     }
     Borders_Enabled1_Holder->Add(Borders_Enabled);
     Borders_Enabled1_Holder->Add(Borders_Enabled_CheckBox, 0, wxLEFT, 2);
     Borders_Enabled_Holder->Add(Borders_Enabled_Text);
-    Borders_Enabled_Holder->Add(Borders_Enabled1_Holder, 0, wxEXPAND);
+    Borders_Enabled_Holder->Add(Borders_Enabled1_Holder);
     Borders_Random_Holder->Add(Borders_Random_Text);
-    Borders_Random_Holder->Add(Borders_Random, 0, wxEXPAND);
+    Borders_Random_Holder->Add(Borders_Random);
 
     Borders_UsedCountHolder->Add(Borders_UsedCountText);
     Borders_UsedCountHolder->Add(Borders_UsedCount, 1, wxEXPAND | wxLEFT, 2);
@@ -480,25 +482,25 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_DataTopRow->Add(Borders_Name_Holder[1], 0, wxLEFT, 5);
 
     Borders_SLP_Holder->Add(Borders_SLP_Text);
-    Borders_SLP_Holder->Add(Borders_SLP, 0, wxEXPAND);
-    Borders_Unknown3_Holder->Add(Borders_Unknown3_Text);
-    Borders_Unknown3_Holder->Add(Borders_Unknown3, 0, wxEXPAND);
+    Borders_SLP_Holder->Add(Borders_SLP);
+    Borders_ShapePtr_Holder->Add(Borders_ShapePtr_Text);
+    Borders_ShapePtr_Holder->Add(Borders_ShapePtr);
     Borders_Sound_Holder->Add(Borders_Sound_Text);
     Borders_Sound_Holder->Add(Borders_Sound, 0, wxEXPAND);
     for(size_t loop = 0; loop < 3; ++loop)
-    Borders_Colors_Grid->Add(Borders_Colors[loop], 0, wxEXPAND);
+    Borders_Colors_Grid->Add(Borders_Colors[loop]);
     Borders_Colors_Holder->Add(Borders_Colors_Text);
-    Borders_Colors_Holder->Add(Borders_Colors_Grid, 0, wxEXPAND);
-    Borders_DrawTile_Holder->Add(Borders_DrawTile_Text);
-    Borders_DrawTile_Holder->Add(Borders_DrawTile, 0, wxEXPAND);
+    Borders_Colors_Holder->Add(Borders_Colors_Grid);
+    Borders_DrawTerrain_Holder->Add(Borders_DrawTerrain_Text);
+    Borders_DrawTerrain_Holder->Add(Borders_DrawTerrain);
     Borders_Terrain_Holder->Add(Borders_Terrain_Text);
     Borders_Terrain_Holder->Add(Borders_Terrain, 0, wxEXPAND);
     Borders_Terrain_Holder->Add(Borders_Terrain_ComboBox);
     Borders_BorderStyle_Holder->Add(Borders_BorderStyle_Text);
-    Borders_BorderStyle_Holder->Add(Borders_BorderStyle, 0, wxEXPAND);
+    Borders_BorderStyle_Holder->Add(Borders_BorderStyle);
 
     Borders_Data1->Add(Borders_SLP_Holder);
-    Borders_Data1->Add(Borders_Unknown3_Holder, 0, wxLEFT, 5);
+    Borders_Data1->Add(Borders_ShapePtr_Holder, 0, wxLEFT, 5);
     Borders_Data1->Add(Borders_Sound_Holder, 0, wxLEFT, 5);
     Borders_Data1->Add(Borders_Colors_Holder, 0, wxLEFT, 5);
 
@@ -512,16 +514,16 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_AnimateLast_Holder->Add(Borders_AnimateLast_Text);
     Borders_FrameChanged_Holder->Add(Borders_FrameChanged_Text);
     Borders_Drawn_Holder->Add(Borders_Drawn_Text);
-    Borders_IsAnimated_Holder->Add(Borders_IsAnimated, 0, wxEXPAND);
-    Borders_AnimationFrames_Holder->Add(Borders_AnimationFrames, 0, wxEXPAND);
-    Borders_PauseFames_Holder->Add(Borders_PauseFames, 0, wxEXPAND);
-    Borders_Interval_Holder->Add(Borders_Interval, 0, wxEXPAND);
-    Borders_PauseBetweenLoops_Holder->Add(Borders_PauseBetweenLoops, 0, wxEXPAND);
-    Borders_Frame_Holder->Add(Borders_Frame, 0, wxEXPAND);
-    Borders_DrawFrame_Holder->Add(Borders_DrawFrame, 0, wxEXPAND);
-    Borders_AnimateLast_Holder->Add(Borders_AnimateLast, 0, wxEXPAND);
-    Borders_FrameChanged_Holder->Add(Borders_FrameChanged, 0, wxEXPAND);
-    Borders_Drawn_Holder->Add(Borders_Drawn, 0, wxEXPAND);
+    Borders_IsAnimated_Holder->Add(Borders_IsAnimated);
+    Borders_AnimationFrames_Holder->Add(Borders_AnimationFrames);
+    Borders_PauseFames_Holder->Add(Borders_PauseFames);
+    Borders_Interval_Holder->Add(Borders_Interval);
+    Borders_PauseBetweenLoops_Holder->Add(Borders_PauseBetweenLoops);
+    Borders_Frame_Holder->Add(Borders_Frame);
+    Borders_DrawFrame_Holder->Add(Borders_DrawFrame);
+    Borders_AnimateLast_Holder->Add(Borders_AnimateLast);
+    Borders_FrameChanged_Holder->Add(Borders_FrameChanged);
+    Borders_Drawn_Holder->Add(Borders_Drawn);
     Borders_Animation_Grid1->Add(Borders_IsAnimated_Holder);
     Borders_Animation_Grid1->Add(Borders_AnimationFrames_Holder, 0, wxLEFT, 5);
     Borders_Animation_Grid1->Add(Borders_PauseFames_Holder, 0, wxLEFT, 5);
@@ -552,11 +554,11 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_BorderShapes->Add(BorderShapes_CopyToBorders, 0, wxEXPAND | wxTOP, 2);
 
     Borders_FrameID_Holder->Add(Borders_FrameID_Text);
-    Borders_FrameID_Holder->Add(Borders_FrameID, 0, wxEXPAND);
+    Borders_FrameID_Holder->Add(Borders_FrameID);
     Borders_Flag1_Holder->Add(Borders_Flag1_Text);
-    Borders_Flag1_Holder->Add(Borders_Flag1, 0, wxEXPAND);
+    Borders_Flag1_Holder->Add(Borders_Flag1);
     Borders_Flag2_Holder->Add(Borders_Flag2_Text);
-    Borders_Flag2_Holder->Add(Borders_Flag2, 0, wxEXPAND);
+    Borders_Flag2_Holder->Add(Borders_Flag2);
 
     Borders_FrameArea_Holder->Add(Borders_FrameID_Holder);
     Borders_FrameArea_Holder->Add(Borders_Flag1_Holder, 0, wxTOP, 5);
@@ -569,7 +571,7 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_FrameData->Add(Borders_Borders_Holder, 3, wxEXPAND);
     Borders_FrameData->AddStretchSpacer(1);
 
-    Borders_Data2->Add(Borders_DrawTile_Holder);
+    Borders_Data2->Add(Borders_DrawTerrain_Holder);
     Borders_Data2->Add(Borders_Terrain_Holder, 0, wxLEFT, 5);
     Borders_Data2->Add(Borders_BorderStyle_Holder, 0, wxLEFT, 5);
 
@@ -604,24 +606,41 @@ void AGE_Frame::CreateTerrainBorderControls()
     BorderShapes_CopyToBorders->Bind(wxEVT_BUTTON, &AGE_Frame::OnTerrainBorderBorderShapeCopyToBorders, this);
 
     for(size_t loop = 0; loop < 2; ++loop)
-    Borders_Name[loop]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Borders, this);
+    {
+        Borders_Name[loop]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Borders, this);
+        Borders_Name[loop]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Borders, this);
+    }
     Borders_FrameID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Borders, this);
+    Borders_FrameID->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Borders, this);
     Borders_Flag1->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Borders, this);
+    Borders_Flag1->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Borders, this);
     Borders_Flag2->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Borders, this);
+    Borders_Flag2->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Borders, this);
     Border_Shape_SLP->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawBorderSLP, this);
     Border_Shape_SLP->Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});
+}
+
+void AGE_Frame::OnSaveEdits_Borders(int id)
+{
+    if(id == Borders_Name[0]->GetId() || id == Borders_Name[1]->GetId())
+    {
+        ListTerrainBorders();
+    }
+    else if(id == Borders_FrameID->GetId() || id == Borders_Flag1->GetId() || id == Borders_Flag2->GetId())
+    {
+        ListTerrainBorderTileTypes();
+    }
+}
+
+void AGE_Frame::OnEnter_Borders(wxCommandEvent &event)
+{
+    static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+    OnSaveEdits_Borders(event.GetId());
 }
 
 void AGE_Frame::OnKillFocus_Borders(wxFocusEvent &event)
 {
     event.Skip();
     if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
-    if(event.GetId() == Borders_Name[0]->GetId() || event.GetId() == Borders_Name[1]->GetId())
-    {
-        ListTerrainBorders();
-    }
-    else if(event.GetId() == Borders_FrameID->GetId() || event.GetId() == Borders_Flag1->GetId() || event.GetId() == Borders_Flag2->GetId())
-    {
-        ListTerrainBorderTileTypes();
-    }
+    OnSaveEdits_Borders(event.GetId());
 }
