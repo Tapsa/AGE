@@ -1,4 +1,7 @@
 
+Version [b]2016.9.12[/b]:
+-Registry button works better now.
+
 Version [b]2016.8.28[/b]:
 -Fixed an offsets bug in SLP view when browsing units.
 -Some new info about graphics.

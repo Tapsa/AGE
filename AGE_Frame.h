@@ -1001,7 +1001,7 @@ private:
 
     float EditorVersion, slp_zoom = 1, boxWidthMultiplier;
     wxString EditorVersionString, slp_extra_info;
-    bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, KeepViewOnTop;
+    bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, KeepViewOnTop, useDynamicName;
     vector<short> SelectedCivs;
     bool SearchAnd = false, ExcludeAnd = false, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11, Reselection;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false;
@@ -1071,7 +1071,7 @@ private:
     bool exportFrame = false;
     void LoadTXT(const wxString &filename);
     bool LoadSLP(AGE_SLP*);
-    void FrameToBitmap(AGE_SLP*);
+    void FrameToBitmap(AGE_SLP*, bool = false);
     void BitmapToSLP(AGE_SLP*);
     AGE_SLP iconSLP, techSLP, tileSLP, borderSLP;
     AGE_SLPs gallery, museum;
@@ -1888,7 +1888,9 @@ private:
     ComboBox_Plus1 *Units_TrainSound_ComboBox;
     ComboBox_Plus1 *Units_DamageSound_ComboBox;
     AGETextCtrl *Units_DeadUnitID;
+    AGETextCtrl *Units_BloodUnitID;
     ComboBox_Plus1 *Units_DeadUnitID_ComboBox;
+    ComboBox_Plus1 *Units_BloodUnitID_ComboBox;
     AGETextCtrl *Units_SortNumber;
     AGETextCtrl *Units_CanBeBuiltOn;
     CheckBox_2State *Units_CanBeBuiltOn_CheckBox;
@@ -1965,6 +1967,7 @@ private:
     ComboBox_Plus1 *Units_MinTechLevel_ComboBox;
     AGETextCtrl *Units_CopyID;
     AGETextCtrl *Units_BaseID;
+    AGETextCtrl *Units_TelemetryID;
 
 //  Type 20+
 
@@ -2119,6 +2122,7 @@ private:
     SolidText *Units_TrainSound_Text;
     SolidText *Units_DamageSound_Text;
     SolidText *Units_DeadUnitID_Text;
+    SolidText *Units_BloodUnitID_Text;
     SolidText *Units_SortNumber_Text;
     SolidText *Units_IconID_Text;
     SolidText *Units_Portrait_Text;
@@ -2165,6 +2169,7 @@ private:
     SolidText *Units_MinTechLevel_Text;
     SolidText *Units_CopyID_Text;
     SolidText *Units_BaseID_Text;
+    SolidText *Units_TelemetryID_Text;
 
 //  Type 20+
 
@@ -2284,6 +2289,7 @@ private:
     wxBoxSizer *Units_TrainSound_Holder;
     wxBoxSizer *Units_DamageSound_Holder;
     wxBoxSizer *Units_DeadUnitID_Holder;
+    wxBoxSizer *Units_BloodUnitID_Holder;
     wxBoxSizer *Units_SortNumber_Holder;
     wxBoxSizer *Units_CanBeBuiltOn_Holder;
     wxBoxSizer *Units_IconID_Holder;
@@ -2341,6 +2347,7 @@ private:
     wxBoxSizer *Units_MinTechLevel_Holder;
     wxBoxSizer *Units_CopyID_Holder;
     wxBoxSizer *Units_BaseID_Holder;
+    wxBoxSizer *Units_TelemetryID_Holder;
 
 //  Type 20+
 
@@ -2756,6 +2763,7 @@ private:
     wxBoxSizer *Graphics_5_Holder;
     wxBoxSizer *Graphics_FrameCount_Holder;
     wxBoxSizer *Graphics_AngleCount_Holder;
+    wxBoxSizer *Graphics_FirstFrame_Holder;
     wxBoxSizer *Graphics_SpeedMultiplier_Holder;
     wxBoxSizer *Graphics_FrameDuration_Holder;
     wxBoxSizer *Graphics_ReplayDelay_Holder;
@@ -2782,6 +2790,7 @@ private:
     SolidText *Graphics_AngleSoundsUsed_Text;
     SolidText *Graphics_FrameCount_Text;
     SolidText *Graphics_AngleCount_Text;
+    SolidText *Graphics_FirstFrame_Text;
     SolidText *Graphics_SpeedMultiplier_Text;
     SolidText *Graphics_FrameDuration_Text;
     SolidText *Graphics_ReplayDelay_Text;
@@ -2807,6 +2816,7 @@ private:
     CheckBox_2State *Graphics_AngleSoundsUsed_CheckBox;
     AGETextCtrl *Graphics_FrameCount;
     AGETextCtrl *Graphics_AngleCount;
+    AGETextCtrl *Graphics_FirstFrame;
     AGETextCtrl *Graphics_SpeedMultiplier;
     AGETextCtrl *Graphics_FrameDuration;
     AGETextCtrl *Graphics_ReplayDelay;
@@ -2946,6 +2956,15 @@ private:
     wxBoxSizer *Terrains_BlendType_Holder;
     SolidText *Terrains_BlendType_Text;
     AGETextCtrl *Terrains_BlendType;
+    wxBoxSizer *Terrains_IsWater_Holder;
+    SolidText *Terrains_IsWater_Text;
+    AGETextCtrl *Terrains_IsWater;
+    wxBoxSizer *Terrains_HideInEditor_Holder;
+    SolidText *Terrains_HideInEditor_Text;
+    AGETextCtrl *Terrains_HideInEditor;
+    wxBoxSizer *Terrains_StringID_Holder;
+    SolidText *Terrains_StringID_Text;
+    AGETextCtrl *Terrains_StringID;
     wxBoxSizer *Terrains_Colors_Holder;
     wxGridSizer *Terrains_Colors_Grid;
     SolidText *Terrains_Colors_Text;
@@ -3103,6 +3122,10 @@ private:
     wxBoxSizer *Sounds_CacheTime_Holder;
     SolidText *Sounds_CacheTime_Text;
     AGETextCtrl *Sounds_CacheTime;
+    wxBoxSizer *Sounds_TotalProbability_Holder;
+    SolidText *Sounds_TotalProbability_Text;
+    SolidText *Sounds_TotalProbability_Info;
+    AGETextCtrl *Sounds_TotalProbability;
     wxBoxSizer *SoundItems_Name_Holder;
     SolidText *SoundItems_Name_Text;
     AGETextCtrl *SoundItems_Name;
