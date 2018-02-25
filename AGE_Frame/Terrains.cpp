@@ -218,8 +218,16 @@ void AGE_Frame::OnTerrainSelect(wxCommandEvent &event)
         Terrains_SoundID->prepend(&TerrainPointer->SoundID);
         if(GenieVersion >= genie::GV_AoKB)
         {
+            BLENDS:
             Terrains_BlendPriority->prepend(&TerrainPointer->BlendPriority);
             Terrains_BlendType->prepend(&TerrainPointer->BlendType);
+        }
+        else if(GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
+        {
+            Terrains_IsWater->prepend(&TerrainPointer->IsWater);
+            Terrains_HideInEditor->prepend(&TerrainPointer->HideInEditor);
+            Terrains_StringID->prepend(&TerrainPointer->StringID);
+            goto BLENDS;
         }
         for(size_t loop = 0; loop < 3; ++loop)
         {
@@ -561,7 +569,7 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_Random_Text = new SolidText(Terrains_Scroller, " Random");
     Terrains_Random = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
     Terrains_Name_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_Name_Text = new SolidText(Terrains_Scroller, " Name");
+    Terrains_Name_Text = new SolidText(Terrains_Scroller, " Internal Name");
     Terrains_Name = AGETextCtrl::init(CString, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_FileName_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_FileName_Text = new SolidText(Terrains_Scroller, " SLP Filename");
@@ -612,6 +620,15 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_TerrainDimensions[1] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_TerrainDimensions[0]->SetToolTip("Rows");
     Terrains_TerrainDimensions[1]->SetToolTip("Columns");
+    Terrains_StringID_Holder = new wxBoxSizer(wxVERTICAL);
+    Terrains_StringID_Text = new SolidText(Terrains_Scroller, " String ID");
+    Terrains_StringID = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
+    Terrains_IsWater_Holder = new wxBoxSizer(wxVERTICAL);
+    Terrains_IsWater_Text = new SolidText(Terrains_Scroller, " Is Water");
+    Terrains_IsWater = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
+    Terrains_HideInEditor_Holder = new wxBoxSizer(wxVERTICAL);
+    Terrains_HideInEditor_Text = new SolidText(Terrains_Scroller, " Hide in Editor");
+    Terrains_HideInEditor = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_ShapePtr_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_ShapePtr_Text = new SolidText(Terrains_Scroller, " Shape Pointer *");
     Terrains_ShapePtr = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
@@ -773,6 +790,12 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_BlendPriority_Holder->Add(Terrains_BlendPriority);
     Terrains_BlendType_Holder->Add(Terrains_BlendType_Text);
     Terrains_BlendType_Holder->Add(Terrains_BlendType);
+    Terrains_IsWater_Holder->Add(Terrains_IsWater_Text);
+    Terrains_IsWater_Holder->Add(Terrains_IsWater);
+    Terrains_HideInEditor_Holder->Add(Terrains_HideInEditor_Text);
+    Terrains_HideInEditor_Holder->Add(Terrains_HideInEditor);
+    Terrains_StringID_Holder->Add(Terrains_StringID_Text);
+    Terrains_StringID_Holder->Add(Terrains_StringID);
     for(size_t loop = 0; loop < 3; ++loop)
     Terrains_Colors_Grid->Add(Terrains_Colors[loop]);
     Terrains_Colors_Holder->Add(Terrains_Colors_Text);
@@ -869,6 +892,9 @@ void AGE_Frame::CreateTerrainControls()
 
     Terrains_GridX1->Add(Terrains_TerrainReplacementID_Holder);
     Terrains_GridX1->Add(Terrains_TerrainDimensions_Holder, 0, wxLEFT, 5);
+    Terrains_GridX2->Add(Terrains_StringID_Holder);
+    Terrains_GridX2->Add(Terrains_IsWater_Holder);
+    Terrains_GridX2->Add(Terrains_HideInEditor_Holder);
     Terrains_GridX2->Add(Terrains_ShapePtr_Holder);
     Terrains_GridX2->Add(Terrains_UsedTerrainUnits_Holder);
     Terrains_GridX2->Add(Terrains_Phantom_Holder);
@@ -905,6 +931,10 @@ void AGE_Frame::CreateTerrainControls()
 
     Terrains_Main->Add(Terrains_Terrains, 21, wxEXPAND | wxALL, 5);
     Terrains_Main->Add(Terrains_Scroller, 65, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);
+
+    Terrains_IsWater_Holder->Show(false);
+    Terrains_HideInEditor_Holder->Show(false);
+    Terrains_StringID_Holder->Show(false);
 
     Tab_Terrains->SetSizer(Terrains_Main);
 

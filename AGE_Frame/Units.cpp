@@ -20,7 +20,7 @@ wxString AGE_Frame::GetUnitName(int index, short civ, bool Filter)
     }
 
 //Names:
-    if(!TranslatedText(dataset->Civs[civ].Units[index].LanguageDLLName, 2).empty())
+    if(useDynamicName && !TranslatedText(dataset->Civs[civ].Units[index].LanguageDLLName, 2).empty())
     {
         return Name + TranslatedText(dataset->Civs[civ].Units[index].LanguageDLLName, 64);
     }
@@ -41,6 +41,7 @@ wxString AGE_Frame::GetUnitName(int index, short civ, bool Filter)
 
 void AGE_Frame::PrepUnitSearch()
 {
+    useDynamicName = true;
     UnitFilterFunctions.clear();
     for(size_t loop = 0; loop < 2; ++loop)
     {
@@ -134,7 +135,7 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type20[16]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "BU ";
+            return "BU " + FormatInt(unit_ptr->BloodUnitID);
         });
         else if(label.compare(Type20[17]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -376,10 +377,10 @@ void AGE_Frame::PrepUnitSearch()
             return "EM " + FormatInt(unit_ptr->ConvertTerrain);
         });
         else if(label.compare(Type20[64]) == 0)
-        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return wxString(unit_ptr->Name);
-        });
+            useDynamicName = false;
+            continue;
+        }
         else if(label.compare(Type20[65]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
@@ -409,6 +410,11 @@ void AGE_Frame::PrepUnitSearch()
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "S " + FormatFloat(unit_ptr->Speed);
+        });
+        else if(label.compare(Type20[71]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return "TI " + FormatInt(unit_ptr->TelemetryID);
         });
 
         else if(label.compare(Type30[0]) == 0)
@@ -1200,9 +1206,16 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                                     }
                                 }
                             }
+                            OBSTRUCTIONS:
                             Units_ObstructionType->prepend(&UnitPointer->ObstructionType);
                             Units_ObstructionClass->prepend(&UnitPointer->ObstructionClass);
                         }
+                    }
+                    else if(GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
+                    {
+                        Units_BloodUnitID->prepend(&UnitPointer->BloodUnitID);
+                        Units_TelemetryID->prepend(&UnitPointer->TelemetryID);
+                        goto OBSTRUCTIONS;
                     }
                     Units_Enabled->prepend(&UnitPointer->Enabled);
                     Units_InterfaceKind->prepend(&UnitPointer->InterfaceKind);
@@ -3106,6 +3119,7 @@ void AGE_Frame::CreateUnitControls()
     Units_TrainSound_Holder = new wxBoxSizer(wxVERTICAL);
     Units_DamageSound_Holder = new wxBoxSizer(wxVERTICAL);
     Units_DeadUnitID_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_BloodUnitID_Holder = new wxBoxSizer(wxVERTICAL);
     Units_SortNumber_Holder = new wxBoxSizer(wxVERTICAL);
     Units_CanBeBuiltOn_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_IconID_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3165,6 +3179,7 @@ void AGE_Frame::CreateUnitControls()
     Units_MinTechLevel_Holder = new wxBoxSizer(wxVERTICAL);
     Units_CopyID_Holder = new wxBoxSizer(wxVERTICAL);
     Units_BaseID_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_TelemetryID_Holder = new wxBoxSizer(wxVERTICAL);
 
 //  Type 20+
 
@@ -3292,6 +3307,7 @@ void AGE_Frame::CreateUnitControls()
     Units_TrainSound_Text = new SolidText(Units_Scroller, " Train Sound");
     Units_DamageSound_Text = new SolidText(Units_Scroller, " Damage Sound");
     Units_DeadUnitID_Text = new SolidText(Units_Scroller, " Dead Unit");
+    Units_BloodUnitID_Text = new SolidText(Units_Scroller, " Blood Unit");
     Units_SortNumber_Text = new SolidText(Units_Scroller, " Sort Number *");
     Units_IconID_Text = new SolidText(Units_Scroller, " Icon *");
     Units_Portrait_Text = new SolidText(Units_Scroller, " Portrait *");
@@ -3332,12 +3348,13 @@ void AGE_Frame::CreateUnitControls()
     Units_DyingSound_Text = new SolidText(Units_Scroller, " Dying Sound");
     Units_AttackReaction_Text = new SolidText(Units_Scroller, " Attack Reaction *");
     Units_ConvertTerrain_Text = new SolidText(Units_Scroller, " Convert Terrain *");
-    Units_Name_Text = new SolidText(Tab_Units, " Name");
-    Units_Name2_Text = new SolidText(Tab_Units, " Name 2");
+    Units_Name_Text = new SolidText(Tab_Units, " Internal Name");
+    Units_Name2_Text = new SolidText(Tab_Units, " Internal Name 2");
     Units_Unitline_Text = new SolidText(Units_Scroller, " AI Unitline");
     Units_MinTechLevel_Text = new SolidText(Units_Scroller, " Min Tech Level");
     Units_CopyID_Text = new SolidText(Tab_Units, " Copy ID");
     Units_BaseID_Text = new SolidText(Tab_Units, " Base ID");
+    Units_TelemetryID_Text = new SolidText(Tab_Units, " Tracking ID");
 
 //  Type 20+
 
@@ -3446,6 +3463,7 @@ void AGE_Frame::CreateUnitControls()
     Units_ID1 = AGETextCtrl::init(CShort, 0, this, &popUp, Tab_Units, AGETextCtrl::SMALL);
     Units_CopyID = AGETextCtrl::init(CShort, 0, this, &popUp, Tab_Units, AGETextCtrl::SMALL);
     Units_BaseID = AGETextCtrl::init(CShort, 0, this, &popUp, Tab_Units, AGETextCtrl::SMALL);
+    Units_TelemetryID = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Tab_Units);
     Units_Name = AGETextCtrl::init(CString, &uiGroupUnit, this, &popUp, Tab_Units, lengthiest);
     Units_Name2 = AGETextCtrl::init(CString, &uiGroupUnit, this, &popUp, Tab_Units, lengthiest);
     Units_LanguageDLLName = AGETextCtrl::init(CUShort, &uiGroupUnit, this, &popUp, Units_Scroller);
@@ -3808,6 +3826,9 @@ void AGE_Frame::CreateUnitControls()
     Units_DeadUnitID = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Units_Scroller);
     Units_DeadUnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_DeadUnitID, &unit_names);
     UnitComboBoxList.push_back(Units_DeadUnitID_ComboBox);
+    Units_BloodUnitID = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Units_Scroller);
+    Units_BloodUnitID_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_BloodUnitID, &unit_names);
+    UnitComboBoxList.push_back(Units_BloodUnitID_ComboBox);
     Units_Unitline = AGETextCtrl::init(CShort, &uiGroupUnit, this, &popUp, Units_Scroller);
     Units_Unitline_ComboBox = new ComboBox_Plus1(Units_Scroller, Units_Unitline, &unitline_names);
     Units_MinTechLevel = AGETextCtrl::init(CByte, &uiGroupUnit, this, &popUp, Units_Scroller);
@@ -4190,164 +4211,166 @@ void AGE_Frame::CreateUnitControls()
 
     Type20.Add("Type");
     Type20.Add("ID");
-    Type20.Add("LanguageDLLName");
-    Type20.Add("LanguageDLLCreation");
+    Type20.Add("Language File Name");
+    Type20.Add("Language File Creation");
     Type20.Add("Class");
-    Type20.Add("StandingGraphic x2");
-    Type20.Add("DyingGraphic x2");
-    Type20.Add("UndeadMode");
-    Type20.Add("HitPoints");
-    Type20.Add("LineOfSight");
-    Type20.Add("GarrisonCapacity");
-    Type20.Add("SizeRadius x2");
-    Type20.Add("HPBarHeight1");
-    Type20.Add("TrainSound");
-    Type20.Add("DamageSound");
-    Type20.Add("DeadUnitID");
-    Type20.Add("TBA");
-    Type20.Add("SortNumber");
-    Type20.Add("CanBeBuiltOn");
-    Type20.Add("IconID");
-    Type20.Add("HideInEditor");
-    Type20.Add("OldPortraitPict");
-    Type20.Add("Enabled");
+    Type20.Add("Standing Graphic x2");
+    Type20.Add("Dying Graphic x2");
+    Type20.Add("Undead Mode");
+    Type20.Add("Hit Points");
+    Type20.Add("Line of Sight");
+    Type20.Add("Garrison Capacity");
+    Type20.Add("Collision Size XY");
+    Type20.Add("Collision Size Z");
+    Type20.Add("Train Sound");
+    Type20.Add("Damage Sound");
+    Type20.Add("Dead Unit");
+    Type20.Add("Blood Unit");
+    Type20.Add("Sort Number");
+    Type20.Add("Can be Built on");
+    Type20.Add("Icon");
+    Type20.Add("Hide In Editor");
+    Type20.Add("Portrait Picture");
+    Type20.Add("Available");
     Type20.Add("Disabled");
-    Type20.Add("PlacementSideTerrain x2");
-    Type20.Add("PlacementTerrain x2");
-    Type20.Add("ClearanceSize x2");
-    Type20.Add("HillMode");
-    Type20.Add("FogVisibility");
-    Type20.Add("TerrainTable");
-    Type20.Add("FlyMode");
-    Type20.Add("ResourceCapacity");
-    Type20.Add("ResourceDecay");
-    Type20.Add("BlastDefenseLevel");
-    Type20.Add("CombatLevel");
-    Type20.Add("InteractionMode");
-    Type20.Add("MinimapMode");
-    Type20.Add("InterfaceKind");
-    Type20.Add("MultipleAttributeMode");
-    Type20.Add("MinimapColor");
-    Type20.Add("LanguageDLLHelp");
-    Type20.Add("LanguageDLLHotKeyText");
-    Type20.Add("HotKey");
+    Type20.Add("Placement Side Terrain x2");
+    Type20.Add("Placement Terrain x2");
+    Type20.Add("Clearance Size XY");
+    Type20.Add("Hill Mode");
+    Type20.Add("Fog Visibility");
+    Type20.Add("Terrain Table");
+    Type20.Add("Fly Mode");
+    Type20.Add("Resource Capacity");
+    Type20.Add("Resource Decay");
+    Type20.Add("Blast Defense Level");
+    Type20.Add("Combat Level");
+    Type20.Add("Interaction Mode");
+    Type20.Add("Minimap Mode");
+    Type20.Add("Interface Kind");
+    Type20.Add("Multiple Attribute Mode");
+    Type20.Add("Minimap Color");
+    Type20.Add("Language File Help");
+    Type20.Add("Language File Hot Key Text");
+    Type20.Add("Hot Key");
     Type20.Add("Recyclable");
     Type20.Add("Gatherable");
-    Type20.Add("DoppelgangerOnDeath");
-    Type20.Add("GatherGroup");
-    Type20.Add("OcclusionMode");
-    Type20.Add("ObstructionType");
-    Type20.Add("ObstructionClass");
+    Type20.Add("Doppelganger on Death");
+    Type20.Add("Gather Group");
+    Type20.Add("Occlusion Mode");
+    Type20.Add("Obstruction Type");
+    Type20.Add("Obstruction Class");
     Type20.Add("Trait");
     Type20.Add("Civilization");
     Type20.Add("Nothing");
-    Type20.Add("SelectionEffect");
-    Type20.Add("EditorSelectionColour");
-    Type20.Add("SelectionRadius x2");
-    Type20.Add("HPBarHeight2");
-    Type20.Add("ResourceStorages 21 bytes");
-    Type20.Add("DamageGraphicCount");
-    Type20.Add("DamageGraphics");
-    Type20.Add("SelectionSound");
-    Type20.Add("DyingSound");
-    Type20.Add("OldAttackReaction");
-    Type20.Add("ConvertTerrain");
-    Type20.Add("Name");
-    Type20.Add("Name2");
+    Type20.Add("Selection Effect");
+    Type20.Add("Editor Selection Colour");
+    Type20.Add("Selection Size XY");
+    Type20.Add("Selection Size Z");
+    Type20.Add("Resource Storages 21 bytes");
+    Type20.Add("Damage Graphic Count");
+    Type20.Add("Damage Graphics");
+    Type20.Add("Selection Sound");
+    Type20.Add("Dying Sound");
+    Type20.Add("Attack Reaction");
+    Type20.Add("Convert Terrain");
+    Type20.Add("Internal Name");
+    Type20.Add("Internal Name 2");
     Type20.Add("Unitline");
-    Type20.Add("MinTechLevel");
-    Type20.Add("CopyID");
-    Type20.Add("BaseID");
+    Type20.Add("Min Tech Level");
+    Type20.Add("Copy ID");
+    Type20.Add("Base ID");
 
     Type20.Add("Speed");
+    // Too lazy to change the indexes.
+    Type20.Add("Tracking ID");
 
-    Type30.Add("WalkingGraphic x2");
-    Type30.Add("RotationSpeed");
-    Type30.Add("OldSizeClass");
-    Type30.Add("TrackingUnit");
-    Type30.Add("TrackingUnitMode");
-    Type30.Add("TrackingUnitDensity");
-    Type30.Add("OldMoveAlgorithm");
-    Type30.Add("RotationAngles 5 floats");
+    Type30.Add("Walking Graphic x2");
+    Type30.Add("Rotation Speed");
+    Type30.Add("Size Class");
+    Type30.Add("Trailing Unit");
+    Type30.Add("Trailing Unit Mode");
+    Type30.Add("Trailing Unit Density");
+    Type30.Add("Move Algorithm");
+    Type30.Add("Rotation Angles 5 floats");
 
-    Type40.Add("DefaultTaskID");
-    Type40.Add("SearchRadius");
-    Type40.Add("WorkRate");
-    Type40.Add("DropSite x2");
-    Type40.Add("TaskSwapGroup");
-    Type40.Add("AttackSound");
-    Type40.Add("MoveSound");
-    Type40.Add("RunPattern");
+    Type40.Add("Default Task");
+    Type40.Add("Search Radius");
+    Type40.Add("Work Rate");
+    Type40.Add("Drop Site x2");
+    Type40.Add("Task Swap Group");
+    Type40.Add("Attack Sound");
+    Type40.Add("Move Sound");
+    Type40.Add("Run Pattern");
     Type40.Add("Task Count");
     Type40.Add("Tasks");
 
-    Type50.Add("BaseArmor");
-    Type50.Add("AttackCount");
+    Type50.Add("Base Armor");
+    Type50.Add("Attack Count");
     Type50.Add("Attacks");
-    Type50.Add("ArmourCount");
-    Type50.Add("Armours");
-    Type50.Add("DefenseTerrainBonus");
-    Type50.Add("MaxRange");
-    Type50.Add("BlastWidth");
-    Type50.Add("ReloadTime");
-    Type50.Add("ProjectileUnitID");
-    Type50.Add("AccuracyPercent");
-    Type50.Add("BreakOffCombat");
-    Type50.Add("FrameDelay");
-    Type50.Add("GraphicDisplacement 3 floats");
-    Type50.Add("BlastAttackLevel");
-    Type50.Add("MinRange");
-    Type50.Add("AccuracyDispersion");
-    Type50.Add("AttackGraphic");
-    Type50.Add("DisplayedMeleeArmour");
-    Type50.Add("DisplayedAttack");
-    Type50.Add("DisplayedRange");
-    Type50.Add("DisplayedReloadTime");
+    Type50.Add("Armor Count");
+    Type50.Add("Armors");
+    Type50.Add("Terrain Defense Bonus");
+    Type50.Add("Max Range");
+    Type50.Add("Blast Width");
+    Type50.Add("Reload Time");
+    Type50.Add("Projectile Unit");
+    Type50.Add("Accuracy Percent");
+    Type50.Add("Break off Combat");
+    Type50.Add("Frame Delay");
+    Type50.Add("Graphic Displacement 3 floats");
+    Type50.Add("Blast Attack Level");
+    Type50.Add("Min Range");
+    Type50.Add("Attack Dispersion");
+    Type50.Add("Attack Graphic");
+    Type50.Add("Displayed Melee Armor");
+    Type50.Add("Displayed Attack");
+    Type50.Add("Displayed Range");
+    Type50.Add("Displayed Reload Time");
 
-    Type60.Add("ProjectileType");
-    Type60.Add("SmartMode");
-    Type60.Add("HitMode");
-    Type60.Add("VanishMode");
-    Type60.Add("AreaEffectSpecials");
-    Type60.Add("ProjectileArc");
+    Type60.Add("Projectile Type");
+    Type60.Add("Smart Mode");
+    Type60.Add("Hit Mode");
+    Type60.Add("Vanish Mode");
+    Type60.Add("Area Effect Specials");
+    Type60.Add("Projectile Arc");
 
-    Type70.Add("ResourceCosts 18 bytes");
-    Type70.Add("TrainTime");
-    Type70.Add("TrainLocationID");
-    Type70.Add("ButtonID");
-    Type70.Add("RearAttackModifier");
-    Type70.Add("FlankAttackModifier");
-    Type70.Add("CreatableType");
-    Type70.Add("HeroMode");
-    Type70.Add("GarrisonGraphic");
-    Type70.Add("TotalProjectiles");
-    Type70.Add("MaxTotalProjectiles");
-    Type70.Add("ProjectileSpawningArea 3 floats");
-    Type70.Add("SecondaryProjectileUnit");
-    Type70.Add("SpecialGraphic");
-    Type70.Add("SpecialAbility");
-    Type70.Add("DisplayedPierceArmour");
+    Type70.Add("Resource Costs 18 bytes");
+    Type70.Add("Train Time");
+    Type70.Add("Train Location");
+    Type70.Add("Train Button");
+    Type70.Add("Rear Attack Modifier");
+    Type70.Add("Flank Attack Modifier");
+    Type70.Add("Creatable Type");
+    Type70.Add("Hero Mode");
+    Type70.Add("Garrison Graphic");
+    Type70.Add("Total Projectiles");
+    Type70.Add("Max Total Projectiles");
+    Type70.Add("Projectile Spawning Area 3 floats");
+    Type70.Add("Secondary Projectile Unit");
+    Type70.Add("Special Graphic");
+    Type70.Add("Special Ability");
+    Type70.Add("Displayed Pierce Armor");
 
-    Type80.Add("ConstructionGraphicID");
-    Type80.Add("SnowGraphicID");
-    Type80.Add("AdjacentMode");
-    Type80.Add("GraphicsAngle");
-    Type80.Add("DisappearsWhenBuilt");
-    Type80.Add("StackUnitID");
-    Type80.Add("FoundationTerrainID");
-    Type80.Add("OldOverlayID");
-    Type80.Add("TechID");
-    Type80.Add("CanBurn");
+    Type80.Add("Construction Graphic");
+    Type80.Add("Snow Graphic");
+    Type80.Add("Adjacent Mode");
+    Type80.Add("Graphics Angle");
+    Type80.Add("Disappears After Built");
+    Type80.Add("Stack Unit");
+    Type80.Add("Foundation Terrain");
+    Type80.Add("Old Overlay");
+    Type80.Add("Tech");
+    Type80.Add("Can Burn");
     Type80.Add("Annexes 40 bytes");
-    Type80.Add("HeadUnit");
-    Type80.Add("TransformUnit");
-    Type80.Add("TransformSound");
-    Type80.Add("ConstructionSound");
-    Type80.Add("GarrisonType");
-    Type80.Add("GarrisonHealRate");
-    Type80.Add("GarrisonRepairRate");
-    Type80.Add("PileUnit");
-    Type80.Add("LootingTable 6 bytes");
+    Type80.Add("Head Unit");
+    Type80.Add("Transform Unit");
+    Type80.Add("Transform Sound");
+    Type80.Add("Construction Sound");
+    Type80.Add("Garrison Type");
+    Type80.Add("Garrison Heal Rate");
+    Type80.Add("Garrison Repair Rate");
+    Type80.Add("Pile Unit");
+    Type80.Add("Looting Table 6 bytes");
 
     specialcopy_names.Add("Special: graphics only");
     Units_SpecialCopy_Options->Flash();
@@ -4398,6 +4421,7 @@ void AGE_Frame::CreateUnitControls()
     Units_GarrisonCapacity_Holder->Add(Units_GarrisonCapacity_Text);
     Units_SizeRadius_Holder->Add(Units_SizeRadius_Text);
     Units_DeadUnitID_Holder->Add(Units_DeadUnitID_Text);
+    Units_BloodUnitID_Holder->Add(Units_BloodUnitID_Text);
     Units_SortNumber_Holder->Add(Units_SortNumber_Text);
     Units_IconAngle_Holder->Add(Units_IconID_Text);
     Units_Portrait_Holder->Add(Units_Portrait_Text);
@@ -4436,6 +4460,7 @@ void AGE_Frame::CreateUnitControls()
     Units_MinTechLevel_Holder->Add(Units_MinTechLevel_Text);
     Units_CopyID_Holder->Add(Units_CopyID_Text);
     Units_BaseID_Holder->Add(Units_BaseID_Text);
+    Units_TelemetryID_Holder->Add(Units_TelemetryID_Text);
 
 //  Type 20+
 
@@ -4543,6 +4568,8 @@ void AGE_Frame::CreateUnitControls()
     Units_SizeRadius_Holder->Add(Units_SizeRadius_Grid);
     Units_DeadUnitID_Holder->Add(Units_DeadUnitID, 0, wxEXPAND);
     Units_DeadUnitID_Holder->Add(Units_DeadUnitID_ComboBox);
+    Units_BloodUnitID_Holder->Add(Units_BloodUnitID, 0, wxEXPAND);
+    Units_BloodUnitID_Holder->Add(Units_BloodUnitID_ComboBox);
     Units_SortNumber_Holder->Add(Units_SortNumber);
     Units_CanBeBuiltOn_Holder->Add(Units_CanBeBuiltOn);
     Units_CanBeBuiltOn_Holder->Add(Units_CanBeBuiltOn_CheckBox, 0, wxLEFT, 2);
@@ -4619,6 +4646,7 @@ void AGE_Frame::CreateUnitControls()
     Units_MinTechLevel_Holder->Add(Units_MinTechLevel_ComboBox);
     Units_CopyID_Holder->Add(Units_CopyID);
     Units_BaseID_Holder->Add(Units_BaseID);
+    Units_TelemetryID_Holder->Add(Units_TelemetryID);
 
 //  Type 20+
 
@@ -4878,6 +4906,7 @@ void AGE_Frame::CreateUnitControls()
     Units_TypeArea_Holder->Add(Units_ID1_Holder, 0, wxLEFT, 5);
     Units_TypeArea_Holder->Add(Units_CopyID_Holder, 0, wxLEFT, 5);
     Units_TypeArea_Holder->Add(Units_BaseID_Holder, 0, wxLEFT, 5);
+    Units_TypeArea_Holder->Add(Units_TelemetryID_Holder, 0, wxLEFT, 5);
 
     Units_LanguageDLLName_Holder->Add(Units_LanguageDLLName_Text);
     Units_LanguageDLLName_Holder->Add(Units_LanguageDLLName, 0, wxEXPAND);
@@ -5111,6 +5140,7 @@ void AGE_Frame::CreateUnitControls()
     Units_A2_Grid->Add(Units_Civ_Holder, 0, wxLEFT, 5);
     Units_A2_Grid->Add(Units_Nothing_Holder, 0, wxLEFT, 5);
     Units_A1_Grid->Add(Units_DeadUnitID_Holder);
+    Units_A1_Grid->Add(Units_BloodUnitID_Holder, 0, wxLEFT, 5);
     Units_A1_Grid->Add(Units_Unitline_Holder, 0, wxLEFT, 5);
     Units_A1_Grid->Add(Units_MinTechLevel_Holder, 0, wxLEFT, 5);
     Units_A4_Grid->Add(Units_PlacementTerrain_Holder, 0, wxRIGHT, 5);
@@ -5290,6 +5320,8 @@ void AGE_Frame::CreateUnitControls()
     Units_CopyID->Enable(false);
     Units_BaseID->Enable(false);
     Tasks_ID->Enable(false);
+    Units_TelemetryID_Holder->Show(false);
+    Units_BloodUnitID_Holder->Show(false);
 
     Tab_Units->SetSizer(Units_Main);
 

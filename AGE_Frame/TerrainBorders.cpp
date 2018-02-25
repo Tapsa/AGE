@@ -349,7 +349,7 @@ void AGE_Frame::CreateTerrainBorderControls()
         Borders_Name_Holder[loop] = new wxBoxSizer(wxVERTICAL);
         Borders_Name[loop] = AGETextCtrl::init(CString, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, 13);
     }
-    Borders_Name_Text[0] = new SolidText(Tab_TerrainBorders, " Name");
+    Borders_Name_Text[0] = new SolidText(Tab_TerrainBorders, " Internal Name");
     Borders_Name_Text[1] = new SolidText(Tab_TerrainBorders, " SLP Filename");
     Borders_SLP_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_SLP_Text = new SolidText(Tab_TerrainBorders, " SLP");

@@ -58,7 +58,7 @@ void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
     for(auto &box: uiGroupSound) box->clear();
     Sounds_ID->clear();
 
-    genie::Sound * SoundPointer;
+    genie::Sound * SoundPointer = 0;
     for(auto loop = selections; loop--> 0;)
     {
         SoundPointer = &dataset->Sounds[SoundIDs[loop]];
@@ -66,7 +66,13 @@ void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
         Sounds_ID->prepend(&SoundPointer->ID);
         Sounds_PlayDelay->prepend(&SoundPointer->PlayDelay);
         if(GenieVersion >= genie::GV_TEST)
-        Sounds_CacheTime->prepend(&SoundPointer->CacheTime);
+        {
+            Sounds_CacheTime->prepend(&SoundPointer->CacheTime);
+            if(GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
+            {
+                Sounds_TotalProbability->prepend(&SoundPointer->TotalProbability);
+            }
+        }
     }
     SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected sound: "+lexical_cast<string>(SoundIDs.front()), 0);
 
@@ -211,6 +217,15 @@ void AGE_Frame::ListSoundItems()
 
 void AGE_Frame::OnSoundItemSelect(wxCommandEvent &event)
 {
+    if(!SoundIDs.empty())
+    {
+        size_t sum = 0;
+        for(auto &file: dataset->Sounds[SoundIDs.front()].Items)
+        {
+            sum += file.Probability;
+        }
+        Sounds_TotalProbability_Info->SetLabel("Used "+lexical_cast<string>(sum)+"/"+lexical_cast<string>(dataset->Sounds[SoundIDs.front()].TotalProbability));
+    }
     auto selections = Sounds_Items_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     for(auto &box: uiGroupSoundFile) box->clear();
@@ -391,6 +406,10 @@ void AGE_Frame::CreateSoundControls()
     Sounds_CacheTime_Holder = new wxBoxSizer(wxVERTICAL);
     Sounds_CacheTime_Text = new SolidText(Tab_Sounds, " Cache Time");
     Sounds_CacheTime = AGETextCtrl::init(CLong, &uiGroupSound, this, &popUp, Tab_Sounds);
+    Sounds_TotalProbability_Holder = new wxBoxSizer(wxHORIZONTAL);
+    Sounds_TotalProbability_Text = new SolidText(Tab_Sounds, " Total Probability");
+    Sounds_TotalProbability_Info = new SolidText(Tab_Sounds, " Used 0/100");
+    Sounds_TotalProbability = AGETextCtrl::init(CShort, &uiGroupSound, this, &popUp, Tab_Sounds);
 
     SoundItems_Name_Holder = new wxBoxSizer(wxVERTICAL);
     SoundItems_Name_Text = new SolidText(Tab_Sounds, " Filename");
@@ -477,6 +496,8 @@ void AGE_Frame::CreateSoundControls()
     Sounds_PlayDelay_Holder->Add(Sounds_PlayDelay);
     Sounds_CacheTime_Holder->Add(Sounds_CacheTime_Text);
     Sounds_CacheTime_Holder->Add(Sounds_CacheTime);
+    Sounds_TotalProbability_Holder->Add(Sounds_TotalProbability);
+    Sounds_TotalProbability_Holder->Add(Sounds_TotalProbability_Info, 1, wxEXPAND | wxLEFT, 5);
     SoundItems_Name_Holder->Add(SoundItems_Name_Text);
     SoundItems_Name_Holder->Add(SoundItems_Name, 0, wxEXPAND);
     SoundItems_Resource_Holder->Add(SoundItems_Resource);
@@ -508,6 +529,8 @@ void AGE_Frame::CreateSoundControls()
     Sounds_DataArea->Add(Sounds_ID_Holder, 0, wxTOP, 5);
     Sounds_DataArea->Add(Sounds_PlayDelay_Holder, 0, wxTOP, 5);
     Sounds_DataArea->Add(Sounds_CacheTime_Holder, 0, wxTOP, 5);
+    Sounds_DataArea->Add(Sounds_TotalProbability_Text, 0, wxTOP, 5);
+    Sounds_DataArea->Add(Sounds_TotalProbability_Holder, 0, wxEXPAND);
     Sounds_DataArea->Add(SoundItems_Name_Holder, 0, wxEXPAND | wxTOP, 5);
     Sounds_DataArea->Add(SoundItems_Resource_Text, 0, wxTOP, 5);
     Sounds_DataArea->Add(SoundItems_Resource_Holder, 0, wxEXPAND);

@@ -37,49 +37,52 @@ string AGE_Frame::GetGraphicName(int index, bool Filter)
                 case 6: // Player Color Forcer
                     Name += "PC "+FormatInt(dataset->Graphics[index].PlayerColor);
                     break;
-                case 7: // Transparent Picking
+                case 7: // Rainbow
+                    Name += "RB "+FormatInt(dataset->Graphics[index].Rainbow);
+                    break;
+                case 8: // Transparent Picking
                     Name += "TP "+FormatInt(dataset->Graphics[index].TransparentSelection);
                     break;
-                case 8: // Sound
+                case 9: // Sound
                     Name += "S "+FormatInt(dataset->Graphics[index].SoundID);
                     break;
-                case 9: // Coordinates
+                case 10: // Coordinates
                     Name += "xy "+FormatInt(dataset->Graphics[index].Coordinates[0]);
                     Name += " "+FormatInt(dataset->Graphics[index].Coordinates[1]);
                     Name += " "+FormatInt(dataset->Graphics[index].Coordinates[2]);
                     Name += " "+FormatInt(dataset->Graphics[index].Coordinates[3]);
                     break;
-                case 10: // Deltas
+                case 11: // Deltas
                     Name += "DC "+FormatInt(dataset->Graphics[index].Deltas.size());
                     break;
-                case 11: // Angle Sounds Used
+                case 12: // Angle Sounds Used
                     Name += "U "+FormatInt(dataset->Graphics[index].AngleSoundsUsed);
                     break;
-                case 12: // Frames
+                case 13: // Frames
                     Name += "FC "+FormatInt(dataset->Graphics[index].FrameCount);
                     break;
-                case 13: // Angles
+                case 14: // Angles
                     Name += "AC "+FormatInt(dataset->Graphics[index].AngleCount);
                     break;
-                case 14: // Speed
+                case 15: // Speed
                     Name += "SM "+FormatFloat(dataset->Graphics[index].SpeedMultiplier);
                     break;
-                case 15: // Frame Duration
+                case 16: // Frame Duration
                     Name += "FD "+FormatFloat(dataset->Graphics[index].FrameDuration);
                     break;
-                case 16: // Replay Delay
+                case 17: // Replay Delay
                     Name += "RD "+FormatFloat(dataset->Graphics[index].ReplayDelay);
                     break;
-                case 17: // Sequence Type
+                case 18: // Sequence Type
                     Name += "ST "+FormatInt(dataset->Graphics[index].SequenceType);
                     break;
-                case 18: // Mirroring Mode
+                case 19: // Mirroring Mode
                     Name += "M "+FormatInt(dataset->Graphics[index].MirroringMode);
                     break;
-                case 19: // Unknown 3
+                case 20: // Unknown 3
                     Name += "EF "+FormatInt(dataset->Graphics[index].EditorFlag);
                     break;
-                case 20: // Pointer
+                case 21: // Pointer
                     Name = FormatInt(dataset->GraphicPointers[index]);
                     break;
             }
@@ -163,6 +166,10 @@ void AGE_Frame::OnGraphicSelect(wxCommandEvent &event)
 
             Graphics_Name->prepend(&GraphicPointer->Name);
             Graphics_FileName->prepend(&GraphicPointer->FileName);
+            if(GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
+            {
+                Graphics_FirstFrame->prepend(&GraphicPointer->FirstFrame);
+            }
             Graphics_SLP->prepend(&GraphicPointer->SLP);
             Graphics_Loaded->prepend(&GraphicPointer->IsLoaded);
             Graphics_ColorFlag->prepend(&GraphicPointer->OldColorFlag);
@@ -1111,7 +1118,7 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_ScrollSpace = new wxBoxSizer(wxVERTICAL);
     Graphics_NameArea_Holder = new wxBoxSizer(wxHORIZONTAL);
     Graphics_Name_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_Name_Text = new SolidText(Graphics_Scroller, " Name");
+    Graphics_Name_Text = new SolidText(Graphics_Scroller, " Internal Name");
     Graphics_Name = AGETextCtrl::init(CString, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_FileName_Holder = new wxBoxSizer(wxVERTICAL);
     Graphics_FileName_Text = new SolidText(Graphics_Scroller, " SLP Name");
@@ -1241,6 +1248,9 @@ void AGE_Frame::CreateGraphicsControls()
     GraphicDeltas_Padding2 = AGETextCtrl::init(CShort, &uiGroupGraphicDelta, this, &popUp, Graphics_Scroller);
     GraphicDeltas_Padding2->SetToolTip("Completely useless");
 
+    Graphics_FirstFrame_Holder = new wxBoxSizer(wxVERTICAL);
+    Graphics_FirstFrame_Text = new SolidText(Graphics_Scroller, " First Frame");
+    Graphics_FirstFrame = AGETextCtrl::init(CUShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
     Graphics_AngleCount_Holder = new wxBoxSizer(wxVERTICAL);
     Graphics_AngleCount_Text = new SolidText(Graphics_Scroller, " Angle Count *");
     Graphics_AngleCount = AGETextCtrl::init(CUShort, &uiGroupGraphic, this, &popUp, Graphics_Scroller);
@@ -1281,6 +1291,7 @@ void AGE_Frame::CreateGraphicsControls()
     graphic_filters.Add("Old Color Flag");
     graphic_filters.Add("Layer");
     graphic_filters.Add("Player Color Forcer");
+    graphic_filters.Add("Rainbow");
     graphic_filters.Add("Transparent Picking");
     graphic_filters.Add("Sound");
     graphic_filters.Add("Coordinates");
@@ -1361,6 +1372,8 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_FrameCount_Holder->Add(Graphics_FrameCount);
     Graphics_AngleCount_Holder->Add(Graphics_AngleCount_Text);
     Graphics_AngleCount_Holder->Add(Graphics_AngleCount);
+    Graphics_FirstFrame_Holder->Add(Graphics_FirstFrame_Text);
+    Graphics_FirstFrame_Holder->Add(Graphics_FirstFrame);
     Graphics_FrameDuration_Holder->Add(Graphics_FrameDuration_Text);
     Graphics_FrameDuration_Holder->Add(Graphics_FrameDuration);
     Graphics_ReplayDelay_Holder->Add(Graphics_ReplayDelay_Text);
@@ -1454,6 +1467,7 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_5_Holder->Add(Graphics_AngleSounds_Holder);
     Graphics_5_Holder->Add(Graphics_AngleFrameNums_Holder, 0, wxLEFT, 5);
 
+    Graphics_4_Holder->Add(Graphics_FirstFrame_Holder, 0, wxRIGHT, 5);
     Graphics_4_Holder->Add(Graphics_AngleCount_Holder);
     Graphics_4_Holder->Add(Graphics_AngleSoundsUsed_Holder, 0, wxLEFT, 5);
 
@@ -1477,6 +1491,7 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_Main->Add(Graphics_Scroller, 65, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);
 
     Graphics_ID->Enable(false);
+    Graphics_FirstFrame_Holder->Show(false);
 
     Tab_Graphics->SetSizer(Graphics_Main);
 

@@ -407,10 +407,10 @@ void AGE_Frame::CreateResearchControls()
     Research_Scroller = new AScrolled(Tab_Research);
     Research_ScrollSpace = new wxBoxSizer(wxVERTICAL);
     Research_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
-    Research_Name_Text[0] = new SolidText(Research_Scroller, " Name");
+    Research_Name_Text[0] = new SolidText(Research_Scroller, " Internal Name");
     Research_Name[0] = AGETextCtrl::init(CString, &uiGroupResearch, this, &popUp, Research_Scroller, lengthiest);
     Research_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
-    Research_Name_Text[1] = new SolidText(Research_Scroller, " Name 2");
+    Research_Name_Text[1] = new SolidText(Research_Scroller, " Internal Name 2");
     Research_Name[1] = AGETextCtrl::init(CString, &uiGroupResearch, this, &popUp, Research_Scroller, lengthiest);
     Research_LangDLLName_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LangDLLName_Text = new SolidText(Research_Scroller, " Language File Name *");
