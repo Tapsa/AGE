@@ -59,6 +59,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     CheckBox_GenieVer->Append("Star Wars: Galactic Battlegrounds (1.0)");
     CheckBox_GenieVer->Append("Clone Campaigns (1.1)");
     CheckBox_GenieVer->Append("Mod: Expanding Fronts");
+    CheckBox_GenieVer->Append("Age of Empires: Definitive Edition");
     CheckBox_GenieVer->SetSelection(EV_TC);
     SolidText *RecentText = new SolidText(slave, "      Recent paths:");
     CheckBox_Recent = new wxOwnerDrawnComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);

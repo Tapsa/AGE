@@ -392,10 +392,10 @@ void AGE_Frame::CreateCivControls()
     Civs_DataGrid2 = new wxBoxSizer(wxHORIZONTAL);
     Civs_DataGrid3 = new wxGridSizer(2, 0, 0);
     Civs_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
-    Civs_Name_Text[0] = new SolidText(Tab_Civs, " Name");
+    Civs_Name_Text[0] = new SolidText(Tab_Civs, " Internal Name");
     Civs_Name[0] = AGETextCtrl::init(CString, &uiGroupCiv, this, &popUp, Tab_Civs, 20);
     Civs_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
-    Civs_Name_Text[1] = new SolidText(Tab_Civs, " Name 2");
+    Civs_Name_Text[1] = new SolidText(Tab_Civs, " Internal Name 2");
     Civs_Name[1] = AGETextCtrl::init(CString, &uiGroupCiv, this, &popUp, Tab_Civs, 20);
     Civs_One_Holder = new wxBoxSizer(wxVERTICAL);
     Civs_One_Text = new SolidText(Tab_Civs, " Player Type *");

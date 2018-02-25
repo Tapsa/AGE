@@ -26,6 +26,7 @@ genie::GameVersion AGE_Frame::version(int ver)
         case EV_SWGB: return genie::GV_SWGB;
         case EV_CC: return genie::GV_CC;
         case EV_EF: return genie::GV_CC;
+        case EV_Tapsa: return genie::GV_Tapsa;
 
         default: wxMessageBox("Wrong version", "Oops!");
         return genie::GV_None;
@@ -1750,7 +1751,8 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         effect_type_names.Add("3 - Upgrade Unit");
         effect_type_names.Add("4 - Attribute Modifier (+/-)");
         effect_type_names.Add("5 - Attribute Modifier (Multiply)");
-        effect_type_names.Add("6 - Resource Modifier (Multiply)");
+        if(GenieVersion < genie::GV_AoKA) effect_type_names.Add("6 - AoK+ only");
+        else effect_type_names.Add("6 - Resource Modifier (Multiply)");
         if(GenieVersion == genie::GV_Cysion)
         {
             effect_type_names.Add("10 - Team Attribute Modifier (Set)");    // Selection 8
@@ -2098,24 +2100,61 @@ void AGE_Frame::OnGameVersionChange()
         General_Variables1_Holder->Show(show && ShowUnknowns);
         Terrains_Phantom_Holder->Show(!show);
 
-        if(show) // SWGB ->
+        bool appear = GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap;
+        if(appear)
         {
-            Graphics_Name->setMaxChars(25);
-            Graphics_FileName->setMaxChars(25);
-            SoundItems_Name->setMaxChars(27);
-            Terrains_Name->setMaxChars(17);
-            Terrains_FileName->setMaxChars(17);
+            Graphics_Name->setMaxChars(lengthiest);
+            Graphics_FileName->setMaxChars(lengthiest);
+            SoundItems_Name->setMaxChars(lengthiest);
+            Terrains_Name->setMaxChars(lengthiest);
+            Terrains_FileName->setMaxChars(lengthiest);
+            // Fixed size elsewhere
+            Techs_Name->setMaxChars(lengthiest);
+            Civs_Name[0]->setMaxChars(lengthiest);
+
+            Terrains_BlendPriority_Holder->Show(true);
+            Terrains_BlendType_Holder->Show(true);
+            TerRestrict_Graphics_Holder->Show(true);
+            Units_ObstructionType_Holder->Show(true);
+            Units_ObstructionClass_Holder->Show(true);
+            Terrains_BlendPriority->changeContainerType(CShort);
+            Terrains_BlendType->changeContainerType(CShort);
+            Units_BaseArmor->changeContainerType(CShort);
             TerRestrict_Amount->changeContainerType(CFloat);
         }
-        else // <- TC
+        else
         {
-            Graphics_Name->setMaxChars(21);
-            Graphics_FileName->setMaxChars(13);
-            SoundItems_Name->setMaxChars(13);
-            Terrains_Name->setMaxChars(13);
-            Terrains_FileName->setMaxChars(13);
-            TerRestrict_Amount->changeContainerType(CLong);
+            Techs_Name->setMaxChars(31);
+            Civs_Name[0]->setMaxChars(20);
+
+            if(show) // SWGB ->
+            {
+                Graphics_Name->setMaxChars(25);
+                Graphics_FileName->setMaxChars(25);
+                SoundItems_Name->setMaxChars(27);
+                Terrains_Name->setMaxChars(17);
+                Terrains_FileName->setMaxChars(17);
+                TerRestrict_Amount->changeContainerType(CFloat);
+            }
+            else // <- TC
+            {
+                Graphics_Name->setMaxChars(21);
+                Graphics_FileName->setMaxChars(13);
+                SoundItems_Name->setMaxChars(13);
+                Terrains_Name->setMaxChars(13);
+                Terrains_FileName->setMaxChars(13);
+                TerRestrict_Amount->changeContainerType(CLong);
+            }
+            Terrains_BlendPriority->changeContainerType(CLong);
+            Terrains_BlendType->changeContainerType(CLong);
         }
+        Terrains_IsWater_Holder->Show(appear);
+        Terrains_HideInEditor_Holder->Show(appear);
+        Terrains_StringID_Holder->Show(appear);
+        Graphics_FirstFrame_Holder->Show(appear);
+        Units_TelemetryID_Holder->Show(appear);
+        Units_BloodUnitID_Holder->Show(appear);
+        Sounds_TotalProbability_Holder->Show(appear);
     }
 
 //  Every data area should be layouted.
@@ -2275,10 +2314,18 @@ void AGE_Frame::OnSave(wxCommandEvent&)
 
         // Can save as different game version
         genie::GameVersion SaveGenieVersion = version(SaveGameVersion);
-        if(GenieVersion != SaveGenieVersion)
+        if(GenieVersion != SaveGenieVersion || genie::GV_Tapsa == GenieVersion)
         {
-            GenieVersion = SaveGenieVersion;
-            wxMessageBox("Saving with different game version!");
+            if(GenieVersion <= genie::GV_LatestTap && genie::GV_Tapsa <= GenieVersion)
+            {
+                GenieVersion = genie::GV_LatestTap;
+                dataset->FileVersion = "VER 4.5";
+            }
+            else
+            {
+                GenieVersion = SaveGenieVersion;
+                wxMessageBox("Saving with different game version!");
+            }
             dataset->setGameVersion(GenieVersion);
         }
 
@@ -3089,6 +3136,10 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
     {
         if(!graphic->filename.empty())
         {
+            if(GameVersion == EV_Tapsa)
+            {
+                graphic->filename.Replace("<x#>", AlexZoom, false);
+            }
             graphic->slp = GG::LoadSLP(PathSLP + "\\" + graphic->filename + ".slp");
             if(graphic->slp) return true;
         }
@@ -3129,7 +3180,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
     return false;
 }
 
-void AGE_Frame::FrameToBitmap(AGE_SLP *graphic)
+void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
 {
     if(graphic->frameID < 0)
     {
@@ -3160,12 +3211,12 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic)
         return;
     }
 
-    int width = frame->getWidth();
-    int height = frame->getHeight();
+    const int width = frame->getWidth();
+    const int height = frame->getHeight();
     short pal_chooser = frame->getProperties() >> 16;
     graphic->xpos = graphic->flip ? frame->hotspot_x - width : -frame->hotspot_x;
     graphic->ypos = -frame->hotspot_y;
-    int area = width * height;
+    const int area = width * height;
     vector<uint8_t> rgbdata(area * 4, 0);
     uint8_t *val = rgbdata.data();
     uint8_t *alpha = val + area * 3;
@@ -3283,6 +3334,14 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic)
     unsigned char *trans = pic + area * 3;
     wxImage img(width, height, pic, trans, true);
     if(graphic->flip) img = img.Mirror();
+    if(centralize)
+    {
+        int left = frame->hotspot_x, right = width - left,
+            top = frame->hotspot_y, bottom = height - top;
+        int half_width = left > right ? left : right;
+        int half_height = top > bottom ? top : bottom;
+        img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(min(half_width, half_width - left), min(half_height, half_height - top)));
+    }
     graphic->bitmap = wxBitmap(img, 24);
 }
 
@@ -3917,9 +3976,9 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             exportFrame = true;
             if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
             {
-                if(LoadSLP(&gallery)) FrameToBitmap(&gallery);
+                if(LoadSLP(&gallery)) FrameToBitmap(&gallery, true);
                 if(gallery.bitmap.IsOk())
-                if(!gallery.bitmap.SaveFile("Testi.png", wxBITMAP_TYPE_PNG))
+                if(!gallery.bitmap.SaveFile(gallery.filename + ".png", wxBITMAP_TYPE_PNG))
                     wxMessageBox("Saving frame as PNG failed", "SLP");
             }
             else wxMessageBox("Choose a graphic from graphics tab", "SLP");
