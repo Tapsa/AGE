@@ -55,7 +55,7 @@ set(AGE_SRC Main.cpp
     Resources.rc
     )
 
-find_library(PSAPI psapi)
+#find_library(PSAPI psapi)
 
 add_executable(AdvancedGenieEditor3 WIN32 ${AGE_SRC})
-target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils ${PSAPI} ${SFML_LIBRARIES})
+target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils ${SFML_LIBRARIES})

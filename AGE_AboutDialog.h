@@ -71,6 +71,6 @@ private:
 };
 
 extern LRU_SLP<int> slp_cache_resnum;
-extern LRU_SLP<wxString> slp_cache_resname;
+extern LRU_SLP<std::string> slp_cache_resname;
 
 }

@@ -33,7 +33,7 @@ namespace GG
 
 size_t cache_depth = 42;
 LRU_SLP<int> slp_cache_resnum;
-LRU_SLP<wxString> slp_cache_resname;
+LRU_SLP<std::string> slp_cache_resname;
 
 void LoadPalettes(vector<vector<genie::Color>> &palettes, const wxString &path)
 {
@@ -119,7 +119,7 @@ genie::SlpFilePtr LoadSLP(genie::DrsFile &pack, int resnum)
 
 genie::SlpFilePtr LoadSLP(const wxString &filename)
 {
-    genie::SlpFilePtr slp = slp_cache_resname.use(filename);
+    genie::SlpFilePtr slp = slp_cache_resname.use(filename.ToStdString());
     if(!slp)
     {
         try
@@ -127,7 +127,7 @@ genie::SlpFilePtr LoadSLP(const wxString &filename)
             slp.reset(new genie::SlpFile());
             slp->load(filename.c_str());
             slp->freelock();
-            slp_cache_resname.put(filename, slp);
+            slp_cache_resname.put(filename.ToStdString(), slp);
         }
         catch(std::ios_base::failure)
         {
