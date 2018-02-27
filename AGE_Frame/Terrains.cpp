@@ -287,10 +287,10 @@ void AGE_Frame::OnTerrainSelect(wxCommandEvent &event)
             if(LooseHD)
             {
                 wxString resname;
-                folder.Replace("drs", "terrain\\textures", false);
+                folder.Replace("drs", "terrain/textures", false);
                 if(!wxFileName(resname).FileExists())
                 {
-                    resname = folder + "\\" + TerrainPointer->Name2 + "_00_color.png";
+                    resname = folder + "/" + TerrainPointer->Name2 + "_00_color.png";
                 }
                 if(wxFileName(resname).FileExists())
                 {
