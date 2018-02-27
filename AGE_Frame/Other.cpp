@@ -363,30 +363,30 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             {
                 gotcha = loadPalette(folder);
                 wxString soundfolder = FolderDRS2;
-                soundfolder.Replace("drs", "sound\\terrain", false);
+                soundfolder.Replace("drs", "sound/terrain", false);
                 if(wxDir::Exists(soundfolder))
-                soundfolders.Add(soundfolder + "\\");
-                if(wxDir::Exists(folder + "\\gamedata_x2"))
-                soundfolders.Add(folder + "\\gamedata_x2\\");
-                if(wxDir::Exists(folder + "\\sounds"))
-                soundfolders.Add(folder + "\\sounds\\");
-                if(wxDir::Exists(folder + "\\interface"))
-                soundfolders.Add(folder + "\\interface\\");
+                soundfolders.Add(soundfolder + "/");
+                if(wxDir::Exists(folder + "/gamedata_x2"))
+                soundfolders.Add(folder + "/gamedata_x2/");
+                if(wxDir::Exists(folder + "/sounds"))
+                soundfolders.Add(folder + "/sounds/");
+                if(wxDir::Exists(folder + "/interface"))
+                soundfolders.Add(folder + "/interface/");
             }
             folder = FolderDRS;
             if(!folder.empty())
             {
                 if(!gotcha) loadPalette(folder);
                 wxString soundfolder = FolderDRS;
-                soundfolder.Replace("drs", "sound\\terrain", false);
+                soundfolder.Replace("drs", "sound/terrain", false);
                 if(wxDir::Exists(soundfolder))
-                soundfolders.Add(soundfolder + "\\");
-                if(wxDir::Exists(folder + "\\gamedata_x2"))
-                soundfolders.Add(folder + "\\gamedata_x2\\");
-                if(wxDir::Exists(folder + "\\sounds"))
-                soundfolders.Add(folder + "\\sounds\\");
-                if(wxDir::Exists(folder + "\\interface"))
-                soundfolders.Add(folder + "\\interface\\");
+                soundfolders.Add(soundfolder + "/");
+                if(wxDir::Exists(folder + "/gamedata_x2"))
+                soundfolders.Add(folder + "/gamedata_x2/");
+                if(wxDir::Exists(folder + "/sounds"))
+                soundfolders.Add(folder + "/sounds/");
+                if(wxDir::Exists(folder + "/interface"))
+                soundfolders.Add(folder + "/interface/");
 
                 // Load extra palettes
                 folder.Replace("drs", "dat", false);
@@ -399,7 +399,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                         genie::PalFile pal;
                         try
                         {
-                            pal.load((folder + "\\" + res).c_str());
+                            pal.load((folder + "/" + res).c_str());
                             palettes.push_back(pal.getColors());
                         }
                         catch(std::ios_base::failure){}
@@ -414,16 +414,16 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             wxString folder = FolderDRS2;
             if(UseMod && !folder.empty())
             {
-                folder.Replace("data", GenieVersion < genie::GV_AoKE3 ? "sound" : "sound\\terrain", false);
+                folder.Replace("data", GenieVersion < genie::GV_AoKE3 ? "sound" : "sound/terrain", false);
                 if(wxDir::Exists(folder))
-                soundfolders.Add(folder + "\\");
+                soundfolders.Add(folder + "/");
             }
             folder = FolderDRS;
             if(!folder.empty())
             {
-                folder.Replace("data", GenieVersion < genie::GV_AoKE3 ? "sound" : "sound\\terrain", false);
+                folder.Replace("data", GenieVersion < genie::GV_AoKE3 ? "sound" : "sound/terrain", false);
                 if(wxDir::Exists(folder))
-                soundfolders.Add(folder + "\\");
+                soundfolders.Add(folder + "/");
             }
 
             GetToolBar()->ToggleTool(eDRS, true);
@@ -2712,47 +2712,47 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     {
                         if(GenieVersion >= genie::GV_RoR)
                         {
-                            FilesToRead.Add("2\\sounds.drs");
-                            FilesToRead.Add("2\\graphics.drs");
-                            FilesToRead.Add("2\\interfac.drs");
+                            FilesToRead.Add("2/sounds.drs");
+                            FilesToRead.Add("2/graphics.drs");
+                            FilesToRead.Add("2/interfac.drs");
                         }
                     }
                     else
                     {
                         if(GenieVersion == genie::GV_TC)
                         {
-                            FilesToRead.Add("\\sounds_x1.drs");
-                            FilesToRead.Add("\\gamedata_x1.drs");
-                            FilesToRead.Add("\\gamedata_x1_p1.drs");
+                            FilesToRead.Add("/sounds_x1.drs");
+                            FilesToRead.Add("/gamedata_x1.drs");
+                            FilesToRead.Add("/gamedata_x1_p1.drs");
                         }
                         else if(GenieVersion == genie::GV_CC)
                         {
                             if(GameVersion == EV_EF)
                             {
-                                FilesToRead.Add("\\sounds_x2.drs");
-                                FilesToRead.Add("\\graphics_x2.drs");
-                                FilesToRead.Add("\\terrain_x2.drs");
-                                FilesToRead.Add("\\interfac_x2.drs");
-                                FilesToRead.Add("\\gamedata_x2.drs");
+                                FilesToRead.Add("/sounds_x2.drs");
+                                FilesToRead.Add("/graphics_x2.drs");
+                                FilesToRead.Add("/terrain_x2.drs");
+                                FilesToRead.Add("/interfac_x2.drs");
+                                FilesToRead.Add("/gamedata_x2.drs");
                             }
-                            FilesToRead.Add("\\sounds_x1.drs");
-                            FilesToRead.Add("\\graphics_x1.drs");
-                            FilesToRead.Add("\\terrain_x1.drs");
-                            FilesToRead.Add("\\interfac_x1.drs");
-                            FilesToRead.Add("\\gamedata_x1.drs");
+                            FilesToRead.Add("/sounds_x1.drs");
+                            FilesToRead.Add("/graphics_x1.drs");
+                            FilesToRead.Add("/terrain_x1.drs");
+                            FilesToRead.Add("/interfac_x1.drs");
+                            FilesToRead.Add("/gamedata_x1.drs");
                         }
                     }
-                    FilesToRead.Add("\\sounds.drs");
-                    FilesToRead.Add("\\graphics.drs");
-                    FilesToRead.Add("\\terrain.drs");
+                    FilesToRead.Add("/sounds.drs");
+                    FilesToRead.Add("/graphics.drs");
+                    FilesToRead.Add("/terrain.drs");
                     if(GenieVersion < genie::GV_AoKB)
                     {
-                        FilesToRead.Add("\\border.drs");
+                        FilesToRead.Add("/border.drs");
                     }
-                    FilesToRead.Add("\\interfac.drs");
+                    FilesToRead.Add("/interfac.drs");
                     if(GenieVersion >= genie::GV_AoKE3)
                     {
-                        FilesToRead.Add("\\gamedata.drs");
+                        FilesToRead.Add("/gamedata.drs");
                     }
 
                     if(UseExtra)
@@ -3070,7 +3070,7 @@ bool AGE_Frame::loadPalette(const wxString &folder)
 {
     if(!wxDir::Exists(folder)) return false;
     genie::PalFile pal;
-    wxString name = folder + "\\interface\\50500.bina";
+    wxString name = folder + "/interface/50500.bina";
     try
     {
         pal.load(name.c_str());
@@ -3106,22 +3106,22 @@ void AGE_Frame::addSLPFolders4SLPs(wxArrayString &folders, wxString folder)
     if(folder.empty()) return;
     folder.Replace("drs", "slp", false);
     if(!wxDir::Exists(folder)) return;
-    folders.Add(folder + "\\");
+    folders.Add(folder + "/");
 }
 
 void AGE_Frame::addDRSFolders4SLPs(wxArrayString &folders, const wxString &folder)
 {
     if(folder.empty()) return;
-    if(wxDir::Exists(folder + "\\gamedata_x2"))
-    folders.Add(folder + "\\gamedata_x2\\");
-    if(wxDir::Exists(folder + "\\gamedata_x1"))
-    folders.Add(folder + "\\gamedata_x1\\");
-    if(wxDir::Exists(folder + "\\interface"))
-    folders.Add(folder + "\\interface\\");
-    if(wxDir::Exists(folder + "\\graphics"))
-    folders.Add(folder + "\\graphics\\");
-    if(wxDir::Exists(folder + "\\terrain"))
-    folders.Add(folder + "\\terrain\\");
+    if(wxDir::Exists(folder + "/gamedata_x2"))
+    folders.Add(folder + "/gamedata_x2/");
+    if(wxDir::Exists(folder + "/gamedata_x1"))
+    folders.Add(folder + "/gamedata_x1/");
+    if(wxDir::Exists(folder + "/interface"))
+    folders.Add(folder + "/interface/");
+    if(wxDir::Exists(folder + "/graphics"))
+    folders.Add(folder + "/graphics/");
+    if(wxDir::Exists(folder + "/terrain"))
+    folders.Add(folder + "/terrain/");
 }
 
 bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
@@ -3140,7 +3140,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
             {
                 graphic->filename.Replace("<x#>", AlexZoom, false);
             }
-            graphic->slp = GG::LoadSLP(PathSLP + "\\" + graphic->filename + ".slp");
+            graphic->slp = GG::LoadSLP(string(PathSLP) + "/" + string(graphic->filename) + ".slp");
             if(graphic->slp) return true;
         }
     }
@@ -3153,7 +3153,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
             addSLPFolders4SLPs(folders, FolderDRS);
             for(int i=0; i < folders.size(); ++i)
             {
-                graphic->slp = GG::LoadSLP(folders[i] + graphic->filename + ".slp");
+                graphic->slp = GG::LoadSLP(string(folders[i]) + string(graphic->filename) + ".slp");
                 if(graphic->slp) return true;
             }
             folders.clear();
@@ -3163,7 +3163,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
         for(int i=0; i < folders.size(); ++i)
         {
             // HD uses slp ID instead
-            graphic->slp = GG::LoadSLP(folders[i] + lexical_cast<string>(graphic->slpID) + ".slp");
+            graphic->slp = GG::LoadSLP(string(folders[i]) + lexical_cast<string>(graphic->slpID) + ".slp");
             if(graphic->slp) return true;
         }
     }
