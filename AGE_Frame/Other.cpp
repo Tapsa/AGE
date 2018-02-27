@@ -3140,7 +3140,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
             {
                 graphic->filename.Replace("<x#>", AlexZoom, false);
             }
-            graphic->slp = GG::LoadSLP(PathSLP + "/" + graphic->filename + ".slp");
+            graphic->slp = GG::LoadSLP(string(PathSLP) + "/" + string(graphic->filename) + ".slp");
             if(graphic->slp) return true;
         }
     }
@@ -3153,7 +3153,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
             addSLPFolders4SLPs(folders, FolderDRS);
             for(int i=0; i < folders.size(); ++i)
             {
-                graphic->slp = GG::LoadSLP(folders[i] + graphic->filename + ".slp");
+                graphic->slp = GG::LoadSLP(string(folders[i]) + string(graphic->filename) + ".slp");
                 if(graphic->slp) return true;
             }
             folders.clear();
@@ -3163,7 +3163,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
         for(int i=0; i < folders.size(); ++i)
         {
             // HD uses slp ID instead
-            graphic->slp = GG::LoadSLP(folders[i] + lexical_cast<string>(graphic->slpID) + ".slp");
+            graphic->slp = GG::LoadSLP(string(folders[i]) + lexical_cast<string>(graphic->slpID) + ".slp");
             if(graphic->slp) return true;
         }
     }
