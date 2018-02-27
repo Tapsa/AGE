@@ -16,7 +16,7 @@ void LoadPalettes(vector<vector<genie::Color>> &palettes, const wxString &path);
 string LoadSound(wxArrayString &folders, const string &filename, int resnum);
 const unsigned char* LoadSound(vector<genie::DrsFile*> &datafiles, int resnum);
 genie::SlpFilePtr LoadSLP(genie::DrsFile &pack, int resnum);
-genie::SlpFilePtr LoadSLP(const wxString &filename);
+genie::SlpFilePtr LoadSLP(const string &filename);
 
 extern size_t cache_depth;
 
@@ -71,6 +71,6 @@ private:
 };
 
 extern LRU_SLP<int> slp_cache_resnum;
-extern LRU_SLP<std::string> slp_cache_resname;
+extern LRU_SLP<string> slp_cache_resname;
 
 }
