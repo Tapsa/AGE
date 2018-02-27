@@ -1,7 +1,7 @@
 #include "AGE_AboutDialog.h"
 #include "AppIcon64.xpm"
 
-const wxString AGE_AboutDialog::AGE_VER = "2018.2.25";
+const wxString AGE_AboutDialog::AGE_VER = "2018.2.27";
 
 AGE_AboutDialog::AGE_AboutDialog(wxWindow *parent, const wxFont &font)
 : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)
@@ -33,7 +33,7 @@ namespace GG
 
 size_t cache_depth = 42;
 LRU_SLP<int> slp_cache_resnum;
-LRU_SLP<wxString> slp_cache_resname;
+LRU_SLP<string> slp_cache_resname;
 
 void LoadPalettes(vector<vector<genie::Color>> &palettes, const wxString &path)
 {
@@ -117,7 +117,7 @@ genie::SlpFilePtr LoadSLP(genie::DrsFile &pack, int resnum)
     return slp;
 }
 
-genie::SlpFilePtr LoadSLP(const wxString &filename)
+genie::SlpFilePtr LoadSLP(const string &filename)
 {
     genie::SlpFilePtr slp = slp_cache_resname.use(filename);
     if(!slp)
