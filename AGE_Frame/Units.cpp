@@ -109,13 +109,13 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type20[11]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "SR " + FormatFloat(unit_ptr->CollisionSize.x) + " "
-                    + FormatFloat(unit_ptr->CollisionSize.y);
+            return "SR " + FormatFloat(unit_ptr->Size.x) + " "
+                    + FormatFloat(unit_ptr->Size.y);
         });
         else if(label.compare(Type20[12]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "B1 " + FormatFloat(unit_ptr->CollisionSize.z);
+            return "B1 " + FormatFloat(unit_ptr->Size.z);
         });
         else if(label.compare(Type20[13]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -187,8 +187,8 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type20[26]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "ER " + FormatFloat(unit_ptr->ClearanceSize.first) + " "
-                    + FormatFloat(unit_ptr->ClearanceSize.second);
+            return "ER " + FormatFloat(unit_ptr->ClearanceSize.x) + " "
+                    + FormatFloat(unit_ptr->ClearanceSize.y);
         });
         else if(label.compare(Type20[27]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -339,7 +339,7 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type20[56]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "B2 " + FormatFloat(unit_ptr->OutlineSize.z);
+            return "B2 " + FormatFloat(unit_ptr->HPBarHeight);
         });
         else if(label.compare(Type20[57]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -420,94 +420,94 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type30[0]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF30 "WG " + FormatInt(unit_ptr->DeadFish.WalkingGraphic) + " "
-                    + FormatInt(unit_ptr->DeadFish.RunningGraphic);
+            return UF30 "WG " + FormatInt(unit_ptr->Moving.WalkingGraphic) + " "
+                    + FormatInt(unit_ptr->Moving.RunningGraphic);
         });
         else if(label.compare(Type30[1]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF30 "RS " + FormatFloat(unit_ptr->DeadFish.RotationSpeed);
+            return UF30 "RS " + FormatFloat(unit_ptr->Moving.RotationSpeed);
         });
         else if(label.compare(Type30[2]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF30 "U11 " + FormatInt(unit_ptr->DeadFish.OldSizeClass);
+            return UF30 "U11 " + FormatInt(unit_ptr->Moving.OldSizeClass);
         });
         else if(label.compare(Type30[3]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF30 "TU " + FormatInt(unit_ptr->DeadFish.TrackingUnit);
+            return UF30 "TU " + FormatInt(unit_ptr->Moving.TrackingUnit);
         });
         else if(label.compare(Type30[4]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF30 "UU " + FormatInt(unit_ptr->DeadFish.TrackingUnitMode);
+            return UF30 "UU " + FormatInt(unit_ptr->Moving.TrackingUnitMode);
         });
         else if(label.compare(Type30[5]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF30 "UD " + FormatFloat(unit_ptr->DeadFish.TrackingUnitDensity);
+            return UF30 "UD " + FormatFloat(unit_ptr->Moving.TrackingUnitDensity);
         });
         else if(label.compare(Type30[6]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF30 "U16 " + FormatInt(unit_ptr->DeadFish.OldMoveAlgorithm);
+            return UF30 "U16 " + FormatInt(unit_ptr->Moving.OldMoveAlgorithm);
         });
         else if(label.compare(Type30[7]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF30 "r" + FormatFloat(unit_ptr->DeadFish.TurnRadius)
-                    + " s" + FormatFloat(unit_ptr->DeadFish.TurnRadiusSpeed)
-                    + " m" + FormatFloat(unit_ptr->DeadFish.MaxYawPerSecondMoving)
-                    + " t" + FormatFloat(unit_ptr->DeadFish.StationaryYawRevolutionTime)
-                    + " y" + FormatFloat(unit_ptr->DeadFish.MaxYawPerSecondStationary);
+            return UF30 "r" + FormatFloat(unit_ptr->Moving.TurnRadius)
+                    + " s" + FormatFloat(unit_ptr->Moving.TurnRadiusSpeed)
+                    + " m" + FormatFloat(unit_ptr->Moving.MaxYawPerSecondMoving)
+                    + " t" + FormatFloat(unit_ptr->Moving.StationaryYawRevolutionTime)
+                    + " y" + FormatFloat(unit_ptr->Moving.MaxYawPerSecondStationary);
         });
 
         else if(label.compare(Type40[0]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF40 "SC " + FormatInt(unit_ptr->Bird.DefaultTaskID);
+            return UF40 "SC " + FormatInt(unit_ptr->Action.DefaultTaskID);
         });
         else if(label.compare(Type40[1]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF40 "SR " + FormatFloat(unit_ptr->Bird.SearchRadius);
+            return UF40 "SR " + FormatFloat(unit_ptr->Action.SearchRadius);
         });
         else if(label.compare(Type40[2]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF40 "WR " + FormatFloat(unit_ptr->Bird.WorkRate);
+            return UF40 "WR " + FormatFloat(unit_ptr->Action.WorkRate);
         });
         else if(label.compare(Type40[3]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF40 "DS " + FormatInt(unit_ptr->Bird.DropSite.first) + " "
-                    + FormatInt(unit_ptr->Bird.DropSite.second);
+            return UF40 "DS " + FormatInt(unit_ptr->Action.DropSite.first) + " "
+                    + FormatInt(unit_ptr->Action.DropSite.second);
         });
         else if(label.compare(Type40[4]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF40 "VM " + FormatInt(unit_ptr->Bird.TaskSwapGroup);
+            return UF40 "VM " + FormatInt(unit_ptr->Action.TaskSwapGroup);
         });
         else if(label.compare(Type40[5]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF40 "AS " + FormatInt(unit_ptr->Bird.AttackSound);
+            return UF40 "AS " + FormatInt(unit_ptr->Action.AttackSound);
         });
         else if(label.compare(Type40[6]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF40 "MS " + FormatInt(unit_ptr->Bird.MoveSound);
+            return UF40 "MS " + FormatInt(unit_ptr->Action.MoveSound);
         });
         else if(label.compare(Type40[7]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF40 "AM " + FormatInt(unit_ptr->Bird.RunPattern);
+            return UF40 "AM " + FormatInt(unit_ptr->Action.RunPattern);
         });
         else if(label.compare(Type40[8]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF40 "CC " + FormatInt(unit_ptr->Bird.TaskList.size());
+            return UF40 "CC " + FormatInt(unit_ptr->Action.TaskList.size());
         });
         else if(label.compare(Type40[9]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -518,151 +518,151 @@ void AGE_Frame::PrepUnitSearch()
         if(label.compare(Type50[0]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "DA " + FormatInt(unit_ptr->Type50.BaseArmor);
+            return UF50 "DA " + FormatInt(unit_ptr->Combat.BaseArmor);
         });
         else if(label.compare(Type50[1]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "AtC " + FormatInt(unit_ptr->Type50.Attacks.size());
+            return UF50 "AtC " + FormatInt(unit_ptr->Combat.Attacks.size());
         });
         else if(label.compare(Type50[2]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "";
-            for(size_t i = 0; i < unit_ptr->Type50.Attacks.size(); ++i)
-            name += "c" + FormatInt(unit_ptr->Type50.Attacks[i].Class) + " ";
+            for(size_t i = 0; i < unit_ptr->Combat.Attacks.size(); ++i)
+            name += "c" + FormatInt(unit_ptr->Combat.Attacks[i].Class) + " ";
             return UF50 name;
         });
         else if(label.compare(Type50[3]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "ArC " + FormatInt(unit_ptr->Type50.Armours.size());
+            return UF50 "ArC " + FormatInt(unit_ptr->Combat.Armours.size());
         });
         else if(label.compare(Type50[4]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "";
-            for(size_t i = 0; i < unit_ptr->Type50.Armours.size(); ++i)
-            name += "c" + FormatInt(unit_ptr->Type50.Armours[i].Class) + " ";
+            for(size_t i = 0; i < unit_ptr->Combat.Armours.size(); ++i)
+            name += "c" + FormatInt(unit_ptr->Combat.Armours[i].Class) + " ";
             return UF50 name;
         });
         else if(label.compare(Type50[5]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "TR " + FormatInt(unit_ptr->Type50.DefenseTerrainBonus);
+            return UF50 "TR " + FormatInt(unit_ptr->Combat.DefenseTerrainBonus);
         });
         else if(label.compare(Type50[6]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "MaR " + FormatFloat(unit_ptr->Type50.MaxRange);
+            return UF50 "MaR " + FormatFloat(unit_ptr->Combat.MaxRange);
         });
         else if(label.compare(Type50[7]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "BR " + FormatFloat(unit_ptr->Type50.BlastWidth);
+            return UF50 "BR " + FormatFloat(unit_ptr->Combat.BlastWidth);
         });
         else if(label.compare(Type50[8]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "RT " + FormatFloat(unit_ptr->Type50.ReloadTime);
+            return UF50 "RT " + FormatFloat(unit_ptr->Combat.ReloadTime);
         });
         else if(label.compare(Type50[9]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "PU " + FormatInt(unit_ptr->Type50.ProjectileUnitID);
+            return UF50 "PU " + FormatInt(unit_ptr->Combat.ProjectileUnitID);
         });
         else if(label.compare(Type50[10]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "AP " + FormatInt(unit_ptr->Type50.AccuracyPercent);
+            return UF50 "AP " + FormatInt(unit_ptr->Combat.AccuracyPercent);
         });
         else if(label.compare(Type50[11]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "TM " + FormatInt(unit_ptr->Type50.BreakOffCombat);
+            return UF50 "TM " + FormatInt(unit_ptr->Combat.BreakOffCombat);
         });
         else if(label.compare(Type50[12]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "D " + FormatInt(unit_ptr->Type50.FrameDelay);
+            return UF50 "D " + FormatInt(unit_ptr->Combat.FrameDelay);
         });
         else if(label.compare(Type50[13]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "x" + FormatFloat(unit_ptr->Type50.GraphicDisplacement[0])
-                    + " y" + FormatFloat(unit_ptr->Type50.GraphicDisplacement[1])
-                    + " z" + FormatFloat(unit_ptr->Type50.GraphicDisplacement[2]);
+            return UF50 "x" + FormatFloat(unit_ptr->Combat.GraphicDisplacement[0])
+                    + " y" + FormatFloat(unit_ptr->Combat.GraphicDisplacement[1])
+                    + " z" + FormatFloat(unit_ptr->Combat.GraphicDisplacement[2]);
         });
         else if(label.compare(Type50[14]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "BL " + FormatInt(unit_ptr->Type50.BlastAttackLevel);
+            return UF50 "BL " + FormatInt(unit_ptr->Combat.BlastAttackLevel);
         });
         else if(label.compare(Type50[15]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "MiR " + FormatFloat(unit_ptr->Type50.MinRange);
+            return UF50 "MiR " + FormatFloat(unit_ptr->Combat.MinRange);
         });
         else if(label.compare(Type50[16]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "AE " + FormatFloat(unit_ptr->Type50.AccuracyDispersion);
+            return UF50 "AE " + FormatFloat(unit_ptr->Combat.AccuracyDispersion);
         });
         else if(label.compare(Type50[17]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "AG " + FormatInt(unit_ptr->Type50.AttackGraphic);
+            return UF50 "AG " + FormatInt(unit_ptr->Combat.AttackGraphic);
         });
         else if(label.compare(Type50[18]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "DM " + FormatInt(unit_ptr->Type50.DisplayedMeleeArmour);
+            return UF50 "DM " + FormatInt(unit_ptr->Combat.DisplayedMeleeArmour);
         });
         else if(label.compare(Type50[19]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "DP " + FormatInt(unit_ptr->Type50.DisplayedAttack);
+            return UF50 "DP " + FormatInt(unit_ptr->Combat.DisplayedAttack);
         });
         else if(label.compare(Type50[20]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "DR " + FormatFloat(unit_ptr->Type50.DisplayedRange);
+            return UF50 "DR " + FormatFloat(unit_ptr->Combat.DisplayedRange);
         });
         else if(label.compare(Type50[21]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "DT " + FormatFloat(unit_ptr->Type50.DisplayedReloadTime);
+            return UF50 "DT " + FormatFloat(unit_ptr->Combat.DisplayedReloadTime);
         });
 
         else if(label.compare(Type60[0]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF60 "SM " + FormatInt(unit_ptr->Projectile.ProjectileType);
+            return UF60 "SM " + FormatInt(unit_ptr->Missile.ProjectileType);
         });
         else if(label.compare(Type60[1]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF60 "CM " + FormatInt(unit_ptr->Projectile.SmartMode);
+            return UF60 "CM " + FormatInt(unit_ptr->Missile.SmartMode);
         });
         else if(label.compare(Type60[2]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF60 "DA " + FormatInt(unit_ptr->Projectile.HitMode);
+            return UF60 "DA " + FormatInt(unit_ptr->Missile.HitMode);
         });
         else if(label.compare(Type60[3]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF60 "PM " + FormatInt(unit_ptr->Projectile.VanishMode);
+            return UF60 "PM " + FormatInt(unit_ptr->Missile.VanishMode);
         });
         else if(label.compare(Type60[4]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF60 "U24 " + FormatInt(unit_ptr->Projectile.AreaEffectSpecials);
+            return UF60 "U24 " + FormatInt(unit_ptr->Missile.AreaEffectSpecials);
         });
         else if(label.compare(Type60[5]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF60 "PA " + FormatFloat(unit_ptr->Projectile.ProjectileArc);
+            return UF60 "PA " + FormatFloat(unit_ptr->Missile.ProjectileArc);
         });
 
         else if(label.compare(Type70[0]) == 0)
@@ -884,16 +884,16 @@ void AGE_Frame::InitUnits(short civ, bool all)
         unit_names.Add("-1 - None");
     }
 
-    short matcher = genie::UT_Trees;
+    short matcher = genie::Unit::TreeType;
     switch(Units_FilterSelector->GetSelection())
     {
-        case 0: matcher = genie::UT_25; break;
-        case 1: matcher = genie::UT_Dead_Fish; break;
-        case 2: matcher = genie::UT_Bird; break;
-        case 3: matcher = genie::UT_Combatant; break;
-        case 4: matcher = genie::UT_Projectile; break;
-        case 5: matcher = genie::UT_Creatable; break;
-        case 6: matcher = genie::UT_Building; break;
+        case 0: matcher = genie::Unit::DoppelgangerType; break;
+        case 1: matcher = genie::Unit::MovingType; break;
+        case 2: matcher = genie::Unit::ActionType; break;
+        case 3: matcher = genie::Unit::CombatantType; break;
+        case 4: matcher = genie::Unit::MissileType; break;
+        case 5: matcher = genie::Unit::CreatableType; break;
+        case 6: matcher = genie::Unit::BuildingType; break;
     }
     for(size_t loop = 0; loop < dataset->Civs[civ].Units.size(); ++loop)
     {
@@ -907,12 +907,12 @@ void AGE_Frame::InitUnits(short civ, bool all)
             }
             unit_names.Add(FormatInt(loop)+" - "+name);
         }
-        if(matcher > genie::UT_25)
+        if(matcher > genie::Unit::DoppelgangerType)
         {
-            if(matcher == genie::UT_Projectile)
-            if(dataset->Civs[civ].Units[loop].Type != genie::UT_Projectile) continue;
+            if(matcher == genie::Unit::MissileType)
+            if(dataset->Civs[civ].Units[loop].Type != genie::Unit::MissileType) continue;
             if(dataset->Civs[civ].Units[loop].Type < matcher) continue;
-            if(dataset->Civs[civ].Units[loop].Type == genie::UT_AoeTrees) continue;
+            if(dataset->Civs[civ].Units[loop].Type == genie::Unit::TreeType) continue;
         }
         wxString Name = FormatInt(loop)+" - "+GetUnitName(loop, civ, true);
         if(SearchMatches(" " + Name.Lower() + " "))
@@ -1066,64 +1066,64 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                 case 60:
                 case 50:
                 {
-                    Units_BaseArmor->prepend(&UnitPointer->Type50.BaseArmor);
-                    Units_DefenseTerrainBonus->prepend(&UnitPointer->Type50.DefenseTerrainBonus);
-                    Units_MaxRange->prepend(&UnitPointer->Type50.MaxRange);
-                    Units_BlastWidth->prepend(&UnitPointer->Type50.BlastWidth);
-                    Units_ReloadTime->prepend(&UnitPointer->Type50.ReloadTime);
-                    Units_ProjectileUnitID->prepend(&UnitPointer->Type50.ProjectileUnitID);
-                    Units_AccuracyPercent->prepend(&UnitPointer->Type50.AccuracyPercent);
-                    Units_TowerMode->prepend(&UnitPointer->Type50.BreakOffCombat);
-                    Units_Delay->prepend(&UnitPointer->Type50.FrameDelay);
+                    Units_BaseArmor->prepend(&UnitPointer->Combat.BaseArmor);
+                    Units_DefenseTerrainBonus->prepend(&UnitPointer->Combat.DefenseTerrainBonus);
+                    Units_MaxRange->prepend(&UnitPointer->Combat.MaxRange);
+                    Units_BlastWidth->prepend(&UnitPointer->Combat.BlastWidth);
+                    Units_ReloadTime->prepend(&UnitPointer->Combat.ReloadTime);
+                    Units_ProjectileUnitID->prepend(&UnitPointer->Combat.ProjectileUnitID);
+                    Units_AccuracyPercent->prepend(&UnitPointer->Combat.AccuracyPercent);
+                    Units_TowerMode->prepend(&UnitPointer->Combat.BreakOffCombat);
+                    Units_Delay->prepend(&UnitPointer->Combat.FrameDelay);
                     for(size_t loop = 0; loop < 3; ++loop)
                     {
-                        Units_GraphicDisplacement[loop]->prepend(&UnitPointer->Type50.GraphicDisplacement[loop]);
+                        Units_GraphicDisplacement[loop]->prepend(&UnitPointer->Combat.GraphicDisplacement[loop]);
                     }
-                    Units_BlastAttackLevel->prepend(&UnitPointer->Type50.BlastAttackLevel);
-                    Units_MinRange->prepend(&UnitPointer->Type50.MinRange);
+                    Units_BlastAttackLevel->prepend(&UnitPointer->Combat.BlastAttackLevel);
+                    Units_MinRange->prepend(&UnitPointer->Combat.MinRange);
                     if(GenieVersion >= genie::GV_AoKB)
                     {
-                        Units_AccuracyDispersion->prepend(&UnitPointer->Type50.AccuracyDispersion);
+                        Units_AccuracyDispersion->prepend(&UnitPointer->Combat.AccuracyDispersion);
                     }
                     if(CopyGraphics || vecCiv == 0)
-                    Units_AttackGraphic->prepend(&UnitPointer->Type50.AttackGraphic);
-                    Units_DisplayedMeleeArmour->prepend(&UnitPointer->Type50.DisplayedMeleeArmour);
-                    Units_DisplayedAttack->prepend(&UnitPointer->Type50.DisplayedAttack);
-                    Units_DisplayedRange->prepend(&UnitPointer->Type50.DisplayedRange);
-                    Units_DisplayedReloadTime->prepend(&UnitPointer->Type50.DisplayedReloadTime);
+                    Units_AttackGraphic->prepend(&UnitPointer->Combat.AttackGraphic);
+                    Units_DisplayedMeleeArmour->prepend(&UnitPointer->Combat.DisplayedMeleeArmour);
+                    Units_DisplayedAttack->prepend(&UnitPointer->Combat.DisplayedAttack);
+                    Units_DisplayedRange->prepend(&UnitPointer->Combat.DisplayedRange);
+                    Units_DisplayedReloadTime->prepend(&UnitPointer->Combat.DisplayedReloadTime);
                 }
                 case 40:
                 {
-                    Units_DefaultTaskID->prepend(&UnitPointer->Bird.DefaultTaskID);
-                    Units_SearchRadius->prepend(&UnitPointer->Bird.SearchRadius);
-                    Units_WorkRate->prepend(&UnitPointer->Bird.WorkRate);
-                    Units_DropSite[0]->prepend(&UnitPointer->Bird.DropSite.first);
-                    Units_DropSite[1]->prepend(&UnitPointer->Bird.DropSite.second);
-                    Units_TaskSwapGroup->prepend(&UnitPointer->Bird.TaskSwapGroup);
-                    Units_AttackSound->prepend(&UnitPointer->Bird.AttackSound);
-                    Units_MoveSound->prepend(&UnitPointer->Bird.MoveSound);
-                    Units_RunPattern->prepend(&UnitPointer->Bird.RunPattern);
+                    Units_DefaultTaskID->prepend(&UnitPointer->Action.DefaultTaskID);
+                    Units_SearchRadius->prepend(&UnitPointer->Action.SearchRadius);
+                    Units_WorkRate->prepend(&UnitPointer->Action.WorkRate);
+                    Units_DropSite[0]->prepend(&UnitPointer->Action.DropSite.first);
+                    Units_DropSite[1]->prepend(&UnitPointer->Action.DropSite.second);
+                    Units_TaskSwapGroup->prepend(&UnitPointer->Action.TaskSwapGroup);
+                    Units_AttackSound->prepend(&UnitPointer->Action.AttackSound);
+                    Units_MoveSound->prepend(&UnitPointer->Action.MoveSound);
+                    Units_RunPattern->prepend(&UnitPointer->Action.RunPattern);
                 }
                 case 30:
                 {
                     if(CopyGraphics || vecCiv == 0)
                     {
-                        Units_WalkingGraphic[0]->prepend(&UnitPointer->DeadFish.WalkingGraphic);
-                        Units_WalkingGraphic[1]->prepend(&UnitPointer->DeadFish.RunningGraphic);
+                        Units_WalkingGraphic[0]->prepend(&UnitPointer->Moving.WalkingGraphic);
+                        Units_WalkingGraphic[1]->prepend(&UnitPointer->Moving.RunningGraphic);
                     }
-                    Units_RotationSpeed->prepend(&UnitPointer->DeadFish.RotationSpeed);
-                    Units_SizeClass->prepend(&UnitPointer->DeadFish.OldSizeClass);
-                    Units_TrackingUnit->prepend(&UnitPointer->DeadFish.TrackingUnit);
-                    Units_TrackingUnitMode->prepend(&UnitPointer->DeadFish.TrackingUnitMode);
-                    Units_TrackingUnitDensity->prepend(&UnitPointer->DeadFish.TrackingUnitDensity);
-                    Units_MoveAlgorithm->prepend(&UnitPointer->DeadFish.OldMoveAlgorithm);
+                    Units_RotationSpeed->prepend(&UnitPointer->Moving.RotationSpeed);
+                    Units_SizeClass->prepend(&UnitPointer->Moving.OldSizeClass);
+                    Units_TrackingUnit->prepend(&UnitPointer->Moving.TrackingUnit);
+                    Units_TrackingUnitMode->prepend(&UnitPointer->Moving.TrackingUnitMode);
+                    Units_TrackingUnitDensity->prepend(&UnitPointer->Moving.TrackingUnitDensity);
+                    Units_MoveAlgorithm->prepend(&UnitPointer->Moving.OldMoveAlgorithm);
                     if(GenieVersion >= genie::GV_AoKB)
                     {
-                        Units_RotationAngles[0]->prepend(&UnitPointer->DeadFish.TurnRadius);
-                        Units_RotationAngles[1]->prepend(&UnitPointer->DeadFish.TurnRadiusSpeed);
-                        Units_RotationAngles[2]->prepend(&UnitPointer->DeadFish.MaxYawPerSecondMoving);
-                        Units_RotationAngles[3]->prepend(&UnitPointer->DeadFish.StationaryYawRevolutionTime);
-                        Units_RotationAngles[4]->prepend(&UnitPointer->DeadFish.MaxYawPerSecondStationary);
+                        Units_RotationAngles[0]->prepend(&UnitPointer->Moving.TurnRadius);
+                        Units_RotationAngles[1]->prepend(&UnitPointer->Moving.TurnRadiusSpeed);
+                        Units_RotationAngles[2]->prepend(&UnitPointer->Moving.MaxYawPerSecondMoving);
+                        Units_RotationAngles[3]->prepend(&UnitPointer->Moving.StationaryYawRevolutionTime);
+                        Units_RotationAngles[4]->prepend(&UnitPointer->Moving.MaxYawPerSecondStationary);
                     }
                 }
                 case 25:
@@ -1152,9 +1152,9 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                     Units_HitPoints->prepend(&UnitPointer->HitPoints);
                     Units_LineOfSight->prepend(&UnitPointer->LineOfSight);
                     Units_GarrisonCapacity->prepend(&UnitPointer->GarrisonCapacity);
-                    Units_SizeRadius[0]->prepend(&UnitPointer->CollisionSize.x);
-                    Units_SizeRadius[1]->prepend(&UnitPointer->CollisionSize.y);
-                    Units_HPBarHeight1->prepend(&UnitPointer->CollisionSize.z);
+                    Units_SizeRadius[0]->prepend(&UnitPointer->Size.x);
+                    Units_SizeRadius[1]->prepend(&UnitPointer->Size.y);
+                    Units_HPBarHeight1->prepend(&UnitPointer->Size.z);
                     Units_TrainSound->prepend(&UnitPointer->TrainSound);
                     Units_DeadUnitID->prepend(&UnitPointer->DeadUnitID);
                     Units_SortNumber->prepend(&UnitPointer->SortNumber);
@@ -1164,8 +1164,8 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                     Units_PlacementSideTerrain[1]->prepend(&UnitPointer->PlacementSideTerrain.second);
                     Units_PlacementTerrain[0]->prepend(&UnitPointer->PlacementTerrain.first);
                     Units_PlacementTerrain[1]->prepend(&UnitPointer->PlacementTerrain.second);
-                    Units_ClearanceSize[0]->prepend(&UnitPointer->ClearanceSize.first);
-                    Units_ClearanceSize[1]->prepend(&UnitPointer->ClearanceSize.second);
+                    Units_ClearanceSize[0]->prepend(&UnitPointer->ClearanceSize.x);
+                    Units_ClearanceSize[1]->prepend(&UnitPointer->ClearanceSize.y);
                     Units_HillMode->prepend(&UnitPointer->HillMode);
                     Units_FogVisibility->prepend(&UnitPointer->FogVisibility);
                     Units_TerrainRestriction->prepend(&UnitPointer->TerrainRestriction);
@@ -1230,7 +1230,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                     Units_ResourceGroup->prepend(&UnitPointer->ResourceGatherGroup);
                     Units_SelectionRadius[0]->prepend(&UnitPointer->OutlineSize.x);
                     Units_SelectionRadius[1]->prepend(&UnitPointer->OutlineSize.y);
-                    Units_HPBarHeight2->prepend(&UnitPointer->OutlineSize.z);
+                    Units_HPBarHeight2->prepend(&UnitPointer->HPBarHeight);
                     Units_SelectionSound->prepend(&UnitPointer->SelectionSound);
                     Units_DyingSound->prepend(&UnitPointer->DyingSound);
                     Units_AttackReaction->prepend(&UnitPointer->OldAttackReaction);
@@ -1247,12 +1247,12 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
             }
             if(unitType == 60)
             {
-                Units_ProjectileType->prepend(&UnitPointer->Projectile.ProjectileType);
-                Units_SmartMode->prepend(&UnitPointer->Projectile.SmartMode);
-                Units_HitMode->prepend(&UnitPointer->Projectile.HitMode);
-                Units_VanishMode->prepend(&UnitPointer->Projectile.VanishMode);
-                Units_AreaEffectSpecials->prepend(&UnitPointer->Projectile.AreaEffectSpecials);
-                Units_ProjectileArc->prepend(&UnitPointer->Projectile.ProjectileArc);
+                Units_ProjectileType->prepend(&UnitPointer->Missile.ProjectileType);
+                Units_SmartMode->prepend(&UnitPointer->Missile.SmartMode);
+                Units_HitMode->prepend(&UnitPointer->Missile.HitMode);
+                Units_VanishMode->prepend(&UnitPointer->Missile.VanishMode);
+                Units_AreaEffectSpecials->prepend(&UnitPointer->Missile.AreaEffectSpecials);
+                Units_ProjectileArc->prepend(&UnitPointer->Missile.ProjectileArc);
             }
         }
     }
@@ -1325,11 +1325,11 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
             #define UGLY_CODE if(angle == 0x80000000) newLabel += "max" + aste;\
             else newLabel += lexical_cast<string>(angle) + aste;
 
-            int angle = UnitPointer->DeadFish.TurnRadius * closure; UGLY_CODE
-            angle = UnitPointer->DeadFish.TurnRadiusSpeed * closure; UGLY_CODE
-            angle = UnitPointer->DeadFish.MaxYawPerSecondMoving * closure; UGLY_CODE
-            angle = UnitPointer->DeadFish.StationaryYawRevolutionTime * closure; UGLY_CODE
-            angle = UnitPointer->DeadFish.MaxYawPerSecondStationary * closure; UGLY_CODE
+            int angle = UnitPointer->Moving.TurnRadius * closure; UGLY_CODE
+            angle = UnitPointer->Moving.TurnRadiusSpeed * closure; UGLY_CODE
+            angle = UnitPointer->Moving.MaxYawPerSecondMoving * closure; UGLY_CODE
+            angle = UnitPointer->Moving.StationaryYawRevolutionTime * closure; UGLY_CODE
+            angle = UnitPointer->Moving.MaxYawPerSecondStationary * closure; UGLY_CODE
 
             Units_RotationAngles_Text->SetLabel(Units_RotationAngles_Label + newLabel + ")");
         }
@@ -1458,8 +1458,8 @@ int AGE_Frame::loadChosenGraphic(unsigned int unitID)
         }
         else
         {
-            if(CommandIDs.front() < unit->Bird.TaskList.size())
-            action = &unit->Bird.TaskList[CommandIDs.front()];
+            if(CommandIDs.front() < unit->Action.TaskList.size())
+            action = &unit->Action.TaskList[CommandIDs.front()];
         }
         if(!action) goto CHOOSE_NORMAL;
         int graphicID;
@@ -1482,10 +1482,10 @@ CHOOSE_NORMAL:
         case 1: return unit->StandingGraphic.second;
         case 2: return unit->DyingGraphic;
         case 3: return unit->UndeadGraphic;
-        case 4: return unit->DeadFish.WalkingGraphic;
-        case 5: return unit->DeadFish.RunningGraphic;
+        case 4: return unit->Moving.WalkingGraphic;
+        case 5: return unit->Moving.RunningGraphic;
         case 6: return unit->Building.ConstructionGraphicID;
-        case 7: return unit->Type50.AttackGraphic;
+        case 7: return unit->Combat.AttackGraphic;
         default: return -1;
     }
 }
@@ -1533,13 +1533,13 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
         art.xdelta = delta.OffsetX + offsetX;
         art.ydelta = delta.OffsetY + offsetY;
         SetDisplayBearings(art, delta);
-        museum.deltas.emplace(move(make_pair(offsetY, move(art))));
+        museum.deltas.emplace(make_pair(offsetY, move(art)));
     }
     else if(has_base)
     {
         baseSLP.xdelta = offsetX;
         baseSLP.ydelta = offsetY;
-        museum.deltas.emplace(move(make_pair(offsetY, move(baseSLP))));
+        museum.deltas.emplace(make_pair(offsetY, move(baseSLP)));
     }
 }
 
@@ -1611,11 +1611,11 @@ void AGE_Frame::UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit)
         store.SpecialGraphic = dataset->Civs[civ].Units[unit].Creatable.SpecialGraphic;
         case 60:
         case 50:
-        store.AttackGraphic = dataset->Civs[civ].Units[unit].Type50.AttackGraphic;
+        store.AttackGraphic = dataset->Civs[civ].Units[unit].Combat.AttackGraphic;
         case 40:
         case 30:
-        store.WalkingGraphic = dataset->Civs[civ].Units[unit].DeadFish.WalkingGraphic;
-        store.RunningGraphic = dataset->Civs[civ].Units[unit].DeadFish.RunningGraphic;
+        store.WalkingGraphic = dataset->Civs[civ].Units[unit].Moving.WalkingGraphic;
+        store.RunningGraphic = dataset->Civs[civ].Units[unit].Moving.RunningGraphic;
     }
 }
 
@@ -1687,7 +1687,7 @@ void AGE_Frame::PasteUnits(bool OneOnOne)
                         if(copies.Dat.UnitExists[civ][loop] != 0)
                         {
                             dataset->UnitHeaders[CorrectID(OneOnOne, loop)].Exists = 1;
-                            dataset->UnitHeaders[CorrectID(OneOnOne, loop)].TaskList = copies.Dat.UnitCopies[civ][loop].Bird.TaskList;
+                            dataset->UnitHeaders[CorrectID(OneOnOne, loop)].TaskList = copies.Dat.UnitCopies[civ][loop].Action.TaskList;
                             break;
                         }
                     }
@@ -1704,7 +1704,7 @@ void AGE_Frame::PasteUnits(bool OneOnOne)
             for(short civ = 0; civ < dataset->Civs.size(); ++civ)
             {
                 if(dataset->Civs[civ].UnitPointers[CorrectID(OneOnOne, loop)] != 0)
-                dataset->Civs[civ].Units[CorrectID(OneOnOne, loop)].Bird.TaskList = copies.UnitHeader[loop].TaskList;
+                dataset->Civs[civ].Units[CorrectID(OneOnOne, loop)].Action.TaskList = copies.UnitHeader[loop].TaskList;
             }
         }
     }
@@ -1727,11 +1727,11 @@ void AGE_Frame::UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit)
         dataset->Civs[civ].Units[unit].Creatable.SpecialGraphic = store.SpecialGraphic;
         case 60:
         case 50:
-        dataset->Civs[civ].Units[unit].Type50.AttackGraphic = store.AttackGraphic;
+        dataset->Civs[civ].Units[unit].Combat.AttackGraphic = store.AttackGraphic;
         case 40:
         case 30:
-        dataset->Civs[civ].Units[unit].DeadFish.WalkingGraphic = store.WalkingGraphic;
-        dataset->Civs[civ].Units[unit].DeadFish.RunningGraphic = store.RunningGraphic;
+        dataset->Civs[civ].Units[unit].Moving.WalkingGraphic = store.WalkingGraphic;
+        dataset->Civs[civ].Units[unit].Moving.RunningGraphic = store.RunningGraphic;
     }
 }
 
@@ -1986,8 +1986,8 @@ void AGE_Frame::OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &event)
 
 string AGE_Frame::GetUnitAttackName(int index)
 {
-    return "Amount: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks[index].Amount)
-    +" - Class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks[index].Class);
+    return "Amount: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Attacks[index].Amount)
+    +" - Class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Attacks[index].Class);
 }
 
 void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &event)
@@ -2008,7 +2008,7 @@ void AGE_Frame::ListUnitAttacks()
     && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type <= 80)
     {
         Units_Attacks_Add->Enable(true);
-        for(size_t loop = 0; loop < dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks.size(); ++loop)
+        for(size_t loop = 0; loop < dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Attacks.size(); ++loop)
         {
             wxString Name = FormatInt(loop)+" - "+GetUnitAttackName(loop);
             if(SearchMatches(" " + Name.Lower() + " "))
@@ -2045,12 +2045,12 @@ void AGE_Frame::OnUnitAttackSelect(wxCommandEvent &event)
         {
             for(short vecCiv = SelectedCivs.size(); vecCiv--> 0;)
             {
-                if(sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Type50.Attacks.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks.size())
+                if(sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Combat.Attacks.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Attacks.size())
                 {
                     warning.Append(lexical_cast<string>(SelectedCivs[vecCiv])+" ");
                     showWarning = true;
                 }
-                AttackPointer = &dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Type50.Attacks[AttackIDs[sel]];
+                AttackPointer = &dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Combat.Attacks[AttackIDs[sel]];
 
                 Attacks_Class->prepend(&AttackPointer->Class);
                 Attacks_Amount->prepend(&AttackPointer->Amount);
@@ -2076,7 +2076,7 @@ void AGE_Frame::OnUnitAttacksAdd(wxCommandEvent &event)
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
     {
         if(dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
-        dataset->Civs[loop].Units[UnitIDs.front()].Type50.Attacks.push_back(Temp);
+        dataset->Civs[loop].Units[UnitIDs.front()].Combat.Attacks.push_back(Temp);
     }
     How2List = ADD;
     ListUnitAttacks();
@@ -2092,7 +2092,7 @@ void AGE_Frame::OnUnitAttacksInsert(wxCommandEvent &event)
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
     {
         if(dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
-        dataset->Civs[loop].Units[UnitIDs.front()].Type50.Attacks.insert(dataset->Civs[loop].Units[UnitIDs.front()].Type50.Attacks.begin() + AttackIDs.front(), Temp);
+        dataset->Civs[loop].Units[UnitIDs.front()].Combat.Attacks.insert(dataset->Civs[loop].Units[UnitIDs.front()].Combat.Attacks.begin() + AttackIDs.front(), Temp);
     }
     How2List = INSNEW;
     ListUnitAttacks();
@@ -2107,9 +2107,9 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &event)
     for(short civ = 0; civ < dataset->Civs.size(); ++civ)
     {
         if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
-        if(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks.size())
+        if(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks.size())
         for(auto loop = selections; loop--> 0;)
-        dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks.erase(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks.begin() + AttackIDs[loop]);
+        dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks.erase(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks.begin() + AttackIDs[loop]);
     }
     How2List = DEL;
     ListUnitAttacks();
@@ -2139,14 +2139,14 @@ void AGE_Frame::OnUnitAttacksCopy(wxCommandEvent &event)
                 // Save info of graphic set to intelligently fill possible gaps when pasting.
                 copies.Dat.UnitAttackExists[civ] = 256 + dataset->Civs[civ].IconSet;
                 // Only copy attacks from civs which have this unit enabled.
-                CopyFromList(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks, AttackIDs, copies.Dat.UnitAttacks[copy]); copy++;
+                CopyFromList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs, copies.Dat.UnitAttacks[copy]); copy++;
             }
         }
         copies.Dat.UnitAttacks.resize(CivCount);
     }
     else
     {
-        CopyFromList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks, AttackIDs, copies.Dat.UnitAttacks.front());
+        CopyFromList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Attacks, AttackIDs, copies.Dat.UnitAttacks.front());
     }
     Units_Attacks_ListV->SetFocus();
 }
@@ -2169,17 +2169,17 @@ void AGE_Frame::OnUnitAttacksPaste(wxCommandEvent &event)
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitAttackExists[civ] > 255 && copy < copies.Dat.UnitAttacks.size())
             {
-                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks, AttackIDs, copies.Dat.UnitAttacks[copy]); ++copy;
+                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs, copies.Dat.UnitAttacks[copy]); ++copy;
             }
             else
             {
-                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks, AttackIDs, copies.Dat.UnitAttacks.front());
+                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs, copies.Dat.UnitAttacks.front());
             }
         }
     }
     else
     {
-        PasteToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks, AttackIDs, copies.Dat.UnitAttacks.front());
+        PasteToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Attacks, AttackIDs, copies.Dat.UnitAttacks.front());
     }
     ListUnitAttacks();
 }
@@ -2202,17 +2202,17 @@ void AGE_Frame::OnUnitAttacksPasteInsert(wxCommandEvent &event)
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitAttackExists[civ] > 255 && copy < copies.Dat.UnitAttacks.size())
             {
-                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks, AttackIDs.front(), copies.Dat.UnitAttacks[copy]); copy++;
+                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs.front(), copies.Dat.UnitAttacks[copy]); copy++;
             }
             else
             {
-                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks, AttackIDs.front(), copies.Dat.UnitAttacks.front());
+                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks, AttackIDs.front(), copies.Dat.UnitAttacks.front());
             }
         }
     }
     else
     {
-        PasteInsertToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks, AttackIDs.front(), copies.Dat.UnitAttacks.front());
+        PasteInsertToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Attacks, AttackIDs.front(), copies.Dat.UnitAttacks.front());
     }
     ListUnitAttacks();
 }
@@ -2222,14 +2222,14 @@ void AGE_Frame::OnUnitAttacksCopyToUnits(wxCommandEvent &event)
     for(short civ = 0; civ < dataset->Civs.size(); ++civ)
     for(size_t loop=1; loop < UnitIDs.size(); ++loop)
     {
-        dataset->Civs[civ].Units[UnitIDs[loop]].Type50.Attacks = dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks;
+        dataset->Civs[civ].Units[UnitIDs[loop]].Combat.Attacks = dataset->Civs[civ].Units[UnitIDs.front()].Combat.Attacks;
     }
 }
 
 string AGE_Frame::GetUnitArmorName(int index)
 {
-    return "Amount: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours[index].Amount)
-    +" - Class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours[index].Class);
+    return "Amount: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Armours[index].Amount)
+    +" - Class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Armours[index].Class);
 }
 
 void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &event)
@@ -2250,7 +2250,7 @@ void AGE_Frame::ListUnitArmors()
     && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type <= 80)
     {
         Units_Armors_Add->Enable(true);
-        for(size_t loop = 0; loop < dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours.size(); ++loop)
+        for(size_t loop = 0; loop < dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Armours.size(); ++loop)
         {
             wxString Name = FormatInt(loop)+" - "+GetUnitArmorName(loop);
             if(SearchMatches(" " + Name.Lower() + " "))
@@ -2287,12 +2287,12 @@ void AGE_Frame::OnUnitArmorSelect(wxCommandEvent &event)
         {
             for(short vecCiv = SelectedCivs.size(); vecCiv--> 0;)
             {
-                if(sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Type50.Armours.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours.size())
+                if(sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Combat.Armours.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Armours.size())
                 {
                     warning.Append(lexical_cast<string>(SelectedCivs[vecCiv])+" ");
                     showWarning = true;
                 }
-                ArmorPointer = &dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Type50.Armours[ArmorIDs[sel]];
+                ArmorPointer = &dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Combat.Armours[ArmorIDs[sel]];
 
                 Armors_Class->prepend(&ArmorPointer->Class);
                 Armors_Amount->prepend(&ArmorPointer->Amount);
@@ -2318,7 +2318,7 @@ void AGE_Frame::OnUnitArmorsAdd(wxCommandEvent &event)
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
     {
         if(dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
-        dataset->Civs[loop].Units[UnitIDs.front()].Type50.Armours.push_back(Temp);
+        dataset->Civs[loop].Units[UnitIDs.front()].Combat.Armours.push_back(Temp);
     }
     How2List = ADD;
     ListUnitArmors();
@@ -2334,7 +2334,7 @@ void AGE_Frame::OnUnitArmorsInsert(wxCommandEvent &event)
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
     {
         if(dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
-        dataset->Civs[loop].Units[UnitIDs.front()].Type50.Armours.insert(dataset->Civs[loop].Units[UnitIDs.front()].Type50.Armours.begin() + ArmorIDs.front(), Temp);
+        dataset->Civs[loop].Units[UnitIDs.front()].Combat.Armours.insert(dataset->Civs[loop].Units[UnitIDs.front()].Combat.Armours.begin() + ArmorIDs.front(), Temp);
     }
     How2List = INSNEW;
     ListUnitArmors();
@@ -2349,9 +2349,9 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &event)
     for(short civ = 0; civ < dataset->Civs.size(); ++civ)
     {
         if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
-        if(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours.size())
+        if(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours.size())
         for(auto loop = selections; loop--> 0;)
-        dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours.erase(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours.begin() + ArmorIDs[loop]);
+        dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours.erase(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours.begin() + ArmorIDs[loop]);
     }
     How2List = DEL;
     ListUnitArmors();
@@ -2381,14 +2381,14 @@ void AGE_Frame::OnUnitArmorsCopy(wxCommandEvent &event)
                 // Save info of graphic set to intelligently fill possible gaps when pasting.
                 copies.Dat.UnitArmorExists[civ] = 256 + dataset->Civs[civ].IconSet;
                 // Only copy armors from civs which have this unit enabled.
-                CopyFromList(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours, ArmorIDs, copies.Dat.UnitArmors[copy]); copy++;
+                CopyFromList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs, copies.Dat.UnitArmors[copy]); copy++;
             }
         }
         copies.Dat.UnitArmors.resize(CivCount);
     }
     else
     {
-        CopyFromList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours, ArmorIDs, copies.Dat.UnitArmors.front());
+        CopyFromList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Armours, ArmorIDs, copies.Dat.UnitArmors.front());
     }
     Units_Armors_ListV->SetFocus();
 }
@@ -2411,17 +2411,17 @@ void AGE_Frame::OnUnitArmorsPaste(wxCommandEvent &event)
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitArmorExists[civ] > 255 && copy < copies.Dat.UnitArmors.size())
             {
-                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours, ArmorIDs, copies.Dat.UnitArmors[copy]); ++copy;
+                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs, copies.Dat.UnitArmors[copy]); ++copy;
             }
             else
             {
-                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours, ArmorIDs, copies.Dat.UnitArmors.front());
+                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs, copies.Dat.UnitArmors.front());
             }
         }
     }
     else
     {
-        PasteToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours, ArmorIDs, copies.Dat.UnitArmors.front());
+        PasteToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Armours, ArmorIDs, copies.Dat.UnitArmors.front());
     }
     ListUnitArmors();
 }
@@ -2444,17 +2444,17 @@ void AGE_Frame::OnUnitArmorsPasteInsert(wxCommandEvent &event)
             // If the target unit exists then choose from following.
             if(copies.Dat.UnitArmorExists[civ] > 255 && copy < copies.Dat.UnitArmors.size())
             {
-                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours, ArmorIDs.front(), copies.Dat.UnitArmors[copy]); copy++;
+                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs.front(), copies.Dat.UnitArmors[copy]); copy++;
             }
             else
             {
-                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours, ArmorIDs.front(), copies.Dat.UnitArmors.front());
+                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours, ArmorIDs.front(), copies.Dat.UnitArmors.front());
             }
         }
     }
     else
     {
-        PasteInsertToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours, ArmorIDs.front(), copies.Dat.UnitArmors.front());
+        PasteInsertToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Combat.Armours, ArmorIDs.front(), copies.Dat.UnitArmors.front());
     }
     ListUnitArmors();
 }
@@ -2464,7 +2464,7 @@ void AGE_Frame::OnUnitArmorsCopyToUnits(wxCommandEvent &event)
     for(short civ = 0; civ < dataset->Civs.size(); ++civ)
     for(size_t loop=1; loop < UnitIDs.size(); ++loop)
     {
-        dataset->Civs[civ].Units[UnitIDs[loop]].Type50.Armours = dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours;
+        dataset->Civs[civ].Units[UnitIDs[loop]].Combat.Armours = dataset->Civs[civ].Units[UnitIDs.front()].Combat.Armours;
     }
 }
 
@@ -2474,7 +2474,7 @@ wxString AGE_Frame::GetUnitCommandName(int index)
 {
     short CommandType = (GenieVersion >= genie::GV_AoK)
         ? dataset->UnitHeaders[UnitIDs.front()].TaskList[index].ActionType
-        : dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList[index].ActionType;
+        : dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList[index].ActionType;
     switch(CommandType)
     {
         case 0: return task_names[1];
@@ -2565,13 +2565,13 @@ void AGE_Frame::ListUnitCommands()
         && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type <= 80)
         {
             Units_Tasks_Add->Enable(true);
-            for(size_t loop = 0; loop < dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList.size(); ++loop)
+            for(size_t loop = 0; loop < dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList.size(); ++loop)
             {
                 wxString Name = FormatInt(loop)+" - "+GetUnitCommandName(loop);
-                if(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList[loop].ClassID != -1)
-                Name += " class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList[loop].ClassID);
-                else if(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList[loop].UnitID != -1)
-                Name += " unit "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList[loop].UnitID);
+                if(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList[loop].ClassID != -1)
+                Name += " class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList[loop].ClassID);
+                else if(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList[loop].UnitID != -1)
+                Name += " unit "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList[loop].UnitID);
                 if(SearchMatches(" " + Name.Lower() + " "))
                 {
                     Units_Tasks_ListV->names.Add(Name);
@@ -2611,12 +2611,12 @@ void AGE_Frame::OnUnitCommandSelect(wxCommandEvent &event)
             {
                 if(GenieVersion < genie::GV_AoK)
                 {
-                    if(sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Bird.TaskList.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList.size())
+                    if(sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Action.TaskList.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList.size())
                     {
                         warning.Append(lexical_cast<string>(SelectedCivs[vecCiv])+" ");
                         showWarning = true;
                     }
-                    task_ptr = &dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Bird.TaskList[CommandIDs[sel]];
+                    task_ptr = &dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Action.TaskList[CommandIDs[sel]];
                 }
                 else
                 {
@@ -2733,8 +2733,8 @@ void AGE_Frame::OnUnitCommandsAdd(wxCommandEvent &event)
         {
             if(dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
             {
-                dataset->Civs[loop].Units[UnitIDs.front()].Bird.TaskList.push_back(Temp);
-                dataset->Civs[loop].Units[UnitIDs.front()].Bird.TaskList[dataset->Civs.front().Units[UnitIDs.front()].Bird.TaskList.size()-1].ID = (int16_t)(dataset->Civs.front().Units[UnitIDs.front()].Bird.TaskList.size()-1); // ID Fix
+                dataset->Civs[loop].Units[UnitIDs.front()].Action.TaskList.push_back(Temp);
+                dataset->Civs[loop].Units[UnitIDs.front()].Action.TaskList[dataset->Civs.front().Units[UnitIDs.front()].Action.TaskList.size()-1].ID = (int16_t)(dataset->Civs.front().Units[UnitIDs.front()].Action.TaskList.size()-1); // ID Fix
             }
         }
     }
@@ -2761,9 +2761,9 @@ void AGE_Frame::OnUnitCommandsInsert(wxCommandEvent &event)
         {
             if(dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
             {
-                dataset->Civs[loop].Units[UnitIDs.front()].Bird.TaskList.insert(dataset->Civs[loop].Units[UnitIDs.front()].Bird.TaskList.begin() + CommandIDs.front(), Temp);
-                for(size_t loop2 = CommandIDs.front();loop2 < dataset->Civs.front().Units[UnitIDs.front()].Bird.TaskList.size(); ++loop2) // ID Fix
-                dataset->Civs[loop].Units[UnitIDs.front()].Bird.TaskList[loop2].ID = loop2;
+                dataset->Civs[loop].Units[UnitIDs.front()].Action.TaskList.insert(dataset->Civs[loop].Units[UnitIDs.front()].Action.TaskList.begin() + CommandIDs.front(), Temp);
+                for(size_t loop2 = CommandIDs.front();loop2 < dataset->Civs.front().Units[UnitIDs.front()].Action.TaskList.size(); ++loop2) // ID Fix
+                dataset->Civs[loop].Units[UnitIDs.front()].Action.TaskList[loop2].ID = loop2;
             }
         }
     }
@@ -2789,12 +2789,12 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &event)
         for(short civ = 0; civ < dataset->Civs.size(); ++civ)
         {
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
-            if(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList.size())
+            if(dataset->Civs[civ].Units[UnitIDs.front()].Action.TaskList.size())
             {
                 for(auto loop = selections; loop--> 0;)
-                dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList.erase(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList.begin() + CommandIDs[loop]);
-                for(size_t loop2 = CommandIDs.front();loop2 < dataset->Civs.front().Units[UnitIDs.front()].Bird.TaskList.size(); ++loop2) // ID Fix
-                dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList[loop2].ID = loop2;
+                dataset->Civs[civ].Units[UnitIDs.front()].Action.TaskList.erase(dataset->Civs[civ].Units[UnitIDs.front()].Action.TaskList.begin() + CommandIDs[loop]);
+                for(size_t loop2 = CommandIDs.front();loop2 < dataset->Civs.front().Units[UnitIDs.front()].Action.TaskList.size(); ++loop2) // ID Fix
+                dataset->Civs[civ].Units[UnitIDs.front()].Action.TaskList[loop2].ID = loop2;
             }
         }
     }
@@ -2834,14 +2834,14 @@ void AGE_Frame::OnUnitCommandsCopy(wxCommandEvent &event)
                 // Save info of graphic set to intelligently fill possible gaps when pasting.
                 copies.Dat.UnitCommandExists[civ] = 256 + dataset->Civs[civ].IconSet;
                 // Only copy commands from civs which have this unit enabled.
-                CopyFromList(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs, copies.Dat.UnitCommands[copy]); copy++;
+                CopyFromList(dataset->Civs[civ].Units[UnitIDs.front()].Action.TaskList, CommandIDs, copies.Dat.UnitCommands[copy]); copy++;
             }
         }
         copies.Dat.UnitCommands.resize(CivCount);
     }
     else
     {
-        CopyFromList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList, CommandIDs, copies.Dat.UnitCommands.front());
+        CopyFromList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList, CommandIDs, copies.Dat.UnitCommands.front());
     }
     Units_Tasks_ListV->SetFocus();
 }
@@ -2868,17 +2868,17 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &event)
             // If the target unit exists then choose from following.
             if(!copies.Dat.UnitCommandExists.empty() && copies.Dat.UnitCommandExists[civ] > 255 && copy < copies.Dat.UnitCommands.size())
             {
-                PasteToListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs, copies.Dat.UnitCommands[copy]); ++copy;
+                PasteToListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Action.TaskList, CommandIDs, copies.Dat.UnitCommands[copy]); ++copy;
             }
             else
             {
-                PasteToListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs, copies.Dat.UnitCommands.front());
+                PasteToListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Action.TaskList, CommandIDs, copies.Dat.UnitCommands.front());
             }
         }
     }
     else
     {
-        PasteToListIDFix(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList, CommandIDs, copies.Dat.UnitCommands.front());
+        PasteToListIDFix(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList, CommandIDs, copies.Dat.UnitCommands.front());
     }
     ListUnitCommands();
 }
@@ -2905,17 +2905,17 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &event)
             // If the target unit exists then choose from following.
             if(!copies.Dat.UnitCommandExists.empty() && copies.Dat.UnitCommandExists[civ] > 255 && copy < copies.Dat.UnitCommands.size())
             {
-                PasteInsertToListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs.front(), copies.Dat.UnitCommands[copy]); copy++;
+                PasteInsertToListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Action.TaskList, CommandIDs.front(), copies.Dat.UnitCommands[copy]); copy++;
             }
             else
             {
-                PasteInsertToListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs.front(), copies.Dat.UnitCommands.front());
+                PasteInsertToListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Action.TaskList, CommandIDs.front(), copies.Dat.UnitCommands.front());
             }
         }
     }
     else
     {
-        PasteInsertToListIDFix(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList, CommandIDs.front(), copies.Dat.UnitCommands.front());
+        PasteInsertToListIDFix(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Action.TaskList, CommandIDs.front(), copies.Dat.UnitCommands.front());
     }
     ListUnitCommands();
 }
@@ -2927,7 +2927,7 @@ void AGE_Frame::OnUnitCommandsCopyToUnits(wxCommandEvent &event)
         for(short civ = 0; civ < dataset->Civs.size(); ++civ)
         for(size_t loop=1; loop < UnitIDs.size(); ++loop)
         {
-            dataset->Civs[civ].Units[UnitIDs[loop]].Bird.TaskList = dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList;
+            dataset->Civs[civ].Units[UnitIDs[loop]].Action.TaskList = dataset->Civs[civ].Units[UnitIDs.front()].Action.TaskList;
         }
     }
     else
@@ -5709,10 +5709,10 @@ void AGE_Frame::CreateUnitControls()
                 {
                     UnitType = dataset->Civs[civ].Units[UnitIDs[sel]].Type;
                     DamageGraphics = dataset->Civs[civ].Units[UnitIDs[sel]].DamageGraphics.size();
-                    Attacks = dataset->Civs[civ].Units[UnitIDs[sel]].Type50.Attacks.size();
-                    Armors = dataset->Civs[civ].Units[UnitIDs[sel]].Type50.Armours.size();
+                    Attacks = dataset->Civs[civ].Units[UnitIDs[sel]].Combat.Attacks.size();
+                    Armors = dataset->Civs[civ].Units[UnitIDs[sel]].Combat.Armours.size();
                     if(GenieVersion < genie::GV_AoK)
-                    Commands = dataset->Civs[civ].Units[UnitIDs[sel]].Bird.TaskList.size();
+                    Commands = dataset->Civs[civ].Units[UnitIDs[sel]].Action.TaskList.size();
                     break;
                 }
             }
@@ -5725,9 +5725,9 @@ void AGE_Frame::CreateUnitControls()
                     dataset->Civs[civ].UnitPointers[UnitIDs[sel]] = 1;
                     dataset->Civs[civ].Units[UnitIDs[sel]].Type = UnitType;
                     dataset->Civs[civ].Units[UnitIDs[sel]].DamageGraphics.resize(DamageGraphics);
-                    dataset->Civs[civ].Units[UnitIDs[sel]].Type50.Attacks.resize(Attacks);
-                    dataset->Civs[civ].Units[UnitIDs[sel]].Type50.Armours.resize(Armors);
-                    dataset->Civs[civ].Units[UnitIDs[sel]].Bird.TaskList.resize(Commands);
+                    dataset->Civs[civ].Units[UnitIDs[sel]].Combat.Attacks.resize(Attacks);
+                    dataset->Civs[civ].Units[UnitIDs[sel]].Combat.Armours.resize(Armors);
+                    dataset->Civs[civ].Units[UnitIDs[sel]].Action.TaskList.resize(Commands);
                     dataset->Civs[civ].Units[UnitIDs[sel]].ID = UnitIDs[sel]; // ID Fix
                     dataset->Civs[civ].Units[UnitIDs[sel]].CopyID = UnitIDs[sel];
                     if(GenieVersion >= genie::GV_AoKA)
@@ -5741,9 +5741,9 @@ void AGE_Frame::CreateUnitControls()
                     dataset->Civs[UnitCivID].UnitPointers[UnitIDs[sel]] = 1;
                     dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Type = UnitType;
                     dataset->Civs[UnitCivID].Units[UnitIDs[sel]].DamageGraphics.resize(DamageGraphics);
-                    dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Type50.Attacks.resize(Attacks);
-                    dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Type50.Armours.resize(Armors);
-                    dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Bird.TaskList.resize(Commands);
+                    dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Combat.Attacks.resize(Attacks);
+                    dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Combat.Armours.resize(Armors);
+                    dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Action.TaskList.resize(Commands);
                     dataset->Civs[UnitCivID].Units[UnitIDs[sel]].ID = UnitIDs[sel]; // ID Fix
                     dataset->Civs[UnitCivID].Units[UnitIDs[sel]].CopyID = UnitIDs[sel];
                     if(GenieVersion >= genie::GV_AoKA)

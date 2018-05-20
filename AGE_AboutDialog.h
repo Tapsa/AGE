@@ -12,7 +12,7 @@ public:
 namespace GG
 {
 
-void LoadPalettes(vector<vector<genie::Color>> &palettes, const wxString &path);
+void LoadPalettes(vector<vector<genie::Color>> &palettes, const string &path);
 string LoadSound(wxArrayString &folders, const string &filename, int resnum);
 const unsigned char* LoadSound(vector<genie::DrsFile*> &datafiles, int resnum);
 genie::SlpFilePtr LoadSLP(genie::DrsFile &pack, int resnum);

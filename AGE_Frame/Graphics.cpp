@@ -320,13 +320,13 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             genie::Unit *unit = &dataset->Civs[UnitCivID].Units[UnitIDs.front()];
             if(DrawCollisionShape)
             {
-                tileToPixels(unit->CollisionSize.x, unit->CollisionSize.y, collision, centerX, centerY);
+                tileToPixels(unit->Size.x, unit->Size.y, collision, centerX, centerY);
                 dc.DrawLine(collision.x1, collision.y1, collision.x4, collision.y4);
                 dc.DrawLine(collision.x3, collision.y3, collision.x4, collision.y4);
             }
             if(DrawClearanceShape)
             {
-                tileToPixels(unit->ClearanceSize.first, unit->ClearanceSize.second, clearance, centerX, centerY);
+                tileToPixels(unit->ClearanceSize.x, unit->ClearanceSize.y, clearance, centerX, centerY);
                 dc.DrawLine(clearance.x1, clearance.y1, clearance.x4, clearance.y4);
                 dc.DrawLine(clearance.x3, clearance.y3, clearance.x4, clearance.y4);
             }

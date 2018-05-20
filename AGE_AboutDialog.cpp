@@ -35,7 +35,7 @@ size_t cache_depth = 42;
 LRU_SLP<int> slp_cache_resnum;
 LRU_SLP<string> slp_cache_resname;
 
-void LoadPalettes(vector<vector<genie::Color>> &palettes, const wxString &path)
+void LoadPalettes(vector<vector<genie::Color>> &palettes, const string &path)
 {
     if(wxEmptyString == path)
         return;
@@ -68,7 +68,7 @@ void LoadPalettes(vector<vector<genie::Color>> &palettes, const wxString &path)
                 {
                     genie::PalFile pal;
                     int cut = path.rfind('\\');
-                    pal.load((path(0, ++cut) + line(++splitter, -1)).c_str());
+                    pal.load(path.substr(0, ++cut) + string(line(++splitter, -1)));
                     palettes.push_back(pal.getColors());
                 }
                 catch(std::ios_base::failure){}
@@ -125,7 +125,7 @@ genie::SlpFilePtr LoadSLP(const string &filename)
         try
         {
             slp.reset(new genie::SlpFile());
-            slp->load(filename.c_str());
+            slp->load(string(filename.c_str()));
             slp->freelock();
             slp_cache_resname.put(filename, slp);
         }

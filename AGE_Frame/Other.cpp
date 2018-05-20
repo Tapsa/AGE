@@ -232,7 +232,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         dataset->setGameVersion(GenieVersion);
         try
         {
-            dataset->load(DatFileName.c_str());
+            dataset->load(string(DatFileName));
             // In case genieutils interpret another one.
             GenieVersion = dataset->getGameVersion();
         }
@@ -284,7 +284,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 Lang->setDefaultCharset(LangCharset);
                 try
                 {
-                    Lang->load(LangFileName.c_str());
+                    Lang->load(string(LangFileName));
                 }
                 catch(std::ios_base::failure)
                 {
@@ -308,7 +308,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 LangX->setDefaultCharset(LangCharset);
                 try
                 {
-                    LangX->load(LangX1FileName.c_str());
+                    LangX->load(string(LangX1FileName));
                 }
                 catch(std::ios_base::failure)
                 {
@@ -332,7 +332,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 LangXP->setDefaultCharset(LangCharset);
                 try
                 {
-                    LangXP->load(LangX1P1FileName.c_str());
+                    LangXP->load(string(LangX1P1FileName));
                 }
                 catch(std::ios_base::failure)
                 {
@@ -399,7 +399,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                         genie::PalFile pal;
                         try
                         {
-                            pal.load((folder + "/" + res).c_str());
+                            pal.load(string(folder + "/" + res));
                             palettes.push_back(pal.getColors());
                         }
                         catch(std::ios_base::failure){}
@@ -431,7 +431,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             OnMenuOption(loadDRS);
         }
         // Load custom palettes
-        GG::LoadPalettes(palettes, PalettesPath);
+        GG::LoadPalettes(palettes, string(PalettesPath));
     }
 
     if(dataset)
@@ -460,8 +460,8 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 dataset->Civs[loop].Units[loop2].BaseID = loop2;
                 else
                 if(dataset->Civs[loop].Units[loop2].Type >= 40 && dataset->Civs[loop].Units[loop2].Type <= 80)
-                for(size_t loop3 = dataset->Civs[loop].Units[loop2].Bird.TaskList.size(); loop3--> 0;)
-                dataset->Civs[loop].Units[loop2].Bird.TaskList[loop3].ID = loop3;
+                for(size_t loop3 = dataset->Civs[loop].Units[loop2].Action.TaskList.size(); loop3--> 0;)
+                dataset->Civs[loop].Units[loop2].Action.TaskList[loop3].ID = loop3;
             }
         }
         for(size_t loop = dataset->PlayerColours.size(); loop--> 0;)
@@ -2675,7 +2675,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             if(pd.ShowModal() == wxID_OK)
             {
                 PalettesPath = pd.GetPath();
-                GG::LoadPalettes(palettes, PalettesPath);
+                GG::LoadPalettes(palettes, string(PalettesPath));
             }
             break;
         }
@@ -2689,7 +2689,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 genie::PalFile pal;
                 try
                 {
-                    pal.load(pd.GetPath().c_str());
+                    pal.load(string(pd.GetPath()));
                     pc_palettes.push_back(pal.getColors());
                 }
                 catch(std::ios_base::failure)
@@ -2761,7 +2761,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                         topDRS->setGameVersion(GenieVersion);
                         try
                         {
-                            topDRS->load(Path1stDRS.c_str());
+                            topDRS->load(string(Path1stDRS.c_str()));
                             datafiles.push_back(topDRS);
                         }
                         catch(std::ios_base::failure)
@@ -2771,16 +2771,13 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     }
                     if(UseMod) addFilesToRead(FilesToRead, FolderDRS2);
                     addFilesToRead(FilesToRead, FolderDRS);
-                    genie::PalFilePtr pal;
+                    //genie::PalFilePtr pal;
                     for(auto &file: datafiles)
                     {
-                        pal.reset();
-                        pal = file->getPalFile(50500);
-                        if(pal)
-                        {
-                            palettes.push_back(pal->getColors());
-                            break;
-                        }
+                        //pal.reset();
+                        const genie::PalFile &pal = file->getPalFile(50500);
+                        palettes.push_back(pal.getColors());
+                        break;
                     }
                 }
                 if(slp_window) slp_view->Refresh();
@@ -3073,7 +3070,7 @@ bool AGE_Frame::loadPalette(const wxString &folder)
     wxString name = folder + "/interface/50500.bina";
     try
     {
-        pal.load(name.c_str());
+        pal.load(string(name));
         palettes.push_back(pal.getColors());
         return true;
     }
@@ -3091,7 +3088,7 @@ void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString &folde
         interfac->setGameVersion(GenieVersion);
         try
         {
-            interfac->load(location.c_str());
+            interfac->load(string(location));
             datafiles.push_back(interfac);
         }
         catch(std::ios_base::failure)
@@ -4048,9 +4045,9 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             genie::SlpFilePtr slp_src2(new genie::SlpFile());
             try
             {
-                slp_src1->load(slp_source1->GetPath().c_str());
+                slp_src1->load(string(slp_source1->GetPath()));
                 slp_src1->freelock();
-                slp_src2->load(slp_source2->GetPath().c_str());
+                slp_src2->load(string(slp_source2->GetPath()));
                 slp_src2->freelock();
             }
             catch(std::ios_base::failure)

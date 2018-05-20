@@ -64,7 +64,7 @@ void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
         PlayerColorPointer = &dataset->PlayerColours[ColorIDs[loop]];
 
         Colors_ID->prepend(&PlayerColorPointer->ID);
-        Colors_MinimapColor->prepend(&PlayerColorPointer->MinimapColour);
+        Colors_MinimapColor->prepend(&PlayerColorPointer->PaletteBase);
         if(GenieVersion < genie::GV_AoKE3)  //  AoE and RoR
         {
             Colors_Name->prepend(&PlayerColorPointer->Name);
@@ -88,7 +88,7 @@ void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
     Colors_ID->refill();
     if(PlayerColorPointer && !palettes.empty() && !palettes.front().empty())
     {
-        genie::Color minimap = palettes.front()[(uint8_t)PlayerColorPointer->MinimapColour];
+        genie::Color minimap = palettes.front()[(uint8_t)PlayerColorPointer->PaletteBase];
         setForeAndBackColors(Colors_MinimapColor, wxColour(minimap.r, minimap.g, minimap.b));
 
         if(GenieVersion < genie::GV_AoKE3)

@@ -193,10 +193,10 @@ void AGE_Frame::OnEffectPasteInsert(wxCommandEvent &event)    // Works.
 
 wxString AGE_Frame::Tester(genie::EffectCommand effect, wxString how)
 {
-    return ((effect.C == 8 || effect.C == 9) ? (effect.C == 8 ? "armor type " : "attack type ")
-        + FormatInt((uint16_t)effect.D >> 8) + how + FormatInt(uint16_t((uint8_t)effect.D))
-        : "attr " + FormatInt(effect.C) + how + FormatFloat(effect.D))
-        + ((effect.B == -1) ? " for unit " + FormatInt(effect.A) : " for class " + FormatInt(effect.B));
+    return ((effect.AttributeID == 8 || effect.AttributeID == 9) ? (effect.AttributeID == 8 ? "armor type " : "attack type ")
+        + FormatInt((uint16_t)effect.Amount >> 8) + how + FormatInt(uint16_t((uint8_t)effect.Amount))
+        : "attr " + FormatInt(effect.Amount) + how + FormatFloat(effect.Amount))
+        + ((effect.UnitClassID == -1) ? " for unit " + FormatInt(effect.TargetUnit) : " for class " + FormatInt(effect.UnitClassID));
 }
 
 wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
@@ -216,31 +216,31 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             Name = "Team ";
         case 1:
             //Name = "Resource Modifier (Set/+/-)";
-            if(dataset->Effects[tech].EffectCommands[effect].B == 0)
+            if(dataset->Effects[tech].EffectCommands[effect].UnitClassID == 0)
             {
-                Name += "Set resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                Name += "Set resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit)
+                +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
             }
             else
             {
-                Name += "Change resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                Name += "Change resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit)
+                +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
             }
             break;
         case 12:
             Name = "Team ";
         case 2:
-            if(dataset->Effects[tech].EffectCommands[effect].B == 0)
+            if(dataset->Effects[tech].EffectCommands[effect].UnitClassID == 0)
                 Name += "Disable";
             else
                 Name += "Enable";
-            Name += " unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A);
+            Name += " unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit);
             break;
         case 13:
             Name = "Team ";
         case 3:
-            Name += "Upgrade unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-            +" to "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B);
+            Name += "Upgrade unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit)
+            +" to "+FormatInt(dataset->Effects[tech].EffectCommands[effect].UnitClassID);
             break;
         case 14:
             Name = "Team ";
@@ -262,38 +262,38 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             Name = "Team ";
         case 6:
             //Name = "Resource Modifier (Multiply)";
-            Name += "Multiply resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-            +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            Name += "Multiply resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit)
+            +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
             break;
         case 101:
             //Name = "Tech Cost Modifier (Set/+/-)";
-            if(dataset->Effects[tech].EffectCommands[effect].C == 0)
+            if(dataset->Effects[tech].EffectCommands[effect].AttributeID == 0)
             {
-                Name = "Set tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B)
-                +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                Name = "Set tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit)
+                +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].UnitClassID)
+                +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
             }
             else
             {
-                Name = "Change tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B)
-                +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                Name = "Change tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit)
+                +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].UnitClassID)
+                +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
             }
             break;
         case 102:
-            Name = "Disable tech "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            Name = "Disable tech "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
             break;
         case 103:
             //Name = "Tech Time Modifier (Set/+/-)";
-            if(dataset->Effects[tech].EffectCommands[effect].C == 0)
+            if(dataset->Effects[tech].EffectCommands[effect].AttributeID == 0)
             {
-                Name = "Set tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                +" time to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                Name = "Set tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit)
+                +" time to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
             }
             else
             {
-                Name = "Change tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                +" time by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                Name = "Change tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].TargetUnit)
+                +" time by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].Amount);
             }
             break;
         default:
@@ -350,10 +350,10 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
         {
             EffectPointer = &dataset->Effects[TechIDs.front()].EffectCommands[EffectIDs[loop]];
             Effects_Type->prepend(&EffectPointer->Type);
-            Effects_A->prepend(&EffectPointer->A);
-            Effects_B->prepend(&EffectPointer->B);
-            Effects_C->prepend(&EffectPointer->C);
-            Effects_D->prepend(&EffectPointer->D);
+            Effects_A->prepend(&EffectPointer->TargetUnit);
+            Effects_B->prepend(&EffectPointer->UnitClassID);
+            Effects_C->prepend(&EffectPointer->AttributeID);
+            Effects_D->prepend(&EffectPointer->Amount);
         }
 
         bool NeverHide = Effects_NeverHide->GetValue();
@@ -382,15 +382,15 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_Info_B->SetLabel("");
                 Effects_Info_C->SetLabel("");
 
-                if(EffectPointer->C == 8 || EffectPointer->C == 9)
+                if(EffectPointer->AttributeID == 8 || EffectPointer->AttributeID == 9)
                 {
                     enableD = NeverHide;
                     Effects_D->Show(false);
                     Effects_89_Amount->Show(true);
-                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t((uint8_t)EffectPointer->D))); // Correct value
+                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t((uint8_t)EffectPointer->Amount))); // Correct value
                     Effects_89_Type->Show(true);
                     Effects_89_Type_CB1->Show(true);
-                    uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
+                    uint16_t attack_type = (uint16_t)EffectPointer->Amount >> 8;
                     Effects_89_Type->ChangeValue(lexical_cast<string>(attack_type)); // Correct class
                     static_cast<AGELinkedBox*>(Effects_89_Type_CB1)->SetChoice(attack_type);
                     Effects_89_Type_Text->SetLabel("Type ");
@@ -426,7 +426,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_A_Text->SetLabel("Resource ");  /* add combo box */
                 Effects_B_Text->SetLabel("Mode ");  /* add boolean [X]=1=Set [ ]=0=+/- */
                 Effects_C_Text->SetLabel("Unused ");
-                if(EffectPointer->B == 0) // unchecked
+                if(EffectPointer->UnitClassID == 0) // unchecked
                 {
                     Effects_D_Text->SetLabel("Amount [Set] ");
                 }
@@ -519,15 +519,15 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_Info_B->SetLabel("");
                 Effects_Info_C->SetLabel("");
 
-                if(EffectPointer->C == 8 || EffectPointer->C == 9)
+                if(EffectPointer->AttributeID == 8 || EffectPointer->AttributeID == 9)
                 {
                     enableD = NeverHide;
                     Effects_D->Show(false);
                     Effects_89_Amount->Show(true);
-                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t((uint8_t)EffectPointer->D))); // Correct value
+                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t((uint8_t)EffectPointer->Amount))); // Correct value
                     Effects_89_Type->Show(true);
                     Effects_89_Type_CB1->Show(true);
-                    uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
+                    uint16_t attack_type = (uint16_t)EffectPointer->Amount >> 8;
                     Effects_89_Type->ChangeValue(lexical_cast<string>(attack_type)); // Correct class
                     static_cast<AGELinkedBox*>(Effects_89_Type_CB1)->SetChoice(attack_type);
                     Effects_D_Text->SetLabel("Amount [+] ");
@@ -566,15 +566,15 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_Info_B->SetLabel("");
                 Effects_Info_C->SetLabel("");
 
-                if(EffectPointer->C == 8 || EffectPointer->C == 9)
+                if(EffectPointer->AttributeID == 8 || EffectPointer->AttributeID == 9)
                 {
                     enableD = NeverHide;
                     Effects_D->Show(false);
                     Effects_89_Amount->Show(true);
-                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t((uint8_t)EffectPointer->D))); // Correct value
+                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t((uint8_t)EffectPointer->Amount))); // Correct value
                     Effects_89_Type->Show(true);
                     Effects_89_Type_CB1->Show(true);
-                    uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
+                    uint16_t attack_type = (uint16_t)EffectPointer->Amount >> 8;
                     Effects_89_Type->ChangeValue(lexical_cast<string>(attack_type)); // Correct class
                     static_cast<AGELinkedBox*>(Effects_89_Type_CB1)->SetChoice(attack_type);
                     Effects_D_Text->SetLabel("Amount [%] ");
@@ -640,7 +640,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_A_Text->SetLabel("Tech ");  /* add combo box */
                 Effects_B_Text->SetLabel("Resource ");  /* add combo box */
                 Effects_C_Text->SetLabel("Mode ");
-                if(EffectPointer->C == 0) // unchecked
+                if(EffectPointer->AttributeID == 0) // unchecked
                 {
                     Effects_D_Text->SetLabel("Amount [Set] ");
                 }
@@ -700,7 +700,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_A_Text->SetLabel("Tech ");  /* add combo box */
                 Effects_B_Text->SetLabel("Unused ");
                 Effects_C_Text->SetLabel("Mode ");  /* add boolean */
-                if(EffectPointer->C == 0) // unchecked
+                if(EffectPointer->AttributeID == 0) // unchecked
                 {
                     Effects_D_Text->SetLabel("Amount [Set] ");
                 }
