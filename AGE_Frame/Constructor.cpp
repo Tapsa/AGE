@@ -80,8 +80,8 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("DefaultFiles/DriveLetter", &DriveLetter, "C");
         Config.Read("DefaultFiles/CustomFolder", &CustomFolder, wxEmptyString);
         Config.Read("DefaultFiles/SyncSaveWithOpen", &SyncSaveWithOpen, true);
-        Config.Read("DefaultFiles/Version", &GameVersion, genie::GV_TC);
-        Config.Read("DefaultFiles/SaveVersion", &SaveGameVersion, genie::GV_TC);
+        Config.Read("DefaultFiles/Version", &GameVersion, EV_TC);
+        Config.Read("DefaultFiles/SaveVersion", &SaveGameVersion, EV_TC);
         Config.Read("DefaultFiles/DatUsed", &DatUsed, 0);
         Config.Read("DefaultFiles/DatFilename", &DatFileName, wxEmptyString);
         Config.Read("DefaultFiles/SaveDatFilename", &SaveDatFileName, wxEmptyString);
