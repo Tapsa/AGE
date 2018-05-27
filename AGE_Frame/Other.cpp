@@ -2771,13 +2771,14 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     }
                     if(UseMod) addFilesToRead(FilesToRead, FolderDRS2);
                     addFilesToRead(FilesToRead, FolderDRS);
-                    //genie::PalFilePtr pal;
+
                     for(auto &file: datafiles)
                     {
-                        //pal.reset();
                         const genie::PalFile &pal = file->getPalFile(50500);
-                        palettes.push_back(pal.getColors());
-                        break;
+                        if (pal.isValid()) {
+                            palettes.push_back(pal.getColors());
+                            break;
+                        }
                     }
                 }
                 if(slp_window) slp_view->Refresh();
