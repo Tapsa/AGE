@@ -289,8 +289,8 @@ void AGE_Frame::OnDrawTechSLP(wxPaintEvent &event)
         return;
     }
     if(UseDRS && LoadSLP(&techSLP)) FrameToBitmap(&techSLP);
-    if(techSLP.bitmap.IsOk())
-    dc.DrawBitmap(techSLP.bitmap, 0, 0, true);
+    if(techSLP.image.IsOk())
+    dc.DrawBitmap(wxBitmap(techSLP.image, 24), 0, 0, true);
 }
 
 void AGE_Frame::OnResearchAdd(wxCommandEvent &event)

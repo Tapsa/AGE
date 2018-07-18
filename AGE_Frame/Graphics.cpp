@@ -231,9 +231,9 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     dc.SetUserScale(slp_zoom, slp_zoom);
     int centerX, centerY, text_pos = 5 / slp_zoom;
     CalcDrawCenter(canvas, centerX, centerY);
-    if(DrawTerrain && tileSLP.bitmap.IsOk())
+    if(DrawTerrain && tileSLP.image.IsOk())
     {
-        dc.DrawBitmap(tileSLP.bitmap, centerX - tileSLP.xpos, centerY - tileSLP.ypos, true);
+        dc.DrawBitmap(wxBitmap(tileSLP.image, 24), centerX - tileSLP.xpos, centerY - tileSLP.ypos, true);
     }
     unsigned c8 = unsigned((AGE_SLP::bearing + 0.392699f) * 1.27324f) % 8u;
     unsigned c16 = unsigned((AGE_SLP::bearing + 0.19635f) * 2.54648f) % 16u;
@@ -587,9 +587,9 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLPs &gallery, int cente
                 CalcAngle(delta.second);
             }
             if(LoadSLP(&delta.second)) FrameToBitmap(&delta.second);
-            if(delta.second.bitmap.IsOk())
+            if(delta.second.image.IsOk())
             {
-                dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
+                dc.DrawBitmap(wxBitmap(delta.second.image, 24), centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
                 if(PlaySounds)
                 {
                     Listen(delta.second);
@@ -630,10 +630,10 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLPs &gallery, int cente
             CalcAngle(gallery);
         }
         if(LoadSLP(&gallery)) FrameToBitmap(&gallery);
-        if(gallery.bitmap.IsOk())
+        if(gallery.image.IsOk())
         {
             assert(gallery.slp);
-            dc.DrawBitmap(gallery.bitmap, gallery.xpos + centerX, gallery.ypos + centerY, true);
+            dc.DrawBitmap(wxBitmap(gallery.image, 24), gallery.xpos + centerX, gallery.ypos + centerY, true);
             // Ideally sound starts playing after timer is running.
             if(PlaySounds)
             {

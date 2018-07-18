@@ -3174,7 +3174,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
         }
     }
     graphic->slp.reset();
-    graphic->bitmap = wxNullBitmap;
+    graphic->image = wxNullImage;
     return false;
 }
 
@@ -3182,12 +3182,12 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
 {
     if(graphic->frameID < 0)
     {
-        graphic->bitmap = wxNullBitmap;
+        graphic->image = wxNullImage;
         return;
     }
     if(!graphic->slp)
     {
-        graphic->bitmap = wxNullBitmap;
+        graphic->image = wxNullImage;
         SetStatusText("Loading frame without SLP", 1);
         return;
     }
@@ -3204,7 +3204,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
     }
     if(!frame)
     {
-        graphic->bitmap = wxNullBitmap;
+        graphic->image = wxNullImage;
         SetStatusText("No frame: " + FormatInt(graphic->frameID) + ", frames: " + FormatInt(graphic->frames), 1);
         return;
     }
@@ -3340,7 +3340,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         int half_height = top > bottom ? top : bottom;
         img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(min(half_width, half_width - left), min(half_height, half_height - top)));
     }
-    graphic->bitmap = wxBitmap(img, 24);
+    graphic->image = img.Copy();
 }
 
 void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
@@ -3975,8 +3975,8 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
             {
                 if(LoadSLP(&gallery)) FrameToBitmap(&gallery, true);
-                if(gallery.bitmap.IsOk())
-                if(!gallery.bitmap.SaveFile(gallery.filename + ".png", wxBITMAP_TYPE_PNG))
+                if(gallery.image.IsOk())
+                if(!wxBitmap(gallery.image).SaveFile(gallery.filename + ".png", wxBITMAP_TYPE_PNG))
                     wxMessageBox("Saving frame as PNG failed", "SLP");
             }
             else wxMessageBox("Choose a graphic from graphics tab", "SLP");
@@ -4254,10 +4254,15 @@ void AGE_Frame::OnExitSLP(wxCloseEvent &event)
     wxCommandEvent closeSLP(wxEVT_MENU, eShowSLP);
     closeSLP.SetInt(false);
     OnMenuOption(closeSLP);
+    slp_window = nullptr;
 }
 
 void AGE_Frame::OnExit(wxCloseEvent &event)
 {
+    if (slp_window) {
+        slp_window->Destroy();
+        slp_window = nullptr;
+    }
     {
         wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/AutoBackups", AutoBackups);

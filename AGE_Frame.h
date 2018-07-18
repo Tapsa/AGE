@@ -18,7 +18,7 @@ public:
     uint16_t angles, fpa, frames, mirror;
     wxString filename = "";
     genie::SlpFilePtr slp;
-    wxBitmap bitmap;
+    wxImage image;
     sf::SoundBuffer buffers[4];// Actual data
     sf::Sound sounds[4];// To play data
     int16_t xpos = 0, ypos = 0, xdelta = 0, ydelta = 0, delays[4] = {0, -1, -1, -1};

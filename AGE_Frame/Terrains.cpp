@@ -304,7 +304,7 @@ void AGE_Frame::OnTerrainSelect(wxCommandEvent &event)
                         wxImage rotated = img.Rotate(0.785398163, center);
                         half_width = rotated.GetWidth() / 2;
                         half_height = rotated.GetHeight() / 2;
-                        tileSLP.bitmap = wxBitmap(rotated.Scale(rotated.GetWidth(), half_height));
+                        tileSLP.image = wxImage(rotated.Scale(rotated.GetWidth(), half_height));
                         tileSLP.xpos = half_width;
                         tileSLP.ypos = half_height / 2;
                     }
@@ -343,7 +343,7 @@ wxThread::ExitCode Loader::Entry()
             int cols = TerrainPointer->TerrainDimensions.second;
             size_t wwidth = (rows + cols) * TileHalfWidth;
             size_t wheight = (rows + cols) * TileHalfHeight;
-            size_t warea = wwidth * wheight;
+            size_t warea = wwidth * wheight + 1;
             vector<uint8_t> wrgbdata(warea * 4, 0);
 
             pair<size_t, size_t> corners[rows * cols];
@@ -398,7 +398,7 @@ wxThread::ExitCode Loader::Entry()
             tileSLP.ypos = wheight / 2;
             unsigned char *pic = (unsigned char*)wrgbdata.data();
             unsigned char *trans = pic + warea * 3;
-            tileSLP.bitmap = wxBitmap(wxImage(wwidth, wheight, pic, trans, true), 24);
+            tileSLP.image = wxImage(wwidth, wheight, pic, trans, true).Copy();
             break;
         }
     }
