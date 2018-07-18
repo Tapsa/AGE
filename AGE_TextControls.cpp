@@ -107,7 +107,7 @@ int TextCtrl_Byte::SaveEdits(bool forced)
                 return 2;
             }
         }
-        catch(bad_lexical_cast)
+        catch(const bad_lexical_cast&)
         {
             editor->post("Please enter a number from -128 to 127", IETITLE, this);
             return 2;
@@ -173,7 +173,7 @@ int TextCtrl_UByte::SaveEdits(bool forced)
                 return 2;
             }
         }
-        catch(bad_lexical_cast)
+        catch(const bad_lexical_cast&)
         {
             editor->post("Please enter a number from 0 to 255", IETITLE, this);
             return 2;
@@ -233,7 +233,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(bad_lexical_cast)
+        catch(const bad_lexical_cast&)
         {
             editor->post("Please enter a valid floating point number", IETITLE, this);
             return 2;
@@ -291,7 +291,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(bad_lexical_cast)
+        catch(const bad_lexical_cast&)
         {
             editor->post("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE, this);
             return 2;
@@ -349,7 +349,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(bad_lexical_cast)
+        catch(const bad_lexical_cast&)
         {
             editor->post("Please enter a number from -32 768 to 32 767", IETITLE, this);
             return 2;
@@ -407,7 +407,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(bad_lexical_cast)
+        catch(const bad_lexical_cast&)
         {
             editor->post("Please enter a number from 0 to 65 535", IETITLE, this);
             return 2;

@@ -14,7 +14,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
     if(!General_CalcBoxes[0]->IsEmpty())
     {
         try{Result = lexical_cast<int32_t>(General_CalcBoxes[0]->GetValue());}
-        catch(bad_lexical_cast){return;}
+        catch(const bad_lexical_cast&){return;}
     }
     else Result = 0;
     Result = (uint8_t)Result;
@@ -22,7 +22,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
     if(!General_CalcBoxes[1]->IsEmpty())
     {
         try{Temp = lexical_cast<int32_t>(General_CalcBoxes[1]->GetValue());}
-        catch(bad_lexical_cast){return;}
+        catch(const bad_lexical_cast&){return;}
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 8;
@@ -30,7 +30,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
     if(!General_CalcBoxes[2]->IsEmpty())
     {
         try{Temp = lexical_cast<int32_t>(General_CalcBoxes[2]->GetValue());}
-        catch(bad_lexical_cast){return;}
+        catch(const bad_lexical_cast&){return;}
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 16;
@@ -38,7 +38,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
     if(!General_CalcBoxes[3]->IsEmpty())
     {
         try{Temp = lexical_cast<int32_t>(General_CalcBoxes[3]->GetValue());}
-        catch(bad_lexical_cast){return;}
+        catch(const bad_lexical_cast&){return;}
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 24;
@@ -53,7 +53,7 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
 
     int32_t Result;
     try{Result = lexical_cast<int32_t>(General_CalcBoxes[4]->GetValue());}
-    catch(bad_lexical_cast){return;}
+    catch(const bad_lexical_cast&){return;}
 
     General_CalcBoxes[0]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
     Result >>= 8;

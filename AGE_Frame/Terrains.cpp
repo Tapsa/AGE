@@ -362,7 +362,7 @@ wxThread::ExitCode Loader::Entry()
                 {
                     frame = tileSLP.slp->getFrame(f);
                 }
-                catch(out_of_range){}
+                catch(const out_of_range&){}
                 if(frame)
                 {
                     int width = frame->getWidth();

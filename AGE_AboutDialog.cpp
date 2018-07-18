@@ -71,7 +71,7 @@ void LoadPalettes(vector<vector<genie::Color>> &palettes, const string &path)
                     pal.load(path.substr(0, ++cut) + string(line(++splitter, -1)));
                     palettes.push_back(pal.getColors());
                 }
-                catch(std::ios_base::failure){}
+                catch(const std::ios_base::failure&){}
             }
         }
     }
@@ -129,7 +129,7 @@ genie::SlpFilePtr LoadSLP(const string &filename)
             slp->freelock();
             slp_cache_resname.put(filename, slp);
         }
-        catch(std::ios_base::failure)
+        catch(const std::ios_base::failure&)
         {
             return genie::SlpFilePtr();
         }

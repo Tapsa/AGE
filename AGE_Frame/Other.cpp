@@ -236,7 +236,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             // In case genieutils interpret another one.
             GenieVersion = dataset->getGameVersion();
         }
-        catch(std::ios_base::failure)
+        catch(const std::ios_base::failure&)
         {
             wxMessageBox("Failed to load "+DatFileName);
             delete dataset;
@@ -286,7 +286,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 {
                     Lang->load(string(LangFileName));
                 }
-                catch(std::ios_base::failure)
+                catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Failed to load "+LangFileName);
                     delete Lang;
@@ -310,7 +310,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 {
                     LangX->load(string(LangX1FileName));
                 }
-                catch(std::ios_base::failure)
+                catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Failed to load "+LangX1FileName);
                     delete LangX;
@@ -334,7 +334,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 {
                     LangXP->load(string(LangX1P1FileName));
                 }
-                catch(std::ios_base::failure)
+                catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Failed to load "+LangX1P1FileName);
                     delete LangXP;
@@ -402,7 +402,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                             pal.load(string(folder + "/" + res));
                             palettes.push_back(pal.getColors());
                         }
-                        catch(std::ios_base::failure){}
+                        catch(const std::ios_base::failure&){}
                         found = dir.GetNext(&res);
                     }
                 }
@@ -2351,7 +2351,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
         {
             dataset->saveAs(SaveDatFileName.c_str());
         }
-        catch(std::ios_base::failure)
+        catch(const std::ios_base::failure&)
         {
             wxMessageBox("Unable to save the file!");
             return;
@@ -2407,7 +2407,7 @@ bool AGE_Frame::SaveLang()
     {
         Lang->saveAs(SaveLangFileName.c_str());
     }
-    catch(std::ios_base::failure)
+    catch(const std::ios_base::failure&)
     {
         wxMessageBox("Unable to save language file!");
         return false;
@@ -2421,7 +2421,7 @@ bool AGE_Frame::SaveLangX1()
     {
         LangX->saveAs(SaveLangX1FileName.c_str());
     }
-    catch(std::ios_base::failure)
+    catch(const std::ios_base::failure&)
     {
         wxMessageBox("Unable to save expansion language file!");
         return false;
@@ -2435,7 +2435,7 @@ bool AGE_Frame::SaveLangX1P1()
     {
         LangXP->saveAs(SaveLangX1P1FileName.c_str());
     }
-    catch(std::ios_base::failure)
+    catch(const std::ios_base::failure&)
     {
         wxMessageBox("Unable to save expansion language patch file!");
         return false;
@@ -2692,7 +2692,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     pal.load(string(pd.GetPath()));
                     pc_palettes.push_back(pal.getColors());
                 }
-                catch(std::ios_base::failure)
+                catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Cannot load palette");
                 }
@@ -2764,7 +2764,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                             topDRS->load(string(Path1stDRS.c_str()));
                             datafiles.push_back(topDRS);
                         }
-                        catch(std::ios_base::failure)
+                        catch(const std::ios_base::failure&)
                         {
                             delete topDRS;
                         }
@@ -2866,7 +2866,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                                 {
                                     frame = slp.getFrame(i);
                                 }
-                                catch(out_of_range){}
+                                catch(const out_of_range&){}
                                 if(frame)
                                 {
                                     uint64_t palData = frame->getProperties();
@@ -2877,7 +2877,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                                 }
                             }
                         }
-                        catch(std::ios_base::failure){}
+                        catch(const std::ios_base::failure&){}
                         found = dir.GetNext(&res);
                     }
                 }
@@ -3039,7 +3039,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     boxWidthMultiplier = lexical_cast<float>(ted.GetValue());
                     wxMessageBox("Please restart me!", "AGE");
                 }
-                catch(bad_lexical_cast)
+                catch(const bad_lexical_cast&)
                 {
                     wxMessageBox("Bad floating point", "AGE");
                 }
@@ -3075,7 +3075,7 @@ bool AGE_Frame::loadPalette(const wxString &folder)
         palettes.push_back(pal.getColors());
         return true;
     }
-    catch(std::ios_base::failure){}
+    catch(const std::ios_base::failure&){}
     return false;
 }
 
@@ -3092,7 +3092,7 @@ void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString &folde
             interfac->load(string(location));
             datafiles.push_back(interfac);
         }
-        catch(std::ios_base::failure)
+        catch(const std::ios_base::failure&)
         {
             delete interfac;
         }
@@ -3200,7 +3200,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         {
             frame = graphic->slp->getFrame(graphic->frameID);
         }
-        catch(out_of_range){}
+        catch(const out_of_range&){}
     }
     if(!frame)
     {
@@ -3364,7 +3364,7 @@ void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
     {
         frame = graphic->slp->getFrame(graphic->frameID);
     }
-    catch(out_of_range){}
+    catch(const out_of_range&){}
     if(!frame)
     {
         wxMessageBox("Congrats seeing this message", "No SLP frame " + lexical_cast<string>(graphic->frameID));
@@ -3884,7 +3884,7 @@ void AGE_Frame::SaveBackup()
     {
         dataset->saveAs((DatFileName.substr(0, DatFileName.size()-4)+"_backup"+CurrentTime()+".dat").c_str());
     }
-    catch(std::ios_base::failure)
+    catch(const std::ios_base::failure&)
     {
         wxMessageBox("Error saving backup!");
     }
@@ -4012,7 +4012,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                     gallery.slp->saveAs(name.c_str());
                     wxMessageBox("Saved SLP " + name, "SLP");
                 }
-                catch(std::ios_base::failure)
+                catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Saving SLP failed", "SLP");
                 }
@@ -4051,7 +4051,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 slp_src2->load(string(slp_source2->GetPath()));
                 slp_src2->freelock();
             }
-            catch(std::ios_base::failure)
+            catch(const std::ios_base::failure&)
             {
                 wxMessageBox("Error reading SLP files", "SLP");
                 return;
@@ -4064,7 +4064,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                     frame1 = slp_src1->getFrame(frame);
                     frame2 = slp_src2->getFrame(frame);
                 }
-                catch(out_of_range)
+                catch(const out_of_range&)
                 {
                     wxMessageBox("Frame count mismatch", "SLP");
                     break;
@@ -4096,7 +4096,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 slp_src1->saveAs(slp_target1->GetPath().c_str());
                 wxMessageBox("Merged SLP files", "SLP");
             }
-            catch(std::ios_base::failure)
+            catch(const std::ios_base::failure&)
             {
                 wxMessageBox("Saving SLP failed", "SLP");
             }
