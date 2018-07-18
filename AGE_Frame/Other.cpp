@@ -4042,8 +4042,8 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         }
         case eSLPMergeShadow:
         {
-            genie::SlpFilePtr slp_src1(new genie::SlpFile());
-            genie::SlpFilePtr slp_src2(new genie::SlpFile());
+            genie::SlpFilePtr slp_src1(new genie::SlpFile(0));
+            genie::SlpFilePtr slp_src2(new genie::SlpFile(0));
             try
             {
                 slp_src1->load(string(slp_source1->GetPath()));

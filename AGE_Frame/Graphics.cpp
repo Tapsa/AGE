@@ -1533,7 +1533,7 @@ void AGE_Frame::CreateGraphicsControls()
                 size_t angles = dataset->Graphics[i].AngleCount;
                 size_t frames = dataset->Graphics[i].FrameCount;
 
-                genie::SlpFile target;
+                genie::SlpFile target(0);
                 target.setFrameCount(angles * frames);
 
                 for(size_t a = 0; a < angles; ++a)

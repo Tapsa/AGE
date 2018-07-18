@@ -124,7 +124,7 @@ genie::SlpFilePtr LoadSLP(const string &filename)
     {
         try
         {
-            slp.reset(new genie::SlpFile());
+            slp.reset(new genie::SlpFile(0));
             slp->load(string(filename.c_str()));
             slp->freelock();
             slp_cache_resname.put(filename, slp);
