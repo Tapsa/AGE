@@ -1013,7 +1013,7 @@ private:
     genie::LangFile *Lang = 0, *LangX = 0, *LangXP = 0;
     int CustomTerrains, paletteView = 0, ViewBackR, ViewBackG, ViewBackB, ViewPosX, ViewPosY;
     wxBrush slp_background_brush;
-    wxFrame *slp_window = 0;
+    wxDialog *slp_window = 0;
     APanel *slp_view;
     wxSizer *slp_sizer;
     wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save, *slp_prev, *slp_first,

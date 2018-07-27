@@ -2512,8 +2512,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             {
                 wxPoint parentPos = GetPosition();
                 parentPos.x += MinWindowWidth;
-                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 600), KeepViewOnTop ? (wxSTAY_ON_TOP | wxDEFAULT_FRAME_STYLE) : wxDEFAULT_FRAME_STYLE);
-                //slp_window->SetBackgroundStyle(wxBG_STYLE_SYSTEM);
+                slp_window = new wxDialog(this, wxID_ANY, "SLP", parentPos, wxSize(512, 600), KeepViewOnTop ? (wxSTAY_ON_TOP | wxDEFAULT_FRAME_STYLE) : wxDEFAULT_FRAME_STYLE);
                 slp_window->SetBackgroundColour(wxColour(240, 240, 240));
                 slp_window->SetIcon(wxIcon(Villager32_xpm));
                 slp_window->SetFont(font);
