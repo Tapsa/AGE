@@ -2945,9 +2945,9 @@ void AGE_Frame::UnitLangDLLConverter(wxCommandEvent &event)
     int32_t DLLValue;
     try
     {
-        DLLValue = lexical_cast<int32_t>(static_cast<wxTextCtrl*>(event.GetEventObject())->GetValue());
+        DLLValue = stoi(std::string(static_cast<wxTextCtrl*>(event.GetEventObject())->GetValue()));
     }
-    catch(const bad_lexical_cast&)
+    catch(const std::exception&)
     {
         wxMessageBox("Incorrect input!");
         return;
@@ -6116,7 +6116,7 @@ void AGE_Frame::OnUpdateCheck_UnitGarrisonType(wxCommandEvent &event)
     if(Units_GarrisonType->GetValue().empty()) return;
     try
     {
-        uint8_t type = lexical_cast<short>(Units_GarrisonType->GetValue());
+        uint8_t type = stoi(std::string(Units_GarrisonType->GetValue()));
         Units_GarrisonType_CheckBox[0]->GetValue() ? type |= 0x01 : type &= ~0x01;
         Units_GarrisonType_CheckBox[1]->GetValue() ? type |= 0x02 : type &= ~0x02;
         Units_GarrisonType_CheckBox[2]->GetValue() ? type |= 0x04 : type &= ~0x04;
@@ -6128,7 +6128,7 @@ void AGE_Frame::OnUpdateCheck_UnitGarrisonType(wxCommandEvent &event)
         Units_GarrisonType->ChangeValue(FormatInt(type));
         Units_GarrisonType->SaveEdits();
     }
-    catch(const bad_lexical_cast&)
+    catch(const std::exception&)
     {
         Units_GarrisonType->clear();
         Units_GarrisonType->ChangeValue("Error");
@@ -6140,7 +6140,7 @@ void AGE_Frame::OnUpdateCheck_UnitAttribute(wxCommandEvent &event)
     if(Units_Trait->GetValue().empty()) return;
     try
     {
-        uint8_t attribute = lexical_cast<short>(Units_Trait->GetValue());
+        uint8_t attribute = stoi(std::string(Units_Trait->GetValue()));
         Units_Trait_CheckBox[0]->GetValue() ? attribute |= 0x01 : attribute &= ~0x01;
         Units_Trait_CheckBox[1]->GetValue() ? attribute |= 0x02 : attribute &= ~0x02;
         Units_Trait_CheckBox[2]->GetValue() ? attribute |= 0x04 : attribute &= ~0x04;
@@ -6152,7 +6152,7 @@ void AGE_Frame::OnUpdateCheck_UnitAttribute(wxCommandEvent &event)
         Units_Trait->ChangeValue(FormatInt(attribute));
         Units_Trait->SaveEdits();
     }
-    catch(const bad_lexical_cast&)
+    catch(const std::exception&)
     {
         Units_Trait->clear();
         Units_Trait->ChangeValue("Error");

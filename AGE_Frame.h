@@ -999,7 +999,8 @@ private:
 
 //  Application Variables
 
-    float EditorVersion, slp_zoom = 1, boxWidthMultiplier;
+    float EditorVersion, slp_zoom = 1;
+    double boxWidthMultiplier;
     wxString EditorVersionString, slp_extra_info;
     bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, KeepViewOnTop, useDynamicName;
     vector<short> SelectedCivs;
@@ -1011,7 +1012,8 @@ private:
     vector<vector<genie::Color>> palettes, pc_palettes;
     genie::DatFile *dataset = 0;
     genie::LangFile *Lang = 0, *LangX = 0, *LangXP = 0;
-    int CustomTerrains, paletteView = 0, ViewBackR, ViewBackG, ViewBackB, ViewPosX, ViewPosY;
+    long CustomTerrains;
+    int paletteView = 0, ViewBackR, ViewBackG, ViewBackB, ViewPosX, ViewPosY;
     wxBrush slp_background_brush;
     wxDialog *slp_window = 0;
     APanel *slp_view;

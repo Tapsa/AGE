@@ -131,7 +131,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         DriveLetter = OpenBox.DriveLetterBox->GetValue();
         CustomFolder = OpenBox.Path_CustomDefault->GetPath();
         Language = OpenBox.LanguageBox->GetValue();
-        CustomTerrains = lexical_cast<int>(OpenBox.TerrainsBox->GetValue());
+        OpenBox.TerrainsBox->GetValue().ToLong(&CustomTerrains);
         DatFileName = OpenBox.Path_DatFileLocation->GetPath();
 
         LangsUsed = OpenBox.CheckBox_LangFileLocation->IsChecked() ? LangsUsed | 1 : LangsUsed & ~1;
@@ -3013,7 +3013,9 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             ted.SetTextValidator(wxFILTER_DIGITS);
             if(ted.ShowModal() == wxID_OK)
             {
-                GG::cache_depth = lexical_cast<size_t>(ted.GetValue());
+                long cd = 0;
+                ted.GetValue().ToLong(&cd);
+                GG::cache_depth = cd;
             }
             break;
         }
@@ -3033,13 +3035,9 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             ted.SetTextValidator(wxFILTER_NUMERIC);
             if(ted.ShowModal() == wxID_OK)
             {
-                try
-                {
-                    boxWidthMultiplier = lexical_cast<float>(ted.GetValue());
+                if (ted.GetValue().ToDouble(&boxWidthMultiplier)) {
                     wxMessageBox("Please restart me!", "AGE");
-                }
-                catch(const bad_lexical_cast&)
-                {
+                } else {
                     wxMessageBox("Bad floating point", "AGE");
                 }
             }
@@ -3418,10 +3416,12 @@ void AGE_Frame::LoadTXT(const wxString &filename)
         }
         if(num)
         {
-            size_t ID = lexical_cast<size_t>(line.substr(0, num));
+            try {
+            unsigned long ID = stoul(line.substr(0, num));
             size_t beg = line.find('"', num) + 1;
             size_t len = line.find('"', beg) - beg;
             if(len) LangTxt[ID] = line.substr(beg, len);
+            } catch (const std::exception &) {}
         }
     }
 }
@@ -3801,8 +3801,10 @@ void AGE_Frame::SearchAllSubVectors(ProperList *list, wxTextCtrl *topSearch, wxT
         string line(list->names[last]);
         last = list->GetNextSelected(cookie);
         size_t found = line.find(" ", 3);
-        topNums.insert(lexical_cast<uint32_t>(line.substr(2, found - 2)));
-        subNums.insert(lexical_cast<uint32_t>(line.substr(2 + found, line.find(" ", found + 3) - found - 2)));
+        try {
+        topNums.insert(stoi(line.substr(2, found - 2)));
+        subNums.insert(stoi(line.substr(2 + found, line.find(" ", found + 3) - found - 2)));
+        } catch (const std::exception &) {}
     }
     wxString topText;
     for(const auto &num: topNums) topText += " " + std::to_string(num) + " -|";
@@ -4033,7 +4035,9 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             ted.SetTextValidator(wxFILTER_DIGITS);
             if(ted.ShowModal() == wxID_OK)
             {
-                int zoom_percent = min(800, lexical_cast<int>(ted.GetValue()));
+                long zoom_percent;
+                ted.GetValue().ToLong(&zoom_percent);
+                zoom_percent = min(800l, zoom_percent);
                 slp_zoom = zoom_percent / 100.f;
                 slp_zoom_btn->SetLabel("Zoom: " + std::to_string(zoom_percent) + " %");
             }

@@ -1201,8 +1201,12 @@ void AGE_Frame::OnSaveEdits_Effects89(bool forced)
     // if has something, then update float value.
     if(!Effects_89_Amount->IsEmpty() && !Effects_89_Type->IsEmpty())
     {
-        uint16_t Class = lexical_cast<int>(Effects_89_Type->GetValue()) << 8;
-        uint8_t Amount = lexical_cast<int>(Effects_89_Amount->GetValue());
+        unsigned long Class = 0;
+        Effects_89_Type->GetValue().ToULong(&Class);
+        Class = uint16_t(Class << 8);
+        unsigned long Amount = 0;
+        Effects_89_Amount->GetValue().ToULong(&Amount);
+        Amount = uint8_t(Amount);
         Effects_D->ChangeValue(std::to_string(Amount + Class));
         Effects_D->SaveEdits(forced);
     }
@@ -1231,7 +1235,9 @@ void AGE_Frame::OnUpdateCombo_Techs(wxCommandEvent &event)
     if(event.GetId() == Effects_89_Type_CB1->GetId())
     {
         uint16_t Class = (Effects_89_Type_CB1->GetSelection() - 1) << 8;
-        uint8_t Amount = lexical_cast<int>(Effects_89_Amount->GetValue());
+        unsigned long Amount = 0;
+        Effects_89_Amount->GetValue().ToULong(&Amount);
+        Amount = uint8_t(Amount);
         Effects_D->ChangeValue(std::to_string(Amount + Class));
         Effects_D->SaveEdits();
 

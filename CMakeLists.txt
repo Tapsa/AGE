@@ -6,12 +6,6 @@ project(AdvancedGenieEditor3)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
 set(CMAKE_CXX_FLAGS "-Wall -Wno-sign-compare")
-set(BOOST_DATE_TIME_NO_LIB   ON)
-#set(Boost_USE_STATIC_LIBS    ON)
-#set(Boost_USE_STATIC_RUNTIME ON)
-set(Boost_USE_MULTITHREADED  ON)
-
-find_package(Boost 1.55 REQUIRED iostreams)
 
 find_package(wxWidgets REQUIRED adv core base)
 include("${wxWidgets_USE_FILE}")
@@ -24,7 +18,7 @@ set(GUTILS_TEST FALSE)
 include_directories(
     ${EXTERN_DIR}/genieutils/include
     ${SFML_INCLUDE_DIR}
-    ${Boost_INCLUDE_DIRS})
+)
 
 add_subdirectory(${EXTERN_DIR}/genieutils extern/genieutils)
 

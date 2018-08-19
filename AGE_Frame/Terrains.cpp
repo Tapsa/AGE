@@ -114,7 +114,8 @@ void AGE_Frame::OnTerrainCountChange(wxFocusEvent &event)
 {
     event.Skip();
     if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
-    uint16_t UsedTerrains = lexical_cast<uint16_t>(static_cast<wxTextCtrl*>(event.GetEventObject())->GetValue());
+    unsigned long UsedTerrains = 0;
+    static_cast<wxTextCtrl*>(event.GetEventObject())->GetValue().ToULong(&UsedTerrains);
     // Resize terrain restrictions
     for(size_t loop = 0; loop < dataset->TerrainRestrictions.size(); ++loop)
     {

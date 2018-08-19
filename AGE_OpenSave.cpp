@@ -118,7 +118,9 @@ void AGE_OpenSave::OnRecent(wxCommandEvent &event)
 {
     if(RecentValues.empty()) return;
     auto sel = CheckBox_Recent->GetSelection();
-    CheckBox_GenieVer->SetSelection(lexical_cast<int>(RecentValues[sel][0]));
+    long newSel = 0;
+    RecentValues[sel][0].ToLong(&newSel);
+    CheckBox_GenieVer->SetSelection(newSel);
     Path_DatFileLocation->SetPath(RecentValues[sel][1]);
     Path_LangFileLocation->SetPath(RecentValues[sel][2]);
     Path_LangX1FileLocation->SetPath(RecentValues[sel][3]);

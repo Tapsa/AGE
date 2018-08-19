@@ -69,8 +69,8 @@ int TextCtrl_Byte::SaveEdits(bool forced)
         }
         try
         {
-            int8_t casted = (int8_t)lexical_cast<short>(value);
-            if(lexical_cast<short>(value) == casted)
+            int8_t casted = (int8_t)stoi(value);
+            if(std::stoi(value) == casted)
             {
                 if(batchMode > 0)
                 {
@@ -107,7 +107,7 @@ int TextCtrl_Byte::SaveEdits(bool forced)
                 return 2;
             }
         }
-        catch(const bad_lexical_cast&)
+        catch(const std::exception&)
         {
             editor->post("Please enter a number from -128 to 127", IETITLE, this);
             return 2;
@@ -135,8 +135,8 @@ int TextCtrl_UByte::SaveEdits(bool forced)
         }
         try
         {
-            uint8_t casted = (uint8_t)lexical_cast<short>(value);
-            if(lexical_cast<short>(value) == casted)
+            uint8_t casted = (uint8_t)stoi(value);
+            if(stoi(value) == casted)
             {
                 if(batchMode > 0)
                 {
@@ -173,7 +173,7 @@ int TextCtrl_UByte::SaveEdits(bool forced)
                 return 2;
             }
         }
-        catch(const bad_lexical_cast&)
+        catch(const std::exception&)
         {
             editor->post("Please enter a number from 0 to 255", IETITLE, this);
             return 2;
@@ -204,7 +204,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
             float casted;
             if(value == "max") casted = 3.40282347e+38;
             else if(value == "min") casted = 1.17549435e-38;
-            else casted = lexical_cast<float>(value);
+            else casted = stoi(value);
             if(batchMode > 0)
             {
                 for(auto &pointer: container)
@@ -233,7 +233,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(const bad_lexical_cast&)
+        catch(const std::exception&)
         {
             editor->post("Please enter a valid floating point number", IETITLE, this);
             return 2;
@@ -261,7 +261,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
         }
         try
         {
-            int32_t casted = lexical_cast<int32_t>(value);
+            int32_t casted = stoi(value);
             if(batchMode > 0)
             {
                 for(auto &pointer: container)
@@ -291,7 +291,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(const bad_lexical_cast&)
+        catch(const std::exception&)
         {
             editor->post("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE, this);
             return 2;
@@ -319,7 +319,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
         }
         try
         {
-            int16_t casted = lexical_cast<int16_t>(value);
+            int16_t casted = stoi(value);
             if(batchMode > 0)
             {
                 for(auto &pointer: container)
@@ -349,7 +349,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(const bad_lexical_cast&)
+        catch(const std::exception&)
         {
             editor->post("Please enter a number from -32 768 to 32 767", IETITLE, this);
             return 2;
@@ -377,7 +377,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
         }
         try
         {
-            uint16_t casted = lexical_cast<uint16_t>(value);
+            uint16_t casted = stoi(value);
             if(batchMode > 0)
             {
                 for(auto &pointer: container)
@@ -407,7 +407,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(const bad_lexical_cast&)
+        catch(const std::exception&)
         {
             editor->post("Please enter a number from 0 to 65 535", IETITLE, this);
             return 2;
@@ -441,7 +441,7 @@ int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
                     switch(batchMode)
                     {
                         case 1: vasili += value; vasili = vasili.substr(0, maxSize); break;
-                        case 2: vasili = vasili.substr(0, vasili.size() - lexical_cast<int>(value)); break;
+                        case 2: vasili = vasili.substr(0, vasili.size() - stoi(value)); break;
                     }
                     *(string*)pointer = vasili;
                 }

@@ -11,8 +11,6 @@
 #include <thread>
 #include <iomanip>
 #include <functional>
-#include <boost/lexical_cast.hpp>
-#include <boost/shared_ptr.hpp>
 #include <SFML/Audio.hpp>
 #include <wx/wx.h>
 #include <wx/aboutdlg.h>
@@ -61,8 +59,6 @@
 #include "genie/dat/DatFile.h"  // Newer dat system
 #include "genie/lang/LangFile.h"
 using namespace std;
-using boost::lexical_cast;
-using boost::bad_lexical_cast;
 
 class DelayedPopUp
 {

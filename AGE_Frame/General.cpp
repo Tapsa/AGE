@@ -9,32 +9,40 @@ void AGE_Frame::ListMapData()
 void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
 {
     event.Skip();
-    int32_t Result, Temp;
+    long Result, Temp;
 
     if(!General_CalcBoxes[0]->IsEmpty())
     {
-        Result = stoi(std::string(General_CalcBoxes[0]->GetValue()));
+        if (!General_CalcBoxes[0]->GetValue().ToLong(&Result)) {
+            return;
+        }
     }
     else Result = 0;
     Result = (uint8_t)Result;
 
     if(!General_CalcBoxes[1]->IsEmpty())
     {
-        Temp = stoi(std::string(General_CalcBoxes[1]->GetValue()));
+        if (!General_CalcBoxes[1]->GetValue().ToLong(&Temp)) {
+            return;
+        }
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 8;
 
     if(!General_CalcBoxes[2]->IsEmpty())
     {
-        Temp = stoi(std::string(General_CalcBoxes[2]->GetValue()));
+        if (!General_CalcBoxes[2]->GetValue().ToLong(&Temp)) {
+            return;
+        }
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 16;
 
     if(!General_CalcBoxes[3]->IsEmpty())
     {
-        Temp = stoi(std::string(General_CalcBoxes[3]->GetValue()));
+        if (!General_CalcBoxes[3]->GetValue().ToLong(&Temp)) {
+            return;
+        }
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 24;
@@ -47,8 +55,10 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
     event.Skip();
     if(General_CalcBoxes[4]->IsEmpty()) return;
 
-    int32_t Result;
-    Result = stoi(std::string(General_CalcBoxes[4]->GetValue()));
+    long Result;
+    if (!General_CalcBoxes[4]->GetValue().ToLong(&Result)) {
+        return;
+    }
 
     General_CalcBoxes[0]->ChangeValue(std::to_string((short)(int8_t)Result));
     Result >>= 8;
