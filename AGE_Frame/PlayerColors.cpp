@@ -14,7 +14,7 @@ string AGE_Frame::GetPlayerColorName(int index)
 {
     if(GenieVersion < genie::GV_AoKE3)
         return dataset->PlayerColours[index].Name;
-    return "Color "+lexical_cast<string>(index);
+    return "Color "+std::to_string(index);
 }
 
 void AGE_Frame::ListPlayerColors()
@@ -82,7 +82,7 @@ void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
             Colors_ReferenceID->prepend(&PlayerColorPointer->StatisticsText);
         }
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected color: "+lexical_cast<string>(ColorIDs.front()), 0);
+    SetStatusText("Selections: "+std::to_string(selections)+"    Selected color: "+std::to_string(ColorIDs.front()), 0);
 
     for(auto &box: uiGroupColor) box->update();
     Colors_ID->refill();

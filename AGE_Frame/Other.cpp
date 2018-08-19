@@ -38,7 +38,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
     if(popUp.unSaved > 0)
     {
         int answer = wxMessageBox("Do you want to save changes made to open files?\nThere are "
-                        +lexical_cast<string>(popUp.unSaved)+" unsaved changes.",
+                        +std::to_string(popUp.unSaved)+" unsaved changes.",
                         "Advanced Genie Editor", wxICON_QUESTION | wxCANCEL | wxYES_NO);
         if(answer != wxNO)
         {
@@ -92,7 +92,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
 
         OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
         OpenBox.LanguageBox->ChangeValue(Language);
-        OpenBox.TerrainsBox->ChangeValue(lexical_cast<string>(CustomTerrains));
+        OpenBox.TerrainsBox->ChangeValue(std::to_string(CustomTerrains));
         OpenBox.Path_DRS->SetPath(FolderDRS);
         OpenBox.Path_DRS2->SetPath(FolderDRS2);
         OpenBox.Path_DRS3->SetPath(Path1stDRS);
@@ -159,7 +159,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         popUp.unSaved = 0;
         ++popUp.loadedFileId;
 
-        wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig Config("", "", "AGE2\\ConfigWindow"+std::to_string(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/DriveLetter", DriveLetter);
         Config.Write("DefaultFiles/CustomFolder", CustomFolder);
         Config.Write("DefaultFiles/Version", GameVersion);
@@ -188,7 +188,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
 
         wxArrayString latest;
         latest.Alloc(8);
-        latest.Add(lexical_cast<string>(GameVersion));
+        latest.Add(std::to_string(GameVersion));
         latest.Add(DatFileName);
         latest.Add(LangFileName);
         latest.Add(LangX1FileName);
@@ -1357,22 +1357,22 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         if(GenieVersion < genie::GV_AoKA) // AoE and RoR
         for(size_t loop = 0; loop < AoE1Count; ++loop)
         {
-            if(!Customs.Read("AoE1Names/"+lexical_cast<string>(loop), &read_buf, DefAoE1Armors[loop]))
-                Customs.Write("AoE1Names/"+lexical_cast<string>(loop), DefAoE1Armors[loop]);
+            if(!Customs.Read("AoE1Names/"+std::to_string(loop), &read_buf, DefAoE1Armors[loop]))
+                Customs.Write("AoE1Names/"+std::to_string(loop), DefAoE1Armors[loop]);
             armor_names.Add(read_buf);
         }
         else if(GenieVersion < genie::GV_SWGB) // AoK and TC
         for(size_t loop = 0; loop < AoE2Count; ++loop)
         {
-            if(!Customs.Read("AoE2Names/"+lexical_cast<string>(loop), &read_buf, DefAoE2Armors[loop]))
-                Customs.Write("AoE2Names/"+lexical_cast<string>(loop), DefAoE2Armors[loop]);
+            if(!Customs.Read("AoE2Names/"+std::to_string(loop), &read_buf, DefAoE2Armors[loop]))
+                Customs.Write("AoE2Names/"+std::to_string(loop), DefAoE2Armors[loop]);
             armor_names.Add(read_buf);
         }
         else // SWGB and CC
         for(size_t loop = 0; loop < SWGBCount; ++loop)
         {
-            if(!Customs.Read("SWGBNames/"+lexical_cast<string>(loop), &read_buf, DefSWGBArmors[loop]))
-                Customs.Write("SWGBNames/"+lexical_cast<string>(loop), DefSWGBArmors[loop]);
+            if(!Customs.Read("SWGBNames/"+std::to_string(loop), &read_buf, DefSWGBArmors[loop]))
+                Customs.Write("SWGBNames/"+std::to_string(loop), DefSWGBArmors[loop]);
             armor_names.Add(read_buf);
         }
         Effects_89_Type_CB1->Flash();
@@ -1383,38 +1383,38 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
 
         for(size_t loop = 0; loop < AoE1CountTR; ++loop)
         {
-            if(!Customs.Read("AoE1TerrainRestrictionNames/"+lexical_cast<string>(loop), &read_buf, DefAoE1TerrainRests[loop]))
-                Customs.Write("AoE1TerrainRestrictionNames/"+lexical_cast<string>(loop), DefAoE1TerrainRests[loop]);
+            if(!Customs.Read("AoE1TerrainRestrictionNames/"+std::to_string(loop), &read_buf, DefAoE1TerrainRests[loop]))
+                Customs.Write("AoE1TerrainRestrictionNames/"+std::to_string(loop), DefAoE1TerrainRests[loop]);
             AoE1TerrainRestrictions.Add(read_buf);
         }
         for(size_t loop = 0; loop < AoE2CountTR; ++loop)
         {
-            if(!Customs.Read("AoE2TerrainRestrictionNames/"+lexical_cast<string>(loop), &read_buf, DefAoE2TerrainRests[loop]))
-                Customs.Write("AoE2TerrainRestrictionNames/"+lexical_cast<string>(loop), DefAoE2TerrainRests[loop]);
+            if(!Customs.Read("AoE2TerrainRestrictionNames/"+std::to_string(loop), &read_buf, DefAoE2TerrainRests[loop]))
+                Customs.Write("AoE2TerrainRestrictionNames/"+std::to_string(loop), DefAoE2TerrainRests[loop]);
             AoE2TerrainRestrictions.Add(read_buf);
         }
         for(size_t loop = 0; loop < SWGBCountTR; ++loop)
         {
-            if(!Customs.Read("SWGBTerrainRestrictionNames/"+lexical_cast<string>(loop), &read_buf, DefSWGBTerrainRests[loop]))
-                Customs.Write("SWGBTerrainRestrictionNames/"+lexical_cast<string>(loop), DefSWGBTerrainRests[loop]);
+            if(!Customs.Read("SWGBTerrainRestrictionNames/"+std::to_string(loop), &read_buf, DefSWGBTerrainRests[loop]))
+                Customs.Write("SWGBTerrainRestrictionNames/"+std::to_string(loop), DefSWGBTerrainRests[loop]);
             SWGBTerrainRestrictions.Add(read_buf);
         }
         for(size_t loop = 0; loop < RoRCountCR; ++loop)
         {
-            if(!Customs.Read("RoRCivResNames/"+lexical_cast<string>(loop), &read_buf, DefRoRCivRes[loop]))
-                Customs.Write("RoRCivResNames/"+lexical_cast<string>(loop), DefRoRCivRes[loop]);
+            if(!Customs.Read("RoRCivResNames/"+std::to_string(loop), &read_buf, DefRoRCivRes[loop]))
+                Customs.Write("RoRCivResNames/"+std::to_string(loop), DefRoRCivRes[loop]);
             RoRCivResources.Add(read_buf);
         }
         for(size_t loop = 0; loop < AoKCountCR; ++loop)
         {
-            if(!Customs.Read("AoKCivResNames/"+lexical_cast<string>(loop), &read_buf, DefAoKCivRes[loop]))
-                Customs.Write("AoKCivResNames/"+lexical_cast<string>(loop), DefAoKCivRes[loop]);
+            if(!Customs.Read("AoKCivResNames/"+std::to_string(loop), &read_buf, DefAoKCivRes[loop]))
+                Customs.Write("AoKCivResNames/"+std::to_string(loop), DefAoKCivRes[loop]);
             AoKCivResources.Add(read_buf);
         }
         for(size_t loop = 0; loop < SWGBCountCR; ++loop)
         {
-            if(!Customs.Read("SWGBCivResNames/"+lexical_cast<string>(loop), &read_buf, DefSWGBCivRes[loop]))
-                Customs.Write("SWGBCivResNames/"+lexical_cast<string>(loop), DefSWGBCivRes[loop]);
+            if(!Customs.Read("SWGBCivResNames/"+std::to_string(loop), &read_buf, DefSWGBCivRes[loop]))
+                Customs.Write("SWGBCivResNames/"+std::to_string(loop), DefSWGBCivRes[loop]);
             SWGBCivResources.Add(read_buf);
         }
 
@@ -1619,7 +1619,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             Sounds_Items_SearchFilters[loop]->Flash();
         }
 
-        SetStatusText(lexical_cast<string>(dataset->FileVersion), 4);
+        SetStatusText(dataset->FileVersion, 4);
 
         effect_attribute_names.Clear();
         effect_attribute_names.Add("No Attribute/Invalid Attribute");     // Selection 0
@@ -1766,7 +1766,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         else
         {
             for(size_t loop = 10; loop < 17; ++loop)
-            effect_type_names.Add(lexical_cast<string>(loop) + " - AoK HD only");
+            effect_type_names.Add(std::to_string(loop) + " - AoK HD only");
         }
         if(GenieVersion < genie::GV_AoKA) effect_type_names.Add("101 - AoK+ only");
         else effect_type_names.Add("101 - Tech Cost Modifier (Set/+/-)");
@@ -2269,7 +2269,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
 
     if(!save) return;
     {
-        wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig Config("", "", "AGE2\\ConfigWindow"+std::to_string(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/SyncSaveWithOpen", SyncSaveWithOpen);
         Config.Write("DefaultFiles/SaveVersion", SaveGameVersion);
         Config.Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
@@ -2286,7 +2286,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
 
         wxArrayString latest;
         latest.Alloc(5);
-        latest.Add(lexical_cast<string>(SaveGameVersion));
+        latest.Add(std::to_string(SaveGameVersion));
         latest.Add(SaveDatFileName);
         latest.Add(SaveLangFileName);
         latest.Add(SaveLangX1FileName);
@@ -2339,10 +2339,10 @@ void AGE_Frame::OnSave(wxCommandEvent&)
         BordersInTerrains /= TerrainsInData;
         if(TerrainsInData != BordersInTerrains)
         {
-            wxString viesti = "Send file to Tapsa for repair!\nTerrains: " + lexical_cast<string>(TerrainsInData);
-            viesti += "\nBorders: " + lexical_cast<string>(BordersInTerrains);
-            viesti += "\nLoaded game version: " + lexical_cast<string>(dataset->TerrainBlock.getGameVersion());
-            viesti += "\nTerrain game version: " + lexical_cast<string>(dataset->TerrainBlock.Terrains.front().getGameVersion());
+            wxString viesti = "Send file to Tapsa for repair!\nTerrains: " + std::to_string(TerrainsInData);
+            viesti += "\nBorders: " + std::to_string(BordersInTerrains);
+            viesti += "\nLoaded game version: " + std::to_string(dataset->TerrainBlock.getGameVersion());
+            viesti += "\nTerrain game version: " + std::to_string(dataset->TerrainBlock.Terrains.front().getGameVersion());
             wxMessageBox(viesti);
         }
         // <-- ends here
@@ -2397,7 +2397,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
         }
     }
 
-    SetStatusText("Selected files saved. "+lexical_cast<string>(popUp.unSaved)+" dat edits.", 0);
+    SetStatusText("Selected files saved. "+std::to_string(popUp.unSaved)+" dat edits.", 0);
     popUp.unSaved = 0;
 }
 
@@ -2527,7 +2527,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_frame_import = new wxButton(panel, eImportFrame, "Import PNGs to frame");
                 slp_save = new wxButton(panel, eSaveSLP, "Save SLP");
                 slp_tool = new wxButton(panel, eSLPTool, "SLP Tool");
-                slp_zoom_btn = new wxButton(panel, eZoom, "Zoom: " + lexical_cast<string>(int(slp_zoom * 100)) + " %");
+                slp_zoom_btn = new wxButton(panel, eZoom, "Zoom: " + std::to_string(int(slp_zoom * 100)) + " %");
                 slp_merge_shadow = new wxButton(panel, eSLPMergeShadow, "Merge shadow from 2 to 1");
                 slp_tool_layout = new wxFlexGridSizer(2, 2, 2);
                 SolidText *text_source1 = new SolidText(panel, " Source SLP 1");
@@ -2955,7 +2955,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             for(size_t win = 0; win < 4; ++win)
             if(!AGE_Frame::openEditors[win])
             {
-                AGE_Frame* newWindow = new AGE_Frame("AGE " + AGE_AboutDialog::AGE_VER + " window "+lexical_cast<string>(win+1), win);
+                AGE_Frame* newWindow = new AGE_Frame("AGE " + AGE_AboutDialog::AGE_VER + " window "+std::to_string(win+1), win);
                 FixSize(newWindow);
                 wxCommandEvent OpenFiles(wxEVT_MENU, newWindow->eOpen);
                 newWindow->OnOpen(OpenFiles);
@@ -3009,7 +3009,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
         }
         case eCacheDepth:
         {
-            wxTextEntryDialog ted(this, "Enter new cache depth", "Set Cache Depth", lexical_cast<string>(GG::cache_depth));
+            wxTextEntryDialog ted(this, "Enter new cache depth", "Set Cache Depth", std::to_string(GG::cache_depth));
             ted.SetTextValidator(wxFILTER_DIGITS);
             if(ted.ShowModal() == wxID_OK)
             {
@@ -3045,7 +3045,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             }
             break;
         }
-        default: wxMessageBox("ID "+lexical_cast<string>(event.GetId())+"\nType "+lexical_cast<string>(event.GetEventType()), "Unhandled Event");
+        default: wxMessageBox("ID "+std::to_string(event.GetId())+"\nType "+std::to_string(event.GetEventType()), "Unhandled Event");
     }
 }
 
@@ -3160,7 +3160,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
         for(int i=0; i < folders.size(); ++i)
         {
             // HD uses slp ID instead
-            graphic->slp = GG::LoadSLP(string(folders[i]) + lexical_cast<string>(graphic->slpID) + ".slp");
+            graphic->slp = GG::LoadSLP(string(folders[i]) + std::to_string(graphic->slpID) + ".slp");
             if(graphic->slp) return true;
         }
     }
@@ -3366,7 +3366,7 @@ void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
     catch(const out_of_range&){}
     if(!frame)
     {
-        wxMessageBox("Congrats seeing this message", "No SLP frame " + lexical_cast<string>(graphic->frameID));
+        wxMessageBox("Congrats seeing this message", "No SLP frame " + std::to_string(graphic->frameID));
         return;
     }
     genie::SlpFrameData *imgdata = &frame->img_data;
@@ -3488,7 +3488,7 @@ void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &event)
             if(LangsUsed & 2 && !LangX->getString(ID).empty()) LangX->setString(ID, "");
             if(LangsUsed & 1) Lang->setString(ID, Name);
         }
-        SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<string>(ID), 0);
+        SetStatusText("Wrote \""+Name+"\" to "+std::to_string(ID), 0);
     }
 }
 
@@ -3622,7 +3622,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
         {
             SetStatusText("Added 1 hidden", 2);
         }
-        SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + 1", 3);
+        SetStatusText("Edits: "+std::to_string(popUp.unSaved)+" + 1", 3);
         ++popUp.unSaved;
     }
     else if(How2List == DEL)
@@ -3638,7 +3638,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
             List->Set(names);
             SetStatusText("Listed all again", 2);
         }
-        SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(selections), 3);
+        SetStatusText("Edits: "+std::to_string(popUp.unSaved)+" + "+std::to_string(selections), 3);
         popUp.unSaved += selections;
     }
     else if(How2List == PASTE && Paste11)
@@ -3648,7 +3648,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
             List->SetString(Items.Item(sel), names[Items.Item(sel)]);
         }
         SetStatusText("Pasted 1 to 1", 2);
-        SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(selections), 3);
+        SetStatusText("Edits: "+std::to_string(popUp.unSaved)+" + "+std::to_string(selections), 3);
         popUp.unSaved += selections;
     }
     else
@@ -3659,12 +3659,12 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
             SetStatusText("Listed all again", 2);
             if(How2List == ENABLE)
             {
-                SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(selections), 3);
+                SetStatusText("Edits: "+std::to_string(popUp.unSaved)+" + "+std::to_string(selections), 3);
                 popUp.unSaved += selections;
             }
             else // Need more input to calculate edits for paste and inserts.
             {
-                SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + 1", 3);
+                SetStatusText("Edits: "+std::to_string(popUp.unSaved)+" + 1", 3);
                 ++popUp.unSaved;
             }
         }
@@ -3681,7 +3681,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
         List->SetClientData(loop, *it++);
     }
     if(showTime)
-    SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(endTime - startTime)).count())+" ms", 1);
+    SetStatusText("Re-listing time: "+std::to_string((chrono::duration_cast<chrono::milliseconds>(endTime - startTime)).count())+" ms", 1);
 
     // Set selections and first visible item.
     if(How2List != SEARCH)
@@ -3805,12 +3805,12 @@ void AGE_Frame::SearchAllSubVectors(ProperList *list, wxTextCtrl *topSearch, wxT
         subNums.insert(lexical_cast<uint32_t>(line.substr(2 + found, line.find(" ", found + 3) - found - 2)));
     }
     wxString topText;
-    for(const auto &num: topNums) topText += " " + lexical_cast<string>(num) + " -|";
+    for(const auto &num: topNums) topText += " " + std::to_string(num) + " -|";
     topSearch->SetValue(topText.Truncate(topText.size() - 1));
     if(FilterAllSubs)
     {
         wxString subText;
-        for(const auto &num: subNums) subText += " " + lexical_cast<string>(num) + " -|";
+        for(const auto &num: subNums) subText += " " + std::to_string(num) + " -|";
         subSearch->SetValue(subText.Truncate(subText.size() - 1));
     }
 }
@@ -3837,7 +3837,7 @@ void AGE_Frame::getSelectedItems(const size_t selections, const ProperList *list
         indexes[sel] = list->indexes[last];
         last = list->GetNextSelected(cookie);
     }
-    SetStatusText("Times listed: "+lexical_cast<string>(++times_listed), 2);
+    SetStatusText("Times listed: "+std::to_string(++times_listed), 2);
 }
 
 // To show contents of last selected item instead of first selection.
@@ -3858,7 +3858,7 @@ void AGE_Frame::getSelectedItems(const size_t selections, const ProperList *list
 wxString AGE_Frame::FormatFloat(float value)
 {
     if(popUp.accurateFloats)
-    return lexical_cast<string>(value);
+    return std::to_string(value);
 
     stringbuf buffer;
     ostream os (&buffer);
@@ -3869,7 +3869,7 @@ wxString AGE_Frame::FormatFloat(float value)
 wxString AGE_Frame::FormatInt(int value)
 {
     if(!popUp.hexMode)
-    return lexical_cast<string>(value);
+    return std::to_string(value);
 
     stringbuf buffer;
     ostream os (&buffer);
@@ -4029,13 +4029,13 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         }
         case eZoom:
         {
-            wxTextEntryDialog ted(this, "Enter new zooming %", "Set Scale Factor", lexical_cast<string>(int(slp_zoom * 100)));
+            wxTextEntryDialog ted(this, "Enter new zooming %", "Set Scale Factor", std::to_string(int(slp_zoom * 100)));
             ted.SetTextValidator(wxFILTER_DIGITS);
             if(ted.ShowModal() == wxID_OK)
             {
                 int zoom_percent = min(800, lexical_cast<int>(ted.GetValue()));
                 slp_zoom = zoom_percent / 100.f;
-                slp_zoom_btn->SetLabel("Zoom: " + lexical_cast<string>(zoom_percent) + " %");
+                slp_zoom_btn->SetLabel("Zoom: " + std::to_string(zoom_percent) + " %");
             }
             break;
         }
@@ -4263,7 +4263,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         slp_window = nullptr;
     }
     {
-        wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig Config("", "", "AGE2\\ConfigWindow"+std::to_string(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/AutoBackups", AutoBackups);
         Config.Write("DefaultFiles/PalettesPath", PalettesPath);
         Config.Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
@@ -4311,7 +4311,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
     if(event.CanVeto() && popUp.unSaved > 0)
     {
         int answer = wxMessageBox("Do you want to save changes made to open files?\nThere are "
-                        +lexical_cast<string>(popUp.unSaved)+" unsaved changes.",
+                        +std::to_string(popUp.unSaved)+" unsaved changes.",
                         "Advanced Genie Editor", wxICON_QUESTION | wxCANCEL | wxYES_NO);
         if(answer != wxNO)
         {

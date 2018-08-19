@@ -3,7 +3,7 @@
 string AGE_Frame::GetTerrainBorderName(int index)
 {
     if(dataset->TerrainBlock.TerrainBorders[index].Name.empty() && dataset->TerrainBlock.TerrainBorders[index].Name2.empty())
-        return "Border "+lexical_cast<string>(index);
+        return "Border "+std::to_string(index);
     return dataset->TerrainBlock.TerrainBorders[index].Name+" - "+dataset->TerrainBlock.TerrainBorders[index].Name2;
 }
 
@@ -86,7 +86,7 @@ void AGE_Frame::OnTerrainBorderSelect(wxCommandEvent &event)
         Borders_Terrain->prepend(&BorderPointer->UnderlayTerrain);
         Borders_BorderStyle->prepend(&BorderPointer->BorderStyle);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected border: "+lexical_cast<string>(BorderIDs.front()), 0);
+    SetStatusText("Selections: "+std::to_string(selections)+"    Selected border: "+std::to_string(BorderIDs.front()), 0);
 
     for(auto &box: uiGroupBorder) box->update();
     if(BorderPointer && !palettes.empty() && !palettes.front().empty())
@@ -144,7 +144,7 @@ string AGE_Frame::GetTerrainBorderTileTypeName(int index)
         case 16: return "Pit Tile E";
         case 17: return "1:1 Tile A";
         case 18: return "1:1 Tile B";
-        default: return "Tile Type "+lexical_cast<string>(index);
+        default: return "Tile Type "+std::to_string(index);
     }
 }
 
@@ -213,9 +213,9 @@ void AGE_Frame::OnTerrainBorderTileTypeCopyToBorders(wxCommandEvent &event)
 
 string AGE_Frame::GetTerrainBorderBorderShapeName(int index)
 {
-    return "FC "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].FrameCount)
-    +", A "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].AngleCount)
-    +", SI "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].ShapeID);
+    return "FC "+std::to_string(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].FrameCount)
+    +", A "+std::to_string(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].AngleCount)
+    +", SI "+std::to_string(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].ShapeID);
 }
 
 void AGE_Frame::OnTerrainBorderBorderShapeSearch(wxCommandEvent &event)

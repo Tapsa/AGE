@@ -74,7 +74,7 @@ void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
             }
         }
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected sound: "+lexical_cast<string>(SoundIDs.front()), 0);
+    SetStatusText("Selections: "+std::to_string(selections)+"    Selected sound: "+std::to_string(SoundIDs.front()), 0);
 
     for(auto &box: uiGroupSound) box->update();
     Sounds_ID->refill();
@@ -224,7 +224,7 @@ void AGE_Frame::OnSoundItemSelect(wxCommandEvent &event)
         {
             sum += file.Probability;
         }
-        Sounds_TotalProbability_Info->SetLabel("Used "+lexical_cast<string>(sum)+"/"+lexical_cast<string>(dataset->Sounds[SoundIDs.front()].TotalProbability));
+        Sounds_TotalProbability_Info->SetLabel("Used "+std::to_string(sum)+"/"+std::to_string(dataset->Sounds[SoundIDs.front()].TotalProbability));
     }
     auto selections = Sounds_Items_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
@@ -331,7 +331,7 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
     {
         for(short file = 0; file < dataset->Sounds[sound].Items.size(); ++file)
         {
-            wxString Name = " S"+lexical_cast<string>(sound)+" F"+lexical_cast<string>(file)+" - "+GetSoundItemName(file, sound);
+            wxString Name = " S"+std::to_string(sound)+" F"+std::to_string(file)+" - "+GetSoundItemName(file, sound);
             if(SearchMatches(" " + Name.Lower() + " "))
             {
                 Sounds_AllItems_ListV->names.Add(Name);
@@ -652,11 +652,11 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
             {
                 echo(waves, speaker, loop); return;
             }
-            const unsigned char* sounddata = GG::LoadSound(datafiles, sound_item.ResourceID);
+            std::shared_ptr<unsigned char> sounddata = GG::LoadSound(datafiles, sound_item.ResourceID);
             if(0 != sounddata)
             {
-                size_t size = *((uint32_t*)sounddata + 1) + 8;
-                if(waves.loadFromMemory(sounddata, size))
+                size_t size = *((uint32_t*)sounddata.get() + 1) + 8;
+                if(waves.loadFromMemory(sounddata.get(), size))
                 {
                     echo(waves, speaker, loop); return;
                 }

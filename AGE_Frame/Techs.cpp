@@ -53,7 +53,7 @@ void AGE_Frame::OnEffectRename(wxCommandEvent &event)
     short CivTechTreeID=0, CivTeamBonusID = 0;
     for(size_t loop2=dataset->Civs.size(); loop2--> 0;) // Rename of techs. Make it reverse loop.
     {
-        string CivName = lexical_cast<string>(dataset->Civs[loop2].Name); // Civ internal name.
+        string CivName = dataset->Civs[loop2].Name; // Civ internal name.
         CivTechTreeID = dataset->Civs[loop2].TechTreeID;
         CivTeamBonusID = dataset->Civs[loop2].TeamBonusID;
         if(CivTechTreeID >= 0)
@@ -126,7 +126,7 @@ void AGE_Frame::OnEffectSelect(wxCommandEvent &event)
         TechPointer = &dataset->Effects[TechIDs[loop]];
         Techs_Name->prepend(&TechPointer->Name);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected effect: "+lexical_cast<string>(TechIDs.front()), 0);
+    SetStatusText("Selections: "+std::to_string(selections)+"    Selected effect: "+std::to_string(TechIDs.front()), 0);
 
     Techs_Name->update();
     ListEffectCmds();
@@ -387,11 +387,11 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                     enableD = NeverHide;
                     Effects_D->Show(false);
                     Effects_89_Amount->Show(true);
-                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t((uint8_t)EffectPointer->Amount))); // Correct value
+                    Effects_89_Amount->ChangeValue(std::to_string(uint16_t((uint8_t)EffectPointer->Amount))); // Correct value
                     Effects_89_Type->Show(true);
                     Effects_89_Type_CB1->Show(true);
                     uint16_t attack_type = (uint16_t)EffectPointer->Amount >> 8;
-                    Effects_89_Type->ChangeValue(lexical_cast<string>(attack_type)); // Correct class
+                    Effects_89_Type->ChangeValue(std::to_string(attack_type)); // Correct class
                     static_cast<AGELinkedBox*>(Effects_89_Type_CB1)->SetChoice(attack_type);
                     Effects_89_Type_Text->SetLabel("Type ");
                 }
@@ -524,11 +524,11 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                     enableD = NeverHide;
                     Effects_D->Show(false);
                     Effects_89_Amount->Show(true);
-                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t((uint8_t)EffectPointer->Amount))); // Correct value
+                    Effects_89_Amount->ChangeValue(std::to_string(uint16_t((uint8_t)EffectPointer->Amount))); // Correct value
                     Effects_89_Type->Show(true);
                     Effects_89_Type_CB1->Show(true);
                     uint16_t attack_type = (uint16_t)EffectPointer->Amount >> 8;
-                    Effects_89_Type->ChangeValue(lexical_cast<string>(attack_type)); // Correct class
+                    Effects_89_Type->ChangeValue(std::to_string(attack_type)); // Correct class
                     static_cast<AGELinkedBox*>(Effects_89_Type_CB1)->SetChoice(attack_type);
                     Effects_D_Text->SetLabel("Amount [+] ");
                     Effects_89_Type_Text->SetLabel("Type ");
@@ -571,11 +571,11 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                     enableD = NeverHide;
                     Effects_D->Show(false);
                     Effects_89_Amount->Show(true);
-                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t((uint8_t)EffectPointer->Amount))); // Correct value
+                    Effects_89_Amount->ChangeValue(std::to_string(uint16_t((uint8_t)EffectPointer->Amount))); // Correct value
                     Effects_89_Type->Show(true);
                     Effects_89_Type_CB1->Show(true);
                     uint16_t attack_type = (uint16_t)EffectPointer->Amount >> 8;
-                    Effects_89_Type->ChangeValue(lexical_cast<string>(attack_type)); // Correct class
+                    Effects_89_Type->ChangeValue(std::to_string(attack_type)); // Correct class
                     static_cast<AGELinkedBox*>(Effects_89_Type_CB1)->SetChoice(attack_type);
                     Effects_D_Text->SetLabel("Amount [%] ");
                     Effects_89_Type_Text->SetLabel("Type ");
@@ -852,7 +852,7 @@ void AGE_Frame::LoadAllEffects(wxCommandEvent &event)
     {
         for(short effect = 0; effect < dataset->Effects[tech].EffectCommands.size(); ++effect)
         {
-            wxString Name = " T"+lexical_cast<string>(tech)+" E"+lexical_cast<string>(effect)+" - "+GetEffectCmdName(effect, tech);
+            wxString Name = " T"+std::to_string(tech)+" E"+std::to_string(effect)+" - "+GetEffectCmdName(effect, tech);
             if(SearchMatches(" " + Name.Lower() + " "))
             {
                 Techs_AllEffects_ListV->names.Add(Name);
@@ -1203,7 +1203,7 @@ void AGE_Frame::OnSaveEdits_Effects89(bool forced)
     {
         uint16_t Class = lexical_cast<int>(Effects_89_Type->GetValue()) << 8;
         uint8_t Amount = lexical_cast<int>(Effects_89_Amount->GetValue());
-        Effects_D->ChangeValue(lexical_cast<string>(Amount + Class));
+        Effects_D->ChangeValue(std::to_string(Amount + Class));
         Effects_D->SaveEdits(forced);
     }
     ListEffectCmds();
@@ -1232,7 +1232,7 @@ void AGE_Frame::OnUpdateCombo_Techs(wxCommandEvent &event)
     {
         uint16_t Class = (Effects_89_Type_CB1->GetSelection() - 1) << 8;
         uint8_t Amount = lexical_cast<int>(Effects_89_Amount->GetValue());
-        Effects_D->ChangeValue(lexical_cast<string>(Amount + Class));
+        Effects_D->ChangeValue(std::to_string(Amount + Class));
         Effects_D->SaveEdits();
 
         ListEffectCmds();

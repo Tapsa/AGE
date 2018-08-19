@@ -84,7 +84,7 @@ string LoadSound(wxArrayString &folders, const string &filename, int resnum)
     {
         string folder(f), sound = folder + filename;
         if(!wxFileName(sound).FileExists())
-            sound = folder + lexical_cast<string>(resnum) + ".wav";
+            sound = folder + std::to_string(resnum) + ".wav";
         if(wxFileName(sound).FileExists())
         {
             return sound;
@@ -93,11 +93,11 @@ string LoadSound(wxArrayString &folders, const string &filename, int resnum)
     return "";
 }
 
-const unsigned char* LoadSound(vector<genie::DrsFile*> &datafiles, int resnum)
+std::shared_ptr<unsigned char> LoadSound(vector<genie::DrsFile*> &datafiles, int resnum)
 {
     for(auto &file: datafiles)
     {
-        const unsigned char* sound = file->getWavPtr(resnum);
+        std::shared_ptr<unsigned char> sound = file->getWavPtr(resnum);
         if(sound)
         {
             return sound;

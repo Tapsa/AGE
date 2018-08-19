@@ -8,7 +8,7 @@ void AGE_Frame::OnCivsSearch(wxCommandEvent &event)
 
 string AGE_Frame::GetCivName(int index)
 {
-    return (GenieVersion < genie::GV_SWGB ? dataset->Civs[index].Name : dataset->Civs[index].Name2) + " (" + lexical_cast<string>((short)dataset->Civs[index].IconSet) + ")";
+    return (GenieVersion < genie::GV_SWGB ? dataset->Civs[index].Name : dataset->Civs[index].Name2) + " (" + std::to_string((short)dataset->Civs[index].IconSet) + ")";
 }
 
 void AGE_Frame::ListCivs(bool all)

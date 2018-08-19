@@ -34,7 +34,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     {
         int temp;
 
-        wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<string>(window + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig Config("", "", "AGE2\\ConfigWindow"+std::to_string(window + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Read("/EditorVersion", &EditorVersionString, AGE_AboutDialog::AGE_VER);
         sscanf(EditorVersionString, "%f", &EditorVersion);
         Config.Read("/TimesOpened", &TimesOpened, 0);
@@ -305,7 +305,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         }
 
         SetStatusText("Manual unit copy", 2);
-        SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(edits), 3);
+        SetStatusText("Edits: "+std::to_string(popUp.unSaved)+" + "+std::to_string(edits), 3);
         popUp.unSaved += edits;
     });
     Units_SelectAll->Bind(wxEVT_BUTTON, &AGE_Frame::OnAutoCopy, this);

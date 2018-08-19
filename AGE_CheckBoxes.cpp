@@ -2,6 +2,6 @@
 
 void CheckBox_2State::OnChoose(wxCommandEvent&)
 {
-    TextBox->ChangeValue(lexical_cast<string>(GetValue()));
+    TextBox->ChangeValue(std::to_string(GetValue()));
     TextBox->SaveEdits();
 }

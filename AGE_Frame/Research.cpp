@@ -21,38 +21,38 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     if(dataset->Techs[index].RequiredTechs[loop] != -1)
                     {
                         if(HasFore) Name += ", R"; else {Name += "R"; HasFore = true;}
-                        Name += lexical_cast<string>(dataset->Techs[index].RequiredTechs[loop]);
+                        Name += std::to_string(dataset->Techs[index].RequiredTechs[loop]);
                     }
                 }   break;
                 case 3: // Min. Req. Techs
-                    Name += "MR "+lexical_cast<string>(dataset->Techs[index].RequiredTechCount);
+                    Name += "MR "+std::to_string(dataset->Techs[index].RequiredTechCount);
                     break;
                 case 4: // Research Location
-                    Name += "RL "+lexical_cast<string>(dataset->Techs[index].ResearchLocation);
+                    Name += "RL "+std::to_string(dataset->Techs[index].ResearchLocation);
                     break;
                 case 5: // Research Time
-                    Name += "RT "+lexical_cast<string>(dataset->Techs[index].ResearchTime);
+                    Name += "RT "+std::to_string(dataset->Techs[index].ResearchTime);
                     break;
                 case 6: // Effect
-                    Name += "E "+lexical_cast<string>(dataset->Techs[index].EffectID);
+                    Name += "E "+std::to_string(dataset->Techs[index].EffectID);
                     break;
                 case 7: // Type
-                    Name += "T "+lexical_cast<string>(dataset->Techs[index].Type);
+                    Name += "T "+std::to_string(dataset->Techs[index].Type);
                     break;
                 case 8: // Icon
-                    Name += "I "+lexical_cast<string>(dataset->Techs[index].IconID);
+                    Name += "I "+std::to_string(dataset->Techs[index].IconID);
                     break;
                 case 9: // Button
-                    Name += "B "+lexical_cast<string>((short)dataset->Techs[index].ButtonID);
+                    Name += "B "+std::to_string((short)dataset->Techs[index].ButtonID);
                     break;
                 case 10: // Lang File Pointer
-                    Name += "LH "+lexical_cast<string>(dataset->Techs[index].LanguageDLLHelp);
+                    Name += "LH "+std::to_string(dataset->Techs[index].LanguageDLLHelp);
                     break;
                 case 11: // Pointer 2
-                    Name += "LT "+lexical_cast<string>(dataset->Techs[index].LanguageDLLTechTree);
+                    Name += "LT "+std::to_string(dataset->Techs[index].LanguageDLLTechTree);
                     break;
                 case 12: // Hot Key
-                    Name += "HK "+lexical_cast<string>(dataset->Techs[index].HotKey);
+                    Name += "HK "+std::to_string(dataset->Techs[index].HotKey);
                     break;
                 case 13: // Cost Types
                 {
@@ -61,7 +61,7 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     if(dataset->Techs[index].ResourceCosts[loop].Type != -1)
                     {
                         if(HasFore) Name += ", CT"; else {Name += "CT"; HasFore = true;}
-                        Name += lexical_cast<string>(dataset->Techs[index].ResourceCosts[loop].Type);
+                        Name += std::to_string(dataset->Techs[index].ResourceCosts[loop].Type);
                     }
                 }   break;
                 case 14: // Cost Amounts
@@ -70,7 +70,7 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     for(size_t loop = 0; loop < 3; ++loop)
                     {
                         if(HasFore) Name += ", CA"; else {Name += "CA"; HasFore = true;}
-                        Name += lexical_cast<string>(dataset->Techs[index].ResourceCosts[loop].Amount);
+                        Name += std::to_string(dataset->Techs[index].ResourceCosts[loop].Amount);
                     }
                 }   break;
                 case 15: // Cost Uses
@@ -79,16 +79,16 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     for(size_t loop = 0; loop < 3; ++loop)
                     {
                         if(HasFore) Name += ", CU"; else {Name += "CU"; HasFore = true;}
-                        Name += lexical_cast<string>((short)dataset->Techs[index].ResourceCosts[loop].Flag);
+                        Name += std::to_string((short)dataset->Techs[index].ResourceCosts[loop].Flag);
                     }
                 }   break;
                 if(GenieVersion >= genie::GV_AoKB)
                 {
                 case 16: // Civilization
-                    Name += "C "+lexical_cast<string>(dataset->Techs[index].Civ);
+                    Name += "C "+std::to_string(dataset->Techs[index].Civ);
                     break;
                 case 17: // Full Tech Mode
-                    Name += "F "+lexical_cast<string>(dataset->Techs[index].FullTechMode);
+                    Name += "F "+std::to_string(dataset->Techs[index].FullTechMode);
                     break;
                 if(GenieVersion >= genie::GV_SWGB)
                 {
@@ -225,7 +225,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
         }
         Research_Name[0]->prepend(&ResearchPointer->Name);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected technology: "+lexical_cast<string>(ResearchIDs.front()), 0);
+    SetStatusText("Selections: "+std::to_string(selections)+"    Selected technology: "+std::to_string(ResearchIDs.front()), 0);
 
     if(ResearchPointer && GenieVersion >= genie::GV_MATT)
     {
@@ -248,9 +248,9 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
                 Research_DLL_LanguageDLLName2->index = ResearchPointer->LanguageDLLTechTree - 140000;
             }
             Research_DLL_LanguageDLLHelp->SetLabel(TranslatedText(Research_DLL_LanguageDLLHelp->index, 512));
-            Research_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLHelp->index));
+            Research_LanguageDLLConverter[0]->SetLabel(std::to_string(Research_DLL_LanguageDLLHelp->index));
             Research_DLL_LanguageDLLName2->SetLabel(TranslatedText(Research_DLL_LanguageDLLName2->index, 64));
-            Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLName2->index));
+            Research_LanguageDLLConverter[1]->SetLabel(std::to_string(Research_DLL_LanguageDLLName2->index));
         }
         if(GenieVersion == genie::GV_CC)
         {

@@ -32,7 +32,7 @@ void AGEComboBox::Flash()
 
 void ComboBox_Plus1::OnChoose(wxCommandEvent&)
 {
-    TextBox->ChangeValue(lexical_cast<string>(GetSelection() - 1));
+    TextBox->ChangeValue(std::to_string(GetSelection() - 1));
     TextBox->SaveEdits();
 }
 
@@ -66,7 +66,7 @@ void ComboBox_EffectAttribute::OnChoose(wxCommandEvent&)
 {
     int selection = GetSelection();
     selection = (selection < 25) ? selection - 1 : selection + 75;
-    TextBox->ChangeValue(lexical_cast<string>(selection));
+    TextBox->ChangeValue(std::to_string(selection));
     TextBox->SaveEdits();
 }
 

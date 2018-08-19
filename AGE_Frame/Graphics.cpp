@@ -194,13 +194,13 @@ void AGE_Frame::OnGraphicSelect(wxCommandEvent &event)
             if(GenieVersion >= genie::GV_AoKB)
             Graphics_EditorFlag->prepend(&GraphicPointer->EditorFlag);
         }
-        SetStatusText("Selections: "+lexical_cast<string>(GraphicIDs.size())+"    Selected graphic: "+lexical_cast<string>(GraphicIDs.front()), 0);
+        SetStatusText("Selections: "+std::to_string(GraphicIDs.size())+"    Selected graphic: "+std::to_string(GraphicIDs.front()), 0);
 
         selections = GenieVersion < genie::GV_AoE ? 1 : dataset->GraphicPointers[GraphicIDs.front()];
 
         if(GraphicPointer)
         {
-            Graphics_MirroringMode->SetToolTip("If used, should be " + lexical_cast<string>((GraphicPointer->AngleCount >> 1) + (GraphicPointer->AngleCount >> 2)) + " for this sprite.\n" + MirrorHelp);
+            Graphics_MirroringMode->SetToolTip("If used, should be " + std::to_string((GraphicPointer->AngleCount >> 1) + (GraphicPointer->AngleCount >> 2)) + " for this sprite.\n" + MirrorHelp);
             gallery.datID = GraphicIDs.front();
             gallery.slpID = RELOAD; // Force reloading delta graphics.
         }
@@ -471,11 +471,11 @@ void AGE_Frame::initSounds(AGE_SLP &art, unsigned sound_num, size_t slot)
         }
         else
         {
-            const unsigned char* sounddata = GG::LoadSound(datafiles, sound_item.ResourceID);
+            std::shared_ptr<unsigned char> sounddata = GG::LoadSound(datafiles, sound_item.ResourceID);
             if(0 != sounddata)
             {
-                size_t size = *((uint32_t*)sounddata + 1) + 8;
-                if(art.buffers[slot].loadFromMemory(sounddata, size)) return;
+                size_t size = *((uint32_t*)sounddata.get() + 1) + 8;
+                if(art.buffers[slot].loadFromMemory(sounddata.get(), size)) return;
             }
             else // Terrain sounds may be loose files.
             {
@@ -856,8 +856,8 @@ string AGE_Frame::GetGraphicDeltaName(int index)
 {
     int deltaID = dataset->Graphics[GraphicIDs.front()].Deltas[index].GraphicID;
     if(deltaID < dataset->Graphics.size())
-    return lexical_cast<string>(deltaID) + ": " + GetGraphicName(deltaID, false);
-    return "Re-drawer "+lexical_cast<string>(deltaID);
+    return std::to_string(deltaID) + ": " + GetGraphicName(deltaID, false);
+    return "Re-drawer "+std::to_string(deltaID);
 }
 
 void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &event)

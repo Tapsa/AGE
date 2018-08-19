@@ -68,7 +68,7 @@ void AGE_Frame::OnTerrainRestrictionSelect(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, TerRestrict_TerRestrict_ListV, TerRestrictIDs);
 
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected table: "+lexical_cast<string>(TerRestrictIDs.front()), 0);
+    SetStatusText("Selections: "+std::to_string(selections)+"    Selected table: "+std::to_string(TerRestrictIDs.front()), 0);
     ListTerrains2();
 }
 

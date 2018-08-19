@@ -13,37 +13,33 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
 
     if(!General_CalcBoxes[0]->IsEmpty())
     {
-        try{Result = lexical_cast<int32_t>(General_CalcBoxes[0]->GetValue());}
-        catch(const bad_lexical_cast&){return;}
+        Result = stoi(std::string(General_CalcBoxes[0]->GetValue()));
     }
     else Result = 0;
     Result = (uint8_t)Result;
 
     if(!General_CalcBoxes[1]->IsEmpty())
     {
-        try{Temp = lexical_cast<int32_t>(General_CalcBoxes[1]->GetValue());}
-        catch(const bad_lexical_cast&){return;}
+        Temp = stoi(std::string(General_CalcBoxes[1]->GetValue()));
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 8;
 
     if(!General_CalcBoxes[2]->IsEmpty())
     {
-        try{Temp = lexical_cast<int32_t>(General_CalcBoxes[2]->GetValue());}
-        catch(const bad_lexical_cast&){return;}
+        Temp = stoi(std::string(General_CalcBoxes[2]->GetValue()));
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 16;
 
     if(!General_CalcBoxes[3]->IsEmpty())
     {
-        try{Temp = lexical_cast<int32_t>(General_CalcBoxes[3]->GetValue());}
-        catch(const bad_lexical_cast&){return;}
+        Temp = stoi(std::string(General_CalcBoxes[3]->GetValue()));
     }
     else Temp = 0;
     Result += (uint8_t)Temp << 24;
 
-    General_CalcBoxes[4]->ChangeValue(lexical_cast<string>(Result));
+    General_CalcBoxes[4]->ChangeValue(std::to_string(Result));
 }
 
 void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
@@ -52,16 +48,15 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
     if(General_CalcBoxes[4]->IsEmpty()) return;
 
     int32_t Result;
-    try{Result = lexical_cast<int32_t>(General_CalcBoxes[4]->GetValue());}
-    catch(const bad_lexical_cast&){return;}
+    Result = stoi(std::string(General_CalcBoxes[4]->GetValue()));
 
-    General_CalcBoxes[0]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
+    General_CalcBoxes[0]->ChangeValue(std::to_string((short)(int8_t)Result));
     Result >>= 8;
-    General_CalcBoxes[1]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
+    General_CalcBoxes[1]->ChangeValue(std::to_string((short)(int8_t)Result));
     Result >>= 8;
-    General_CalcBoxes[2]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
+    General_CalcBoxes[2]->ChangeValue(std::to_string((short)(int8_t)Result));
     Result >>= 8;
-    General_CalcBoxes[3]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
+    General_CalcBoxes[3]->ChangeValue(std::to_string((short)(int8_t)Result));
 }
 
 void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
@@ -480,7 +475,7 @@ wxString AGE_Frame::GetRandomMapName(int index)
 {
     if(GenieVersion >= genie::GV_AoK)
     {
-        return "Map "+lexical_cast<string>(dataset->RandomMaps.Maps[index].MapID);
+        return "Map "+std::to_string(dataset->RandomMaps.Maps[index].MapID);
     }
     wxString Name;
     switch(index)
@@ -497,7 +492,7 @@ wxString AGE_Frame::GetRandomMapName(int index)
         case 9: Name = "Gigantic ("; break;
         default: Name = "Map (";
     }
-    return Name += lexical_cast<string>(dataset->RandomMaps.Maps[index].MapID)+")";
+    return Name += std::to_string(dataset->RandomMaps.Maps[index].MapID)+")";
 }
 
 void AGE_Frame::ListRandomMaps()
@@ -553,7 +548,7 @@ void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
             RMS_UnitsPtr->prepend(&map_ptr->MapUnitsPtr);
             RMS_ElevationsPtr->prepend(&map_ptr->MapElevationsPtr);
         }
-        SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected random map: "+lexical_cast<string>(RandomMapIDs.front()), 0);
+        SetStatusText("Selections: "+std::to_string(selections)+"    Selected random map: "+std::to_string(RandomMapIDs.front()), 0);
     }
     for(auto &box: uiGroupRandomMap) box->update();
     ListMapLands();
@@ -631,7 +626,7 @@ void AGE_Frame::OnMapLandSearch(wxCommandEvent &event)
 
 wxString AGE_Frame::GetMapLandName(int index)
 {
-    return "Land "+lexical_cast<string>(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands[index].LandID);
+    return "Land "+std::to_string(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands[index].LandID);
 }
 
 void AGE_Frame::ListMapLands()

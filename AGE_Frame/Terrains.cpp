@@ -265,7 +265,7 @@ void AGE_Frame::OnTerrainSelect(wxCommandEvent &event)
         }
         Terrains_UsedTerrainUnits->prepend(&TerrainPointer->NumberOfTerrainUnitsUsed);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected terrain: "+lexical_cast<string>(TerrainIDs.front()), 0);
+    SetStatusText("Selections: "+std::to_string(selections)+"    Selected terrain: "+std::to_string(TerrainIDs.front()), 0);
 
     for(auto &box: uiGroupTerrain) box->update();
     if(TerrainPointer && !palettes.empty() && !palettes.front().empty())

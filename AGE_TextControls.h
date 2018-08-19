@@ -139,7 +139,7 @@ protected:
         {
             (*it)->SetChoice(casted);
         }
-        frame->SetStatusText("Edits: "+lexical_cast<string>(editor->unSaved)+" + "+lexical_cast<string>(edits), 3);
+        frame->SetStatusText("Edits: "+std::to_string(editor->unSaved)+" + "+std::to_string(edits), 3);
         editor->unSaved += edits;
         edits = 0;
     }

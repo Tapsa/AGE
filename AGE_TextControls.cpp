@@ -86,7 +86,7 @@ int TextCtrl_Byte::SaveEdits(bool forced)
                             case 5: *(int8_t*)pointer %= casted; break;
                         }
                     }
-                    ChangeValue(lexical_cast<string>((short)*(int8_t*)container.back()));
+                    ChangeValue(std::to_string((short)*(int8_t*)container.back()));
                     HandleResults(*(int8_t*)container.back());
                     return 0;
                 }
@@ -115,7 +115,7 @@ int TextCtrl_Byte::SaveEdits(bool forced)
     }
     else
     {
-        ChangeValue(lexical_cast<string>((short)*(int8_t*)container.back()));
+        ChangeValue(std::to_string((short)*(int8_t*)container.back()));
     }
     return 1;
 }
@@ -152,7 +152,7 @@ int TextCtrl_UByte::SaveEdits(bool forced)
                             case 5: *(uint8_t*)pointer %= casted; break;
                         }
                     }
-                    ChangeValue(lexical_cast<string>((short)*(uint8_t*)container.back()));
+                    ChangeValue(std::to_string((short)*(uint8_t*)container.back()));
                     HandleResults(*(uint8_t*)container.back());
                     return 0;
                 }
@@ -181,7 +181,7 @@ int TextCtrl_UByte::SaveEdits(bool forced)
     }
     else
     {
-        ChangeValue(lexical_cast<string>((short)*(uint8_t*)container.back()));
+        ChangeValue(std::to_string((short)*(uint8_t*)container.back()));
     }
     return 1;
 }
@@ -218,7 +218,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
                         case 4: *(float*)pointer /= casted; break;
                     }
                 }
-                ChangeValue(lexical_cast<string>(*(float*)container.back()));
+                ChangeValue(std::to_string(*(float*)container.back()));
                 HandleResults(*(float*)container.back());
                 return 0;
             }
@@ -241,7 +241,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(float*)container.back()));
+        ChangeValue(std::to_string(*(float*)container.back()));
     }
     return 1;
 }
@@ -276,7 +276,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
                         case 5: *(int32_t*)pointer %= casted; break;
                     }
                 }
-                ChangeValue(lexical_cast<string>(*(int32_t*)container.back()));
+                ChangeValue(std::to_string(*(int32_t*)container.back()));
                 HandleResults(*(int32_t*)container.back());
                 return 0;
             }
@@ -299,7 +299,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(int32_t*)container.back()));
+        ChangeValue(std::to_string(*(int32_t*)container.back()));
     }
     return 1;
 }
@@ -334,7 +334,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
                         case 5: *(int16_t*)pointer %= casted; break;
                     }
                 }
-                ChangeValue(lexical_cast<string>(*(int16_t*)container.back()));
+                ChangeValue(std::to_string(*(int16_t*)container.back()));
                 HandleResults(*(int16_t*)container.back());
                 return 0;
             }
@@ -357,7 +357,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(int16_t*)container.back()));
+        ChangeValue(std::to_string(*(int16_t*)container.back()));
     }
     return 1;
 }
@@ -392,7 +392,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
                         case 5: *(uint16_t*)pointer %= casted; break;
                     }
                 }
-                ChangeValue(lexical_cast<string>(*(uint16_t*)container.back()));
+                ChangeValue(std::to_string(*(uint16_t*)container.back()));
                 HandleResults(*(uint16_t*)container.back());
                 return 0;
             }
@@ -415,7 +415,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(uint16_t*)container.back()));
+        ChangeValue(std::to_string(*(uint16_t*)container.back()));
     }
     return 1;
 }
@@ -485,7 +485,7 @@ void TextCtrl_Byte::replenish()
     }
     else
     {
-        ChangeValue(lexical_cast<string>((short)*(int8_t*)container.back()));
+        ChangeValue(std::to_string((short)*(int8_t*)container.back()));
     }
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
@@ -506,7 +506,7 @@ void TextCtrl_UByte::replenish()
     }
     else
     {
-        ChangeValue(lexical_cast<string>((short)*(uint8_t*)container.back()));
+        ChangeValue(std::to_string((short)*(uint8_t*)container.back()));
     }
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
@@ -529,7 +529,7 @@ void TextCtrl_Float::replenish()
     {
         if(editor->accurateFloats)
         {
-            ChangeValue(lexical_cast<string>(*(float*)container.back()));
+            ChangeValue(std::to_string(*(float*)container.back()));
         }
         else
         {
@@ -560,7 +560,7 @@ void TextCtrl_Long::replenish()
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(int32_t*)container.back()));
+        ChangeValue(std::to_string(*(int32_t*)container.back()));
     }
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
@@ -581,7 +581,7 @@ void TextCtrl_Short::replenish()
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(int16_t*)container.back()));
+        ChangeValue(std::to_string(*(int16_t*)container.back()));
     }
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
@@ -602,7 +602,7 @@ void TextCtrl_UShort::replenish()
     }
     else
     {
-        ChangeValue(lexical_cast<string>(*(uint16_t*)container.back()));
+        ChangeValue(std::to_string(*(uint16_t*)container.back()));
     }
     if(!LinkedBoxes.empty())
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
