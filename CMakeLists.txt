@@ -15,12 +15,17 @@ find_package(SFML 2.4 REQUIRED system audio)
 set(GUTILS_TOOLS FALSE)
 set(GUTILS_TEST FALSE)
 
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/extern/genieutils/include/genie/Types.h)
+    message(STATUS "Using bundled genieutils")
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR}/extern/genieutils/include/)
+
+    set(GENIEUTILS_STATIC_BUILD True)
+    add_subdirectory(extern/genieutils)
+endif()
+
 include_directories(
-    ${EXTERN_DIR}/genieutils/include
     ${SFML_INCLUDE_DIR}
 )
-
-add_subdirectory(${EXTERN_DIR}/genieutils extern/genieutils)
 
 set(AGE_SRC Main.cpp
     AGE_TextControls.cpp
