@@ -79,7 +79,7 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     for(size_t loop = 0; loop < 3; ++loop)
                     {
                         if(HasFore) Name += ", CU"; else {Name += "CU"; HasFore = true;}
-                        Name += std::to_string((short)dataset->Techs[index].ResourceCosts[loop].Flag);
+                        Name += std::to_string((short)dataset->Techs[index].ResourceCosts[loop].Paid);
                     }
                 }   break;
                 if(GenieVersion >= genie::GV_AoKB)
@@ -174,14 +174,14 @@ void AGE_Frame::InitResearches(bool all)
 void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
 {
     // If trying to select an existing item, don't deselect?
-    auto selections = Research_Research_ListV->GetSelectedCount();
+    size_t selections = Research_Research_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Research_Research_ListV, ResearchIDs);
 
     for(auto &box: uiGroupResearch) box->clear();
 
-    genie::Tech * ResearchPointer = 0;
-    for(auto loop = selections; loop--> 0;)
+    genie::Tech * ResearchPointer = nullptr;
+    for(size_t loop = selections; loop--> 0;)
     {
         ResearchPointer = &dataset->Techs[ResearchIDs[loop]];
 
@@ -196,9 +196,9 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
         Research_Amount[0]->prepend(&ResearchPointer->ResourceCosts[0].Amount);
         Research_Amount[1]->prepend(&ResearchPointer->ResourceCosts[1].Amount);
         Research_Amount[2]->prepend(&ResearchPointer->ResourceCosts[2].Amount);
-        Research_Used[0]->prepend(&ResearchPointer->ResourceCosts[0].Flag);
-        Research_Used[1]->prepend(&ResearchPointer->ResourceCosts[1].Flag);
-        Research_Used[2]->prepend(&ResearchPointer->ResourceCosts[2].Flag);
+        Research_Used[0]->prepend(&ResearchPointer->ResourceCosts[0].Paid);
+        Research_Used[1]->prepend(&ResearchPointer->ResourceCosts[1].Paid);
+        Research_Used[2]->prepend(&ResearchPointer->ResourceCosts[2].Paid);
         if(GenieVersion >= genie::GV_AoKB)
         {
             Research_Civ->prepend(&ResearchPointer->Civ);

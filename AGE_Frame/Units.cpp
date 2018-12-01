@@ -1033,7 +1033,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                     {
                         Units_CostType[loop]->prepend(&UnitPointer->Creatable.ResourceCosts[loop].Type);
                         Units_CostAmount[loop]->prepend(&UnitPointer->Creatable.ResourceCosts[loop].Amount);
-                        Units_CostUsed[loop]->prepend(&UnitPointer->Creatable.ResourceCosts[loop].Flag);
+                        Units_CostUsed[loop]->prepend(&UnitPointer->Creatable.ResourceCosts[loop].Paid);
                     }
                     Units_TrainTime->prepend(&UnitPointer->Creatable.TrainTime);
                     Units_TrainLocationID->prepend(&UnitPointer->Creatable.TrainLocationID);
@@ -1241,7 +1241,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                     {
                         ResourceStorage_Type[loop]->prepend(&UnitPointer->ResourceStorages[loop].Type);
                         ResourceStorage_Amount[loop]->prepend(&UnitPointer->ResourceStorages[loop].Amount);
-                        ResourceStorage_Mode[loop]->prepend(&UnitPointer->ResourceStorages[loop].Flag);
+                        ResourceStorage_Mode[loop]->prepend(&UnitPointer->ResourceStorages[loop].Paid);
                     }
                 }
             }
@@ -1319,7 +1319,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
         Units_DLL_HotKey4->index = UnitPointer->HotKey;
         if(GenieVersion >= genie::GV_AoKB)
         {
-            string newLabel = " ( ", aste = "° ";
+            string newLabel = " ( ", aste = "Â°";
             const float closure = 57.2957802f;
 
             #define UGLY_CODE if(angle == 0x80000000) newLabel += "max" + aste;\
