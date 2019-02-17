@@ -278,7 +278,7 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type20[44]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "IG " + FormatInt(unit_ptr->EnableAutoGather);
+            return "IG " + FormatInt(unit_ptr->CanBeGathered);
         });
         else if(label.compare(Type20[45]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -1225,7 +1225,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                     Units_LanguageDLLHotKeyText->prepend(&UnitPointer->LanguageDLLHotKeyText);
                     Units_HotKey->prepend(&UnitPointer->HotKey);
                     Units_Recyclable->prepend(&UnitPointer->Recyclable);
-                    Units_TrackAsResource->prepend(&UnitPointer->EnableAutoGather);
+                    Units_TrackAsResource->prepend(&UnitPointer->CanBeGathered);
                     Units_CreateDoppelgangerOnDeath->prepend(&UnitPointer->CreateDoppelgangerOnDeath);
                     Units_ResourceGroup->prepend(&UnitPointer->ResourceGatherGroup);
                     Units_SelectionRadius[0]->prepend(&UnitPointer->OutlineSize.x);
