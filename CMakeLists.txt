@@ -62,7 +62,7 @@ if(WIN32)
     target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils ${PSAPI} sfml-system sfml-audio)
 else()
     add_executable(AdvancedGenieEditor3 ${AGE_SRC})
-    target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils sfml-system sfml-audio)
+    target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils sfml-system sfml-audio stdc++fs)
 endif()
 
 install(TARGETS AdvancedGenieEditor3 DESTINATION bin)

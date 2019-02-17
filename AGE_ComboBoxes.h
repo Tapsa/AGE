@@ -16,8 +16,13 @@ public:
         Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
     unsigned int GetCount() const {return popup->GetCount();}
+
     void SetSelection(int n);
+    using wxComboCtrl::SetSelection; // silence shadowing warnings
+
     int GetSelection() const {return popup->GetSelection();}
+    using wxComboCtrl::GetSelection; // silence shadowing warnings
+
     void Flash();
     void SwapList(wxArrayString *choices) {popup->Imbue(choices);}
 

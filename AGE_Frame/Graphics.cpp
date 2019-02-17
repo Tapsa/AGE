@@ -305,7 +305,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
                 art.xdelta = delta.OffsetX;
                 art.ydelta = delta.OffsetY;
                 SetDisplayBearings(art, delta);
-                gallery.deltas.emplace(move(make_pair(0, move(art))));
+                gallery.deltas.emplace(make_pair(0, art));
             }
         }
         DrawGraphics(dc, gallery, centerX, centerY);

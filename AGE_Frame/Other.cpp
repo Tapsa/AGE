@@ -62,21 +62,21 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
 
         int RecentItems;
         {
-            wxConfig RecentOpen("", "", "AGE2\\RecentOpen", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-            RecentOpen.Read("Recent/Items", &RecentItems, 0);
+            ConfigPtr RecentOpen = getConfig("AGE2\\RecentOpen");
+            RecentOpen->Read("Recent/Items", &RecentItems, 0);
             OpenBox.RecentValues.resize(RecentItems);
             for(int i=0; i < RecentItems; ++i)
             {
                 OpenBox.RecentValues[i].Alloc(8);
                 wxString temp, entry = "Recent" + wxString::Format("%04d", i + 1);
-                RecentOpen.Read(entry + "/DatVersion", &temp, "9000"); OpenBox.RecentValues[i].Add(temp);
-                RecentOpen.Read(entry + "/DatPath", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
-                RecentOpen.Read(entry + "/Lang", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
-                RecentOpen.Read(entry + "/LangX1", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
-                RecentOpen.Read(entry + "/LangX1P1", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
-                RecentOpen.Read(entry + "/PathDRS", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
-                RecentOpen.Read(entry + "/PathDRS2", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
-                RecentOpen.Read(entry + "/PathDRS3", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen->Read(entry + "/DatVersion", &temp, "9000"); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen->Read(entry + "/DatPath", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen->Read(entry + "/Lang", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen->Read(entry + "/LangX1", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen->Read(entry + "/LangX1P1", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen->Read(entry + "/PathDRS", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen->Read(entry + "/PathDRS2", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen->Read(entry + "/PathDRS3", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
             }
         }
         if(OpenBox.RecentValues.size())
@@ -159,28 +159,28 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         popUp.unSaved = 0;
         ++popUp.loadedFileId;
 
-        wxConfig Config("", "", "AGE2\\ConfigWindow"+std::to_string(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-        Config.Write("DefaultFiles/DriveLetter", DriveLetter);
-        Config.Write("DefaultFiles/CustomFolder", CustomFolder);
-        Config.Write("DefaultFiles/Version", GameVersion);
-        Config.Write("DefaultFiles/DatUsed", DatUsed);
-        Config.Write("DefaultFiles/DatFilename", DatFileName);
-        Config.Write("DefaultFiles/FolderDRS", FolderDRS);
-        Config.Write("DefaultFiles/FolderDRS2", FolderDRS2);
-        Config.Write("DefaultFiles/Path1stDRS", Path1stDRS);
-        Config.Write("DefaultFiles/PathLooseSprites", PathSLP);
-        Config.Write("DefaultFiles/UseDRS", UseDRS);
-        Config.Write("DefaultFiles/UseMod", UseMod);
-        Config.Write("DefaultFiles/UseExtra", UseExtra);
-        Config.Write("DefaultFiles/UseLooseSprites", UseLooseSLP);
-        Config.Write("DefaultFiles/LangsUsed", LangsUsed);
-        Config.Write("DefaultFiles/WriteLangs", WriteLangs);
-        Config.Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
-        Config.Write("DefaultFiles/Language", Language);
-        Config.Write("DefaultFiles/LangFilename", LangFileName);
-        Config.Write("DefaultFiles/LangX1Filename", LangX1FileName);
-        Config.Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
-        Config.Write("Misc/CustomTerrains", CustomTerrains);
+        ConfigPtr Config = getConfig("AGE2\\ConfigWindow"+std::to_string(window_num + 1));
+        Config->Write("DefaultFiles/DriveLetter", DriveLetter);
+        Config->Write("DefaultFiles/CustomFolder", CustomFolder);
+        Config->Write("DefaultFiles/Version", GameVersion);
+        Config->Write("DefaultFiles/DatUsed", DatUsed);
+        Config->Write("DefaultFiles/DatFilename", DatFileName);
+        Config->Write("DefaultFiles/FolderDRS", FolderDRS);
+        Config->Write("DefaultFiles/FolderDRS2", FolderDRS2);
+        Config->Write("DefaultFiles/Path1stDRS", Path1stDRS);
+        Config->Write("DefaultFiles/PathLooseSprites", PathSLP);
+        Config->Write("DefaultFiles/UseDRS", UseDRS);
+        Config->Write("DefaultFiles/UseMod", UseMod);
+        Config->Write("DefaultFiles/UseExtra", UseExtra);
+        Config->Write("DefaultFiles/UseLooseSprites", UseLooseSLP);
+        Config->Write("DefaultFiles/LangsUsed", LangsUsed);
+        Config->Write("DefaultFiles/WriteLangs", WriteLangs);
+        Config->Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
+        Config->Write("DefaultFiles/Language", Language);
+        Config->Write("DefaultFiles/LangFilename", LangFileName);
+        Config->Write("DefaultFiles/LangX1Filename", LangX1FileName);
+        Config->Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
+        Config->Write("Misc/CustomTerrains", CustomTerrains);
 
         if(!OpenBox.CheckBox_LangFileLocation->IsChecked()) LangFileName = "";
         if(!OpenBox.CheckBox_LangX1FileLocation->IsChecked()) LangX1FileName = "";
@@ -197,19 +197,19 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         latest.Add(FolderDRS2);
         latest.Add(Path1stDRS);
         int items = produceRecentValues(latest, OpenBox.RecentValues);
-        wxConfig RecentOpen("", "", "AGE2\\RecentOpen", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-        RecentOpen.Write("Recent/Items", items);
+        ConfigPtr RecentOpen = getConfig("AGE2\\RecentOpen");
+        RecentOpen->Write("Recent/Items", items);
         for(int i=0; i < items; ++i)
         {
             wxString entry = "Recent" + wxString::Format("%04d", i + 1);
-            RecentOpen.Write(entry + "/DatVersion", OpenBox.RecentValues[i][0]);
-            RecentOpen.Write(entry + "/DatPath", OpenBox.RecentValues[i][1]);
-            RecentOpen.Write(entry + "/Lang", OpenBox.RecentValues[i][2]);
-            RecentOpen.Write(entry + "/LangX1", OpenBox.RecentValues[i][3]);
-            RecentOpen.Write(entry + "/LangX1P1", OpenBox.RecentValues[i][4]);
-            RecentOpen.Write(entry + "/PathDRS", OpenBox.RecentValues[i][5]);
-            RecentOpen.Write(entry + "/PathDRS2", OpenBox.RecentValues[i][6]);
-            RecentOpen.Write(entry + "/PathDRS3", OpenBox.RecentValues[i][7]);
+            RecentOpen->Write(entry + "/DatVersion", OpenBox.RecentValues[i][0]);
+            RecentOpen->Write(entry + "/DatPath", OpenBox.RecentValues[i][1]);
+            RecentOpen->Write(entry + "/Lang", OpenBox.RecentValues[i][2]);
+            RecentOpen->Write(entry + "/LangX1", OpenBox.RecentValues[i][3]);
+            RecentOpen->Write(entry + "/LangX1P1", OpenBox.RecentValues[i][4]);
+            RecentOpen->Write(entry + "/PathDRS", OpenBox.RecentValues[i][5]);
+            RecentOpen->Write(entry + "/PathDRS2", OpenBox.RecentValues[i][6]);
+            RecentOpen->Write(entry + "/PathDRS3", OpenBox.RecentValues[i][7]);
         }
     }
 
@@ -1330,26 +1330,26 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         DefSWGBCivRes.Add("Unknown");
         DefSWGBCivRes.Add("CC: Unknown");
 
-        wxFileConfig Customs("", "", "AGE3NamesV0004.ini", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        ConfigPtr Customs = getConfig("AGE3NamesV0004.ini");
         long AoE1Count, AoE2Count, SWGBCount, AoE1CountTR, AoE2CountTR, SWGBCountTR, RoRCountCR, AoKCountCR, SWGBCountCR;
-        if(!Customs.Read("Count/AoE1Count", &AoE1Count, DefAoE1Armors.GetCount()))
-            Customs.Write("Count/AoE1Count", (int)DefAoE1Armors.GetCount());
-        if(!Customs.Read("Count/AoE2Count", &AoE2Count, DefAoE2Armors.GetCount()))
-            Customs.Write("Count/AoE2Count", (int)DefAoE2Armors.GetCount());
-        if(!Customs.Read("Count/SWGBCount", &SWGBCount, DefSWGBArmors.GetCount()))
-            Customs.Write("Count/SWGBCount", (int)DefSWGBArmors.GetCount());
-        if(!Customs.Read("Count/AoE1TerrainRestrictionCount", &AoE1CountTR, DefAoE1TerrainRests.GetCount()))
-            Customs.Write("Count/AoE1TerrainRestrictionCount", (int)DefAoE1TerrainRests.GetCount());
-        if(!Customs.Read("Count/AoE2TerrainRestrictionCount", &AoE2CountTR, DefAoE2TerrainRests.GetCount()))
-            Customs.Write("Count/AoE2TerrainRestrictionCount", (int)DefAoE2TerrainRests.GetCount());
-        if(!Customs.Read("Count/SWGBTerrainRestrictionCount", &SWGBCountTR, DefSWGBTerrainRests.GetCount()))
-            Customs.Write("Count/SWGBTerrainRestrictionCount", (int)DefSWGBTerrainRests.GetCount());
-        if(!Customs.Read("Count/RoRCivResCount", &RoRCountCR, DefRoRCivRes.GetCount()))
-            Customs.Write("Count/RoRCivResCount", (int)DefRoRCivRes.GetCount());
-        if(!Customs.Read("Count/AoKCivResCount", &AoKCountCR, DefAoKCivRes.GetCount()))
-            Customs.Write("Count/AoKCivResCount", (int)DefAoKCivRes.GetCount());
-        if(!Customs.Read("Count/SWGBCivResCount", &SWGBCountCR, DefSWGBCivRes.GetCount()))
-            Customs.Write("Count/SWGBCivResCount", (int)DefSWGBCivRes.GetCount());
+        if(!Customs->Read("Count/AoE1Count", &AoE1Count, DefAoE1Armors.GetCount()))
+            Customs->Write("Count/AoE1Count", (int)DefAoE1Armors.GetCount());
+        if(!Customs->Read("Count/AoE2Count", &AoE2Count, DefAoE2Armors.GetCount()))
+            Customs->Write("Count/AoE2Count", (int)DefAoE2Armors.GetCount());
+        if(!Customs->Read("Count/SWGBCount", &SWGBCount, DefSWGBArmors.GetCount()))
+            Customs->Write("Count/SWGBCount", (int)DefSWGBArmors.GetCount());
+        if(!Customs->Read("Count/AoE1TerrainRestrictionCount", &AoE1CountTR, DefAoE1TerrainRests.GetCount()))
+            Customs->Write("Count/AoE1TerrainRestrictionCount", (int)DefAoE1TerrainRests.GetCount());
+        if(!Customs->Read("Count/AoE2TerrainRestrictionCount", &AoE2CountTR, DefAoE2TerrainRests.GetCount()))
+            Customs->Write("Count/AoE2TerrainRestrictionCount", (int)DefAoE2TerrainRests.GetCount());
+        if(!Customs->Read("Count/SWGBTerrainRestrictionCount", &SWGBCountTR, DefSWGBTerrainRests.GetCount()))
+            Customs->Write("Count/SWGBTerrainRestrictionCount", (int)DefSWGBTerrainRests.GetCount());
+        if(!Customs->Read("Count/RoRCivResCount", &RoRCountCR, DefRoRCivRes.GetCount()))
+            Customs->Write("Count/RoRCivResCount", (int)DefRoRCivRes.GetCount());
+        if(!Customs->Read("Count/AoKCivResCount", &AoKCountCR, DefAoKCivRes.GetCount()))
+            Customs->Write("Count/AoKCivResCount", (int)DefAoKCivRes.GetCount());
+        if(!Customs->Read("Count/SWGBCivResCount", &SWGBCountCR, DefSWGBCivRes.GetCount()))
+            Customs->Write("Count/SWGBCivResCount", (int)DefSWGBCivRes.GetCount());
         wxString read_buf;
 
         armor_names.Clear();
@@ -1357,22 +1357,22 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         if(GenieVersion < genie::GV_AoKA) // AoE and RoR
         for(size_t loop = 0; loop < AoE1Count; ++loop)
         {
-            if(!Customs.Read("AoE1Names/"+std::to_string(loop), &read_buf, DefAoE1Armors[loop]))
-                Customs.Write("AoE1Names/"+std::to_string(loop), DefAoE1Armors[loop]);
+            if(!Customs->Read("AoE1Names/"+std::to_string(loop), &read_buf, DefAoE1Armors[loop]))
+                Customs->Write("AoE1Names/"+std::to_string(loop), DefAoE1Armors[loop]);
             armor_names.Add(read_buf);
         }
         else if(GenieVersion < genie::GV_SWGB) // AoK and TC
         for(size_t loop = 0; loop < AoE2Count; ++loop)
         {
-            if(!Customs.Read("AoE2Names/"+std::to_string(loop), &read_buf, DefAoE2Armors[loop]))
-                Customs.Write("AoE2Names/"+std::to_string(loop), DefAoE2Armors[loop]);
+            if(!Customs->Read("AoE2Names/"+std::to_string(loop), &read_buf, DefAoE2Armors[loop]))
+                Customs->Write("AoE2Names/"+std::to_string(loop), DefAoE2Armors[loop]);
             armor_names.Add(read_buf);
         }
         else // SWGB and CC
         for(size_t loop = 0; loop < SWGBCount; ++loop)
         {
-            if(!Customs.Read("SWGBNames/"+std::to_string(loop), &read_buf, DefSWGBArmors[loop]))
-                Customs.Write("SWGBNames/"+std::to_string(loop), DefSWGBArmors[loop]);
+            if(!Customs->Read("SWGBNames/"+std::to_string(loop), &read_buf, DefSWGBArmors[loop]))
+                Customs->Write("SWGBNames/"+std::to_string(loop), DefSWGBArmors[loop]);
             armor_names.Add(read_buf);
         }
         Effects_89_Type_CB1->Flash();
@@ -1383,38 +1383,38 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
 
         for(size_t loop = 0; loop < AoE1CountTR; ++loop)
         {
-            if(!Customs.Read("AoE1TerrainRestrictionNames/"+std::to_string(loop), &read_buf, DefAoE1TerrainRests[loop]))
-                Customs.Write("AoE1TerrainRestrictionNames/"+std::to_string(loop), DefAoE1TerrainRests[loop]);
+            if(!Customs->Read("AoE1TerrainRestrictionNames/"+std::to_string(loop), &read_buf, DefAoE1TerrainRests[loop]))
+                Customs->Write("AoE1TerrainRestrictionNames/"+std::to_string(loop), DefAoE1TerrainRests[loop]);
             AoE1TerrainRestrictions.Add(read_buf);
         }
         for(size_t loop = 0; loop < AoE2CountTR; ++loop)
         {
-            if(!Customs.Read("AoE2TerrainRestrictionNames/"+std::to_string(loop), &read_buf, DefAoE2TerrainRests[loop]))
-                Customs.Write("AoE2TerrainRestrictionNames/"+std::to_string(loop), DefAoE2TerrainRests[loop]);
+            if(!Customs->Read("AoE2TerrainRestrictionNames/"+std::to_string(loop), &read_buf, DefAoE2TerrainRests[loop]))
+                Customs->Write("AoE2TerrainRestrictionNames/"+std::to_string(loop), DefAoE2TerrainRests[loop]);
             AoE2TerrainRestrictions.Add(read_buf);
         }
         for(size_t loop = 0; loop < SWGBCountTR; ++loop)
         {
-            if(!Customs.Read("SWGBTerrainRestrictionNames/"+std::to_string(loop), &read_buf, DefSWGBTerrainRests[loop]))
-                Customs.Write("SWGBTerrainRestrictionNames/"+std::to_string(loop), DefSWGBTerrainRests[loop]);
+            if(!Customs->Read("SWGBTerrainRestrictionNames/"+std::to_string(loop), &read_buf, DefSWGBTerrainRests[loop]))
+                Customs->Write("SWGBTerrainRestrictionNames/"+std::to_string(loop), DefSWGBTerrainRests[loop]);
             SWGBTerrainRestrictions.Add(read_buf);
         }
         for(size_t loop = 0; loop < RoRCountCR; ++loop)
         {
-            if(!Customs.Read("RoRCivResNames/"+std::to_string(loop), &read_buf, DefRoRCivRes[loop]))
-                Customs.Write("RoRCivResNames/"+std::to_string(loop), DefRoRCivRes[loop]);
+            if(!Customs->Read("RoRCivResNames/"+std::to_string(loop), &read_buf, DefRoRCivRes[loop]))
+                Customs->Write("RoRCivResNames/"+std::to_string(loop), DefRoRCivRes[loop]);
             RoRCivResources.Add(read_buf);
         }
         for(size_t loop = 0; loop < AoKCountCR; ++loop)
         {
-            if(!Customs.Read("AoKCivResNames/"+std::to_string(loop), &read_buf, DefAoKCivRes[loop]))
-                Customs.Write("AoKCivResNames/"+std::to_string(loop), DefAoKCivRes[loop]);
+            if(!Customs->Read("AoKCivResNames/"+std::to_string(loop), &read_buf, DefAoKCivRes[loop]))
+                Customs->Write("AoKCivResNames/"+std::to_string(loop), DefAoKCivRes[loop]);
             AoKCivResources.Add(read_buf);
         }
         for(size_t loop = 0; loop < SWGBCountCR; ++loop)
         {
-            if(!Customs.Read("SWGBCivResNames/"+std::to_string(loop), &read_buf, DefSWGBCivRes[loop]))
-                Customs.Write("SWGBCivResNames/"+std::to_string(loop), DefSWGBCivRes[loop]);
+            if(!Customs->Read("SWGBCivResNames/"+std::to_string(loop), &read_buf, DefSWGBCivRes[loop]))
+                Customs->Write("SWGBCivResNames/"+std::to_string(loop), DefSWGBCivRes[loop]);
             SWGBCivResources.Add(read_buf);
         }
 
@@ -2199,18 +2199,18 @@ void AGE_Frame::OnSave(wxCommandEvent&)
 
     int RecentItems;
     {
-        wxConfig RecentSave("", "", "AGE2\\RecentSave", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-        RecentSave.Read("Recent/Items", &RecentItems, 0);
+        ConfigPtr RecentSave = getConfig("AGE2\\RecentSave");
+        RecentSave->Read("Recent/Items", &RecentItems, 0);
         SaveBox.RecentValues.resize(RecentItems);
         for(int i=0; i < RecentItems; ++i)
         {
             SaveBox.RecentValues[i].Alloc(5);
             wxString temp, entry = "Recent" + wxString::Format("%04d", i + 1);
-            RecentSave.Read(entry + "/DatVersion", &temp, "9000"); SaveBox.RecentValues[i].Add(temp);
-            RecentSave.Read(entry + "/DatPath", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
-            RecentSave.Read(entry + "/Lang", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
-            RecentSave.Read(entry + "/LangX1", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
-            RecentSave.Read(entry + "/LangX1P1", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
+            RecentSave->Read(entry + "/DatVersion", &temp, "9000"); SaveBox.RecentValues[i].Add(temp);
+            RecentSave->Read(entry + "/DatPath", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
+            RecentSave->Read(entry + "/Lang", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
+            RecentSave->Read(entry + "/LangX1", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
+            RecentSave->Read(entry + "/LangX1P1", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
         }
     }
     if(SaveBox.RecentValues.size())
@@ -2269,16 +2269,16 @@ void AGE_Frame::OnSave(wxCommandEvent&)
 
     if(!save) return;
     {
-        wxConfig Config("", "", "AGE2\\ConfigWindow"+std::to_string(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-        Config.Write("DefaultFiles/SyncSaveWithOpen", SyncSaveWithOpen);
-        Config.Write("DefaultFiles/SaveVersion", SaveGameVersion);
-        Config.Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
-        Config.Write("DefaultFiles/SaveLangs", SaveLangs);
-        Config.Write("DefaultFiles/SaveLangFilename", SaveLangFileName);
-        Config.Write("DefaultFiles/SaveLangX1Filename", SaveLangX1FileName);
-        Config.Write("DefaultFiles/SaveLangX1P1Filename", SaveLangX1P1FileName);
-        Config.Write("DefaultFiles/SaveDat", SaveDat);
-        Config.Write("Misc/CustomTerrains", CustomTerrains);
+        ConfigPtr Config = getConfig("AGE2\\ConfigWindow"+std::to_string(window_num + 1));
+        Config->Write("DefaultFiles/SyncSaveWithOpen", SyncSaveWithOpen);
+        Config->Write("DefaultFiles/SaveVersion", SaveGameVersion);
+        Config->Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
+        Config->Write("DefaultFiles/SaveLangs", SaveLangs);
+        Config->Write("DefaultFiles/SaveLangFilename", SaveLangFileName);
+        Config->Write("DefaultFiles/SaveLangX1Filename", SaveLangX1FileName);
+        Config->Write("DefaultFiles/SaveLangX1P1Filename", SaveLangX1P1FileName);
+        Config->Write("DefaultFiles/SaveDat", SaveDat);
+        Config->Write("Misc/CustomTerrains", CustomTerrains);
 
         if(!SaveBox.CheckBox_LangFileLocation->IsChecked()) SaveLangFileName = "";
         if(!SaveBox.CheckBox_LangX1FileLocation->IsChecked()) SaveLangX1FileName = "";
@@ -2292,16 +2292,16 @@ void AGE_Frame::OnSave(wxCommandEvent&)
         latest.Add(SaveLangX1FileName);
         latest.Add(SaveLangX1P1FileName);
         int RecentItems = produceRecentValues(latest, SaveBox.RecentValues);
-        wxConfig RecentSave("", "", "AGE2\\RecentSave", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-        RecentSave.Write("Recent/Items", RecentItems);
+        ConfigPtr RecentSave = getConfig("AGE2\\RecentSave");
+        RecentSave->Write("Recent/Items", RecentItems);
         for(int i=0; i < RecentItems; ++i)
         {
             wxString entry = "Recent" + wxString::Format("%04d", i + 1);
-            RecentSave.Write(entry + "/DatVersion", SaveBox.RecentValues[i][0]);
-            RecentSave.Write(entry + "/DatPath", SaveBox.RecentValues[i][1]);
-            RecentSave.Write(entry + "/Lang", SaveBox.RecentValues[i][2]);
-            RecentSave.Write(entry + "/LangX1", SaveBox.RecentValues[i][3]);
-            RecentSave.Write(entry + "/LangX1P1", SaveBox.RecentValues[i][4]);
+            RecentSave->Write(entry + "/DatVersion", SaveBox.RecentValues[i][0]);
+            RecentSave->Write(entry + "/DatPath", SaveBox.RecentValues[i][1]);
+            RecentSave->Write(entry + "/Lang", SaveBox.RecentValues[i][2]);
+            RecentSave->Write(entry + "/LangX1", SaveBox.RecentValues[i][3]);
+            RecentSave->Write(entry + "/LangX1P1", SaveBox.RecentValues[i][4]);
         }
     }
 
@@ -4267,49 +4267,49 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         slp_window = nullptr;
     }
     {
-        wxConfig Config("", "", "AGE2\\ConfigWindow"+std::to_string(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-        Config.Write("DefaultFiles/AutoBackups", AutoBackups);
-        Config.Write("DefaultFiles/PalettesPath", PalettesPath);
-        Config.Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
-        Config.Write("Interaction/AutoCopy", AutoCopy);
-        Config.Write("Interaction/AutoCopyAngles", AutoCopyAngles);
-        Config.Write("Interaction/CopyGraphics", CopyGraphics);
-        Config.Write("Interaction/AllCivs", Units_SpecialCopy_Civs->GetValue());
-        Config.Write("Interaction/ShowSLP", ShowSLP);
-        Config.Write("Interaction/ShowIcons", ShowIcons);
-        Config.Write("Interaction/AnimSLP", AnimSLP);
-        Config.Write("Interaction/ShowShadows", ShowShadows);
-        Config.Write("Interaction/ShowOutline", ShowOutline);
-        Config.Write("Interaction/ShowDeltas", ShowDeltas);
-        Config.Write("Interaction/ShowStack", ShowStack);
-        Config.Write("Interaction/ShowAnnexes", ShowAnnexes);
-        Config.Write("Interaction/RotateAngles", RotateAngles);
-        Config.Write("Interaction/DrawTerrain", DrawTerrain);
-        Config.Write("Interaction/FilterAllSubs", FilterAllSubs);
-        Config.Write("Interaction/PlaySounds", PlaySounds);
-        Config.Write("Interface/ShowUnknowns", ShowUnknowns);
-        Config.Write("Interface/ResizeTerrains", ResizeTerrains);
-        Config.Write("Interface/StayOnTop", StayOnTop);
-        Config.Write("Interface/KeepViewOnTop", KeepViewOnTop);
-        Config.Write("Interface/Paste11", Paste11);
-        Config.Write("Interface/Reselection", Reselection);
-        Config.Write("Interface/MaxWindowWidthV2", MaxWindowWidthV2);
+        ConfigPtr Config = getConfig("AGE2\\ConfigWindow"+std::to_string(window_num + 1));
+        Config->Write("DefaultFiles/AutoBackups", AutoBackups);
+        Config->Write("DefaultFiles/PalettesPath", PalettesPath);
+        Config->Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
+        Config->Write("Interaction/AutoCopy", AutoCopy);
+        Config->Write("Interaction/AutoCopyAngles", AutoCopyAngles);
+        Config->Write("Interaction/CopyGraphics", CopyGraphics);
+        Config->Write("Interaction/AllCivs", Units_SpecialCopy_Civs->GetValue());
+        Config->Write("Interaction/ShowSLP", ShowSLP);
+        Config->Write("Interaction/ShowIcons", ShowIcons);
+        Config->Write("Interaction/AnimSLP", AnimSLP);
+        Config->Write("Interaction/ShowShadows", ShowShadows);
+        Config->Write("Interaction/ShowOutline", ShowOutline);
+        Config->Write("Interaction/ShowDeltas", ShowDeltas);
+        Config->Write("Interaction/ShowStack", ShowStack);
+        Config->Write("Interaction/ShowAnnexes", ShowAnnexes);
+        Config->Write("Interaction/RotateAngles", RotateAngles);
+        Config->Write("Interaction/DrawTerrain", DrawTerrain);
+        Config->Write("Interaction/FilterAllSubs", FilterAllSubs);
+        Config->Write("Interaction/PlaySounds", PlaySounds);
+        Config->Write("Interface/ShowUnknowns", ShowUnknowns);
+        Config->Write("Interface/ResizeTerrains", ResizeTerrains);
+        Config->Write("Interface/StayOnTop", StayOnTop);
+        Config->Write("Interface/KeepViewOnTop", KeepViewOnTop);
+        Config->Write("Interface/Paste11", Paste11);
+        Config->Write("Interface/Reselection", Reselection);
+        Config->Write("Interface/MaxWindowWidthV2", MaxWindowWidthV2);
         wxPoint pos = GetPosition();
-        Config.Write("Interface/WindowPosX", pos.x);
-        Config.Write("Interface/WindowPosY", pos.y);
-        Config.Write("Interface/Zooming", slp_zoom);
-        Config.Write("Interface/AlexZoom", AlexZoom);
-        Config.Write("Interface/ViewBackgroundR", ViewBackR);
-        Config.Write("Interface/ViewBackgroundG", ViewBackG);
-        Config.Write("Interface/ViewBackgroundB", ViewBackB);
-        Config.Write("Interface/DrawAngles", DrawAngles);
-        Config.Write("Interface/DrawCollisionShape", DrawCollisionShape);
-        Config.Write("Interface/DrawClearanceShape", DrawClearanceShape);
-        Config.Write("Interface/DrawSelectionShape", DrawOutline);
-        Config.Write("Interface/CacheDepth", GG::cache_depth);
-        Config.Write("Interface/ViewPosX", ViewPosX);
-        Config.Write("Interface/ViewPosY", ViewPosY);
-        Config.Write("Interface/BoxWidthMultiplier", boxWidthMultiplier);
+        Config->Write("Interface/WindowPosX", pos.x);
+        Config->Write("Interface/WindowPosY", pos.y);
+        Config->Write("Interface/Zooming", slp_zoom);
+        Config->Write("Interface/AlexZoom", AlexZoom);
+        Config->Write("Interface/ViewBackgroundR", ViewBackR);
+        Config->Write("Interface/ViewBackgroundG", ViewBackG);
+        Config->Write("Interface/ViewBackgroundB", ViewBackB);
+        Config->Write("Interface/DrawAngles", DrawAngles);
+        Config->Write("Interface/DrawCollisionShape", DrawCollisionShape);
+        Config->Write("Interface/DrawClearanceShape", DrawClearanceShape);
+        Config->Write("Interface/DrawSelectionShape", DrawOutline);
+        Config->Write("Interface/CacheDepth", GG::cache_depth);
+        Config->Write("Interface/ViewPosX", ViewPosX);
+        Config->Write("Interface/ViewPosY", ViewPosY);
+        Config->Write("Interface/BoxWidthMultiplier", boxWidthMultiplier);
     }
 
     if(event.CanVeto() && popUp.unSaved > 0)
