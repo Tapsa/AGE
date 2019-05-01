@@ -471,7 +471,7 @@ void AGE_Frame::initSounds(AGE_SLP &art, unsigned sound_num, size_t slot)
         }
         else
         {
-            std::shared_ptr<unsigned char> sounddata = GG::LoadSound(datafiles, sound_item.ResourceID);
+            std::shared_ptr<unsigned char[]> sounddata = GG::LoadSound(datafiles, sound_item.ResourceID);
             if(0 != sounddata)
             {
                 size_t size = *((uint32_t*)sounddata.get() + 1) + 8;

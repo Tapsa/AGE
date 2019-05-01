@@ -125,26 +125,28 @@ string AGE_Frame::GetTerrainBorderTileTypeName(int index)
 {
     switch(index)
     {
-        case 0: return "Flat Tile";
-        case 1: return "Hillside Tile N";
-        case 2: return "Hillside Tile S";
-        case 3: return "Hillside Tile E";
-        case 4: return "Hillside Tile W";
-        case 5: return "Hillside Tile NE";
-        case 6: return "Hillside Tile SE";
-        case 7: return "Hillside Tile NW";
-        case 8: return "Hillside Tile SW";
-        case 9: return "Pit Pair Tile N";
-        case 10: return "Pit Pair Tile S";
-        case 11: return "Pit Pair Tile E";
-        case 12: return "Pit Pair Tile W";
-        case 13: return "Pit Tile N";
-        case 14: return "Pit Tile S";
-        case 15: return "Pit Tile W";
-        case 16: return "Pit Tile E";
+        case genie::SlopeFlat        : return "Flat Tile";
+        case genie::SlopeSouthUp     : return "Hillside Tile N";
+        case genie::SlopeNorthUp     : return "Hillside Tile S";
+        case genie::SlopeWestUp      : return "Hillside Tile E";
+        case genie::SlopeEastUp      : return "Hillside Tile W";
+        case genie::SlopeSouthWestUp : return "Hillside Tile NE";
+        case genie::SlopeNorthWestUp : return "Hillside Tile SE";
+        case genie::SlopeSouthEastUp : return "Hillside Tile NW";
+        case genie::SlopeNorthEastUp : return "Hillside Tile SW";
+
+        case genie::SlopeSouthUp2    : return "Pit Pair Tile N";
+        case genie::SlopeNorthUp2    : return "Pit Pair Tile S";
+        case genie::SlopeWestUp2     : return "Pit Pair Tile E";
+        case genie::SlopeEastUp2     : return "Pit Pair Tile W";
+
+        case genie::SlopeNorthDown          : return "Pit Tile N";
+        case genie::SlopeSouthDown          : return "Pit Tile S";
+        case genie::SlopeWestDown           : return "Pit Tile W";
+        case genie::SlopeEastDown           : return "Pit Tile E";
         case 17: return "1:1 Tile A";
         case 18: return "1:1 Tile B";
-        default: return "Tile Type "+std::to_string(index);
+        default: return "Tile Type "+ std::to_string(index);
     }
 }
 

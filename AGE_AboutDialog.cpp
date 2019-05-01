@@ -93,11 +93,11 @@ string LoadSound(wxArrayString &folders, const string &filename, int resnum)
     return "";
 }
 
-std::shared_ptr<unsigned char> LoadSound(vector<genie::DrsFile*> &datafiles, int resnum)
+std::shared_ptr<unsigned char[]> LoadSound(vector<genie::DrsFile*> &datafiles, int resnum)
 {
     for(auto &file: datafiles)
     {
-        std::shared_ptr<unsigned char> sound = file->getWavPtr(resnum);
+        std::shared_ptr<unsigned char[]> sound = file->getWavPtr(resnum);
         if(sound)
         {
             return sound;
