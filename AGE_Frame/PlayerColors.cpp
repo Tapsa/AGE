@@ -49,7 +49,7 @@ void AGE_Frame::InitPlayerColors()
     Colors_ReferenceID_ComboBox->Flash();
 }
 
-void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
+void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &/*event*/)
 {
     auto selections = Colors_Colors_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
@@ -58,8 +58,8 @@ void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
     for(auto &box: uiGroupColor) box->clear();
     Colors_ID->clear();
 
-    genie::PlayerColour * PlayerColorPointer = 0;
-    for(auto loop = selections; loop--> 0;)
+    genie::PlayerColour * PlayerColorPointer = nullptr;
+    for(int loop = selections; loop--> 0;)
     {
         PlayerColorPointer = &dataset->PlayerColours[ColorIDs[loop]];
 
@@ -125,7 +125,7 @@ void AGE_Frame::setForeAndBackColors(AGETextCtrl *box, wxColour color)
     else box->SetForegroundColour(wxColour(255, 255, 255));
 }
 
-void AGE_Frame::OnDrawPalette(wxPaintEvent &event)
+void AGE_Frame::OnDrawPalette(wxPaintEvent &/*event*/)
 {
     wxBufferedPaintDC dc(Colors_Palette_Display);
     dc.Clear();
@@ -141,12 +141,22 @@ void AGE_Frame::OnDrawPalette(wxPaintEvent &event)
         *val++ = rgba.b;
     }
     unsigned char *pic = (unsigned char*)rgbdata.data();
-    wxBitmap bitmap = wxBitmap(wxImage(16, 16, pic, true).Scale(320, 320), 24);
+    wxBitmap bitmap = wxBitmap(wxImage(16, 16, pic, true).Scale(640, 640), 24);
     assert(bitmap.IsOk());
+
     dc.DrawBitmap(bitmap, 15, 15, true);
+
+    dc.SetTextBackground(wxColor(255, 255, 255));
+    dc.SetBackgroundMode(wxSOLID);
+    int colorNum = 0;
+    for (int y=0; y<16; y++) {
+        for (int x=0; x<16; x++) {
+            dc.DrawText(std::to_string(colorNum++), x * 40 + 20, y * 40 + 20);
+        }
+    }
 }
 
-void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &event)
+void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &/*event*/)
 {
     if(!dataset) return;
 
@@ -155,7 +165,7 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &event)
     ListPlayerColors();
 }
 
-void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &event)
+void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &/*event*/)
 {
     auto selections = Colors_Colors_ListV->GetSelectedCount();
     if(selections < 1) return;
@@ -165,7 +175,7 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &event)
     ListPlayerColors();
 }
 
-void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &event)
+void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &/*event*/)
 {
     auto selections = Colors_Colors_ListV->GetSelectedCount();
     if(selections < 1) return;
@@ -175,7 +185,7 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &event)
     ListPlayerColors();
 }
 
-void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &event)
+void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &/*event*/)
 {
     auto selections = Colors_Colors_ListV->GetSelectedCount();
     if(selections < 1) return;
@@ -190,7 +200,7 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &event)
     }
 }
 
-void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &event)
+void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &/*event*/)
 {
     auto selections = Colors_Colors_ListV->GetSelectedCount();
     if(selections < 1) return;
@@ -200,7 +210,7 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &event)
     ListPlayerColors();
 }
 
-void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &event)
+void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &/*event*/)
 {
     auto selections = Colors_Colors_ListV->GetSelectedCount();
     if(selections < 1) return;
