@@ -47,7 +47,7 @@ if(NOT VCPKG_TARGET_TRIPLET)
             set(VCPKG_TARGET_TRIPLET "x86-windows")
         endif()
     endif()
-endif(VCPKG_TARGET_TRIPLET)
+endif(NOT VCPKG_TARGET_TRIPLET)
 
 message(STATUS "VCPKG_TARGET_TRIPLET:${VCPKG_TARGET_TRIPLET}")
 

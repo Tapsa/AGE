@@ -1,4 +1,9 @@
-cmake_minimum_required(VERSION 3.7) # DO NOT UPGRADE THIS OR YOU WILL LOSE wxWidgets 2.8 DEBUG BUILDS!
+if(${CMAKE_VERSION} VERSION_LESS "3.9.0")
+ cmake_minimum_required(VERSION 3.7)
+ message("Please upgrade to cmake 3.9 to get more fancy stuff")
+else()
+ cmake_minimum_required(VERSION 3.9)
+endif()
 
 set (CMAKE_CXX_STANDARD 17)
 
@@ -26,6 +31,26 @@ find_package(SFML 2.4 REQUIRED system audio)
 
 set(GUTILS_TOOLS FALSE)
 set(GUTILS_TEST FALSE)
+
+if (ENABLE_IPO)
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT IPO_AVAILABLE OUTPUT IPO_ERROR)
+    if (IPO_AVAILABLE)
+        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION True)
+
+        if (CMAKE_COMPILER_IS_GNUCXX)
+            message(STATUS "Enabling all link time optimizations")
+            add_definitions(-fuse-linker-plugin)
+        else()
+            message(STATUS "Using IPO for optimizing binary size")
+        endif()
+    else()
+        message(STATUS "IPO/LTO not supported: <${IPO_ERROR}>")
+    endif()
+else()
+    message(STATUS "Not enabling IPO/LTO")
+endif()
+
 
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/extern/genieutils/include/genie/Types.h)
     message(STATUS "Using bundled genieutils")
