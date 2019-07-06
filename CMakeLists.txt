@@ -70,10 +70,12 @@ set(AGE_SRC Main.cpp
     )
 
 if(WIN32)
-    find_library(PSAPI psapi)
+    include_directories(extern/genieutils/extern/win-iconv/)
+
     add_executable(AdvancedGenieEditor3 WIN32 ${AGE_SRC})
-    target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils ${PSAPI} sfml-system sfml-audio)
+    target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils psapi sfml-system sfml-audio)
 else()
+    set(CMAKE_CXX_FLAGS "-Wall -Wno-sign-compare")
     add_executable(AdvancedGenieEditor3 ${AGE_SRC})
     target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils sfml-system sfml-audio stdc++fs)
 endif()
