@@ -7,8 +7,21 @@ project(AdvancedGenieEditor3)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
 set(CMAKE_CXX_FLAGS "-Wall -Wno-sign-compare")
 
-find_package(wxWidgets REQUIRED adv core base)
-include("${wxWidgets_USE_FILE}")
+if(MSVC)
+    # Otherwise we get thousands of warnings from wxwidgets
+    # Why on earth people use wxwidgets is beyond me
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+    add_definitions(/wd4018)
+endif()
+
+# Find wxWidgets
+# In case you didn't know, it is crap, so we need this hack
+if(MSVC AND _VCPKG_INSTALLED_DIR)
+    include(${CMAKE_SOURCE_DIR}/cmake/vcpkg-wxwidgets.cmake)
+else()
+    find_package(wxWidgets REQUIRED adv core base)
+    include("${wxWidgets_USE_FILE}")
+endif()
 
 find_package(SFML 2.4 REQUIRED system audio)
 
