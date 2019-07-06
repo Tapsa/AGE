@@ -5,7 +5,6 @@ set (CMAKE_CXX_STANDARD 17)
 project(AdvancedGenieEditor3)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
-set(CMAKE_CXX_FLAGS "-Wall -Wno-sign-compare")
 
 if(MSVC)
     # Otherwise we get thousands of warnings from wxwidgets

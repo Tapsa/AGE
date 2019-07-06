@@ -37,7 +37,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         ConfigPtr Config = getConfig("AGE2\\ConfigWindow"+std::to_string(window + 1));
 
         Config->Read("/EditorVersion", &EditorVersionString, AGE_AboutDialog::AGE_VER);
-        sscanf(EditorVersionString, "%f", &EditorVersion);
+        sscanf(EditorVersionString.c_str(), "%f", &EditorVersion);
         Config->Read("/TimesOpened", &TimesOpened, 0);
         if(EditorVersionString != AGE_AboutDialog::AGE_VER) TimesOpened = 0;
         Config->Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);

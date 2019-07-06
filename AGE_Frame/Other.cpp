@@ -3,6 +3,8 @@
 #include "../DRSlock.xpm"
 #include "../Villager32.xpm"
 
+#include <iostream>
+
 float AGE_SLP::bearing = 0.f;
 unsigned AGE_SLP::setbearing = 0u;
 
@@ -281,7 +283,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             else if(sizeof(size_t) > 4 || WriteLangs)
             {
                 Lang = new genie::LangFile();
-                Lang->setDefaultCharset(LangCharset);
+                Lang->setDefaultCharset(LangCharset.c_str());
                 try
                 {
                     Lang->load(string(LangFileName));
@@ -305,7 +307,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             else if(sizeof(size_t) > 4 || WriteLangs)
             {
                 LangX = new genie::LangFile();
-                LangX->setDefaultCharset(LangCharset);
+                LangX->setDefaultCharset(LangCharset.c_str());
                 try
                 {
                     LangX->load(string(LangX1FileName));
@@ -329,7 +331,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             else if(sizeof(size_t) > 4 || WriteLangs)
             {
                 LangXP = new genie::LangFile();
-                LangXP->setDefaultCharset(LangCharset);
+                LangXP->setDefaultCharset(LangCharset.c_str());
                 try
                 {
                     LangXP->load(string(LangX1P1FileName));
@@ -3405,9 +3407,10 @@ bool AGE_Frame::FileExists(const char * value)
 
 void AGE_Frame::LoadTXT(const wxString &filename)
 {
-    ifstream infile(filename);
-    string line;
-    while(getline(infile, line))
+    const std::string realstring(filename.c_str());
+    std::ifstream infile(realstring);
+    std::string line;
+    while(std::getline(infile, line))
     {
         size_t num = 0;
         while(isdigit(line[num]))
@@ -3447,10 +3450,10 @@ wxString AGE_Frame::TranslatedText(int ID, int letters)
         }
         else // Does not work when building as 64-bit
         {
-            char buffer[letters];
-            if(LangsUsed & 4 && LoadStringA(LanguageDLL[2], ID, buffer, letters)) result = buffer;
-            else if(LangsUsed & 2 && LoadStringA(LanguageDLL[1], ID, buffer, letters)) result = buffer;
-            else if(LangsUsed & 1 && LoadStringA(LanguageDLL[0], ID, buffer, letters)) result = buffer;
+            std::string buffer(letters, 0);
+            if(LangsUsed & 4 && LoadStringA(LanguageDLL[2], ID, buffer.data(), letters)) result = buffer;
+            else if(LangsUsed & 2 && LoadStringA(LanguageDLL[1], ID, buffer.data(), letters)) result = buffer;
+            else if(LangsUsed & 1 && LoadStringA(LanguageDLL[0], ID, buffer.data(), letters)) result = buffer;
         }
         result.Replace("\n", "\r\n");
     }

@@ -1,5 +1,7 @@
 #include "AGE_TextControls.h"
 
+#include <limits>
+
 const wxString AGEBaseCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
 const wxString AGEBaseCtrl::BWTITLE = "Incorrect batch script!";
 const wxString AGEBaseCtrl::IETITLE = "Invalid entry!";
@@ -202,8 +204,8 @@ int TextCtrl_Float::SaveEdits(bool forced)
         try
         {
             float casted;
-            if(value == "max") casted = 3.40282347e+38;
-            else if(value == "min") casted = 1.17549435e-38;
+            if(value == "max") casted = std::numeric_limits<float>::max();
+            else if(value == "min") casted = std::numeric_limits<float>::min();
             else casted = stoi(value);
             if(batchMode > 0)
             {
