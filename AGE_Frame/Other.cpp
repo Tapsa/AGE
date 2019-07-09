@@ -2781,6 +2781,9 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                             break;
                         }
                     }
+
+                    m_icmFile = std::make_unique<genie::IcmFile>();
+                    m_icmFile->load(FolderDRS.ToStdString() + "/view_icm.dat");
                 }
                 if(slp_window) slp_view->Refresh();
                 Units_IconID_SLP->Refresh();
@@ -3123,7 +3126,7 @@ void AGE_Frame::addDRSFolders4SLPs(wxArrayString &folders, const wxString &folde
 
 bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
 {
-    if(graphic->slpID == graphic->lastSlpID)
+    if(graphic->slp && graphic->slpID == graphic->lastSlpID)
     {
         return true;
     }
@@ -3169,7 +3172,9 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
         for(auto &file: datafiles)
         {
             graphic->slp = GG::LoadSLP(*file, graphic->slpID);
-            if(graphic->slp) return true;
+            if(graphic->slp) {
+                return true;
+            }
         }
     }
     graphic->slp.reset();
@@ -3349,7 +3354,15 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
 
 void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
 {
-    wxImage img("Testi.png", wxBITMAP_TYPE_PNG);
+    wxFileDialog
+        openFileDialog(this, _("Select PNG file"), "", "",
+                       "PNG files (*.png)|*.png", wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+
+    if (openFileDialog.ShowModal() == wxID_CANCEL) {
+        return;
+    }
+
+    wxImage img(openFileDialog.GetPath(), wxBITMAP_TYPE_PNG);
     unsigned char *pic = img.GetData();
     if(!img.HasAlpha()) img.InitAlpha();
     if(!img.HasAlpha())
@@ -3358,9 +3371,8 @@ void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
         return;
     }
     unsigned char *trans = img.GetAlpha();
-    if(!graphic->slp)
-    {
-        wxMessageBox("Congrats seeing this message", "No SLP");
+    if(!graphic->slp) {
+        wxMessageBox("Graphic doesn't have SLP", "No SLP");
         return;
     }
     genie::SlpFramePtr frame;
@@ -3368,10 +3380,10 @@ void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
     {
         frame = graphic->slp->getFrame(graphic->frameID);
     }
-    catch(const out_of_range&){}
+    catch(const out_of_range&){ }
     if(!frame)
     {
-        wxMessageBox("Congrats seeing this message", "No SLP frame " + std::to_string(graphic->frameID));
+        wxMessageBox("Invalid frame number", "No SLP frame " + std::to_string(graphic->frameID) + ", probably empty SLP?");
         return;
     }
     genie::SlpFrameData *imgdata = &frame->img_data;
@@ -3392,7 +3404,32 @@ void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
     }
     else
     {
-        wxMessageBox("No 8-bit frame support yet", "SLP");
+        if (!*m_icmFile) {
+            wxMessageBox("Unable to load view_icm.dat, which is required to import to 8-bit SLPs", "Converting to palette failed");
+            return;
+        }
+
+        frame->setSize(img.GetWidth(), img.GetHeight());
+
+        const genie::IcmFile::InverseColorMap &icm = m_icmFile->maps[genie::IcmFile::Neutral]; // TODO: let the player choose the icm
+
+        uint8_t *val = imgdata->pixel_indexes.data();
+        uint8_t *alpha = imgdata->alpha_channel.data();
+
+        for(int y=0; y < img.GetHeight(); ++y)
+        for(int x=0; x < img.GetWidth(); ++x)
+        {
+            *alpha++ = *trans++;
+
+            uint8_t red = *pic++;
+            uint8_t green = *pic++;
+            uint8_t blue = *pic++;
+
+            const uint8_t index = icm.paletteIndex(red >> 3, green >> 3, blue >> 3);
+            *val++ = index;
+        }
+
+        wxMessageBox("Loaded PNG to 8-bit SLP", "SLP");
     }
 }
 
@@ -3996,7 +4033,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         {
             if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
             {
-                BitmapToSLP(&gallery);
+                if(LoadSLP(&gallery)) BitmapToSLP(&gallery);
             }
             animater.Start(100);
             return;

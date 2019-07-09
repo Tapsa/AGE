@@ -7,6 +7,8 @@
 #include "AGE_AboutDialog.h"
 #include "AGE_Copies.hpp"
 
+#include <genie/resource/SlpTemplate.h>
+
 #define RELOAD -2
 
 const float PI2A = 6.28319f, PI2 = 6.2832f;
@@ -1010,6 +1012,7 @@ private:
     bool DrawCollisionShape, DrawClearanceShape, DrawOutline, DrawAngles, PlaySounds, AutoCopyAngles;
     vector<genie::DrsFile*> datafiles;
     vector<vector<genie::Color>> palettes, pc_palettes;
+    std::unique_ptr<genie::IcmFile> m_icmFile;
     genie::DatFile *dataset = 0;
     genie::LangFile *Lang = 0, *LangX = 0, *LangXP = 0;
     long CustomTerrains;
