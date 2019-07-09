@@ -368,6 +368,10 @@ wxThread::ExitCode Loader::Entry()
                 {
                     int width = frame->getWidth();
                     int height = frame->getHeight();
+                    if (width <= 0 || height <= 0) {
+                        std::cerr << "Invalid frame size" << width << "x" << height << std::endl;
+                        continue;
+                    }
                     uint8_t *val = wrgbdata.data() + (3 * (wwidth * corners[f].second + corners[f].first));
                     uint8_t *alpha = wrgbdata.data() + (3 * warea) + (wwidth * corners[f].second + corners[f].first);
                     const genie::SlpFrameData *imgdata = &frame->img_data;
