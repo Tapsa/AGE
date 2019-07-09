@@ -65,7 +65,6 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, const wxFont &font)
 
     TerrainsBox->Enable(false);
     SetSizerAndFit(Main);
-    SetDefaultItem(ButtonOK);
 
     Button_RawDecompress->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
     {
@@ -79,6 +78,9 @@ AGE_OpenDialog::AGE_OpenDialog(wxWindow *parent, const wxFont &font)
             delete raw;
         }
     });
+
+    ButtonOK->SetDefault();
+    ButtonOK->SetFocus();
 }
 
 void AGE_OpenDialog::OnDefaultAoE(wxCommandEvent &event)

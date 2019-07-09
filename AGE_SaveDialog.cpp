@@ -41,7 +41,8 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent, const wxFont &font)
     Main->Add(Buttons, 0, wxALIGN_RIGHT | wxALL, 5);
 
     SetSizerAndFit(Main);
-    SetDefaultItem(ButtonOK);
+    ButtonOK->SetDefault();
+    ButtonOK->SetFocus();
 }
 
 void AGE_SaveDialog::OnDefaultAoKHD(wxCommandEvent &event)
