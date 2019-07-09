@@ -12,6 +12,12 @@
 #include "../Reselection.xpm"
 //#include "genie/util/Logger.h"
 
+#if defined(__linux__)
+extern "C" {
+#include <unistd.h> // for isatty and STDERR_FILENO, for checking if we're running from a terminal
+}
+#endif
+
 std::ofstream AGE_Frame::log_out;
 
 AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
@@ -358,10 +364,27 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     if(!log_out.is_open())
     {
         genie::Logger::setLogLevel(genie::Logger::L_DEBUG);
-        log_out.open("gulog.ini");
-        genie::Logger::setGlobalOutputStream(log_out);
-        cout.rdbuf(log_out.rdbuf());
+        const std::string logFilename = "gulog.ini";
+        log_out.open(logFilename);
+        if (log_out.is_open()) {
+            genie::Logger::setGlobalOutputStream(log_out);
+            std::cout << "Logging to " << logFilename << std::endl;
+        } else {
+            std::cout << "Failed to open log file " << logFilename << std::endl;
+        }
+
+        // Don't redirect messages to log file if running from a terminal
+#if defined(__linux__)
+        bool isTerminal = isatty(STDOUT_FILENO) || isatty(STDERR_FILENO) ;
+#else
+        bool isTerminal = false;
+#endif
+        if (!isTerminal && log_out.is_open()) {
+            cout.rdbuf(log_out.rdbuf());
+            cerr.rdbuf(log_out.rdbuf());
+        }
     }
+
 #endif
 
     wxAcceleratorEntry shortcuts[] =
