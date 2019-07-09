@@ -3210,6 +3210,11 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
 
     const int width = frame->getWidth();
     const int height = frame->getHeight();
+    if (width <= 0 || height <= 0) {
+        std::cerr << "Invalid size for " << graphic->frameID << ", size: " << width << "x" << height << std::endl;
+        SetStatusText("Invalid size: " + FormatInt(graphic->frameID) + ", size: " + FormatInt(width) + "x" + FormatInt(height), 1);
+        return;
+    }
     short pal_chooser = frame->getProperties() >> 16;
     graphic->xpos = graphic->flip ? frame->hotspot_x - width : -frame->hotspot_x;
     graphic->ypos = -frame->hotspot_y;
