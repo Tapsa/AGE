@@ -1,15 +1,16 @@
 #include "../AGE_Frame.h"
 #include "../AppIcon32.xpm"
-#include "../GateOpen.xpm"
-#include "../GateClosed.xpm"
-#include "../Question.xpm"
-#include "../Ox.xpm"
+#include "../open.xpm"
+#include "../save.xpm"
+#include "../window-new.xpm"
+#include "../show-unknown.xpm"
+#include "../paste-order.xpm"
+#include "../help-about.xpm"
+#include "../hex.xpm"
 #include "../float.xpm"
-#include "../Paste.xpm"
-#include "../AppIcon24.xpm"
 #include "../DRSunlock.xpm"
-#include "../AutoBackup.xpm"
-#include "../Reselection.xpm"
+#include "../backup.xpm"
+#include "../selection.xpm"
 //#include "genie/util/Logger.h"
 
 #if defined(__linux__)
@@ -140,17 +141,17 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     int bars[5] = {295, 145, 145, 145, -1};
     CreateStatusBar(5)->SetStatusWidths(5, bars);
 
-    GetToolBar()->AddTool(eAddWindow, "+++", wxBitmap(AppIcon24_xpm), "Open multiple editors to easily copy between files and game versions\nUse the normal copy and paste buttons\n4 windows seem to be the maximum");
-    GetToolBar()->AddTool(eOpen, "Open", wxBitmap(GateOpen_xpm), "Open files");
-    GetToolBar()->AddTool(eSave, "Save", wxBitmap(GateClosed_xpm), "Save files");
-    GetToolBar()->AddTool(eBackup, "Auto", wxBitmap(AutoBackup_xpm), "Automatically backup files", wxITEM_CHECK);
-    GetToolBar()->AddTool(eUnknown, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
-    GetToolBar()->AddTool(eHex, "Hex", wxBitmap(Ox_xpm), "Toggle hex mode (data not editable)", wxITEM_CHECK);
-    GetToolBar()->AddTool(eFloat, "0001", wxBitmap(float_xpm), "Toggle float display mode", wxITEM_CHECK);
-    GetToolBar()->AddTool(eReselection, "List", wxBitmap(Reselection_xpm), "Toggle reselection when relisting", wxITEM_CHECK);
-    GetToolBar()->AddTool(ePaste, "Paste", wxBitmap(Paste_xpm), "Toggle pasting between 1:1 and sequentially", wxITEM_CHECK);
+    GetToolBar()->AddTool(eAddWindow, "Window", wxBitmap(window_new_xpm), "Open multiple editors to easily copy between files and game versions\nUse the normal copy and paste buttons\n4 windows seem to be the maximum");
+    GetToolBar()->AddTool(eOpen, "Open", wxBitmap(open_xpm), "Open files");
+    GetToolBar()->AddTool(eSave, "Save", wxBitmap(save_xpm), "Save files");
+    GetToolBar()->AddTool(eBackup, "Auto", wxBitmap(backup_xpm), "Automatically backup files", wxITEM_CHECK);
+    GetToolBar()->AddTool(eUnknown, "Show", wxBitmap(show_unknown_xpm), "Show unknowns", wxITEM_CHECK);
+    GetToolBar()->AddTool(eHex, "Hex", wxBitmap(hex_xpm), "Toggle hex mode (data not editable)", wxITEM_CHECK);
+    GetToolBar()->AddTool(eFloat, "Float", wxBitmap(float_xpm), "Toggle float display mode", wxITEM_CHECK);
+    GetToolBar()->AddTool(eReselection, "List", wxBitmap(selection_xpm), "Toggle reselection when relisting", wxITEM_CHECK);
+    GetToolBar()->AddTool(ePaste, "Paste", wxBitmap(paste_order_xpm), "Toggle pasting between 1:1 and sequentially", wxITEM_CHECK);
     GetToolBar()->AddTool(eDRS, "SLP", wxBitmap(DRS_unlock_xpm), "Unload DRS files", wxITEM_CHECK);
-    GetToolBar()->AddTool(eHelp, "Help", wxBitmap(Question_xpm), "Show help");
+    GetToolBar()->AddTool(eHelp, "Help", wxBitmap(help_about_xpm), "Show help");
     GetToolBar()->ToggleTool(eBackup, AutoBackups);
     GetToolBar()->ToggleTool(eUnknown, ShowUnknowns);
     GetToolBar()->ToggleTool(ePaste, Paste11);

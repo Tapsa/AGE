@@ -85,7 +85,7 @@ Developers
  * Martin "martin" Sandsmark
 
 
-Credits
+Code credits
 -------
  * Ykkrosh - GeniEd 1 source code
  * Scenario\_t\_c - GeniEd 2 source code
@@ -95,3 +95,9 @@ Credits
  * BF\_Tanks - some help
  * Donnieboy, Sarn, chab - tooltip texts
  * gagman - new icon
+
+Icons credits
+-------------
+
+© 2014 Andreas Kainz & Uri Herrera & Andrew Lake & Marco Martin & Harald Sitter & Jonathan Riddell & Ken Vermette & Aleix Pol & David Faure & Albert Vaca & Luca Beltrame & Gleb Popov & Nuno Pinheiro & Alex Richardson & Jan Grulich & Bernhard Landauer & Heiko Becker & Volker Krause & David Rosca & Phil Schaf / KDE / LGPL 3
+
