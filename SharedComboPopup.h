@@ -143,9 +143,6 @@ private:
     // Find widest item in next GetAdjustedSize?
     bool                    m_findWidest;
 
-    // has the mouse been released on this control?
-    bool                    m_clicked;
-
     // Recalculate widths if they are dirty
     void CalcWidths();
 
