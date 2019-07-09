@@ -342,7 +342,7 @@ void AGE_Frame::PrepUnitSearch()
             return "B2 " + FormatFloat(unit_ptr->HPBarHeight);
         });
         else if(label.compare(Type20[57]) == 0)
-        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        UnitFilterFunctions.push_back([](genie::Unit *unit_ptr)
         {
             return "Ask Tapsa";
         });
@@ -352,7 +352,7 @@ void AGE_Frame::PrepUnitSearch()
             return "DC " + FormatInt(unit_ptr->DamageGraphics.size());
         });
         else if(label.compare(Type20[59]) == 0)
-        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        UnitFilterFunctions.push_back([](genie::Unit *unit_ptr)
         {
             return "Ask Tapsa";
         });
@@ -382,7 +382,7 @@ void AGE_Frame::PrepUnitSearch()
             continue;
         }
         else if(label.compare(Type20[65]) == 0)
-        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        UnitFilterFunctions.push_back([](genie::Unit *unit_ptr)
         {
             return wxString(unit_ptr->Name2);
         });
@@ -510,7 +510,7 @@ void AGE_Frame::PrepUnitSearch()
             return UF40 "CC " + FormatInt(unit_ptr->Action.TaskList.size());
         });
         else if(label.compare(Type40[9]) == 0)
-        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        UnitFilterFunctions.push_back([](genie::Unit *unit_ptr)
         {
             return UF40 "Ask Tapsa";
         });
@@ -666,7 +666,7 @@ void AGE_Frame::PrepUnitSearch()
         });
 
         else if(label.compare(Type70[0]) == 0)
-        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        UnitFilterFunctions.push_back([](genie::Unit *unit_ptr)
         {
             return UF70 "Ask Tapsa";
         });
@@ -799,7 +799,7 @@ void AGE_Frame::PrepUnitSearch()
             return UF80 "U33 " + FormatInt(unit_ptr->Building.CanBurn);
         });
         else if(label.compare(Type80[10]) == 0)
-        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        UnitFilterFunctions.push_back([](genie::Unit *unit_ptr)
         {
             return UF80 "Ask Tapsa";
         });
@@ -844,7 +844,7 @@ void AGE_Frame::PrepUnitSearch()
             return UF80 "PU " + FormatInt(unit_ptr->Building.PileUnit);
         });
         else if(label.compare(Type80[19]) == 0)
-        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        UnitFilterFunctions.push_back([](genie::Unit *unit_ptr)
         {
             return UF80 "Ask Tapsa";
         });
