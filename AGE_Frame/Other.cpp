@@ -1,7 +1,7 @@
 #include "../AGE_Frame.h"
 #include "../DRSunlock.xpm"
 #include "../DRSlock.xpm"
-#include "../Villager32.xpm"
+#include "../graphics.xpm"
 
 #include <iostream>
 
@@ -2516,7 +2516,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 parentPos.x += MinWindowWidth;
                 slp_window = new wxDialog(this, wxID_ANY, "SLP", parentPos, wxSize(512, 600), KeepViewOnTop ? (wxSTAY_ON_TOP | wxDEFAULT_FRAME_STYLE) : wxDEFAULT_FRAME_STYLE);
                 slp_window->SetBackgroundColour(wxColour(240, 240, 240));
-                slp_window->SetIcon(wxIcon(Villager32_xpm));
+                slp_window->SetIcon(wxIcon(graphics_xpm));
                 slp_window->SetFont(font);
                 APanel *panel = new APanel(slp_window);
                 slp_view = new APanel(panel);//, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
