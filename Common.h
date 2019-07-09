@@ -128,7 +128,7 @@ static inline ConfigPtr getConfig(const std::string &name)
     const int globalEntryCount = GlobalConfig->GetNumberOfEntries(true);
     const int localEntryCount = LocalConfig->GetNumberOfEntries(true);
 
-    if (globalEntryCount != localEntryCount) {
+    if (localEntryCount > 0 && globalEntryCount != localEntryCount) {
         std::cerr << "Warning: Inconsistent number of entries in local config " << name << " (" << localEntryCount << " and global config " << globalPath << " (" << globalEntryCount << ")" << std::endl;
     }
     return GlobalConfig;
