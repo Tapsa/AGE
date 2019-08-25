@@ -1,6 +1,3 @@
 [submodule "extern/genieutils"]
 	path = extern/genieutils
 	url = https://github.com/sandsmark/genieutils.git
-[submodule "extern/pcrio"]
-	path = extern/pcrio
-	url = https://github.com/sandsmark/pcrio.git
