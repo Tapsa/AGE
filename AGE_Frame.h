@@ -3545,27 +3545,37 @@ private:
 
     // Common paste check
     template <class P, class C>
-    inline size_t PasteCheck(P &path, const vector<int> &places, const C &copies, bool resize)
+    inline size_t PasteCheckNoResize(P &path, const vector<int> &places, const C &copies)
     {
-        if(Paste11)
-        {
-            if(places.size() != copies.size())
-            {
+        if(Paste11) {
+            if(places.size() != copies.size()) {
                 wxMessageBox(wxString::Format("%u copies, %u selections.\nClick paste tool to switch to sequential paste.", copies.size(), places.size()), "Selections Mismatch");
                 return 0u;
             }
-        }
-        else
-        {
+        } else {
             size_t new_size = places.front() + copies.size();
-            if(new_size > path.size())
-            {
-                if(resize)
-                {
+            if(new_size > path.size()) {
+                return copies.size() - (new_size - path.size());
+            }
+        }
+        return copies.size();
+    }
+
+    // Common paste check
+    template <class P, class C>
+    inline size_t PasteCheck(P &path, const vector<int> &places, const C &copies, bool resize)
+    {
+        if(Paste11) {
+            if(places.size() != copies.size()) {
+                wxMessageBox(wxString::Format("%u copies, %u selections.\nClick paste tool to switch to sequential paste.", copies.size(), places.size()), "Selections Mismatch");
+                return 0u;
+            }
+        } else {
+            size_t new_size = places.front() + copies.size();
+            if(new_size > path.size()) {
+                if(resize) {
                     path.resize(new_size);
-                }
-                else
-                {
+                } else {
                     return copies.size() - (new_size - path.size());
                 }
             }
@@ -3575,11 +3585,21 @@ private:
 
     // Combined paste
     template <class P, class C>
+    inline void PasteToListNoGVNoResize(P &path, vector<int> &places, C &copies)
+    {
+        size_t copy_cnt = PasteCheckNoResize(path, places, copies);
+        for(size_t loop = 0; loop < copy_cnt; ++loop) {
+            path[Paste11 ? places[loop] : places.front() + loop] = copies[loop];
+        }
+        How2List = PASTE;
+    }
+
+    // Combined paste
+    template <class P, class C>
     inline void PasteToListNoGV(P &path, vector<int> &places, C &copies, bool resize = true)
     {
         size_t copy_cnt = PasteCheck(path, places, copies, resize);
-        for(size_t loop = 0; loop < copy_cnt; ++loop)
-        {
+        for(size_t loop = 0; loop < copy_cnt; ++loop) {
             path[Paste11 ? places[loop] : places.front() + loop] = copies[loop];
         }
         How2List = PASTE;

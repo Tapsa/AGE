@@ -201,7 +201,7 @@ void AGE_Frame::OnTerrainBorderTileTypePaste(wxCommandEvent &event)
     if(!Borders_TileTypes_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
-    PasteToListNoGV(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders, BorderTileTypeIDs, copies.BorderBorder, false);
+    PasteToListNoGVNoResize(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders, BorderTileTypeIDs, copies.BorderBorder);
     ListTerrainBorderTileTypes();
 }
 
