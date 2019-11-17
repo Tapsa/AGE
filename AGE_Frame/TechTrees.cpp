@@ -803,15 +803,25 @@ void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &event)
             TechTrees_Buildings_TotalUnitsTechs[loop+5]->prepend(&BuildingConPointer->UnitsTechsFirst[loop]);
         }
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected building: "+lexical_cast<string>(TTBuildConIDs.front()), 0);
+    if(selections)
+    {
+        SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected building: "+lexical_cast<string>(TTBuildConIDs.front()), 0);
+    }
+    else
+    {
+        SetStatusText("No selections", 0);
+    }
 
     for(auto &box: uiGroupTTBuilding) box->update();
     TechTrees_Buildings_Items.UsedItems->update();
 
-    ListTTBuildingBuildings();
-    ListTTBuildingUnits();
-    ListTTBuildingResearches();
-    ListTTBuildingItems();
+    if(selections)
+    {
+        ListTTBuildingBuildings();
+        ListTTBuildingUnits();
+        ListTTBuildingResearches();
+        ListTTBuildingItems();
+    }
 }
 
 void AGE_Frame::OnTTBuildingAdd(wxCommandEvent &event)
@@ -1385,13 +1395,23 @@ void AGE_Frame::OnTTUnitSelect(wxCommandEvent &event)
         TechTrees_Units_LineMode->prepend(&UnitConPointer->LineMode);
         TechTrees_Units_EnablingResearch->prepend(&UnitConPointer->EnablingResearch);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected unit: "+lexical_cast<string>(TTUnitConIDs.front()), 0);
+    if(selections)
+    {
+        SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected unit: "+lexical_cast<string>(TTUnitConIDs.front()), 0);
+    }
+    else
+    {
+        SetStatusText("No selections", 0);
+    }
 
     for(auto &box: uiGroupTTUnit) box->update();
     TechTrees_Units_Items.UsedItems->update();
 
-    ListTTUnitUnits();
-    ListTTUnitItems();
+    if(selections)
+    {
+        ListTTUnitUnits();
+        ListTTUnitItems();
+    }
 }
 
 void AGE_Frame::OnTTUnitAdd(wxCommandEvent &event)
@@ -1766,15 +1786,25 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &event)
         TechTrees_Researches_LocationInAge->prepend(&ResearchConPointer->LocationInAge);
         TechTrees_Researches_LineMode->prepend(&ResearchConPointer->LineMode);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected technology: "+lexical_cast<string>(TTResConIDs.front()), 0);
+    if(selections)
+    {
+        SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected technology: "+lexical_cast<string>(TTResConIDs.front()), 0);
+    }
+    else
+    {
+        SetStatusText("No selections", 0);
+    }
 
     for(auto &box: uiGroupTTResearch) box->update();
     TechTrees_Researches_Items.UsedItems->update();
 
-    ListTTResearchBuildings();
-    ListTTResearchUnits();
-    ListTTResearchResearches();
-    ListTTResearchItems();
+    if(selections)
+    {
+        ListTTResearchBuildings();
+        ListTTResearchUnits();
+        ListTTResearchResearches();
+        ListTTResearchItems();
+    }
 }
 
 void AGE_Frame::OnTTResearchAdd(wxCommandEvent &event)

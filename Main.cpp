@@ -35,7 +35,7 @@ void AGE_Frame::FixSize(AGE_Frame *window)
     int ScrollerWidth = window->Units_ScrollSpace->GetMinSize().GetWidth();
     if(ScrollerWidth > 630)
     {
-        int NewWidth = 270.f * (ScrollerWidth / 630.f) + ScrollerWidth;
+        int NewWidth = 270.0f * (ScrollerWidth / 630.0f) + ScrollerWidth;
         window->MinWindowWidth = NewWidth;
         window->SetSize(NewWidth, 870);
     }

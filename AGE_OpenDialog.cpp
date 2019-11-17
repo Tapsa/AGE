@@ -139,6 +139,17 @@ void AGE_OpenDialog::OnDefaultAoP(wxCommandEvent &event)
     CheckBox_DRSPath->SetValue(true);
 }
 
+void AGE_OpenDialog::OnDefaultDE2(wxCommandEvent &event)
+{
+    AGE_OpenSave::OnDefaultDE2(event);
+
+    CheckBox_LangFileLocation->SetValue(true);
+    CheckBox_LangX1FileLocation->SetValue(true);
+    Path_DRS->SetPath(game_path + "\\resources\\_common\\drs");
+    TerrainsBox->ChangeValue("110");
+    CheckBox_DRSPath->SetValue(true);
+}
+
 void AGE_OpenDialog::OnDefaultSWGB(wxCommandEvent &event)
 {
     AGE_OpenSave::OnDefaultSWGB(event);

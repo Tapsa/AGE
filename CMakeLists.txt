@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.7) # DO NOT UPGRADE THIS OR YOU WILL LOSE wxWidgets 2.8 DEBUG BUILDS!
+cmake_minimum_required(VERSION 3.7)
 
 project(AdvancedGenieEditor3)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
-set(CMAKE_CXX_FLAGS "-Wall -Wno-sign-compare")
+set(CMAKE_CXX_FLAGS "-Wall -Wno-sign-compare -Wno-parentheses")
 set(BOOST_DATE_TIME_NO_LIB   ON)
 #set(Boost_USE_STATIC_LIBS    ON)
 #set(Boost_USE_STATIC_RUNTIME ON)
@@ -11,7 +11,7 @@ set(Boost_USE_MULTITHREADED  ON)
 
 find_package(Boost 1.55 REQUIRED iostreams)
 
-find_package(wxWidgets REQUIRED adv core base)
+find_package(wxWidgets REQUIRED core base)
 include("${wxWidgets_USE_FILE}")
 
 find_package(SFML 2.4 REQUIRED system audio)
@@ -55,11 +55,7 @@ set(AGE_SRC Main.cpp
     Resources.rc
     )
 
-if(WIN32)
-    find_library(PSAPI psapi)
-    add_executable(AdvancedGenieEditor3 WIN32 ${AGE_SRC})
-    target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils ${PSAPI} ${SFML_LIBRARIES})
-else()
-    add_executable(AdvancedGenieEditor3 WIN32 ${AGE_SRC})
-    target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils ${SFML_LIBRARIES})
-endif()
+find_library(PSAPI psapi)
+
+add_executable(AdvancedGenieEditor3 WIN32 ${AGE_SRC})
+target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils ${PSAPI} ${SFML_LIBRARIES})

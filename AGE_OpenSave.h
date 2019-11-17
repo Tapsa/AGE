@@ -25,6 +25,7 @@ public:
     virtual void OnDefaultTC(wxCommandEvent &event);
     virtual void OnDefaultAoKHD(wxCommandEvent &event);
     virtual void OnDefaultAoP(wxCommandEvent &event);
+    virtual void OnDefaultDE2(wxCommandEvent &event);
     virtual void OnDefaultSWGB(wxCommandEvent &event);
     virtual void OnDefaultCC(wxCommandEvent &event);
     virtual void OnRecent(wxCommandEvent &event);
@@ -45,6 +46,7 @@ public:
     wxButton *Button_DefaultAP;
     wxButton *Button_DefaultSWGB;
     wxButton *Button_DefaultCC;
+    wxButton *Button_DefaultDE2;
     wxOwnerDrawnComboBox *CheckBox_GenieVer;
     wxTextCtrl *DriveLetterBox;
     wxTextCtrl *LanguageBox;

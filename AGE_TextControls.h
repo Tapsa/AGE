@@ -106,11 +106,12 @@ public:
     {
         switch(type)
         {
-        case CByte: SetBackgroundColour(wxColour(255, 235, 215)); break;
+        case CByte:
         case CUByte: SetBackgroundColour(wxColour(255, 235, 215)); break;
         case CFloat: SetBackgroundColour(wxColour(255, 225, 255)); break;
-        case CLong: SetBackgroundColour(wxColour(215, 255, 255)); break;
-        case CShort: SetBackgroundColour(wxColour(210, 230, 255)); break;
+        case CLong:
+        case CULong: SetBackgroundColour(wxColour(215, 255, 255)); break;
+        case CShort:
         case CUShort: SetBackgroundColour(wxColour(210, 230, 255)); break;
         case CString: SetBackgroundColour(wxColour(220, 255, 220)); break;
         }
@@ -216,6 +217,22 @@ public:
         SetBackgroundColour(wxColour(215, 255, 255));
         Bind(wxEVT_KILL_FOCUS, &TextCtrl_Long::OnKillFocus, this);
         Bind(wxEVT_TEXT_ENTER, &TextCtrl_Long::OnEnter, this);
+    }
+    int SaveEdits(bool forced = false);
+    void replenish();
+};
+
+class TextCtrl_ULong: public AGETextCtrl
+{
+public:
+    TextCtrl_ULong(wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned petit):
+    AGETextCtrl(parent, petit)
+    {
+        this->frame = frame;
+        this->editor = editor;
+        SetBackgroundColour(wxColour(215, 255, 255));
+        Bind(wxEVT_KILL_FOCUS, &TextCtrl_ULong::OnKillFocus, this);
+        Bind(wxEVT_TEXT_ENTER, &TextCtrl_ULong::OnEnter, this);
     }
     int SaveEdits(bool forced = false);
     void replenish();

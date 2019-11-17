@@ -1,11 +1,16 @@
-CD debug/
-SET wxWidgetsRF="C:/Cpp/wxWidgets"
-SET zlibIF="C:/Cpp/mingw-w64/mingw32/i686-w64-mingw32/include"
-SET zlibLL="C:/Cpp/mingw-w64/mingw32/i686-w64-mingw32/lib/libz.a"
-SET iconvIF="C:/Cpp/mingw-w64/mingw32/i686-w64-mingw32/include"
-SET iconvLL="C:/Cpp/mingw-w64/mingw32/i686-w64-mingw32/lib/libiconv.a"
-SET SFMLRF="C:/Cpp/SFML"
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug -DwxWidgets_ROOT_DIR:PATH="%wxWidgetsRF%" -DZLIB_INCLUDE_DIR="%zlibIF%" -DZLIB_LIBRARY="%zlibLL%" -DICONV_INCLUDE_DIR="%iconvIF%" -DICONV_LIBRARIES="%iconvLL%" -DSFML_ROOT="%SFMLRF%" -DEXTERN_DIR:PATH="%UserProfile%/Documents/GitHub" ../
+CD ..
+SET MAIND="%CD:\=/%"
+SET COMPD="%CD:\=/%/mingw-w64/mingw32/include"
+SET ZLIBL="%CD:\=/%/mingw-w64/mingw32/i686-w64-mingw32/lib/libz.a"
+SET ICONL="%CD:\=/%/mingw-w64/mingw32/i686-w64-mingw32/lib/libiconv.a"
+SET WXWID="%CD:\=/%/wxWidgets"
+SET BOOSD="%CD:\=/%/Boost"
+SET BOOSL="%CD:\=/%/Boost/lib/libboost_iostreams-mgw81-mt-d-x32-1_71.dll.a"
+SET SFMLD="%CD:\=/%/SFML"
+CD AGE
+IF NOT EXIST Debug/NUL MKDIR Debug
+CD Debug
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug -DwxWidgets_ROOT_DIR:PATH=%WXWID% -DZLIB_INCLUDE_DIR=%COMPD% -DZLIB_LIBRARY=%ZLIBL% -DICONV_INCLUDE_DIR=%COMPD% -DICONV_LIBRARIES=%ICONL% -DBOOST_ROOT=%BOOSD% -DBoost_IOSTREAMS_LIBRARY_DEBUG=%BOOSL% -DSFML_ROOT=%SFMLD% -DEXTERN_DIR:PATH=%MAIND% ../
 mingw32-make -j4
 robocopy extern/genieutils/ . libgenieutils.dll /XO /NC /NDL /NJH /NJS
 CD ..
