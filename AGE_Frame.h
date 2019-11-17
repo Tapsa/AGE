@@ -18,6 +18,7 @@ public:
     uint16_t angles, fpa, frames, mirror;
     wxString filename = "";
     genie::SlpFilePtr slp;
+    genie::SmpFilePtr smp;
     wxBitmap bitmap;
     sf::SoundBuffer buffers[4];// Actual data
     sf::Sound sounds[4];// To play data
@@ -376,6 +377,7 @@ private:
     wxArrayString SearchYes, SearchNo, soundfolders;
     wxString FormatFloat(float);
     wxString FormatInt(int);
+    wxString FormatUnsigned(unsigned);
     wxString CurrentTime();
     wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
     wxArrayString AoE1TerrainRestrictions, AoE2TerrainRestrictions, SWGBTerrainRestrictions;
@@ -450,6 +452,7 @@ private:
     void InitTerrains2();
     void InitPlayerColors();
     void InitTerrainBorders(bool all);
+    void InitTerrainBlends();
     void InitRandomMaps();
 
     void ListMapData();
@@ -925,6 +928,8 @@ private:
     void OnTerrainBorderSelect(wxCommandEvent &event);
     void OnTerrainBordersCopy(wxCommandEvent &event);
     void OnTerrainBordersPaste(wxCommandEvent &event);
+    void OnTerrainBordersMoveUp(wxCommandEvent &event);
+    void OnTerrainBordersMoveDown(wxCommandEvent &event);
     string GetTerrainBorderName(int);
 
     void ListTerrainBorderTileTypes();
@@ -1241,6 +1246,8 @@ private:
     ProperList *Borders_ListV;
     wxButton *Borders_Copy;
     wxButton *Borders_Paste;
+    wxButton *Borders_MoveUp;
+    wxButton *Borders_MoveDown;
     wxBoxSizer *Borders_DataArea;
     wxBoxSizer *Borders_DataTopRow;
     wxBoxSizer *Borders_Data1;
@@ -1881,10 +1888,12 @@ private:
     AGETextCtrl *Units_HitPoints;
     AGETextCtrl *Units_LineOfSight;
     AGETextCtrl *Units_GarrisonCapacity;
-    AGETextCtrl *Units_SizeRadius[2];
-    AGETextCtrl *Units_HPBarHeight1;
+    AGETextCtrl *Units_SizeRadius[3];
+    AGETextCtrl *Units_MinCollisionSizeMultiplier;
     AGETextCtrl *Units_TrainSound;
     AGETextCtrl *Units_DamageSound;
+    AGETextCtrl *Units_WwiseTrainSound;
+    AGETextCtrl *Units_WwiseDamageSound;
     ComboBox_Plus1 *Units_TrainSound_ComboBox;
     ComboBox_Plus1 *Units_DamageSound_ComboBox;
     AGETextCtrl *Units_DeadUnitID;
@@ -1947,15 +1956,16 @@ private:
     AGETextCtrl *Units_SelectionEffect;
     AGETextCtrl *Units_EditorSelectionColour;
     wxBoxSizer *Units_SelectionRadiusBox;
-    AGETextCtrl *Units_SelectionRadius[2];
-    AGETextCtrl *Units_HPBarHeight2;
+    AGETextCtrl *Units_SelectionRadius[3];
     AGETextCtrl *ResourceStorage_Type[3];
     ComboBox_Plus1 *ResourceStorage_Type_ComboBox[3];
     AGETextCtrl *ResourceStorage_Amount[3];
     AGETextCtrl *ResourceStorage_Mode[3];
     AGETextCtrl *Units_SelectionSound;
+    AGETextCtrl *Units_WwiseSelectionSound;
     ComboBox_Plus1 *Units_SelectionSound_ComboBox;
     AGETextCtrl *Units_DyingSound;
+    AGETextCtrl *Units_WwiseDyingSound;
     ComboBox_Plus1 *Units_DyingSound_ComboBox;
     AGETextCtrl *Units_AttackReaction;
     AGETextCtrl *Units_ConvertTerrain;
@@ -1997,8 +2007,10 @@ private:
     ComboBox_Plus1 *Units_DropSite_ComboBox[2];
     AGETextCtrl *Units_TaskSwapGroup;
     AGETextCtrl *Units_AttackSound;
+    AGETextCtrl *Units_WwiseAttackSound;
     ComboBox_Plus1 *Units_AttackSound_ComboBox;
     AGETextCtrl *Units_MoveSound;
+    AGETextCtrl *Units_WwiseMoveSound;
     ComboBox_Plus1 *Units_MoveSound_ComboBox;
     AGETextCtrl *Units_RunPattern;
     SolidText *Units_RunPattern_Text;
@@ -2065,13 +2077,25 @@ private:
     ComboBox_Plus1 *Units_ChargingGraphic_ComboBox;
     AGETextCtrl *Units_ChargingMode;
     AGETextCtrl *Units_DisplayedPierceArmour;
+    AGETextCtrl *Units_SpawningGraphic;
+    AGETextCtrl *Units_UpgradeGraphic;
+    ComboBox_Plus1 *Units_SpawningGraphic_ComboBox;
+    ComboBox_Plus1 *Units_UpgradeGraphic_ComboBox;
 
 //  Type 80
 
     AGETextCtrl *Units_ConstructionGraphicID;
-    ComboBox_Plus1 *Units_ConstructionGraphicID_ComboBox;
     AGETextCtrl *Units_SnowGraphicID;
+    AGETextCtrl *Units_DestructionGraphicID;
+    AGETextCtrl *Units_DestructionRubbleGraphicID;
+    AGETextCtrl *Units_ResearchingGraphic;
+    AGETextCtrl *Units_ResearchCompletedGraphic;
+    ComboBox_Plus1 *Units_ConstructionGraphicID_ComboBox;
     ComboBox_Plus1 *Units_SnowGraphicID_ComboBox;
+    ComboBox_Plus1 *Units_DestructionGraphicID_ComboBox;
+    ComboBox_Plus1 *Units_DestructionRubbleGraphicID_ComboBox;
+    ComboBox_Plus1 *Units_ResearchingGraphic_ComboBox;
+    ComboBox_Plus1 *Units_ResearchCompletedGraphic_ComboBox;
     AGETextCtrl *Units_AdjacentMode;
     CheckBox_2State *Units_AdjacentMode_CheckBox;
     AGETextCtrl *Units_IconAngle;
@@ -2093,8 +2117,10 @@ private:
     AGETextCtrl *Units_TransformUnit;
     ComboBox_Plus1 *Units_TransformUnit_ComboBox;
     AGETextCtrl *Units_TransformSound;
+    AGETextCtrl *Units_WwiseTransformSound;
     ComboBox_Plus1 *Units_TransformSound_ComboBox;
     AGETextCtrl *Units_ConstructionSound;
+    AGETextCtrl *Units_WwiseConstructionSound;
     ComboBox_Plus1 *Units_ConstructionSound_ComboBox;
     AGETextCtrl *Units_GarrisonType;
     wxBoxSizer *Units_GarrisonType_Grid;
@@ -2119,6 +2145,7 @@ private:
     SolidText *Units_LineOfSight_Text;
     SolidText *Units_GarrisonCapacity_Text;
     SolidText *Units_SizeRadius_Text;
+    SolidText *Units_MinCollisionSizeMultiplier_Text;
     SolidText *Units_TrainSound_Text;
     SolidText *Units_DamageSound_Text;
     SolidText *Units_DeadUnitID_Text;
@@ -2246,11 +2273,17 @@ private:
     SolidText *Units_ChargingGraphic_Text;
     SolidText *Units_ChargingMode_Text;
     SolidText *Units_DisplayedPierceArmour_Text;
+    SolidText *Units_SpawningGraphic_Text;
+    SolidText *Units_UpgradeGraphic_Text;
 
 //  Type 80
 
     SolidText *Units_ConstructionGraphicID_Text;
     SolidText *Units_SnowGraphicID_Text;
+    SolidText *Units_DestructionGraphicID_Text;
+    SolidText *Units_DestructionRubbleGraphicID_Text;
+    SolidText *Units_ResearchingGraphic_Text;
+    SolidText *Units_ResearchCompletedGraphic_Text;
     SolidText *Units_IconAngle_Text;
     SolidText *Units_StackUnitID_Text;
     SolidText *Units_TerrainID_Text;
@@ -2286,6 +2319,7 @@ private:
     wxBoxSizer *Units_GarrisonCapacity_Holder;
     wxBoxSizer *Units_SizeRadius_Holder;
     wxBoxSizer *Units_SizeRadius_Grid;
+    wxBoxSizer *Units_MinCollisionSizeMultiplier_Holder;
     wxBoxSizer *Units_TrainSound_Holder;
     wxBoxSizer *Units_DamageSound_Holder;
     wxBoxSizer *Units_DeadUnitID_Holder;
@@ -2430,11 +2464,17 @@ private:
     wxBoxSizer *Units_ChargingGraphic_Holder;
     wxBoxSizer *Units_ChargingMode_Holder;
     wxBoxSizer *Units_DisplayedPierceArmour_Holder;
+    wxBoxSizer *Units_SpawningGraphic_Holder;
+    wxBoxSizer *Units_UpgradeGraphic_Holder;
 
 //  Type 80
 
     wxBoxSizer *Units_ConstructionGraphicID_Holder;
     wxBoxSizer *Units_SnowGraphicID_Holder;
+    wxBoxSizer *Units_DestructionGraphicID_Holder;
+    wxBoxSizer *Units_DestructionRubbleGraphicID_Holder;
+    wxBoxSizer *Units_ResearchingGraphic_Holder;
+    wxBoxSizer *Units_ResearchCompletedGraphic_Holder;
     wxBoxSizer *Units_AdjacentMode_Holder;
     wxBoxSizer *Units_IconAngle_Holder;
     wxBoxSizer *Units_BuildAndVanish_Holder;
@@ -2578,14 +2618,14 @@ private:
     wxStaticBoxSizer *Units_GraphicsArea_Holder;
     wxBoxSizer *Units_GraphicsArea1_Holder;
     wxBoxSizer *Units_GraphicsArea4_Holder;
-    wxBoxSizer *Units_GraphicsArea5_Holder;
+    wxGridSizer *Units_GraphicsArea5_Holder;
     wxStaticBoxSizer *Units_StatsArea_Holder;
     wxBoxSizer *Units_StatsArea1A_Sizer;
     wxBoxSizer *Units_StatsArea1B_Sizer;
     wxBoxSizer *Units_StatsAreaGarrison_Grid;
     wxBoxSizer *Units_StatsArea2_Grid;
     wxStaticBoxSizer *Units_ProjectileArea_Holder;
-    wxBoxSizer *Units_P1, *Units_P2, *Units_P3;
+    wxBoxSizer *Units_P1, *Units_P2, *Units_P3, *Units_AS2_Holder;
     wxStaticBoxSizer *Units_Attributes_Holder;
     wxBoxSizer *Units_A1_Grid, *Units_A2_Grid, *Units_A3_Grid, *Units_A4_Grid, *Units_A6_Grid, *Units_AS_Holder, *Units_AS1_Grid;
     wxGridSizer *Units_A5_Grid, *Units_AM1_Grid, *Units_AB1_Grid;
@@ -2712,6 +2752,8 @@ private:
     AGETextCtrl *Tasks_TargetDiplomacy;
     AGETextCtrl *Tasks_CarryCheck;
     AGETextCtrl *Tasks_PickForConstruction;
+    AGETextCtrl *Tasks_WwiseResourceGatheringSound;
+    AGETextCtrl *Tasks_WwiseResourceDepositSound;
     array<AGETextCtrl*, 6> Tasks_Graphics;
     array<ComboBox_Plus1*, 6> Tasks_Graphics_ComboBox;
 
@@ -2739,6 +2781,7 @@ private:
     wxButton *Graphics_Disable;
     wxButton *Graphics_CopyToEnd;
     wxButton *Graphics_MakeLast;
+    wxButton *Graphics_Rename;
 
     AScrolled *Graphics_Scroller;
     wxBoxSizer *Graphics_ScrollSpace;
@@ -2747,6 +2790,7 @@ private:
     wxBoxSizer *Graphics_NameArea_Holder;
     wxBoxSizer *Graphics_Name_Holder;
     wxBoxSizer *Graphics_FileName_Holder;
+    wxBoxSizer *Graphics_ParticleEffectName_Holder;
     wxBoxSizer *Graphics_SLP_Holder;
     wxBoxSizer *Graphics_Loaded_Holder;
     wxBoxSizer *Graphics_ColorFlag_Holder;
@@ -2778,6 +2822,7 @@ private:
 
     SolidText *Graphics_Name_Text;
     SolidText *Graphics_FileName_Text;
+    SolidText *Graphics_ParticleEffectName_Text;
     SolidText *Graphics_SLP_Text;
     SolidText *Graphics_Loaded_Text;
     SolidText *Graphics_ColorFlag_Text;
@@ -2801,6 +2846,8 @@ private:
 
     AGETextCtrl *Graphics_Name;
     AGETextCtrl *Graphics_FileName;
+    AGETextCtrl *Graphics_ParticleEffectName;
+    wxButton *Graphics_ParticleEffectName_Browse;
     AGETextCtrl *Graphics_SLP;
     AGETextCtrl *Graphics_Loaded;
     AGETextCtrl *Graphics_ColorFlag;
@@ -2811,6 +2858,7 @@ private:
     AGETextCtrl *Graphics_TransparentPicking;
     AGETextCtrl *Graphics_Coordinates[4];
     AGETextCtrl *Graphics_SoundID;
+    AGETextCtrl *Graphics_WwiseSoundID;
     ComboBox_Plus1 *Graphics_SoundID_ComboBox;
     AGETextCtrl *Graphics_AngleSoundsUsed;
     CheckBox_2State *Graphics_AngleSoundsUsed_CheckBox;
@@ -2877,7 +2925,9 @@ private:
     SolidText *Graphics_AngleFrameNums_Text;
     AGETextCtrl *Graphics_AngleFrameNum[3];
     AGETextCtrl *Graphics_AngleSoundID[3];
+    AGETextCtrl *Graphics_WwiseAngleSoundID[3];
     ComboBox_Plus1 *Graphics_AngleSoundID_ComboBox[3];
+    wxButton *Deltas_Import;
 
 //  Terrains user interface
 
@@ -2949,13 +2999,21 @@ private:
     wxBoxSizer *Terrains_SoundID_Holder;
     SolidText *Terrains_SoundID_Text;
     AGETextCtrl *Terrains_SoundID;
+    AGETextCtrl *Terrains_WwiseSoundID;
     ComboBox_Plus1 *Terrains_SoundID_ComboBox;
+    wxBoxSizer *Terrains_SoundStopID_Holder;
+    SolidText *Terrains_SoundStopID_Text;
+    AGETextCtrl *Terrains_SoundStopID;
     wxBoxSizer *Terrains_BlendPriority_Holder;
     SolidText *Terrains_BlendPriority_Text;
     AGETextCtrl *Terrains_BlendPriority;
     wxBoxSizer *Terrains_BlendType_Holder;
     SolidText *Terrains_BlendType_Text;
     AGETextCtrl *Terrains_BlendType;
+    wxBoxSizer *Terrains_OverlayMaskName_Holder;
+    SolidText *Terrains_OverlayMaskName_Text;
+    AGETextCtrl *Terrains_OverlayMaskName;
+    wxButton *Terrains_OverlayMaskName_Browse;
     wxBoxSizer *Terrains_IsWater_Holder;
     SolidText *Terrains_IsWater_Text;
     AGETextCtrl *Terrains_IsWater;
@@ -3035,10 +3093,12 @@ private:
     array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitID;
     array<ComboBox_Plus1*, TERRAINUNITS>Terrains_TerrainUnitID_ComboBox;
     wxBoxSizer *Terrains_TerrainUnitDensity_Holder;
-    SolidText *Terrains_TerrainUnitDensity_Text;
-    array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitDensity;
+    wxBoxSizer *Terrains_TerrainUnitMaskedDensity_Holder;
     wxBoxSizer *Terrains_TerrainUnitPriority_Holder;
+    SolidText *Terrains_TerrainUnitDensity_Text;
     SolidText *Terrains_TerrainUnitPriority_Text;
+    array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitDensity;
+    array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitMaskedDensity;
     array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitPriority;
     wxBoxSizer *Terrains_UsedTerrainUnits_Holder;
     SolidText *Terrains_UsedTerrainUnits_Text;

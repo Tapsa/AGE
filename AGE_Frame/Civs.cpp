@@ -53,14 +53,14 @@ void AGE_Frame::InitCivs(bool all)
 
 void AGE_Frame::OnCivSelect(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedCount();
+    size_t selections = Civs_Civs_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Civs_Civs_ListV, CivIDs);
 
     for(auto &box: uiGroupCiv) box->clear();
 
     genie::Civ * CivPointer;
-    for(auto sel = selections; sel--> 0;)
+    for(size_t sel = selections; sel--> 0;)
     {
         CivPointer = &dataset->Civs[CivIDs[sel]];
 
@@ -82,7 +82,7 @@ void AGE_Frame::OnCivSelect(wxCommandEvent &event)
         }
         Civs_GraphicSet->prepend(&CivPointer->IconSet);
     }
-    SetStatusText(wxString::Format("Selections: %d    Selected civilization: %d", selections, CivIDs.front()), 0);
+    SetStatusText(wxString::Format("Selections: %lu    Selected civilization: %d", selections, CivIDs.front()), 0);
 
     for(auto &box: uiGroupCiv) box->update();
     ListResources();

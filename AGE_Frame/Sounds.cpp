@@ -68,7 +68,8 @@ void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
         if(GenieVersion >= genie::GV_TEST)
         {
             Sounds_CacheTime->prepend(&SoundPointer->CacheTime);
-            if(GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
+            if(GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap ||
+                GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
             {
                 Sounds_TotalProbability->prepend(&SoundPointer->TotalProbability);
             }

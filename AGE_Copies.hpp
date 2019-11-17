@@ -5,37 +5,28 @@ class GraphicCopies
 {
 	public:
 
-	int16_t IconID;
-	pair<int16_t, int16_t> StandingGraphic;
-	int16_t DyingGraphic;
-	int16_t UndeadGraphic;
-	uint8_t DamageGraphicCount;
+	int16_t IconID = -1;
+	pair<int16_t, int16_t> StandingGraphic = {-1, -1};
+	int16_t DyingGraphic = -1;
+	int16_t UndeadGraphic = -1;
+	uint8_t DamageGraphicCount = 0;
 	vector<genie::unit::DamageGraphic> DamageGraphics;
 
-	int16_t ConstructionGraphicID;
-	int16_t SnowGraphicID;
-	int32_t GarrisonGraphic;
-	int32_t SpecialGraphic;
-	int16_t AttackGraphic;
-	int16_t WalkingGraphic;
-	int16_t RunningGraphic;
+	int16_t ConstructionGraphicID = -1;
+	int16_t SnowGraphicID = -1;
+	int16_t DestructionGraphicID = -1;
+	int16_t DestructionRubbleGraphicID = -1;
+	int16_t ResearchingGraphic = -1;
+	int16_t ResearchCompletedGraphic = -1;
+	int16_t SpawningGraphic = -1;
+	int16_t UpgradeGraphic = -1;
+	int32_t GarrisonGraphic = -1;
+	int32_t SpecialGraphic = -1;
+	int16_t AttackGraphic = -1;
+	int16_t WalkingGraphic = -1;
+	int16_t RunningGraphic = -1;
 
-	GraphicCopies()
-	{
-		IconID = -1;
-		StandingGraphic.first = -1;
-		StandingGraphic.second = -1;
-		DyingGraphic = -1;
-		UndeadGraphic = -1;
-		DamageGraphicCount = 0;
-		ConstructionGraphicID = -1;
-		SnowGraphicID = -1;
-		GarrisonGraphic = -1;
-		SpecialGraphic = -1;
-		AttackGraphic = -1;
-		WalkingGraphic = -1;
-		RunningGraphic = -1;
-	}
+	GraphicCopies(){}
 	~GraphicCopies(){}
 };
 

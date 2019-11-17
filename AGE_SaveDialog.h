@@ -8,6 +8,7 @@ public:
 
     void OnDefaultAoKHD(wxCommandEvent &event);
     void OnDefaultAoP(wxCommandEvent &event);
+    void OnDefaultDE2(wxCommandEvent &event);
 
     wxCheckBox *SyncWithReadPaths;
 };

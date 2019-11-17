@@ -12,7 +12,6 @@
 #include <iomanip>
 #include <functional>
 #include <boost/lexical_cast.hpp>
-#include <boost/shared_ptr.hpp>
 #include <SFML/Audio.hpp>
 #include <wx/wx.h>
 #include <wx/aboutdlg.h>
@@ -55,9 +54,10 @@
 #endif
 
 #include "genie/script/ScnFile.h"
-#include "genie/resource/Color.h"
-#include "genie/resource/SlpFrame.h"
 #include "genie/resource/DrsFile.h"
+#include "genie/resource/Color.h"
+#include "genie/resource/SmpFile.h"
+#include "genie/resource/SmpFrame.h"
 #include "genie/dat/DatFile.h"  // Newer dat system
 #include "genie/lang/LangFile.h"
 using namespace std;
@@ -100,10 +100,11 @@ enum EditableVersion
     EV_SWGB,
     EV_CC,
     EV_EF,
-    EV_Tapsa
+    EV_Tapsa,
+    EV_DE2
 };
 
-enum ContainerType {CByte, CUByte, CFloat, CLong, CShort, CUShort, CString};
+enum ContainerType {CByte, CUByte, CFloat, CLong, CULong, CShort, CUShort, CString};
 
 class SolidText: public wxStaticText
 {
