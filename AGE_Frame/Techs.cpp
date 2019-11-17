@@ -194,7 +194,7 @@ void AGE_Frame::OnEffectPasteInsert(wxCommandEvent &event)    // Works.
 wxString AGE_Frame::Tester(genie::EffectCommand effect, wxString how)
 {
     return ((effect.C == 8 || effect.C == 9) ? (effect.C == 8 ? "armor type " : "attack type ")
-        + FormatInt((uint16_t)effect.D >> 8) + how + FormatInt(uint16_t((uint8_t)effect.D))
+        + FormatInt((uint16_t)effect.D >> 8) + how + FormatInt(uint16_t(effect.D) & 0xFF)
         : "attr " + FormatInt(effect.C) + how + FormatFloat(effect.D))
         + ((effect.B == -1) ? " for unit " + FormatInt(effect.A) : " for class " + FormatInt(effect.B));
 }
@@ -387,7 +387,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                     enableD = NeverHide;
                     Effects_D->Show(false);
                     Effects_89_Amount->Show(true);
-                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t((uint8_t)EffectPointer->D))); // Correct value
+                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t(EffectPointer->D) & 0xFF)); // Correct value
                     Effects_89_Type->Show(true);
                     Effects_89_Type_CB1->Show(true);
                     uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
@@ -524,7 +524,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                     enableD = NeverHide;
                     Effects_D->Show(false);
                     Effects_89_Amount->Show(true);
-                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t((uint8_t)EffectPointer->D))); // Correct value
+                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t(EffectPointer->D) & 0xFF)); // Correct value
                     Effects_89_Type->Show(true);
                     Effects_89_Type_CB1->Show(true);
                     uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
@@ -571,7 +571,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                     enableD = NeverHide;
                     Effects_D->Show(false);
                     Effects_89_Amount->Show(true);
-                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t((uint8_t)EffectPointer->D))); // Correct value
+                    Effects_89_Amount->ChangeValue(lexical_cast<string>(uint16_t(EffectPointer->D) & 0xFF)); // Correct value
                     Effects_89_Type->Show(true);
                     Effects_89_Type_CB1->Show(true);
                     uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;

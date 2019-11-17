@@ -46,6 +46,7 @@ AGETextCtrl* AGETextCtrl::init(const ContainerType type, vector<AGETextCtrl*> *g
     case CUByte: product = new TextCtrl_UByte(frame, editor, parent, length); break;
     case CFloat: product = new TextCtrl_Float(frame, editor, parent, length); break;
     case CLong: product = new TextCtrl_Long(frame, editor, parent, length); break;
+    case CULong: product = new TextCtrl_ULong(frame, editor, parent, length); break;
     case CShort: product = new TextCtrl_Short(frame, editor, parent, length); break;
     case CUShort: product = new TextCtrl_UShort(frame, editor, parent, length); break;
     case CString: product = new TextCtrl_String(frame, editor, parent, length); break;
@@ -107,7 +108,7 @@ int TextCtrl_Byte::SaveEdits(bool forced)
                 return 2;
             }
         }
-        catch(bad_lexical_cast)
+        catch(const bad_lexical_cast&)
         {
             editor->post("Please enter a number from -128 to 127", IETITLE, this);
             return 2;
@@ -173,7 +174,7 @@ int TextCtrl_UByte::SaveEdits(bool forced)
                 return 2;
             }
         }
-        catch(bad_lexical_cast)
+        catch(const bad_lexical_cast&)
         {
             editor->post("Please enter a number from 0 to 255", IETITLE, this);
             return 2;
@@ -233,7 +234,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(bad_lexical_cast)
+        catch(const bad_lexical_cast&)
         {
             editor->post("Please enter a valid floating point number", IETITLE, this);
             return 2;
@@ -291,7 +292,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(bad_lexical_cast)
+        catch(const bad_lexical_cast&)
         {
             editor->post("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE, this);
             return 2;
@@ -300,6 +301,64 @@ int TextCtrl_Long::SaveEdits(bool forced)
     else
     {
         ChangeValue(lexical_cast<string>(*(int32_t*)container.back()));
+    }
+    return 1;
+}
+
+int TextCtrl_ULong::SaveEdits(bool forced)
+{
+    if(editor->hexMode || container.empty()) return 1;
+    if(editedFileId != editor->loadedFileId) return 1;
+    string value = string(GetValue().mb_str());
+    if(value.size() > 0)
+    {
+        short batchMode = 0;
+        if(value[0] == 'b' && !BatchCheck(value, batchMode))
+        {
+            editor->post(BATCHWARNING, BWTITLE, NULL);
+            return 1;
+        }
+        try
+        {
+            uint32_t casted = lexical_cast<uint32_t>(value);
+            if(batchMode > 0)
+            {
+                for(auto &pointer: container)
+                {
+                    ++edits;
+                    switch(batchMode)
+                    {
+                        case 1: *(uint32_t*)pointer += casted; break;
+                        case 2: *(uint32_t*)pointer -= casted; break;
+                        case 3: *(uint32_t*)pointer *= casted; break;
+                        case 4: *(uint32_t*)pointer /= casted; break;
+                        case 5: *(uint32_t*)pointer %= casted; break;
+                    }
+                }
+                ChangeValue(lexical_cast<string>(*(uint32_t*)container.back()));
+                HandleResults(*(uint32_t*)container.back());
+                return 0;
+            }
+            if(*(uint32_t*)container.back() != casted || forced)
+            {
+                for(auto &pointer: container)
+                {
+                    ++edits;
+                    *(uint32_t*)pointer = casted;
+                }
+                HandleResults(casted);
+                return 0;
+            }
+        }
+        catch(const bad_lexical_cast&)
+        {
+            editor->post("Please enter a number from 0 to 4 294 967 295", IETITLE, this);
+            return 2;
+        }
+    }
+    else
+    {
+        ChangeValue(lexical_cast<string>(*(uint32_t*)container.back()));
     }
     return 1;
 }
@@ -349,7 +408,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(bad_lexical_cast)
+        catch(const bad_lexical_cast&)
         {
             editor->post("Please enter a number from -32 768 to 32 767", IETITLE, this);
             return 2;
@@ -407,7 +466,7 @@ int TextCtrl_UShort::SaveEdits(bool forced)
                 return 0;
             }
         }
-        catch(bad_lexical_cast)
+        catch(const bad_lexical_cast&)
         {
             editor->post("Please enter a number from 0 to 65 535", IETITLE, this);
             return 2;
@@ -566,6 +625,27 @@ void TextCtrl_Long::replenish()
     for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
     {
         (*it)->SetChoice(*(int32_t*)container.back());
+        (*it)->EnableCtrl(true);
+    }
+}
+
+void TextCtrl_ULong::replenish()
+{
+    if(editor->hexMode)
+    {
+        stringbuf buffer;
+        ostream os (&buffer);
+        os << hex << setfill('0') << setw(8) << uppercase << *(uint32_t*)container.back();
+        ChangeValue(buffer.str());
+    }
+    else
+    {
+        ChangeValue(lexical_cast<string>(*(uint32_t*)container.back()));
+    }
+    if(!LinkedBoxes.empty())
+    for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+    {
+        (*it)->SetChoice(*(uint32_t*)container.back());
         (*it)->EnableCtrl(true);
     }
 }

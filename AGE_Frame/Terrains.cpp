@@ -216,6 +216,15 @@ void AGE_Frame::OnTerrainSelect(wxCommandEvent &event)
         Terrains_SLP->prepend(&TerrainPointer->SLP);
         Terrains_ShapePtr->prepend(&TerrainPointer->ShapePtr);
         Terrains_SoundID->prepend(&TerrainPointer->SoundID);
+        if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+        {
+            Terrains_WwiseSoundID->prepend(&TerrainPointer->WwiseSoundID);
+            Terrains_SoundStopID->prepend(&TerrainPointer->WwiseSoundStopID);
+            Terrains_OverlayMaskName->prepend(&TerrainPointer->OverlayMaskName);
+            Terrains_IsWater->prepend(&TerrainPointer->IsWater);
+            Terrains_HideInEditor->prepend(&TerrainPointer->HideInEditor);
+            Terrains_StringID->prepend(&TerrainPointer->StringID);
+        }
         if(GenieVersion >= genie::GV_AoKB)
         {
             BLENDS:
@@ -261,6 +270,7 @@ void AGE_Frame::OnTerrainSelect(wxCommandEvent &event)
         {
             Terrains_TerrainUnitID[loop]->prepend(&TerrainPointer->TerrainUnitID[loop]);
             Terrains_TerrainUnitDensity[loop]->prepend(&TerrainPointer->TerrainUnitDensity[loop]);
+            Terrains_TerrainUnitMaskedDensity[loop]->prepend(&TerrainPointer->TerrainUnitMaskedDensity[loop]);
             Terrains_TerrainUnitPriority[loop]->prepend(&TerrainPointer->TerrainUnitCentering[loop]);
         }
         Terrains_UsedTerrainUnits->prepend(&TerrainPointer->NumberOfTerrainUnitsUsed);
@@ -287,13 +297,14 @@ void AGE_Frame::OnTerrainSelect(wxCommandEvent &event)
             if(LooseHD)
             {
                 wxString resname;
-                folder.Replace("drs", "terrain/textures", false);
+                folder.Replace("drs", "terrain\\textures", false);
                 if(!wxFileName(resname).FileExists())
                 {
-                    resname = folder + "/" + TerrainPointer->Name2 + "_00_color.png";
+                    resname = folder + "\\" + TerrainPointer->Name2 + "_00_color.png";
                 }
                 if(wxFileName(resname).FileExists())
                 {
+                    wxLogNull suppresser;
                     wxImage img(resname, wxBITMAP_TYPE_PNG);
                     if(img.IsOk())
                     {
@@ -322,7 +333,10 @@ void AGE_Frame::OnTerrainSelect(wxCommandEvent &event)
         }
     }
 
-    ListTerrainsBorders();
+    if(GenieVersion < genie::GV_C2 || GenieVersion > genie::GV_LatestDE2)
+    {
+        ListTerrainsBorders();
+    }
 }
 
 wxThread::ExitCode Loader::Entry()
@@ -343,7 +357,7 @@ wxThread::ExitCode Loader::Entry()
             int cols = TerrainPointer->TerrainDimensions.second;
             size_t wwidth = (rows + cols) * TileHalfWidth;
             size_t wheight = (rows + cols) * TileHalfHeight;
-            size_t warea = wwidth * wheight;
+            size_t warea = wwidth * wheight + 1;
             vector<uint8_t> wrgbdata(warea * 4, 0);
 
             pair<size_t, size_t> corners[rows * cols];
@@ -362,7 +376,7 @@ wxThread::ExitCode Loader::Entry()
                 {
                     frame = tileSLP.slp->getFrame(f);
                 }
-                catch(out_of_range){}
+                catch(const out_of_range&){}
                 if(frame)
                 {
                     int width = frame->getWidth();
@@ -572,22 +586,30 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_Name_Text = new SolidText(Terrains_Scroller, " Internal Name");
     Terrains_Name = AGETextCtrl::init(CString, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_FileName_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_FileName_Text = new SolidText(Terrains_Scroller, " SLP Filename");
+    Terrains_FileName_Text = new SolidText(Terrains_Scroller, " Texture Filename");
     Terrains_FileName = AGETextCtrl::init(CString, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_SLP_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_SLP_Text = new SolidText(Terrains_Scroller, " SLP");
     Terrains_SLP = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_SoundID_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_SoundID_Text = new SolidText(Terrains_Scroller, " Sound");
-    Terrains_SoundID = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
+    Terrains_WwiseSoundID = AGETextCtrl::init(CULong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
+    Terrains_SoundID = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
     Terrains_SoundID_ComboBox = new ComboBox_Plus1(Terrains_Scroller, Terrains_SoundID, &sound_names);
     SoundComboBoxList.push_back(Terrains_SoundID_ComboBox);
+    Terrains_SoundStopID_Holder = new wxBoxSizer(wxVERTICAL);
+    Terrains_SoundStopID_Text = new SolidText(Terrains_Scroller, " Sound Stop Event");
+    Terrains_SoundStopID = AGETextCtrl::init(CULong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_BlendPriority_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_BlendPriority_Text = new SolidText(Terrains_Scroller, " Blend Level");
     Terrains_BlendPriority = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_BlendType_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_BlendType_Text = new SolidText(Terrains_Scroller, " Blend Class");
     Terrains_BlendType = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
+    Terrains_OverlayMaskName_Holder = new wxBoxSizer(wxHORIZONTAL);
+    Terrains_OverlayMaskName_Text = new SolidText(Terrains_Scroller, " Overlay Mask Name");
+    Terrains_OverlayMaskName = AGETextCtrl::init(CString, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
+    Terrains_OverlayMaskName_Browse = new wxButton(Terrains_Scroller, wxID_ANY, "Browse");
     Terrains_Colors_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_Colors_Grid = new wxGridSizer(3, 0, 0);
     Terrains_Colors_Text = new SolidText(Terrains_Scroller, " Minimap Colors");
@@ -624,8 +646,9 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_StringID_Text = new SolidText(Terrains_Scroller, " String ID");
     Terrains_StringID = AGETextCtrl::init(CLong, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
     Terrains_IsWater_Holder = new wxBoxSizer(wxVERTICAL);
-    Terrains_IsWater_Text = new SolidText(Terrains_Scroller, " Is Water");
-    Terrains_IsWater = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
+    Terrains_IsWater_Text = new SolidText(Terrains_Scroller, " Type *");
+    Terrains_IsWater = AGETextCtrl::init(CUByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
+    Terrains_IsWater->SetToolTip("0   None\n1   Water\n2   Deep water\n4   Shallow water\n8   Walkable shallow\n16   Beach\n32   Land\n64   Ice\n128   Snow");
     Terrains_HideInEditor_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_HideInEditor_Text = new SolidText(Terrains_Scroller, " Hide in Editor");
     Terrains_HideInEditor = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller);
@@ -661,6 +684,7 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_TerrainUnitID_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_TerrainUnitID_Holder1 = new wxBoxSizer(wxVERTICAL);
     Terrains_TerrainUnitDensity_Holder = new wxBoxSizer(wxVERTICAL);
+    Terrains_TerrainUnitMaskedDensity_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_TerrainUnitPriority_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_TerrainUnitID_Text = new SolidText(Terrains_Scroller, " Terrain Unit");
     Terrains_TerrainUnitDensity_Text = new SolidText(Terrains_Scroller, " Unit Density");
@@ -671,6 +695,7 @@ void AGE_Frame::CreateTerrainControls()
         Terrains_TerrainUnitID_ComboBox[loop] = new ComboBox_Plus1(Terrains_Scroller, Terrains_TerrainUnitID[loop], &unit_names);
         UnitComboBoxList.push_back(Terrains_TerrainUnitID_ComboBox[loop]);
         Terrains_TerrainUnitDensity[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
+        Terrains_TerrainUnitMaskedDensity[loop] = AGETextCtrl::init(CShort, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
         Terrains_TerrainUnitPriority[loop] = AGETextCtrl::init(CByte, &uiGroupTerrain, this, &popUp, Terrains_Scroller, AGETextCtrl::SMALL);
         Terrains_TerrainUnitPriority[loop]->SetToolTip("0   Place randomly on the tile\n1   Place in middle of the tile");
     }
@@ -784,12 +809,19 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_ShapePtr_Holder->Add(Terrains_ShapePtr_Text);
     Terrains_ShapePtr_Holder->Add(Terrains_ShapePtr);
     Terrains_SoundID_Holder->Add(Terrains_SoundID_Text);
-    Terrains_SoundID_Holder->Add(Terrains_SoundID, 0, wxEXPAND);
+    wxSizer *sizer = new wxBoxSizer(wxHORIZONTAL);
+    sizer->Add(Terrains_SoundID, 1, wxEXPAND);
+    sizer->Add(Terrains_WwiseSoundID, 2, wxEXPAND);
+    Terrains_SoundID_Holder->Add(sizer, 0, wxEXPAND);
     Terrains_SoundID_Holder->Add(Terrains_SoundID_ComboBox);
+    Terrains_SoundStopID_Holder->Add(Terrains_SoundStopID_Text);
+    Terrains_SoundStopID_Holder->Add(Terrains_SoundStopID);
     Terrains_BlendPriority_Holder->Add(Terrains_BlendPriority_Text);
     Terrains_BlendPriority_Holder->Add(Terrains_BlendPriority);
     Terrains_BlendType_Holder->Add(Terrains_BlendType_Text);
     Terrains_BlendType_Holder->Add(Terrains_BlendType);
+    Terrains_OverlayMaskName_Holder->Add(Terrains_OverlayMaskName);
+    Terrains_OverlayMaskName_Holder->Add(Terrains_OverlayMaskName_Browse);
     Terrains_IsWater_Holder->Add(Terrains_IsWater_Text);
     Terrains_IsWater_Holder->Add(Terrains_IsWater);
     Terrains_HideInEditor_Holder->Add(Terrains_HideInEditor_Text);
@@ -860,14 +892,16 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_TerrainDimensions_Holder->Add(Terrains_TerrainDimensions[1]);
 
     Terrains_TerrainUnitID_Holder->Add(Terrains_TerrainUnitID_Text);
-    Terrains_TerrainUnitID_Holder1->AddSpacer(15);
+    Terrains_TerrainUnitID_Holder1->Add(new SolidText(Terrains_Scroller, " "));
     Terrains_TerrainUnitDensity_Holder->Add(Terrains_TerrainUnitDensity_Text);
+    Terrains_TerrainUnitMaskedDensity_Holder->Add(new SolidText(Terrains_Scroller, " Masked"));
     Terrains_TerrainUnitPriority_Holder->Add(Terrains_TerrainUnitPriority_Text);
     for(size_t loop = 0; loop < TERRAINUNITS; ++loop)
     {
         Terrains_TerrainUnitID_Holder->Add(Terrains_TerrainUnitID[loop], 0, wxEXPAND);
         Terrains_TerrainUnitID_Holder1->Add(Terrains_TerrainUnitID_ComboBox[loop]);
         Terrains_TerrainUnitDensity_Holder->Add(Terrains_TerrainUnitDensity[loop], 0, wxEXPAND);
+        Terrains_TerrainUnitMaskedDensity_Holder->Add(Terrains_TerrainUnitMaskedDensity[loop], 0, wxEXPAND);
         Terrains_TerrainUnitPriority_Holder->Add(Terrains_TerrainUnitPriority[loop], 0, wxEXPAND);
     }
     Terrains_UsedTerrainUnits_Holder->Add(Terrains_UsedTerrainUnits_Text);
@@ -880,6 +914,7 @@ void AGE_Frame::CreateTerrainControls()
 
     Terrains_Area1_Grid->Add(Terrains_SLP_Holder);
     Terrains_Area1_Grid->Add(Terrains_SoundID_Holder, 0, wxLEFT, 5);
+    Terrains_Area1_Grid->Add(Terrains_SoundStopID_Holder, 0, wxLEFT, 5);
     Terrains_Area1_Grid->Add(Terrains_BlendPriority_Holder, 0, wxLEFT, 5);
     Terrains_Area1_Grid->Add(Terrains_BlendType_Holder, 0, wxLEFT, 5);
     Terrains_Area2_Grid->Add(Terrains_Colors_Holder);
@@ -888,6 +923,7 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitID_Holder);
     Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitID_Holder1);
     Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitDensity_Holder, 0, wxLEFT, 5);
+    Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitMaskedDensity_Holder);
     Terrains_TerrainUnits_Holder->Add(Terrains_TerrainUnitPriority_Holder, 0, wxLEFT, 5);
 
     Terrains_GridX1->Add(Terrains_TerrainReplacementID_Holder);
@@ -920,6 +956,8 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_GreatSpace->Add(Terrains_SpaceRight, 5, wxEXPAND, 5);
 
     Terrains_ScrollSpace->Add(Terrains_NameArea_Holder);
+    Terrains_ScrollSpace->Add(Terrains_OverlayMaskName_Text, 0, wxTOP, 5);
+    Terrains_ScrollSpace->Add(Terrains_OverlayMaskName_Holder);
     Terrains_ScrollSpace->Add(Terrains_Area1_Grid, 0, wxTOP, 5);
     Terrains_ScrollSpace->Add(Terrains_Area2_Grid, 0, wxTOP, 5);
     Terrains_ScrollSpace->Add(Terrains_GreatSpace, 0, wxEXPAND | wxTOP, 5);
@@ -935,6 +973,7 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_IsWater_Holder->Show(false);
     Terrains_HideInEditor_Holder->Show(false);
     Terrains_StringID_Holder->Show(false);
+    Terrains_TerrainUnitMaskedDensity_Holder->Show(false);
 
     Tab_Terrains->SetSizer(Terrains_Main);
 
@@ -960,6 +999,15 @@ void AGE_Frame::CreateTerrainControls()
     {
         TabBar_Main->ChangeSelection(10);
         TerRestrict_Terrains_Search->SetFocus();
+    });
+    Terrains_OverlayMaskName_Browse->Bind(wxEVT_BUTTON, [this](wxCommandEvent &event)
+    {
+        wxFileDialog md(this, "Select overlay mask file", "", "", "", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+        if(md.ShowModal() == wxID_OK)
+        {
+            Terrains_OverlayMaskName->ChangeValue(md.GetFilename());
+            Terrains_OverlayMaskName->SaveEdits(true);
+        }
     });
 
     Terrains_Borders_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnTerrainsBorderSearch, this);

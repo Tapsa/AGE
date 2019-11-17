@@ -9,41 +9,45 @@ void AGE_Frame::ListMapData()
 void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
 {
     event.Skip();
-    int32_t Result, Temp;
+    int32_t result = 0;
 
     if(!General_CalcBoxes[0]->IsEmpty())
     {
-        try{Result = lexical_cast<int32_t>(General_CalcBoxes[0]->GetValue());}
-        catch(bad_lexical_cast){return;}
+        try
+        {
+            result = lexical_cast<int32_t>(General_CalcBoxes[0]->GetValue()) & 0xFF;
+        }
+        catch(const bad_lexical_cast&){}
     }
-    else Result = 0;
-    Result = (uint8_t)Result;
 
     if(!General_CalcBoxes[1]->IsEmpty())
     {
-        try{Temp = lexical_cast<int32_t>(General_CalcBoxes[1]->GetValue());}
-        catch(bad_lexical_cast){return;}
+        try
+        {
+            result += (lexical_cast<int32_t>(General_CalcBoxes[1]->GetValue()) & 0xFF) << 8;
+        }
+        catch(const bad_lexical_cast&){}
     }
-    else Temp = 0;
-    Result += (uint8_t)Temp << 8;
 
     if(!General_CalcBoxes[2]->IsEmpty())
     {
-        try{Temp = lexical_cast<int32_t>(General_CalcBoxes[2]->GetValue());}
-        catch(bad_lexical_cast){return;}
+        try
+        {
+            result += (lexical_cast<int32_t>(General_CalcBoxes[2]->GetValue()) & 0xFF) << 16;
+        }
+        catch(const bad_lexical_cast&){}
     }
-    else Temp = 0;
-    Result += (uint8_t)Temp << 16;
 
     if(!General_CalcBoxes[3]->IsEmpty())
     {
-        try{Temp = lexical_cast<int32_t>(General_CalcBoxes[3]->GetValue());}
-        catch(bad_lexical_cast){return;}
+        try
+        {
+            result += (lexical_cast<int32_t>(General_CalcBoxes[3]->GetValue()) & 0xFF) << 24;
+        }
+        catch(const bad_lexical_cast&){}
     }
-    else Temp = 0;
-    Result += (uint8_t)Temp << 24;
 
-    General_CalcBoxes[4]->ChangeValue(lexical_cast<string>(Result));
+    General_CalcBoxes[4]->ChangeValue(lexical_cast<string>(result));
 }
 
 void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
@@ -51,17 +55,23 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
     event.Skip();
     if(General_CalcBoxes[4]->IsEmpty()) return;
 
-    int32_t Result;
-    try{Result = lexical_cast<int32_t>(General_CalcBoxes[4]->GetValue());}
-    catch(bad_lexical_cast){return;}
+    int32_t result;
+    try
+    {
+        result = lexical_cast<int32_t>(General_CalcBoxes[4]->GetValue());
+    }
+    catch(const bad_lexical_cast&)
+    {
+        result = 0;
+    }
 
-    General_CalcBoxes[0]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
-    Result >>= 8;
-    General_CalcBoxes[1]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
-    Result >>= 8;
-    General_CalcBoxes[2]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
-    Result >>= 8;
-    General_CalcBoxes[3]->ChangeValue(lexical_cast<string>((short)(int8_t)Result));
+    General_CalcBoxes[0]->ChangeValue(lexical_cast<string>(result & 0xFF));
+    result >>= 8;
+    General_CalcBoxes[1]->ChangeValue(lexical_cast<string>(result & 0xFF));
+    result >>= 8;
+    General_CalcBoxes[2]->ChangeValue(lexical_cast<string>(result & 0xFF));
+    result >>= 8;
+    General_CalcBoxes[3]->ChangeValue(lexical_cast<string>(result & 0xFF));
 }
 
 void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)

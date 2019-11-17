@@ -59,3 +59,11 @@ void AGE_SaveDialog::OnDefaultAoP(wxCommandEvent &event)
     CheckBox_LangFileLocation->SetValue(false);
     CheckBox_LangX1FileLocation->SetValue(false);
 }
+
+void AGE_SaveDialog::OnDefaultDE2(wxCommandEvent &event)
+{
+    AGE_OpenSave::OnDefaultDE2(event);
+
+    CheckBox_LangFileLocation->SetValue(false);
+    CheckBox_LangX1FileLocation->SetValue(false);
+}

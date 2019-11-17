@@ -16,19 +16,20 @@ void LoadPalettes(vector<vector<genie::Color>> &palettes, const wxString &path);
 string LoadSound(wxArrayString &folders, const string &filename, int resnum);
 const unsigned char* LoadSound(vector<genie::DrsFile*> &datafiles, int resnum);
 genie::SlpFilePtr LoadSLP(genie::DrsFile &pack, int resnum);
-genie::SlpFilePtr LoadSLP(const string &filename);
+genie::SlpFilePtr LoadSLP(const wxString &filename);
+genie::SmpFilePtr LoadSMP(const wxString &filename);
 
 extern size_t cache_depth;
 
-template <typename key_t>
+template <typename key_t, typename value_t>
 class LRU_SLP
 {
 public:
-    typedef pair<key_t, genie::SlpFilePtr> pair_t;
+    typedef pair<key_t, value_t> pair_t;
     typedef typename list<pair_t>::iterator lit_t;
 
     // Handle least recently used cache here.
-    void put(const key_t &key, const genie::SlpFilePtr &slp)
+    void put(const key_t &key, const value_t &slp)
     {
         // Put key as first item.
         auto it = slp_cache_map.find(key);
@@ -51,12 +52,12 @@ public:
         }
     }
 
-    genie::SlpFilePtr use(const key_t &key)
+    value_t use(const key_t &key)
     {
         auto it = slp_cache_map.find(key);
         if(it == slp_cache_map.end())
         {
-            return genie::SlpFilePtr();
+            return value_t();
         }
         else
         {
@@ -70,7 +71,8 @@ private:
     unordered_map<key_t, lit_t> slp_cache_map;
 };
 
-extern LRU_SLP<int> slp_cache_resnum;
-extern LRU_SLP<string> slp_cache_resname;
+extern LRU_SLP<int, genie::SlpFilePtr> slp_cache_resnum;
+extern LRU_SLP<wxString, genie::SlpFilePtr> slp_cache_resname;
+extern LRU_SLP<wxString, genie::SmpFilePtr> smp_cache_resname;
 
 }

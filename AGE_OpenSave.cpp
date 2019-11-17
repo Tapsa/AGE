@@ -23,9 +23,10 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     Button_DefaultAoK = new wxButton(slave, wxID_ANY, "Age of Kings");
     Button_DefaultTC = new wxButton(slave, wxID_ANY, "The Conquerors");
     Button_DefaultAoKHD = new wxButton(slave, wxID_ANY, "Age of Empires II: HD");
-    Button_DefaultAP = new wxButton(slave, wxID_ANY, "The Forgotten + The African Kingdoms");
+    Button_DefaultAP = new wxButton(slave, wxID_ANY, "Forgotten + African Kingdoms + Rajas");
     Button_DefaultSWGB = new wxButton(slave, wxID_ANY, "Star Wars: Galactic Battlegrounds");
     Button_DefaultCC = new wxButton(slave, wxID_ANY, "Clone Campaigns");
+    Button_DefaultDE2 = new wxButton(slave, wxID_ANY, "Age of Empires II: Definitive Edition");
 #ifdef WIN32
     Button_PathFromRegistry = new wxButton(slave, wxID_ANY, "Fill paths from registry");
 #endif
@@ -39,6 +40,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     Defaults->Add(Button_DefaultAP, 0, wxEXPAND | wxRIGHT, 50);
     Defaults_StarWars->Add(Button_DefaultSWGB, 0, wxEXPAND | wxLEFT, 50);
     Defaults_StarWars->Add(Button_DefaultCC, 0, wxEXPAND);
+    Defaults_StarWars->Add(Button_DefaultDE2, 0, wxEXPAND);
 
     SolidText *Text_GenieVer = new SolidText(slave, "      Genie version:");
     CheckBox_GenieVer = new wxOwnerDrawnComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxSize(256, -1), 0, 0, wxCB_READONLY);
@@ -55,11 +57,12 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     CheckBox_GenieVer->Append("Age of Kings Beta (11.05)");
     CheckBox_GenieVer->Append("Age of Kings (11.5)");
     CheckBox_GenieVer->Append("The Conquerors (11.76)");
-    CheckBox_GenieVer->Append("The Forgotten + The African Kingdoms > 12");
+    CheckBox_GenieVer->Append("Forgotten + African Kingdoms + Rajas > 12");
     CheckBox_GenieVer->Append("Star Wars: Galactic Battlegrounds (1.0)");
     CheckBox_GenieVer->Append("Clone Campaigns (1.1)");
     CheckBox_GenieVer->Append("Mod: Expanding Fronts");
     CheckBox_GenieVer->Append("Age of Empires: Definitive Edition");
+    CheckBox_GenieVer->Append("Age of Empires II: Definitive Edition");
     CheckBox_GenieVer->SetSelection(EV_TC);
     SolidText *RecentText = new SolidText(slave, "      Recent paths:");
     CheckBox_Recent = new wxOwnerDrawnComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
@@ -105,6 +108,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     Button_DefaultTC->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultTC, this);
     Button_DefaultAoKHD->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultAoKHD, this);
     Button_DefaultAP->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultAoP, this);
+    Button_DefaultDE2->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultDE2, this);
     Button_DefaultSWGB->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultSWGB, this);
     Button_DefaultCC->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultCC, this);
     CheckBox_Recent->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_OpenSave::OnRecent, this);
@@ -227,6 +231,21 @@ void AGE_OpenSave::OnDefaultAoP(wxCommandEvent &event)
     wxString locale = LanguageBox->GetValue();
 
     CheckBox_GenieVer->SetSelection(EV_Cysion);
+    CheckBox_LangWrite->Enable(false);
+    if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\resources\\_common\\dat\\empires2_x2_p1.dat");
+    Path_LangFileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt");
+    Path_LangX1FileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-modded-strings-utf8.txt");
+    Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+    Radio_DatFileLocation->SetValue(true);
+    CheckBox_LangX1P1FileLocation->SetValue(false);
+}
+
+void AGE_OpenSave::OnDefaultDE2(wxCommandEvent &event)
+{
+    OnDefault("\\Steam\\steamapps\\common\\Age2HD");
+    wxString locale = LanguageBox->GetValue();
+
+    CheckBox_GenieVer->SetSelection(EV_DE2);
     CheckBox_LangWrite->Enable(false);
     if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\resources\\_common\\dat\\empires2_x2_p1.dat");
     Path_LangFileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt");

@@ -1,13 +1,13 @@
 #include "AGE_AboutDialog.h"
 #include "AppIcon64.xpm"
 
-const wxString AGE_AboutDialog::AGE_VER = "2018.2.27";
+const wxString AGE_AboutDialog::AGE_VER = "2019.11.17";
 
 AGE_AboutDialog::AGE_AboutDialog(wxWindow *parent, const wxFont &font)
 : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)
 {
     SetFont(font);
-    SolidText *Title = new SolidText(this, "Advanced Genie Editor\nVersion "+AGE_VER+"\nGPLv3 2011 - 2018\n\nDevelopers:\nMikko \"Tapsa\" P, since 2.0b\nApre - genieutils, 2.1a to 3.1\nEstien Nifo aka StSB77, 1.0a to 2.0a");
+    SolidText *Title = new SolidText(this, "Advanced Genie Editor\nVersion "+AGE_VER+"\nGPLv3 2011 - 2019\n\nDevelopers:\nMikko \"Tapsa\" P, since 2.0b\nApre - genieutils, 2.1a to 3.1\nEstien Nifo aka StSB77, 1.0a to 2.0a");
     wxStaticBitmap *Image = new wxStaticBitmap(this, wxID_ANY, wxBitmap(AppIcon64_xpm));
     SolidText *Credits = new SolidText(this, "Credits:\nYkkrosh - GeniEd 1 source code\nScenario_t_c - GeniEd 2 source code\nAlexandra \"Taichi San\", DarkRain654 - data file research\nDiGiT, JustTesting1234, AOHH - genie file structure\nCysion, Kris, Sarthos - important help\nBF_Tanks - some help\nDonnieboy, Sarn, chab - tooltip texts\ngagman - new icon");
     wxHyperlinkCtrl *AoKHThread = new wxHyperlinkCtrl(this, wxID_ANY, "Age of Kings Heaven AGE forum topic", "http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44059&st=recent&f=9,44059,0,365", wxDefaultPosition, wxDefaultSize, wxNO_BORDER | wxHL_CONTEXTMENU | wxHL_ALIGN_LEFT);
@@ -32,8 +32,9 @@ namespace GG
 {
 
 size_t cache_depth = 42;
-LRU_SLP<int> slp_cache_resnum;
-LRU_SLP<string> slp_cache_resname;
+LRU_SLP<int, genie::SlpFilePtr> slp_cache_resnum;
+LRU_SLP<wxString, genie::SlpFilePtr> slp_cache_resname;
+LRU_SLP<wxString, genie::SmpFilePtr> smp_cache_resname;
 
 void LoadPalettes(vector<vector<genie::Color>> &palettes, const wxString &path)
 {
@@ -71,7 +72,7 @@ void LoadPalettes(vector<vector<genie::Color>> &palettes, const wxString &path)
                     pal.load((path(0, ++cut) + line(++splitter, -1)).c_str());
                     palettes.push_back(pal.getColors());
                 }
-                catch(std::ios_base::failure){}
+                catch(const std::ios_base::failure&){}
             }
         }
     }
@@ -117,7 +118,7 @@ genie::SlpFilePtr LoadSLP(genie::DrsFile &pack, int resnum)
     return slp;
 }
 
-genie::SlpFilePtr LoadSLP(const string &filename)
+genie::SlpFilePtr LoadSLP(const wxString &filename)
 {
     genie::SlpFilePtr slp = slp_cache_resname.use(filename);
     if(!slp)
@@ -129,12 +130,32 @@ genie::SlpFilePtr LoadSLP(const string &filename)
             slp->freelock();
             slp_cache_resname.put(filename, slp);
         }
-        catch(std::ios_base::failure)
+        catch(const std::ios_base::failure&)
         {
             return genie::SlpFilePtr();
         }
     }
     return slp;
+}
+
+genie::SmpFilePtr LoadSMP(const wxString &filename)
+{
+    genie::SmpFilePtr smp = smp_cache_resname.use(filename);
+    if(!smp)
+    {
+        try
+        {
+            smp.reset(new genie::SmpFile());
+            smp->load(filename.c_str());
+            smp->freelock();
+            smp_cache_resname.put(filename, smp);
+        }
+        catch(const std::ios_base::failure&)
+        {
+            return genie::SmpFilePtr();
+        }
+    }
+    return smp;
 }
 
 }

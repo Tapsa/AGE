@@ -23,6 +23,7 @@ genie::GameVersion AGE_Frame::version(int ver)
         case EV_AoK: return genie::GV_AoK;
         case EV_TC: return genie::GV_TC;
         case EV_Cysion: return genie::GV_Cysion;
+        case EV_DE2: return genie::GV_C2;
         case EV_SWGB: return genie::GV_SWGB;
         case EV_CC: return genie::GV_CC;
         case EV_EF: return genie::GV_CC;
@@ -236,7 +237,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             // In case genieutils interpret another one.
             GenieVersion = dataset->getGameVersion();
         }
-        catch(std::ios_base::failure)
+        catch(const std::ios_base::failure&)
         {
             wxMessageBox("Failed to load "+DatFileName);
             delete dataset;
@@ -252,7 +253,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
     {
         UseTXT = true;
         // Bad way of coding, please fix.
-        if(GenieVersion == genie::GV_TC || genie::GV_Cysion == GenieVersion)
+        if(GenieVersion == genie::GV_TC || GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2)
         {
             LooseHD = true;
         }
@@ -286,7 +287,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 {
                     Lang->load(LangFileName.c_str());
                 }
-                catch(std::ios_base::failure)
+                catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Failed to load "+LangFileName);
                     delete Lang;
@@ -310,7 +311,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 {
                     LangX->load(LangX1FileName.c_str());
                 }
-                catch(std::ios_base::failure)
+                catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Failed to load "+LangX1FileName);
                     delete LangX;
@@ -334,7 +335,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 {
                     LangXP->load(LangX1P1FileName.c_str());
                 }
-                catch(std::ios_base::failure)
+                catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Failed to load "+LangX1P1FileName);
                     delete LangXP;
@@ -363,30 +364,30 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             {
                 gotcha = loadPalette(folder);
                 wxString soundfolder = FolderDRS2;
-                soundfolder.Replace("drs", "sound/terrain", false);
+                soundfolder.Replace("drs", "sound\\terrain", false);
                 if(wxDir::Exists(soundfolder))
-                soundfolders.Add(soundfolder + "/");
-                if(wxDir::Exists(folder + "/gamedata_x2"))
-                soundfolders.Add(folder + "/gamedata_x2/");
-                if(wxDir::Exists(folder + "/sounds"))
-                soundfolders.Add(folder + "/sounds/");
-                if(wxDir::Exists(folder + "/interface"))
-                soundfolders.Add(folder + "/interface/");
+                soundfolders.Add(soundfolder + "\\");
+                if(wxDir::Exists(folder + "\\gamedata_x2"))
+                soundfolders.Add(folder + "\\gamedata_x2\\");
+                if(wxDir::Exists(folder + "\\sounds"))
+                soundfolders.Add(folder + "\\sounds\\");
+                if(wxDir::Exists(folder + "\\interface"))
+                soundfolders.Add(folder + "\\interface\\");
             }
             folder = FolderDRS;
             if(!folder.empty())
             {
                 if(!gotcha) loadPalette(folder);
                 wxString soundfolder = FolderDRS;
-                soundfolder.Replace("drs", "sound/terrain", false);
+                soundfolder.Replace("drs", "sound\\terrain", false);
                 if(wxDir::Exists(soundfolder))
-                soundfolders.Add(soundfolder + "/");
-                if(wxDir::Exists(folder + "/gamedata_x2"))
-                soundfolders.Add(folder + "/gamedata_x2/");
-                if(wxDir::Exists(folder + "/sounds"))
-                soundfolders.Add(folder + "/sounds/");
-                if(wxDir::Exists(folder + "/interface"))
-                soundfolders.Add(folder + "/interface/");
+                soundfolders.Add(soundfolder + "\\");
+                if(wxDir::Exists(folder + "\\gamedata_x2"))
+                soundfolders.Add(folder + "\\gamedata_x2\\");
+                if(wxDir::Exists(folder + "\\sounds"))
+                soundfolders.Add(folder + "\\sounds\\");
+                if(wxDir::Exists(folder + "\\interface"))
+                soundfolders.Add(folder + "\\interface\\");
 
                 // Load extra palettes
                 folder.Replace("drs", "dat", false);
@@ -399,10 +400,10 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                         genie::PalFile pal;
                         try
                         {
-                            pal.load((folder + "/" + res).c_str());
+                            pal.load((folder + "\\" + res).c_str());
                             palettes.push_back(pal.getColors());
                         }
-                        catch(std::ios_base::failure){}
+                        catch(const std::ios_base::failure&){}
                         found = dir.GetNext(&res);
                     }
                 }
@@ -414,16 +415,16 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             wxString folder = FolderDRS2;
             if(UseMod && !folder.empty())
             {
-                folder.Replace("data", GenieVersion < genie::GV_AoKE3 ? "sound" : "sound/terrain", false);
+                folder.Replace("data", GenieVersion < genie::GV_AoKE3 ? "sound" : "sound\\terrain", false);
                 if(wxDir::Exists(folder))
-                soundfolders.Add(folder + "/");
+                soundfolders.Add(folder + "\\");
             }
             folder = FolderDRS;
             if(!folder.empty())
             {
-                folder.Replace("data", GenieVersion < genie::GV_AoKE3 ? "sound" : "sound/terrain", false);
+                folder.Replace("data", GenieVersion < genie::GV_AoKE3 ? "sound" : "sound\\terrain", false);
                 if(wxDir::Exists(folder))
-                soundfolders.Add(folder + "/");
+                soundfolders.Add(folder + "\\");
             }
 
             GetToolBar()->ToggleTool(eDRS, true);
@@ -1693,7 +1694,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             effect_attribute_names.Add("107 - Max Total Missiles (types 70-80)");
             if(GenieVersion >= genie::GV_AoKB)
             effect_attribute_names.Add("108 - Garrison Heal Rate (type 80)");
-            if(GenieVersion == genie::GV_Cysion)
+            if(GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2)
             effect_attribute_names.Add("109 - Regeneration Rate (types 40-80)");
         }
         Effects_C_ComboBox->Flash();
@@ -1708,24 +1709,27 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             graphicset_names.Add("3 Asians");
             // + RoR
             graphicset_names.Add("4 Romans");
-            graphicset_names.Add("5 Unused");
-            graphicset_names.Add("6 Unused");
-            graphicset_names.Add("7 Unused");
-            graphicset_names.Add("8 Unused");
         }
         else if(GenieVersion < genie::GV_SWGB)
         {
             graphicset_names.Add("0 Unused");
             // AoK
-            graphicset_names.Add("1 East Europeans");
+            graphicset_names.Add("1 Central Europeans");
             graphicset_names.Add("2 West Europeans");
-            graphicset_names.Add("3 Asians");
+            graphicset_names.Add("3 East Asians");
             graphicset_names.Add("4 Arabs");
             // + TC
             graphicset_names.Add("5 Americans");
-            graphicset_names.Add("6 Unused");
-            graphicset_names.Add("7 Unused");
-            graphicset_names.Add("8 Unused");
+            // + FE
+            if(GenieVersion >= genie::GV_Cysion)
+            {
+                graphicset_names.Add("6 South Europeans");
+                graphicset_names.Add("7 Indians");
+                graphicset_names.Add("8 East Europeans");
+                graphicset_names.Add("9 Africans");
+                graphicset_names.Add("10 South East Asians");
+                graphicset_names.Add("11 Central Asians");
+            }
         }
         else
         {
@@ -1739,8 +1743,8 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             graphicset_names.Add("6 Wookiees");
             graphicset_names.Add("7 Republic");
             graphicset_names.Add("8 Confederacy");
+            graphicset_names.Add("9 Ask Tapsa for more!");
         }
-        graphicset_names.Add("9 Ask Tapsa for more!");
         Units_GraphicSet->Flash();
 
         effect_type_names.Clear();
@@ -1751,9 +1755,15 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         effect_type_names.Add("3 - Upgrade Unit");
         effect_type_names.Add("4 - Attribute Modifier (+/-)");
         effect_type_names.Add("5 - Attribute Modifier (Multiply)");
-        if(GenieVersion < genie::GV_AoKA) effect_type_names.Add("6 - AoK+ only");
-        else effect_type_names.Add("6 - Resource Modifier (Multiply)");
-        if(GenieVersion == genie::GV_Cysion)
+        if(GenieVersion < genie::GV_AoKA)
+        {
+            effect_type_names.Add("6 - Resource Modifier (Multiply), needs exe mod!");
+        }
+        else
+        {
+            effect_type_names.Add("6 - Resource Modifier (Multiply)");
+        }
+        if(GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2)
         {
             effect_type_names.Add("10 - Team Attribute Modifier (Set)");    // Selection 8
             effect_type_names.Add("11 - Team Resource Modifier (Set/+/-)");
@@ -1843,6 +1853,10 @@ void AGE_Frame::LoadLists()
         TechTrees_Researches_Buildings.List->Clear();
         TechTrees_Researches_Units.List->Clear();
         TechTrees_Researches_Researches.List->Clear();
+    }
+    if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+    {
+        InitTerrainBlends();
     }
 
     wxCommandEvent e;
@@ -2101,7 +2115,8 @@ void AGE_Frame::OnGameVersionChange()
         Terrains_Phantom_Holder->Show(!show);
 
         bool appear = GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap;
-        if(appear)
+        bool emerge = GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2;
+        if(appear || emerge)
         {
             Graphics_Name->setMaxChars(lengthiest);
             Graphics_FileName->setMaxChars(lengthiest);
@@ -2111,7 +2126,9 @@ void AGE_Frame::OnGameVersionChange()
             // Fixed size elsewhere
             Techs_Name->setMaxChars(lengthiest);
             Civs_Name[0]->setMaxChars(lengthiest);
-
+        }
+        if(appear)
+        {
             Terrains_BlendPriority_Holder->Show(true);
             Terrains_BlendType_Holder->Show(true);
             TerRestrict_Graphics_Holder->Show(true);
@@ -2124,9 +2141,11 @@ void AGE_Frame::OnGameVersionChange()
         }
         else
         {
-            Techs_Name->setMaxChars(31);
-            Civs_Name[0]->setMaxChars(20);
-
+            if(!emerge)
+            {
+                Techs_Name->setMaxChars(31);
+                Civs_Name[0]->setMaxChars(20);
+            }
             if(show) // SWGB ->
             {
                 Graphics_Name->setMaxChars(25);
@@ -2138,23 +2157,65 @@ void AGE_Frame::OnGameVersionChange()
             }
             else // <- TC
             {
-                Graphics_Name->setMaxChars(21);
-                Graphics_FileName->setMaxChars(13);
-                SoundItems_Name->setMaxChars(13);
-                Terrains_Name->setMaxChars(13);
-                Terrains_FileName->setMaxChars(13);
+                if(!emerge)
+                {
+                    Graphics_Name->setMaxChars(21);
+                    Graphics_FileName->setMaxChars(13);
+                    SoundItems_Name->setMaxChars(13);
+                    Terrains_Name->setMaxChars(13);
+                    Terrains_FileName->setMaxChars(13);
+                }
                 TerRestrict_Amount->changeContainerType(CLong);
             }
             Terrains_BlendPriority->changeContainerType(CLong);
             Terrains_BlendType->changeContainerType(CLong);
         }
-        Terrains_IsWater_Holder->Show(appear);
-        Terrains_HideInEditor_Holder->Show(appear);
-        Terrains_StringID_Holder->Show(appear);
         Graphics_FirstFrame_Holder->Show(appear);
         Units_TelemetryID_Holder->Show(appear);
-        Units_BloodUnitID_Holder->Show(appear);
-        Sounds_TotalProbability_Holder->Show(appear);
+        Units_BloodUnitID_Holder->Show(appear || emerge);
+        Sounds_TotalProbability_Holder->Show(appear || emerge);
+        Sounds_TotalProbability_Text->Show(appear || emerge);
+        Terrains_IsWater_Holder->Show(appear || emerge);
+        Terrains_HideInEditor_Holder->Show(appear || emerge);
+        Terrains_StringID_Holder->Show(appear || emerge);
+        Terrains_OverlayMaskName->Show(emerge);
+        Units_DestructionGraphicID_Holder->Show(emerge);
+        Units_DestructionRubbleGraphicID_Holder->Show(emerge);
+        Units_SpawningGraphic_Holder->Show(emerge);
+        Units_UpgradeGraphic_Holder->Show(emerge);
+        Units_ResearchingGraphic_Holder->Show(emerge);
+        Units_ResearchCompletedGraphic_Holder->Show(emerge);
+        Units_MinCollisionSizeMultiplier_Holder->Show(emerge);
+        Units_WwiseTrainSound->Show(emerge);
+        Units_WwiseDamageSound->Show(emerge);
+        Units_WwiseSelectionSound->Show(emerge);
+        Units_WwiseDyingSound->Show(emerge);
+        Units_WwiseAttackSound->Show(emerge);
+        Units_WwiseMoveSound->Show(emerge);
+        Units_WwiseTransformSound->Show(emerge);
+        Units_WwiseConstructionSound->Show(emerge);
+        Tasks_WwiseResourceGatheringSound->Show(emerge);
+        Tasks_WwiseResourceDepositSound->Show(emerge);
+        Graphics_ParticleEffectName_Text->Show(emerge);
+        Graphics_ParticleEffectName_Holder->Show(emerge);
+        Graphics_WwiseSoundID->Show(emerge);
+        Graphics_WwiseAngleSoundID[0]->Show(emerge);
+        Graphics_WwiseAngleSoundID[1]->Show(emerge);
+        Graphics_WwiseAngleSoundID[2]->Show(emerge);
+        Terrains_WwiseSoundID->Show(emerge);
+        Terrains_SoundStopID_Holder->Show(emerge);
+        Terrains_Borders->Show(!emerge);
+        Terrains_OverlayMaskName_Text->Show(emerge);
+        Terrains_OverlayMaskName_Holder->Show(emerge);
+        Terrains_TerrainUnitMaskedDensity_Holder->Show(emerge);
+        Terrains_GreatSpace->GetItem(Terrains_SpaceLeft)->SetFlag(emerge ? 0 : wxEXPAND);
+        Terrains_GreatSpace->GetItem(Terrains_SpaceLeft)->SetProportion(emerge ? 0 : 3);
+        Borders_DataArea->Show(!emerge);
+        Borders_UsedCountHolder->Show(!emerge);
+        Borders_Copy->Show(!emerge);
+        Borders_Paste->Show(!emerge);
+        Borders_MoveUp->Show(emerge);
+        Borders_MoveDown->Show(emerge);
     }
 
 //  Every data area should be layouted.
@@ -2314,9 +2375,15 @@ void AGE_Frame::OnSave(wxCommandEvent&)
 
         // Can save as different game version
         genie::GameVersion SaveGenieVersion = version(SaveGameVersion);
-        if(GenieVersion != SaveGenieVersion || genie::GV_Tapsa == GenieVersion)
+        if(GenieVersion != SaveGenieVersion || genie::GV_Tapsa == GenieVersion || genie::GV_C2 == GenieVersion)
         {
-            if(GenieVersion <= genie::GV_LatestTap && genie::GV_Tapsa <= GenieVersion)
+            if(GenieVersion <= genie::GV_LatestDE2 && genie::GV_C2 <= GenieVersion)
+            {
+                GenieVersion = genie::GV_LatestDE2;
+                // Remember to update this version number!
+                dataset->FileVersion = "VER 7.1";
+            }
+            else if(GenieVersion <= genie::GV_LatestTap && genie::GV_Tapsa <= GenieVersion)
             {
                 GenieVersion = genie::GV_LatestTap;
                 dataset->FileVersion = "VER 4.5";
@@ -2351,7 +2418,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
         {
             dataset->saveAs(SaveDatFileName.c_str());
         }
-        catch(std::ios_base::failure)
+        catch(const std::ios_base::failure&)
         {
             wxMessageBox("Unable to save the file!");
             return;
@@ -2407,7 +2474,7 @@ bool AGE_Frame::SaveLang()
     {
         Lang->saveAs(SaveLangFileName.c_str());
     }
-    catch(std::ios_base::failure)
+    catch(const std::ios_base::failure&)
     {
         wxMessageBox("Unable to save language file!");
         return false;
@@ -2421,7 +2488,7 @@ bool AGE_Frame::SaveLangX1()
     {
         LangX->saveAs(SaveLangX1FileName.c_str());
     }
-    catch(std::ios_base::failure)
+    catch(const std::ios_base::failure&)
     {
         wxMessageBox("Unable to save expansion language file!");
         return false;
@@ -2435,7 +2502,7 @@ bool AGE_Frame::SaveLangX1P1()
     {
         LangXP->saveAs(SaveLangX1P1FileName.c_str());
     }
-    catch(std::ios_base::failure)
+    catch(const std::ios_base::failure&)
     {
         wxMessageBox("Unable to save expansion language patch file!");
         return false;
@@ -2692,7 +2759,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     pal.load(pd.GetPath().c_str());
                     pc_palettes.push_back(pal.getColors());
                 }
-                catch(std::ios_base::failure)
+                catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Cannot load palette");
                 }
@@ -2712,47 +2779,47 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     {
                         if(GenieVersion >= genie::GV_RoR)
                         {
-                            FilesToRead.Add("2/sounds.drs");
-                            FilesToRead.Add("2/graphics.drs");
-                            FilesToRead.Add("2/interfac.drs");
+                            FilesToRead.Add("2\\sounds.drs");
+                            FilesToRead.Add("2\\graphics.drs");
+                            FilesToRead.Add("2\\interfac.drs");
                         }
                     }
                     else
                     {
                         if(GenieVersion == genie::GV_TC)
                         {
-                            FilesToRead.Add("/sounds_x1.drs");
-                            FilesToRead.Add("/gamedata_x1.drs");
-                            FilesToRead.Add("/gamedata_x1_p1.drs");
+                            FilesToRead.Add("\\sounds_x1.drs");
+                            FilesToRead.Add("\\gamedata_x1.drs");
+                            FilesToRead.Add("\\gamedata_x1_p1.drs");
                         }
                         else if(GenieVersion == genie::GV_CC)
                         {
                             if(GameVersion == EV_EF)
                             {
-                                FilesToRead.Add("/sounds_x2.drs");
-                                FilesToRead.Add("/graphics_x2.drs");
-                                FilesToRead.Add("/terrain_x2.drs");
-                                FilesToRead.Add("/interfac_x2.drs");
-                                FilesToRead.Add("/gamedata_x2.drs");
+                                FilesToRead.Add("\\sounds_x2.drs");
+                                FilesToRead.Add("\\graphics_x2.drs");
+                                FilesToRead.Add("\\terrain_x2.drs");
+                                FilesToRead.Add("\\interfac_x2.drs");
+                                FilesToRead.Add("\\gamedata_x2.drs");
                             }
-                            FilesToRead.Add("/sounds_x1.drs");
-                            FilesToRead.Add("/graphics_x1.drs");
-                            FilesToRead.Add("/terrain_x1.drs");
-                            FilesToRead.Add("/interfac_x1.drs");
-                            FilesToRead.Add("/gamedata_x1.drs");
+                            FilesToRead.Add("\\sounds_x1.drs");
+                            FilesToRead.Add("\\graphics_x1.drs");
+                            FilesToRead.Add("\\terrain_x1.drs");
+                            FilesToRead.Add("\\interfac_x1.drs");
+                            FilesToRead.Add("\\gamedata_x1.drs");
                         }
                     }
-                    FilesToRead.Add("/sounds.drs");
-                    FilesToRead.Add("/graphics.drs");
-                    FilesToRead.Add("/terrain.drs");
+                    FilesToRead.Add("\\sounds.drs");
+                    FilesToRead.Add("\\graphics.drs");
+                    FilesToRead.Add("\\terrain.drs");
                     if(GenieVersion < genie::GV_AoKB)
                     {
-                        FilesToRead.Add("/border.drs");
+                        FilesToRead.Add("\\border.drs");
                     }
-                    FilesToRead.Add("/interfac.drs");
+                    FilesToRead.Add("\\interfac.drs");
                     if(GenieVersion >= genie::GV_AoKE3)
                     {
-                        FilesToRead.Add("/gamedata.drs");
+                        FilesToRead.Add("\\gamedata.drs");
                     }
 
                     if(UseExtra)
@@ -2764,7 +2831,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                             topDRS->load(Path1stDRS.c_str());
                             datafiles.push_back(topDRS);
                         }
-                        catch(std::ios_base::failure)
+                        catch(const std::ios_base::failure&)
                         {
                             delete topDRS;
                         }
@@ -2868,7 +2935,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                                 {
                                     frame = slp.getFrame(i);
                                 }
-                                catch(out_of_range){}
+                                catch(const out_of_range&){}
                                 if(frame)
                                 {
                                     uint64_t palData = frame->getProperties();
@@ -2879,7 +2946,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                                 }
                             }
                         }
-                        catch(std::ios_base::failure){}
+                        catch(const std::ios_base::failure&){}
                         found = dir.GetNext(&res);
                     }
                 }
@@ -2914,14 +2981,14 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             "Batch Processing\n\n"
             "Let's suppose that you want to multiply the garrison heal rate\n"
             "of all selected units (buildings) by 1.3.\n"
-            "Simply select all the desired units and put into garrison heal rate box \"b*1.3\", "
+            "Simply select all the desired units and put into garrison heal rate box \"b*1.3\",\n"
             "or just put the absolute value you want for all selected units.\n"
             "The other batch modifiers are b+, b- and b/.\n"
             "Note that overflows are not checked!\n\n"
             "Cross Copy Between Files\n\n"
             "Let's suppose that you want to copy all ships to another dat file.\n"
             "From the toolbar, click +++ to open another window.\n"
-            "Now that you have a second window titled \"AGE window 2\" open with a dat file, "
+            "Now that you have a second window titled \"AGE window 2\" open with a dat file,\n"
             "let's begin the copying.\n"
             "(You can copy to another game version if you dare.)\n"
             "On the first window, select all the ships (search for \"ship\").\n"
@@ -3010,6 +3077,139 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             OnExit(ce);
             break;
         }
+        case eCompileList:
+        {
+            wxString folder = wxStandardPaths::Get().GetDocumentsDir();
+            wxTextFile slp_csv(folder + "\\slps.csv");
+            wxTextFile obj_csv(folder + "\\objs.csv");
+            if(!slp_csv.Create() && !slp_csv.Open())
+            {
+                wxMessageBox("Failed to load/create slps.csv");
+            }
+            if(!obj_csv.Create() && !obj_csv.Open())
+            {
+                wxMessageBox("Failed to load/create objs.csv");
+            }
+            slp_csv.Clear();
+            obj_csv.Clear();
+
+            slp_csv.AddLine("SLP,PicFilename,Name,NumFrames,NumFacets");
+            for(size_t sprite = 0; sprite < dataset->Graphics.size(); ++sprite)
+            if(dataset->GraphicPointers[sprite])
+            {
+                slp_csv.AddLine(lexical_cast<string>(dataset->Graphics[sprite].SLP)
+                            +','+dataset->Graphics[sprite].FileName
+                            +','+dataset->Graphics[sprite].Name
+                            +','+lexical_cast<string>(dataset->Graphics[sprite].FrameCount)
+                            +','+lexical_cast<string>(dataset->Graphics[sprite].AngleCount));
+            }
+
+            size_t unit, civ, depth = 0;
+            obj_csv.AddLine("Civ,IconSet,UnitID,UnitName,LangName,"
+                "Name,PicFilename,Layer,NumFrames,NumFacets");
+            function<void(size_t)> sprite_checker = [&](size_t sprite)
+            {
+                ++depth;
+                if(sprite < dataset->Graphics.size() && dataset->GraphicPointers[sprite])
+                {
+                    if(!dataset->Graphics[sprite].FileName.empty())
+                    {
+                        obj_csv.AddLine(dataset->Civs[civ].Name
+                            +','+lexical_cast<string>((int)dataset->Civs[civ].IconSet)
+                            +','+lexical_cast<string>(unit)
+                            +','+dataset->Civs[civ].Units[unit].Name
+                            +','+TranslatedText(dataset->Civs[civ].Units[unit].LanguageDLLName, 24)
+                            //+','+lexical_cast<string>((int)dataset->Civs[civ].Units[unit].OcclusionMode)
+                            +','+dataset->Graphics[sprite].Name
+                            +','+dataset->Graphics[sprite].FileName
+                            +','+lexical_cast<string>((int)dataset->Graphics[sprite].Layer)
+                            +','+lexical_cast<string>(dataset->Graphics[sprite].FrameCount)
+                            +','+lexical_cast<string>(dataset->Graphics[sprite].AngleCount));
+                    }
+                    if(depth == 1)
+                    for(size_t delta = 0; delta < dataset->Graphics[sprite].Deltas.size(); ++delta)
+                    {
+                        sprite_checker(dataset->Graphics[sprite].Deltas[delta].GraphicID);
+                    }
+                }
+                --depth;
+            };
+
+            //obj_csv.AddLine("Civ,IconSet,UnitID,Name,LangNameID,LangName,LangHKID,Hotkey");
+            for(civ = 0; civ < dataset->Civs.size(); ++civ)
+            {
+                for(unit = 0; unit < dataset->Civs[civ].Units.size(); ++unit)
+                {
+                    //int langname = dataset->Civs[civ].Units[unit].LanguageDLLName;
+                    //int hotkey = dataset->Civs[civ].Units[unit].HotKey;
+
+                    /*obj_csv.AddLine(dataset->Civs[civ].Name
+                            +','+lexical_cast<string>((int)dataset->Civs[civ].IconSet)
+                            +','+lexical_cast<string>(unit)
+                            +','+dataset->Civs[civ].Units[unit].Name
+                            +','+lexical_cast<string>(langname)
+                            +','+TranslatedText(langname, 24)
+                            +','+lexical_cast<string>(hotkey)
+                            +','+TranslatedText(hotkey, 8));*/
+
+                    //if(dataset->Civs[civ].Units[unit].OcclusionMode)
+                    if(dataset->Civs[civ].UnitPointers[unit] != 0)
+                    {
+                        // Gather information about all the graphics unit uses.
+                        sprite_checker(dataset->Civs[civ].Units[unit].StandingGraphic.first);
+                        sprite_checker(dataset->Civs[civ].Units[unit].StandingGraphic.second);
+                        sprite_checker(dataset->Civs[civ].Units[unit].DyingGraphic);
+                        sprite_checker(dataset->Civs[civ].Units[unit].UndeadGraphic);
+                        for(size_t sprite = 0; sprite < dataset->Civs[civ].Units[unit].DamageGraphics.size(); ++sprite)
+                        {
+                            sprite_checker(dataset->Civs[civ].Units[unit].DamageGraphics[sprite].GraphicID);
+                        }
+                        switch((short)dataset->Civs[civ].Units[unit].Type)
+                        {
+                            case 80:
+                            sprite_checker(dataset->Civs[civ].Units[unit].Building.ConstructionGraphicID);
+                            sprite_checker(dataset->Civs[civ].Units[unit].Building.DestructionGraphicID);
+                            sprite_checker(dataset->Civs[civ].Units[unit].Building.DestructionRubbleGraphicID);
+                            sprite_checker(dataset->Civs[civ].Units[unit].Building.SnowGraphicID);
+                            case 70:
+                            sprite_checker(dataset->Civs[civ].Units[unit].Creatable.GarrisonGraphic);
+                            sprite_checker(dataset->Civs[civ].Units[unit].Creatable.SpecialGraphic);
+                            case 60:
+                            case 50:
+                            sprite_checker(dataset->Civs[civ].Units[unit].Type50.AttackGraphic);
+                            case 40:
+                            if(GenieVersion != genie::GV_RoR && GameVersion != EV_Tapsa)
+                            {
+                                for(size_t task = 0; task < dataset->UnitHeaders[unit].TaskList.size(); ++task)
+                                {
+                                    sprite_checker(dataset->UnitHeaders[unit].TaskList[task].MovingGraphicID);
+                                    sprite_checker(dataset->UnitHeaders[unit].TaskList[task].ProceedingGraphicID);
+                                    sprite_checker(dataset->UnitHeaders[unit].TaskList[task].WorkingGraphicID);
+                                    sprite_checker(dataset->UnitHeaders[unit].TaskList[task].CarryingGraphicID);
+                                }
+                            }
+                            else for(size_t task = 0; task < dataset->Civs[civ].Units[unit].Bird.TaskList.size(); ++task)
+                            {
+                                sprite_checker(dataset->Civs[civ].Units[unit].Bird.TaskList[task].MovingGraphicID);
+                                sprite_checker(dataset->Civs[civ].Units[unit].Bird.TaskList[task].ProceedingGraphicID);
+                                sprite_checker(dataset->Civs[civ].Units[unit].Bird.TaskList[task].WorkingGraphicID);
+                                sprite_checker(dataset->Civs[civ].Units[unit].Bird.TaskList[task].CarryingGraphicID);
+                            }
+                            case 30:
+                            sprite_checker(dataset->Civs[civ].Units[unit].DeadFish.WalkingGraphic);
+                            sprite_checker(dataset->Civs[civ].Units[unit].DeadFish.RunningGraphic);
+                        }
+                    }
+                }
+            }
+
+            wxString results = "slps.csv ";
+                results += slp_csv.Write() ? "saved" : "not saved";
+                results += "\nobjs.csv ";
+                results += obj_csv.Write() ? "saved" : "not saved";
+            wxMessageBox(results);
+            break;
+        }
         case eCacheDepth:
         {
             wxTextEntryDialog ted(this, "Enter new cache depth", "Set Cache Depth", lexical_cast<string>(GG::cache_depth));
@@ -3041,7 +3241,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     boxWidthMultiplier = lexical_cast<float>(ted.GetValue());
                     wxMessageBox("Please restart me!", "AGE");
                 }
-                catch(bad_lexical_cast)
+                catch(const bad_lexical_cast&)
                 {
                     wxMessageBox("Bad floating point", "AGE");
                 }
@@ -3070,14 +3270,14 @@ bool AGE_Frame::loadPalette(const wxString &folder)
 {
     if(!wxDir::Exists(folder)) return false;
     genie::PalFile pal;
-    wxString name = folder + "/interface/50500.bina";
+    wxString name = folder + "\\interface\\50500.bina";
     try
     {
         pal.load(name.c_str());
         palettes.push_back(pal.getColors());
         return true;
     }
-    catch(std::ios_base::failure){}
+    catch(const std::ios_base::failure&){}
     return false;
 }
 
@@ -3094,7 +3294,7 @@ void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString &folde
             interfac->load(location.c_str());
             datafiles.push_back(interfac);
         }
-        catch(std::ios_base::failure)
+        catch(const std::ios_base::failure&)
         {
             delete interfac;
         }
@@ -3106,22 +3306,22 @@ void AGE_Frame::addSLPFolders4SLPs(wxArrayString &folders, wxString folder)
     if(folder.empty()) return;
     folder.Replace("drs", "slp", false);
     if(!wxDir::Exists(folder)) return;
-    folders.Add(folder + "/");
+    folders.Add(folder + "\\");
 }
 
 void AGE_Frame::addDRSFolders4SLPs(wxArrayString &folders, const wxString &folder)
 {
     if(folder.empty()) return;
-    if(wxDir::Exists(folder + "/gamedata_x2"))
-    folders.Add(folder + "/gamedata_x2/");
-    if(wxDir::Exists(folder + "/gamedata_x1"))
-    folders.Add(folder + "/gamedata_x1/");
-    if(wxDir::Exists(folder + "/interface"))
-    folders.Add(folder + "/interface/");
-    if(wxDir::Exists(folder + "/graphics"))
-    folders.Add(folder + "/graphics/");
-    if(wxDir::Exists(folder + "/terrain"))
-    folders.Add(folder + "/terrain/");
+    if(wxDir::Exists(folder + "\\gamedata_x2"))
+    folders.Add(folder + "\\gamedata_x2\\");
+    if(wxDir::Exists(folder + "\\gamedata_x1"))
+    folders.Add(folder + "\\gamedata_x1\\");
+    if(wxDir::Exists(folder + "\\interface"))
+    folders.Add(folder + "\\interface\\");
+    if(wxDir::Exists(folder + "\\graphics"))
+    folders.Add(folder + "\\graphics\\");
+    if(wxDir::Exists(folder + "\\terrain"))
+    folders.Add(folder + "\\terrain\\");
 }
 
 bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
@@ -3136,12 +3336,21 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
     {
         if(!graphic->filename.empty())
         {
-            if(GameVersion == EV_Tapsa)
+            if(GameVersion == EV_DE2 || GameVersion == EV_Tapsa)
             {
                 graphic->filename.Replace("<x#>", AlexZoom, false);
             }
-            graphic->slp = GG::LoadSLP(string(PathSLP) + "/" + string(graphic->filename) + ".slp");
-            if(graphic->slp) return true;
+            wxString plainName = PathSLP + "\\" + graphic->filename;
+            if(wxFileName(plainName + ".smp").FileExists())
+            {
+               graphic->smp = GG::LoadSMP(plainName + ".smp");
+               if(graphic->smp) return true;
+            }
+            if(wxFileName(plainName + ".slp").FileExists())
+            {
+               graphic->slp = GG::LoadSLP(plainName + ".slp");
+               if(graphic->slp) return true;
+            }
         }
     }
     if(LooseHD)
@@ -3153,7 +3362,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
             addSLPFolders4SLPs(folders, FolderDRS);
             for(int i=0; i < folders.size(); ++i)
             {
-                graphic->slp = GG::LoadSLP(string(folders[i]) + string(graphic->filename) + ".slp");
+                graphic->slp = GG::LoadSLP(folders[i] + graphic->filename + ".slp");
                 if(graphic->slp) return true;
             }
             folders.clear();
@@ -3163,7 +3372,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
         for(int i=0; i < folders.size(); ++i)
         {
             // HD uses slp ID instead
-            graphic->slp = GG::LoadSLP(string(folders[i]) + lexical_cast<string>(graphic->slpID) + ".slp");
+            graphic->slp = GG::LoadSLP(folders[i] + lexical_cast<string>(graphic->slpID) + ".slp");
             if(graphic->slp) return true;
         }
     }
@@ -3187,6 +3396,84 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         graphic->bitmap = wxNullBitmap;
         return;
     }
+    if(graphic->smp)
+    {
+        genie::SmpFramePtr frame;
+        SetStatusText("Looking for frame "+FormatInt(graphic->frameID), 1);
+        graphic->frames = graphic->smp->getFrameCount();
+        if(graphic->frames)
+        {
+            try
+            {
+                frame = graphic->smp->getFrame(graphic->frameID);
+            }
+            catch(const out_of_range&){}
+        }
+        if(!frame)
+        {
+            graphic->bitmap = wxNullBitmap;
+            SetStatusText("No frame: " + FormatInt(graphic->frameID) + ", frames: " + FormatInt(graphic->frames), 1);
+            return;
+        }
+
+        const int width = frame->getWidth();
+        const int height = frame->getHeight();
+        graphic->xpos = -frame->layer_hotspot_x;
+        graphic->ypos = -frame->layer_hotspot_y;
+        const int area = width * height;
+        vector<uint8_t> rgbdata(area * 4, 0);
+        uint8_t *val = rgbdata.data();
+        uint8_t *alpha = val + area * 3;
+        const genie::SmpFrameData *imgdata = &frame->img_data;
+        const vector<genie::Color> *pal = &palettes.front();
+        if(!pal->empty())
+        {
+            for(int i=0; i < area; ++i)
+            {
+                size_t pal_chooser = 0x3F & imgdata->pixel_indexes[i] >> 10;
+                if(pal_chooser < palettes.size())
+                {
+                    pal = &palettes[pal_chooser];
+                }
+                genie::Color rgba = (*pal)[0x3FF & imgdata->pixel_indexes[i]];
+                *val++ = rgba.r;
+                *val++ = rgba.g;
+                *val++ = rgba.b;
+                *alpha++ = imgdata->alpha_channel[i] ? rgba.a : 0;
+            }
+            // In case of using separate player color palette
+            bool sep_pcp = pc_palettes.size();
+            if(sep_pcp)
+            {
+                pal = &pc_palettes.front();
+            }
+            // Apply player color
+            for(int i=0; i < imgdata->player_color_mask.size(); ++i)
+            {
+                int flat = imgdata->player_color_mask[i].y * width + imgdata->player_color_mask[i].x;
+                int loc = 3 * flat;
+                int locA = 3 * area + flat;
+                genie::Color rgba = (*pal)[0x3FF & imgdata->player_color_mask[i].index];
+                rgbdata[loc] = rgba.r;
+                rgbdata[loc + 1] = rgba.g;
+                rgbdata[loc + 2] = rgba.b;
+                rgbdata[locA] = 255;
+            }
+        }
+        unsigned char *pic = (unsigned char*)rgbdata.data();
+        unsigned char *trans = pic + area * 3;
+        wxImage img(width, height, pic, trans, true);
+        if(centralize)
+        {
+            int left = frame->hotspot_x, right = width - left,
+                top = frame->hotspot_y, bottom = height - top;
+            int half_width = left > right ? left : right;
+            int half_height = top > bottom ? top : bottom;
+            img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(min(half_width, half_width - left), min(half_height, half_height - top)));
+        }
+        graphic->bitmap = wxBitmap(img, 24);
+        return;
+    }
     if(!graphic->slp)
     {
         graphic->bitmap = wxNullBitmap;
@@ -3202,7 +3489,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         {
             frame = graphic->slp->getFrame(graphic->frameID);
         }
-        catch(out_of_range){}
+        catch(const out_of_range&){}
     }
     if(!frame)
     {
@@ -3213,7 +3500,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
 
     const int width = frame->getWidth();
     const int height = frame->getHeight();
-    short pal_chooser = frame->getProperties() >> 16;
+    const short pal_chooser = frame->getProperties() >> 16;
     graphic->xpos = graphic->flip ? frame->hotspot_x - width : -frame->hotspot_x;
     graphic->ypos = -frame->hotspot_y;
     const int area = width * height;
@@ -3366,7 +3653,7 @@ void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
     {
         frame = graphic->slp->getFrame(graphic->frameID);
     }
-    catch(out_of_range){}
+    catch(const out_of_range&){}
     if(!frame)
     {
         wxMessageBox("Congrats seeing this message", "No SLP frame " + lexical_cast<string>(graphic->frameID));
@@ -3880,13 +4167,24 @@ wxString AGE_Frame::FormatInt(int value)
     return buffer.str();
 }
 
+wxString AGE_Frame::FormatUnsigned(unsigned value)
+{
+    if(!popUp.hexMode)
+    return lexical_cast<string>(value);
+
+    stringbuf buffer;
+    ostream os (&buffer);
+    os << hex << uppercase << value;
+    return buffer.str();
+}
+
 void AGE_Frame::SaveBackup()
 {
     try
     {
         dataset->saveAs((DatFileName.substr(0, DatFileName.size()-4)+"_backup"+CurrentTime()+".dat").c_str());
     }
-    catch(std::ios_base::failure)
+    catch(const std::ios_base::failure&)
     {
         wxMessageBox("Error saving backup!");
     }
@@ -3933,7 +4231,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             if(graphic)
             {
                 bool framesleft = false;
-                if(graphic->slp)
+                if(graphic->slp || graphic->smp)
                 {
                     ChooseNextFrame(*graphic, framesleft);
                 }
@@ -3952,7 +4250,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             if(graphic)
             {
                 bool framesleft = false;
-                if(graphic->slp)
+                if(graphic->slp || graphic->smp)
                 {
                     ChoosePreviousFrame(*graphic, framesleft);
                 }
@@ -4014,7 +4312,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                     gallery.slp->saveAs(name.c_str());
                     wxMessageBox("Saved SLP " + name, "SLP");
                 }
-                catch(std::ios_base::failure)
+                catch(const std::ios_base::failure&)
                 {
                     wxMessageBox("Saving SLP failed", "SLP");
                 }
@@ -4053,7 +4351,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 slp_src2->load(slp_source2->GetPath().c_str());
                 slp_src2->freelock();
             }
-            catch(std::ios_base::failure)
+            catch(const std::ios_base::failure&)
             {
                 wxMessageBox("Error reading SLP files", "SLP");
                 return;
@@ -4066,7 +4364,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                     frame1 = slp_src1->getFrame(frame);
                     frame2 = slp_src2->getFrame(frame);
                 }
-                catch(out_of_range)
+                catch(const out_of_range&)
                 {
                     wxMessageBox("Frame count mismatch", "SLP");
                     break;
@@ -4098,7 +4396,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 slp_src1->saveAs(slp_target1->GetPath().c_str());
                 wxMessageBox("Merged SLP files", "SLP");
             }
-            catch(std::ios_base::failure)
+            catch(const std::ios_base::failure&)
             {
                 wxMessageBox("Saving SLP failed", "SLP");
             }
