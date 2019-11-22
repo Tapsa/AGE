@@ -242,7 +242,7 @@ void AGE_OpenSave::OnDefaultAoP(wxCommandEvent &event)
 
 void AGE_OpenSave::OnDefaultDE2(wxCommandEvent &event)
 {
-    OnDefault("\\Steam\\steamapps\\common\\Age2HD");
+    OnDefault("\\Steam\\steamapps\\common\\AoE2DE");
     wxString locale = LanguageBox->GetValue();
 
     CheckBox_GenieVer->SetSelection(EV_DE2);
@@ -362,11 +362,6 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             }
             break;
         }
-        /*case EV_Cysion:
-        {
-                OnDefaultAoP(event);
-            break;
-        }*/
         case EV_SWGB:
         {
             wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds\\1.0");
