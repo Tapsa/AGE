@@ -97,6 +97,12 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     return Name + dataset->Techs[index].Name2;
                     else goto InternalName;
                 }
+                if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                case 19: // Repeatable
+                    Name += "L "+lexical_cast<string>((short)dataset->Techs[index].Repeatable);
+                    break;
+                }
                 }
             }
             Name += ", ";
@@ -205,6 +211,8 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
             Research_FullTechMode->prepend(&ResearchPointer->FullTechMode);
             if(GenieVersion >= genie::GV_SWGB)
             Research_Name[1]->prepend(&ResearchPointer->Name2);
+            if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+            Techs_Repeatable->prepend(&ResearchPointer->Repeatable);
         }
         Research_ResearchLocation->prepend(&ResearchPointer->ResearchLocation);
         if(GenieVersion >= genie::GV_MATT)
@@ -414,14 +422,14 @@ void AGE_Frame::CreateResearchControls()
     Research_Name[1] = AGETextCtrl::init(CString, &uiGroupResearch, this, &popUp, Research_Scroller, lengthiest);
     Research_LangDLLName_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LangDLLName_Text = new SolidText(Research_Scroller, " Language File Name *");
-    Research_LangDLLName = AGETextCtrl::init(CUShort, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Research_LangDLLName = AGETextCtrl::init(CLong, &uiGroupResearch, this, &popUp, Research_Scroller);
     Research_LangDLLName->SetToolTip("Usual Technology File Pattern for The Conquerors\nName: 7000-7999\n"
         "Description: Name +1000\nHelp: Name +100000, in file Name +21000\n"
         "Tech tree: Name +150000, in file Name +10000");
     Research_DLL_LangDLLName = new TextCtrl_DLL(Research_Scroller, wxSize(AGETextCtrl::GIANT, 40));
     Research_LangDLLDescription_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LangDLLDescription_Text = new SolidText(Research_Scroller, " Language File Description");
-    Research_LangDLLDescription = AGETextCtrl::init(CUShort, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Research_LangDLLDescription = AGETextCtrl::init(CLong, &uiGroupResearch, this, &popUp, Research_Scroller);
     Research_DLL_LangDLLDescription = new TextCtrl_DLL(Research_Scroller, wxSize(320, 40));
     Research_HotKey_Holder = new wxBoxSizer(wxVERTICAL);
     Research_HotKey_Text = new SolidText(Research_Scroller, " Hotkey *");
@@ -480,6 +488,9 @@ void AGE_Frame::CreateResearchControls()
     Research_ButtonID_Holder = new wxBoxSizer(wxVERTICAL);
     Research_ButtonID_Text = new SolidText(Research_Scroller, " Button");
     Research_ButtonID = AGETextCtrl::init(CByte, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Techs_Repeatable_Holder = new wxBoxSizer(wxVERTICAL);
+    Techs_Repeatable_Text = new SolidText(Research_Scroller, " Repeatable");
+    Techs_Repeatable = AGETextCtrl::init(CByte, &uiGroupResearch, this, &popUp, Research_Scroller);
     Research_TechID_Holder = new wxBoxSizer(wxVERTICAL);
     Research_TechID_Text = new SolidText(Research_Scroller, " Effect");
     Research_TechID = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
@@ -623,16 +634,20 @@ void AGE_Frame::CreateResearchControls()
     Research_ButtonID_Holder->Add(Research_ButtonID_Text);
     Research_ButtonID_Holder->Add(Research_ButtonID);
 
-    Research_Misc2_Holder->Add(Research_RequiredTechCount_Holder, 0, wxRIGHT, 5);
-    Research_Misc2_Holder->Add(Research_Type_Holder, 0, wxRIGHT, 5);
-    Research_Misc2_Holder->Add(Research_ResearchTime_Holder, 0, wxRIGHT, 5);
-    Research_Misc2_Holder->Add(Research_IconID_Holder, 0, wxRIGHT, 5);
-    Research_Misc2_Holder->Add(Research_ButtonID_Holder);
+    Techs_Repeatable_Holder->Add(Techs_Repeatable_Text);
+    Techs_Repeatable_Holder->Add(Techs_Repeatable);
 
-    Research_Misc3_Holder->Add(Research_TechID_Holder, 0, wxRIGHT, 5);
-    Research_Misc3_Holder->Add(Research_ResearchLocation_Holder, 0, wxRIGHT, 5);
-    Research_Misc3_Holder->Add(Research_Civ_Holder, 0, wxRIGHT, 5);
-    Research_Misc3_Holder->Add(Research_FullTechMode_Holder);
+    Research_Misc2_Holder->Add(Research_RequiredTechCount_Holder);
+    Research_Misc2_Holder->Add(Research_Type_Holder, 0, wxLEFT, 5);
+    Research_Misc2_Holder->Add(Research_ResearchTime_Holder, 0, wxLEFT, 5);
+    Research_Misc2_Holder->Add(Research_IconID_Holder, 0, wxLEFT, 5);
+    Research_Misc2_Holder->Add(Research_ButtonID_Holder, 0, wxLEFT, 5);
+    Research_Misc2_Holder->Add(Techs_Repeatable_Holder, 0, wxLEFT, 5);
+
+    Research_Misc3_Holder->Add(Research_TechID_Holder);
+    Research_Misc3_Holder->Add(Research_ResearchLocation_Holder, 0, wxLEFT, 5);
+    Research_Misc3_Holder->Add(Research_Civ_Holder, 0, wxLEFT, 5);
+    Research_Misc3_Holder->Add(Research_FullTechMode_Holder, 0, wxLEFT, 5);
 
     Research_LanguageDLLHelp_Holder->Add(Research_LanguageDLLHelp_Text);
     Research_LanguageDLLHelp_Holder->Add(Research_LanguageDLLHelp, 0, wxEXPAND);
