@@ -1690,6 +1690,10 @@ private:
     SolidText *Research_ButtonID_Text;
     AGETextCtrl *Research_ButtonID;
 
+    wxBoxSizer *Techs_Repeatable_Holder;
+    SolidText *Techs_Repeatable_Text;
+    AGETextCtrl *Techs_Repeatable;
+
     wxBoxSizer *Research_LanguageDLLHelp_Holder;
     SolidText *Research_LanguageDLLHelp_Text;
     AGETextCtrl *Research_LanguageDLLHelp;
@@ -2003,8 +2007,8 @@ private:
     ComboBox_Plus1 *Units_DefaultTaskID_ComboBox;
     AGETextCtrl *Units_SearchRadius;
     AGETextCtrl *Units_WorkRate;
-    AGETextCtrl *Units_DropSite[2];
-    ComboBox_Plus1 *Units_DropSite_ComboBox[2];
+    AGETextCtrl *Units_DropSite[3];
+    ComboBox_Plus1 *Units_DropSite_ComboBox[3];
     AGETextCtrl *Units_TaskSwapGroup;
     AGETextCtrl *Units_AttackSound;
     AGETextCtrl *Units_WwiseAttackSound;

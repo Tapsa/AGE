@@ -1726,7 +1726,7 @@ void AGE_Frame::CreateGraphicsControls()
             while(getline(infile, line))
             {
                 wxArrayString pieces(wxStringTokenize(line, "\t"));
-                for(size_t loop = 1, spriteID, deltaID = static_cast<size_t>(-1); loop < pieces.GetCount(); ++loop)
+                for(size_t loop = 1, spriteID = static_cast<size_t>(-1), deltaID = static_cast<size_t>(-1); loop < pieces.GetCount(); ++loop)
                 {
                     switch(loop)
                     {

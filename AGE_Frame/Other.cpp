@@ -1600,6 +1600,8 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             research_filters.Add("Full Tech Mode");
             if(GenieVersion >= genie::GV_SWGB)
             research_filters.Add("Internal Name 2");
+            if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+            research_filters.Add("Repeatable");
         }
 
         soundfile_filters.Clear();
@@ -2170,6 +2172,16 @@ void AGE_Frame::OnGameVersionChange()
             Terrains_BlendPriority->changeContainerType(CLong);
             Terrains_BlendType->changeContainerType(CLong);
         }
+        if(emerge)
+        {
+            Research_LangDLLName->changeContainerType(CLong);
+            Research_LangDLLDescription->changeContainerType(CLong);
+        }
+        else
+        {
+            Research_LangDLLName->changeContainerType(CUShort);
+            Research_LangDLLDescription->changeContainerType(CUShort);
+        }
         Graphics_FirstFrame_Holder->Show(appear);
         Units_TelemetryID_Holder->Show(appear);
         Units_BloodUnitID_Holder->Show(appear || emerge);
@@ -2194,6 +2206,8 @@ void AGE_Frame::OnGameVersionChange()
         Units_WwiseMoveSound->Show(emerge);
         Units_WwiseTransformSound->Show(emerge);
         Units_WwiseConstructionSound->Show(emerge);
+        Units_DropSite[2]->Show(emerge);
+        Units_DropSite_ComboBox[2]->Show(emerge);
         Tasks_WwiseResourceGatheringSound->Show(emerge);
         Tasks_WwiseResourceDepositSound->Show(emerge);
         Graphics_ParticleEffectName_Text->Show(emerge);
@@ -2216,6 +2230,7 @@ void AGE_Frame::OnGameVersionChange()
         Borders_Paste->Show(!emerge);
         Borders_MoveUp->Show(emerge);
         Borders_MoveDown->Show(emerge);
+        Techs_Repeatable_Holder->Show(emerge);
     }
 
 //  Every data area should be layouted.
@@ -2379,9 +2394,23 @@ void AGE_Frame::OnSave(wxCommandEvent&)
         {
             if(GenieVersion <= genie::GV_LatestDE2 && genie::GV_C2 <= GenieVersion)
             {
+                if(GenieVersion < genie::GV_C15)
+                {
+                    // Thanks Maimi.
+                    for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
+                    {
+                        for(size_t unit = 0; unit < dataset->UnitHeaders.size(); ++unit)
+                        {
+                            if(dataset->Civs[civ].Units[unit].Type >= 40)
+                            {
+                                dataset->Civs[civ].Units[unit].Bird.TaskList = dataset->UnitHeaders[unit].TaskList;
+                            }
+                        }
+                    }
+                }
                 GenieVersion = genie::GV_LatestDE2;
                 // Remember to update this version number!
-                dataset->FileVersion = "VER 7.1";
+                dataset->FileVersion = "VER 7.2";
             }
             else if(GenieVersion <= genie::GV_LatestTap && genie::GV_Tapsa <= GenieVersion)
             {
