@@ -1,17 +1,20 @@
 [b]Advanced Genie Editor[/b]
-for Age of Empires, Rise of Rome, Age of Kings, The Conquerors (including HD), Star Wars Galactic Battlegrounds and Clone Campaigns.
+for Age of Empires, Rise of Rome (including DE), Age of Kings, The Conquerors (including DE), Star Wars Galactic Battlegrounds and Clone Campaigns.
 
 This is a program for editing data of genie (DAT and DLL) files. It can edit properties of units, civilizations, technologies, graphics, terrains, sounds, player colors and some other things.
 
 [b]Please[/b], ask questions on the [url=http://aok.heavengames.com/cgi-bin/forums/display.cgi?action=st&fn=9&tn=44059&st=recent&f=9,44059,0,365]forums[/url].
 
-[color=blue]Check out [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=11349]this[/url] program also. It's for graphical modding.
+Check out [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=11349]this[/url] program also. It's for graphical modding.
 
 For editing language files in The Conquerors,
-I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819]this download[/url].[/color]
+I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819]this download[/url].
 
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
+
+Version [b]2020.3.30[/b]:
+-Support for new AoE II DE game features.
 
 Version [b]2019.11.28[/b]:
 -Added more unit search filters.
@@ -62,40 +65,11 @@ Version [b]2017.1.10[/b]:
 -Mirrored graphics with two angles display properly.
 -Added some helpful buttons to graphics tab.
 
-Version [b]2016.12.30[/b]:
--Deltas with display angle should show properly.
--The actual terrain that is drawn is shown when selecting terrains.
-
-Version [b]2016.12.23[/b]:
--Added WASD keys back to SLP view.
--SLP view can be zoomed.
--Fixed SLP view missing angles.
--Show angles dynamically shows exact angles.
--Better registry paths.
-
-Version [b]2016.12.11[/b]:
--Fixed selection bug in armor combo box in effects.
--User interface fixes and improvements.
-
-Version [b]2016.11.13[/b]:
--Fixed refreshing lists.
-
-Version [b]2016.11.7[/b]:
--Removed broken batch editing from strings.
-
-Version [b]2016.10.9[/b]:
--Reduced memory usage of combo boxes that share strings.
-
-Version [b]2016.10.2[/b]:
--Reduced drawing lag.
-
 [b]Notes[/b]
 
 [color=BA0000]Make your own backups or use the auto-backup feature![/color]
-Extract to anywhere and run.
-You may need to run the program as administrator.
-No help files are included.
-No mod affects your already saved games, only new games.
+Extract to anywhere and run. No help files are included.
+You may need to run the program as administrator if your game is installed in a protected folder.
 You may be able to undo changes by going back to the text box and pressing Ctrl + Z.
 
 [b]Tips[/b]
@@ -103,7 +77,7 @@ You may be able to undo changes by going back to the text box and pressing Ctrl 
 You can have multiple search entries separated with "|" letter.
 Upper search boxes are inclusive and lower ones exclusive.
 Example: "tower|ship|ram"
-Use the check boxes to force match all entries.
+Use the check boxes to toggle matching between all and any entries.
 
 [b]Developers[/b]
 
@@ -122,6 +96,6 @@ BF_Tanks - some help
 Donnieboy, Sarn, chab - tooltip texts
 gagman - new icon
 
-Follow coding [url=https://github.com/Tapsa/AGE/commits/master]here[/url] and [url=https://github.com/Tapsa/genieutils/commits/master]here[/url].
+Follow development [url=https://github.com/Tapsa/AGE/commits/master]here[/url] and [url=https://github.com/Tapsa/genieutils/commits/master]here[/url].
 
 [url=http://aok.heavengames.com/blacksmith/lister.php?&pauthor=keisari%20tapsa&start=0&s=d&o=d]My other uploads[/url].

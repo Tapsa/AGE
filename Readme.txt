@@ -8,7 +8,7 @@ You may need to edit version numbers in
 \CMake\share\cmake-3.15\Modules\Find*.cmake
 files to find wxWidgets and Boost.
 
-Extract rest of the stuff into C:/Cpp or another folder which you like.
+Extract rest of the stuff into a folder of your choice.
 
 Mingw-builds 8.1.0: (includes gdb, libiconf, python, zlib)
 Choose posix threads with dwarf exception handling.
