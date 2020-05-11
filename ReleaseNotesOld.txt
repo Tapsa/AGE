@@ -1,4 +1,31 @@
 
+Version [b]2016.12.30[/b]:
+-Deltas with display angle should show properly.
+-The actual terrain that is drawn is shown when selecting terrains.
+
+Version [b]2016.12.23[/b]:
+-Added WASD keys back to SLP view.
+-SLP view can be zoomed.
+-Fixed SLP view missing angles.
+-Show angles dynamically shows exact angles.
+-Better registry paths.
+
+Version [b]2016.12.11[/b]:
+-Fixed selection bug in armor combo box in effects.
+-User interface fixes and improvements.
+
+Version [b]2016.11.13[/b]:
+-Fixed refreshing lists.
+
+Version [b]2016.11.7[/b]:
+-Removed broken batch editing from strings.
+
+Version [b]2016.10.9[/b]:
+-Reduced memory usage of combo boxes that share strings.
+
+Version [b]2016.10.2[/b]:
+-Reduced drawing lag.
+
 Version [b]2016.9.12[/b]:
 -Registry button works better now.
 
