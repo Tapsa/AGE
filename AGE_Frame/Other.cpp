@@ -1780,11 +1780,23 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             for(size_t loop = 10; loop < 17; ++loop)
             effect_type_names.Add(lexical_cast<string>(loop) + " - AoK HD only");
         }
-        if(GenieVersion < genie::GV_AoKA) effect_type_names.Add("101 - AoK+ only");
-        else effect_type_names.Add("101 - Tech Cost Modifier (Set/+/-)");
+        if(GenieVersion < genie::GV_AoKA && (GenieVersion < genie::GV_Tapsa || GenieVersion > genie::GV_LatestTap))
+        {
+            effect_type_names.Add("101 - DE & AoK+ only");
+        }
+        else
+        {
+            effect_type_names.Add("101 - Tech Cost Modifier (Set/+/-)");
+        }
         effect_type_names.Add("102 - Disable Tech");
-        if(GenieVersion < genie::GV_AoKA) effect_type_names.Add("103 - AoK+ only");
-        else effect_type_names.Add("103 - Tech Time Modifier (Set/+/-)");   // Selection 17
+        if(GenieVersion < genie::GV_AoKA && (GenieVersion < genie::GV_Tapsa || GenieVersion > genie::GV_LatestTap))
+        {
+            effect_type_names.Add("103 - DE & AoK+ only");
+        }
+        else
+        {
+            effect_type_names.Add("103 - Tech Time Modifier (Set/+/-)");   // Selection 17
+        }
         Effects_Type_ComboBox->Flash();
 
         DataOpened = true;
