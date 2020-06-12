@@ -13,7 +13,8 @@ I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]2020.5.29[/b]:
+Version [b]2020.6.12[/b]:
+-Fixed bug with language text indexes.
 -Renamed technology cost and time modifiers for AoE DE.
 
 Version [b]2020.3.30[/b]:

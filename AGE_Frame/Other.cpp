@@ -2186,13 +2186,13 @@ void AGE_Frame::OnGameVersionChange()
         }
         if(emerge)
         {
-            Research_LangDLLName->changeContainerType(CLong);
-            Research_LangDLLDescription->changeContainerType(CLong);
+            Units_LanguageDLLName->changeContainerType(CLong);
+            Units_LanguageDLLCreation->changeContainerType(CLong);
         }
         else
         {
-            Research_LangDLLName->changeContainerType(CUShort);
-            Research_LangDLLDescription->changeContainerType(CUShort);
+            Units_LanguageDLLName->changeContainerType(CUShort);
+            Units_LanguageDLLCreation->changeContainerType(CUShort);
         }
         Graphics_FirstFrame_Holder->Show(appear);
         Units_TelemetryID_Holder->Show(appear);
