@@ -2000,8 +2000,10 @@ void AGE_Frame::OnGameVersionChange()
         Units_AnnexUnitMisplacement1_Holder->Show(show);
         Units_TransformUnit_Holder->Show(show);
         Units_TransformSound_Holder->Show(show);
+        Units_GarrisonType_Text->Show(show);
         Units_GarrisonType_Holder->Show(show);
-        Units_GarrisonHealRate_Holder->Show(show);
+        Units_GarrisonHealRate_Text->Show(show);
+        Units_GarrisonHealRate->Show(show);
         Units_PileUnit_Holder->Show(show);
         Units_LootSwitch_Holder->Show(show);
         Colors_MinimapColor2_Holder->Show(show);
@@ -2220,6 +2222,8 @@ void AGE_Frame::OnGameVersionChange()
         Units_WwiseConstructionSound->Show(emerge);
         Units_DropSite[2]->Show(emerge);
         Units_DropSite_ComboBox[2]->Show(emerge);
+        Units_BonusDamageResistance_Holder->Show(emerge);
+        Units_Charge_Grid->Show(emerge);
         Tasks_WwiseResourceGatheringSound->Show(emerge);
         Tasks_WwiseResourceDepositSound->Show(emerge);
         Graphics_ParticleEffectName_Text->Show(emerge);
@@ -2422,7 +2426,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
                 }
                 GenieVersion = genie::GV_LatestDE2;
                 // Remember to update this version number!
-                dataset->FileVersion = "VER 7.2";
+                dataset->FileVersion = "VER 7.3";
             }
             else if(GenieVersion <= genie::GV_LatestTap && genie::GV_Tapsa <= GenieVersion)
             {
