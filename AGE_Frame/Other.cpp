@@ -1767,6 +1767,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         }
         if(GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2)
         {
+            effect_type_names.Add("7 - Spawn Unit");
             effect_type_names.Add("10 - Team Attribute Modifier (Set)");    // Selection 8
             effect_type_names.Add("11 - Team Resource Modifier (Set/+/-)");
             effect_type_names.Add("12 - Team Enable/Disable Unit");
@@ -1777,6 +1778,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         }
         else
         {
+            effect_type_names.Add("7 - AoK DE only");
             for(size_t loop = 10; loop < 17; ++loop)
             effect_type_names.Add(lexical_cast<string>(loop) + " - AoK HD only");
         }

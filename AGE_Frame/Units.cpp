@@ -506,9 +506,9 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type40[3]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            wxString name = "DS";
+            wxString name = "";
             for(size_t i = 0; i < unit_ptr->Bird.DropSites.size(); ++i)
-            name += " " + FormatInt(unit_ptr->Bird.DropSites[i]) + " ";
+            name += "DS" + FormatInt(unit_ptr->Bird.DropSites[i]) + " ";
             return UF40 name;
         });
         else if(label.compare(Type40[4]) == 0)
@@ -567,7 +567,7 @@ void AGE_Frame::PrepUnitSearch()
         {
             wxString name = "";
             for(size_t i = 0; i < unit_ptr->Type50.Attacks.size(); ++i)
-            name += "c" + FormatInt(unit_ptr->Type50.Attacks[i].Class) + " ";
+            name += "C" + FormatInt(unit_ptr->Type50.Attacks[i].Class) + " ";
             return UF50 name;
         });
         else if(label.compare(Type50[3]) == 0)
@@ -580,7 +580,7 @@ void AGE_Frame::PrepUnitSearch()
         {
             wxString name = "";
             for(size_t i = 0; i < unit_ptr->Type50.Armours.size(); ++i)
-            name += "c" + FormatInt(unit_ptr->Type50.Armours[i].Class) + " ";
+            name += "C" + FormatInt(unit_ptr->Type50.Armours[i].Class) + " ";
             return UF50 name;
         });
         else if(label.compare(Type50[5]) == 0)
