@@ -47,16 +47,17 @@ void ComboBox_EffectType::OnChoose(wxCommandEvent&)
         case 5: TextBox->ChangeValue("4"); break;
         case 6: TextBox->ChangeValue("5"); break;
         case 7: TextBox->ChangeValue("6"); break;
-        case 8: TextBox->ChangeValue("10"); break;
-        case 9: TextBox->ChangeValue("11"); break;
-        case 10: TextBox->ChangeValue("12"); break;
-        case 11: TextBox->ChangeValue("13"); break;
-        case 12: TextBox->ChangeValue("14"); break;
-        case 13: TextBox->ChangeValue("15"); break;
-        case 14: TextBox->ChangeValue("16"); break;
-        case 15: TextBox->ChangeValue("101"); break;
-        case 16: TextBox->ChangeValue("102"); break;
-        case 17: TextBox->ChangeValue("103"); break;
+        case 8: TextBox->ChangeValue("7"); break;
+        case 9: TextBox->ChangeValue("10"); break;
+        case 10: TextBox->ChangeValue("11"); break;
+        case 11: TextBox->ChangeValue("12"); break;
+        case 12: TextBox->ChangeValue("13"); break;
+        case 13: TextBox->ChangeValue("14"); break;
+        case 14: TextBox->ChangeValue("15"); break;
+        case 15: TextBox->ChangeValue("16"); break;
+        case 16: TextBox->ChangeValue("101"); break;
+        case 17: TextBox->ChangeValue("102"); break;
+        case 18: TextBox->ChangeValue("103"); break;
         default: TextBox->ChangeValue("-1");
     }
     TextBox->SaveEdits();
