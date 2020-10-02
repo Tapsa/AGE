@@ -226,6 +226,13 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
                 Name += "Change resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
                 +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             }
+            if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+            {
+                if(dataset->Effects[tech].EffectCommands[effect].C >= 0)
+                {
+                    Name += " times resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].C);
+                }
+            }
             break;
         case 12:
             Name = "Team ";
@@ -241,6 +248,10 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
         case 3:
             Name += "Upgrade unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
             +" to "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B);
+            if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+            {
+                Name += dataset->Effects[tech].EffectCommands[effect].C == -1 ? ", all" : ", on map";
+            }
             break;
         case 14:
             Name = "Team ";
@@ -264,6 +275,15 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             //Name = "Resource Modifier (Multiply)";
             Name += "Multiply resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
             +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            break;
+        case 7:
+            if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+            {
+                //Name = "Spawn Unit";
+                Name = "Spawn unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                +" from "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B)
+                +", "+FormatInt(dataset->Effects[tech].EffectCommands[effect].C)+" times";
+            }
             break;
         case 101:
             //Name = "Tech Cost Modifier (Set/+/-)";
@@ -359,20 +379,26 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
         bool NeverHide = Effects_NeverHide->GetValue();
         switch(EffectPointer->Type)
         {
+            case 20:
+            case 30:
+            if(GenieVersion != genie::GV_TC)
+            {
+                goto noup;
+            }
             case 0:
             case 10:
             {
                 Effects_A_ComboBox->SwapList(&unit_names);
-                Effects_A_ComboBox->Show(true);    // for effects 0, 2, 3, 4, 5
-                Effects_B_CheckBox->Show(false);    // for effects 1, 2
+                Effects_A_ComboBox->Show(true);
+                Effects_B_CheckBox->Show(false);
                 Effects_B_ComboBox->SwapList(&class_names);
-                Effects_B_ComboBox->Show(true);    // for effects 0, 4, 5
-                Effects_C_CheckBox->Show(false);    // for effects 101, 103
-                Effects_C_ComboBox->Show(true);   // for effects 0, 4, 5
-                Effects_D_ComboBox->Show(false);   // for effect 102
-                Effects_A->Show(true);  // not for effect 102
-                Effects_B->Show(true);  // not for effects 6, 102, 103
-                Effects_C->Show(true);  // not for effects 1, 2, 3, 6, 102
+                Effects_B_ComboBox->Show(true);
+                Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->Show(true);
+                Effects_D_ComboBox->Show(false);
+                Effects_A->Show(true);
+                Effects_B->Show(true);
+                Effects_C->Show(true);
 
                 Effects_A_Text->SetLabel("Unit ");
                 Effects_B_Text->SetLabel("Class ");
@@ -405,28 +431,36 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 }
             }
             break;
+            case 21:
+            case 31:
+            if(GenieVersion != genie::GV_TC)
+            {
+                goto noup;
+            }
             case 1:
             case 11:
             {
+                bool DE2 = GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2;
                 Effects_A_ComboBox->SwapList(&resource_names);
-                Effects_A_ComboBox->Show(true);    // for effects 1, 6
-                Effects_B_CheckBox->Show(true); // for effects 1, 2
-                Effects_B_ComboBox->Show(false);   // for effects 0, 3, 4, 5, 101
-                Effects_C_CheckBox->Show(false);    // for effects 101, 103
-                Effects_C_ComboBox->Show(false);  // for effects 0, 4, 5
-                Effects_D_ComboBox->Show(false);   // for effect 102
-                Effects_89_Type_CB1->Show(false); // only for attributes 8, 9
-                Effects_A->Show(true);  // not for effect 102
-                Effects_B->Show(true);  // not for effects 6, 102, 103
-                Effects_C->Show(NeverHide); // not for effects 1, 2, 3, 6, 102
-                Effects_D->Show(true);  // not for effects 2, 3
-                Effects_89_Amount->Show(false); // only for attributes 8, 9
-                Effects_89_Type->Show(false); // only for attributes 8, 9
+                Effects_A_ComboBox->Show(true);
+                Effects_B_CheckBox->Show(true);
+                Effects_B_ComboBox->Show(false);
+                Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->SwapList(&resource_names);
+                Effects_C_ComboBox->Show(DE2);
+                Effects_D_ComboBox->Show(false);
+                Effects_89_Type_CB1->Show(false);
+                Effects_A->Show(true);
+                Effects_B->Show(true);
+                Effects_C->Show(NeverHide || DE2);
+                Effects_D->Show(true);
+                Effects_89_Amount->Show(false);
+                Effects_89_Type->Show(false);
 
-                Effects_A_Text->SetLabel("Resource ");  /* add combo box */
-                Effects_B_Text->SetLabel("Mode ");  /* add boolean [X]=1=Set [ ]=0=+/- */
-                Effects_C_Text->SetLabel("Unused ");
-                if(EffectPointer->B == 0) // unchecked
+                Effects_A_Text->SetLabel("Resource ");
+                Effects_B_Text->SetLabel("Mode ");
+                Effects_C_Text->SetLabel("Resource [*] ");
+                if(EffectPointer->B == 0)
                 {
                     Effects_D_Text->SetLabel("Amount [Set] ");
                 }
@@ -437,29 +471,35 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_89_Type_Text->SetLabel("");
 
                 Effects_Info_B->SetLabel(" [ ] = Set, [X] = +/-");
-                Effects_Info_C->SetLabel("");
+                Effects_Info_C->SetLabel(DE2 ? " [>=0] = Multiply with" : "");
             }
             break;
+            case 22:
+            case 32:
+            if(GenieVersion != genie::GV_TC)
+            {
+                goto noup;
+            }
             case 2:
             case 12:
             {
                 Effects_A_ComboBox->SwapList(&unit_names);
-                Effects_A_ComboBox->Show(true);    // for effects 0, 2, 3, 4, 5
-                Effects_B_CheckBox->Show(true); // for effects 1, 2
-                Effects_B_ComboBox->Show(false);   // for effects 0, 3, 4, 5, 101
-                Effects_C_CheckBox->Show(false);    // for effects 101, 103
-                Effects_C_ComboBox->Show(false);  // for effects 0, 4, 5
-                Effects_D_ComboBox->Show(false);   // for effect 102
-                Effects_89_Type_CB1->Show(false); // only for attributes 8, 9
-                Effects_A->Show(true);  // not for effect 102
-                Effects_B->Show(true);  // not for effects 6, 102, 103
-                Effects_C->Show(NeverHide); // not for effects 1, 2, 3, 6, 102
-                Effects_D->Show(NeverHide); // not for effects 2, 3
-                Effects_89_Amount->Show(false); // only for attributes 8, 9
-                Effects_89_Type->Show(false); // only for attributes 8, 9
+                Effects_A_ComboBox->Show(true);
+                Effects_B_CheckBox->Show(true);
+                Effects_B_ComboBox->Show(false);
+                Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->Show(false);
+                Effects_D_ComboBox->Show(false);
+                Effects_89_Type_CB1->Show(false);
+                Effects_A->Show(true);
+                Effects_B->Show(true);
+                Effects_C->Show(NeverHide);
+                Effects_D->Show(NeverHide);
+                Effects_89_Amount->Show(false);
+                Effects_89_Type->Show(false);
 
-                Effects_A_Text->SetLabel("Unit ");  /* add combo box */
-                Effects_B_Text->SetLabel("Mode ");  /* add boolean */
+                Effects_A_Text->SetLabel("Unit ");
+                Effects_B_Text->SetLabel("Mode ");
                 Effects_C_Text->SetLabel("Unused ");
                 Effects_D_Text->SetLabel("Unused ");
                 Effects_89_Type_Text->SetLabel("");
@@ -468,53 +508,66 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_Info_C->SetLabel("");
             }
             break;
+            case 23:
+            case 33:
+            if(GenieVersion != genie::GV_TC)
+            {
+                goto noup;
+            }
             case 3:
             case 13:
             {
+                bool DE2 = GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2;
                 Effects_A_ComboBox->SwapList(&unit_names);
-                Effects_A_ComboBox->Show(true);    // for effects 0, 2, 3, 4, 5
-                Effects_B_CheckBox->Show(false);    // for effects 1, 2
+                Effects_A_ComboBox->Show(true);
+                Effects_B_CheckBox->Show(false);
                 Effects_B_ComboBox->SwapList(&unit_names);
-                Effects_B_ComboBox->Show(true);    // for effect 3
-                Effects_C_CheckBox->Show(false);    // for effects 101, 103
-                Effects_C_ComboBox->Show(false);  // for effects 0, 4, 5
-                Effects_D_ComboBox->Show(false);   // for effect 102
-                Effects_89_Type_CB1->Show(false); // only for attributes 8, 9
-                Effects_A->Show(true);  // not for effect 102
-                Effects_B->Show(true);  // not for effects 6, 102, 103
-                Effects_C->Show(NeverHide); // not for effects 1, 2, 3, 6, 102
-                Effects_D->Show(NeverHide); // not for effects 2, 3
-                Effects_89_Amount->Show(false); // only for attributes 8, 9
-                Effects_89_Type->Show(false); // only for attributes 8, 9
+                Effects_B_ComboBox->Show(true);
+                Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->Show(false);
+                Effects_D_ComboBox->Show(false);
+                Effects_89_Type_CB1->Show(false);
+                Effects_A->Show(true);
+                Effects_B->Show(true);
+                Effects_C->Show(NeverHide || DE2);
+                Effects_D->Show(NeverHide);
+                Effects_89_Amount->Show(false);
+                Effects_89_Type->Show(false);
 
-                Effects_A_Text->SetLabel("Unit ");  /* add combo box */
-                Effects_B_Text->SetLabel("To Unit ");   /* add combo box */
-                Effects_C_Text->SetLabel("Unused ");
+                Effects_A_Text->SetLabel("Unit ");
+                Effects_B_Text->SetLabel("To Unit ");
+                Effects_C_Text->SetLabel("Mode ");
                 Effects_D_Text->SetLabel("Unused ");
                 Effects_89_Type_Text->SetLabel("");
 
                 Effects_Info_B->SetLabel("");
-                Effects_Info_C->SetLabel("");
+                Effects_Info_C->SetLabel(DE2 ? " [-1] = All, [!-1] = On map" : "");
             }
             break;
+            case 24:
+            case 34:
+            if(GenieVersion != genie::GV_TC)
+            {
+                goto noup;
+            }
             case 4:
             case 14:
             {
                 Effects_A_ComboBox->SwapList(&unit_names);
-                Effects_A_ComboBox->Show(true);    // for effects 0, 2, 3, 4, 5
-                Effects_B_CheckBox->Show(false);    // for effects 1, 2
+                Effects_A_ComboBox->Show(true);
+                Effects_B_CheckBox->Show(false);
                 Effects_B_ComboBox->SwapList(&class_names);
-                Effects_B_ComboBox->Show(true);    // for effects 0, 4, 5
-                Effects_C_CheckBox->Show(false);    // for effects 101, 103
-                Effects_C_ComboBox->Show(true);   // for effects 0, 4, 5
-                Effects_D_ComboBox->Show(false);   // for effect 102
-                Effects_A->Show(true);  // not for effect 102
-                Effects_B->Show(true);  // not for effects 6, 102, 103
-                Effects_C->Show(true);  // not for effects 1, 2, 3, 6, 102
+                Effects_B_ComboBox->Show(true);
+                Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->Show(true);
+                Effects_D_ComboBox->Show(false);
+                Effects_A->Show(true);
+                Effects_B->Show(true);
+                Effects_C->Show(true);
 
-                Effects_A_Text->SetLabel("Unit ");  /* add combo box */
-                Effects_B_Text->SetLabel("Class "); /* add combo box */
-                Effects_C_Text->SetLabel("Attribute "); /* add combo box */
+                Effects_A_Text->SetLabel("Unit ");
+                Effects_B_Text->SetLabel("Class ");
+                Effects_C_Text->SetLabel("Attribute ");
 
                 Effects_Info_B->SetLabel("");
                 Effects_Info_C->SetLabel("");
@@ -544,24 +597,30 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 }
             }
             break;
+            case 25:
+            case 35:
+            if(GenieVersion != genie::GV_TC)
+            {
+                goto noup;
+            }
             case 5:
             case 15:
             {
                 Effects_A_ComboBox->SwapList(&unit_names);
-                Effects_A_ComboBox->Show(true);    // for effects 0, 2, 3, 4, 5
-                Effects_B_CheckBox->Show(false);    // for effects 1, 2
+                Effects_A_ComboBox->Show(true);
+                Effects_B_CheckBox->Show(false);
                 Effects_B_ComboBox->SwapList(&class_names);
-                Effects_B_ComboBox->Show(true);    // for effects 0, 4, 5
-                Effects_C_CheckBox->Show(false);    // for effects 101, 103
-                Effects_C_ComboBox->Show(true);   // for effects 0, 4, 5
-                Effects_D_ComboBox->Show(false);   // for effect 102
-                Effects_A->Show(true);  // not for effect 102
-                Effects_B->Show(true);  // not for effects 6, 102, 103
-                Effects_C->Show(true);  // not for effects 1, 2, 3, 6, 102
+                Effects_B_ComboBox->Show(true);
+                Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->Show(true);
+                Effects_D_ComboBox->Show(false);
+                Effects_A->Show(true);
+                Effects_B->Show(true);
+                Effects_C->Show(true);
 
-                Effects_A_Text->SetLabel("Unit ");  /* add combo box */
-                Effects_B_Text->SetLabel("Class "); /* add combo box */
-                Effects_C_Text->SetLabel("Attribute "); /* add combo box */
+                Effects_A_Text->SetLabel("Unit ");
+                Effects_B_Text->SetLabel("Class ");
+                Effects_C_Text->SetLabel("Attribute ");
 
                 Effects_Info_B->SetLabel("");
                 Effects_Info_C->SetLabel("");
@@ -591,25 +650,31 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 }
             }
             break;
+            case 26:
+            case 36:
+            if(GenieVersion != genie::GV_TC)
+            {
+                goto noup;
+            }
             case 6:
             case 16:
             {
                 Effects_A_ComboBox->SwapList(&resource_names);
-                Effects_A_ComboBox->Show(true);    // for effects 1, 6
-                Effects_B_CheckBox->Show(false);    // for effects 1, 2
-                Effects_B_ComboBox->Show(false);   // for effects 0, 3, 4, 5, 101
-                Effects_C_CheckBox->Show(false);    // for effects 101, 103
-                Effects_C_ComboBox->Show(false);  // for effects 0, 4, 5
-                Effects_D_ComboBox->Show(false);   // for effect 102
-                Effects_89_Type_CB1->Show(false); // only for attributes 8, 9
-                Effects_A->Show(true);  // not for effect 102
-                Effects_B->Show(NeverHide); // not for effects 6, 102, 103
-                Effects_C->Show(NeverHide); // not for effects 1, 2, 3, 6, 102
-                Effects_D->Show(true);  // not for effects 2, 3
-                Effects_89_Amount->Show(false); // only for attributes 8, 9
-                Effects_89_Type->Show(false); // only for attributes 8, 9
+                Effects_A_ComboBox->Show(true);
+                Effects_B_CheckBox->Show(false);
+                Effects_B_ComboBox->Show(false);
+                Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->Show(false);
+                Effects_D_ComboBox->Show(false);
+                Effects_89_Type_CB1->Show(false);
+                Effects_A->Show(true);
+                Effects_B->Show(NeverHide);
+                Effects_C->Show(NeverHide);
+                Effects_D->Show(true);
+                Effects_89_Amount->Show(false);
+                Effects_89_Type->Show(false);
 
-                Effects_A_Text->SetLabel("Resource ");  /* add combo box */
+                Effects_A_Text->SetLabel("Resource ");
                 Effects_B_Text->SetLabel("Unused ");
                 Effects_C_Text->SetLabel("Unused ");
                 Effects_D_Text->SetLabel("Amount [*] ");
@@ -619,28 +684,58 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_Info_C->SetLabel("");
             }
             break;
+            case 7:
+            case 17:
+            if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+            {
+                Effects_A_ComboBox->SwapList(&unit_names);
+                Effects_A_ComboBox->Show(true);
+                Effects_B_CheckBox->Show(false);
+                Effects_B_ComboBox->SwapList(&unit_names);
+                Effects_B_ComboBox->Show(true);
+                Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->Show(false);
+                Effects_D_ComboBox->Show(false);
+                Effects_89_Type_CB1->Show(false);
+                Effects_A->Show(true);
+                Effects_B->Show(true);
+                Effects_C->Show(true);
+                Effects_D->Show(NeverHide);
+                Effects_89_Amount->Show(false);
+                Effects_89_Type->Show(false);
+
+                Effects_A_Text->SetLabel("Unit ");
+                Effects_B_Text->SetLabel("From Building ");
+                Effects_C_Text->SetLabel("Amount ");
+                Effects_D_Text->SetLabel("Unused ");
+                Effects_89_Type_Text->SetLabel("");
+
+                Effects_Info_B->SetLabel("");
+                Effects_Info_C->SetLabel("");
+            }
+            break;
             case 101:
             {
                 Effects_A_ComboBox->SwapList(&research_names);
-                Effects_A_ComboBox->Show(true);    // for effects 101, 103
-                Effects_B_CheckBox->Show(false);    // for effects 1, 2
+                Effects_A_ComboBox->Show(true);
+                Effects_B_CheckBox->Show(false);
                 Effects_B_ComboBox->SwapList(&resource_names);
-                Effects_B_ComboBox->Show(true);    // for effect 101
-                Effects_C_CheckBox->Show(true); // for effects 101, 103
-                Effects_C_ComboBox->Show(false);  // for effects 0, 4, 5
-                Effects_D_ComboBox->Show(false);   // for effect 102
-                Effects_89_Type_CB1->Show(false); // only for attributes 8, 9
-                Effects_A->Show(true);  // not for effect 102
-                Effects_B->Show(true);  // not for effects 6, 102, 103
-                Effects_C->Show(true);  // not for effects 1, 2, 3, 6, 102
-                Effects_D->Show(true);  // not for effects 2, 3
-                Effects_89_Amount->Show(false); // only for attributes 8, 9
-                Effects_89_Type->Show(false); // only for attributes 8, 9
+                Effects_B_ComboBox->Show(true);
+                Effects_C_CheckBox->Show(true);
+                Effects_C_ComboBox->Show(false);
+                Effects_D_ComboBox->Show(false);
+                Effects_89_Type_CB1->Show(false);
+                Effects_A->Show(true);
+                Effects_B->Show(true);
+                Effects_C->Show(true);
+                Effects_D->Show(true);
+                Effects_89_Amount->Show(false);
+                Effects_89_Type->Show(false);
 
-                Effects_A_Text->SetLabel("Tech ");  /* add combo box */
-                Effects_B_Text->SetLabel("Resource ");  /* add combo box */
+                Effects_A_Text->SetLabel("Tech ");
+                Effects_B_Text->SetLabel("Resource ");
                 Effects_C_Text->SetLabel("Mode ");
-                if(EffectPointer->C == 0) // unchecked
+                if(EffectPointer->C == 0)
                 {
                     Effects_D_Text->SetLabel("Amount [Set] ");
                 }
@@ -656,24 +751,24 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
             break;
             case 102:
             {
-                Effects_A_ComboBox->Show(false);   // for effects 0 - 6, 101, 103
-                Effects_B_CheckBox->Show(false);    // for effects 1, 2
-                Effects_B_ComboBox->Show(false);   // for effects 0, 3, 4, 5, 101
-                Effects_C_CheckBox->Show(false);    // for effects 101, 103
-                Effects_C_ComboBox->Show(false);  // for effects 0, 4, 5
-                Effects_D_ComboBox->Show(true);    // for effect 102
-                Effects_89_Type_CB1->Show(false); // only for attributes 8, 9
-                Effects_A->Show(NeverHide); // not for effect 102
-                Effects_B->Show(NeverHide); // not for effects 6, 102, 103
-                Effects_C->Show(NeverHide); // not for effects 1, 2, 3, 6, 102
-                Effects_D->Show(true);  // not for effects 2, 3
-                Effects_89_Amount->Show(false); // only for attributes 8, 9
-                Effects_89_Type->Show(false); // only for attributes 8, 9
+                Effects_A_ComboBox->Show(false);
+                Effects_B_CheckBox->Show(false);
+                Effects_B_ComboBox->Show(false);
+                Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->Show(false);
+                Effects_D_ComboBox->Show(true);
+                Effects_89_Type_CB1->Show(false);
+                Effects_A->Show(NeverHide);
+                Effects_B->Show(NeverHide);
+                Effects_C->Show(NeverHide);
+                Effects_D->Show(true);
+                Effects_89_Amount->Show(false);
+                Effects_89_Type->Show(false);
 
                 Effects_A_Text->SetLabel("Unused ");
                 Effects_B_Text->SetLabel("Unused ");
                 Effects_C_Text->SetLabel("Unused ");
-                Effects_D_Text->SetLabel("Tech ");  /* add combo box */
+                Effects_D_Text->SetLabel("Tech ");
                 Effects_89_Type_Text->SetLabel("");
 
                 Effects_Info_B->SetLabel("");
@@ -683,24 +778,24 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
             case 103:
             {
                 Effects_A_ComboBox->SwapList(&research_names);
-                Effects_A_ComboBox->Show(true);    // for effects 101, 103
-                Effects_B_CheckBox->Show(false);    // for effects 1, 2
-                Effects_B_ComboBox->Show(false);   // for effects 0, 3, 4, 5, 101
-                Effects_C_CheckBox->Show(true); // for effects 101, 103
-                Effects_C_ComboBox->Show(false);  // for effects 0, 4, 5
-                Effects_D_ComboBox->Show(false);   // for effect 102
-                Effects_89_Type_CB1->Show(false); // only for attributes 8, 9
-                Effects_A->Show(true);  // not for effect 102
-                Effects_B->Show(NeverHide); // not for effects 6, 102, 103
-                Effects_C->Show(true);  // not for effects 1, 2, 3, 6, 102
-                Effects_D->Show(true);  // not for effects 2, 3
-                Effects_89_Amount->Show(false); // only for attributes 8, 9
-                Effects_89_Type->Show(false); // only for attributes 8, 9
+                Effects_A_ComboBox->Show(true);
+                Effects_B_CheckBox->Show(false);
+                Effects_B_ComboBox->Show(false);
+                Effects_C_CheckBox->Show(true);
+                Effects_C_ComboBox->Show(false);
+                Effects_D_ComboBox->Show(false);
+                Effects_89_Type_CB1->Show(false);
+                Effects_A->Show(true);
+                Effects_B->Show(NeverHide);
+                Effects_C->Show(true);
+                Effects_D->Show(true);
+                Effects_89_Amount->Show(false);
+                Effects_89_Type->Show(false);
 
-                Effects_A_Text->SetLabel("Tech ");  /* add combo box */
+                Effects_A_Text->SetLabel("Tech ");
                 Effects_B_Text->SetLabel("Unused ");
-                Effects_C_Text->SetLabel("Mode ");  /* add boolean */
-                if(EffectPointer->C == 0) // unchecked
+                Effects_C_Text->SetLabel("Mode ");
+                if(EffectPointer->C == 0)
                 {
                     Effects_D_Text->SetLabel("Amount [Set] ");
                 }
@@ -714,21 +809,22 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_Info_C->SetLabel(" [ ] = Set, [X] = +/-");
             }
             break;
+            noup:
             default:
             {
-                Effects_A_ComboBox->Show(false);   // for effects 0 - 6, 101, 103
-                Effects_B_CheckBox->Show(false);    // for effects 1, 2
-                Effects_B_ComboBox->Show(false);   // for effects 0, 3, 4, 5, 101
-                Effects_C_CheckBox->Show(false);    // for effects 101, 103
-                Effects_C_ComboBox->Show(false);  // for effects 0, 4, 5
-                Effects_D_ComboBox->Show(false);   // for effect 102
-                Effects_89_Type_CB1->Show(false); // only for attributes 8, 9
-                Effects_A->Show(NeverHide); // not for effect 102
-                Effects_B->Show(NeverHide); // not for effects 6, 102, 103
-                Effects_C->Show(NeverHide); // not for effects 1, 2, 3, 6, 102
-                Effects_D->Show(NeverHide); // not for effects 2, 3
-                Effects_89_Amount->Show(false); // only for attributes 8, 9
-                Effects_89_Type->Show(false); // only for attributes 8, 9
+                Effects_A_ComboBox->Show(false);
+                Effects_B_CheckBox->Show(false);
+                Effects_B_ComboBox->Show(false);
+                Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->Show(false);
+                Effects_D_ComboBox->Show(false);
+                Effects_89_Type_CB1->Show(false);
+                Effects_A->Show(NeverHide);
+                Effects_B->Show(NeverHide);
+                Effects_C->Show(NeverHide);
+                Effects_D->Show(NeverHide);
+                Effects_89_Amount->Show(false);
+                Effects_89_Type->Show(false);
 
                 Effects_A_Text->SetLabel("Attribute A ");
                 Effects_B_Text->SetLabel("Attribute B ");
@@ -744,19 +840,19 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
     else
     {
         Effects_Type_Holder->Show(false);
-        Effects_A_ComboBox->Show(false);   // for effects 0 - 6, 101, 103
-        Effects_B_CheckBox->Show(false);    // for effects 1, 2
-        Effects_B_ComboBox->Show(false);   // for effects 0, 3, 4, 5, 101
-        Effects_C_CheckBox->Show(false);    // for effects 101, 103
-        Effects_C_ComboBox->Show(false);  // for effects 0, 4, 5
-        Effects_D_ComboBox->Show(false);   // for effect 102
-        Effects_89_Type_CB1->Show(false); // only for attributes 8, 9
-        Effects_A->Show(false); // not for effect 102
-        Effects_B->Show(false); // not for effects 6, 102, 103
-        Effects_C->Show(false); // not for effects 1, 2, 3, 6, 102
-        Effects_D->Show(false); // not for effects 2, 3
-        Effects_89_Amount->Show(false); // only for attributes 8, 9
-        Effects_89_Type->Show(false); // only for attributes 8, 9
+        Effects_A_ComboBox->Show(false);
+        Effects_B_CheckBox->Show(false);
+        Effects_B_ComboBox->Show(false);
+        Effects_C_CheckBox->Show(false);
+        Effects_C_ComboBox->Show(false);
+        Effects_D_ComboBox->Show(false);
+        Effects_89_Type_CB1->Show(false);
+        Effects_A->Show(false);
+        Effects_B->Show(false);
+        Effects_C->Show(false);
+        Effects_D->Show(false);
+        Effects_89_Amount->Show(false);
+        Effects_89_Type->Show(false);
         Effects_A_Text->SetLabel("Select effect first ");
         Effects_B_Text->SetLabel("");
         Effects_C_Text->SetLabel("");
@@ -861,7 +957,6 @@ void AGE_Frame::LoadAllEffects(wxCommandEvent &event)
     }
 
     RefreshList(Techs_AllEffects_ListV);
-    //Techs_AllEffects_ListV->SetFocus(); You need to check if searched or not.
 
     SearchAnd = ExcludeAnd = false;
 
@@ -1100,15 +1195,15 @@ void AGE_Frame::CreateTechControls()
     Techs_Main->Add(Effects_ListArea, 29, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5); // 3+1
     Techs_Main->Add(Effects_DataArea, 31, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5); // 6-1
 
-    Effects_89_Amount->Show(false); // only for attributes 8, 9
-    Effects_89_Type->Show(false); // only for attributes 8, 9
-    Effects_A_ComboBox->Show(false);   // for effects 0 - 6, 101, 103
-    Effects_B_CheckBox->Show(false);    // for effects 1, 2
-    Effects_B_ComboBox->Show(false);   // for effects 0, 3, 4, 5, 101
-    Effects_C_CheckBox->Show(false);    // for effects 101, 103
-    Effects_C_ComboBox->Show(false);  // for effects 0, 4, 5
-    Effects_D_ComboBox->Show(false);   // for effect 102
-    Effects_89_Type_CB1->Show(false); // only for attributes 8, 9
+    Effects_89_Amount->Show(false);
+    Effects_89_Type->Show(false);
+    Effects_A_ComboBox->Show(false);
+    Effects_B_CheckBox->Show(false);
+    Effects_B_ComboBox->Show(false);
+    Effects_C_CheckBox->Show(false);
+    Effects_C_ComboBox->Show(false);
+    Effects_D_ComboBox->Show(false);
+    Effects_89_Type_CB1->Show(false);
 
     Tab_Techs->SetSizer(Techs_Main);
 
