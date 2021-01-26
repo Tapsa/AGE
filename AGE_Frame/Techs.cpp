@@ -394,6 +394,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_B_ComboBox->SwapList(&class_names);
                 Effects_B_ComboBox->Show(true);
                 Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->SwapList(&effect_attribute_names);
                 Effects_C_ComboBox->Show(true);
                 Effects_D_ComboBox->Show(false);
                 Effects_A->Show(true);
@@ -559,6 +560,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_B_ComboBox->SwapList(&class_names);
                 Effects_B_ComboBox->Show(true);
                 Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->SwapList(&effect_attribute_names);
                 Effects_C_ComboBox->Show(true);
                 Effects_D_ComboBox->Show(false);
                 Effects_A->Show(true);
@@ -612,6 +614,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_B_ComboBox->SwapList(&class_names);
                 Effects_B_ComboBox->Show(true);
                 Effects_C_CheckBox->Show(false);
+                Effects_C_ComboBox->SwapList(&effect_attribute_names);
                 Effects_C_ComboBox->Show(true);
                 Effects_D_ComboBox->Show(false);
                 Effects_A->Show(true);
