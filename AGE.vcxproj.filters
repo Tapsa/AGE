@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{ef1afc04-7d3a-4832-9e06-729d1d469522}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AGE_AboutDialog.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_CheckBoxes.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_ComboBoxes.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_OpenDialog.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_OpenSave.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_SaveDialog.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_TextControls.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\Civs.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\Constructor.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\General.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\Graphics.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\Other.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\PlayerColors.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\Research.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedComboPopup.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\Sounds.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\Techs.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\TechTrees.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\TerrainBorders.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\TerrainRestrictions.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\Terrains.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\UnitLine.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\Units.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AGE_AboutDialog.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AGE_CheckBoxes.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AGE_ComboBoxes.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AGE_Copies.hpp">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AGE_Frame.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AGE_OpenDialog.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AGE_OpenSave.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AGE_SaveDialog.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="AGE_TextControls.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedComboPopup.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

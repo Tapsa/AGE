@@ -3744,8 +3744,8 @@ bool AGE_Frame::FileExists(const char * value)
 
 void AGE_Frame::LoadTXT(const wxString &filename)
 {
-    ifstream infile(filename);
-    string line;
+    string line(filename);
+    ifstream infile(line);
     while(getline(infile, line))
     {
         size_t num = 0;
@@ -3784,10 +3784,11 @@ wxString AGE_Frame::TranslatedText(int ID, int letters)
         }
         else // Does not work when building as 64-bit
         {
-            char buffer[letters];
+            char *buffer = new char[letters];
             if(LangsUsed & 4 && LoadStringA(LanguageDLL[2], ID, buffer, letters)) result = buffer;
             else if(LangsUsed & 2 && LoadStringA(LanguageDLL[1], ID, buffer, letters)) result = buffer;
             else if(LangsUsed & 1 && LoadStringA(LanguageDLL[0], ID, buffer, letters)) result = buffer;
+            delete[] buffer;
         }
         result.Replace("\n", "\r\n");
     }

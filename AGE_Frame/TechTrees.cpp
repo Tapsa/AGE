@@ -525,7 +525,7 @@ void AGE_Frame::SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common 
     {
         getSelectedItems(selections, area.List, TTItemIDs);
 
-        int32_t *item_ptr;
+        int32_t *item_ptr = nullptr;
         for(auto loop = selections; loop--> 0;)
         {
             item_ptr = &tt_cmn_ptr->Mode[TTItemIDs[loop]];

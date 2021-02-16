@@ -447,6 +447,7 @@ bool AGE_Frame::initArt(AGE_SLP &art, unsigned graphicID)
     art.filename = valid ? graphic.FileName : "";
     art.slpID = valid ? graphic.SLP : -1;
 
+#ifndef _MSC_VER
     // Might wanna make this into another thread.
     if(PlaySounds)
     {
@@ -468,12 +469,13 @@ bool AGE_Frame::initArt(AGE_SLP &art, unsigned graphicID)
             art.buffers[3] = sf::SoundBuffer();
         }
     }
-
+#endif
     return valid;
 }
 
 void AGE_Frame::initSounds(AGE_SLP &art, unsigned sound_num, size_t slot)
 {
+#ifndef _MSC_VER
     if(sound_num < dataset->Sounds.size() && dataset->Sounds[sound_num].Items.size())
     {
         // TODO: Handle randomization, civ sounds.
@@ -506,6 +508,7 @@ void AGE_Frame::initSounds(AGE_SLP &art, unsigned sound_num, size_t slot)
     }
     // Clear the sound buffer.
     art.buffers[slot] = sf::SoundBuffer();
+#endif
 }
 
 void AGE_Frame::SetDisplayBearings(AGE_SLP &graphic, const genie::GraphicDelta &delta)
@@ -726,6 +729,7 @@ int AGE_Frame::ShouldAnimate(AGE_SLP &graphic, bool &framesleft)
 
 void AGE_Frame::Listen(AGE_SLP &art)
 {
+#ifndef _MSC_VER
     if(art.fpa) for(size_t i = 0; i < 4; ++i)
     if(art.delays[i] == art.frameID % art.fpa)
     {
@@ -736,6 +740,7 @@ void AGE_Frame::Listen(AGE_SLP &art)
             art.sounds[i].play();
         }
     }
+#endif
 }
 
 void AGE_Frame::ChooseNextFrame(AGE_SLP &graphic, bool &framesleft)
@@ -1721,8 +1726,8 @@ void AGE_Frame::CreateGraphicsControls()
         if(dd.ShowModal() == wxID_OK && dataset)
         {
             wxBusyCursor WaitCursor;
-            ifstream infile(dd.GetPath());
-            string line;
+            string line(dd.GetPath());
+            ifstream infile(line);
             while(getline(infile, line))
             {
                 wxArrayString pieces(wxStringTokenize(line, "\t"));

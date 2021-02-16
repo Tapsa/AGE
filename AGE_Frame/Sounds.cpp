@@ -612,6 +612,7 @@ void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &event)
     ListSoundItems();
 }
 
+#ifndef _MSC_VER
 void echo(sf::SoundBuffer &waves, sf::Sound &speaker, bool loop)
 {
     if(waves.getSampleCount())
@@ -621,6 +622,7 @@ void echo(sf::SoundBuffer &waves, sf::Sound &speaker, bool loop)
         speaker.setLoop(loop);
     }
 }
+#endif
 
 void AGE_Frame::playWAV(wxCommandEvent &event)
 {
@@ -628,6 +630,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
     Sounds_Items_ListV->SetFocus();
     else Sounds_Sounds_ListV->SetFocus();
 
+#ifndef _MSC_VER
     if(event.GetId() == SoundFile_Stop->GetId())
     {
         speaker.stop();
@@ -666,6 +669,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
         }
         wxMessageBox("No such sound");
     }
+#endif
 }
 
 void AGE_Frame::autoOdds(wxCommandEvent &event)

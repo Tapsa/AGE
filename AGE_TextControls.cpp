@@ -50,6 +50,7 @@ AGETextCtrl* AGETextCtrl::init(const ContainerType type, vector<AGETextCtrl*> *g
     case CShort: product = new TextCtrl_Short(frame, editor, parent, length); break;
     case CUShort: product = new TextCtrl_UShort(frame, editor, parent, length); break;
     case CString: product = new TextCtrl_String(frame, editor, parent, length); break;
+    default: product = nullptr;
     }
     if(NULL != group) group->push_back(product);
     return product;
