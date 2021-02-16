@@ -365,7 +365,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
         getSelectedItems(selections, Techs_Effects_ListV, EffectIDs);
         Effects_Type_Holder->Show(true);
 
-        genie::EffectCommand * EffectPointer;
+        genie::EffectCommand * EffectPointer = nullptr;
         for(auto loop = selections; loop--> 0;)
         {
             EffectPointer = &dataset->Effects[TechIDs.front()].EffectCommands[EffectIDs[loop]];

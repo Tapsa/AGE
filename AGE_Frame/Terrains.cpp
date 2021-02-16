@@ -360,7 +360,7 @@ wxThread::ExitCode Loader::Entry()
             size_t warea = wwidth * wheight + 1;
             vector<uint8_t> wrgbdata(warea * 4, 0);
 
-            pair<size_t, size_t> corners[rows * cols];
+            vector<pair<size_t, size_t>> corners(rows * cols);
             for(int c = 0; c < cols; ++c)
             for(int r = 0; r < rows; ++r)
             {

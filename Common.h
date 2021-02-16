@@ -12,7 +12,10 @@
 #include <iomanip>
 #include <functional>
 #include <boost/lexical_cast.hpp>
+#ifndef _MSC_VER
 #include <SFML/Audio.hpp>
+#endif
+#include <wx/wxprec.h>
 #include <wx/wx.h>
 #include <wx/aboutdlg.h>
 //#include <wx/collpane.h>

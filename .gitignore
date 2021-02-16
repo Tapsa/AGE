@@ -1,2 +1,5 @@
-Debug/
-Release/
+*debug/
+*release/
+.vs/
+*.user
+*.ini
