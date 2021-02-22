@@ -37,7 +37,7 @@ Copy b2.exe to \boost_1_75_0
 Run from \boost_1_75_0
 b2 toolset=gcc link=shared runtime-link=shared threading=multi install --with-iostreams
 For Visual Studio, zlib needs to be built too.
-b2 toolset=msvc link=shared runtime-link=shared threading=multi install --with-iostreams -s ZLIB_SOURCE=".\tools\boost_install\test\iostreams\zlib-1.2.11" -s ZLIB_INCLUDE=".\tools\boost_install\test\iostreams\zlib-1.2.11"
+b2 toolset=msvc link=static runtime-link=static threading=multi install --with-iostreams -s ZLIB_SOURCE=".\tools\boost_install\test\iostreams\zlib-1.2.11" -s ZLIB_INCLUDE=".\tools\boost_install\test\iostreams\zlib-1.2.11"
 You can safely delete boost_1_75_0 folder after build completes.
 Visual Studio may require appending "lib" to name of some generated libraries.
 
