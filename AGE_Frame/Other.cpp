@@ -4228,13 +4228,16 @@ wxString AGE_Frame::FormatUnsigned(unsigned value)
 
 void AGE_Frame::SaveBackup()
 {
-    try
+    if(dataset != nullptr)
     {
-        dataset->saveAs((DatFileName.substr(0, DatFileName.size()-4)+"_backup"+CurrentTime()+".dat").c_str());
-    }
-    catch(const std::ios_base::failure&)
-    {
-        wxMessageBox("Error saving backup!");
+        try
+        {
+            dataset->saveAs((DatFileName.substr(0, DatFileName.size() - 4) + "_backup" + CurrentTime() + ".dat").c_str());
+        }
+        catch (const std::ios_base::failure&)
+        {
+            wxMessageBox("Error saving backup!");
+        }
     }
 }
 
