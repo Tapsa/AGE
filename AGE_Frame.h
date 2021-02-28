@@ -401,7 +401,7 @@ private:
     void LoadAllSoundFiles(wxCommandEvent &event);
     void ClearAllSoundFiles(wxCommandEvent &event);
     void OnAllSoundFileSelect(wxCommandEvent &event);
-    bool Paste11Check(size_t pastes, size_t copies);
+    bool Paste11Check(size_t numPastes, size_t numCopies);
     void OnDrawIconSLP(wxPaintEvent &event);
     void OnDrawGraphicSLP(wxPaintEvent &event);
     void CalcDrawCenter(APanel*, int&, int&);
@@ -779,7 +779,7 @@ private:
     void OnResourcesPaste(wxCommandEvent &event);
     void OnResourcesPasteInsert(wxCommandEvent &event);
     void OnResourcesCopyToAll(wxCommandEvent &event);
-    wxString GetResourceName(int);
+    wxString GetResourceName(size_t);
 
     void ListUnits(short civ, bool all = true);
     void OnUnitsSearch(wxCommandEvent&); // Convert to local lambda

@@ -174,7 +174,7 @@ void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnCivCountChange()
 {
-    short CivCount = dataset->Civs.size();
+    size_t CivCount = dataset->Civs.size();
 //  Unit copying fixes.
 //  This messes copying if more than one window is opened!
 //  copies.Dat.Civs.resize(CivCount);
@@ -210,7 +210,7 @@ void AGE_Frame::OnCivCountChange()
     Refresh();
 }
 
-wxString AGE_Frame::GetResourceName(int index)
+wxString AGE_Frame::GetResourceName(size_t index)
 {
     if(GenieVersion < genie::GV_AoKE3)
     {
