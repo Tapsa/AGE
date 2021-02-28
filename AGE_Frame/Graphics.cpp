@@ -572,13 +572,13 @@ void AGE_Frame::DrawAngle(wxBufferedPaintDC &dc, int x, int y, int centerX, int 
     dc.DrawLine(-x + centerX, y + centerY, x + centerX, -y + centerY);
 }
 
-void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLPs &gallery, int centerX, int centerY)
+void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLPs &spritemap, int centerX, int centerY)
 {
     if(DrawAngles)
     {
-        if(gallery.angles)
+        if(spritemap.angles)
         {
-            uint16_t angles = gallery.angles;
+            uint16_t angles = spritemap.angles;
             float anglesize = PI2A / angles;
             float direction = PI2A - anglesize / 2;
             int x = sin(direction) * 512.f;
@@ -595,12 +595,12 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLPs &gallery, int cente
     }
     bool framesleft = false;
     int text_pos = 5 / slp_zoom;
-    if(gallery.deltas.size())
+    if(spritemap.deltas.size())
     {
-        GG::cache_depth = max(GG::cache_depth, gallery.deltas.size());
+        GG::cache_depth = max(GG::cache_depth, spritemap.deltas.size());
         int fpms = 0x7FFF;
         set<uint32_t> slpIDs;
-        for(auto &delta: gallery.deltas)
+        for(auto &delta: spritemap.deltas)
         {
             if(AGE_SLP::setbearing)
             {
@@ -640,46 +640,46 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLPs &gallery, int cente
     }
     else
     {
-        /*if(gallery.slpID == -1)
+        /*if(spritemap.slpID == -1)
         {
             dc.DrawLabel("No SLP", wxRect(text_pos, text_pos, 100, 40));
             return;
         }*/
         if(AGE_SLP::setbearing)
         {
-            CalcAngle(gallery);
+            CalcAngle(spritemap);
         }
-        if(LoadSLP(&gallery)) FrameToBitmap(&gallery);
-        if(gallery.bitmap.IsOk())
+        if(LoadSLP(&spritemap)) FrameToBitmap(&spritemap);
+        if(spritemap.bitmap.IsOk())
         {
-            dc.DrawBitmap(gallery.bitmap, gallery.xpos + centerX, gallery.ypos + centerY, true);
+            dc.DrawBitmap(spritemap.bitmap, spritemap.xpos + centerX, spritemap.ypos + centerY, true);
             // Ideally sound starts playing after timer is running.
             if(PlaySounds)
             {
-                Listen(gallery);
+                Listen(spritemap);
             }
             if(AnimSLP)
             {
-                animater.Start(ShouldAnimate(gallery, framesleft));
+                animater.Start(ShouldAnimate(spritemap, framesleft));
             }
-            dc.DrawLabel("SLP " + FormatInt(gallery.slpID) + "\n" + gallery.filename, wxRect(text_pos, text_pos, 100, 40));
+            dc.DrawLabel("SLP " + FormatInt(spritemap.slpID) + "\n" + spritemap.filename, wxRect(text_pos, text_pos, 100, 40));
         }
-        else dc.DrawLabel("!SLP " + FormatInt(gallery.slpID) + "\n" + gallery.filename, wxRect(text_pos, text_pos, 100, 40));
+        else dc.DrawLabel("!SLP " + FormatInt(spritemap.slpID) + "\n" + spritemap.filename, wxRect(text_pos, text_pos, 100, 40));
     }
     if(AnimSLP)
     {
-        if(!framesleft && !gallery.pause)
+        if(!framesleft && !spritemap.pause)
         {
-            int rdms = dataset->Graphics[gallery.datID].ReplayDelay * 1000;
+            int rdms = dataset->Graphics[spritemap.datID].ReplayDelay * 1000;
             if(rdms)
             {
                 animater.Start(rdms);
-                gallery.pause = true;
+                spritemap.pause = true;
                 return;
             }
         }
-        HandleLastFrame(gallery.angles, framesleft, 1u);
-        gallery.pause = false;
+        HandleLastFrame(spritemap.angles, framesleft, 1u);
+        spritemap.pause = false;
     }
 }
 

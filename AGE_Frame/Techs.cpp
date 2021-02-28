@@ -49,7 +49,6 @@ void AGE_Frame::OnEffectRename(wxCommandEvent &event)
             }
         }
     }
-    string CivName;
     short CivTechTreeID=0, CivTeamBonusID = 0;
     for(size_t loop2=dataset->Civs.size(); loop2--> 0;) // Rename of techs. Make it reverse loop.
     {

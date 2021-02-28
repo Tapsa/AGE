@@ -286,7 +286,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 
         int edits = 0;
         GraphicCopies graphics;
-        for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
             if(Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID)
             {

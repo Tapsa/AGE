@@ -102,9 +102,9 @@ public:
         replenish();
     }
     virtual void replenish()=0;
-    void changeContainerType(const ContainerType type)
+    void changeContainerType(const ContainerType newType)
     {
-        switch(type)
+        switch(newType)
         {
         case CByte:
         case CUByte: SetBackgroundColour(wxColour(255, 235, 215)); break;

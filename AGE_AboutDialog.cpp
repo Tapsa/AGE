@@ -1,7 +1,7 @@
 #include "AGE_AboutDialog.h"
 #include "AppIcon64.xpm"
 
-const wxString AGE_AboutDialog::AGE_VER = "2020.10.2";
+const wxString AGE_AboutDialog::AGE_VER = "2021.2.28";
 
 AGE_AboutDialog::AGE_AboutDialog(wxWindow *parent, const wxFont &font)
 : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)
@@ -56,7 +56,7 @@ void LoadPalettes(vector<vector<genie::Color>> &palettes, const wxString &path)
     long avail_num = 1;
     for(const wxString &line: lines)
     {
-        int splitter = line.find(',');
+        size_t splitter = line.find(',');
         if(wxNOT_FOUND != splitter)
         {
             long pal_num;
@@ -69,8 +69,8 @@ void LoadPalettes(vector<vector<genie::Color>> &palettes, const wxString &path)
                 try
                 {
                     genie::PalFile pal;
-                    int cut = path.rfind('\\');
-                    pal.load((path(0, ++cut) + line(++splitter, -1)).c_str());
+                    size_t cut = path.rfind('\\');
+                    pal.load((path(0U, ++cut) + line(++splitter, static_cast<size_t>(-1))).c_str());
                     palettes.push_back(pal.getColors());
                 }
                 catch(const std::ios_base::failure&){}

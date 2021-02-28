@@ -159,15 +159,14 @@ wxString AGE_Frame::GetSoundItemName(int item, int set)
             case 2: // Probability
                 Name += "P% "+FormatInt(dataset->Sounds[set].Items[item].Probability);
                 break;
-            if(GenieVersion >= genie::GV_AoKE3)
-            {
             case 3: // Civilization
+                if (GenieVersion >= genie::GV_AoKE3)
                 Name += "C "+FormatInt(dataset->Sounds[set].Items[item].Civilization);
                 break;
             case 4: // Unknown
+                if (GenieVersion >= genie::GV_AoKE3)
                 Name += "PI "+FormatInt(dataset->Sounds[set].Items[item].IconSet);
                 break;
-            }
         }
         Name += ", ";
         if(Selection[1] < 1) break;
@@ -704,24 +703,24 @@ void AGE_Frame::copySoundsFromCivToCiv(wxCommandEvent &event)
     for(auto &sound: dataset->Sounds)
     {
         vector<size_t> targets;
-        vector<genie::SoundItem> copies;
+        vector<genie::SoundItem> soundCopies;
         for(size_t file = 0; file < sound.Items.size(); ++file)
         {
             if(sound.Items[file].Civilization == sourceCiv)
             {
-                copies.emplace_back(sound.Items[file]);
-                copies.back().Civilization = targetCiv;
+                soundCopies.emplace_back(sound.Items[file]);
+                soundCopies.back().Civilization = targetCiv;
             }
             else if(sound.Items[file].Civilization == targetCiv)
             {
                 targets.emplace_back(file);
             }
         }
-        if(copies.size() == targets.size())
+        if(soundCopies.size() == targets.size())
         {
             for(size_t file = 0; file < targets.size(); ++file)
             {
-                sound.Items[targets[file]] = copies[file];
+                sound.Items[targets[file]] = soundCopies[file];
             }
         }
         else
@@ -730,7 +729,7 @@ void AGE_Frame::copySoundsFromCivToCiv(wxCommandEvent &event)
             {
                 sound.Items.erase(sound.Items.begin() + targets[file]);
             }
-            sound.Items.insert(sound.Items.end(), copies.begin(), copies.end());
+            sound.Items.insert(sound.Items.end(), soundCopies.begin(), soundCopies.end());
         }
     }
     ListSoundItems();

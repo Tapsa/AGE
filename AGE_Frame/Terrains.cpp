@@ -882,8 +882,8 @@ void AGE_Frame::CreateTerrainControls()
         Terrain_TileGraphics_Sizers[tile]->Add(Terrains_ElevationGraphics[loop++]);
         Terrain_TileGraphics_Sizers[tile++]->Add(Terrains_ElevationGraphics[loop++]);
     }
-    for(auto &sizer: Terrain_TileGraphics_Sizers)
-    Terrain_TileGraphics_Sizer->Add(sizer);
+    for(auto &innerSizer: Terrain_TileGraphics_Sizers)
+    Terrain_TileGraphics_Sizer->Add(innerSizer);
     Terrains_TerrainReplacementID_Holder->Add(Terrains_TerrainReplacementID_Text);
     Terrains_TerrainReplacementID_Holder->Add(Terrains_TerrainReplacementID, 0, wxEXPAND);
     Terrains_TerrainReplacementID_Holder->Add(Terrains_TerrainReplacementID_ComboBox);
