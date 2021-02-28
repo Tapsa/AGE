@@ -15,7 +15,7 @@ public:
         if(pass)
         Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent &event){GetParent()->GetEventHandler()->ProcessEvent(event);});
     }
-    unsigned int GetCount() const {return popup->GetCount();}
+    int GetCount() const {return popup->GetCount();}
     void SetSelection(int n);
     int GetSelection() const {return popup->GetSelection();}
     void Flash();

@@ -1652,7 +1652,7 @@ CHOOSE_NORMAL:
 void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int offsetY, int apply)
 {
     if(unitID >= dataset->Civs[UnitCivID].Units.size()) return;
-    unsigned int unitGraphic = -1;
+    unsigned unitGraphic = static_cast<unsigned>(-1);
     switch(apply)
     {
         case 0: unitGraphic = loadChosenGraphic(unitID); break;

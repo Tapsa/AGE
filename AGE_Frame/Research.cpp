@@ -17,11 +17,11 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                 case 2: // Required Techs
                 {
                     bool HasFore = false;
-                    for(size_t loop = 0; loop < dataset->Techs[index].getRequiredTechsSize(); ++loop)
-                    if(dataset->Techs[index].RequiredTechs[loop] != -1)
+                    for(size_t l2 = 0; l2 < dataset->Techs[index].getRequiredTechsSize(); ++l2)
+                    if(dataset->Techs[index].RequiredTechs[l2] != -1)
                     {
                         if(HasFore) Name += ", R"; else {Name += "R"; HasFore = true;}
-                        Name += lexical_cast<string>(dataset->Techs[index].RequiredTechs[loop]);
+                        Name += lexical_cast<string>(dataset->Techs[index].RequiredTechs[l2]);
                     }
                     break;
                 }
@@ -58,31 +58,31 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                 case 13: // Cost Types
                 {
                     bool HasFore = false;
-                    for(size_t loop = 0; loop < 3; ++loop)
-                    if(dataset->Techs[index].ResourceCosts[loop].Type != -1)
+                    for(size_t l2 = 0; l2 < 3; ++l2)
+                    if(dataset->Techs[index].ResourceCosts[l2].Type != -1)
                     {
                         if(HasFore) Name += ", CT"; else {Name += "CT"; HasFore = true;}
-                        Name += lexical_cast<string>(dataset->Techs[index].ResourceCosts[loop].Type);
+                        Name += lexical_cast<string>(dataset->Techs[index].ResourceCosts[l2].Type);
                     }
                     break;
                 }
                 case 14: // Cost Amounts
                 {
                     bool HasFore = false;
-                    for(size_t loop = 0; loop < 3; ++loop)
+                    for(size_t l2 = 0; l2 < 3; ++l2)
                     {
                         if(HasFore) Name += ", CA"; else {Name += "CA"; HasFore = true;}
-                        Name += lexical_cast<string>(dataset->Techs[index].ResourceCosts[loop].Amount);
+                        Name += lexical_cast<string>(dataset->Techs[index].ResourceCosts[l2].Amount);
                     }
                     break;
                 }
                 case 15: // Cost Uses
                 {
                     bool HasFore = false;
-                    for(size_t loop = 0; loop < 3; ++loop)
+                    for(size_t l2 = 0; l2 < 3; ++l2)
                     {
                         if(HasFore) Name += ", CU"; else {Name += "CU"; HasFore = true;}
-                        Name += lexical_cast<string>((short)dataset->Techs[index].ResourceCosts[loop].Flag);
+                        Name += lexical_cast<string>((short)dataset->Techs[index].ResourceCosts[l2].Flag);
                     }
                     break;
                 }
