@@ -1,5 +1,6 @@
 *debug/
 *release/
 .vs/
-*.user
+*.aps
 *.ini
+*.user
