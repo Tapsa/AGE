@@ -12,9 +12,7 @@
 #include <iomanip>
 #include <functional>
 #include <boost/lexical_cast.hpp>
-#ifndef _MSC_VER
 #include <SFML/Audio.hpp>
-#endif
 #include <wx/wxprec.h>
 #include <wx/wx.h>
 #include <wx/aboutdlg.h>
@@ -99,6 +97,7 @@ enum EditableVersion
     EV_AoKB,
     EV_AoK,
     EV_TC,
+    EV_TCV,
     EV_Cysion,
     EV_SWGB,
     EV_CC,
