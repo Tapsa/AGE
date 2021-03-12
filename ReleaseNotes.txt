@@ -13,6 +13,10 @@ I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2021.3.12[/b]:
+-Added support for Expanding Fronts 1.3 and beyond.
+-Fixed bugs in effect commanmd type drop down menu.
+
 Version [b]2020.10.2[/b]:
 -Support for new charge and damage resistance features in AoE II DE.
 -Revealed hidden boxes in tech effects for new features in AoE II DE.
@@ -100,6 +104,7 @@ Scenario_t_c - GeniEd 2 source code
 Alexandra "Taichi San", DarkRain654 - data file research
 DiGiT, JustTesting1234, AOHH - genie file structure
 Cysion, Kris, Sarthos - important help
+Grenadier (RvA) - terrain patch
 BF_Tanks - some help
 Donnieboy, Sarn, chab - tooltip texts
 gagman - new icon

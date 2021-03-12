@@ -261,7 +261,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
             Research_DLL_LanguageDLLName2->SetLabel(TranslatedText(Research_DLL_LanguageDLLName2->index, 64));
             Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLName2->index));
         }
-        if(GenieVersion == genie::GV_CC)
+        if(GenieVersion >= genie::GV_CC)
         {
             techSLP.slpID = 53260 + dataset->Civs[UnitCivID].IconSet;
         }

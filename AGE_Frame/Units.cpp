@@ -1505,10 +1505,10 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
         : UnitPointer->Class != 34 && UnitPointer->Class != 36))
         {
             int set0 = 50704;
-            if(GenieVersion == genie::GV_CC) set0 = 53240;
+            if(GenieVersion >= genie::GV_CC) set0 = 53240;
             iconSLP.slpID = set0 + dataset->Civs[UnitCivID].IconSet;
         }
-        else if(GenieVersion == genie::GV_CC)
+        else if(GenieVersion >= genie::GV_CC)
         {
             iconSLP.slpID = 53250 + dataset->Civs[UnitCivID].IconSet;
         }

@@ -20,10 +20,8 @@ public:
     genie::SlpFilePtr slp;
     genie::SmpFilePtr smp;
     wxBitmap bitmap;
-#ifndef _MSC_VER
     sf::SoundBuffer buffers[4];// Actual data
     sf::Sound sounds[4];// To play data
-#endif
     int16_t xpos = 0, ypos = 0, xdelta = 0, ydelta = 0, delays[4] = {0, -1, -1, -1};
     bool flip = false, is32 = false;
     float beginbearing = 0.f, endbearing = PI2A;
@@ -3728,8 +3726,6 @@ protected:
     short window_num;
     wxString argPath;
     wxFont font;
-#ifndef _MSC_VER
     sf::SoundBuffer waves;
     sf::Sound speaker;
-#endif
 };

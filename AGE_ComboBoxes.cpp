@@ -82,17 +82,17 @@ void ComboBox_Plus1::SetChoice(int value)
 void ComboBox_EffectType::SetChoice(int value)
 {
     if(GetCount() == 0) return;
-    if((value >= 0) && (value <= 6))
+    if((value >= 0) && (value <= 7))
     {
         SetSelection(value + 1);
     }
     else if((value >= 10) && (value <= 16))
     {
-        SetSelection(value - 2);
+        SetSelection(value - 1);
     }
     else if((value >= 101) && (value <= 103))
     {
-        SetSelection(value - 86);
+        SetSelection(value - 85);
     }
     else
     {
