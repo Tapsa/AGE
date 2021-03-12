@@ -116,5 +116,12 @@
     <ClInclude Include="SharedComboPopup.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AGE.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="AppIcon.ico" />
   </ItemGroup>
 </Project>
