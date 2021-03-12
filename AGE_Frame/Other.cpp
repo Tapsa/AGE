@@ -22,11 +22,12 @@ genie::GameVersion AGE_Frame::version(int ver)
         case EV_AoKB: return genie::GV_AoKB;
         case EV_AoK: return genie::GV_AoK;
         case EV_TC: return genie::GV_TC;
+        case EV_TCV: return genie::GV_TCV;
         case EV_Cysion: return genie::GV_Cysion;
         case EV_DE2: return genie::GV_C2;
         case EV_SWGB: return genie::GV_SWGB;
         case EV_CC: return genie::GV_CC;
-        case EV_EF: return genie::GV_CC;
+        case EV_EF: return genie::GV_CCV;
         case EV_Tapsa: return genie::GV_Tapsa;
 
         default: wxMessageBox("Wrong version", "Oops!");
@@ -253,7 +254,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
     {
         UseTXT = true;
         // Bad way of coding, please fix.
-        if(GenieVersion == genie::GV_TC || GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2)
+        if(GenieVersion == genie::GV_TC || GenieVersion == genie::GV_TCV || GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2)
         {
             LooseHD = true;
         }
@@ -1885,7 +1886,8 @@ void AGE_Frame::LoadLists()
     OnTerrainSelect(e);
     OnTerrainRestrictionsTerrainSelect(e);
     OnPlayerColorSelect(e);
-    OnTerrainBorderSelect(e);
+    if (GenieVersion != genie::GV_TCV && GenieVersion != genie::GV_CCV)
+        OnTerrainBorderSelect(e);
     OnRandomMapSelect(e);
     if(GenieVersion >= genie::GV_AoKA)
     {
@@ -2443,23 +2445,26 @@ void AGE_Frame::OnSave(wxCommandEvent&)
             dataset->setGameVersion(GenieVersion);
         }
 
-        // A fix that should never be needed
-        int TerrainsInData = dataset->TerrainBlock.Terrains.size();
-        int BordersInTerrains = 0;
-        for(int terrain = 0; terrain < TerrainsInData; ++terrain)
+        if (GenieVersion != genie::GV_TCV && GenieVersion != genie::GV_CCV)
         {
-            BordersInTerrains += dataset->TerrainBlock.Terrains[terrain].Borders.size();
+            // A fix that should never be needed
+            int TerrainsInData = dataset->TerrainBlock.Terrains.size();
+            int BordersInTerrains = 0;
+            for (int terrain = 0; terrain < TerrainsInData; ++terrain)
+            {
+                BordersInTerrains += dataset->TerrainBlock.Terrains[terrain].Borders.size();
+            }
+            BordersInTerrains /= TerrainsInData;
+            if (TerrainsInData != BordersInTerrains)
+            {
+                wxString viesti = "Send file to Tapsa for repair!\nTerrains: " + lexical_cast<string>(TerrainsInData);
+                viesti += "\nBorders: " + lexical_cast<string>(BordersInTerrains);
+                viesti += "\nLoaded game version: " + lexical_cast<string>(dataset->TerrainBlock.getGameVersion());
+                viesti += "\nTerrain game version: " + lexical_cast<string>(dataset->TerrainBlock.Terrains.front().getGameVersion());
+                wxMessageBox(viesti);
+            }
+            // <-- ends here
         }
-        BordersInTerrains /= TerrainsInData;
-        if(TerrainsInData != BordersInTerrains)
-        {
-            wxString viesti = "Send file to Tapsa for repair!\nTerrains: " + lexical_cast<string>(TerrainsInData);
-            viesti += "\nBorders: " + lexical_cast<string>(BordersInTerrains);
-            viesti += "\nLoaded game version: " + lexical_cast<string>(dataset->TerrainBlock.getGameVersion());
-            viesti += "\nTerrain game version: " + lexical_cast<string>(dataset->TerrainBlock.Terrains.front().getGameVersion());
-            wxMessageBox(viesti);
-        }
-        // <-- ends here
 
         try
         {
@@ -2833,13 +2838,13 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     }
                     else
                     {
-                        if(GenieVersion == genie::GV_TC)
+                        if(GenieVersion == genie::GV_TC || GenieVersion == genie::GV_TCV)
                         {
                             FilesToRead.Add("\\sounds_x1.drs");
                             FilesToRead.Add("\\gamedata_x1.drs");
                             FilesToRead.Add("\\gamedata_x1_p1.drs");
                         }
-                        else if(GenieVersion == genie::GV_CC)
+                        else if(GenieVersion == genie::GV_CC || GenieVersion == genie::GV_CCV)
                         {
                             if(GameVersion == EV_EF)
                             {
@@ -2857,13 +2862,28 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                         }
                     }
                     FilesToRead.Add("\\sounds.drs");
-                    FilesToRead.Add("\\graphics.drs");
-                    FilesToRead.Add("\\terrain.drs");
+                    if (GameVersion == EV_EF)
+                    {
+                        FilesToRead.Add("\\graphics_p1.drs");
+                        FilesToRead.Add("\\terrain_p1.drs");
+                    }
+                    else
+                    {
+                        FilesToRead.Add("\\graphics.drs");
+                        FilesToRead.Add("\\terrain.drs");
+                    }
                     if(GenieVersion < genie::GV_AoKB)
                     {
                         FilesToRead.Add("\\border.drs");
                     }
-                    FilesToRead.Add("\\interfac.drs");
+                    if (GameVersion == EV_EF)
+                    {
+                        FilesToRead.Add("\\interfac_p1.drs");
+                    }
+                    else
+                    {
+                        FilesToRead.Add("\\interfac.drs");
+                    }
                     if(GenieVersion >= genie::GV_AoKE3)
                     {
                         FilesToRead.Add("\\gamedata.drs");
@@ -3749,7 +3769,7 @@ void AGE_Frame::LoadTXT(const wxString &filename)
     while(getline(infile, line))
     {
         size_t num = 0;
-        while(isdigit(line[num]))
+        while(isdigit(static_cast<uint8_t>(line[num])))
         {
             ++num;
         }

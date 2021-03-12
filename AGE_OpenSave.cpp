@@ -57,10 +57,11 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     CheckBox_GenieVer->Append("Age of Kings Beta (11.05)");
     CheckBox_GenieVer->Append("Age of Kings (11.5)");
     CheckBox_GenieVer->Append("The Conquerors (11.76)");
+    CheckBox_GenieVer->Append("The Conquerors (11.76) + Terrain patch");
     CheckBox_GenieVer->Append("Forgotten + African Kingdoms + Rajas > 12");
     CheckBox_GenieVer->Append("Star Wars: Galactic Battlegrounds (1.0)");
     CheckBox_GenieVer->Append("Clone Campaigns (1.1)");
-    CheckBox_GenieVer->Append("Mod: Expanding Fronts");
+    CheckBox_GenieVer->Append("Mod: Expanding Fronts (>= 1.3) / Terrain patch");
     CheckBox_GenieVer->Append("Age of Empires: Definitive Edition");
     CheckBox_GenieVer->Append("Age of Empires II: Definitive Edition");
     CheckBox_GenieVer->SetSelection(EV_TC);
@@ -349,6 +350,7 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             break;
         }
         case EV_TC:
+        case EV_TCV:
         {
             wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires II: The Conquerors Expansion\\1.0");
             if(key.Exists())
@@ -394,7 +396,7 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
         }
         case EV_EF:
         {
-            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Expanding Fronts\\1.0");
+            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Clone Campaigns\\1.0");
             if(key.Exists())
             {
                 path_src = 2;
