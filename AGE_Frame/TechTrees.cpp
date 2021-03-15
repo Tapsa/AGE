@@ -2253,6 +2253,133 @@ void AGE_Frame::OnTTResearchItemCopyToResearches(wxCommandEvent &event)
     }
 }
 
+void AGE_List32Box::CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrolled* scroller, const wxString& itemName,
+    const wxString& listName, wxArrayString* choices)
+{
+    ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
+    Search = new wxTextCtrl(scroller, wxID_ANY);
+    SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
+    List = new ProperList(scroller, wxSize(10, 100));
+    Item = new NumberControl(CLong, scroller, frame, nullptr, false);
+    ItemCombo = new LinkedComboBox(scroller, Item, choices, false);
+    Buttons = new wxGridSizer(3, 0, 0);
+    Add = new wxButton(scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+    Insert = new wxButton(scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
+    Delete = new wxButton(scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+    Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+    Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+    PasteInsert = new wxButton(scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
+    CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected " + itemName, wxDefaultPosition, wxSize(10, -1));
+
+    Buttons->Add(Add, 1, wxEXPAND);
+    Buttons->Add(Delete, 1, wxEXPAND);
+    Buttons->Add(Insert, 1, wxEXPAND);
+    Buttons->Add(Copy, 1, wxEXPAND);
+    Buttons->Add(Paste, 1, wxEXPAND);
+    Buttons->Add(PasteInsert, 1, wxEXPAND);
+
+    ItemList->Add(Search, 0, wxEXPAND);
+    ItemList->Add(SearchRecursive, 0, wxEXPAND);
+    ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
+    ItemList->Add(Item, 0, wxEXPAND);
+    ItemList->Add(ItemCombo, 0, wxEXPAND);
+    ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
+    ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
+}
+
+void AGE_AreaTT84::CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrolled* scroller, const wxString& itemName,
+    wxArrayString* choices)
+{
+    Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Connected Items");
+    ItemList = new wxBoxSizer(wxVERTICAL);
+    UsedItems_H = new wxBoxSizer(wxVERTICAL);
+    UsedItems_T = new SolidText(scroller, " Used Ages/Units/Techs");
+    UsedItems = new NumberControl(CLong, scroller, frame, nullptr);
+
+    Search = new wxTextCtrl(scroller, wxID_ANY);
+    SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
+    List = new ProperList(scroller, wxSize(10, 100));
+    Item_H = new wxBoxSizer(wxHORIZONTAL);
+    Item = new NumberControl(CLong, scroller, frame, nullptr, false);
+    ItemCombo = new LinkedComboBox(scroller, Item, choices, false);
+    Mode = new NumberControl(CLong, scroller, frame, nullptr, false, AGETextCtrl::MEDIUM);
+    ModeCombo = new AGEComboBox(scroller, choices);
+    Buttons = new wxGridSizer(2, 0, 0);
+    Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+    Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+    CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected " + itemName, wxDefaultPosition, wxSize(10, -1));
+
+    ModeCombo->Flash();
+
+    Buttons->Add(Copy, 1, wxEXPAND);
+    Buttons->Add(Paste, 1, wxEXPAND);
+
+    Item_H->Add(Mode);
+    Item_H->Add(Item, 2, wxEXPAND | wxLEFT, 2);
+
+    ItemList->Add(Search, 0, wxEXPAND);
+    ItemList->Add(SearchRecursive, 0, wxEXPAND);
+    ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
+    ItemList->Add(Item_H, 0, wxEXPAND);
+    ItemList->Add(ItemCombo, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+    ItemList->Add(ModeCombo, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
+    ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
+    ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
+
+    UsedItems_H->Add(UsedItems_T, 0, wxEXPAND);
+    UsedItems_H->Add(UsedItems, 0, wxEXPAND);
+    Area->Add(UsedItems_H, 0, wxEXPAND);
+    Area->Add(ItemList, 0, wxEXPAND | wxTOP, 2);
+}
+
+void AGE_AreaTT31020::CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrolled* scroller)
+{
+    Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Unused Zone Data");
+    ItemList = new wxBoxSizer(wxVERTICAL);
+    Top = new wxBoxSizer(wxHORIZONTAL);
+    UsedItems_H = new wxBoxSizer(wxVERTICAL);
+    UsedItems_T = new SolidText(scroller, " Building Levels");
+    UsedItems = new NumberControl(CUByte, scroller, frame, nullptr, true, AGETextCtrl::SMALL);
+    Unknown_H = new wxBoxSizer(wxVERTICAL);
+    Unknown_T = new SolidText(scroller, " Max Age Length");
+    Unknown = new NumberControl(CUByte, scroller, frame, nullptr, true, AGETextCtrl::SMALL);
+
+    Search = new wxTextCtrl(scroller, wxID_ANY);
+    SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
+    List = new ProperList(scroller, wxSize(10, 100));
+    Unknowns_H = new wxBoxSizer(wxHORIZONTAL);
+    Unknown1 = new NumberControl(CUByte, scroller, frame, nullptr, false, AGETextCtrl::SMALL);
+    Unknown2 = new NumberControl(CUByte, scroller, frame, nullptr, false, AGETextCtrl::SMALL);
+    Unknown1->SetToolTip("Buildings per zone");
+    Unknown2->SetToolTip("Group length per zone");
+    Buttons = new wxGridSizer(2, 0, 0);
+    Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+    Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+    CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected ages", wxDefaultPosition, wxSize(10, -1));
+
+    Buttons->Add(Copy, 1, wxEXPAND);
+    Buttons->Add(Paste, 1, wxEXPAND);
+
+    Unknowns_H->Add(Unknown1, 1, wxEXPAND);
+    Unknowns_H->Add(Unknown2, 1, wxEXPAND | wxLEFT, 2);
+
+    ItemList->Add(Search, 0, wxEXPAND);
+    ItemList->Add(SearchRecursive, 0, wxEXPAND);
+    ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
+    ItemList->Add(Unknowns_H, 0, wxEXPAND);
+    ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
+    ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
+
+    UsedItems_H->Add(UsedItems_T, 0, wxEXPAND);
+    UsedItems_H->Add(UsedItems, 0, wxEXPAND);
+    Unknown_H->Add(Unknown_T, 0, wxEXPAND);
+    Unknown_H->Add(Unknown, 0, wxEXPAND);
+    Top->Add(UsedItems_H, 1, wxEXPAND);
+    Top->Add(Unknown_H, 1, wxEXPAND | wxLEFT, 5);
+    Area->Add(Top, 0, wxEXPAND);
+    Area->Add(ItemList, 1, wxEXPAND | wxTOP, 2);
+}
+
 void AGE_Frame::CreateTechTreeControls()
 {
     Tab_TechTrees = new APanel(TabBar_Main);
@@ -2293,7 +2420,7 @@ void AGE_Frame::CreateTechTreeControls()
     for(size_t loop = 0; loop < General_TTKnown.size(); ++loop)
     {
         General_TTKnown_Holder[loop] = new wxBoxSizer(wxVERTICAL);
-        General_TTKnown[loop] = AGETextCtrl::init(CLong, &uiGroupMaps, this, &popUp, Tab_TechTrees);
+        General_TTKnown[loop] = new NumberControl(CLong, Tab_TechTrees, this, &uiGroupMaps);
     }
     General_TTKnown_Text[0] = new SolidText(Tab_TechTrees, " Time Slice");
     General_TTKnown_Text[1] = new SolidText(Tab_TechTrees, " Unit Kill Rate");
@@ -2322,15 +2449,15 @@ void AGE_Frame::CreateTechTreeControls()
 
     TechTrees_Ages_ID_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Ages_ID_Text = new SolidText(TechTrees_ScrollerAges, " Age Number");
-    TechTrees_Ages_ID = AGETextCtrl::init(CLong, &uiGroupTTAge, this, &popUp, TechTrees_ScrollerAges);
+    TechTrees_Ages_ID = new NumberControl(CLong, TechTrees_ScrollerAges, this, &uiGroupTTAge, false);
     TechTrees_Ages_Status_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Ages_Status_Text = new SolidText(TechTrees_ScrollerAges, " Status *");
-    TechTrees_Ages_Status = AGETextCtrl::init(CByte, &uiGroupTTAge, this, &popUp, TechTrees_ScrollerAges);
+    TechTrees_Ages_Status = new NumberControl(CUByte, TechTrees_ScrollerAges, this, &uiGroupTTAge);
     TechTrees_Ages_Status->SetToolTip(StatusHelp);
 
     TechTrees_Ages_LineMode_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Ages_LineMode_Text = new SolidText(TechTrees_ScrollerAges, " Line Mode *");
-    TechTrees_Ages_LineMode = AGETextCtrl::init(CLong, &uiGroupTTAge, this, &popUp, TechTrees_ScrollerAges);
+    TechTrees_Ages_LineMode = new NumberControl(CLong, TechTrees_ScrollerAges, this, &uiGroupTTAge);
     TechTrees_Ages_LineMode->SetToolTip(LineModeHelp);
     TechTrees_Data_Ages = new wxBoxSizer(wxVERTICAL);
     TechTrees_Data_Ages2 = new wxBoxSizer(wxHORIZONTAL);
@@ -2366,26 +2493,26 @@ void AGE_Frame::CreateTechTreeControls()
 
     TechTrees_Buildings_ID_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Buildings_ID_Text = new SolidText(TechTrees_ScrollerBuildings, " Building Number");
-    TechTrees_Buildings_ID = AGETextCtrl::init(CLong, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
-    TechTrees_Buildings_ID_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerBuildings, TechTrees_Buildings_ID, &unit_names);
+    TechTrees_Buildings_ID = new NumberControl(CLong, TechTrees_ScrollerBuildings, this, &uiGroupTTBuilding, false);
+    TechTrees_Buildings_ID_ComboBox = new LinkedComboBox(TechTrees_ScrollerBuildings, TechTrees_Buildings_ID, &unit_names, false);
     UnitComboBoxList.push_back(TechTrees_Buildings_ID_ComboBox);
     TechTrees_Buildings_Status_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Buildings_Status_Text = new SolidText(TechTrees_ScrollerBuildings, " Status *");
-    TechTrees_Buildings_Status = AGETextCtrl::init(CByte, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
+    TechTrees_Buildings_Status = new NumberControl(CUByte, TechTrees_ScrollerBuildings, this, &uiGroupTTBuilding);
     TechTrees_Buildings_Status->SetToolTip(StatusHelp);
     TechTrees_Buildings_LocationInAge_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Buildings_LocationInAge_Text = new SolidText(TechTrees_ScrollerBuildings, " Location in Age *");
-    TechTrees_Buildings_LocationInAge = AGETextCtrl::init(CByte, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
+    TechTrees_Buildings_LocationInAge = new NumberControl(CUByte, TechTrees_ScrollerBuildings, this, &uiGroupTTBuilding);
     TechTrees_Buildings_LocationInAge->SetToolTip(LocationInAgeHelp);
     TechTrees_Buildings_LineMode_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Buildings_LineMode_Text = new SolidText(TechTrees_ScrollerBuildings, " Line Mode *");
-    TechTrees_Buildings_LineMode = AGETextCtrl::init(CLong, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
+    TechTrees_Buildings_LineMode = new NumberControl(CLong, TechTrees_ScrollerBuildings, this, &uiGroupTTBuilding);
     TechTrees_Buildings_LineMode->SetToolTip(LineModeHelp);
     TechTrees_Buildings_EnablingResearch_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Buildings_EnablingResearch_Text = new SolidText(TechTrees_ScrollerBuildings, " Enabling Tech *");
-    TechTrees_Buildings_EnablingResearch = AGETextCtrl::init(CLong, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings);
+    TechTrees_Buildings_EnablingResearch = new NumberControl(CLong, TechTrees_ScrollerBuildings, this, &uiGroupTTBuilding);
     TechTrees_Buildings_EnablingResearch->SetToolTip("Makes available\nUsed by buildings, which need a technology to be available");
-    TechTrees_Buildings_EnablingResearch_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerBuildings, TechTrees_Buildings_EnablingResearch, &research_names);
+    TechTrees_Buildings_EnablingResearch_ComboBox = new LinkedComboBox(TechTrees_ScrollerBuildings, TechTrees_Buildings_EnablingResearch, &research_names);
     ResearchComboBoxList.push_back(TechTrees_Buildings_EnablingResearch_ComboBox);
 
     TechTrees_Data_Buildings = new wxBoxSizer(wxVERTICAL);
@@ -2405,7 +2532,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Buildings_TotalUnitsTechs_Holder[0] = new wxStaticBoxSizer(wxHORIZONTAL, TechTrees_ScrollerBuildings, "Total units and techs by age *");
     TechTrees_Buildings_TotalUnitsTechs_Holder[1] = new wxStaticBoxSizer(wxHORIZONTAL, TechTrees_ScrollerBuildings, "Total units and techs at first in age *");
     for(size_t loop = 0; loop < 10; ++loop)
-    TechTrees_Buildings_TotalUnitsTechs[loop] = AGETextCtrl::init(CByte, &uiGroupTTBuilding, this, &popUp, TechTrees_ScrollerBuildings, AGETextCtrl::SMALL);
+    TechTrees_Buildings_TotalUnitsTechs[loop] = new NumberControl(CUByte, TechTrees_ScrollerBuildings, this, &uiGroupTTBuilding, true, AGETextCtrl::SMALL);
     for(size_t loop = 0; loop < 5; ++loop)
     {
         TechTrees_Buildings_TotalUnitsTechs[loop]->SetToolTip("Age "+lexical_cast<string>(loop+1));
@@ -2432,40 +2559,40 @@ void AGE_Frame::CreateTechTreeControls()
 
     TechTrees_Units_ID_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_ID_Text = new SolidText(TechTrees_ScrollerUnits, " Unit Number");
-    TechTrees_Units_ID = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
-    TechTrees_Units_ID_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_ID, &unit_names);
+    TechTrees_Units_ID = new NumberControl(CLong, TechTrees_ScrollerUnits, this, &uiGroupTTUnit, false);
+    TechTrees_Units_ID_ComboBox = new LinkedComboBox(TechTrees_ScrollerUnits, TechTrees_Units_ID, &unit_names, false);
     UnitComboBoxList.push_back(TechTrees_Units_ID_ComboBox);
     TechTrees_Units_Status_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_Status_Text = new SolidText(TechTrees_ScrollerUnits, " Status *");
-    TechTrees_Units_Status = AGETextCtrl::init(CByte, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
+    TechTrees_Units_Status = new NumberControl(CUByte, TechTrees_ScrollerUnits, this, &uiGroupTTUnit);
     TechTrees_Units_Status->SetToolTip(StatusHelp);
     TechTrees_Units_UpperBuilding_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_UpperBuilding_Text = new SolidText(TechTrees_ScrollerUnits, " Upper Building");
-    TechTrees_Units_UpperBuilding = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
-    TechTrees_Units_UpperBuilding_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_UpperBuilding, &unit_names);
+    TechTrees_Units_UpperBuilding = new NumberControl(CLong, TechTrees_ScrollerUnits, this, &uiGroupTTUnit);
+    TechTrees_Units_UpperBuilding_ComboBox = new LinkedComboBox(TechTrees_ScrollerUnits, TechTrees_Units_UpperBuilding, &unit_names);
     UnitComboBoxList.push_back(TechTrees_Units_UpperBuilding_ComboBox);
     TechTrees_Units_VerticalLine_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_VerticalLine_Text = new SolidText(TechTrees_ScrollerUnits, " Vertical Line #");
-    TechTrees_Units_VerticalLine = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
+    TechTrees_Units_VerticalLine = new NumberControl(CLong, TechTrees_ScrollerUnits, this, &uiGroupTTUnit);
     TechTrees_Units_LocationInAge_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_LocationInAge_Text = new SolidText(TechTrees_ScrollerUnits, " Location in Age *");
-    TechTrees_Units_LocationInAge = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
+    TechTrees_Units_LocationInAge = new NumberControl(CLong, TechTrees_ScrollerUnits, this, &uiGroupTTUnit);
     TechTrees_Units_LocationInAge->SetToolTip(LocationInAgeHelp);
     TechTrees_Units_RequiredResearch_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_RequiredResearch_Text = new SolidText(TechTrees_ScrollerUnits, " Required Tech *");
-    TechTrees_Units_RequiredResearch = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
+    TechTrees_Units_RequiredResearch = new NumberControl(CLong, TechTrees_ScrollerUnits, this, &uiGroupTTUnit);
     TechTrees_Units_RequiredResearch->SetToolTip("Upgrades unit\nUsed by units, which aren't first in upgrade line");
-    TechTrees_Units_RequiredResearch_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_RequiredResearch, &research_names);
+    TechTrees_Units_RequiredResearch_ComboBox = new LinkedComboBox(TechTrees_ScrollerUnits, TechTrees_Units_RequiredResearch, &research_names);
     ResearchComboBoxList.push_back(TechTrees_Units_RequiredResearch_ComboBox);
     TechTrees_Units_LineMode_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_LineMode_Text = new SolidText(TechTrees_ScrollerUnits, " Line Mode *");
-    TechTrees_Units_LineMode = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
+    TechTrees_Units_LineMode = new NumberControl(CLong, TechTrees_ScrollerUnits, this, &uiGroupTTUnit);
     TechTrees_Units_LineMode->SetToolTip(LineModeHelp);
     TechTrees_Units_EnablingResearch_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Units_EnablingResearch_Text = new SolidText(TechTrees_ScrollerUnits, " Enabling Tech *");
-    TechTrees_Units_EnablingResearch = AGETextCtrl::init(CLong, &uiGroupTTUnit, this, &popUp, TechTrees_ScrollerUnits);
+    TechTrees_Units_EnablingResearch = new NumberControl(CLong, TechTrees_ScrollerUnits, this, &uiGroupTTUnit);
     TechTrees_Units_EnablingResearch->SetToolTip("Makes available\nUsed by units, which need a technology to be available");
-    TechTrees_Units_EnablingResearch_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerUnits, TechTrees_Units_EnablingResearch, &research_names);
+    TechTrees_Units_EnablingResearch_ComboBox = new LinkedComboBox(TechTrees_ScrollerUnits, TechTrees_Units_EnablingResearch, &research_names);
     ResearchComboBoxList.push_back(TechTrees_Units_EnablingResearch_ComboBox);
 
     TechTrees_Data_Units = new wxBoxSizer(wxVERTICAL);
@@ -2509,28 +2636,28 @@ void AGE_Frame::CreateTechTreeControls()
 
     TechTrees_Researches_ID_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Researches_ID_Text = new SolidText(TechTrees_ScrollerResearches, " Tech Number");
-    TechTrees_Researches_ID = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
-    TechTrees_Researches_ID_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerResearches, TechTrees_Researches_ID, &research_names);
+    TechTrees_Researches_ID = new NumberControl(CLong, TechTrees_ScrollerResearches, this, &uiGroupTTResearch, false);
+    TechTrees_Researches_ID_ComboBox = new LinkedComboBox(TechTrees_ScrollerResearches, TechTrees_Researches_ID, &research_names, false);
     ResearchComboBoxList.push_back(TechTrees_Researches_ID_ComboBox);
     TechTrees_Researches_Status_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Researches_Status_Text = new SolidText(TechTrees_ScrollerResearches, " Status *");
-    TechTrees_Researches_Status = AGETextCtrl::init(CByte, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
+    TechTrees_Researches_Status = new NumberControl(CUByte, TechTrees_ScrollerResearches, this, &uiGroupTTResearch);
     TechTrees_Researches_Status->SetToolTip(StatusHelp);
     TechTrees_Researches_UpperBuilding_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Researches_UpperBuilding_Text = new SolidText(TechTrees_ScrollerResearches, " Upper Building");
-    TechTrees_Researches_UpperBuilding = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
-    TechTrees_Researches_UpperBuilding_ComboBox = new ComboBox_Plus1(TechTrees_ScrollerResearches, TechTrees_Researches_UpperBuilding, &unit_names);
+    TechTrees_Researches_UpperBuilding = new NumberControl(CLong, TechTrees_ScrollerResearches, this, &uiGroupTTResearch);
+    TechTrees_Researches_UpperBuilding_ComboBox = new LinkedComboBox(TechTrees_ScrollerResearches, TechTrees_Researches_UpperBuilding, &unit_names);
     UnitComboBoxList.push_back(TechTrees_Researches_UpperBuilding_ComboBox);
     TechTrees_Researches_VerticalLine_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Researches_VerticalLine_Text = new SolidText(TechTrees_ScrollerResearches, " Vertical Line #");
-    TechTrees_Researches_VerticalLine = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
+    TechTrees_Researches_VerticalLine = new NumberControl(CLong, TechTrees_ScrollerResearches, this, &uiGroupTTResearch);
     TechTrees_Researches_LocationInAge_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Researches_LocationInAge_Text = new SolidText(TechTrees_ScrollerResearches, " Location in Age *");
-    TechTrees_Researches_LocationInAge = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
+    TechTrees_Researches_LocationInAge = new NumberControl(CLong, TechTrees_ScrollerResearches, this, &uiGroupTTResearch);
     TechTrees_Researches_LocationInAge->SetToolTip(LocationInAgeHelp);
     TechTrees_Researches_LineMode_Holder = new wxBoxSizer(wxVERTICAL);
     TechTrees_Researches_LineMode_Text = new SolidText(TechTrees_ScrollerResearches, " Line Mode *");
-    TechTrees_Researches_LineMode = AGETextCtrl::init(CLong, &uiGroupTTResearch, this, &popUp, TechTrees_ScrollerResearches);
+    TechTrees_Researches_LineMode = new NumberControl(CLong, TechTrees_ScrollerResearches, this, &uiGroupTTResearch);
     TechTrees_Researches_LineMode->SetToolTip(LineModeHelp);
 
     TechTrees_Researches_Items.CreateControls(this, &popUp, TechTrees_ScrollerResearches, "techs", &mode_names);
@@ -2984,281 +3111,380 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Researches_Researches.CopyAllToSelected->Bind(wxEVT_BUTTON, &AGE_Frame::OnTTResearchResearchCopyToResearches, this);
     TechTrees_Researches_Items.CopyAllToSelected->Bind(wxEVT_BUTTON, &AGE_Frame::OnTTResearchItemCopyToResearches, this);
 
-    TechTrees_Ages_ID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Ages_Buildings.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Ages_Units.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Ages_Researches.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Ages_Items.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Ages_Items.Mode->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Ages_ZoneData.Unknown1->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Ages_ZoneData.Unknown2->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Ages_ID->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Ages_Buildings.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Ages_Units.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Ages_Researches.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Ages_Items.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Ages_Items.Mode->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Ages_ZoneData.Unknown1->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Ages_ZoneData.Unknown2->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Ages_Buildings.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Ages_Units.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Ages_Researches.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Ages_Items.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Ages_Items.ModeCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTreeMode, this);
-    TechTrees_Buildings_ID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Buildings_Buildings.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Buildings_Units.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Buildings_Researches.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Buildings_Items.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Buildings_Items.Mode->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Units_ID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Units_Units.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Units_Items.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Units_Items.Mode->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Researches_ID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Researches_Buildings.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Researches_Units.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Researches_Researches.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Researches_Items.Item->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Researches_Items.Mode->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_TechTrees, this);
-    TechTrees_Buildings_ID->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Buildings_Buildings.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Buildings_Units.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Buildings_Researches.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Buildings_Items.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Buildings_Items.Mode->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Units_ID->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Units_Units.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Units_Items.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Units_Items.Mode->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Researches_ID->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Researches_Buildings.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Researches_Units.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Researches_Researches.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Researches_Items.Item->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Researches_Items.Mode->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_TechTrees, this);
-    TechTrees_Buildings_ID_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Buildings_Buildings.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Buildings_Units.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Buildings_Researches.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Buildings_Items.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Buildings_Items.ModeCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTreeMode, this);
-    TechTrees_Units_ID_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Units_Units.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Units_Items.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Units_Items.ModeCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTreeMode, this);
-    TechTrees_Researches_ID_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Researches_Buildings.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Researches_Units.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Researches_Researches.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Researches_Items.ItemCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTrees, this);
-    TechTrees_Researches_Items.ModeCombo->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_TechTreeMode, this);
-}
-
-void AGE_Frame::OnSaveEdits_TechTrees(int id)
-{
-    if(id == TechTrees_Ages_ID->GetId())
+    TechTrees_Ages_ID->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
     {
-        ListTTAges();
-    }
-    else if(id == TechTrees_Ages_Buildings.Item->GetId())
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTAges();
+        }
+    });
+    TechTrees_Ages_Buildings.Item->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
     {
-        ListTTAgeBuildings();
-    }
-    else if(id == TechTrees_Ages_Units.Item->GetId())
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTAgeBuildings();
+        }
+    });
+    TechTrees_Ages_Units.Item->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
     {
-        ListTTAgeUnits();
-    }
-    else if(id == TechTrees_Ages_Researches.Item->GetId())
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTAgeUnits();
+        }
+    });
+    TechTrees_Ages_Researches.Item->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
     {
-        ListTTAgeResearches();
-    }
-    else if(id == TechTrees_Ages_Items.Item->GetId() || id == TechTrees_Ages_Items.Mode->GetId())
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTAgeResearches();
+        }
+    });
+    auto TrySaveThenListTTAgeItems = [this](wxFocusEvent& event)
     {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTAgeItems();
+        }
+    };
+    auto SaveThenListTTAgeItems = [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
         ListTTAgeItems();
-    }
-    else if(id == TechTrees_Ages_ZoneData.Unknown1->GetId() || id == TechTrees_Ages_ZoneData.Unknown2->GetId())
+    };
+    TechTrees_Ages_Items.Item->Bind(wxEVT_KILL_FOCUS, TrySaveThenListTTAgeItems);
+    TechTrees_Ages_Items.Mode->Bind(wxEVT_KILL_FOCUS, TrySaveThenListTTAgeItems);
+    auto TrySaveThenListTTAgeUnknownItems = [this](wxFocusEvent& event)
     {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTAgeUnknownItems();
+        }
+    };
+    auto SaveThenListTTAgeUnknownItems = [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
         ListTTAgeUnknownItems();
-    }
-    else if(id == TechTrees_Buildings_ID->GetId())
+    };
+    TechTrees_Ages_ZoneData.Unknown1->Bind(wxEVT_KILL_FOCUS, TrySaveThenListTTAgeUnknownItems);
+    TechTrees_Ages_ZoneData.Unknown2->Bind(wxEVT_KILL_FOCUS, TrySaveThenListTTAgeUnknownItems);
+    TechTrees_Ages_ID->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
     {
-        ListTTBuildings();
-    }
-    else if(id == TechTrees_Buildings_Buildings.Item->GetId())
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTAges();
+    });
+    TechTrees_Ages_Buildings.Item->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
     {
-        ListTTBuildingBuildings();
-    }
-    else if(id == TechTrees_Buildings_Units.Item->GetId())
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTAgeBuildings();
+    });
+    TechTrees_Ages_Units.Item->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
     {
-        ListTTBuildingUnits();
-    }
-    else if(id == TechTrees_Buildings_Researches.Item->GetId())
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTAgeUnits();
+    });
+    TechTrees_Ages_Researches.Item->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
     {
-        ListTTBuildingResearches();
-    }
-    else if(id == TechTrees_Buildings_Items.Item->GetId() || id == TechTrees_Buildings_Items.Mode->GetId())
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTAgeResearches();
+    });
+    TechTrees_Ages_Items.Item->Bind(wxEVT_TEXT_ENTER, SaveThenListTTAgeItems);
+    TechTrees_Ages_Items.Mode->Bind(wxEVT_TEXT_ENTER, SaveThenListTTAgeItems);
+    TechTrees_Ages_ZoneData.Unknown1->Bind(wxEVT_TEXT_ENTER, SaveThenListTTAgeUnknownItems);
+    TechTrees_Ages_ZoneData.Unknown2->Bind(wxEVT_TEXT_ENTER, SaveThenListTTAgeUnknownItems);
+    TechTrees_Ages_Buildings.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
-        ListTTBuildingItems();
-    }
-    else if(id == TechTrees_Units_ID->GetId())
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTAgeBuildings();
+    });
+    TechTrees_Ages_Units.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
-        ListTTUnits();
-    }
-    else if(id == TechTrees_Units_Units.Item->GetId())
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTAgeUnits();
+    });
+    TechTrees_Ages_Researches.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
-        ListTTUnitUnits();
-    }
-    else if(id == TechTrees_Units_Items.Item->GetId() || id == TechTrees_Units_Items.Mode->GetId())
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTAgeResearches();
+    });
+    TechTrees_Ages_Items.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
-        ListTTUnitItems();
-    }
-    else if(id == TechTrees_Researches_ID->GetId())
-    {
-        ListTTResearches();
-    }
-    else if(id == TechTrees_Researches_Buildings.Item->GetId())
-    {
-        ListTTResearchBuildings();
-    }
-    else if(id == TechTrees_Researches_Units.Item->GetId())
-    {
-        ListTTResearchUnits();
-    }
-    else if(id == TechTrees_Researches_Researches.Item->GetId())
-    {
-        ListTTResearchResearches();
-    }
-    else if(id == TechTrees_Researches_Items.Item->GetId() || id == TechTrees_Researches_Items.Mode->GetId())
-    {
-        ListTTResearchItems();
-    }
-    else if(false)
-    {
-        wxCommandEvent e;
-        OnTTUnitSelect(e);
-    }
-    else if(false)
-    {
-        wxCommandEvent e;
-        OnTTBuildingSelect(e);
-    }
-}
-
-void AGE_Frame::OnEnter_TechTrees(wxCommandEvent &event)
-{
-    static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
-    OnSaveEdits_TechTrees(event.GetId());
-}
-
-void AGE_Frame::OnKillFocus_TechTrees(wxFocusEvent &event)
-{
-    event.Skip();
-    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
-    OnSaveEdits_TechTrees(event.GetId());
-}
-
-void AGE_Frame::OnUpdateCombo_TechTreeMode(wxCommandEvent &event)
-{
-    if(event.GetId() == TechTrees_Ages_Items.ModeCombo->GetId())
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTAgeItems();
+    });
+    TechTrees_Ages_Items.ModeCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
         TechTrees_Ages_Items.Mode->ChangeValue(lexical_cast<string>(TechTrees_Ages_Items.ModeCombo->GetSelection()));
         TechTrees_Ages_Items.Mode->SaveEdits(true);
         ListTTAgeItems();
-        return;
-    }
-    if(event.GetId() == TechTrees_Buildings_Items.ModeCombo->GetId())
+    });
+    TechTrees_Buildings_ID->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTBuildings();
+        }
+    });
+    TechTrees_Buildings_Buildings.Item->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTBuildingBuildings();
+        }
+    });
+    TechTrees_Buildings_Units.Item->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTBuildingUnits();
+        }
+    });
+    TechTrees_Buildings_Researches.Item->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTBuildingResearches();
+        }
+    });
+    auto TrySaveThenListTTBuildingItems = [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTBuildingItems();
+        }
+    };
+    auto SaveThenListTTBuildingItems = [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTBuildingItems();
+    };
+    TechTrees_Buildings_Items.Item->Bind(wxEVT_KILL_FOCUS, TrySaveThenListTTBuildingItems);
+    TechTrees_Buildings_Items.Mode->Bind(wxEVT_KILL_FOCUS, TrySaveThenListTTBuildingItems);
+    TechTrees_Units_ID->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTUnits();
+        }
+    });
+    TechTrees_Units_Units.Item->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTUnitUnits();
+        }
+    });
+    auto TrySaveThenListTTUnitItems = [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTUnitItems();
+        }
+    };
+    auto SaveThenListTTUnitItems = [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTUnitItems();
+    };
+    TechTrees_Units_Items.Item->Bind(wxEVT_KILL_FOCUS, TrySaveThenListTTUnitItems);
+    TechTrees_Units_Items.Mode->Bind(wxEVT_KILL_FOCUS, TrySaveThenListTTUnitItems);
+    TechTrees_Researches_ID->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTResearches();
+        }
+    });
+    TechTrees_Researches_Buildings.Item->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTResearchBuildings();
+        }
+    });
+    TechTrees_Researches_Units.Item->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTResearchUnits();
+        }
+    });
+    TechTrees_Researches_Researches.Item->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTResearchResearches();
+        }
+    });
+    auto TrySaveThenListTTResearchItems = [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTTResearchItems();
+        }
+    };
+    auto SaveThenListTTResearchItems = [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTResearchItems();
+    };
+    TechTrees_Researches_Items.Item->Bind(wxEVT_KILL_FOCUS, TrySaveThenListTTResearchItems);
+    TechTrees_Researches_Items.Mode->Bind(wxEVT_KILL_FOCUS, TrySaveThenListTTResearchItems);
+    TechTrees_Buildings_ID->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTBuildings();
+    });
+    TechTrees_Buildings_Buildings.Item->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTBuildingBuildings();
+    });
+    TechTrees_Buildings_Units.Item->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTBuildingUnits();
+    });
+    TechTrees_Buildings_Researches.Item->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTBuildingResearches();
+    });
+    TechTrees_Buildings_Items.Item->Bind(wxEVT_TEXT_ENTER, SaveThenListTTBuildingItems);
+    TechTrees_Buildings_Items.Mode->Bind(wxEVT_TEXT_ENTER, SaveThenListTTBuildingItems);
+    TechTrees_Units_ID->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTUnits();
+    });
+    TechTrees_Units_Units.Item->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTUnitUnits();
+    });
+    TechTrees_Units_Items.Item->Bind(wxEVT_TEXT_ENTER, SaveThenListTTUnitItems);
+    TechTrees_Units_Items.Mode->Bind(wxEVT_TEXT_ENTER, SaveThenListTTUnitItems);
+    TechTrees_Researches_ID->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTResearches();
+    });
+    TechTrees_Researches_Buildings.Item->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTResearchBuildings();
+    });
+    TechTrees_Researches_Units.Item->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTResearchUnits();
+    });
+    TechTrees_Researches_Researches.Item->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTTResearchResearches();
+    });
+    TechTrees_Researches_Items.Item->Bind(wxEVT_TEXT_ENTER, SaveThenListTTResearchItems);
+    TechTrees_Researches_Items.Mode->Bind(wxEVT_TEXT_ENTER, SaveThenListTTResearchItems);
+    TechTrees_Buildings_ID_ComboBox->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTBuildings();
+    });
+    TechTrees_Buildings_Buildings.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTBuildingBuildings();
+    });
+    TechTrees_Buildings_Units.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTBuildingUnits();
+    });
+    TechTrees_Buildings_Researches.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTBuildingResearches();
+    });
+    TechTrees_Buildings_Items.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTBuildingItems();
+    });
+    TechTrees_Buildings_Items.ModeCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
         TechTrees_Buildings_Items.Mode->ChangeValue(lexical_cast<string>(TechTrees_Buildings_Items.ModeCombo->GetSelection()));
         TechTrees_Buildings_Items.Mode->SaveEdits(true);
         ListTTBuildingItems();
-        return;
-    }
-    if(event.GetId() == TechTrees_Units_Items.ModeCombo->GetId())
+    });
+    TechTrees_Units_ID_ComboBox->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTUnits();
+    });
+    TechTrees_Units_Units.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTUnitUnits();
+    });
+    TechTrees_Units_Items.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTUnitItems();
+    });
+    TechTrees_Units_Items.ModeCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
         TechTrees_Units_Items.Mode->ChangeValue(lexical_cast<string>(TechTrees_Units_Items.ModeCombo->GetSelection()));
         TechTrees_Units_Items.Mode->SaveEdits(true);
         ListTTUnitItems();
-        return;
-    }
-    if(event.GetId() == TechTrees_Researches_Items.ModeCombo->GetId())
+    });
+    TechTrees_Researches_ID_ComboBox->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTResearches();
+    });
+    TechTrees_Researches_Buildings.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTResearchBuildings();
+    });
+    TechTrees_Researches_Units.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTResearchUnits();
+    });
+    TechTrees_Researches_Researches.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTResearchResearches();
+    });
+    TechTrees_Researches_Items.ItemCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTTResearchItems();
+    });
+    TechTrees_Researches_Items.ModeCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
         TechTrees_Researches_Items.Mode->ChangeValue(lexical_cast<string>(TechTrees_Researches_Items.ModeCombo->GetSelection()));
         TechTrees_Researches_Items.Mode->SaveEdits(true);
         ListTTResearchItems();
-        return;
-    }
-}
-
-void AGE_Frame::OnUpdateCombo_TechTrees(wxCommandEvent &event)
-{
-    static_cast<ComboBox_Plus1*>(event.GetEventObject())->OnChoose(event);
-    if(event.GetId() == TechTrees_Ages_Buildings.ItemCombo->GetId())
-    {
-        ListTTAgeBuildings();
-    }
-    else if(event.GetId() == TechTrees_Ages_Units.ItemCombo->GetId())
-    {
-        ListTTAgeUnits();
-    }
-    else if(event.GetId() == TechTrees_Ages_Researches.ItemCombo->GetId())
-    {
-        ListTTAgeResearches();
-    }
-    else if(event.GetId() == TechTrees_Ages_Items.ItemCombo->GetId())
-    {
-        ListTTAgeItems();
-    }
-    else if(event.GetId() == TechTrees_Buildings_ID_ComboBox->GetId())
-    {
-        ListTTBuildings();
-    }
-    else if(event.GetId() == TechTrees_Buildings_Buildings.ItemCombo->GetId())
-    {
-        ListTTBuildingBuildings();
-    }
-    else if(event.GetId() == TechTrees_Buildings_Units.ItemCombo->GetId())
-    {
-        ListTTBuildingUnits();
-    }
-    else if(event.GetId() == TechTrees_Buildings_Researches.ItemCombo->GetId())
-    {
-        ListTTBuildingResearches();
-    }
-    else if(event.GetId() == TechTrees_Buildings_Items.ItemCombo->GetId())
-    {
-        ListTTBuildingItems();
-    }
-    else if(event.GetId() == TechTrees_Units_ID_ComboBox->GetId())
-    {
-        ListTTUnits();
-    }
-    else if(event.GetId() == TechTrees_Units_Units.ItemCombo->GetId())
-    {
-        ListTTUnitUnits();
-    }
-    else if(event.GetId() == TechTrees_Units_Items.ItemCombo->GetId())
-    {
-        ListTTUnitItems();
-    }
-    else if(event.GetId() == TechTrees_Researches_ID_ComboBox->GetId())
-    {
-        ListTTResearches();
-    }
-    else if(event.GetId() == TechTrees_Researches_Buildings.ItemCombo->GetId())
-    {
-        ListTTResearchBuildings();
-    }
-    else if(event.GetId() == TechTrees_Researches_Units.ItemCombo->GetId())
-    {
-        ListTTResearchUnits();
-    }
-    else if(event.GetId() == TechTrees_Researches_Researches.ItemCombo->GetId())
-    {
-        ListTTResearchResearches();
-    }
-    else if(event.GetId() == TechTrees_Researches_Items.ItemCombo->GetId())
-    {
-        ListTTResearchItems();
-    }
+    });
 }

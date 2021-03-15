@@ -289,15 +289,15 @@ void AGE_Frame::CreateUnitLineControls()
 
     UnitLines_ID_Holder = new wxBoxSizer(wxVERTICAL);
     UnitLines_ID_Text = new SolidText(Tab_UnitLine, " Unitline ID");
-    UnitLines_ID = AGETextCtrl::init(CShort, 0, this, &popUp, Tab_UnitLine);
+    UnitLines_ID = new NumberControl(CShort, Tab_UnitLine, this, nullptr);
     UnitLines_Name_Holder = new wxBoxSizer(wxVERTICAL);
     UnitLines_Name_Text = new SolidText(Tab_UnitLine, " Unitline Name");
-    UnitLines_Name = AGETextCtrl::init(CString, NULL, this, &popUp, Tab_UnitLine, lengthiest);
+    UnitLines_Name = new StringControl(Tab_UnitLine, this, nullptr, lengthiest, false);
 
     UnitLineUnits_Holder = new wxBoxSizer(wxVERTICAL);
     UnitLineUnits_Text = new SolidText(Tab_UnitLine, " Unit");
-    UnitLineUnits_Units = AGETextCtrl::init(CShort, NULL, this, &popUp, Tab_UnitLine);
-    UnitLineUnits_ComboBox = new ComboBox_Plus1(Tab_UnitLine, UnitLineUnits_Units, &unit_names);
+    UnitLineUnits_Units = new NumberControl(CShort, Tab_UnitLine, this, nullptr, false);
+    UnitLineUnits_ComboBox = new LinkedComboBox(Tab_UnitLine, UnitLineUnits_Units, &unit_names, false);
     UnitComboBoxList.push_back(UnitLineUnits_ComboBox);
 
     UnitLines_UnitLines_Buttons->Add(UnitLines_Add, 1, wxEXPAND);
@@ -366,40 +366,37 @@ void AGE_Frame::CreateUnitLineControls()
     UnitLineUnits_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitLineUnitsPasteInsert, this);
     UnitLineUnits_CopyToUnitLines->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitLineUnitsCopyToUnitLines, this);
 
-    UnitLines_Name->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_UnitLines, this);
-    UnitLines_Name->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_UnitLines, this);
-    UnitLineUnits_Units->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_UnitLines, this);
-    UnitLineUnits_Units->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_UnitLines, this);
-    UnitLineUnits_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_UnitLines, this);
-}
-
-void AGE_Frame::OnSaveEdits_UnitLines(int id)
-{
-    if(id == UnitLines_Name->GetId())
+    UnitLines_Name->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
     {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListUnitLines();
+        }
+    });
+    UnitLines_Name->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
         ListUnitLines();
-    }
-    else if(id == UnitLineUnits_Units->GetId())
+    });
+    UnitLineUnits_Units->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
     {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListUnitLineUnits();
+        }
+    });
+    UnitLineUnits_Units->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
         ListUnitLineUnits();
-    }
-}
-
-void AGE_Frame::OnEnter_UnitLines(wxCommandEvent &event)
-{
-    static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
-    OnSaveEdits_UnitLines(event.GetId());
-}
-
-void AGE_Frame::OnKillFocus_UnitLines(wxFocusEvent &event)
-{
-    event.Skip();
-    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
-    OnSaveEdits_UnitLines(event.GetId());
+    });
+    UnitLineUnits_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_UnitLines, this);
 }
 
 void AGE_Frame::OnUpdateCombo_UnitLines(wxCommandEvent &event)
 {
-    static_cast<ComboBox_Plus1*>(event.GetEventObject())->OnChoose(event);
+    static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
     ListUnitLineUnits();
 }

@@ -39,54 +39,22 @@ public:
     bool pause = false;
 };
 
+class AGE_Frame;
 class AGE_List32Box
 {
 private:
     wxGridSizer *Buttons;
-public:
-    AGE_List32Box() {}
-    virtual ~AGE_List32Box() {}
 
+public:
     wxStaticBoxSizer *ItemList;
     wxTextCtrl *Search, *SearchRecursive;
     ProperList *List;
     AGETextCtrl *Item;
-    ComboBox_Plus1 *ItemCombo;
+    LinkedComboBox *ItemCombo;
     wxButton *Add, *Insert, *Delete, *Copy, *Paste, *PasteInsert, *CopyAllToSelected;
 
-    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, AScrolled* scroller, const wxString &itemName,
-        const wxString &listName, wxArrayString *choices)
-    {
-        ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
-        Search = new wxTextCtrl(scroller, wxID_ANY);
-        SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
-        List = new ProperList(scroller, wxSize(10, 100));
-        Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
-        ItemCombo = new ComboBox_Plus1(scroller, Item, choices);
-        Buttons = new wxGridSizer(3, 0, 0);
-        Add = new wxButton(scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
-        Insert = new wxButton(scroller, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
-        Delete = new wxButton(scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
-        Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
-        Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
-        PasteInsert = new wxButton(scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
-        CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected " + itemName, wxDefaultPosition, wxSize(10, -1));
-
-        Buttons->Add(Add, 1, wxEXPAND);
-        Buttons->Add(Delete, 1, wxEXPAND);
-        Buttons->Add(Insert, 1, wxEXPAND);
-        Buttons->Add(Copy, 1, wxEXPAND);
-        Buttons->Add(Paste, 1, wxEXPAND);
-        Buttons->Add(PasteInsert, 1, wxEXPAND);
-
-        ItemList->Add(Search, 0, wxEXPAND);
-        ItemList->Add(SearchRecursive, 0, wxEXPAND);
-        ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
-        ItemList->Add(Item, 0, wxEXPAND);
-        ItemList->Add(ItemCombo, 0, wxEXPAND);
-        ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
-        ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
-    }
+    void CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrolled* scroller, const wxString& itemName,
+        const wxString& listName, wxArrayString* choices);
 };
 
 class AGE_AreaTT84
@@ -97,61 +65,16 @@ private:
     SolidText *UsedItems_T;
 
 public:
-    AGE_AreaTT84() {}
-    virtual ~AGE_AreaTT84() {}
-
     wxStaticBoxSizer *Area;
     wxTextCtrl *Search, *SearchRecursive;
     ProperList *List;
     AGETextCtrl *Item, *Mode, *UsedItems;
-    ComboBox_Plus1 *ItemCombo;
+    LinkedComboBox *ItemCombo;
     AGEComboBox *ModeCombo;
     wxButton *Copy, *Paste, *CopyAllToSelected;
 
-    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, AScrolled* scroller, const wxString &itemName,
-        wxArrayString *choices)
-    {
-        Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Connected Items");
-        ItemList = new wxBoxSizer(wxVERTICAL);
-        UsedItems_H = new wxBoxSizer(wxVERTICAL);
-        UsedItems_T = new SolidText(scroller, " Used Ages/Units/Techs");
-        UsedItems = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
-
-        Search = new wxTextCtrl(scroller, wxID_ANY);
-        SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
-        List = new ProperList(scroller, wxSize(10, 100));
-        Item_H = new wxBoxSizer(wxHORIZONTAL);
-        Item = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller);
-        ItemCombo = new ComboBox_Plus1(scroller, Item, choices);
-        Mode = AGETextCtrl::init(CLong, NULL, frame, popUp, scroller, AGETextCtrl::MEDIUM);
-        ModeCombo = new AGEComboBox(scroller, choices);
-        Buttons = new wxGridSizer(2, 0, 0);
-        Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
-        Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
-        CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected " + itemName, wxDefaultPosition, wxSize(10, -1));
-
-        ModeCombo->Flash();
-
-        Buttons->Add(Copy, 1, wxEXPAND);
-        Buttons->Add(Paste, 1, wxEXPAND);
-
-        Item_H->Add(Mode);
-        Item_H->Add(Item, 2, wxEXPAND | wxLEFT, 2);
-
-        ItemList->Add(Search, 0, wxEXPAND);
-        ItemList->Add(SearchRecursive, 0, wxEXPAND);
-        ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
-        ItemList->Add(Item_H, 0, wxEXPAND);
-        ItemList->Add(ItemCombo, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-        ItemList->Add(ModeCombo, 0, wxEXPAND | wxRESERVE_SPACE_EVEN_IF_HIDDEN);
-        ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
-        ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
-
-        UsedItems_H->Add(UsedItems_T, 0, wxEXPAND);
-        UsedItems_H->Add(UsedItems, 0, wxEXPAND);
-        Area->Add(UsedItems_H, 0, wxEXPAND);
-        Area->Add(ItemList, 0, wxEXPAND | wxTOP, 2);
-    }
+    void CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrolled* scroller, const wxString& itemName,
+        wxArrayString* choices);
 };
 
 class AGE_AreaTT31020
@@ -162,65 +85,14 @@ private:
     SolidText *UsedItems_T, *Unknown_T;
 
 public:
-    AGE_AreaTT31020() {}
-    virtual ~AGE_AreaTT31020() {}
-
     wxStaticBoxSizer *Area;
     wxTextCtrl *Search, *SearchRecursive;
     ProperList *List;
     AGETextCtrl *Unknown1, *Unknown2, *UsedItems, *Unknown;
     wxButton *Copy, *Paste, *CopyAllToSelected;
 
-    void CreateControls(wxFrame* frame, DelayedPopUp *popUp, AScrolled* scroller)
-    {
-        Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Unused Zone Data");
-        ItemList = new wxBoxSizer(wxVERTICAL);
-        Top = new wxBoxSizer(wxHORIZONTAL);
-        UsedItems_H = new wxBoxSizer(wxVERTICAL);
-        UsedItems_T = new SolidText(scroller, " Building Levels");
-        UsedItems = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
-        Unknown_H = new wxBoxSizer(wxVERTICAL);
-        Unknown_T = new SolidText(scroller, " Max Age Length");
-        Unknown = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
-
-        Search = new wxTextCtrl(scroller, wxID_ANY);
-        SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
-        List = new ProperList(scroller, wxSize(10, 100));
-        Unknowns_H = new wxBoxSizer(wxHORIZONTAL);
-        Unknown1 = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
-        Unknown2 = AGETextCtrl::init(CByte, NULL, frame, popUp, scroller, AGETextCtrl::SMALL);
-        Unknown1->SetToolTip("Buildings per zone");
-        Unknown2->SetToolTip("Group length per zone");
-        Buttons = new wxGridSizer(2, 0, 0);
-        Copy = new wxButton(scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
-        Paste = new wxButton(scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
-        CopyAllToSelected = new wxButton(scroller, wxID_ANY, "Copy all to selected ages", wxDefaultPosition, wxSize(10, -1));
-
-        Buttons->Add(Copy, 1, wxEXPAND);
-        Buttons->Add(Paste, 1, wxEXPAND);
-
-        Unknowns_H->Add(Unknown1, 1, wxEXPAND);
-        Unknowns_H->Add(Unknown2, 1, wxEXPAND | wxLEFT, 2);
-
-        ItemList->Add(Search, 0, wxEXPAND);
-        ItemList->Add(SearchRecursive, 0, wxEXPAND);
-        ItemList->Add(List, 1, wxEXPAND | wxTOP | wxBOTTOM, 2);
-        ItemList->Add(Unknowns_H, 0, wxEXPAND);
-        ItemList->Add(Buttons, 0, wxEXPAND | wxTOP | wxBOTTOM, 2);
-        ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
-
-        UsedItems_H->Add(UsedItems_T, 0, wxEXPAND);
-        UsedItems_H->Add(UsedItems, 0, wxEXPAND);
-        Unknown_H->Add(Unknown_T, 0, wxEXPAND);
-        Unknown_H->Add(Unknown, 0, wxEXPAND);
-        Top->Add(UsedItems_H, 1, wxEXPAND);
-        Top->Add(Unknown_H, 1, wxEXPAND | wxLEFT, 5);
-        Area->Add(Top, 0, wxEXPAND);
-        Area->Add(ItemList, 1, wxEXPAND | wxTOP, 2);
-    }
+    void CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrolled* scroller);
 };
-
-class AGE_Frame;
 
 class Loader: public wxThread
 {
@@ -257,6 +129,8 @@ public:
     static std::ofstream log_out;
     static AGE_Frame *openEditors[];
     static Copies copies;
+
+    DelayedPopUp popUp;
 
     void OnOpen(wxCommandEvent &event);
     void OnExit(wxCloseEvent &event);
@@ -313,58 +187,30 @@ private:
     void OnKillFocus_Research(wxFocusEvent &event);
     void OnKillFocus_Techs(wxFocusEvent &event);
     void OnKillFocus_Effects89(wxFocusEvent &event);
-    void OnKillFocus_TechTrees(wxFocusEvent &event);
-    void OnKillFocus_Civs(wxFocusEvent &event);
-    void OnKillFocus_Units(wxFocusEvent &event);
-    void OnKillFocus_UnitLines(wxFocusEvent &event);
     void OnKillFocus_Graphics(wxFocusEvent &event);
-    void OnKillFocus_Terrains(wxFocusEvent &event);
     void OnKillFocus_Borders(wxFocusEvent &event);
     void OnKillFocus_TerRestrict(wxFocusEvent &event);
     void OnKillFocus_Sounds(wxFocusEvent &event);
     void OnKillFocus_Colors(wxFocusEvent &event);
-    void OnKillFocus_RMS(wxFocusEvent &event);
 
     void OnEnter_Research(wxCommandEvent &event);
     void OnEnter_Techs(wxCommandEvent &event);
     void OnEnter_Effects89(wxCommandEvent &event);
-    void OnEnter_TechTrees(wxCommandEvent &event);
-    void OnEnter_Civs(wxCommandEvent &event);
-    void OnEnter_Units(wxCommandEvent &event);
-    void OnEnter_UnitLines(wxCommandEvent &event);
     void OnEnter_Graphics(wxCommandEvent &event);
-    void OnEnter_Terrains(wxCommandEvent &event);
     void OnEnter_Borders(wxCommandEvent &event);
     void OnEnter_TerRestrict(wxCommandEvent &event);
     void OnEnter_Sounds(wxCommandEvent &event);
     void OnEnter_Colors(wxCommandEvent &event);
-    void OnEnter_RMS(wxCommandEvent &event);
 
-    void OnSaveEdits_Research(int id);
-    void OnSaveEdits_Techs(int id);
-    void OnSaveEdits_Effects89(bool forced);
-    void OnSaveEdits_TechTrees(int id);
-    void OnSaveEdits_Civs(int id);
-    void OnSaveEdits_Units(int id);
-    void OnSaveEdits_UnitLines(int id);
-    void OnSaveEdits_Graphics(int id);
-    void OnSaveEdits_Terrains(int id);
-    void OnSaveEdits_Borders(int id);
-    void OnSaveEdits_RMS(int id);
+    void UpdateEffects89(bool forced);
+    void UpdateGraphicsView(void);
 
     void OnUpdateCheck_Techs(wxCommandEvent &event);
-    void OnUpdateCheck_Graphics(wxCommandEvent &event);
-    void OnUpdateCheck_UnitAttribute(wxCommandEvent &event);
-    void OnUpdateCheck_UnitGarrisonType(wxCommandEvent &event);
-
     void OnUpdateCombo_Techs(wxCommandEvent &event);
-    void OnUpdateCombo_TechTrees(wxCommandEvent &event);
-    void OnUpdateCombo_TechTreeMode(wxCommandEvent &event);
     void OnUpdateCombo_Units(wxCommandEvent &event);
     void OnUpdateCombo_UnitLines(wxCommandEvent &event);
     void OnUpdateCombo_Graphics(wxCommandEvent &event);
     void OnUpdateCombo_Terrains(wxCommandEvent &event);
-
 
 //  Other Methods
 
@@ -1006,7 +852,8 @@ private:
 
     float EditorVersion, slp_zoom = 1, boxWidthMultiplier;
     wxString EditorVersionString, slp_extra_info;
-    bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, KeepViewOnTop, useDynamicName;
+    bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, KeepViewOnTop,
+        useDynamicName, NeverHideAttributes;
     vector<short> SelectedCivs;
     bool SearchAnd = false, ExcludeAnd = false, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11, Reselection;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false;
@@ -1030,7 +877,6 @@ private:
     wxCheckBox *slp_animate, *slp_shadow, *slp_outline, *slp_delta, *slp_stack, *slp_annex, *slp_terrain;
     wxCheckBox *slp_angles, *slp_show_angles, *slp_sounds;
     wxColourPickerCtrl *slp_background;
-    DelayedPopUp popUp;
     int times_listed = 0;
 
     vector<AGEComboBox*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
@@ -1088,8 +934,9 @@ public:
     {
         // menus and tool bar
         ePrompt = wxID_HIGHEST + 1, eVasili,
-        eButtons, eShowSLP, eShowIcons, eTips, eStayOnTop, eStayOnTopSLP, eAbout, eSlpPals, eSlpPCPal, eCacheDepth, eSlpZoom,
-        eBackup, eUnknown, eHelp, eDRS, eHex, eFloat, ePaste, eReselection, eAddWindow, eCompileList, eBoxWidth,
+        eButtons, eNeverHide, eShowSLP, eShowIcons, eTips, eStayOnTop, eStayOnTopSLP, eAbout, eSlpPals,
+        eSlpPCPal, eCacheDepth, eSlpZoom, eBackup, eUnknown, eHelp, eDRS, eHex, eFloat, ePaste,
+        eReselection, eAddWindow, eCompileList, eBoxWidth,
 
         // open and save
         eOpen,
@@ -1099,11 +946,13 @@ public:
         eTabBar,
 
         // buttons
-        eNextFrame, ePrevFrame, eFirstFrame, eExportFrame, eImportFrame, eSaveSLP, eSLPTool, eSLPMergeShadow, eZoom,
+        eNextFrame, ePrevFrame, eFirstFrame, eExportFrame, eImportFrame, eSaveSLP, eSLPTool,
+        eSLPMergeShadow, eZoom,
 
         // check boxes
-        eShowHotspot, eAnimSLP, eShowShadows, eShowOutline, eShowDeltas, eShowStack, eShowAnnexes, eShowTerrain,
-        eCollisionShape, eClearanceShape, eOutline, eShowAngles, eRotateAngles, ePlaySounds,
+        eShowHotspot, eAnimSLP, eShowShadows, eShowOutline, eShowDeltas, eShowStack, eShowAnnexes,
+        eShowTerrain, eCollisionShape, eClearanceShape, eOutline, eShowAngles, eRotateAngles,
+        ePlaySounds,
 
         // color picker
         ePickBgColor,
@@ -1129,7 +978,7 @@ private:
 
     //  Miscellaneous combo box strings
         task_names, unit_type_names, graphicset_names, specialcopy_names,
-        unit_filter_options, civ_names_only, mode_names;
+        unit_filter_options, civ_names_only, mode_names, modify_research_names;
 
     wxMenuBar *MenuBar_Main;
     wxMenu *SubMenu_Options, *SubMenu_Help, *SubMenu_SLP;
@@ -1278,13 +1127,13 @@ private:
     wxBoxSizer *Borders_Enabled1_Holder;
     SolidText *Borders_Enabled_Text;
     AGETextCtrl *Borders_Enabled;
-    CheckBox_2State *Borders_Enabled_CheckBox;
+    LinkedCheckBox *Borders_Enabled_CheckBox;
     wxBoxSizer *Borders_Random_Holder;
     SolidText *Borders_Random_Text;
     AGETextCtrl *Borders_Random;
     wxBoxSizer *Borders_Name_Holder[2];
     SolidText *Borders_Name_Text[2];
-    AGETextCtrl *Borders_Name[2];
+    StringControl *Borders_Name[2];
     wxBoxSizer *Borders_SLP_Holder;
     SolidText *Borders_SLP_Text;
     AGETextCtrl *Borders_SLP;
@@ -1346,7 +1195,7 @@ private:
     wxBoxSizer *Borders_Terrain_Holder;
     SolidText *Borders_Terrain_Text;
     AGETextCtrl *Borders_Terrain;
-    ComboBox_Plus1 *Borders_Terrain_ComboBox;
+    LinkedComboBox *Borders_Terrain_ComboBox;
     wxBoxSizer *Borders_BorderStyle_Holder;
     SolidText *Borders_BorderStyle_Text;
     AGETextCtrl *Borders_BorderStyle;
@@ -1626,7 +1475,7 @@ private:
     wxGridSizer *Research_RequiredTechs_Holder;
     SolidText *Research_RequiredTechArea_Text;
     AGETextCtrl *Research_RequiredTechs[6];
-    ComboBox_Plus1 *Research_RequiredTechs_ComboBox[6];
+    LinkedComboBox *Research_RequiredTechs_ComboBox[6];
     wxBoxSizer *Research_RequiredTechCount_Holder;
     SolidText *Research_RequiredTechCount_Text;
     AGETextCtrl *Research_RequiredTechCount;
@@ -1636,27 +1485,27 @@ private:
     array<wxBoxSizer*, 3> Research_Cost_Sizers;
     SolidText *Research_Resources_Text;
     AGETextCtrl *Research_Resources[3];
-    ComboBox_Plus1 *Research_Resources_ComboBox[3];
+    LinkedComboBox *Research_Resources_ComboBox[3];
     SolidText *Research_Amount_Text;
     AGETextCtrl *Research_Amount[3];
     SolidText *Research_Used_Text;
     AGETextCtrl *Research_Used[3];
-    CheckBox_2State *Research_Used_CheckBox[3];
+    LinkedCheckBox *Research_Used_CheckBox[3];
 
     wxBoxSizer *Research_Civ_Holder;
     SolidText *Research_Civ_Text;
     AGETextCtrl *Research_Civ;
-    ComboBox_Plus1 *Research_Civ_ComboBox;
+    LinkedComboBox *Research_Civ_ComboBox;
 
     wxBoxSizer *Research_FullTechMode_Holder;
     SolidText *Research_FullTechMode_Text;
     AGETextCtrl *Research_FullTechMode;
-    CheckBox_2State *Research_FullTechMode_CheckBox;
+    LinkedCheckBox *Research_FullTechMode_CheckBox;
 
     wxBoxSizer *Research_ResearchLocation_Holder;
     SolidText *Research_ResearchLocation_Text;
     AGETextCtrl *Research_ResearchLocation;
-    ComboBox_Plus1 *Research_ResearchLocation_ComboBox;
+    LinkedComboBox *Research_ResearchLocation_ComboBox;
 
     wxBoxSizer *Research_LangDLLName_Holder;
     SolidText *Research_LangDLLName_Text;
@@ -1675,7 +1524,7 @@ private:
     wxBoxSizer *Research_TechID_Holder;
     SolidText *Research_TechID_Text;
     AGETextCtrl *Research_TechID;
-    ComboBox_Plus1 *Research_TechID_ComboBox;
+    LinkedComboBox *Research_TechID_ComboBox;
 
     wxBoxSizer *Research_Type_Holder;
     SolidText *Research_Type_Text;
@@ -1712,7 +1561,7 @@ private:
 
     wxBoxSizer *Research_Name_Holder[2];
     SolidText *Research_Name_Text[2];
-    AGETextCtrl *Research_Name[2];
+    StringControl *Research_Name[2];
 
 //  Techs user interface
 
@@ -1736,7 +1585,7 @@ private:
     wxTextCtrl *Effects_89_Amount;  // amount
     SolidText *Effects_89_Type_Text;
     AGETextCtrl *Effects_89_Type; // class
-    ComboBox_Plus1 *Effects_89_Type_CB1;
+    LinkedComboBox *Effects_89_Type_CB1;
 
     wxStaticBoxSizer *Techs_Techs;
     wxBoxSizer *Techs_Searches[2];
@@ -1764,7 +1613,7 @@ private:
     wxButton *Techs_AllEffects_Clear;
 
     SolidText *Techs_Name_Text;
-    AGETextCtrl *Techs_Name;
+    StringControl *Techs_Name;
 
     wxStaticBoxSizer *Techs_Effects;
     wxBoxSizer *Techs_Effects_Searches[2];
@@ -1785,29 +1634,29 @@ private:
     wxBoxSizer *Effects_Type_Holder;
     wxBoxSizer *Effects_Type2_Holder;
     SolidText *Effects_Type_Text;
-    ComboBox_EffectType *Effects_Type_ComboBox;
+    AGEComboBox *Effects_Type_ComboBox;
     AGETextCtrl *Effects_Type;
     wxStaticBoxSizer *Effects_Data_Holder;
     SolidText *Effects_A_Text;
     AGETextCtrl *Effects_A;
-    ComboBox_Plus1 *Effects_A_ComboBox; // for effects 0 - 6, 101, 103
+    LinkedComboBox *Effects_A_ComboBox;
     SolidText *Effects_Info_A;
     SolidText *Effects_B_Text;
     AGETextCtrl *Effects_B;
     wxBoxSizer *Effects_B_Boxes;
-    CheckBox_2State *Effects_B_CheckBox;    // for effects 1, 2
-    ComboBox_Plus1 *Effects_B_ComboBox;    // for effects 0, 3, 4, 5, 101
+    LinkedCheckBox *Effects_B_CheckBox;
+    LinkedComboBox *Effects_B_ComboBox;
     SolidText *Effects_Info_B;
     SolidText *Effects_C_Text;
     AGETextCtrl *Effects_C;
     wxBoxSizer *Effects_C_Boxes;
-    CheckBox_2State *Effects_C_CheckBox;    // for effects 101, 103
-    ComboBox_EffectAttribute *Effects_C_ComboBox; // for effects 0, 4, 5
+    LinkedCheckBox *Effects_C_CheckBox;
+    LinkedComboBox *Effects_C_ComboBox;
     SolidText *Effects_Info_C;
     SolidText *Effects_D_Text;
     AGETextCtrl *Effects_D;
     wxBoxSizer *Effects_D_Boxes;
-    ComboBox_Plus1 *Effects_D_ComboBox;    // for effect 102
+    LinkedComboBox *Effects_D_ComboBox;
     SolidText *Effects_Info_D;
 
 //  Civs user interface
@@ -1835,18 +1684,18 @@ private:
     AGETextCtrl *Civs_One;
     wxBoxSizer *Civs_Name_Holder[2];
     SolidText *Civs_Name_Text[2];
-    AGETextCtrl *Civs_Name[2];
+    StringControl *Civs_Name[2];
     wxBoxSizer *Civs_SUnknown1_Holder;
     SolidText *Civs_SUnknown1_Text;
     AGETextCtrl *Civs_SUnknown1[4];
     wxBoxSizer *Civs_TechTree_Holder;
     SolidText *Civs_TechTree_Text;
     AGETextCtrl *Civs_TechTree;
-    ComboBox_Plus1 *Civs_TechTree_ComboBox;
+    LinkedComboBox *Civs_TechTree_ComboBox;
     wxBoxSizer *Civs_TeamBonus_Holder;
     SolidText *Civs_TeamBonus_Text;
     AGETextCtrl *Civs_TeamBonus;
-    ComboBox_Plus1 *Civs_TeamBonus_ComboBox;
+    LinkedComboBox *Civs_TeamBonus_ComboBox;
     wxBoxSizer *Civs_GraphicSet_Holder;
     SolidText *Civs_GraphicSet_Text;
     AGETextCtrl *Civs_GraphicSet;
@@ -1877,18 +1726,18 @@ private:
     AGETextCtrl *Units_Type;
     AGEComboBox *Units_Type_ComboBox;
     AGETextCtrl *Units_ID1;
-    AGETextCtrl *Units_LanguageDLLName;
+    NumberControl *Units_LanguageDLLName;
     TextCtrl_DLL *Units_DLL_LanguageName;
-    AGETextCtrl *Units_LanguageDLLCreation;
+    NumberControl *Units_LanguageDLLCreation;
     TextCtrl_DLL *Units_DLL_LanguageCreation;
     AGETextCtrl *Units_Class;
-    ComboBox_Plus1 *Units_Class_ComboBox[2];
+    LinkedComboBox *Units_Class_ComboBox[2];
     AGETextCtrl *Units_StandingGraphic[2];
-    ComboBox_Plus1 *Units_StandingGraphic_ComboBox[2];
+    LinkedComboBox *Units_StandingGraphic_ComboBox[2];
     AGETextCtrl *Units_DyingGraphic[2];
-    ComboBox_Plus1 *Units_DyingGraphic_ComboBox[2];
+    LinkedComboBox *Units_DyingGraphic_ComboBox[2];
     AGETextCtrl *Units_UndeadMode;
-    CheckBox_2State *Units_UndeadMode_CheckBox;
+    LinkedCheckBox *Units_UndeadMode_CheckBox;
     AGETextCtrl *Units_HitPoints;
     AGETextCtrl *Units_LineOfSight;
     AGETextCtrl *Units_GarrisonCapacity;
@@ -1898,35 +1747,35 @@ private:
     AGETextCtrl *Units_DamageSound;
     AGETextCtrl *Units_WwiseTrainSound;
     AGETextCtrl *Units_WwiseDamageSound;
-    ComboBox_Plus1 *Units_TrainSound_ComboBox;
-    ComboBox_Plus1 *Units_DamageSound_ComboBox;
+    LinkedComboBox *Units_TrainSound_ComboBox;
+    LinkedComboBox *Units_DamageSound_ComboBox;
     AGETextCtrl *Units_DeadUnitID;
     AGETextCtrl *Units_BloodUnitID;
-    ComboBox_Plus1 *Units_DeadUnitID_ComboBox;
-    ComboBox_Plus1 *Units_BloodUnitID_ComboBox;
+    LinkedComboBox *Units_DeadUnitID_ComboBox;
+    LinkedComboBox *Units_BloodUnitID_ComboBox;
     AGETextCtrl *Units_SortNumber;
     AGETextCtrl *Units_CanBeBuiltOn;
-    CheckBox_2State *Units_CanBeBuiltOn_CheckBox;
+    LinkedCheckBox *Units_CanBeBuiltOn_CheckBox;
     AGETextCtrl *Units_IconID;
     AGETextCtrl *Units_HideInEditor;
-    CheckBox_2State *Units_HideInEditor_CheckBox;
+    LinkedCheckBox *Units_HideInEditor_CheckBox;
     AGETextCtrl *Units_Portrait;
     AGETextCtrl *Units_Enabled;
-    CheckBox_2State *Units_Enabled_CheckBox;
+    LinkedCheckBox *Units_Enabled_CheckBox;
     AGETextCtrl *Units_Disabled;
-    CheckBox_2State *Units_Disabled_CheckBox;
+    LinkedCheckBox *Units_Disabled_CheckBox;
     AGETextCtrl *Units_PlacementSideTerrain[2];
-    ComboBox_Plus1 *Units_PlacementSideTerrain_ComboBox[2];
+    LinkedComboBox *Units_PlacementSideTerrain_ComboBox[2];
     AGETextCtrl *Units_PlacementTerrain[2];
-    ComboBox_Plus1 *Units_PlacementTerrain_ComboBox[2];
+    LinkedComboBox *Units_PlacementTerrain_ComboBox[2];
     AGETextCtrl *Units_ClearanceSize[2];
     AGETextCtrl *Units_HillMode;
     AGETextCtrl *Units_FogVisibility;
     SolidText *Units_FogVisibility_Text;
     AGETextCtrl *Units_TerrainRestriction;
-    ComboBox_Plus1 *Units_TerrainRestriction_ComboBox;
+    LinkedComboBox *Units_TerrainRestriction_ComboBox;
     AGETextCtrl *Units_FlyMode;
-    CheckBox_2State *Units_FlyMode_CheckBox;
+    LinkedCheckBox *Units_FlyMode_CheckBox;
     AGETextCtrl *Units_ResourceCapacity;
     AGETextCtrl *Units_ResourceDecay;
     AGETextCtrl *Units_BlastDefenseLevel;
@@ -1944,7 +1793,7 @@ private:
     AGETextCtrl *Units_HotKey;
     TextCtrl_DLL *Units_DLL_HotKey4;
     AGETextCtrl *Units_Recyclable;
-    CheckBox_2State *Units_Recyclable_CheckBox;
+    LinkedCheckBox *Units_Recyclable_CheckBox;
     AGETextCtrl *Units_TrackAsResource;
     AGETextCtrl *Units_CreateDoppelgangerOnDeath;
     AGETextCtrl *Units_ResourceGroup;
@@ -1955,30 +1804,30 @@ private:
     wxBoxSizer *Units_Trait_Grid;
     wxCheckBox *Units_Trait_CheckBox[8];
     AGETextCtrl *Units_Civ;
-    ComboBox_Plus1 *Units_Civ_ComboBox;
+    LinkedComboBox *Units_Civ_ComboBox;
     AGETextCtrl *Units_Nothing;
     AGETextCtrl *Units_SelectionEffect;
     AGETextCtrl *Units_EditorSelectionColour;
     wxBoxSizer *Units_SelectionRadiusBox;
     AGETextCtrl *Units_SelectionRadius[3];
     AGETextCtrl *ResourceStorage_Type[3];
-    ComboBox_Plus1 *ResourceStorage_Type_ComboBox[3];
+    LinkedComboBox *ResourceStorage_Type_ComboBox[3];
     AGETextCtrl *ResourceStorage_Amount[3];
     AGETextCtrl *ResourceStorage_Mode[3];
     AGETextCtrl *Units_SelectionSound;
     AGETextCtrl *Units_WwiseSelectionSound;
-    ComboBox_Plus1 *Units_SelectionSound_ComboBox;
+    LinkedComboBox *Units_SelectionSound_ComboBox;
     AGETextCtrl *Units_DyingSound;
     AGETextCtrl *Units_WwiseDyingSound;
-    ComboBox_Plus1 *Units_DyingSound_ComboBox;
+    LinkedComboBox *Units_DyingSound_ComboBox;
     AGETextCtrl *Units_AttackReaction;
     AGETextCtrl *Units_ConvertTerrain;
-    AGETextCtrl *Units_Name;
-    AGETextCtrl *Units_Name2;
+    StringControl *Units_Name;
+    StringControl *Units_Name2;
     AGETextCtrl *Units_Unitline;
-    ComboBox_Plus1 *Units_Unitline_ComboBox;
+    LinkedComboBox *Units_Unitline_ComboBox;
     AGETextCtrl *Units_MinTechLevel;
-    ComboBox_Plus1 *Units_MinTechLevel_ComboBox;
+    LinkedComboBox *Units_MinTechLevel_ComboBox;
     AGETextCtrl *Units_CopyID;
     AGETextCtrl *Units_BaseID;
     AGETextCtrl *Units_TelemetryID;
@@ -1990,11 +1839,11 @@ private:
 //  Type 30+
 
     AGETextCtrl *Units_WalkingGraphic[2];
-    ComboBox_Plus1 *Units_WalkingGraphic_ComboBox[2];
+    LinkedComboBox *Units_WalkingGraphic_ComboBox[2];
     AGETextCtrl *Units_RotationSpeed;
     AGETextCtrl *Units_SizeClass;
     AGETextCtrl *Units_TrackingUnit;
-    ComboBox_Plus1 *Units_TrackingUnit_ComboBox;
+    LinkedComboBox *Units_TrackingUnit_ComboBox;
     AGETextCtrl *Units_TrackingUnitMode;
     AGETextCtrl *Units_TrackingUnitDensity;
     AGETextCtrl *Units_MoveAlgorithm;
@@ -2004,33 +1853,33 @@ private:
 
     SolidText *Units_DefaultTaskID_Text;
     AGETextCtrl *Units_DefaultTaskID;
-    ComboBox_Plus1 *Units_DefaultTaskID_ComboBox;
+    LinkedComboBox *Units_DefaultTaskID_ComboBox;
     AGETextCtrl *Units_SearchRadius;
     AGETextCtrl *Units_WorkRate;
     AGETextCtrl *Units_DropSite[3];
-    ComboBox_Plus1 *Units_DropSite_ComboBox[3];
+    LinkedComboBox *Units_DropSite_ComboBox[3];
     AGETextCtrl *Units_TaskSwapGroup;
     AGETextCtrl *Units_AttackSound;
     AGETextCtrl *Units_WwiseAttackSound;
-    ComboBox_Plus1 *Units_AttackSound_ComboBox;
+    LinkedComboBox *Units_AttackSound_ComboBox;
     AGETextCtrl *Units_MoveSound;
     AGETextCtrl *Units_WwiseMoveSound;
-    ComboBox_Plus1 *Units_MoveSound_ComboBox;
+    LinkedComboBox *Units_MoveSound_ComboBox;
     AGETextCtrl *Units_RunPattern;
     SolidText *Units_RunPattern_Text;
     AGETextCtrl *Units_Exists;
 
 //  Type 50+
 
-    AGETextCtrl *Units_BaseArmor;
+    NumberControl *Units_BaseArmor;
     AGETextCtrl *Units_DefenseTerrainBonus;
-    ComboBox_Plus1 *Units_DefenseTerrainBonus_ComboBox;
+    LinkedComboBox *Units_DefenseTerrainBonus_ComboBox;
     AGETextCtrl *Units_BonusDamageResistance;
     AGETextCtrl *Units_MaxRange;
     AGETextCtrl *Units_BlastWidth;
     AGETextCtrl *Units_ReloadTime;
     AGETextCtrl *Units_ProjectileUnitID;
-    ComboBox_Plus1 *Units_ProjectileUnitID_ComboBox;
+    LinkedComboBox *Units_ProjectileUnitID_ComboBox;
     AGETextCtrl *Units_AccuracyPercent;
     AGETextCtrl *Units_TowerMode;
     SolidText *Units_TowerMode_Text;
@@ -2040,7 +1889,7 @@ private:
     AGETextCtrl *Units_MinRange;
     AGETextCtrl *Units_AccuracyDispersion;
     AGETextCtrl *Units_AttackGraphic;
-    ComboBox_Plus1 *Units_AttackGraphic_ComboBox;
+    LinkedComboBox *Units_AttackGraphic_ComboBox;
     AGETextCtrl *Units_DisplayedMeleeArmour;
     AGETextCtrl *Units_DisplayedAttack;
     AGETextCtrl *Units_DisplayedRange;
@@ -2058,34 +1907,34 @@ private:
 //  Type 70+
 
     AGETextCtrl *Units_CostType[3];
-    ComboBox_Plus1 *Units_CostType_ComboBox[3];
+    LinkedComboBox *Units_CostType_ComboBox[3];
     AGETextCtrl *Units_CostAmount[3];
     AGETextCtrl *Units_CostUsed[3];
-    CheckBox_2State *Units_CostUsed_CheckBox[3];
+    LinkedCheckBox *Units_CostUsed_CheckBox[3];
     AGETextCtrl *Units_TrainTime;
     AGETextCtrl *Units_TrainLocationID;
-    ComboBox_Plus1 *Units_TrainLocationID_ComboBox;
+    LinkedComboBox *Units_TrainLocationID_ComboBox;
     AGETextCtrl *Units_ButtonID;
     AGETextCtrl *Units_RearAttackModifier;
     AGETextCtrl *Units_FlankAttackModifier;
     AGETextCtrl *Units_CreatableType;
     AGETextCtrl *Units_HeroMode;
-    CheckBox_2State *Units_HeroMode_CheckBox;
+    LinkedCheckBox *Units_HeroMode_CheckBox;
     AGETextCtrl *Units_GarrisonGraphic;
-    ComboBox_Plus1 *Units_GarrisonGraphic_ComboBox;
+    LinkedComboBox *Units_GarrisonGraphic_ComboBox;
     AGETextCtrl *Units_MissileCount;
     AGETextCtrl *Units_MissileDuplicationCount;
     AGETextCtrl *Units_AttackMissileDuplicationSpawning[3];
     AGETextCtrl *Units_AttackMissileDuplicationUnit;
-    ComboBox_Plus1 *Units_AttackMissileDuplicationUnit_ComboBox;
+    LinkedComboBox *Units_AttackMissileDuplicationUnit_ComboBox;
     AGETextCtrl *Units_ChargingGraphic;
-    ComboBox_Plus1 *Units_ChargingGraphic_ComboBox;
+    LinkedComboBox *Units_ChargingGraphic_ComboBox;
     AGETextCtrl *Units_ChargingMode;
     AGETextCtrl *Units_DisplayedPierceArmour;
     AGETextCtrl *Units_SpawningGraphic;
     AGETextCtrl *Units_UpgradeGraphic;
-    ComboBox_Plus1 *Units_SpawningGraphic_ComboBox;
-    ComboBox_Plus1 *Units_UpgradeGraphic_ComboBox;
+    LinkedComboBox *Units_SpawningGraphic_ComboBox;
+    LinkedComboBox *Units_UpgradeGraphic_ComboBox;
     AGETextCtrl *Units_MaxCharge;
     AGETextCtrl *Units_RechargeRate;
     AGETextCtrl *Units_ChargeEvent;
@@ -2099,45 +1948,45 @@ private:
     AGETextCtrl *Units_DestructionRubbleGraphicID;
     AGETextCtrl *Units_ResearchingGraphic;
     AGETextCtrl *Units_ResearchCompletedGraphic;
-    ComboBox_Plus1 *Units_ConstructionGraphicID_ComboBox;
-    ComboBox_Plus1 *Units_SnowGraphicID_ComboBox;
-    ComboBox_Plus1 *Units_DestructionGraphicID_ComboBox;
-    ComboBox_Plus1 *Units_DestructionRubbleGraphicID_ComboBox;
-    ComboBox_Plus1 *Units_ResearchingGraphic_ComboBox;
-    ComboBox_Plus1 *Units_ResearchCompletedGraphic_ComboBox;
+    LinkedComboBox *Units_ConstructionGraphicID_ComboBox;
+    LinkedComboBox *Units_SnowGraphicID_ComboBox;
+    LinkedComboBox *Units_DestructionGraphicID_ComboBox;
+    LinkedComboBox *Units_DestructionRubbleGraphicID_ComboBox;
+    LinkedComboBox *Units_ResearchingGraphic_ComboBox;
+    LinkedComboBox *Units_ResearchCompletedGraphic_ComboBox;
     AGETextCtrl *Units_AdjacentMode;
-    CheckBox_2State *Units_AdjacentMode_CheckBox;
+    LinkedCheckBox *Units_AdjacentMode_CheckBox;
     AGETextCtrl *Units_IconAngle;
     AGETextCtrl *Units_DisappearsWhenBuilt;
-    CheckBox_2State *Units_BuildAndVanish_CheckBox;
+    LinkedCheckBox *Units_BuildAndVanish_CheckBox;
     AGETextCtrl *Units_StackUnitID;
-    ComboBox_Plus1 *Units_StackUnitID_ComboBox;
+    LinkedComboBox *Units_StackUnitID_ComboBox;
     AGETextCtrl *Units_TerrainID;
-    ComboBox_Plus1 *Units_TerrainID_ComboBox;
+    LinkedComboBox *Units_TerrainID_ComboBox;
     AGETextCtrl *Units_OldOverlayID;
     AGETextCtrl *Units_ResearchID;
-    ComboBox_Plus1 *Units_ResearchID_ComboBox;
+    LinkedComboBox *Units_ResearchID_ComboBox;
     AGETextCtrl *Units_CanBurn;
     AGETextCtrl *Units_AnnexUnit[4];
-    ComboBox_Plus1 *Units_AnnexUnit_ComboBox[4];
+    LinkedComboBox *Units_AnnexUnit_ComboBox[4];
     AGETextCtrl *Units_AnnexUnitMisplacement[4][2];
     AGETextCtrl *Units_HeadUnit;
-    ComboBox_Plus1 *Units_HeadUnit_ComboBox;
+    LinkedComboBox *Units_HeadUnit_ComboBox;
     AGETextCtrl *Units_TransformUnit;
-    ComboBox_Plus1 *Units_TransformUnit_ComboBox;
+    LinkedComboBox *Units_TransformUnit_ComboBox;
     AGETextCtrl *Units_TransformSound;
     AGETextCtrl *Units_WwiseTransformSound;
-    ComboBox_Plus1 *Units_TransformSound_ComboBox;
+    LinkedComboBox *Units_TransformSound_ComboBox;
     AGETextCtrl *Units_ConstructionSound;
     AGETextCtrl *Units_WwiseConstructionSound;
-    ComboBox_Plus1 *Units_ConstructionSound_ComboBox;
+    LinkedComboBox *Units_ConstructionSound_ComboBox;
     AGETextCtrl *Units_GarrisonType;
     wxBoxSizer *Units_GarrisonType_Grid;
     wxCheckBox *Units_GarrisonType_CheckBox[8];
     AGETextCtrl *Units_GarrisonHealRate;
     AGETextCtrl *Units_GarrisonRepairRate;
     AGETextCtrl *Units_PileUnit;
-    ComboBox_Plus1 *Units_PileUnit_ComboBox;
+    LinkedComboBox *Units_PileUnit_ComboBox;
     array<AGETextCtrl*, 6> Units_LootSwitch;
 
 //  Data Container Names
@@ -2180,7 +2029,7 @@ private:
     SolidText *Units_LanguageDLLConverter_Text[2];
     SolidText *Units_LanguageDLLHotKeyText_Text;
     SolidText *Units_HotKey_Text;
-    CheckBox_2State *Units_TrackAsResource_CheckBox;
+    LinkedCheckBox *Units_TrackAsResource_CheckBox;
     SolidText *Units_CreateDoppelgangerOnDeath_Text;
     SolidText *Units_ResourceGroup_Text;
     SolidText *Units_OcclusionMode_Text;
@@ -2512,17 +2361,14 @@ private:
 
     wxBoxSizer *Units_DamageGraphics_Holder_Data;
     AGETextCtrl *DamageGraphics_GraphicID;
-    ComboBox_Plus1 *DamageGraphics_GraphicID_ComboBox;
+    LinkedComboBox *DamageGraphics_GraphicID_ComboBox;
     AGETextCtrl *DamageGraphics_DamagePercent;
-    AGETextCtrl *DamageGraphics_Useless;
     AGETextCtrl *DamageGraphics_ApplyMode;
     SolidText *DamageGraphics_GraphicID_Text;
     SolidText *DamageGraphics_DamagePercent_Text;
-    SolidText *DamageGraphics_Useless_Text;
     SolidText *DamageGraphics_ApplyMode_Text;
     wxBoxSizer *DamageGraphics_GraphicID_Holder;
     wxBoxSizer *DamageGraphics_DamagePercent_Holder;
-    wxBoxSizer *DamageGraphics_Useless_Holder;
     wxBoxSizer *DamageGraphics_ApplyMode_Holder;
     wxStaticBoxSizer *Units_DamageGraphics;
     wxBoxSizer *Units_DamageGraphics_ListArea;
@@ -2541,7 +2387,7 @@ private:
     wxBoxSizer *Units_Attacks_Holder;
     wxGridSizer *Units_Attacks_Holder_Data;
     AGETextCtrl *Attacks_Class;
-    ComboBox_Plus1 *Attacks_Class_ComboBox[2];
+    LinkedComboBox *Attacks_Class_ComboBox[2];
     AGETextCtrl *Attacks_Amount;
     SolidText *Attacks_Class_Text;
     SolidText *Attacks_Amount_Text;
@@ -2711,7 +2557,7 @@ private:
 
     SolidText *Tasks_Type_Text;
     SolidText *Tasks_ID_Text;
-    CheckBox_2State *Tasks_IsDefault_Text;
+    LinkedCheckBox *Tasks_IsDefault_Text;
     SolidText *Tasks_ActionType_Text;
     SolidText *Tasks_ClassID_Text;
     SolidText *Tasks_UnitID_Text;
@@ -2726,12 +2572,12 @@ private:
     SolidText *Tasks_AutoSearchTargets_Text;
     SolidText *Tasks_SearchWaitTime_Text;
     SolidText *Tasks_EnableTargeting_Text;
-    CheckBox_2State *Tasks_CombatLevelFlag_Text;
+    LinkedCheckBox *Tasks_CombatLevelFlag_Text;
     SolidText *Tasks_GatherType_Text;
     SolidText *Tasks_WorkFlag2_Text;
     SolidText *Tasks_TargetDiplomacy_Text;
-    CheckBox_2State *Tasks_CarryCheck_Text;
-    CheckBox_2State *Tasks_PickForConstruction_Text;
+    LinkedCheckBox *Tasks_CarryCheck_Text;
+    LinkedCheckBox *Tasks_PickForConstruction_Text;
     array<SolidText*, 6> Tasks_Graphics_Text;
 
     AGETextCtrl *Tasks_Type;
@@ -2741,17 +2587,17 @@ private:
     AGEComboBox *Tasks_ActionType_ComboBox;
     AGETextCtrl *Tasks_ClassID;
     AGETextCtrl *Tasks_UnitID;
-    ComboBox_Plus1 *Tasks_UnitID_ComboBox;
+    LinkedComboBox *Tasks_UnitID_ComboBox;
     AGETextCtrl *Tasks_TerrainID;
-    ComboBox_Plus1 *Tasks_TerrainID_ComboBox;
+    LinkedComboBox *Tasks_TerrainID_ComboBox;
     AGETextCtrl *Tasks_ResourceIn;
-    ComboBox_Plus1 *Tasks_ResourceIn_ComboBox;
+    LinkedComboBox *Tasks_ResourceIn_ComboBox;
     AGETextCtrl *Tasks_ProdResource;
-    ComboBox_Plus1 *Tasks_ProdResource_ComboBox;
+    LinkedComboBox *Tasks_ProdResource_ComboBox;
     AGETextCtrl *Tasks_ResourceOut;
-    ComboBox_Plus1 *Tasks_ResourceOut_ComboBox;
+    LinkedComboBox *Tasks_ResourceOut_ComboBox;
     AGETextCtrl *Tasks_Resource;
-    ComboBox_Plus1 *Tasks_Resource_ComboBox;
+    LinkedComboBox *Tasks_Resource_ComboBox;
     AGETextCtrl *Tasks_WorkValue1;
     AGETextCtrl *Tasks_WorkValue2;
     AGETextCtrl *Tasks_WorkRange;
@@ -2767,7 +2613,7 @@ private:
     AGETextCtrl *Tasks_WwiseResourceGatheringSound;
     AGETextCtrl *Tasks_WwiseResourceDepositSound;
     array<AGETextCtrl*, 6> Tasks_Graphics;
-    array<ComboBox_Plus1*, 6> Tasks_Graphics_ComboBox;
+    array<LinkedComboBox*, 6> Tasks_Graphics_ComboBox;
 
 //  Graphics user interface
 
@@ -2808,7 +2654,6 @@ private:
     wxBoxSizer *Graphics_ColorFlag_Holder;
     wxBoxSizer *Graphics_DrawLevel_Holder;
     wxBoxSizer *Graphics_PlayerColor_Holder;
-    wxBoxSizer *Graphics_Rainbow_Holder;
     wxBoxSizer *Graphics_TransparentPicking_Holder;
     wxBoxSizer *Graphics_Coordinates_Holder;
     wxBoxSizer *Graphics_CoordinateGrid_Holder;
@@ -2840,7 +2685,6 @@ private:
     SolidText *Graphics_ColorFlag_Text;
     SolidText *Graphics_DrawLevel_Text;
     SolidText *Graphics_PlayerColor_Text;
-    SolidText *Graphics_Rainbow_Text;
     SolidText *Graphics_TransparentPicking_Text;
     SolidText *Graphics_Coordinates_Text;
     SolidText *Graphics_SoundID_Text;
@@ -2856,24 +2700,23 @@ private:
     SolidText *Graphics_Type_Text;
     SolidText *Graphics_EditorFlag_Text;
 
-    AGETextCtrl *Graphics_Name;
-    AGETextCtrl *Graphics_FileName;
-    AGETextCtrl *Graphics_ParticleEffectName;
+    StringControl *Graphics_Name;
+    StringControl *Graphics_FileName;
+    StringControl *Graphics_ParticleEffectName;
     wxButton *Graphics_ParticleEffectName_Browse;
-    AGETextCtrl *Graphics_SLP;
+    NumberControl *Graphics_SLP;
     AGETextCtrl *Graphics_Loaded;
     AGETextCtrl *Graphics_ColorFlag;
     AGETextCtrl *Graphics_DrawLevel;
     AGETextCtrl *Graphics_PlayerColor;
-    ComboBox_Plus1 *Graphics_PlayerColor_ComboBox;
-    AGETextCtrl *Graphics_Rainbow;
+    LinkedComboBox *Graphics_PlayerColor_ComboBox;
     AGETextCtrl *Graphics_TransparentPicking;
     AGETextCtrl *Graphics_Coordinates[4];
     AGETextCtrl *Graphics_SoundID;
     AGETextCtrl *Graphics_WwiseSoundID;
-    ComboBox_Plus1 *Graphics_SoundID_ComboBox;
+    LinkedComboBox *Graphics_SoundID_ComboBox;
     AGETextCtrl *Graphics_AngleSoundsUsed;
-    CheckBox_2State *Graphics_AngleSoundsUsed_CheckBox;
+    LinkedCheckBox *Graphics_AngleSoundsUsed_CheckBox;
     AGETextCtrl *Graphics_FrameCount;
     AGETextCtrl *Graphics_AngleCount;
     AGETextCtrl *Graphics_FirstFrame;
@@ -2912,7 +2755,7 @@ private:
     wxBoxSizer *GraphicDeltas_GraphicID_Holder;
     SolidText *GraphicDeltas_GraphicID_Text;
     AGETextCtrl *GraphicDeltas_GraphicID;
-    ComboBox_Plus1 *GraphicDeltas_GraphicID_ComboBox;
+    LinkedComboBox *GraphicDeltas_GraphicID_ComboBox;
     wxBoxSizer *GraphicDeltas_Padding1_Holder;
     SolidText *GraphicDeltas_Padding1_Text;
     AGETextCtrl *GraphicDeltas_Padding1;
@@ -2938,7 +2781,7 @@ private:
     AGETextCtrl *Graphics_AngleFrameNum[3];
     AGETextCtrl *Graphics_AngleSoundID[3];
     AGETextCtrl *Graphics_WwiseAngleSoundID[3];
-    ComboBox_Plus1 *Graphics_AngleSoundID_ComboBox[3];
+    LinkedComboBox *Graphics_AngleSoundID_ComboBox[3];
     wxButton *Deltas_Import;
 
 //  Terrains user interface
@@ -2968,7 +2811,7 @@ private:
     wxBoxSizer *Terrains_SpaceLeft;
     wxBoxSizer *Terrains_SpaceRight;
     AGETextCtrl *Terrains_Border;
-    ComboBox_Plus1 *Terrains_Border_ComboBox;
+    LinkedComboBox *Terrains_Border_ComboBox;
     wxStaticBoxSizer *Terrains_Borders;
     wxTextCtrl *Terrains_Borders_Search;
     wxTextCtrl *Terrains_Borders_Search_R;
@@ -2992,16 +2835,16 @@ private:
     wxBoxSizer *Terrains_Enabled1_Holder;
     SolidText *Terrains_Enabled_Text;
     AGETextCtrl *Terrains_Enabled;
-    CheckBox_2State *Terrains_Enabled_CheckBox;
+    LinkedCheckBox *Terrains_Enabled_CheckBox;
     wxBoxSizer *Terrains_Random_Holder;
     SolidText *Terrains_Random_Text;
     AGETextCtrl *Terrains_Random;
     wxBoxSizer *Terrains_Name_Holder;
     SolidText *Terrains_Name_Text;
-    AGETextCtrl *Terrains_Name;
+    StringControl *Terrains_Name;
     wxBoxSizer *Terrains_FileName_Holder;
     SolidText *Terrains_FileName_Text;
-    AGETextCtrl *Terrains_FileName;
+    StringControl *Terrains_FileName;
     wxBoxSizer *Terrains_SLP_Holder;
     SolidText *Terrains_SLP_Text;
     AGETextCtrl *Terrains_SLP;
@@ -3012,19 +2855,19 @@ private:
     SolidText *Terrains_SoundID_Text;
     AGETextCtrl *Terrains_SoundID;
     AGETextCtrl *Terrains_WwiseSoundID;
-    ComboBox_Plus1 *Terrains_SoundID_ComboBox;
+    LinkedComboBox *Terrains_SoundID_ComboBox;
     wxBoxSizer *Terrains_SoundStopID_Holder;
     SolidText *Terrains_SoundStopID_Text;
     AGETextCtrl *Terrains_SoundStopID;
     wxBoxSizer *Terrains_BlendPriority_Holder;
     SolidText *Terrains_BlendPriority_Text;
-    AGETextCtrl *Terrains_BlendPriority;
+    NumberControl *Terrains_BlendPriority;
     wxBoxSizer *Terrains_BlendType_Holder;
     SolidText *Terrains_BlendType_Text;
-    AGETextCtrl *Terrains_BlendType;
+    NumberControl *Terrains_BlendType;
     wxBoxSizer *Terrains_OverlayMaskName_Holder;
     SolidText *Terrains_OverlayMaskName_Text;
-    AGETextCtrl *Terrains_OverlayMaskName;
+    StringControl *Terrains_OverlayMaskName;
     wxButton *Terrains_OverlayMaskName_Browse;
     wxBoxSizer *Terrains_IsWater_Holder;
     SolidText *Terrains_IsWater_Text;
@@ -3049,8 +2892,8 @@ private:
     SolidText *Terrains_ImpassableTerrain_Text;
     AGETextCtrl *Terrains_PassableTerrain;
     AGETextCtrl *Terrains_ImpassableTerrain;
-    ComboBox_Plus1 *Terrains_PassableTerrain_ComboBox;
-    ComboBox_Plus1 *Terrains_ImpassableTerrain_ComboBox;
+    LinkedComboBox *Terrains_PassableTerrain_ComboBox;
+    LinkedComboBox *Terrains_ImpassableTerrain_ComboBox;
 
     wxBoxSizer *Terrains_Animation_Grid1;
     wxBoxSizer *Terrains_Animation_Grid2;
@@ -3093,7 +2936,7 @@ private:
     wxBoxSizer *Terrains_TerrainReplacementID_Holder;
     SolidText *Terrains_TerrainReplacementID_Text;
     AGETextCtrl *Terrains_TerrainReplacementID;
-    ComboBox_Plus1 *Terrains_TerrainReplacementID_ComboBox;
+    LinkedComboBox *Terrains_TerrainReplacementID_ComboBox;
     wxBoxSizer *Terrains_TerrainDimensions_Holder;
     SolidText *Terrains_TerrainDimensions_Text;
     array<AGETextCtrl*, 2>Terrains_TerrainDimensions;
@@ -3103,7 +2946,7 @@ private:
     wxBoxSizer *Terrains_TerrainUnitID_Holder1;
     SolidText *Terrains_TerrainUnitID_Text;
     array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitID;
-    array<ComboBox_Plus1*, TERRAINUNITS>Terrains_TerrainUnitID_ComboBox;
+    array<LinkedComboBox*, TERRAINUNITS>Terrains_TerrainUnitID_ComboBox;
     wxBoxSizer *Terrains_TerrainUnitDensity_Holder;
     wxBoxSizer *Terrains_TerrainUnitMaskedDensity_Holder;
     wxBoxSizer *Terrains_TerrainUnitPriority_Holder;
@@ -3147,9 +2990,9 @@ private:
     wxBoxSizer *TerRestrict_Graphics_Holder;
     SolidText *TerRestrict_Graphics_Text[3];
     AGETextCtrl *TerRestrict_Graphics[3];
-    ComboBox_Plus1 *TerRestrict_Graphics_ComboBox[3];
+    LinkedComboBox *TerRestrict_Graphics_ComboBox[3];
     SolidText *TerRestrict_Amount_Text;
-    AGETextCtrl *TerRestrict_Amount;
+    NumberControl *TerRestrict_Amount;
 
 //  Sound user interface
 
@@ -3200,17 +3043,17 @@ private:
     AGETextCtrl *Sounds_TotalProbability;
     wxBoxSizer *SoundItems_Name_Holder;
     SolidText *SoundItems_Name_Text;
-    AGETextCtrl *SoundItems_Name;
+    StringControl *SoundItems_Name;
     wxBoxSizer *SoundItems_Resource_Holder;
     SolidText *SoundItems_Resource_Text;
-    AGETextCtrl *SoundItems_Resource;
+    NumberControl *SoundItems_Resource;
     wxBoxSizer *SoundItems_Probability_Holder;
     SolidText *SoundItems_Probability_Text;
     AGETextCtrl *SoundItems_Probability;
     wxBoxSizer *SoundItems_Civ_Holder;
     SolidText *SoundItems_Civ_Text;
     AGETextCtrl *SoundItems_Civ;
-    ComboBox_Plus1 *SoundItems_Civ_ComboBox;
+    LinkedComboBox *SoundItems_Civ_ComboBox;
     wxBoxSizer *SoundItems_IconSet_Holder;
     SolidText *SoundItems_IconSet_Text;
     AGETextCtrl *SoundItems_IconSet;
@@ -3277,19 +3120,19 @@ private:
     SolidText *Colors_MinimapColor3_Text;
     SolidText *Colors_Type_Text;
     SolidText *Colors_ReferenceID_Text;
-    AGETextCtrl *Colors_Name;
-    AGETextCtrl *Colors_ID;
+    StringControl *Colors_Name;
+    NumberControl *Colors_ID;
     AGETextCtrl *Colors_ResourceID;
     AGETextCtrl *Colors_PlayerPalette;
     AGETextCtrl *Colors_OutlineColor;
-    AGETextCtrl *Colors_MinimapColor;
+    NumberControl *Colors_MinimapColor;
     AGETextCtrl *Colors_SelectionColor1;
     AGETextCtrl *Colors_SelectionColor2;
     AGETextCtrl *Colors_MinimapColor2;
     AGETextCtrl *Colors_MinimapColor3;
     AGETextCtrl *Colors_Type;
     AGETextCtrl *Colors_ReferenceID;
-    ComboBox_Plus1 *Colors_ReferenceID_ComboBox;
+    LinkedComboBox *Colors_ReferenceID_ComboBox;
     APanel *Colors_Palette_Display;
 
 //  Unitline user interface
@@ -3315,7 +3158,7 @@ private:
     AGETextCtrl *UnitLines_ID;
     wxBoxSizer *UnitLines_Name_Holder;
     SolidText *UnitLines_Name_Text;
-    AGETextCtrl *UnitLines_Name;
+    StringControl *UnitLines_Name;
 
     wxStaticBoxSizer *UnitLines_UnitLineUnits;
     wxTextCtrl *UnitLines_UnitLineUnits_Search;
@@ -3332,7 +3175,7 @@ private:
     wxBoxSizer *UnitLineUnits_Holder;
     SolidText *UnitLineUnits_Text;
     AGETextCtrl *UnitLineUnits_Units;
-    ComboBox_Plus1 *UnitLineUnits_ComboBox;
+    LinkedComboBox *UnitLineUnits_ComboBox;
 
 //  Tech Tree user interface
 
@@ -3448,7 +3291,7 @@ private:
     wxBoxSizer *TechTrees_Buildings_ID_Holder;
     SolidText *TechTrees_Buildings_ID_Text;
     AGETextCtrl *TechTrees_Buildings_ID;
-    ComboBox_Plus1 *TechTrees_Buildings_ID_ComboBox;
+    LinkedComboBox *TechTrees_Buildings_ID_ComboBox;
     wxBoxSizer *TechTrees_Buildings_Status_Holder;
     SolidText *TechTrees_Buildings_Status_Text;
     AGETextCtrl *TechTrees_Buildings_Status;
@@ -3462,21 +3305,21 @@ private:
     wxBoxSizer *TechTrees_Buildings_EnablingResearch_Holder;
     SolidText *TechTrees_Buildings_EnablingResearch_Text;
     AGETextCtrl *TechTrees_Buildings_EnablingResearch;
-    ComboBox_Plus1 *TechTrees_Buildings_EnablingResearch_ComboBox;
+    LinkedComboBox *TechTrees_Buildings_EnablingResearch_ComboBox;
     wxStaticBoxSizer *TechTrees_Buildings_TotalUnitsTechs_Holder[2];
     AGETextCtrl *TechTrees_Buildings_TotalUnitsTechs[10];
 
     wxBoxSizer *TechTrees_Units_ID_Holder;
     SolidText *TechTrees_Units_ID_Text;
     AGETextCtrl *TechTrees_Units_ID;
-    ComboBox_Plus1 *TechTrees_Units_ID_ComboBox;
+    LinkedComboBox *TechTrees_Units_ID_ComboBox;
     wxBoxSizer *TechTrees_Units_Status_Holder;
     SolidText *TechTrees_Units_Status_Text;
     AGETextCtrl *TechTrees_Units_Status;
     wxBoxSizer *TechTrees_Units_UpperBuilding_Holder;
     SolidText *TechTrees_Units_UpperBuilding_Text;
     AGETextCtrl *TechTrees_Units_UpperBuilding;
-    ComboBox_Plus1 *TechTrees_Units_UpperBuilding_ComboBox;
+    LinkedComboBox *TechTrees_Units_UpperBuilding_ComboBox;
 
     wxBoxSizer *TechTrees_Units_VerticalLine_Holder;
     SolidText *TechTrees_Units_VerticalLine_Text;
@@ -3488,26 +3331,26 @@ private:
     wxBoxSizer *TechTrees_Units_RequiredResearch_Holder;
     SolidText *TechTrees_Units_RequiredResearch_Text;
     AGETextCtrl *TechTrees_Units_RequiredResearch;
-    ComboBox_Plus1 *TechTrees_Units_RequiredResearch_ComboBox;
+    LinkedComboBox *TechTrees_Units_RequiredResearch_ComboBox;
     wxBoxSizer *TechTrees_Units_LineMode_Holder;
     SolidText *TechTrees_Units_LineMode_Text;
     AGETextCtrl *TechTrees_Units_LineMode;
     wxBoxSizer *TechTrees_Units_EnablingResearch_Holder;
     SolidText *TechTrees_Units_EnablingResearch_Text;
     AGETextCtrl *TechTrees_Units_EnablingResearch;
-    ComboBox_Plus1 *TechTrees_Units_EnablingResearch_ComboBox;
+    LinkedComboBox *TechTrees_Units_EnablingResearch_ComboBox;
 
     wxBoxSizer *TechTrees_Researches_ID_Holder;
     SolidText *TechTrees_Researches_ID_Text;
     AGETextCtrl *TechTrees_Researches_ID;
-    ComboBox_Plus1 *TechTrees_Researches_ID_ComboBox;
+    LinkedComboBox *TechTrees_Researches_ID_ComboBox;
     wxBoxSizer *TechTrees_Researches_Status_Holder;
     SolidText *TechTrees_Researches_Status_Text;
     AGETextCtrl *TechTrees_Researches_Status;
     wxBoxSizer *TechTrees_Researches_UpperBuilding_Holder;
     SolidText *TechTrees_Researches_UpperBuilding_Text;
     AGETextCtrl *TechTrees_Researches_UpperBuilding;
-    ComboBox_Plus1 *TechTrees_Researches_UpperBuilding_ComboBox;
+    LinkedComboBox *TechTrees_Researches_UpperBuilding_ComboBox;
 
     wxBoxSizer *TechTrees_Researches_VerticalLine_Holder;
     SolidText *TechTrees_Researches_VerticalLine_Text;
@@ -3518,25 +3361,6 @@ private:
     wxBoxSizer *TechTrees_Researches_LineMode_Holder;
     SolidText *TechTrees_Researches_LineMode_Text;
     AGETextCtrl *TechTrees_Researches_LineMode;
-
-//  DRS user interface
-
-    /*genie::DrsFile *ResourceFile;
-
-    void LoadDRSFile(wxCommandEvent &event);
-    void UnLoadDRSFile(wxCommandEvent &event);
-    void LoadSLP(wxCommandEvent &event);
-
-    wxBoxSizer *DRS_Main;
-    wxBoxSizer *DRS_TopRow;
-    wxBoxSizer *DRS_MidArea;
-
-    SolidText *DRS_FileLocation_Text;
-    wxFilePickerCtrl *DRS_Path_FileLocation;
-    wxButton *DRS_LoadButton;
-    wxButton *DRS_UnLoadButton;
-    wxButton *DRS_SLPLoadButton;
-    SolidText *DRS_StatusText;*/
 
 //  Template functions
 

@@ -57,6 +57,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     CheckBox_GenieVer->Append("Age of Kings Beta (11.05)");
     CheckBox_GenieVer->Append("Age of Kings (11.5)");
     CheckBox_GenieVer->Append("The Conquerors (11.76)");
+    CheckBox_GenieVer->Append("The Conquerors (11.76) + UserPatch 1.5");
     CheckBox_GenieVer->Append("The Conquerors (11.76) + Terrain patch");
     CheckBox_GenieVer->Append("Forgotten + African Kingdoms + Rajas > 12");
     CheckBox_GenieVer->Append("Star Wars: Galactic Battlegrounds (1.0)");
@@ -350,6 +351,7 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
             break;
         }
         case EV_TC:
+        case EV_UP:
         case EV_TCV:
         {
             wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires II: The Conquerors Expansion\\1.0");

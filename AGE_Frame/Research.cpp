@@ -417,31 +417,31 @@ void AGE_Frame::CreateResearchControls()
     Research_ScrollSpace = new wxBoxSizer(wxVERTICAL);
     Research_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
     Research_Name_Text[0] = new SolidText(Research_Scroller, " Internal Name");
-    Research_Name[0] = AGETextCtrl::init(CString, &uiGroupResearch, this, &popUp, Research_Scroller, lengthiest);
+    Research_Name[0] = new StringControl(Research_Scroller,  this, &uiGroupResearch, lengthiest, false);
     Research_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
     Research_Name_Text[1] = new SolidText(Research_Scroller, " Internal Name 2");
-    Research_Name[1] = AGETextCtrl::init(CString, &uiGroupResearch, this, &popUp, Research_Scroller, lengthiest);
+    Research_Name[1] = new StringControl(Research_Scroller,  this, &uiGroupResearch, lengthiest, false);
     Research_LangDLLName_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LangDLLName_Text = new SolidText(Research_Scroller, " Language File Name *");
-    Research_LangDLLName = AGETextCtrl::init(CUShort, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Research_LangDLLName = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch, false);
     Research_LangDLLName->SetToolTip("Usual Technology File Pattern for The Conquerors\nName: 7000-7999\n"
         "Description: Name +1000\nHelp: Name +100000, in file Name +21000\n"
         "Tech tree: Name +150000, in file Name +10000");
     Research_DLL_LangDLLName = new TextCtrl_DLL(Research_Scroller, wxSize(AGETextCtrl::GIANT, 40));
     Research_LangDLLDescription_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LangDLLDescription_Text = new SolidText(Research_Scroller, " Language File Description");
-    Research_LangDLLDescription = AGETextCtrl::init(CUShort, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Research_LangDLLDescription = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch, false);
     Research_DLL_LangDLLDescription = new TextCtrl_DLL(Research_Scroller, wxSize(320, 40));
     Research_HotKey_Holder = new wxBoxSizer(wxVERTICAL);
     Research_HotKey_Text = new SolidText(Research_Scroller, " Hotkey *");
-    Research_HotKey = AGETextCtrl::init(CLong, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Research_HotKey = new NumberControl(CLong, Research_Scroller, this, &uiGroupResearch, false);
     Research_HotKey->SetToolTip("Gotta be same as hotkey in units.\nNo idea how this works.");
     Research_DLL_HotKey = new TextCtrl_DLL(Research_Scroller, wxSize(100, 40));
 
     Research_LanguageDLLHelp_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LanguageDLLName2_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LanguageDLLHelp_Text = new SolidText(Research_Scroller, " Language File Help *");
-    Research_LanguageDLLHelp = AGETextCtrl::init(CLong, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Research_LanguageDLLHelp = new NumberControl(CLong, Research_Scroller, this, &uiGroupResearch, false);
     Research_LanguageDLLHelp->SetToolTip("100000 + Language File Name");
     Research_LanguageDLLConverter_Holder[0] = new wxBoxSizer(wxVERTICAL);
     Research_LanguageDLLConverter_Text[0] = new SolidText(Research_Scroller, " Help Converter *");
@@ -449,7 +449,7 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLConverter[0]->SetToolTip("Language popup text in file\nHit enter to get the correction into dat file");
     Research_DLL_LanguageDLLHelp = new TextCtrl_DLL(Research_Scroller, wxSize(610, 40));
     Research_LanguageDLLName2_Text = new SolidText(Research_Scroller, " Lang File Tech Tree *");
-    Research_LanguageDLLName2 = AGETextCtrl::init(CLong, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Research_LanguageDLLName2 = new NumberControl(CLong, Research_Scroller, this, &uiGroupResearch, false);
     Research_LanguageDLLName2->SetToolTip("150000 + Language File Name");
     Research_LanguageDLLConverter_Holder[1] = new wxBoxSizer(wxVERTICAL);
     Research_LanguageDLLConverter_Text[1] = new SolidText(Research_Scroller, " Tech Tree Converter *");
@@ -468,49 +468,49 @@ void AGE_Frame::CreateResearchControls()
 
     for(size_t loop = 0; loop < 6; ++loop)
     {
-        Research_RequiredTechs[loop] = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-        Research_RequiredTechs_ComboBox[loop] = new ComboBox_Plus1(Research_Scroller, Research_RequiredTechs[loop], &research_names, AGETextCtrl::NORMAL);
+        Research_RequiredTechs[loop] = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
+        Research_RequiredTechs_ComboBox[loop] = new LinkedComboBox(Research_Scroller, Research_RequiredTechs[loop], &research_names, true, AGETextCtrl::NORMAL);
         ResearchComboBoxList.push_back(Research_RequiredTechs_ComboBox[loop]);
     }
     Research_RequiredTechCount_Holder = new wxBoxSizer(wxVERTICAL);
     Research_RequiredTechCount_Text = new SolidText(Research_Scroller, " Min Req Techs");
-    Research_RequiredTechCount = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Research_RequiredTechCount = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
     Research_Type_Holder = new wxBoxSizer(wxVERTICAL);
     Research_Type_Text = new SolidText(Research_Scroller, " Type *");
-    Research_Type = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Research_Type = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
     Research_Type->SetToolTip("AoK+\n0   Normal\n2   Show progress in age bar.\nAoE/RoR: Used to track similar\ntechnologies for modding purposes,\nwithout actual usage in the game.");
     Research_ResearchTime_Holder = new wxBoxSizer(wxVERTICAL);
     Research_ResearchTime_Text = new SolidText(Research_Scroller, " Research Time");
-    Research_ResearchTime = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Research_ResearchTime = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
     Research_IconID_Holder = new wxBoxSizer(wxVERTICAL);
     Research_IconID_Text = new SolidText(Research_Scroller, " Icon");
-    Research_IconID = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Research_IconID = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch, false);
     Research_IconID_SLP = new APanel(Research_Scroller, wxSize(55, 50));
     Research_ButtonID_Holder = new wxBoxSizer(wxVERTICAL);
     Research_ButtonID_Text = new SolidText(Research_Scroller, " Button");
-    Research_ButtonID = AGETextCtrl::init(CByte, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Research_ButtonID = new NumberControl(CUByte, Research_Scroller, this, &uiGroupResearch);
     Techs_Repeatable_Holder = new wxBoxSizer(wxVERTICAL);
     Techs_Repeatable_Text = new SolidText(Research_Scroller, " Repeatable");
-    Techs_Repeatable = AGETextCtrl::init(CByte, &uiGroupResearch, this, &popUp, Research_Scroller);
+    Techs_Repeatable = new NumberControl(CUByte, Research_Scroller, this, &uiGroupResearch);
     Research_TechID_Holder = new wxBoxSizer(wxVERTICAL);
     Research_TechID_Text = new SolidText(Research_Scroller, " Effect");
-    Research_TechID = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-    Research_TechID_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_TechID, &tech_names);
+    Research_TechID = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
+    Research_TechID_ComboBox = new LinkedComboBox(Research_Scroller, Research_TechID, &tech_names);
     TechComboBoxList.push_back(Research_TechID_ComboBox);
     Research_ResearchLocation_Holder = new wxBoxSizer(wxVERTICAL);
     Research_ResearchLocation_Text = new SolidText(Research_Scroller, " Research Location");
-    Research_ResearchLocation = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-    Research_ResearchLocation_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_ResearchLocation, &unit_names);
+    Research_ResearchLocation = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
+    Research_ResearchLocation_ComboBox = new LinkedComboBox(Research_Scroller, Research_ResearchLocation, &unit_names);
     UnitComboBoxList.push_back(Research_ResearchLocation_ComboBox);
     Research_Civ_Holder = new wxBoxSizer(wxVERTICAL);
     Research_Civ_Text = new SolidText(Research_Scroller, " Civilization");
-    Research_Civ = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-    Research_Civ_ComboBox = new ComboBox_Plus1(Research_Scroller, Research_Civ, &civ_names);
+    Research_Civ = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
+    Research_Civ_ComboBox = new LinkedComboBox(Research_Scroller, Research_Civ, &civ_names);
     CivComboBoxList.push_back(Research_Civ_ComboBox);
     Research_FullTechMode_Holder = new wxBoxSizer(wxVERTICAL);
     Research_FullTechMode_Text = new SolidText(Research_Scroller, " Full Tech Mode");
-    Research_FullTechMode = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-    Research_FullTechMode_CheckBox = new CheckBox_2State(Research_Scroller, "Available", Research_FullTechMode);
+    Research_FullTechMode = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
+    Research_FullTechMode_CheckBox = new LinkedCheckBox(Research_Scroller, "Available", Research_FullTechMode);
 
     Research_CostHeader_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Research_Scroller, "Costs");
     Research_Cost_Texts = new wxBoxSizer(wxVERTICAL);
@@ -521,12 +521,12 @@ void AGE_Frame::CreateResearchControls()
     Research_Used_Text = new SolidText(Research_Scroller, "Deduct", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(90, -1));
     for(size_t loop = 0; loop < 3; ++loop)
     {
-        Research_Resources[loop] = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-        Research_Resources_ComboBox[loop] = new ComboBox_Plus1(Research_Scroller, Research_Resources[loop], &resource_names);
+        Research_Resources[loop] = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
+        Research_Resources_ComboBox[loop] = new LinkedComboBox(Research_Scroller, Research_Resources[loop], &resource_names);
         ResourceComboBoxList.push_back(Research_Resources_ComboBox[loop]);
-        Research_Amount[loop] = AGETextCtrl::init(CShort, &uiGroupResearch, this, &popUp, Research_Scroller);
-        Research_Used[loop] = AGETextCtrl::init(CByte, &uiGroupResearch, this, &popUp, Research_Scroller, AGETextCtrl::SMALL);
-        Research_Used_CheckBox[loop] = new CheckBox_2State(Research_Scroller, "Paid", Research_Used[loop]);
+        Research_Amount[loop] = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
+        Research_Used[loop] = new NumberControl(CUByte, Research_Scroller, this, &uiGroupResearch, true, AGETextCtrl::SMALL);
+        Research_Used_CheckBox[loop] = new LinkedCheckBox(Research_Scroller, "Paid", Research_Used[loop]);
     }
 
     /*Translations.Write("Global/And", langGlobalAnd);
@@ -703,12 +703,25 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLConverter[0]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::ResearchLangDLLConverter, this);
     Research_LanguageDLLConverter[1]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::ResearchLangDLLConverter, this);
 
-    Research_LangDLLName->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
-    Research_LangDLLName->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
+    auto TrySaveThenListResearches = [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListResearches();
+        }
+    };
+    auto SaveThenListResearches = [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListResearches();
+    };
+    Research_LangDLLName->Bind(wxEVT_KILL_FOCUS, TrySaveThenListResearches);
+    Research_LangDLLName->Bind(wxEVT_TEXT_ENTER, SaveThenListResearches);
     Research_LangDLLDescription->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
     Research_LangDLLDescription->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
-    Research_Name[0]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
-    Research_Name[0]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
+    Research_Name[0]->Bind(wxEVT_KILL_FOCUS, TrySaveThenListResearches);
+    Research_Name[0]->Bind(wxEVT_TEXT_ENTER, SaveThenListResearches);
     Research_Name[1]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
     Research_Name[1]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
     Research_LanguageDLLHelp->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
@@ -728,28 +741,19 @@ void AGE_Frame::CreateResearchControls()
     Research_IconID_SLP->Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});
 }
 
-void AGE_Frame::OnSaveEdits_Research(int id)
-{
-    if(id == Research_Name[0]->GetId() || id == Research_LangDLLName->GetId())
-    {
-        ListResearches();
-    }
-    else
-    {
-        wxCommandEvent e;
-        OnResearchSelect(e);
-    }
-}
-
 void AGE_Frame::OnEnter_Research(wxCommandEvent &event)
 {
     static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
-    OnSaveEdits_Research(event.GetId());
+    wxCommandEvent e;
+    OnResearchSelect(e);
 }
 
 void AGE_Frame::OnKillFocus_Research(wxFocusEvent &event)
 {
     event.Skip();
-    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
-    OnSaveEdits_Research(event.GetId());
+    if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+    {
+        wxCommandEvent e;
+        OnResearchSelect(e);
+    }
 }

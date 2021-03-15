@@ -56,6 +56,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("Interaction/DrawTerrain", &DrawTerrain, true);
         Config.Read("Interaction/FilterAllSubs", &FilterAllSubs, true);
         Config.Read("Interaction/PlaySounds", &PlaySounds, true);
+        Config.Read("Interaction/NeverHideAttributes", &NeverHideAttributes, false);
         Config.Read("Interface/ShowUnknowns", &ShowUnknowns, true);
         Config.Read("Interface/ResizeTerrains", &ResizeTerrains, false);
         Config.Read("Interface/StayOnTop", &StayOnTop, false);
@@ -160,6 +161,8 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     SubMenu_Options->AppendCheckItem(eStayOnTop, "&Stay on top");
     SubMenu_Options->Check(eStayOnTop, StayOnTop);
     SubMenu_Options->Append(eBoxWidth, "Set &width of the boxes");
+    SubMenu_Options->AppendCheckItem(eNeverHide, "Never hide &attributes");
+    SubMenu_Options->Check(eNeverHide, NeverHideAttributes);
 
     SubMenu_SLP = new wxMenu();
     SubMenu_SLP->AppendCheckItem(eShowSLP, "Show &graphics");
@@ -324,6 +327,10 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 
     event.SetId(eButtons);
     event.SetInt(ResizeTerrains);
+    OnMenuOption(event);
+
+    event.SetId(eNeverHide);
+    event.SetInt(NeverHideAttributes);
     OnMenuOption(event);
 
     if(StayOnTop)
