@@ -1,10 +1,22 @@
 #include "AGE_TextControls.h"
+#include "AGE_Frame.h"
 
-const wxString AGEBaseCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
-const wxString AGEBaseCtrl::BWTITLE = "Incorrect batch script!";
-const wxString AGEBaseCtrl::IETITLE = "Invalid entry!";
+const wxString AGETextCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
+const wxString AGETextCtrl::BWTITLE = "Incorrect batch script!";
+const wxString AGETextCtrl::IETITLE = "Invalid entry!";
 const unsigned short lengthiest = 0x7FFF;
-unsigned AGETextCtrl::SMALL=50, AGETextCtrl::MEDIUM=70, AGETextCtrl::NORMAL=100, AGETextCtrl::LARGE=150, AGETextCtrl::GIANT=200;
+unsigned AGETextCtrl::SMALL = 50;
+unsigned AGETextCtrl::MEDIUM = 70;
+unsigned AGETextCtrl::NORMAL = 100;
+unsigned AGETextCtrl::LARGE = 150;
+unsigned AGETextCtrl::GIANT = 200;
+
+ProperList::ProperList(wxWindow* parent, const wxSize& size) :
+    wxVListBox(parent, wxID_ANY, wxDefaultPosition, size, wxLB_INT_HEIGHT | wxLB_MULTIPLE)//wxLB_EXTENDED)
+{
+    SetItemCount(0);
+    row_height = GetCharHeight();
+}
 
 void ProperList::OnDrawItem(wxDC &dc, const wxRect &rect, size_t n) const
 {
@@ -36,103 +48,145 @@ void ProperList::EnsureVisible(size_t n)
     }
 }
 
-AGETextCtrl* AGETextCtrl::init(const ContainerType type, vector<AGETextCtrl*> *group,
-    wxFrame *frame, DelayedPopUp *editor, wxWindow *parent, unsigned length)
+LinkedControl::LinkedControl(AGETextCtrl* link) :
+    TextControl(link)
 {
-    AGETextCtrl* product;
-    switch(type)
-    {
-    case CByte: product = new TextCtrl_Byte(frame, editor, parent, length); break;
-    case CUByte: product = new TextCtrl_UByte(frame, editor, parent, length); break;
-    case CFloat: product = new TextCtrl_Float(frame, editor, parent, length); break;
-    case CLong: product = new TextCtrl_Long(frame, editor, parent, length); break;
-    case CULong: product = new TextCtrl_ULong(frame, editor, parent, length); break;
-    case CShort: product = new TextCtrl_Short(frame, editor, parent, length); break;
-    case CUShort: product = new TextCtrl_UShort(frame, editor, parent, length); break;
-    case CString: product = new TextCtrl_String(frame, editor, parent, length); break;
-    default: product = nullptr;
-    }
-    if(NULL != group) group->push_back(product);
-    return product;
+    TakeControl();
 }
 
-int TextCtrl_Byte::SaveEdits(bool forced)
+void LinkedControl::TakeControl(void)
 {
-    if(editor->hexMode || container.empty()) return 1;
-    if(editedFileId != editor->loadedFileId) return 1;
+    TextControl->LinkedBox = this;
+}
+
+AGETextCtrl::AGETextCtrl(wxWindow* parent, int width) :
+    wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxTE_PROCESS_ENTER),
+    LinkedBox(nullptr)
+{
+    numEdits = 0;
+}
+
+void AGETextCtrl::update()
+{
+    if (container.empty())
+    {
+        Clear();
+        Enable(false);
+        if (LinkedBox != nullptr)
+        {
+            LinkedBox->SetChoice(-1);
+            LinkedBox->EnableControl(false);
+        }
+        return;
+    }
+    editedFileId = frame->popUp.loadedFileId;
+    replenish();
+    Enable(true);
+}
+
+void AGETextCtrl::refill()
+{
+    if (container.empty())
+    {
+        Clear();
+        return;
+    }
+    editedFileId = frame->popUp.loadedFileId;
+    replenish();
+}
+
+bool AGETextCtrl::BatchCheck(string& value, short& batchMode) const
+{
+    if (value.size() < 3) return false;
+    switch ((char)value[1])
+    {
+        case '+': batchMode = 1; value = value.substr(2); return true;
+        case '-': batchMode = 2; value = value.substr(2); return true;
+        case '*': batchMode = 3; value = value.substr(2); return true;
+        case '/': batchMode = 4; value = value.substr(2); return true;
+        case '%': batchMode = 5; value = value.substr(2); return true;
+        default: return false;
+    }
+}
+
+void AGETextCtrl::HandleResults(int casted)
+{
+    if (LinkedBox != nullptr)
+    {
+        LinkedBox->SetChoice(casted);
+    }
+    frame->SetStatusText("Edits: " + lexical_cast<string>(frame->popUp.unSaved) + " + " + lexical_cast<string>(numEdits), 3);
+    frame->popUp.unSaved += numEdits;
+    numEdits = 0;
+}
+
+TextCtrl_DLL::TextCtrl_DLL(wxWindow* parent, wxSize dimensions) :
+    wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, dimensions, wxTE_MULTILINE),
+    index(0)
+{
+    Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent& event) {GetParent()->GetEventHandler()->ProcessEvent(event); });
+}
+
+NumberControl::NumberControl(ContainerType type, wxWindow* parent, AGE_Frame* frame,
+    vector<AGETextCtrl*>* group, bool connect, int width) :
+    AGETextCtrl(parent, width)
+{
+    this->frame = frame;
+    SetCastType(type);
+    if (connect)
+    {
+        Bind(wxEVT_KILL_FOCUS, &NumberControl::OnKillFocus, this);
+        Bind(wxEVT_TEXT_ENTER, &NumberControl::OnEnter, this);
+    }
+    if (nullptr != group)
+    {
+        group->push_back(this);
+    }
+}
+
+void NumberControl::SetCastType(const ContainerType type)
+{
+    switch (type)
+    {
+        case CUByte:
+            ShowNumber = &NumberControl::ShowNumberAsUByte;
+            SaveChanges = &NumberControl::SaveChangesAsUByte;
+            SetBackgroundColour(wxColour(255, 235, 215));
+            break;
+        case CFloat:
+            ShowNumber = &NumberControl::ShowNumberAsFloat;
+            SaveChanges = &NumberControl::SaveChangesAsFloat;
+            SetBackgroundColour(wxColour(255, 225, 255));
+            break;
+        case CLong:
+            ShowNumber = &NumberControl::ShowNumberAsLong;
+            SaveChanges = &NumberControl::SaveChangesAsLong;
+            SetBackgroundColour(wxColour(215, 255, 255));
+            break;
+        case CULong:
+            ShowNumber = &NumberControl::ShowNumberAsULong;
+            SaveChanges = &NumberControl::SaveChangesAsULong;
+            SetBackgroundColour(wxColour(215, 255, 255));
+            break;
+        case CShort:
+            ShowNumber = &NumberControl::ShowNumberAsShort;
+            SaveChanges = &NumberControl::SaveChangesAsShort;
+            SetBackgroundColour(wxColour(210, 230, 255));
+            break;
+    }
+}
+
+int NumberControl::SaveChangesAsUByte(bool forced)
+{
+    if(frame->popUp.hexMode || container.empty()) return 1;
+    if(editedFileId != frame->popUp.loadedFileId) return 1;
     string value = string(GetValue().mb_str());
     if(value.size() > 0)
     {
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            editor->post(BATCHWARNING, BWTITLE, NULL);
-            return 1;
-        }
-        try
-        {
-            int8_t casted = (int8_t)lexical_cast<short>(value);
-            if(lexical_cast<short>(value) == casted)
-            {
-                if(batchMode > 0)
-                {
-                    for(auto &pointer: container)
-                    {
-                        ++edits;
-                        switch(batchMode)
-                        {
-                            case 1: *(int8_t*)pointer += casted; break;
-                            case 2: *(int8_t*)pointer -= casted; break;
-                            case 3: *(int8_t*)pointer *= casted; break;
-                            case 4: *(int8_t*)pointer /= casted; break;
-                            case 5: *(int8_t*)pointer %= casted; break;
-                        }
-                    }
-                    ChangeValue(lexical_cast<string>((short)*(int8_t*)container.back()));
-                    HandleResults(*(int8_t*)container.back());
-                    return 0;
-                }
-                if(*(int8_t*)container.back() != casted || forced)
-                {
-                    for(auto &pointer: container)
-                    {
-                        ++edits;
-                        *(int8_t*)pointer = casted;
-                    }
-                    HandleResults(casted);
-                    return 0;
-                }
-            }
-            else
-            {
-                editor->post("Please enter a number from -128 to 127", IETITLE, this);
-                return 2;
-            }
-        }
-        catch(const bad_lexical_cast&)
-        {
-            editor->post("Please enter a number from -128 to 127", IETITLE, this);
-            return 2;
-        }
-    }
-    else
-    {
-        ChangeValue(lexical_cast<string>((short)*(int8_t*)container.back()));
-    }
-    return 1;
-}
-
-int TextCtrl_UByte::SaveEdits(bool forced)
-{
-    if(editor->hexMode || container.empty()) return 1;
-    if(editedFileId != editor->loadedFileId) return 1;
-    string value = string(GetValue().mb_str());
-    if(value.size() > 0)
-    {
-        short batchMode = 0;
-        if(value[0] == 'b' && !BatchCheck(value, batchMode))
-        {
-            editor->post(BATCHWARNING, BWTITLE, NULL);
+            frame->popUp.post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -144,7 +198,7 @@ int TextCtrl_UByte::SaveEdits(bool forced)
                 {
                     for(auto &pointer: container)
                     {
-                        ++edits;
+                        ++numEdits;
                         switch(batchMode)
                         {
                             case 1: *(uint8_t*)pointer += casted; break;
@@ -162,7 +216,7 @@ int TextCtrl_UByte::SaveEdits(bool forced)
                 {
                     for(auto &pointer: container)
                     {
-                        ++edits;
+                        ++numEdits;
                         *(uint8_t*)pointer = casted;
                     }
                     HandleResults(casted);
@@ -171,13 +225,12 @@ int TextCtrl_UByte::SaveEdits(bool forced)
             }
             else
             {
-                editor->post("Please enter a number from 0 to 255", IETITLE, this);
-                return 2;
+                boost::throw_exception(bad_lexical_cast(typeid(short), typeid(string)));
             }
         }
         catch(const bad_lexical_cast&)
         {
-            editor->post("Please enter a number from 0 to 255", IETITLE, this);
+            frame->popUp.post("Please enter a number from 0 to 255", IETITLE, this);
             return 2;
         }
     }
@@ -188,17 +241,17 @@ int TextCtrl_UByte::SaveEdits(bool forced)
     return 1;
 }
 
-int TextCtrl_Float::SaveEdits(bool forced)
+int NumberControl::SaveChangesAsFloat(bool forced)
 {
-    if(editor->hexMode || container.empty()) return 1;
-    if(editedFileId != editor->loadedFileId) return 1;
+    if(frame->popUp.hexMode || container.empty()) return 1;
+    if(editedFileId != frame->popUp.loadedFileId) return 1;
     string value = string(GetValue().mb_str());
     if(value.size() > 0)
     {
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            editor->post(BATCHWARNING, BWTITLE, NULL);
+            frame->popUp.post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -211,7 +264,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
             {
                 for(auto &pointer: container)
                 {
-                    ++edits;
+                    ++numEdits;
                     switch(batchMode)
                     {
                         case 1: *(float*)pointer += casted; break;
@@ -228,7 +281,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
             {
                 for(auto &pointer: container)
                 {
-                    ++edits;
+                    ++numEdits;
                     *(float*)pointer = casted;
                 }
                 HandleResults(casted);
@@ -237,7 +290,7 @@ int TextCtrl_Float::SaveEdits(bool forced)
         }
         catch(const bad_lexical_cast&)
         {
-            editor->post("Please enter a valid floating point number", IETITLE, this);
+            frame->popUp.post("Please enter a valid floating point number", IETITLE, this);
             return 2;
         }
     }
@@ -248,17 +301,17 @@ int TextCtrl_Float::SaveEdits(bool forced)
     return 1;
 }
 
-int TextCtrl_Long::SaveEdits(bool forced)
+int NumberControl::SaveChangesAsLong(bool forced)
 {
-    if(editor->hexMode || container.empty()) return 1;
-    if(editedFileId != editor->loadedFileId) return 1;
+    if(frame->popUp.hexMode || container.empty()) return 1;
+    if(editedFileId != frame->popUp.loadedFileId) return 1;
     string value = string(GetValue().mb_str());
     if(value.size() > 0)
     {
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            editor->post(BATCHWARNING, BWTITLE, NULL);
+            frame->popUp.post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -268,7 +321,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
             {
                 for(auto &pointer: container)
                 {
-                    ++edits;
+                    ++numEdits;
                     switch(batchMode)
                     {
                         case 1: *(int32_t*)pointer += casted; break;
@@ -286,7 +339,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
             {
                 for(auto &pointer: container)
                 {
-                    ++edits;
+                    ++numEdits;
                     *(int32_t*)pointer = casted;
                 }
                 HandleResults(casted);
@@ -295,7 +348,7 @@ int TextCtrl_Long::SaveEdits(bool forced)
         }
         catch(const bad_lexical_cast&)
         {
-            editor->post("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE, this);
+            frame->popUp.post("Please enter a number from -2 147 483 648 to 2 147 483 647", IETITLE, this);
             return 2;
         }
     }
@@ -306,17 +359,17 @@ int TextCtrl_Long::SaveEdits(bool forced)
     return 1;
 }
 
-int TextCtrl_ULong::SaveEdits(bool forced)
+int NumberControl::SaveChangesAsULong(bool forced)
 {
-    if(editor->hexMode || container.empty()) return 1;
-    if(editedFileId != editor->loadedFileId) return 1;
+    if(frame->popUp.hexMode || container.empty()) return 1;
+    if(editedFileId != frame->popUp.loadedFileId) return 1;
     string value = string(GetValue().mb_str());
     if(value.size() > 0)
     {
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            editor->post(BATCHWARNING, BWTITLE, NULL);
+            frame->popUp.post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -326,7 +379,7 @@ int TextCtrl_ULong::SaveEdits(bool forced)
             {
                 for(auto &pointer: container)
                 {
-                    ++edits;
+                    ++numEdits;
                     switch(batchMode)
                     {
                         case 1: *(uint32_t*)pointer += casted; break;
@@ -344,7 +397,7 @@ int TextCtrl_ULong::SaveEdits(bool forced)
             {
                 for(auto &pointer: container)
                 {
-                    ++edits;
+                    ++numEdits;
                     *(uint32_t*)pointer = casted;
                 }
                 HandleResults(casted);
@@ -353,7 +406,7 @@ int TextCtrl_ULong::SaveEdits(bool forced)
         }
         catch(const bad_lexical_cast&)
         {
-            editor->post("Please enter a number from 0 to 4 294 967 295", IETITLE, this);
+            frame->popUp.post("Please enter a number from 0 to 4 294 967 295", IETITLE, this);
             return 2;
         }
     }
@@ -364,17 +417,17 @@ int TextCtrl_ULong::SaveEdits(bool forced)
     return 1;
 }
 
-int TextCtrl_Short::SaveEdits(bool forced)
+int NumberControl::SaveChangesAsShort(bool forced)
 {
-    if(editor->hexMode || container.empty()) return 1;
-    if(editedFileId != editor->loadedFileId) return 1;
+    if(frame->popUp.hexMode || container.empty()) return 1;
+    if(editedFileId != frame->popUp.loadedFileId) return 1;
     string value = string(GetValue().mb_str());
     if(value.size() > 0)
     {
         short batchMode = 0;
         if(value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            editor->post(BATCHWARNING, BWTITLE, NULL);
+            frame->popUp.post(BATCHWARNING, BWTITLE, NULL);
             return 1;
         }
         try
@@ -384,7 +437,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
             {
                 for(auto &pointer: container)
                 {
-                    ++edits;
+                    ++numEdits;
                     switch(batchMode)
                     {
                         case 1: *(int16_t*)pointer += casted; break;
@@ -402,7 +455,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
             {
                 for(auto &pointer: container)
                 {
-                    ++edits;
+                    ++numEdits;
                     *(int16_t*)pointer = casted;
                 }
                 HandleResults(casted);
@@ -411,7 +464,7 @@ int TextCtrl_Short::SaveEdits(bool forced)
         }
         catch(const bad_lexical_cast&)
         {
-            editor->post("Please enter a number from -32 768 to 32 767", IETITLE, this);
+            frame->popUp.post("Please enter a number from -32 768 to 32 767", IETITLE, this);
             return 2;
         }
     }
@@ -422,142 +475,9 @@ int TextCtrl_Short::SaveEdits(bool forced)
     return 1;
 }
 
-int TextCtrl_UShort::SaveEdits(bool forced)
+void NumberControl::ShowNumberAsUByte()
 {
-    if(editor->hexMode || container.empty()) return 1;
-    if(editedFileId != editor->loadedFileId) return 1;
-    string value = string(GetValue().mb_str());
-    if(value.size() > 0)
-    {
-        short batchMode = 0;
-        if(value[0] == 'b' && !BatchCheck(value, batchMode))
-        {
-            editor->post(BATCHWARNING, BWTITLE, NULL);
-            return 1;
-        }
-        try
-        {
-            uint16_t casted = lexical_cast<uint16_t>(value);
-            if(batchMode > 0)
-            {
-                for(auto &pointer: container)
-                {
-                    ++edits;
-                    switch(batchMode)
-                    {
-                        case 1: *(uint16_t*)pointer += casted; break;
-                        case 2: *(uint16_t*)pointer -= casted; break;
-                        case 3: *(uint16_t*)pointer *= casted; break;
-                        case 4: *(uint16_t*)pointer /= casted; break;
-                        case 5: *(uint16_t*)pointer %= casted; break;
-                    }
-                }
-                ChangeValue(lexical_cast<string>(*(uint16_t*)container.back()));
-                HandleResults(*(uint16_t*)container.back());
-                return 0;
-            }
-            if(*(uint16_t*)container.back() != casted || forced)
-            {
-                for(auto &pointer: container)
-                {
-                    ++edits;
-                    *(uint16_t*)pointer = casted;
-                }
-                HandleResults(casted);
-                return 0;
-            }
-        }
-        catch(const bad_lexical_cast&)
-        {
-            editor->post("Please enter a number from 0 to 65 535", IETITLE, this);
-            return 2;
-        }
-    }
-    else
-    {
-        ChangeValue(lexical_cast<string>(*(uint16_t*)container.back()));
-    }
-    return 1;
-}
-
-int TextCtrl_String::SaveEdits(bool forced) // This may crash the program.
-{
-    if(container.empty()) return 1;
-    if(editedFileId != editor->loadedFileId) return 1;
-    string value = string(GetValue().mb_str());
-    if(*(string*)container.back() != value || forced) // Has been changed
-    {
-        // Broken, strings like "C-Bonus" are interpret as batch mode 2.
-        /*if(value.size() > 2)
-        {
-            short batchMode = 0;
-            BatchCheck(value, batchMode);
-            if(batchMode > 0)
-            {
-                for(auto &pointer: container)
-                {
-                    ++edits;
-                    string vasili = *(string*)pointer;
-                    switch(batchMode)
-                    {
-                        case 1: vasili += value; vasili = vasili.substr(0, maxSize); break;
-                        case 2: vasili = vasili.substr(0, vasili.size() - lexical_cast<int>(value)); break;
-                    }
-                    *(string*)pointer = vasili;
-                }
-                ChangeValue(*(string*)container.back());
-                HandleResults(0);
-                return 0;
-            }
-        }*/
-        if(value.size() <= maxSize)
-        {
-            for(auto &pointer: container)
-            {
-                ++edits;
-                *(string*)pointer = value; // replenish data field
-            }
-        }
-        else
-        {
-            value = value.substr(0, maxSize);
-            for(auto &pointer: container)
-            {
-                ++edits;
-                *(string*)pointer = value;
-            }
-            ChangeValue(*(string*)container.back());
-        }
-        HandleResults(0);
-        return 0;
-    }
-    return 1;
-}
-
-void TextCtrl_Byte::replenish()
-{
-    if(editor->hexMode)
-    {
-        stringbuf buffer;
-        ostream os (&buffer);
-        os << hex << setfill('0') << setw(2) << uppercase << (short)*(uint8_t*)container.back();
-        ChangeValue(buffer.str());
-    }
-    else
-    {
-        ChangeValue(lexical_cast<string>((short)*(int8_t*)container.back()));
-    }
-    if(!LinkedBoxes.empty())
-    for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
-    {
-        (*it)->SetChoice(*(int8_t*)container.back());
-        (*it)->EnableCtrl(true);
-    }
-}
-
-void TextCtrl_UByte::replenish()
-{
-    if(editor->hexMode)
+    if(frame->popUp.hexMode)
     {
         stringbuf buffer;
         ostream os (&buffer);
@@ -568,17 +488,16 @@ void TextCtrl_UByte::replenish()
     {
         ChangeValue(lexical_cast<string>((short)*(uint8_t*)container.back()));
     }
-    if(!LinkedBoxes.empty())
-    for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+    if(LinkedBox != nullptr)
     {
-        (*it)->SetChoice(*(uint8_t*)container.back());
-        (*it)->EnableCtrl(true);
+        LinkedBox->SetChoice(*(uint8_t*)container.back());
+        LinkedBox->EnableControl(true);
     }
 }
 
-void TextCtrl_Float::replenish()
+void NumberControl::ShowNumberAsFloat()
 {
-    if(editor->hexMode)
+    if(frame->popUp.hexMode)
     {
         stringbuf buffer;
         ostream os (&buffer);
@@ -587,7 +506,7 @@ void TextCtrl_Float::replenish()
     }
     else
     {
-        if(editor->accurateFloats)
+        if(frame->popUp.accurateFloats)
         {
             ChangeValue(lexical_cast<string>(*(float*)container.back()));
         }
@@ -601,17 +520,16 @@ void TextCtrl_Float::replenish()
             ChangeValue(buffer.str());
         }
     }
-    if(!LinkedBoxes.empty())
-    for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+    if(LinkedBox != nullptr)
     {
-        (*it)->SetChoice(*(float*)container.back());
-        (*it)->EnableCtrl(true);
+        LinkedBox->SetChoice(*(float*)container.back());
+        LinkedBox->EnableControl(true);
     }
 }
 
-void TextCtrl_Long::replenish()
+void NumberControl::ShowNumberAsLong()
 {
-    if(editor->hexMode)
+    if(frame->popUp.hexMode)
     {
         stringbuf buffer;
         ostream os (&buffer);
@@ -622,17 +540,16 @@ void TextCtrl_Long::replenish()
     {
         ChangeValue(lexical_cast<string>(*(int32_t*)container.back()));
     }
-    if(!LinkedBoxes.empty())
-    for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+    if(LinkedBox != nullptr)
     {
-        (*it)->SetChoice(*(int32_t*)container.back());
-        (*it)->EnableCtrl(true);
+        LinkedBox->SetChoice(*(int32_t*)container.back());
+        LinkedBox->EnableControl(true);
     }
 }
 
-void TextCtrl_ULong::replenish()
+void NumberControl::ShowNumberAsULong()
 {
-    if(editor->hexMode)
+    if(frame->popUp.hexMode)
     {
         stringbuf buffer;
         ostream os (&buffer);
@@ -643,17 +560,16 @@ void TextCtrl_ULong::replenish()
     {
         ChangeValue(lexical_cast<string>(*(uint32_t*)container.back()));
     }
-    if(!LinkedBoxes.empty())
-    for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+    if(LinkedBox != nullptr)
     {
-        (*it)->SetChoice(*(uint32_t*)container.back());
-        (*it)->EnableCtrl(true);
+        LinkedBox->SetChoice(*(uint32_t*)container.back());
+        LinkedBox->EnableControl(true);
     }
 }
 
-void TextCtrl_Short::replenish()
+void NumberControl::ShowNumberAsShort()
 {
-    if(editor->hexMode)
+    if(frame->popUp.hexMode)
     {
         stringbuf buffer;
         ostream os (&buffer);
@@ -664,36 +580,85 @@ void TextCtrl_Short::replenish()
     {
         ChangeValue(lexical_cast<string>(*(int16_t*)container.back()));
     }
-    if(!LinkedBoxes.empty())
-    for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
+    if(LinkedBox != nullptr)
     {
-        (*it)->SetChoice(*(int16_t*)container.back());
-        (*it)->EnableCtrl(true);
+        LinkedBox->SetChoice(*(int16_t*)container.back());
+        LinkedBox->EnableControl(true);
     }
 }
 
-void TextCtrl_UShort::replenish()
+StringControl::StringControl(wxWindow* parent, AGE_Frame* frame, vector<AGETextCtrl*>* group,
+    unsigned length, bool connect) :
+    AGETextCtrl(parent, AGETextCtrl::GIANT), maxSize(length)
 {
-    if(editor->hexMode)
+    this->frame = frame;
+    SetBackgroundColour(wxColour(220, 255, 220));
+    if (connect)
     {
-        stringbuf buffer;
-        ostream os (&buffer);
-        os << hex << setfill('0') << setw(4) << uppercase << *(uint16_t*)container.back();
-        ChangeValue(buffer.str());
+        Bind(wxEVT_KILL_FOCUS, &StringControl::OnKillFocus, this);
+        Bind(wxEVT_TEXT_ENTER, &StringControl::OnEnter, this);
     }
-    else
+    if (nullptr != group)
     {
-        ChangeValue(lexical_cast<string>(*(uint16_t*)container.back()));
-    }
-    if(!LinkedBoxes.empty())
-    for(auto it = LinkedBoxes.begin(); it != LinkedBoxes.end(); ++it)
-    {
-        (*it)->SetChoice(*(uint16_t*)container.back());
-        (*it)->EnableCtrl(true);
+        group->push_back(this);
     }
 }
 
-void TextCtrl_String::replenish()
+int StringControl::SaveEdits(bool forced) // This may crash the program.
+{
+    if (container.empty()) return 1;
+    if (editedFileId != frame->popUp.loadedFileId) return 1;
+    string value = string(GetValue().mb_str());
+    if (*(string*)container.back() != value || forced) // Has been changed
+    {
+        // Broken, strings like "C-Bonus" are interpret as batch mode 2.
+        /*if(value.size() > 2)
+        {
+            short batchMode = 0;
+            BatchCheck(value, batchMode);
+            if(batchMode > 0)
+            {
+                for(auto &pointer: container)
+                {
+                    ++numEdits;
+                    string vasili = *(string*)pointer;
+                    switch(batchMode)
+                    {
+                        case 1: vasili += value; vasili = vasili.substr(0, maxSize); break;
+                        case 2: vasili = vasili.substr(0, vasili.size() - lexical_cast<int>(value)); break;
+                    }
+                    *(string*)pointer = vasili;
+                }
+                ChangeValue(*(string*)container.back());
+                HandleResults(0);
+                return 0;
+            }
+        }*/
+        if (value.size() <= maxSize)
+        {
+            for (auto& pointer : container)
+            {
+                ++numEdits;
+                *(string*)pointer = value; // replenish data field
+            }
+        }
+        else
+        {
+            value = value.substr(0, maxSize);
+            for (auto& pointer : container)
+            {
+                ++numEdits;
+                *(string*)pointer = value;
+            }
+            ChangeValue(*(string*)container.back());
+        }
+        HandleResults(0);
+        return 0;
+    }
+    return 1;
+}
+
+void StringControl::replenish()
 {
     ChangeValue(*(string*)container.back());
 }

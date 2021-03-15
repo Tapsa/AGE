@@ -201,9 +201,15 @@ void AGE_Frame::OnCivCountChange()
     for(size_t loop = 0; loop < CivCount; ++loop)
     {
         if(GenieVersion < genie::GV_SWGB)
-        Units_CivBoxes[loop]->SetLabel(dataset->Civs[loop].Name.substr(0, 2));
+        {
+            Units_CivBoxes[loop]->SetLabel(dataset->Civs[loop].Name.substr(0, 2));
+            Units_CivBoxes[loop]->SetToolTip(dataset->Civs[loop].Name);
+        }
         else
-        Units_CivBoxes[loop]->SetLabel(dataset->Civs[loop].Name2.substr(0, 2));
+        {
+            Units_CivBoxes[loop]->SetLabel(dataset->Civs[loop].Name2.substr(0, 2));
+            Units_CivBoxes[loop]->SetToolTip(dataset->Civs[loop].Name2);
+        }
     }
     ListCivs();
     Units_DataArea->Layout();
@@ -393,39 +399,39 @@ void AGE_Frame::CreateCivControls()
     Civs_DataGrid3 = new wxGridSizer(2, 0, 0);
     Civs_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
     Civs_Name_Text[0] = new SolidText(Tab_Civs, " Internal Name");
-    Civs_Name[0] = AGETextCtrl::init(CString, &uiGroupCiv, this, &popUp, Tab_Civs, 20);
+    Civs_Name[0] = new StringControl(Tab_Civs, this, &uiGroupCiv, 20, false);
     Civs_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
     Civs_Name_Text[1] = new SolidText(Tab_Civs, " Internal Name 2");
-    Civs_Name[1] = AGETextCtrl::init(CString, &uiGroupCiv, this, &popUp, Tab_Civs, 20);
+    Civs_Name[1] = new StringControl(Tab_Civs, this, &uiGroupCiv, 20, false);
     Civs_One_Holder = new wxBoxSizer(wxVERTICAL);
     Civs_One_Text = new SolidText(Tab_Civs, " Player Type *");
-    Civs_One = AGETextCtrl::init(CByte, &uiGroupCiv, this, &popUp, Tab_Civs);
+    Civs_One = new NumberControl(CUByte, Tab_Civs, this, &uiGroupCiv);
     Civs_One->SetToolTip("Forced to use 1\n0   Default\n1   Player\n2   Gaia Player\n3   AI Player");
     Civs_GraphicSet_Holder = new wxBoxSizer(wxVERTICAL);
     Civs_GraphicSet_Text = new SolidText(Tab_Civs, " Icon Set *");
-    Civs_GraphicSet = AGETextCtrl::init(CByte, &uiGroupCiv, this, &popUp, Tab_Civs);
+    Civs_GraphicSet = new NumberControl(CUByte, Tab_Civs, this, &uiGroupCiv, false);
     Civs_GraphicSet->SetToolTip("Building icon set (and trade cart graphics?)\nThis is actually an offset used to look up SLPs inside the DRS file\nAoE 1: also determines the interface graphics used\nStar Wars: also determines unit and tech icons");
     Civs_TechTree_Holder = new wxBoxSizer(wxVERTICAL);
     Civs_TechTree_Text = new SolidText(Tab_Civs, " Technology Tree");
-    Civs_TechTree = AGETextCtrl::init(CShort, &uiGroupCiv, this, &popUp, Tab_Civs);
-    Civs_TechTree_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TechTree, &tech_names);
+    Civs_TechTree = new NumberControl(CShort, Tab_Civs, this, &uiGroupCiv);
+    Civs_TechTree_ComboBox = new LinkedComboBox(Tab_Civs, Civs_TechTree, &tech_names);
     TechComboBoxList.push_back(Civs_TechTree_ComboBox);
     Civs_TeamBonus_Holder = new wxBoxSizer(wxVERTICAL);
     Civs_TeamBonus_Text = new SolidText(Tab_Civs, " Team Bonus");
-    Civs_TeamBonus = AGETextCtrl::init(CShort, &uiGroupCiv, this, &popUp, Tab_Civs);
-    Civs_TeamBonus_ComboBox = new ComboBox_Plus1(Tab_Civs, Civs_TeamBonus, &tech_names);
+    Civs_TeamBonus = new NumberControl(CShort, Tab_Civs, this, &uiGroupCiv);
+    Civs_TeamBonus_ComboBox = new LinkedComboBox(Tab_Civs, Civs_TeamBonus, &tech_names);
     TechComboBoxList.push_back(Civs_TeamBonus_ComboBox);
     Civs_SUnknown1_Holder = new wxBoxSizer(wxVERTICAL);
     Civs_SUnknown1_Text = new SolidText(Tab_Civs, " Unique Units / Techs");
     for(size_t loop = 0; loop < 4; ++loop)
-    Civs_SUnknown1[loop] = AGETextCtrl::init(CShort, &uiGroupCiv, this, &popUp, Tab_Civs);
+    Civs_SUnknown1[loop] = new NumberControl(CShort, Tab_Civs, this, &uiGroupCiv);
 
     Civs_Resources = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Initial Resources");
     Civs_Resources_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
     Civs_Resources_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
     Civs_ResourceValue_Holder = new wxBoxSizer(wxVERTICAL);
     Civs_ResourceValue_Text = new SolidText(Tab_Civs, " Resource Value");
-    Civs_ResourceValue = AGETextCtrl::init(CFloat, NULL, this, &popUp, Tab_Civs);
+    Civs_ResourceValue = new NumberControl(CFloat, Tab_Civs, this, nullptr, false);
     Civs_Resources_ListV = new ProperList(Tab_Civs, wxSize(200, 100));
     Civs_Resources_Buttons = new wxGridSizer(3, 0, 0);
     Resources_Add = new wxButton(Tab_Civs, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
@@ -527,48 +533,58 @@ void AGE_Frame::CreateCivControls()
 
     for(size_t loop = 0; loop < 2; ++loop)
     {
-        Civs_Name[loop]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Civs, this);
-        Civs_Name[loop]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Civs, this);
-    }
-    Civs_GraphicSet->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Civs, this);
-    Civs_GraphicSet->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Civs, this);
-    Civs_ResourceValue->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Civs, this);
-    Civs_ResourceValue->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Civs, this);
-}
-
-void AGE_Frame::OnSaveEdits_Civs(int id)
-{
-    if(id == Civs_Name[0]->GetId()
-    || id == Civs_Name[1]->GetId())
-    {
-        for(auto const &ID: CivIDs)
+        Civs_Name[loop]->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
         {
-            if(GenieVersion < genie::GV_SWGB)
-            Units_CivBoxes[ID]->SetLabel(dataset->Civs[ID].Name.substr(0, 2));
-            else
-            Units_CivBoxes[ID]->SetLabel(dataset->Civs[ID].Name2.substr(0, 2));
+            event.Skip();
+            if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+            {
+                for (auto const& ID : CivIDs)
+                {
+                    if (GenieVersion < genie::GV_SWGB)
+                        Units_CivBoxes[ID]->SetLabel(dataset->Civs[ID].Name.substr(0, 2));
+                    else
+                        Units_CivBoxes[ID]->SetLabel(dataset->Civs[ID].Name2.substr(0, 2));
+                }
+                ListCivs();
+            }
+        });
+        Civs_Name[loop]->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+        {
+            static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+            for (auto const& ID : CivIDs)
+            {
+                if (GenieVersion < genie::GV_SWGB)
+                    Units_CivBoxes[ID]->SetLabel(dataset->Civs[ID].Name.substr(0, 2));
+                else
+                    Units_CivBoxes[ID]->SetLabel(dataset->Civs[ID].Name2.substr(0, 2));
+            }
+            ListCivs();
+        });
+    }
+    Civs_GraphicSet->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListCivs();
         }
-        ListCivs();
-    }
-    else if(id == Civs_GraphicSet->GetId())
+    });
+    Civs_GraphicSet->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
     {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
         ListCivs();
-    }
-    else if(id == Civs_ResourceValue->GetId())
+    });
+    Civs_ResourceValue->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
     {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListResources();
+        }
+    });
+    Civs_ResourceValue->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
         ListResources();
-    }
-}
-
-void AGE_Frame::OnEnter_Civs(wxCommandEvent &event)
-{
-    static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
-    OnSaveEdits_Civs(event.GetId());
-}
-
-void AGE_Frame::OnKillFocus_Civs(wxFocusEvent &event)
-{
-    event.Skip();
-    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
-    OnSaveEdits_Civs(event.GetId());
+    });
 }

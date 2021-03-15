@@ -475,7 +475,7 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_ListV = new ProperList(Tab_TerrainBorders, wxSize(200, 220));
     Borders_UsedCountHolder = new wxBoxSizer(wxHORIZONTAL);
     Borders_UsedCountText = new SolidText(Tab_TerrainBorders, " Borders Used *");
-    Borders_UsedCount = AGETextCtrl::init(CUShort, NULL, this, &popUp, Tab_TerrainBorders);
+    Borders_UsedCount = new NumberControl(CShort, Tab_TerrainBorders, this, nullptr);
     Borders_UsedCount->SetToolTip("How many terrain borders are used\nstarting from the first border without gaps");
     Borders_Copy = new wxButton(Tab_TerrainBorders, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
     Borders_Paste = new wxButton(Tab_TerrainBorders, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
@@ -489,45 +489,45 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_Enabled_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Enabled1_Holder = new wxBoxSizer(wxHORIZONTAL);
     Borders_Enabled_Text = new SolidText(Tab_TerrainBorders, " Enabled");
-    Borders_Enabled = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, AGETextCtrl::SMALL);
-    Borders_Enabled_CheckBox = new CheckBox_2State(Tab_TerrainBorders, " Yes", Borders_Enabled);
+    Borders_Enabled = new NumberControl(CUByte, Tab_TerrainBorders, this, &uiGroupBorder, true, AGETextCtrl::SMALL);
+    Borders_Enabled_CheckBox = new LinkedCheckBox(Tab_TerrainBorders, " Yes", Borders_Enabled);
     Borders_Random_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Random_Text = new SolidText(Tab_TerrainBorders, " Random");
-    Borders_Random = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, AGETextCtrl::SMALL);
+    Borders_Random = new NumberControl(CUByte, Tab_TerrainBorders, this, &uiGroupBorder, true, AGETextCtrl::SMALL);
     for(size_t loop = 0; loop < 2; ++loop)
     {
         Borders_Name_Holder[loop] = new wxBoxSizer(wxVERTICAL);
-        Borders_Name[loop] = AGETextCtrl::init(CString, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, 13);
+        Borders_Name[loop] = new StringControl(Tab_TerrainBorders, this, &uiGroupBorder, 13, false);
     }
     Borders_Name_Text[0] = new SolidText(Tab_TerrainBorders, " Internal Name");
     Borders_Name_Text[1] = new SolidText(Tab_TerrainBorders, " Texture Filename");
     Borders_SLP_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_SLP_Text = new SolidText(Tab_TerrainBorders, " SLP");
-    Borders_SLP = AGETextCtrl::init(CLong, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_SLP = new NumberControl(CLong, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_ShapePtr_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_ShapePtr_Text = new SolidText(Tab_TerrainBorders, " Shape Pointer *");
-    Borders_ShapePtr = AGETextCtrl::init(CLong, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_ShapePtr = new NumberControl(CLong, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_ShapePtr->SetToolTip("Assigned using SHP Filename");
     Borders_Sound_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Sound_Text = new SolidText(Tab_TerrainBorders, " Sound");
-    Borders_Sound = AGETextCtrl::init(CLong, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_Sound = new NumberControl(CLong, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_Colors_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Colors_Grid = new wxGridSizer(3, 0, 0);
     Borders_Colors_Text = new SolidText(Tab_TerrainBorders, " Minimap Colors");
     for(size_t loop = 0; loop < 3; ++loop)
-    Borders_Colors[loop] = AGETextCtrl::init(CUByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders, AGETextCtrl::SMALL);
+    Borders_Colors[loop] = new NumberControl(CUByte, Tab_TerrainBorders, this, &uiGroupBorder, true, AGETextCtrl::SMALL);
     Borders_DrawTerrain_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_DrawTerrain_Text = new SolidText(Tab_TerrainBorders, " Draw Terrain");
-    Borders_DrawTerrain = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_DrawTerrain = new NumberControl(CShort, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_Terrain_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Terrain_Text = new SolidText(Tab_TerrainBorders, " Underlay Terrain *");
-    Borders_Terrain = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_Terrain = new NumberControl(CShort, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_Terrain->SetToolTip("Used for terrain passability check");
-    Borders_Terrain_ComboBox = new ComboBox_Plus1(Tab_TerrainBorders, Borders_Terrain, &terrain_names);
+    Borders_Terrain_ComboBox = new LinkedComboBox(Tab_TerrainBorders, Borders_Terrain, &terrain_names);
     TerrainComboBoxList.push_back(Borders_Terrain_ComboBox);
     Borders_BorderStyle_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_BorderStyle_Text = new SolidText(Tab_TerrainBorders, " Border Style *");
-    Borders_BorderStyle = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_BorderStyle = new NumberControl(CShort, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_BorderStyle->SetToolTip("This has something to do with all 19 tile types\nMickey's DAT had this removed and\ninstead added one border shape to each 19 tile types");
 
     Borders_FrameData = new wxBoxSizer(wxHORIZONTAL);
@@ -552,55 +552,55 @@ void AGE_Frame::CreateTerrainBorderControls()
     Borders_FrameArea_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_FrameID_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_FrameID_Text = new SolidText(Tab_TerrainBorders, " Frame Count");
-    Borders_FrameID = AGETextCtrl::init(CShort, &uiGroupBorderFrame, this, &popUp, Tab_TerrainBorders);
+    Borders_FrameID = new NumberControl(CShort, Tab_TerrainBorders, this, &uiGroupBorderFrame, false);
     Borders_Flag1_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Flag1_Text = new SolidText(Tab_TerrainBorders, " Animations");
-    Borders_Flag1 = AGETextCtrl::init(CShort, &uiGroupBorderFrame, this, &popUp, Tab_TerrainBorders);
+    Borders_Flag1 = new NumberControl(CShort, Tab_TerrainBorders, this, &uiGroupBorderFrame, false);
     Borders_Flag2_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Flag2_Text = new SolidText(Tab_TerrainBorders, " Frame Index");
-    Borders_Flag2 = AGETextCtrl::init(CShort, &uiGroupBorderFrame, this, &popUp, Tab_TerrainBorders);
+    Borders_Flag2 = new NumberControl(CShort, Tab_TerrainBorders, this, &uiGroupBorderFrame, false);
     Border_Shape_SLP = new APanel(Tab_TerrainBorders, wxSize(55, 50));
 
     Borders_Animation_Grid1 = new wxBoxSizer(wxHORIZONTAL);
     Borders_Animation_Grid2 = new wxBoxSizer(wxHORIZONTAL);
     Borders_IsAnimated_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_IsAnimated_Text = new SolidText(Tab_TerrainBorders, " Is Animated");
-    Borders_IsAnimated = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_IsAnimated = new NumberControl(CUByte, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_AnimationFrames_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_AnimationFrames_Text = new SolidText(Tab_TerrainBorders, " Anim Frames *");
-    Borders_AnimationFrames = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_AnimationFrames = new NumberControl(CShort, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_AnimationFrames->SetToolTip("Number of frames to animate through");
     Borders_PauseFames_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_PauseFames_Text = new SolidText(Tab_TerrainBorders, " Pause Fames *");
-    Borders_PauseFames = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_PauseFames = new NumberControl(CShort, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_PauseFames->SetToolTip("Number of frames to pause animation after last frame is drawn");
     Borders_Interval_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Interval_Text = new SolidText(Tab_TerrainBorders, " Interval *");
-    Borders_Interval = AGETextCtrl::init(CFloat, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_Interval = new NumberControl(CFloat, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_Interval->SetToolTip("Time between frames");
     Borders_PauseBetweenLoops_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_PauseBetweenLoops_Text = new SolidText(Tab_TerrainBorders, " Replay Delay *");
-    Borders_PauseBetweenLoops = AGETextCtrl::init(CFloat, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_PauseBetweenLoops = new NumberControl(CFloat, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_PauseBetweenLoops->SetToolTip("Time to pause after last frame");
     Borders_Frame_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Frame_Text = new SolidText(Tab_TerrainBorders, " Frame *");
-    Borders_Frame = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_Frame = new NumberControl(CShort, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_Frame->SetToolTip("The current frame (includes animation and pause frames)");
     Borders_DrawFrame_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_DrawFrame_Text = new SolidText(Tab_TerrainBorders, " Draw Frame *");
-    Borders_DrawFrame = AGETextCtrl::init(CShort, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_DrawFrame = new NumberControl(CShort, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_DrawFrame->SetToolTip("The current frame to draw");
     Borders_AnimateLast_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_AnimateLast_Text = new SolidText(Tab_TerrainBorders, " Animate Last *");
-    Borders_AnimateLast = AGETextCtrl::init(CFloat, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_AnimateLast = new NumberControl(CFloat, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_AnimateLast->SetToolTip("Last time animation frame was changed");
     Borders_FrameChanged_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_FrameChanged_Text = new SolidText(Tab_TerrainBorders, " Frame Changed *");
-    Borders_FrameChanged = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_FrameChanged = new NumberControl(CUByte, Tab_TerrainBorders, this, &uiGroupBorder);
     Borders_FrameChanged->SetToolTip("Has the Draw Frame changed since terrain was drawn?");
     Borders_Drawn_Holder = new wxBoxSizer(wxVERTICAL);
     Borders_Drawn_Text = new SolidText(Tab_TerrainBorders, " Drawn");
-    Borders_Drawn = AGETextCtrl::init(CByte, &uiGroupBorder, this, &popUp, Tab_TerrainBorders);
+    Borders_Drawn = new NumberControl(CUByte, Tab_TerrainBorders, this, &uiGroupBorder);
 
     for(size_t loop = 0; loop < 2; ++loop)
     {
@@ -761,8 +761,19 @@ void AGE_Frame::CreateTerrainBorderControls()
 
     for(size_t loop = 0; loop < 2; ++loop)
     {
-        Borders_Name[loop]->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Borders, this);
-        Borders_Name[loop]->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Borders, this);
+        Borders_Name[loop]->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+        {
+            event.Skip();
+            if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+            {
+                ListTerrainBorders();
+            }
+        });
+        Borders_Name[loop]->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+        {
+            static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+            ListTerrainBorders();
+        });
     }
     Borders_FrameID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Borders, this);
     Borders_FrameID->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Borders, this);
@@ -774,27 +785,17 @@ void AGE_Frame::CreateTerrainBorderControls()
     Border_Shape_SLP->Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});
 }
 
-void AGE_Frame::OnSaveEdits_Borders(int id)
-{
-    if(id == Borders_Name[0]->GetId() || id == Borders_Name[1]->GetId())
-    {
-        ListTerrainBorders();
-    }
-    else if(id == Borders_FrameID->GetId() || id == Borders_Flag1->GetId() || id == Borders_Flag2->GetId())
-    {
-        ListTerrainBorderTileTypes();
-    }
-}
-
 void AGE_Frame::OnEnter_Borders(wxCommandEvent &event)
 {
     static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
-    OnSaveEdits_Borders(event.GetId());
+    ListTerrainBorderTileTypes();
 }
 
 void AGE_Frame::OnKillFocus_Borders(wxFocusEvent &event)
 {
     event.Skip();
-    if(static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() != 0) return;
-    OnSaveEdits_Borders(event.GetId());
+    if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+    {
+        ListTerrainBorderTileTypes();
+    }
 }
