@@ -1,7 +1,16 @@
 #include "AGE_CheckBoxes.h"
 
-void CheckBox_2State::OnChoose(wxCommandEvent&)
+LinkedCheckBox::LinkedCheckBox(wxWindow* parent, wxString label, AGETextCtrl* link, bool connect) :
+    wxCheckBox(parent, wxID_ANY, label), LinkedControl(link)
 {
-    TextBox->ChangeValue(lexical_cast<string>(GetValue()));
-    TextBox->SaveEdits();
+    if (connect)
+    {
+        Bind(wxEVT_CHECKBOX, &LinkedCheckBox::OnChoose, this);
+    }
+}
+
+void LinkedCheckBox::OnChoose(wxCommandEvent&)
+{
+    TextControl->ChangeValue(lexical_cast<string>(GetValue()));
+    TextControl->SaveEdits();
 }

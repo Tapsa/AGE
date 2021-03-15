@@ -97,6 +97,7 @@ enum EditableVersion
     EV_AoKB,
     EV_AoK,
     EV_TC,
+    EV_UP,
     EV_TCV,
     EV_Cysion,
     EV_SWGB,
@@ -106,7 +107,7 @@ enum EditableVersion
     EV_DE2
 };
 
-enum ContainerType {CByte, CUByte, CFloat, CLong, CULong, CShort, CUShort, CString};
+enum ContainerType {CUByte, CFloat, CLong, CULong, CShort};
 
 class SolidText: public wxStaticText
 {

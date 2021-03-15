@@ -22,6 +22,7 @@ genie::GameVersion AGE_Frame::version(int ver)
         case EV_AoKB: return genie::GV_AoKB;
         case EV_AoK: return genie::GV_AoK;
         case EV_TC: return genie::GV_TC;
+        case EV_UP: return genie::GV_TC;
         case EV_TCV: return genie::GV_TCV;
         case EV_Cysion: return genie::GV_Cysion;
         case EV_DE2: return genie::GV_C2;
@@ -1702,6 +1703,21 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         }
         Effects_C_ComboBox->Flash();
 
+        modify_research_names.Clear();
+        if(EditorVersion == EV_UP)
+        {
+            modify_research_names.Add("-1 - Set Time");
+            modify_research_names.Add("-2 - Add Time");
+            modify_research_names.Add("0 - Set Food Cost");
+            modify_research_names.Add("1 - Set Wood Cost");
+            modify_research_names.Add("2 - Set Stone Cost");
+            modify_research_names.Add("3 - Set Gold Cost");
+            modify_research_names.Add("16384 - Add Food Cost");
+            modify_research_names.Add("16385 - Add Wood Cost");
+            modify_research_names.Add("16386 - Add Stone Cost");
+            modify_research_names.Add("16387 - Add Gold Cost");
+        }
+
         graphicset_names.Clear();
         if(GenieVersion < genie::GV_AoKA)
         {
@@ -1766,10 +1782,31 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         {
             effect_type_names.Add("6 - Resource Modifier (Multiply)");
         }
-        if(GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2)
+        if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
         {
             effect_type_names.Add("7 - Spawn Unit");
-            effect_type_names.Add("10 - Team Attribute Modifier (Set)");    // Selection 8
+        }
+        else if (EditorVersion == EV_UP)
+        {
+            effect_type_names.Add("7 - Enable/Disable/Force Multiuse Tech");
+        }
+        else
+        {
+            effect_type_names.Add("7 - AoK UP and DE only");
+        }
+        if(EditorVersion == EV_UP)
+        {
+            effect_type_names.Add("8 - Modify Tech");
+            effect_type_names.Add("9 - Set Player Civ Name");
+        }
+        else
+        {
+            effect_type_names.Add("8 - UP 1.5 only");
+            effect_type_names.Add("9 - UP 1.5 only");
+        }
+        if(GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2 || EditorVersion == EV_UP)
+        {
+            effect_type_names.Add("10 - Team Attribute Modifier (Set)");
             effect_type_names.Add("11 - Team Resource Modifier (Set/+/-)");
             effect_type_names.Add("12 - Team Enable/Disable Unit");
             effect_type_names.Add("13 - Team Upgrade Unit");
@@ -1779,9 +1816,39 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         }
         else
         {
-            effect_type_names.Add("7 - AoK DE only");
             for(size_t loop = 10; loop < 17; ++loop)
-            effect_type_names.Add(lexical_cast<string>(loop) + " - AoK HD only");
+            effect_type_names.Add(lexical_cast<string>(loop) + " - AoK UP, HD and DE only");
+        }
+        if(EditorVersion == EV_UP)
+        {
+            effect_type_names.Add("17 - Team Enable/Disable/Force Multiuse Tech");
+            effect_type_names.Add("18 - Team Modify Tech");
+            effect_type_names.Add("19 - Team Set Player Civ Name");
+            effect_type_names.Add("20 - Enemy Attribute Modifier (Set)");
+            effect_type_names.Add("21 - Enemy Resource Modifier (Set/+/-)");
+            effect_type_names.Add("22 - Enemy Enable/Disable Unit");
+            effect_type_names.Add("23 - Enemy Upgrade Unit");
+            effect_type_names.Add("24 - Enemy Attribute Modifier (+/-)");
+            effect_type_names.Add("25 - Enemy Attribute Modifier (Multiply)");
+            effect_type_names.Add("26 - Enemy Resource Modifier (Multiply)");
+            effect_type_names.Add("27 - Enemy Enable/Disable/Force Multiuse Tech");
+            effect_type_names.Add("28 - Enemy Modify Tech");
+            effect_type_names.Add("29 - Enemy Set Player Civ Name");
+            effect_type_names.Add("30 - Neutral Attribute Modifier (Set)");
+            effect_type_names.Add("31 - Neutral Resource Modifier (Set/+/-)");
+            effect_type_names.Add("32 - Neutral Enable/Disable Unit");
+            effect_type_names.Add("33 - Neutral Upgrade Unit");
+            effect_type_names.Add("34 - Neutral Attribute Modifier (+/-)");
+            effect_type_names.Add("35 - Neutral Attribute Modifier (Multiply)");
+            effect_type_names.Add("36 - Neutral Resource Modifier (Multiply)");
+            effect_type_names.Add("37 - Neutral Enable/Disable/Force Multiuse Tech");
+            effect_type_names.Add("38 - Neutral Modify Tech");
+            effect_type_names.Add("39 - Neutral Set Player Civ Name");
+        }
+        else
+        {
+            for(size_t loop = 17; loop < 40; ++loop)
+                effect_type_names.Add(lexical_cast<string>(loop) + " - UP 1.5 only");
         }
         if(GenieVersion < genie::GV_AoKA && (GenieVersion < genie::GV_Tapsa || GenieVersion > genie::GV_LatestTap))
         {
@@ -1924,13 +1991,13 @@ void AGE_Frame::OnGameVersionChange()
         Units_DropSite_ComboBox[1]->Show(show);
         if(show)
         {
-            SoundItems_Resource->changeContainerType(CLong);
-            Graphics_SLP->changeContainerType(CLong);
+            SoundItems_Resource->SetCastType(CLong);
+            Graphics_SLP->SetCastType(CLong);
         }
         else
         {
-            SoundItems_Resource->changeContainerType(CShort);
-            Graphics_SLP->changeContainerType(CShort);
+            SoundItems_Resource->SetCastType(CShort);
+            Graphics_SLP->SetCastType(CShort);
         }
 
         // Mickey ->
@@ -2021,13 +2088,13 @@ void AGE_Frame::OnGameVersionChange()
         Colors_Type_Holder->Show(!show);
         if(show)
         {
-            Colors_ID->changeContainerType(CLong);
-            Colors_MinimapColor->changeContainerType(CLong);
+            Colors_ID->SetCastType(CLong);
+            Colors_MinimapColor->SetCastType(CLong);
         }
         else
         {
-            Colors_ID->changeContainerType(CShort);
-            Colors_MinimapColor->changeContainerType(CUByte);
+            Colors_ID->SetCastType(CShort);
+            Colors_MinimapColor->SetCastType(CUByte);
         }
 
         // AoK Alfa ->
@@ -2114,11 +2181,11 @@ void AGE_Frame::OnGameVersionChange()
 
         if(show) // TC ->
         {
-            Units_BaseArmor->changeContainerType(CShort);
+            Units_BaseArmor->SetCastType(CShort);
         }
         else // <- AoK
         {
-            Units_BaseArmor->changeContainerType(CByte);
+            Units_BaseArmor->SetCastType(CUByte);
         }
 
         // SWGB ->
@@ -2154,10 +2221,10 @@ void AGE_Frame::OnGameVersionChange()
             TerRestrict_Graphics_Holder->Show(true);
             Units_ObstructionType_Holder->Show(true);
             Units_ObstructionClass_Holder->Show(true);
-            Terrains_BlendPriority->changeContainerType(CShort);
-            Terrains_BlendType->changeContainerType(CShort);
-            Units_BaseArmor->changeContainerType(CShort);
-            TerRestrict_Amount->changeContainerType(CFloat);
+            Terrains_BlendPriority->SetCastType(CShort);
+            Terrains_BlendType->SetCastType(CShort);
+            Units_BaseArmor->SetCastType(CShort);
+            TerRestrict_Amount->SetCastType(CFloat);
         }
         else
         {
@@ -2173,7 +2240,7 @@ void AGE_Frame::OnGameVersionChange()
                 SoundItems_Name->setMaxChars(27);
                 Terrains_Name->setMaxChars(17);
                 Terrains_FileName->setMaxChars(17);
-                TerRestrict_Amount->changeContainerType(CFloat);
+                TerRestrict_Amount->SetCastType(CFloat);
             }
             else // <- TC
             {
@@ -2185,20 +2252,20 @@ void AGE_Frame::OnGameVersionChange()
                     Terrains_Name->setMaxChars(13);
                     Terrains_FileName->setMaxChars(13);
                 }
-                TerRestrict_Amount->changeContainerType(CLong);
+                TerRestrict_Amount->SetCastType(CLong);
             }
-            Terrains_BlendPriority->changeContainerType(CLong);
-            Terrains_BlendType->changeContainerType(CLong);
+            Terrains_BlendPriority->SetCastType(CLong);
+            Terrains_BlendType->SetCastType(CLong);
         }
         if(emerge)
         {
-            Units_LanguageDLLName->changeContainerType(CLong);
-            Units_LanguageDLLCreation->changeContainerType(CLong);
+            Units_LanguageDLLName->SetCastType(CLong);
+            Units_LanguageDLLCreation->SetCastType(CLong);
         }
         else
         {
-            Units_LanguageDLLName->changeContainerType(CUShort);
-            Units_LanguageDLLCreation->changeContainerType(CUShort);
+            Units_LanguageDLLName->SetCastType(CShort);
+            Units_LanguageDLLCreation->SetCastType(CShort);
         }
         Graphics_FirstFrame_Holder->Show(appear);
         Units_TelemetryID_Holder->Show(appear);
@@ -2570,6 +2637,11 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
         case ePrompt:
         {
             PromptForFilesOnOpen = event.IsChecked();
+            break;
+        }
+        case eNeverHide:
+        {
+            NeverHideAttributes = event.IsChecked();
             break;
         }
         case eBackup:
@@ -4650,6 +4722,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interaction/DrawTerrain", DrawTerrain);
         Config.Write("Interaction/FilterAllSubs", FilterAllSubs);
         Config.Write("Interaction/PlaySounds", PlaySounds);
+        Config.Write("Interaction/NeverHideAttributes", NeverHideAttributes);
         Config.Write("Interface/ShowUnknowns", ShowUnknowns);
         Config.Write("Interface/ResizeTerrains", ResizeTerrains);
         Config.Write("Interface/StayOnTop", StayOnTop);
