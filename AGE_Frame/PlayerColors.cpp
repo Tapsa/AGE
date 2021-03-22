@@ -213,7 +213,7 @@ void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &event)
 void AGE_Frame::CreatePlayerColorControls()
 {
     Colors_Main = new wxBoxSizer(wxHORIZONTAL);
-    Tab_PlayerColors = new APanel(TabBar_Main);
+    Tab_PlayerColors = new ATabPage(TabBar_Main);
 
     Colors_Colors = new wxStaticBoxSizer(wxVERTICAL, Tab_PlayerColors, "Player Colors");
     Colors_Colors_Search = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
