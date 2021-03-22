@@ -63,16 +63,22 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
     {
         AGE_OpenDialog OpenBox(this, font);
 
-        int RecentItems;
+        int RecentItems, RecentVersion;
         {
             wxConfig RecentOpen("", "", "AGE2\\RecentOpen", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
             RecentOpen.Read("Recent/Items", &RecentItems, 0);
+            RecentOpen.Read("Recent/Version", &RecentVersion, 1);
             OpenBox.RecentValues.resize(RecentItems);
             for(int i=0; i < RecentItems; ++i)
             {
-                OpenBox.RecentValues[i].Alloc(8);
+                OpenBox.RecentValues[i].Alloc(9);
                 wxString temp, entry = "Recent" + wxString::Format("%04d", i + 1);
-                RecentOpen.Read(entry + "/DatVersion", &temp, "9000"); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen.Read(entry + "/DatVersion", &temp, "-1");
+                if (RecentVersion < 2 && lexical_cast<int>(temp) > EV_TC)
+                {
+                    temp = "-1";
+                }
+                OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/DatPath", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/Lang", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/LangX1", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
@@ -80,6 +86,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 RecentOpen.Read(entry + "/PathDRS", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/PathDRS2", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/PathDRS3", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen.Read(entry + "/LooseSLP", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
             }
         }
         if(OpenBox.RecentValues.size())
@@ -90,7 +97,14 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         OpenBox.CheckBox_Recent->SetSelection(0);
 
         OpenBox.Path_CustomDefault->SetPath(CustomFolder);
-        OpenBox.CheckBox_GenieVer->SetSelection(GameVersion);
+        if (RecentVersion >= 2)
+        {
+            OpenBox.ComboBox_GenieVer->SetSelection(GameVersion);
+        }
+        else
+        {
+            OpenBox.ComboBox_GenieVer->SetSelection(-1);
+        }
         OpenBox.TerrainsBox->Enable(ResizeTerrains);
 
         OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
@@ -128,7 +142,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
 
         bool load = OpenBox.ShowModal() == wxID_OK; // What this does?
 
-        GameVersion = OpenBox.CheckBox_GenieVer->GetSelection();
+        GameVersion = OpenBox.ComboBox_GenieVer->GetSelection();
         DatUsed = OpenBox.Radio_DatFileLocation->GetValue() ? 0 : 3;
 
         DriveLetter = OpenBox.DriveLetterBox->GetValue();
@@ -190,7 +204,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         if(!OpenBox.CheckBox_LangX1P1FileLocation->IsChecked()) LangX1P1FileName = "";
 
         wxArrayString latest;
-        latest.Alloc(8);
+        latest.Alloc(9);
         latest.Add(lexical_cast<string>(GameVersion));
         latest.Add(DatFileName);
         latest.Add(LangFileName);
@@ -199,9 +213,11 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         latest.Add(FolderDRS);
         latest.Add(FolderDRS2);
         latest.Add(Path1stDRS);
+        latest.Add(PathSLP);
         int items = produceRecentValues(latest, OpenBox.RecentValues);
         wxConfig RecentOpen("", "", "AGE2\\RecentOpen", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentOpen.Write("Recent/Items", items);
+        RecentOpen.Write("Recent/Version", 2);
         for(int i=0; i < items; ++i)
         {
             wxString entry = "Recent" + wxString::Format("%04d", i + 1);
@@ -213,6 +229,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             RecentOpen.Write(entry + "/PathDRS", OpenBox.RecentValues[i][5]);
             RecentOpen.Write(entry + "/PathDRS2", OpenBox.RecentValues[i][6]);
             RecentOpen.Write(entry + "/PathDRS3", OpenBox.RecentValues[i][7]);
+            RecentOpen.Write(entry + "/LooseSLP", OpenBox.RecentValues[i][8]);
         }
     }
 
@@ -2346,7 +2363,7 @@ void AGE_Frame::OnSyncSaveWithOpen(wxCommandEvent &event)
 {
     if(event.IsChecked())
     {
-        SaveDialog->CheckBox_GenieVer->SetSelection(GameVersion);
+        SaveDialog->ComboBox_GenieVer->SetSelection(GameVersion);
         SaveDialog->Path_DatFileLocation->SetPath(DatFileName);
         SaveDialog->Path_LangFileLocation->SetPath(LangFileName);
         SaveDialog->Path_LangX1FileLocation->SetPath(LangX1FileName);
@@ -2360,16 +2377,22 @@ void AGE_Frame::OnSave(wxCommandEvent&)
     SaveDialog = &SaveBox;
     SaveBox.SyncWithReadPaths->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnSyncSaveWithOpen, this);
 
-    int RecentItems;
+    int RecentItems, RecentVersion;
     {
         wxConfig RecentSave("", "", "AGE2\\RecentSave", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentSave.Read("Recent/Items", &RecentItems, 0);
+        RecentSave.Read("Recent/Version", &RecentVersion, 1);
         SaveBox.RecentValues.resize(RecentItems);
         for(int i=0; i < RecentItems; ++i)
         {
             SaveBox.RecentValues[i].Alloc(5);
             wxString temp, entry = "Recent" + wxString::Format("%04d", i + 1);
-            RecentSave.Read(entry + "/DatVersion", &temp, "9000"); SaveBox.RecentValues[i].Add(temp);
+            RecentSave.Read(entry + "/DatVersion", &temp, "-1");
+            if (RecentVersion < 2 && lexical_cast<int>(temp) > EV_TC)
+            {
+                temp = "-1";
+            }
+            SaveBox.RecentValues[i].Add(temp);
             RecentSave.Read(entry + "/DatPath", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
             RecentSave.Read(entry + "/Lang", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
             RecentSave.Read(entry + "/LangX1", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
@@ -2414,14 +2437,21 @@ void AGE_Frame::OnSave(wxCommandEvent&)
     }
     else
     {
-        SaveBox.CheckBox_GenieVer->SetSelection(SaveGameVersion);
+        if (RecentVersion >= 2)
+        {
+            SaveBox.ComboBox_GenieVer->SetSelection(SaveGameVersion);
+        }
+        else
+        {
+            SaveBox.ComboBox_GenieVer->SetSelection(-1);
+        }
         SaveBox.Path_LangFileLocation->SetPath(SaveLangFileName);
         SaveBox.Path_LangX1FileLocation->SetPath(SaveLangX1FileName);
         SaveBox.Path_LangX1P1FileLocation->SetPath(SaveLangX1P1FileName);
     }
 
     bool save = SaveBox.ShowModal() == wxID_OK;
-    SaveGameVersion = SaveBox.CheckBox_GenieVer->GetSelection();
+    SaveGameVersion = SaveBox.ComboBox_GenieVer->GetSelection();
     SaveDat = SaveBox.Radio_DatFileLocation->IsChecked();
     SaveLangs = SaveBox.CheckBox_LangWrite->IsChecked();
     SaveDatFileName = SaveBox.Path_DatFileLocation->GetPath();
@@ -2457,6 +2487,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
         RecentItems = produceRecentValues(latest, SaveBox.RecentValues);
         wxConfig RecentSave("", "", "AGE2\\RecentSave", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentSave.Write("Recent/Items", RecentItems);
+        RecentSave.Write("Recent/Version", 2);
         for(int i=0; i < RecentItems; ++i)
         {
             wxString entry = "Recent" + wxString::Format("%04d", i + 1);
