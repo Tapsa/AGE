@@ -43,29 +43,29 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     Defaults_StarWars->Add(Button_DefaultDE2, 0, wxEXPAND);
 
     SolidText *Text_GenieVer = new SolidText(slave, "      Genie version:");
-    CheckBox_GenieVer = new wxOwnerDrawnComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxSize(256, -1), 0, 0, wxCB_READONLY);
-    CheckBox_GenieVer->Append("TEST");
-    CheckBox_GenieVer->Append("TEST.DAT");
-    CheckBox_GenieVer->Append("MICKEY.DAT");
-    CheckBox_GenieVer->Append("DAVE.DAT");
-    CheckBox_GenieVer->Append("MATT.DAT < 6.92");
-    CheckBox_GenieVer->Append("Age of Empires Beta (7.04 - 7.11)");
-    CheckBox_GenieVer->Append("Age of Empires (7.2)");
-    CheckBox_GenieVer->Append("Rise of Rome (7.24)");
-    CheckBox_GenieVer->Append("Age of Kings E3 (9.36)");
-    CheckBox_GenieVer->Append("Age of Kings Alpha (10.19)");
-    CheckBox_GenieVer->Append("Age of Kings Beta (11.05)");
-    CheckBox_GenieVer->Append("Age of Kings (11.5)");
-    CheckBox_GenieVer->Append("The Conquerors (11.76)");
-    CheckBox_GenieVer->Append("The Conquerors (11.76) + UserPatch 1.5");
-    CheckBox_GenieVer->Append("The Conquerors (11.76) + Terrain patch");
-    CheckBox_GenieVer->Append("Forgotten + African Kingdoms + Rajas > 12");
-    CheckBox_GenieVer->Append("Star Wars: Galactic Battlegrounds (1.0)");
-    CheckBox_GenieVer->Append("Clone Campaigns (1.1)");
-    CheckBox_GenieVer->Append("Mod: Expanding Fronts (>= 1.3) / Terrain patch");
-    CheckBox_GenieVer->Append("Age of Empires: Definitive Edition");
-    CheckBox_GenieVer->Append("Age of Empires II: Definitive Edition");
-    CheckBox_GenieVer->SetSelection(EV_TC);
+    ComboBox_GenieVer = new wxOwnerDrawnComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxSize(256, -1), 0, 0, wxCB_READONLY);
+    ComboBox_GenieVer->Append("TEST");
+    ComboBox_GenieVer->Append("TEST.DAT");
+    ComboBox_GenieVer->Append("MICKEY.DAT");
+    ComboBox_GenieVer->Append("DAVE.DAT");
+    ComboBox_GenieVer->Append("MATT.DAT < 6.92");
+    ComboBox_GenieVer->Append("Age of Empires Beta (7.04 - 7.11)");
+    ComboBox_GenieVer->Append("Age of Empires (7.2)");
+    ComboBox_GenieVer->Append("Rise of Rome (7.24)");
+    ComboBox_GenieVer->Append("Age of Kings E3 (9.36)");
+    ComboBox_GenieVer->Append("Age of Kings Alpha (10.19)");
+    ComboBox_GenieVer->Append("Age of Kings Beta (11.05)");
+    ComboBox_GenieVer->Append("Age of Kings (11.5)");
+    ComboBox_GenieVer->Append("The Conquerors (11.76)");
+    ComboBox_GenieVer->Append("The Conquerors (11.76) + UserPatch 1.5");
+    ComboBox_GenieVer->Append("The Conquerors (11.76) + Terrain patch");
+    ComboBox_GenieVer->Append("Forgotten + African Kingdoms + Rajas > 12");
+    ComboBox_GenieVer->Append("Star Wars: Galactic Battlegrounds (1.0)");
+    ComboBox_GenieVer->Append("Clone Campaigns (1.1)");
+    ComboBox_GenieVer->Append("Mod: Expanding Fronts (>= 1.3) / Terrain patch");
+    ComboBox_GenieVer->Append("Age of Empires: Definitive Edition");
+    ComboBox_GenieVer->Append("Age of Empires II: Definitive Edition");
+    ComboBox_GenieVer->SetSelection(EV_TC);
     SolidText *RecentText = new SolidText(slave, "      Recent paths:");
     CheckBox_Recent = new wxOwnerDrawnComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, 0, 0, wxCB_READONLY);
 
@@ -87,7 +87,7 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     Layout->Add(RecentText, 1, wxEXPAND);
     Layout->Add(CheckBox_Recent, 1, wxEXPAND);
     Layout->Add(Text_GenieVer, 1, wxEXPAND);
-    sizer1->Add(CheckBox_GenieVer);
+    sizer1->Add(ComboBox_GenieVer);
 #ifdef WIN32
     sizer1->Add(Button_PathFromRegistry);
 #endif
@@ -114,7 +114,17 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
     Button_DefaultSWGB->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultSWGB, this);
     Button_DefaultCC->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnDefaultCC, this);
     CheckBox_Recent->Bind(wxEVT_COMMAND_COMBOBOX_SELECTED, &AGE_OpenSave::OnRecent, this);
-    ButtonOK->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&){EndModal(wxID_OK);});
+    ButtonOK->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [this](wxCommandEvent&)
+    {
+        if (ComboBox_GenieVer->GetSelection() >= 0)
+        {
+            EndModal(wxID_OK);
+        }
+        else
+        {
+            wxMessageBox("Select genie version", "Notice");
+        }
+    });
 #ifdef WIN32
     Button_PathFromRegistry->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &AGE_OpenSave::OnPathFromRegistry, this);
 #endif
@@ -123,8 +133,8 @@ AGE_OpenSave::AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *sl
 void AGE_OpenSave::OnRecent(wxCommandEvent &event)
 {
     if(RecentValues.empty()) return;
-    auto sel = CheckBox_Recent->GetSelection();
-    CheckBox_GenieVer->SetSelection(lexical_cast<int>(RecentValues[sel][0]));
+    int sel = CheckBox_Recent->GetSelection();
+    ComboBox_GenieVer->SetSelection(lexical_cast<int>(RecentValues[sel][0]));
     Path_DatFileLocation->SetPath(RecentValues[sel][1]);
     Path_LangFileLocation->SetPath(RecentValues[sel][2]);
     Path_LangX1FileLocation->SetPath(RecentValues[sel][3]);
@@ -152,7 +162,7 @@ void AGE_OpenSave::OnDefaultAoE(wxCommandEvent &event)
 {
     OnDefault("\\Microsoft Games\\Age of Empires");
 
-    CheckBox_GenieVer->SetSelection(EV_AoE);
+    ComboBox_GenieVer->SetSelection(EV_AoE);
     if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\data\\empires.dat");
     Path_LangFileLocation->SetPath(game_path + "\\language.dll");
     Path_LangX1FileLocation->SetPath(wxEmptyString);
@@ -168,7 +178,7 @@ void AGE_OpenSave::OnDefaultRoR(wxCommandEvent &event)
 {
     OnDefault("\\Microsoft Games\\Age of Empires");
 
-    CheckBox_GenieVer->SetSelection(EV_RoR);
+    ComboBox_GenieVer->SetSelection(EV_RoR);
     if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\data2\\empires.dat");
     Path_LangFileLocation->SetPath(game_path + "\\language.dll");
     Path_LangX1FileLocation->SetPath(game_path + "\\languagex.dll");
@@ -184,7 +194,7 @@ void AGE_OpenSave::OnDefaultAoK(wxCommandEvent &event)
 {
     OnDefault("\\Microsoft Games\\Age of Empires II");
 
-    CheckBox_GenieVer->SetSelection(EV_AoK);
+    ComboBox_GenieVer->SetSelection(EV_AoK);
     if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\data\\empires2.dat");
     Path_LangFileLocation->SetPath(game_path + "\\language.dll");
     Path_LangX1FileLocation->SetPath(wxEmptyString);
@@ -200,7 +210,7 @@ void AGE_OpenSave::OnDefaultTC(wxCommandEvent &event)
 {
     OnDefault("\\Microsoft Games\\Age of Empires II");
 
-    CheckBox_GenieVer->SetSelection(EV_TC);
+    ComboBox_GenieVer->SetSelection(EV_TC);
     if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\data\\empires2_x1_p1.dat");
     Path_LangFileLocation->SetPath(game_path + "\\language.dll");
     Path_LangX1FileLocation->SetPath(game_path + "\\language_x1.dll");
@@ -217,7 +227,7 @@ void AGE_OpenSave::OnDefaultAoKHD(wxCommandEvent &event)
     OnDefault("\\Steam\\steamapps\\common\\Age2HD");
     wxString locale = LanguageBox->GetValue();
 
-    CheckBox_GenieVer->SetSelection(EV_TC);
+    ComboBox_GenieVer->SetSelection(EV_TC);
     CheckBox_LangWrite->Enable(false);
     if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\resources\\_common\\dat\\empires2_x1_p1.dat");
     Path_LangFileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt");
@@ -232,7 +242,7 @@ void AGE_OpenSave::OnDefaultAoP(wxCommandEvent &event)
     OnDefault("\\Steam\\steamapps\\common\\Age2HD");
     wxString locale = LanguageBox->GetValue();
 
-    CheckBox_GenieVer->SetSelection(EV_Cysion);
+    ComboBox_GenieVer->SetSelection(EV_Cysion);
     CheckBox_LangWrite->Enable(false);
     if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\resources\\_common\\dat\\empires2_x2_p1.dat");
     Path_LangFileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt");
@@ -247,7 +257,7 @@ void AGE_OpenSave::OnDefaultDE2(wxCommandEvent &event)
     OnDefault("\\Steam\\steamapps\\common\\AoE2DE");
     wxString locale = LanguageBox->GetValue();
 
-    CheckBox_GenieVer->SetSelection(EV_DE2);
+    ComboBox_GenieVer->SetSelection(EV_DE2);
     CheckBox_LangWrite->Enable(false);
     if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\resources\\_common\\dat\\empires2_x2_p1.dat");
     Path_LangFileLocation->SetPath(game_path + "\\resources\\"+locale+"\\strings\\key-value\\key-value-strings-utf8.txt");
@@ -261,7 +271,7 @@ void AGE_OpenSave::OnDefaultSWGB(wxCommandEvent &event)
 {
     OnDefault("\\GOG Games\\Star Wars - Galactic Battlegrounds");
 
-    CheckBox_GenieVer->SetSelection(EV_SWGB);
+    ComboBox_GenieVer->SetSelection(EV_SWGB);
     if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Data\\genie.dat");
     Path_LangFileLocation->SetPath(game_path + "\\language.dll");
     Path_LangX1FileLocation->SetPath(wxEmptyString);
@@ -279,14 +289,14 @@ void AGE_OpenSave::OnDefaultCC(wxCommandEvent &event)
 
     if(path_src == 2)
     {
-        CheckBox_GenieVer->SetSelection(EV_EF);
+        ComboBox_GenieVer->SetSelection(EV_EF);
         if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Data\\genie_x2.dat");
         Path_LangX1P1FileLocation->SetPath(game_path + "\\language_x2.dll");
         CheckBox_LangX1P1FileLocation->SetValue(true);
     }
     else
     {
-        CheckBox_GenieVer->SetSelection(EV_CC);
+        ComboBox_GenieVer->SetSelection(EV_CC);
         if(!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Data\\genie_x1.dat");
         Path_LangX1P1FileLocation->SetPath(wxEmptyString);
         CheckBox_LangX1P1FileLocation->SetValue(false);
@@ -306,7 +316,7 @@ void AGE_OpenSave::OnPathFromRegistry(wxCommandEvent &event)
     wxString path, custom = Path_CustomDefault->GetPath();
     CheckBox_CustomDefault->SetValue(true);
     path_src = 1;
-    switch(CheckBox_GenieVer->GetSelection())
+    switch(ComboBox_GenieVer->GetSelection())
     {
         case EV_AoE:
         {

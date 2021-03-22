@@ -47,7 +47,7 @@ public:
     wxButton *Button_DefaultSWGB;
     wxButton *Button_DefaultCC;
     wxButton *Button_DefaultDE2;
-    wxOwnerDrawnComboBox *CheckBox_GenieVer;
+    wxOwnerDrawnComboBox *ComboBox_GenieVer;
     wxTextCtrl *DriveLetterBox;
     wxTextCtrl *LanguageBox;
     AGE_PairedCheckBox *CheckBox_CustomDefault;
