@@ -4792,5 +4792,23 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         }
     }
     popUp.loadedFileId = -1;
+    Tab_Research->Reparent(TabBar_Main);
+    Tab_Techs->Reparent(TabBar_Main);
+    Tab_TechTrees->Reparent(TabBar_Main);
+    Tab_Civs->Reparent(TabBar_Main);
+    Tab_Units->Reparent(TabBar_Main);
+    Tab_UnitLine->Reparent(TabBar_Main);
+    Tab_Graphics->Reparent(TabBar_Main);
+    Tab_General->Reparent(TabBar_Main);
+    Tab_Terrains->Reparent(TabBar_Main);
+    Tab_TerrainBorders->Reparent(TabBar_Main);
+    Tab_TerrainRestrictions->Reparent(TabBar_Main);
+    Tab_Sounds->Reparent(TabBar_Main);
+    Tab_PlayerColors->Reparent(TabBar_Main);
+    Tab_Unknown->Reparent(TabBar_Main);
+    Tab_TechTreeAges->Reparent(Tab_TechTrees);
+    Tab_TechTreeBuildings->Reparent(Tab_TechTrees);
+    Tab_TechTreeUnits->Reparent(Tab_TechTrees);
+    Tab_TechTreeResearches->Reparent(Tab_TechTrees);
     Destroy();
 }

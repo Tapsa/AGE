@@ -391,7 +391,7 @@ void AGE_Frame::ResearchLangDLLConverter(wxCommandEvent &event)
 
 void AGE_Frame::CreateResearchControls()
 {
-    Tab_Research = new APanel(TabBar_Main);
+    Tab_Research = new ATabPage(TabBar_Main);
 
     Research_Main = new wxBoxSizer(wxHORIZONTAL);
     Research_Research = new wxStaticBoxSizer(wxVERTICAL, Tab_Research, "Technologies");

@@ -248,7 +248,7 @@ private:
     bool Paste11Check(size_t numPastes, size_t numCopies);
     void OnDrawIconSLP(wxPaintEvent &event);
     void OnDrawGraphicSLP(wxPaintEvent &event);
-    void CalcDrawCenter(APanel*, int&, int&);
+    void CalcDrawCenter(wxWindowBase*, int&, int&);
     void CalcAngle(AGE_SLP&);
     void SetDisplayBearings(AGE_SLP&, const genie::GraphicDelta&);
     void OnDrawTechSLP(wxPaintEvent &event);
@@ -985,10 +985,12 @@ private:
 
     wxNotebook *TabBar_Main, *TabBar_TechTree;
 
-    APanel *Tab_General, *Tab_Research, *Tab_Techs, *Tab_TechTrees, *Tab_Civs,
-        *Tab_Units, *Tab_UnitLine, *Tab_Graphics, *Tab_Terrains, *Tab_TerrainBorders,
-        *Tab_TerrainRestrictions, *Tab_Sounds, *Tab_PlayerColors, *Tab_Unknown,
-        *Tab_TechTreeAges, *Tab_TechTreeBuildings, *Tab_TechTreeUnits, *Tab_TechTreeResearches;
+    ATabPage *Tab_General = nullptr, *Tab_Research = nullptr, *Tab_Techs = nullptr,
+        *Tab_TechTrees = nullptr, *Tab_Civs = nullptr, *Tab_Units = nullptr, *Tab_UnitLine = nullptr,
+        *Tab_Graphics = nullptr, *Tab_Terrains = nullptr, *Tab_TerrainBorders = nullptr,
+        *Tab_TerrainRestrictions = nullptr, *Tab_Sounds = nullptr, *Tab_PlayerColors = nullptr,
+        *Tab_Unknown = nullptr, *Tab_TechTreeAges = nullptr, *Tab_TechTreeBuildings = nullptr,
+        *Tab_TechTreeUnits = nullptr, *Tab_TechTreeResearches = nullptr;
 
 //  General user interface
 

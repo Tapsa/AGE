@@ -228,7 +228,7 @@ void AGE_Frame::OnGraphicSelect(wxCommandEvent &event)
     if(slp_window) slp_view->Refresh();
 }
 
-void AGE_Frame::CalcDrawCenter(APanel *canvas, int &centerX, int &centerY)
+void AGE_Frame::CalcDrawCenter(wxWindowBase *canvas, int &centerX, int &centerY)
 {
     canvas->GetClientSize(&centerX, &centerY);
     centerX *= 0.5f / slp_zoom;
@@ -1107,7 +1107,7 @@ void AGE_Frame::OnGraphicAngleSoundsCopyToGraphics(wxCommandEvent &event)
 
 void AGE_Frame::CreateGraphicsControls()
 {
-    Tab_Graphics = new APanel(TabBar_Main);
+    Tab_Graphics = new ATabPage(TabBar_Main);
     Graphics_Main = new wxBoxSizer(wxHORIZONTAL);
     Graphics_Graphics = new wxStaticBoxSizer(wxVERTICAL, Tab_Graphics, "Sprites");
 

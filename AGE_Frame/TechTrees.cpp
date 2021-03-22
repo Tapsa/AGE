@@ -2382,7 +2382,7 @@ void AGE_AreaTT31020::CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScr
 
 void AGE_Frame::CreateTechTreeControls()
 {
-    Tab_TechTrees = new APanel(TabBar_Main);
+    Tab_TechTrees = new ATabPage(TabBar_Main);
 
     TechTrees_Main = new wxBoxSizer(wxVERTICAL);
     TabBar_TechTree = new wxNotebook(Tab_TechTrees, wxID_ANY);
@@ -2391,10 +2391,10 @@ void AGE_Frame::CreateTechTreeControls()
         TabBar_TechTree->SetBackgroundColour(*wxYELLOW);
         TabBar_TechTree->SetBackgroundColour(model.GetBackgroundColour());
     }
-    Tab_TechTreeAges = new APanel(TabBar_TechTree);
-    Tab_TechTreeBuildings = new APanel(TabBar_TechTree);
-    Tab_TechTreeUnits = new APanel(TabBar_TechTree);
-    Tab_TechTreeResearches = new APanel(TabBar_TechTree);
+    Tab_TechTreeAges = new ATabPage(TabBar_TechTree);
+    Tab_TechTreeBuildings = new ATabPage(TabBar_TechTree);
+    Tab_TechTreeUnits = new ATabPage(TabBar_TechTree);
+    Tab_TechTreeResearches = new ATabPage(TabBar_TechTree);
     TechTrees_TabAges = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_TabBuildings = new wxBoxSizer(wxHORIZONTAL);
     TechTrees_TabUnits = new wxBoxSizer(wxHORIZONTAL);

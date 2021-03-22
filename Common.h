@@ -135,6 +135,18 @@ private:
     }
 };
 
+class ATabPage : public APanel
+{
+public:
+    ATabPage(wxWindow* parent, const wxSize& size = wxDefaultSize) :
+        APanel(parent, size), parent(parent) {}
+
+    bool Show(bool show = true) override;
+
+private:
+    wxWindow* parent;
+};
+
 class AScrolled: public wxScrolled<APanel>
 {
 public:
@@ -144,10 +156,9 @@ public:
         // Smooth scrolling
         Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent &event)
         {
+            int pos;
             GetViewStart(&pos, &pos);
             Scroll(0, event.GetWheelRotation() < 0 ? pos + 3 : max(pos - 3, 0));
         });
     }
-
-    int pos;
 };
