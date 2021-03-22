@@ -465,7 +465,7 @@ void AGE_Frame::OnTerrainBorderBorderShapeCopyToBorders(wxCommandEvent &event)
 
 void AGE_Frame::CreateTerrainBorderControls()
 {
-    Tab_TerrainBorders = new APanel(TabBar_Main);
+    Tab_TerrainBorders = new ATabPage(TabBar_Main);
 
     Borders_Main = new wxBoxSizer(wxHORIZONTAL);
     Borders_Buttons = new wxGridSizer(2, 0, 0);

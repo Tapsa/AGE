@@ -396,3 +396,15 @@ void AGE_Frame::FixSizes()
     if(MaxWindowWidthV2 < GetMinSize().GetWidth()) MaxWindowWidthV2 = GetMinSize().GetWidth();
     SetMaxSize(wxSize(MaxWindowWidthV2, 0x4000));
 }
+
+bool ATabPage::Show(bool show)
+{
+    if (show)
+    {
+        Reparent(parent);
+        return APanel::Show(true);
+    }
+    bool result = APanel::Show(false);
+    Reparent(nullptr);
+    return result;
+}

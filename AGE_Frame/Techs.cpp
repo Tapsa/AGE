@@ -1251,7 +1251,7 @@ void AGE_Frame::OnAllEffectSelect(wxCommandEvent &event)
 
 void AGE_Frame::CreateTechControls()
 {
-    Tab_Techs = new APanel(TabBar_Main);
+    Tab_Techs = new ATabPage(TabBar_Main);
 
     Techs_Main = new wxBoxSizer(wxHORIZONTAL);
     Techs_Buttons = new wxGridSizer(3, 0, 0);

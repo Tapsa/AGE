@@ -3162,7 +3162,7 @@ void AGE_Frame::CreateUnitControls()
 {
 //  UnitControls new things
 
-    Tab_Units = new APanel(TabBar_Main);
+    Tab_Units = new ATabPage(TabBar_Main);
 
     Units_Main = new wxBoxSizer(wxHORIZONTAL);
     Units_Units = new wxStaticBoxSizer(wxVERTICAL, Tab_Units, "Units");

@@ -551,7 +551,7 @@ void AGE_Frame::CreateTerrainControls()
 {
     Terrains_Main = new wxBoxSizer(wxHORIZONTAL);
     Terrains_Terrains_Buttons = new wxGridSizer(2, 0, 0);
-    Tab_Terrains = new APanel(TabBar_Main);
+    Tab_Terrains = new ATabPage(TabBar_Main);
     Terrains_Terrains = new wxStaticBoxSizer(wxVERTICAL, Tab_Terrains, "Terrains");
     Terrains_Terrains_Search = new wxTextCtrl(Tab_Terrains, wxID_ANY);
     Terrains_Terrains_UseAnd[0] = new wxCheckBox(Tab_Terrains, wxID_ANY, "And");
