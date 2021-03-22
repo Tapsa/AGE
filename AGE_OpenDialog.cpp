@@ -171,8 +171,8 @@ void AGE_OpenDialog::OnDefaultCC(wxCommandEvent &event)
 void AGE_OpenDialog::OnRecent(wxCommandEvent &event)
 {
     if(RecentValues.empty()) return;
-    auto sel = CheckBox_Recent->GetSelection();
-    CheckBox_GenieVer->SetSelection(lexical_cast<int>(RecentValues[sel][0]));
+    int sel = CheckBox_Recent->GetSelection();
+    ComboBox_GenieVer->SetSelection(lexical_cast<int>(RecentValues[sel][0]));
     Path_DatFileLocation->SetPath(RecentValues[sel][1]);
     Path_LangFileLocation->SetPath(RecentValues[sel][2]);
     Path_LangX1FileLocation->SetPath(RecentValues[sel][3]);
@@ -183,4 +183,5 @@ void AGE_OpenDialog::OnRecent(wxCommandEvent &event)
     Path_DRS->SetPath(RecentValues[sel][5]);
     Path_DRS2->SetPath(RecentValues[sel][6]);
     Path_DRS3->SetPath(RecentValues[sel][7]);
+    Path_SLP->SetPath(RecentValues[sel][8]);
 }

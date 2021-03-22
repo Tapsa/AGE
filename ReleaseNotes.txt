@@ -13,9 +13,10 @@ I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
-Version [b]2021.3.22[/b] (pending):
+Version [b]2021.3.22[/b]:
 -Fixed several bugs in effects tab.
 -Reduced lag when dragging main window.
+-Stopped old recent paths from opening as wrong version.
 
 Version [b]2021.3.15[/b]:
 -Updated effects tab for UserPatch 1.5.
