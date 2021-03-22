@@ -14,6 +14,7 @@ I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819
 Guide makers et cetera, please include the version into which your guide was written.
 
 Version [b]2021.3.22[/b] (pending):
+-Fixed several bugs in effects tab.
 -Reduced lag when dragging main window.
 
 Version [b]2021.3.15[/b]:
