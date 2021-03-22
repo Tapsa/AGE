@@ -205,24 +205,28 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
     {
         case 30:
             Name = "Neutral ";
+            goto AttributeModifierSet;
         case 20:
             Name = "Enemy ";
+            goto AttributeModifierSet;
         case 10:
             Name = "Team ";
         case 0:
+        AttributeModifierSet:
         {
-            //Name = "Attribute Modifier (Set)";
             Name += "Set " + Tester(dataset->Effects[tech].EffectCommands[effect], " to ");
             break;
         }
         case 31:
             Name = "Neutral ";
+            goto ResourceModifierSet;
         case 21:
             Name = "Enemy ";
+            goto ResourceModifierSet;
         case 11:
             Name = "Team ";
         case 1:
-            //Name = "Resource Modifier (Set/+/-)";
+        ResourceModifierSet:
             if(dataset->Effects[tech].EffectCommands[effect].B == 0)
             {
                 Name += "Set resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
@@ -243,11 +247,14 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             break;
         case 32:
             Name = "Neutral ";
+            goto DisableEnable;
         case 22:
             Name = "Enemy ";
+            goto DisableEnable;
         case 12:
             Name = "Team ";
         case 2:
+        DisableEnable:
             if(dataset->Effects[tech].EffectCommands[effect].B == 0)
                 Name += "Disable";
             else
@@ -256,11 +263,14 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             break;
         case 33:
             Name = "Neutral ";
+            goto UpgradeUnit;
         case 23:
             Name = "Enemy ";
+            goto UpgradeUnit;
         case 13:
             Name = "Team ";
         case 3:
+        UpgradeUnit:
             Name += "Upgrade unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
             +" to "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B);
             if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
@@ -270,54 +280,62 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             break;
         case 34:
             Name = "Neutral ";
+            goto AttributeModifier;
         case 24:
             Name = "Enemy ";
+            goto AttributeModifier;
         case 14:
             Name = "Team ";
         case 4:
+        AttributeModifier:
         {
-            //Name = "Attribute Modifier (+/-)";
             Name += "Change " + Tester(dataset->Effects[tech].EffectCommands[effect], " by ");
             break;
         }
         case 35:
             Name = "Neutral ";
+            goto AttributeModifierMultiply;
         case 25:
             Name = "Enemy ";
+            goto AttributeModifierMultiply;
         case 15:
             Name = "Team ";
         case 5:
+        AttributeModifierMultiply:
         {
-            //Name = "Attribute Modifier (Multiply)";
             Name += "Multiply " + Tester(dataset->Effects[tech].EffectCommands[effect], " by ");
             break;
         }
         case 36:
             Name = "Neutral ";
+            goto ResourceModifierMultiply;
         case 26:
             Name = "Enemy ";
+            goto ResourceModifierMultiply;
         case 16:
             Name = "Team ";
         case 6:
-            //Name = "Resource Modifier (Multiply)";
+        ResourceModifierMultiply:
             Name += "Multiply resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
             +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             break;
         case 37:
             Name = "Neutral ";
+            goto SpawnUnit;
         case 27:
             Name = "Enemy ";
+            goto SpawnUnit;
         case 17:
             Name = "Team ";
         case 7:
+        SpawnUnit:
             if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
             {
-                //Name = "Spawn Unit";
                 Name = "Spawn unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
                 +" from "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B)
                 +", "+FormatInt(dataset->Effects[tech].EffectCommands[effect].C)+" times";
             }
-            if(EditorVersion == EV_UP)
+            if(GameVersion == EV_UP)
             {
                 if (dataset->Effects[tech].EffectCommands[effect].B == 1)
                 {
@@ -335,11 +353,14 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             break;
         case 38:
             Name = "Neutral ";
+            goto ModifyTech;
         case 28:
             Name = "Enemy ";
+            goto ModifyTech;
         case 18:
             Name = "Team ";
         case 8:
+        ModifyTech:
             {
                 if(dataset->Effects[tech].EffectCommands[effect].B == -2)
                 {
@@ -369,11 +390,14 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             break;
         case 39:
             Name = "Neutral ";
+            goto SetPlayerCivName;
         case 29:
             Name = "Enemy ";
+            goto SetPlayerCivName;
         case 19:
             Name = "Team ";
         case 9:
+        SetPlayerCivName:
             Name += "Set player civ name to lang id "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             break;
         case 101:
@@ -849,7 +873,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_Info_B->SetLabel("");
                 Effects_Info_C->SetLabel("");
             }
-            if (EditorVersion == EV_UP)
+            if (GameVersion == EV_UP)
             {
                 Effects_A_ComboBox->Show(false);
                 Effects_B_CheckBox->Show(false);
@@ -1583,7 +1607,7 @@ void AGE_Frame::CreateTechControls()
             case 41: Effects_Type->ChangeValue("101"); break;
             case 42: Effects_Type->ChangeValue("102"); break;
             case 43: Effects_Type->ChangeValue("103"); break;
-            default: Effects_Type->ChangeValue("-1");
+            default: Effects_Type->ChangeValue("255");
         }
         Effects_Type->SaveEdits();
         ListEffectCmds();
