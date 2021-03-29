@@ -1,4 +1,6 @@
+#include "Common.h"
 #include "../AGE_Frame.h"
+#include "genie/resource/Color.h"
 
 wxString AGE_Frame::GetUnitName(int index, short civ, bool Filter)
 {
@@ -1415,7 +1417,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
             }
         }
     }
-    SetStatusText("Civilization: "+lexical_cast<string>(UnitCivID)+"    Selections: "+lexical_cast<string>(selections)+"    Selected unit: "+lexical_cast<string>(UnitIDs.front()), 0);
+    SetStatusText("Civilization: "+lexical_cast<std::string>(UnitCivID)+"    Selections: "+lexical_cast<std::string>(selections)+"    Selected unit: "+lexical_cast<std::string>(UnitIDs.front()), 0);
 
     bool showUnitData = -1 != unitType;
     switch(unitType)
@@ -1478,11 +1480,11 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
         Units_DLL_HotKey4->index = UnitPointer->HotKey;
         if(GenieVersion >= genie::GV_AoKB)
         {
-            string newLabel = " ( ", aste = "° ";
+            std::string newLabel = " ( ", aste = "° ";
             const float closure = 57.2957802f;
 
             #define UGLY_CODE if(angle == 0x80000000) newLabel += "max" + aste;\
-            else newLabel += lexical_cast<string>(angle) + aste;
+            else newLabel += lexical_cast<std::string>(angle) + aste;
 
             int angle = UnitPointer->DeadFish.TurnRadius * closure; UGLY_CODE
             angle = UnitPointer->DeadFish.TurnRadiusSpeed * closure; UGLY_CODE
@@ -1532,9 +1534,9 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
     Units_DLL_LanguageName->SetLabel(TranslatedText(Units_DLL_LanguageName->index, 64));
     Units_DLL_LanguageCreation->SetLabel(TranslatedText(Units_DLL_LanguageCreation->index, 64));
     Units_DLL_LanguageHelp->SetLabel(TranslatedText(Units_DLL_LanguageHelp->index, 512));
-    Units_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Units_DLL_LanguageHelp->index));
+    Units_LanguageDLLConverter[0]->SetLabel(lexical_cast<std::string>(Units_DLL_LanguageHelp->index));
     Units_DLL_LanguageHKText->SetLabel(TranslatedText(Units_DLL_LanguageHKText->index, 64));
-    Units_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Units_DLL_LanguageHKText->index));
+    Units_LanguageDLLConverter[1]->SetLabel(lexical_cast<std::string>(Units_DLL_LanguageHKText->index));
     Units_DLL_HotKey4->SetLabel(TranslatedText(Units_DLL_HotKey4->index, 16));
 
     Units_Type_ComboBox->Enable(showUnitData);
@@ -1566,7 +1568,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
             Units_Exists->prepend(&UnitHeadPointer->Exists);
         }
 
-        Units_UnitHeads_Name->SetLabel(" "+lexical_cast<string>(UnitIDs.front())+" - "+GetUnitName(UnitIDs.front(), 0));
+        Units_UnitHeads_Name->SetLabel(" "+lexical_cast<std::string>(UnitIDs.front())+" - "+GetUnitName(UnitIDs.front(), 0));
     }
     else    // AoE or RoR
     {
@@ -1671,7 +1673,7 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
     if(unitGraphic >= dataset->Graphics.size()) return;
     AGE_SLP baseSLP;
     bool has_base = initArt(baseSLP, unitGraphic);
-    if(has_base) museum.angles = max(museum.angles, baseSLP.angles);
+    if(has_base) museum.angles = std::max(museum.angles, baseSLP.angles);
     if(dataset->Graphics[unitGraphic].Deltas.size())
     for(auto const &delta: dataset->Graphics[unitGraphic].Deltas)
     {
@@ -1680,7 +1682,7 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
         {
             if(initArt(art, delta.GraphicID))
             {
-                museum.angles = max(museum.angles, art.angles);
+                museum.angles = std::max(museum.angles, art.angles);
             }
             else continue;
         }
@@ -1692,13 +1694,13 @@ void AGE_Frame::AddAnnexAndStackGraphics(unsigned int unitID, int offsetX, int o
         art.xdelta = delta.OffsetX + offsetX;
         art.ydelta = delta.OffsetY + offsetY;
         SetDisplayBearings(art, delta);
-        museum.deltas.emplace(move(make_pair(offsetY, move(art))));
+        museum.deltas.emplace(std::move(std::make_pair(offsetY, std::move(art))));
     }
     else if(has_base)
     {
         baseSLP.xdelta = offsetX;
         baseSLP.ydelta = offsetY;
-        museum.deltas.emplace(move(make_pair(offsetY, move(baseSLP))));
+        museum.deltas.emplace(std::move(std::make_pair(offsetY, std::move(baseSLP))));
     }
 }
 
@@ -1908,10 +1910,10 @@ void AGE_Frame::UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit)
 
 //  SubVectors
 
-string AGE_Frame::GetUnitDamageGraphicName(int index)
+std::string AGE_Frame::GetUnitDamageGraphicName(int index)
 {
-    return lexical_cast<string>((short)dataset->Civs[UnitCivID].Units[UnitIDs.front()].DamageGraphics[index].DamagePercent)
-    +" % - ID: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].DamageGraphics[index].GraphicID);
+    return lexical_cast<std::string>((short)dataset->Civs[UnitCivID].Units[UnitIDs.front()].DamageGraphics[index].DamagePercent)
+    +" % - ID: "+lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].DamageGraphics[index].GraphicID);
 }
 
 void AGE_Frame::OnUnitDamageGraphicsSearch(wxCommandEvent &event)
@@ -1969,7 +1971,7 @@ void AGE_Frame::OnUnitDamageGraphicSelect(wxCommandEvent &event)
             {
                 if(sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].DamageGraphics.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].DamageGraphics.size())
                 {
-                    warning.Append(lexical_cast<string>(SelectedCivs[vecCiv])+" ");
+                    warning.Append(lexical_cast<std::string>(SelectedCivs[vecCiv])+" ");
                     showWarning = true;
                 }
                 DamageGraphicPointer = &dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].DamageGraphics[DamageGraphicIDs[sel]];
@@ -1981,7 +1983,7 @@ void AGE_Frame::OnUnitDamageGraphicSelect(wxCommandEvent &event)
         }
         if(showWarning)
         {
-            warning.Append("\ndiffers from civ "+lexical_cast<string>(UnitCivID));
+            warning.Append("\ndiffers from civ "+lexical_cast<std::string>(UnitCivID));
             wxMessageBox(warning);
         }
     }
@@ -2154,10 +2156,10 @@ void AGE_Frame::OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &event)
     }
 }
 
-string AGE_Frame::GetUnitAttackName(int index)
+std::string AGE_Frame::GetUnitAttackName(int index)
 {
-    return "Amount: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks[index].Amount)
-    +" - Class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks[index].Class);
+    return "Amount: "+lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks[index].Amount)
+    +" - Class "+lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks[index].Class);
 }
 
 void AGE_Frame::OnUnitAttacksSearch(wxCommandEvent &event)
@@ -2217,7 +2219,7 @@ void AGE_Frame::OnUnitAttackSelect(wxCommandEvent &event)
             {
                 if(sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Type50.Attacks.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks.size())
                 {
-                    warning.Append(lexical_cast<string>(SelectedCivs[vecCiv])+" ");
+                    warning.Append(lexical_cast<std::string>(SelectedCivs[vecCiv])+" ");
                     showWarning = true;
                 }
                 AttackPointer = &dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Type50.Attacks[AttackIDs[sel]];
@@ -2228,7 +2230,7 @@ void AGE_Frame::OnUnitAttackSelect(wxCommandEvent &event)
         }
         if(showWarning)
         {
-            warning.Append("\ndiffers from civ "+lexical_cast<string>(UnitCivID));
+            warning.Append("\ndiffers from civ "+lexical_cast<std::string>(UnitCivID));
             wxMessageBox(warning);
         }
     }
@@ -2396,10 +2398,10 @@ void AGE_Frame::OnUnitAttacksCopyToUnits(wxCommandEvent &event)
     }
 }
 
-string AGE_Frame::GetUnitArmorName(int index)
+std::string AGE_Frame::GetUnitArmorName(int index)
 {
-    return "Amount: "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours[index].Amount)
-    +" - Class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours[index].Class);
+    return "Amount: "+lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours[index].Amount)
+    +" - Class "+lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours[index].Class);
 }
 
 void AGE_Frame::OnUnitArmorsSearch(wxCommandEvent &event)
@@ -2459,7 +2461,7 @@ void AGE_Frame::OnUnitArmorSelect(wxCommandEvent &event)
             {
                 if(sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Type50.Armours.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours.size())
                 {
-                    warning.Append(lexical_cast<string>(SelectedCivs[vecCiv])+" ");
+                    warning.Append(lexical_cast<std::string>(SelectedCivs[vecCiv])+" ");
                     showWarning = true;
                 }
                 ArmorPointer = &dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Type50.Armours[ArmorIDs[sel]];
@@ -2470,7 +2472,7 @@ void AGE_Frame::OnUnitArmorSelect(wxCommandEvent &event)
         }
         if(showWarning)
         {
-            warning.Append("\ndiffers from civ "+lexical_cast<string>(UnitCivID));
+            warning.Append("\ndiffers from civ "+lexical_cast<std::string>(UnitCivID));
             wxMessageBox(warning);
         }
     }
@@ -2691,7 +2693,7 @@ wxString AGE_Frame::GetUnitCommandName(int index)
         case 149: return task_names[42];
         case 150: return task_names[43];
         case 151: return task_names[44];
-        default: return "Unk. Type "+lexical_cast<string>(CommandType);
+        default: return "Unk. Type "+lexical_cast<std::string>(CommandType);
     }
 }
 
@@ -2717,9 +2719,9 @@ void AGE_Frame::ListUnitCommands()
         {
             wxString Name = FormatInt(loop)+" - "+GetUnitCommandName(loop);
             if(dataset->UnitHeaders[UnitIDs.front()].TaskList[loop].ClassID != -1)
-            Name += " class "+lexical_cast<string>(dataset->UnitHeaders[UnitIDs.front()].TaskList[loop].ClassID);
+            Name += " class "+lexical_cast<std::string>(dataset->UnitHeaders[UnitIDs.front()].TaskList[loop].ClassID);
             else if(dataset->UnitHeaders[UnitIDs.front()].TaskList[loop].UnitID != -1)
-            Name += " unit "+lexical_cast<string>(dataset->UnitHeaders[UnitIDs.front()].TaskList[loop].UnitID);
+            Name += " unit "+lexical_cast<std::string>(dataset->UnitHeaders[UnitIDs.front()].TaskList[loop].UnitID);
             if(SearchMatches(" " + Name.Lower() + " "))
             {
                 Units_Tasks_ListV->names.Add(Name);
@@ -2740,9 +2742,9 @@ void AGE_Frame::ListUnitCommands()
             {
                 wxString Name = FormatInt(loop)+" - "+GetUnitCommandName(loop);
                 if(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList[loop].ClassID != -1)
-                Name += " class "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList[loop].ClassID);
+                Name += " class "+lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList[loop].ClassID);
                 else if(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList[loop].UnitID != -1)
-                Name += " unit "+lexical_cast<string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList[loop].UnitID);
+                Name += " unit "+lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList[loop].UnitID);
                 if(SearchMatches(" " + Name.Lower() + " "))
                 {
                     Units_Tasks_ListV->names.Add(Name);
@@ -2785,7 +2787,7 @@ void AGE_Frame::OnUnitCommandSelect(wxCommandEvent &event)
                 {
                     if(sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Bird.TaskList.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList.size())
                     {
-                        warning.Append(lexical_cast<string>(SelectedCivs[vecCiv])+" ");
+                        warning.Append(lexical_cast<std::string>(SelectedCivs[vecCiv])+" ");
                         showWarning = true;
                     }
                     task_ptr = &dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Bird.TaskList[CommandIDs[sel]];
@@ -2832,7 +2834,7 @@ void AGE_Frame::OnUnitCommandSelect(wxCommandEvent &event)
             }
             if(showWarning)
             {
-                warning.Append("\ndiffers from civ "+lexical_cast<string>(UnitCivID));
+                warning.Append("\ndiffers from civ "+lexical_cast<std::string>(UnitCivID));
                 wxMessageBox(warning);
             }
         }
@@ -3664,22 +3666,22 @@ void AGE_Frame::CreateUnitControls()
     Units_LanguageDLLName->SetToolTip("Usual Unit File Pattern for The Conquerors\nName: 5000-5999\n"
         "Creation: Name +1000\nHotkey: Name +11000\nHelp: Name +100000, in file Name +21000\n"
         "Hotkey Text: Name +150000, in file Name +10000\nTech tree: Name +9000");
-    Units_DLL_LanguageName = new TextCtrl_DLL(Units_Scroller, wxSize(AGETextCtrl::GIANT, 25));
+    Units_DLL_LanguageName = new TextIndexControl(Units_Scroller, wxSize(AGETextCtrl::GIANT, 25));
     Units_LanguageDLLCreation = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false);
-    Units_DLL_LanguageCreation = new TextCtrl_DLL(Units_Scroller, wxSize(AGETextCtrl::GIANT, 25));
+    Units_DLL_LanguageCreation = new TextIndexControl(Units_Scroller, wxSize(AGETextCtrl::GIANT, 25));
     Units_HotKey = new NumberControl(CLong, Units_Scroller, this, &uiGroupUnit, false);
     Units_HotKey->SetToolTip("10000 + Language File Creation (usually)");
-    Units_DLL_HotKey4 = new TextCtrl_DLL(Units_Scroller, wxSize(AGETextCtrl::GIANT, 25));
+    Units_DLL_HotKey4 = new TextIndexControl(Units_Scroller, wxSize(AGETextCtrl::GIANT, 25));
     Units_LanguageDLLHelp = new NumberControl(CLong, Units_Scroller, this, &uiGroupUnit, false);
     Units_LanguageDLLHelp->SetToolTip("100000 + Language File Name\nThis is linked to the help text below");
     Units_LanguageDLLConverter[0] = new wxTextCtrl(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
     Units_LanguageDLLConverter[0]->SetToolTip("Language help text in file\nHit enter to get the correction into dat file");
-    Units_DLL_LanguageHelp = new TextCtrl_DLL(Units_Scroller, wxSize(610, 55));
+    Units_DLL_LanguageHelp = new TextIndexControl(Units_Scroller, wxSize(610, 55));
     Units_LanguageDLLHotKeyText = new NumberControl(CLong, Units_Scroller, this, &uiGroupUnit, false);
     Units_LanguageDLLHotKeyText->SetToolTip("150000 + Language File Name\nThis seems to be used only in AoE (not RoR)\nThis language line has other purposes in SWGB and CC");
     Units_LanguageDLLConverter[1] = new wxTextCtrl(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
     Units_LanguageDLLConverter[1]->SetToolTip("Language hotkey text in file\nHit enter to get the correction into dat file");
-    Units_DLL_LanguageHKText = new TextCtrl_DLL(Units_Scroller, wxSize(610, 25));
+    Units_DLL_LanguageHKText = new TextIndexControl(Units_Scroller, wxSize(610, 25));
 
     wxArrayString choices;
     choices.Add("Stand 1");
@@ -5951,7 +5953,7 @@ void AGE_Frame::CreateUnitControls()
         ListUnits(UnitCivID);
 
         SetStatusText("Unit special paste", 2);
-        SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+FormatInt(copies.Dat.UnitCopies.front().size()), 3);
+        SetStatusText("Edits: "+lexical_cast<std::string>(popUp.unSaved)+" + "+FormatInt(copies.Dat.UnitCopies.front().size()), 3);
         popUp.unSaved += copies.Dat.UnitCopies.front().size();
     });
 

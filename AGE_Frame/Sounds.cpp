@@ -1,4 +1,6 @@
+#include "Common.h"
 #include "../AGE_Frame.h"
+#include "../Loaders.h"
 
 wxString AGE_Frame::GetSoundName(int sound)
 {
@@ -75,7 +77,7 @@ void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
             }
         }
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected sound: "+lexical_cast<string>(SoundIDs.front()), 0);
+    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected sound: "+lexical_cast<std::string>(SoundIDs.front()), 0);
 
     for(auto &box: uiGroupSound) box->update();
     Sounds_ID->refill();
@@ -224,7 +226,7 @@ void AGE_Frame::OnSoundItemSelect(wxCommandEvent &event)
         {
             sum += file.Probability;
         }
-        Sounds_TotalProbability_Info->SetLabel("Used "+lexical_cast<string>(sum)+"/"+lexical_cast<string>(dataset->Sounds[SoundIDs.front()].TotalProbability));
+        Sounds_TotalProbability_Info->SetLabel("Used "+lexical_cast<std::string>(sum)+"/"+lexical_cast<std::string>(dataset->Sounds[SoundIDs.front()].TotalProbability));
     }
     auto selections = Sounds_Items_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
@@ -331,7 +333,7 @@ void AGE_Frame::LoadAllSoundFiles(wxCommandEvent &event)
     {
         for(short file = 0; file < dataset->Sounds[sound].Items.size(); ++file)
         {
-            wxString Name = " S"+lexical_cast<string>(sound)+" F"+lexical_cast<string>(file)+" - "+GetSoundItemName(file, sound);
+            wxString Name = " S"+lexical_cast<std::string>(sound)+" F"+lexical_cast<std::string>(file)+" - "+GetSoundItemName(file, sound);
             if(SearchMatches(" " + Name.Lower() + " "))
             {
                 Sounds_AllItems_ListV->names.Add(Name);
@@ -638,7 +640,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
         auto &sound_item = dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs.front()];
         if(LooseHD)
         {
-            string soundname = GG::LoadSound(soundfolders, sound_item.FileName, sound_item.ResourceID);
+            std::string soundname = GG::LoadSound(soundfolders, sound_item.FileName, sound_item.ResourceID);
             if("" != soundname && waves.loadFromFile(soundname))
             {
                 echo(waves, speaker, loop); return;
@@ -647,7 +649,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
         else
         {
             // Terrain sounds may be loose files.
-            string soundname = GG::LoadSound(soundfolders, sound_item.FileName, sound_item.ResourceID);
+            std::string soundname = GG::LoadSound(soundfolders, sound_item.FileName, sound_item.ResourceID);
             if("" != soundname && waves.loadFromFile(soundname))
             {
                 echo(waves, speaker, loop); return;
@@ -698,8 +700,8 @@ void AGE_Frame::copySoundsFromCivToCiv(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     for(auto &sound: dataset->Sounds)
     {
-        vector<size_t> targets;
-        vector<genie::SoundItem> soundCopies;
+        std::vector<size_t> targets;
+        std::vector<genie::SoundItem> soundCopies;
         for(size_t file = 0; file < sound.Items.size(); ++file)
         {
             if(sound.Items[file].Civilization == sourceCiv)

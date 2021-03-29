@@ -1,10 +1,10 @@
 #pragma once
-#include "AGE_OpenSave.h"
+#include "OpenSaveDialog.h"
 
-class AGE_OpenDialog: public AGE_OpenSave
+class OpenDialog : public OpenSaveDialog
 {
 public:
-    AGE_OpenDialog(wxWindow *parent, const wxFont &font);
+    OpenDialog(wxWindow *parent, const wxFont &font);
 
     /* Events */
 
@@ -23,8 +23,8 @@ public:
 
     wxCheckBox *CheckBox_LangWriteToLatest;
     wxButton *Button_RawDecompress;
-    wxFilePickerCtrl *Path_RawDecompress, *Path_DRS3;
+    wxFilePickerCtrl *Path_RawDecompress, *Path_DRS3, *Path_Palettes, *Path_PlayerColorPalette;
     wxTextCtrl *TerrainsBox;
-    AGE_PairedCheckBox *CheckBox_DRSPath, *CheckBox_DRSPath2, *CheckBox_DRSPath3, *CheckBox_SlpPath;
+    PairedCheckBox *CheckBox_DRSPath, *CheckBox_DRSPath2, *CheckBox_DRSPath3, *CheckBox_SlpPath;
     wxDirPickerCtrl *Path_DRS, *Path_DRS2, *Path_SLP;
 };

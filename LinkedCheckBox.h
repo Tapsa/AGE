@@ -1,11 +1,12 @@
 #pragma once
-#include "AGE_TextControls.h"
+#include <wx/checkbox.h>
+#include "LinkedControl.h"
 
 class LinkedCheckBox : public wxCheckBox, public LinkedControl
 {
 public:
-    LinkedCheckBox(wxWindow* parent, wxString label, AGETextCtrl* link, bool connect = true);
-    inline void OnChoose(wxCommandEvent&) override;
+    LinkedCheckBox(wxWindow *parent, wxString label, AGETextCtrl *link, bool connect = true);
+    inline void OnChoose(wxCommandEvent &) override;
 
 private:
     inline void SetChoice(int value) override { SetValue(value); }

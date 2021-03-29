@@ -1,4 +1,15 @@
+#include "Common.h"
 #include "../AGE_Frame.h"
+#include "../EditableVersion.h"
+#include "../Loaders.h"
+
+#ifndef WIN32
+// dummies for code that is not used on linux
+#define LoadStringA(lib, id, buf, letters) (false)
+#define LoadLibrary(name) (0)
+#endif
+
+// Icons
 #include "../DRSunlock.xpm"
 #include "../DRSlock.xpm"
 #include "../Villager32.xpm"
@@ -41,7 +52,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
     if(popUp.unSaved > 0)
     {
         int answer = wxMessageBox("Do you want to save changes made to open files?\nThere are "
-                        +lexical_cast<string>(popUp.unSaved)+" unsaved changes.",
+                        +lexical_cast<std::string>(popUp.unSaved)+" unsaved changes.",
                         "Advanced Genie Editor", wxICON_QUESTION | wxCANCEL | wxYES_NO);
         if(answer != wxNO)
         {
@@ -61,7 +72,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
     }
     if(!SkipOpenDialog)
     {
-        AGE_OpenDialog OpenBox(this, font);
+        OpenDialog OpenBox(this, font);
 
         int RecentItems, RecentVersion;
         {
@@ -71,7 +82,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             OpenBox.RecentValues.resize(RecentItems);
             for(int i=0; i < RecentItems; ++i)
             {
-                OpenBox.RecentValues[i].Alloc(9);
+                OpenBox.RecentValues[i].Alloc(11);
                 wxString temp, entry = "Recent" + wxString::Format("%04d", i + 1);
                 RecentOpen.Read(entry + "/DatVersion", &temp, "-1");
                 if (RecentVersion < 2 && lexical_cast<int>(temp) > EV_TC)
@@ -87,6 +98,8 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 RecentOpen.Read(entry + "/PathDRS2", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/PathDRS3", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/LooseSLP", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen.Read(entry + "/PathPalettes", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                RecentOpen.Read(entry + "/PathPlayerPalette", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
             }
         }
         if(OpenBox.RecentValues.size())
@@ -109,11 +122,13 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
 
         OpenBox.DriveLetterBox->ChangeValue(DriveLetter);
         OpenBox.LanguageBox->ChangeValue(Language);
-        OpenBox.TerrainsBox->ChangeValue(lexical_cast<string>(CustomTerrains));
+        OpenBox.TerrainsBox->ChangeValue(lexical_cast<std::string>(CustomTerrains));
         OpenBox.Path_DRS->SetPath(FolderDRS);
         OpenBox.Path_DRS2->SetPath(FolderDRS2);
         OpenBox.Path_DRS3->SetPath(Path1stDRS);
         OpenBox.Path_SLP->SetPath(PathSLP);
+        OpenBox.Path_Palettes->SetPath(PathPalettes);
+        OpenBox.Path_PlayerColorPalette->SetPath(PathPlayerColorPalette);
         OpenBox.CheckBox_DRSPath->SetValue(UseDRS);
         OpenBox.CheckBox_DRSPath2->SetValue(UseMod);
         OpenBox.CheckBox_DRSPath3->SetValue(UseExtra);
@@ -162,6 +177,8 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         FolderDRS2 = OpenBox.Path_DRS2->GetPath();
         Path1stDRS = OpenBox.Path_DRS3->GetPath();
         PathSLP = OpenBox.Path_SLP->GetPath();
+        PathPalettes = OpenBox.Path_Palettes->GetPath();
+        PathPlayerColorPalette = OpenBox.Path_PlayerColorPalette->GetPath();
         UseDRS = OpenBox.CheckBox_DRSPath->GetValue();
         UseMod = OpenBox.CheckBox_DRSPath2->GetValue();
         UseExtra = OpenBox.CheckBox_DRSPath3->GetValue();
@@ -176,7 +193,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         popUp.unSaved = 0;
         ++popUp.loadedFileId;
 
-        wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<std::string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/DriveLetter", DriveLetter);
         Config.Write("DefaultFiles/CustomFolder", CustomFolder);
         Config.Write("DefaultFiles/Version", GameVersion);
@@ -186,6 +203,8 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         Config.Write("DefaultFiles/FolderDRS2", FolderDRS2);
         Config.Write("DefaultFiles/Path1stDRS", Path1stDRS);
         Config.Write("DefaultFiles/PathLooseSprites", PathSLP);
+        Config.Write("DefaultFiles/PathPalettes", PathPalettes);
+        Config.Write("DefaultFiles/PathPlayerPalette", PathPlayerColorPalette);
         Config.Write("DefaultFiles/UseDRS", UseDRS);
         Config.Write("DefaultFiles/UseMod", UseMod);
         Config.Write("DefaultFiles/UseExtra", UseExtra);
@@ -204,8 +223,8 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         if(!OpenBox.CheckBox_LangX1P1FileLocation->IsChecked()) LangX1P1FileName = "";
 
         wxArrayString latest;
-        latest.Alloc(9);
-        latest.Add(lexical_cast<string>(GameVersion));
+        latest.Alloc(11);
+        latest.Add(lexical_cast<std::string>(GameVersion));
         latest.Add(DatFileName);
         latest.Add(LangFileName);
         latest.Add(LangX1FileName);
@@ -214,6 +233,8 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         latest.Add(FolderDRS2);
         latest.Add(Path1stDRS);
         latest.Add(PathSLP);
+        latest.Add(PathPalettes);
+        latest.Add(PathPlayerColorPalette);
         int items = produceRecentValues(latest, OpenBox.RecentValues);
         wxConfig RecentOpen("", "", "AGE2\\RecentOpen", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentOpen.Write("Recent/Items", items);
@@ -230,6 +251,8 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             RecentOpen.Write(entry + "/PathDRS2", OpenBox.RecentValues[i][6]);
             RecentOpen.Write(entry + "/PathDRS3", OpenBox.RecentValues[i][7]);
             RecentOpen.Write(entry + "/LooseSLP", OpenBox.RecentValues[i][8]);
+            RecentOpen.Write(entry + "/PathPalettes", OpenBox.RecentValues[i][9]);
+            RecentOpen.Write(entry + "/PathPlayerPalette", OpenBox.RecentValues[i][10]);
         }
     }
 
@@ -451,7 +474,8 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             OnMenuOption(loadDRS);
         }
         // Load custom palettes
-        GG::LoadPalettes(palettes, PalettesPath);
+        GG::LoadPalettes(palettes, PathPalettes);
+        GG::LoadPlayerPalette(pc_palettes, PathPlayerColorPalette);
     }
 
     if(dataset)
@@ -1377,22 +1401,22 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         if(GenieVersion < genie::GV_AoKA) // AoE and RoR
         for(size_t loop = 0; loop < AoE1Count; ++loop)
         {
-            if(!Customs.Read("AoE1Names/"+lexical_cast<string>(loop), &read_buf, DefAoE1Armors[loop]))
-                Customs.Write("AoE1Names/"+lexical_cast<string>(loop), DefAoE1Armors[loop]);
+            if(!Customs.Read("AoE1Names/"+lexical_cast<std::string>(loop), &read_buf, DefAoE1Armors[loop]))
+                Customs.Write("AoE1Names/"+lexical_cast<std::string>(loop), DefAoE1Armors[loop]);
             armor_names.Add(read_buf);
         }
         else if(GenieVersion < genie::GV_SWGB) // AoK and TC
         for(size_t loop = 0; loop < AoE2Count; ++loop)
         {
-            if(!Customs.Read("AoE2Names/"+lexical_cast<string>(loop), &read_buf, DefAoE2Armors[loop]))
-                Customs.Write("AoE2Names/"+lexical_cast<string>(loop), DefAoE2Armors[loop]);
+            if(!Customs.Read("AoE2Names/"+lexical_cast<std::string>(loop), &read_buf, DefAoE2Armors[loop]))
+                Customs.Write("AoE2Names/"+lexical_cast<std::string>(loop), DefAoE2Armors[loop]);
             armor_names.Add(read_buf);
         }
         else // SWGB and CC
         for(size_t loop = 0; loop < SWGBCount; ++loop)
         {
-            if(!Customs.Read("SWGBNames/"+lexical_cast<string>(loop), &read_buf, DefSWGBArmors[loop]))
-                Customs.Write("SWGBNames/"+lexical_cast<string>(loop), DefSWGBArmors[loop]);
+            if(!Customs.Read("SWGBNames/"+lexical_cast<std::string>(loop), &read_buf, DefSWGBArmors[loop]))
+                Customs.Write("SWGBNames/"+lexical_cast<std::string>(loop), DefSWGBArmors[loop]);
             armor_names.Add(read_buf);
         }
         Effects_89_Type_CB1->Flash();
@@ -1403,38 +1427,38 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
 
         for(size_t loop = 0; loop < AoE1CountTR; ++loop)
         {
-            if(!Customs.Read("AoE1TerrainRestrictionNames/"+lexical_cast<string>(loop), &read_buf, DefAoE1TerrainRests[loop]))
-                Customs.Write("AoE1TerrainRestrictionNames/"+lexical_cast<string>(loop), DefAoE1TerrainRests[loop]);
+            if(!Customs.Read("AoE1TerrainRestrictionNames/"+lexical_cast<std::string>(loop), &read_buf, DefAoE1TerrainRests[loop]))
+                Customs.Write("AoE1TerrainRestrictionNames/"+lexical_cast<std::string>(loop), DefAoE1TerrainRests[loop]);
             AoE1TerrainRestrictions.Add(read_buf);
         }
         for(size_t loop = 0; loop < AoE2CountTR; ++loop)
         {
-            if(!Customs.Read("AoE2TerrainRestrictionNames/"+lexical_cast<string>(loop), &read_buf, DefAoE2TerrainRests[loop]))
-                Customs.Write("AoE2TerrainRestrictionNames/"+lexical_cast<string>(loop), DefAoE2TerrainRests[loop]);
+            if(!Customs.Read("AoE2TerrainRestrictionNames/"+lexical_cast<std::string>(loop), &read_buf, DefAoE2TerrainRests[loop]))
+                Customs.Write("AoE2TerrainRestrictionNames/"+lexical_cast<std::string>(loop), DefAoE2TerrainRests[loop]);
             AoE2TerrainRestrictions.Add(read_buf);
         }
         for(size_t loop = 0; loop < SWGBCountTR; ++loop)
         {
-            if(!Customs.Read("SWGBTerrainRestrictionNames/"+lexical_cast<string>(loop), &read_buf, DefSWGBTerrainRests[loop]))
-                Customs.Write("SWGBTerrainRestrictionNames/"+lexical_cast<string>(loop), DefSWGBTerrainRests[loop]);
+            if(!Customs.Read("SWGBTerrainRestrictionNames/"+lexical_cast<std::string>(loop), &read_buf, DefSWGBTerrainRests[loop]))
+                Customs.Write("SWGBTerrainRestrictionNames/"+lexical_cast<std::string>(loop), DefSWGBTerrainRests[loop]);
             SWGBTerrainRestrictions.Add(read_buf);
         }
         for(size_t loop = 0; loop < RoRCountCR; ++loop)
         {
-            if(!Customs.Read("RoRCivResNames/"+lexical_cast<string>(loop), &read_buf, DefRoRCivRes[loop]))
-                Customs.Write("RoRCivResNames/"+lexical_cast<string>(loop), DefRoRCivRes[loop]);
+            if(!Customs.Read("RoRCivResNames/"+lexical_cast<std::string>(loop), &read_buf, DefRoRCivRes[loop]))
+                Customs.Write("RoRCivResNames/"+lexical_cast<std::string>(loop), DefRoRCivRes[loop]);
             RoRCivResources.Add(read_buf);
         }
         for(size_t loop = 0; loop < AoKCountCR; ++loop)
         {
-            if(!Customs.Read("AoKCivResNames/"+lexical_cast<string>(loop), &read_buf, DefAoKCivRes[loop]))
-                Customs.Write("AoKCivResNames/"+lexical_cast<string>(loop), DefAoKCivRes[loop]);
+            if(!Customs.Read("AoKCivResNames/"+lexical_cast<std::string>(loop), &read_buf, DefAoKCivRes[loop]))
+                Customs.Write("AoKCivResNames/"+lexical_cast<std::string>(loop), DefAoKCivRes[loop]);
             AoKCivResources.Add(read_buf);
         }
         for(size_t loop = 0; loop < SWGBCountCR; ++loop)
         {
-            if(!Customs.Read("SWGBCivResNames/"+lexical_cast<string>(loop), &read_buf, DefSWGBCivRes[loop]))
-                Customs.Write("SWGBCivResNames/"+lexical_cast<string>(loop), DefSWGBCivRes[loop]);
+            if(!Customs.Read("SWGBCivResNames/"+lexical_cast<std::string>(loop), &read_buf, DefSWGBCivRes[loop]))
+                Customs.Write("SWGBCivResNames/"+lexical_cast<std::string>(loop), DefSWGBCivRes[loop]);
             SWGBCivResources.Add(read_buf);
         }
 
@@ -1641,7 +1665,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             Sounds_Items_SearchFilters[loop]->Flash();
         }
 
-        SetStatusText(lexical_cast<string>(dataset->FileVersion), 4);
+        SetStatusText(lexical_cast<std::string>(dataset->FileVersion), 4);
 
         effect_attribute_names.Clear();
         effect_attribute_names.Add("No Attribute/Invalid Attribute");     // Selection 0
@@ -1834,7 +1858,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         else
         {
             for(size_t loop = 10; loop < 17; ++loop)
-            effect_type_names.Add(lexical_cast<string>(loop) + " - AoK UP, HD and DE only");
+            effect_type_names.Add(lexical_cast<std::string>(loop) + " - AoK UP, HD and DE only");
         }
         if(GameVersion == EV_UP)
         {
@@ -1865,7 +1889,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         else
         {
             for(size_t loop = 17; loop < 40; ++loop)
-                effect_type_names.Add(lexical_cast<string>(loop) + " - UP 1.5 only");
+                effect_type_names.Add(lexical_cast<std::string>(loop) + " - UP 1.5 only");
         }
         if(GenieVersion < genie::GV_AoKA && (GenieVersion < genie::GV_Tapsa || GenieVersion > genie::GV_LatestTap))
         {
@@ -2359,23 +2383,21 @@ void AGE_Frame::OnGameVersionChange()
     Refresh(); // Does this refresh non-visible tabs?
 }
 
-void AGE_Frame::OnSyncSaveWithOpen(wxCommandEvent &event)
-{
-    if(event.IsChecked())
-    {
-        SaveDialog->ComboBox_GenieVer->SetSelection(GameVersion);
-        SaveDialog->Path_DatFileLocation->SetPath(DatFileName);
-        SaveDialog->Path_LangFileLocation->SetPath(LangFileName);
-        SaveDialog->Path_LangX1FileLocation->SetPath(LangX1FileName);
-        SaveDialog->Path_LangX1P1FileLocation->SetPath(LangX1P1FileName);
-    }
-}
-
 void AGE_Frame::OnSave(wxCommandEvent&)
 {
-    AGE_SaveDialog SaveBox(this, font);
-    SaveDialog = &SaveBox;
-    SaveBox.SyncWithReadPaths->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnSyncSaveWithOpen, this);
+    SaveDialog SaveBox(this, font);
+    auto OnSyncSaveWithOpen = [this, &SaveBox](wxCommandEvent &event)
+    {
+        if (event.IsChecked())
+        {
+            SaveBox.ComboBox_GenieVer->SetSelection(GameVersion);
+            SaveBox.Path_DatFileLocation->SetPath(DatFileName);
+            SaveBox.Path_LangFileLocation->SetPath(LangFileName);
+            SaveBox.Path_LangX1FileLocation->SetPath(LangX1FileName);
+            SaveBox.Path_LangX1P1FileLocation->SetPath(LangX1P1FileName);
+        }
+    };
+    SaveBox.SyncWithReadPaths->Bind(wxEVT_CHECKBOX, OnSyncSaveWithOpen);
 
     int RecentItems, RecentVersion;
     {
@@ -2462,7 +2484,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
 
     if(!save) return;
     {
-        wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<std::string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/SyncSaveWithOpen", SyncSaveWithOpen);
         Config.Write("DefaultFiles/SaveVersion", SaveGameVersion);
         Config.Write("DefaultFiles/SaveDatFilename", SaveDatFileName);
@@ -2479,7 +2501,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
 
         wxArrayString latest;
         latest.Alloc(5);
-        latest.Add(lexical_cast<string>(SaveGameVersion));
+        latest.Add(lexical_cast<std::string>(SaveGameVersion));
         latest.Add(SaveDatFileName);
         latest.Add(SaveLangFileName);
         latest.Add(SaveLangX1FileName);
@@ -2555,10 +2577,10 @@ void AGE_Frame::OnSave(wxCommandEvent&)
             BordersInTerrains /= TerrainsInData;
             if (TerrainsInData != BordersInTerrains)
             {
-                wxString viesti = "Send file to Tapsa for repair!\nTerrains: " + lexical_cast<string>(TerrainsInData);
-                viesti += "\nBorders: " + lexical_cast<string>(BordersInTerrains);
-                viesti += "\nLoaded game version: " + lexical_cast<string>(dataset->TerrainBlock.getGameVersion());
-                viesti += "\nTerrain game version: " + lexical_cast<string>(dataset->TerrainBlock.Terrains.front().getGameVersion());
+                wxString viesti = "Send file to Tapsa for repair!\nTerrains: " + lexical_cast<std::string>(TerrainsInData);
+                viesti += "\nBorders: " + lexical_cast<std::string>(BordersInTerrains);
+                viesti += "\nLoaded game version: " + lexical_cast<std::string>(dataset->TerrainBlock.getGameVersion());
+                viesti += "\nTerrain game version: " + lexical_cast<std::string>(dataset->TerrainBlock.Terrains.front().getGameVersion());
                 wxMessageBox(viesti);
             }
             // <-- ends here
@@ -2614,7 +2636,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
         }
     }
 
-    SetStatusText("Selected files saved. "+lexical_cast<string>(popUp.unSaved)+" dat edits.", 0);
+    SetStatusText("Selected files saved. "+lexical_cast<std::string>(popUp.unSaved)+" dat edits.", 0);
     popUp.unSaved = 0;
 }
 
@@ -2713,7 +2735,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
         }
         case eAbout:
         {
-            AGE_AboutDialog AGEAbout(this, font);
+            AboutDialog AGEAbout(this, font);
             AGEAbout.ShowModal();
             break;
         }
@@ -2750,7 +2772,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 slp_frame_import = new wxButton(panel, eImportFrame, "Import PNGs to frame");
                 slp_save = new wxButton(panel, eSaveSLP, "Save SLP");
                 slp_tool = new wxButton(panel, eSLPTool, "SLP Tool");
-                slp_zoom_btn = new wxButton(panel, eZoom, "Zoom: " + lexical_cast<string>(int(slp_zoom * 100)) + " %");
+                slp_zoom_btn = new wxButton(panel, eZoom, "Zoom: " + lexical_cast<std::string>(int(slp_zoom * 100)) + " %");
                 slp_merge_shadow = new wxButton(panel, eSLPMergeShadow, "Merge shadow from 2 to 1");
                 slp_tool_layout = new wxFlexGridSizer(2, 2, 2);
                 SolidText *text_source1 = new SolidText(panel, " Source SLP 1");
@@ -2896,8 +2918,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 "Configuration files (*.conf)|*.conf", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
             if(pd.ShowModal() == wxID_OK)
             {
-                PalettesPath = pd.GetPath();
-                GG::LoadPalettes(palettes, PalettesPath);
+                PathPalettes = pd.GetPath();
+                GG::LoadPalettes(palettes, PathPalettes);
             }
             break;
         }
@@ -2907,17 +2929,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 "Palette files (*.pal)|*.pal", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
             if(pd.ShowModal() == wxID_OK)
             {
-                pc_palettes.clear();
-                genie::PalFile pal;
-                try
-                {
-                    pal.load(pd.GetPath().c_str());
-                    pc_palettes.push_back(pal.getColors());
-                }
-                catch(const std::ios_base::failure&)
-                {
-                    wxMessageBox("Cannot load palette");
-                }
+                PathPlayerColorPalette = pd.GetPath();
+                GG::LoadPalettes(pc_palettes, PathPlayerColorPalette);
             }
             break;
         }
@@ -3195,7 +3208,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             for(size_t win = 0; win < 4; ++win)
             if(!AGE_Frame::openEditors[win])
             {
-                AGE_Frame* newWindow = new AGE_Frame("AGE " + AGE_AboutDialog::AGE_VER + " window "+lexical_cast<string>(win+1), win);
+                AGE_Frame* newWindow = new AGE_Frame("AGE " + AboutDialog::AGE_VER + " window "+lexical_cast<std::string>(win+1), win);
                 FixSize(newWindow);
                 wxCommandEvent OpenFiles(wxEVT_MENU, newWindow->eOpen);
                 newWindow->OnOpen(OpenFiles);
@@ -3267,17 +3280,17 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             for(size_t sprite = 0; sprite < dataset->Graphics.size(); ++sprite)
             if(dataset->GraphicPointers[sprite])
             {
-                slp_csv.AddLine(lexical_cast<string>(dataset->Graphics[sprite].SLP)
+                slp_csv.AddLine(lexical_cast<std::string>(dataset->Graphics[sprite].SLP)
                             +','+dataset->Graphics[sprite].FileName
                             +','+dataset->Graphics[sprite].Name
-                            +','+lexical_cast<string>(dataset->Graphics[sprite].FrameCount)
-                            +','+lexical_cast<string>(dataset->Graphics[sprite].AngleCount));
+                            +','+lexical_cast<std::string>(dataset->Graphics[sprite].FrameCount)
+                            +','+lexical_cast<std::string>(dataset->Graphics[sprite].AngleCount));
             }
 
             size_t unit, civ, depth = 0;
             obj_csv.AddLine("Civ,IconSet,UnitID,UnitName,LangName,"
                 "Name,PicFilename,Layer,NumFrames,NumFacets");
-            function<void(size_t)> sprite_checker = [&](size_t sprite)
+            std::function<void(size_t)> sprite_checker = [&](size_t sprite)
             {
                 ++depth;
                 if(sprite < dataset->Graphics.size() && dataset->GraphicPointers[sprite])
@@ -3285,16 +3298,16 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     if(!dataset->Graphics[sprite].FileName.empty())
                     {
                         obj_csv.AddLine(dataset->Civs[civ].Name
-                            +','+lexical_cast<string>((int)dataset->Civs[civ].IconSet)
-                            +','+lexical_cast<string>(unit)
+                            +','+lexical_cast<std::string>((int)dataset->Civs[civ].IconSet)
+                            +','+lexical_cast<std::string>(unit)
                             +','+dataset->Civs[civ].Units[unit].Name
                             +','+TranslatedText(dataset->Civs[civ].Units[unit].LanguageDLLName, 24)
-                            //+','+lexical_cast<string>((int)dataset->Civs[civ].Units[unit].OcclusionMode)
+                            //+','+lexical_cast<std::string>((int)dataset->Civs[civ].Units[unit].OcclusionMode)
                             +','+dataset->Graphics[sprite].Name
                             +','+dataset->Graphics[sprite].FileName
-                            +','+lexical_cast<string>((int)dataset->Graphics[sprite].Layer)
-                            +','+lexical_cast<string>(dataset->Graphics[sprite].FrameCount)
-                            +','+lexical_cast<string>(dataset->Graphics[sprite].AngleCount));
+                            +','+lexical_cast<std::string>((int)dataset->Graphics[sprite].Layer)
+                            +','+lexical_cast<std::string>(dataset->Graphics[sprite].FrameCount)
+                            +','+lexical_cast<std::string>(dataset->Graphics[sprite].AngleCount));
                     }
                     if(depth == 1)
                     for(size_t delta = 0; delta < dataset->Graphics[sprite].Deltas.size(); ++delta)
@@ -3314,12 +3327,12 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     //int hotkey = dataset->Civs[civ].Units[unit].HotKey;
 
                     /*obj_csv.AddLine(dataset->Civs[civ].Name
-                            +','+lexical_cast<string>((int)dataset->Civs[civ].IconSet)
-                            +','+lexical_cast<string>(unit)
+                            +','+lexical_cast<std::string>((int)dataset->Civs[civ].IconSet)
+                            +','+lexical_cast<std::string>(unit)
                             +','+dataset->Civs[civ].Units[unit].Name
-                            +','+lexical_cast<string>(langname)
+                            +','+lexical_cast<std::string>(langname)
                             +','+TranslatedText(langname, 24)
-                            +','+lexical_cast<string>(hotkey)
+                            +','+lexical_cast<std::string>(hotkey)
                             +','+TranslatedText(hotkey, 8));*/
 
                     //if(dataset->Civs[civ].Units[unit].OcclusionMode)
@@ -3382,7 +3395,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
         }
         case eCacheDepth:
         {
-            wxTextEntryDialog ted(this, "Enter new cache depth", "Set Cache Depth", lexical_cast<string>(GG::cache_depth));
+            wxTextEntryDialog ted(this, "Enter new cache depth", "Set Cache Depth", lexical_cast<std::string>(GG::cache_depth));
             ted.SetTextValidator(wxFILTER_DIGITS);
             if(ted.ShowModal() == wxID_OK)
             {
@@ -3418,11 +3431,11 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             }
             break;
         }
-        default: wxMessageBox("ID "+lexical_cast<string>(event.GetId())+"\nType "+lexical_cast<string>(event.GetEventType()), "Unhandled Event");
+        default: wxMessageBox("ID "+lexical_cast<std::string>(event.GetId())+"\nType "+lexical_cast<std::string>(event.GetEventType()), "Unhandled Event");
     }
 }
 
-int AGE_Frame::produceRecentValues(wxArrayString &latest, vector<wxArrayString> &RecentValues)
+int AGE_Frame::produceRecentValues(wxArrayString &latest, std::vector<wxArrayString> &RecentValues)
 {
     RecentValues.insert(RecentValues.begin(), latest);
     int RecentItems = RecentValues.size();
@@ -3506,11 +3519,26 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
     {
         if(!graphic->filename.empty())
         {
-            if(GameVersion == EV_DE2 || GameVersion == EV_Tapsa)
+            if(GameVersion == EV_Tapsa)
             {
                 graphic->filename.Replace("<x#>", AlexZoom, false);
             }
+            if(GameVersion == EV_DE2)
+            {
+                size_t nameLength = graphic->filename.length();
+                if (nameLength >= 3 &&
+                    graphic->filename[nameLength - 2] == 'x' &&
+                    graphic->filename[nameLength - 1] == '1')
+                {
+                    graphic->filename[nameLength - 1] = AlexZoom[1];
+                }
+            }
             wxString plainName = PathSLP + "\\" + graphic->filename;
+            if(wxFileName(plainName + ".smx").FileExists())
+            {
+               graphic->smx = GG::LoadSMX(plainName + ".smx");
+               if(graphic->smx) return true;
+            }
             if(wxFileName(plainName + ".smp").FileExists())
             {
                graphic->smp = GG::LoadSMP(plainName + ".smp");
@@ -3542,7 +3570,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
         for(int i=0; i < folders.size(); ++i)
         {
             // HD uses slp ID instead
-            graphic->slp = GG::LoadSLP(folders[i] + lexical_cast<string>(graphic->slpID) + ".slp");
+            graphic->slp = GG::LoadSLP(folders[i] + lexical_cast<std::string>(graphic->slpID) + ".slp");
             if(graphic->slp) return true;
         }
     }
@@ -3566,6 +3594,86 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         graphic->bitmap = wxNullBitmap;
         return;
     }
+    if (graphic->smx)
+    {
+        genie::SmxFramePtr frame;
+        SetStatusText("Looking for frame " + FormatInt(graphic->frameID), 1);
+        graphic->frames = graphic->smx->getFrameCount();
+        if (graphic->frames)
+        {
+            try
+            {
+                frame = graphic->smx->getFrame(graphic->frameID);
+            }
+            catch (const std::out_of_range&) {}
+        }
+        if (!frame)
+        {
+            graphic->bitmap = wxNullBitmap;
+            SetStatusText("No frame: " + FormatInt(graphic->frameID) + ", frames: " + FormatInt(graphic->frames), 1);
+            return;
+        }
+
+        const int width = frame->getWidth();
+        const int height = frame->getHeight();
+        graphic->xpos = -frame->getHotspotX();
+        graphic->ypos = -frame->getHotspotY();
+        const int area = width * height;
+        std::vector<uint8_t> rgbdata(area * 4, 0);
+        uint8_t* val = rgbdata.data();
+        uint8_t* alpha = val + area * 3;
+        const genie::SmxFrameData* imgdata = &frame->img_data;
+        const std::vector<genie::Color>* pal = &palettes.front();
+        size_t pal_chooser = frame->palette_id;
+        if (pal_chooser < palettes.size())
+        {
+            pal = &palettes[pal_chooser];
+        }
+        if (!pal->empty())
+        {
+            for (int i = 0; i < area; ++i)
+            {
+                uint16_t colorId = 0x3FF & imgdata->pixel_indexes[i];
+                genie::Color rgba = colorId < pal->size() ? (*pal)[colorId] : genie::Color(74, 65, 42, 255);
+                *val++ = rgba.r;
+                *val++ = rgba.g;
+                *val++ = rgba.b;
+                *alpha++ = imgdata->alpha_channel[i];
+            }
+            // In case of using separate player color palette
+            bool sep_pcp = pc_palettes.size();
+            if (sep_pcp)
+            {
+                pal = &pc_palettes.front();
+            }
+            // Apply player color
+            for (int i = 0; i < imgdata->player_color_mask.size(); ++i)
+            {
+                int flat = imgdata->player_color_mask[i].y * width + imgdata->player_color_mask[i].x;
+                int loc = 3 * flat;
+                int locA = 3 * area + flat;
+                uint16_t colorId = 0x3FF & imgdata->player_color_mask[i].index;
+                genie::Color rgba = colorId < pal->size() ? (*pal)[colorId] : genie::Color(74, 65, 42, 255);
+                rgbdata[loc] = rgba.r;
+                rgbdata[loc + 1] = rgba.g;
+                rgbdata[loc + 2] = rgba.b;
+                rgbdata[locA] = 255;
+            }
+        }
+        unsigned char* pic = (unsigned char*)rgbdata.data();
+        unsigned char* trans = pic + area * 3;
+        wxImage img(width, height, pic, trans, true);
+        if (centralize)
+        {
+            int left = frame->getHotspotX(), right = width - left,
+                top = frame->getHotspotY(), bottom = height - top;
+            int half_width = left > right ? left : right;
+            int half_height = top > bottom ? top : bottom;
+            img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(std::min(half_width, half_width - left), std::min(half_height, half_height - top)));
+        }
+        graphic->bitmap = wxBitmap(img, 24);
+        return;
+    }
     if(graphic->smp)
     {
         genie::SmpFramePtr frame;
@@ -3577,7 +3685,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
             {
                 frame = graphic->smp->getFrame(graphic->frameID);
             }
-            catch(const out_of_range&){}
+            catch(const std::out_of_range&){}
         }
         if(!frame)
         {
@@ -3591,11 +3699,11 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         graphic->xpos = -frame->layer_hotspot_x;
         graphic->ypos = -frame->layer_hotspot_y;
         const int area = width * height;
-        vector<uint8_t> rgbdata(area * 4, 0);
+        std::vector<uint8_t> rgbdata(area * 4, 0);
         uint8_t *val = rgbdata.data();
         uint8_t *alpha = val + area * 3;
         const genie::SmpFrameData *imgdata = &frame->img_data;
-        const vector<genie::Color> *pal = &palettes.front();
+        const std::vector<genie::Color> *pal = &palettes.front();
         if(!pal->empty())
         {
             for(int i=0; i < area; ++i)
@@ -3609,7 +3717,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
                 *val++ = rgba.r;
                 *val++ = rgba.g;
                 *val++ = rgba.b;
-                *alpha++ = imgdata->alpha_channel[i] ? rgba.a : 0;
+                *alpha++ = imgdata->alpha_channel[i];
             }
             // In case of using separate player color palette
             bool sep_pcp = pc_palettes.size();
@@ -3639,7 +3747,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
                 top = frame->hotspot_y, bottom = height - top;
             int half_width = left > right ? left : right;
             int half_height = top > bottom ? top : bottom;
-            img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(min(half_width, half_width - left), min(half_height, half_height - top)));
+            img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(std::min(half_width, half_width - left), std::min(half_height, half_height - top)));
         }
         graphic->bitmap = wxBitmap(img, 24);
         return;
@@ -3659,7 +3767,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         {
             frame = graphic->slp->getFrame(graphic->frameID);
         }
-        catch(const out_of_range&){}
+        catch(const std::out_of_range&){}
     }
     if(!frame)
     {
@@ -3674,7 +3782,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
     graphic->xpos = graphic->flip ? frame->hotspot_x - width : -frame->hotspot_x;
     graphic->ypos = -frame->hotspot_y;
     const int area = width * height;
-    vector<uint8_t> rgbdata(area * 4, 0);
+    std::vector<uint8_t> rgbdata(area * 4, 0);
     uint8_t *val = rgbdata.data();
     uint8_t *alpha = val + area * 3;
     const genie::SlpFrameData *imgdata = &frame->img_data;
@@ -3702,7 +3810,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
     }
     else
     {
-        const vector<genie::Color> *pal = &palettes.front();
+        const std::vector<genie::Color> *pal = &palettes.front();
         if(imgdata->palette.size())
         {
             pal = &imgdata->palette;
@@ -3797,7 +3905,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
             top = frame->hotspot_y, bottom = height - top;
         int half_width = left > right ? left : right;
         int half_height = top > bottom ? top : bottom;
-        img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(min(half_width, half_width - left), min(half_height, half_height - top)));
+        img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(std::min(half_width, half_width - left), std::min(half_height, half_height - top)));
     }
     graphic->bitmap = wxBitmap(img, 24);
 }
@@ -3823,10 +3931,10 @@ void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
     {
         frame = graphic->slp->getFrame(graphic->frameID);
     }
-    catch(const out_of_range&){}
+    catch(const std::out_of_range&){}
     if(!frame)
     {
-        wxMessageBox("Congrats seeing this message", "No SLP frame " + lexical_cast<string>(graphic->frameID));
+        wxMessageBox("Congrats seeing this message", "No SLP frame " + lexical_cast<std::string>(graphic->frameID));
         return;
     }
     genie::SlpFrameData *imgdata = &frame->img_data;
@@ -3867,8 +3975,8 @@ bool AGE_Frame::FileExists(const char * value)
 
 void AGE_Frame::LoadTXT(const wxString &filename)
 {
-    string line(filename);
-    ifstream infile(line);
+    std::string line(filename);
+    std::ifstream infile(line);
     while(getline(infile, line))
     {
         size_t num = 0;
@@ -3921,7 +4029,7 @@ wxString AGE_Frame::TranslatedText(int ID, int letters)
 void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &event)
 {
     event.Skip();
-    TextCtrl_DLL *control = static_cast<TextCtrl_DLL*>(event.GetEventObject());
+    TextIndexControl *control = static_cast<TextIndexControl*>(event.GetEventObject());
     if(control->IsModified())
     {
         control->DiscardEdits();
@@ -3936,7 +4044,7 @@ void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &event)
         int ID = control->index;
         wxString text(control->GetValue());
         text.Replace("\r\n", "\n");
-        string Name = string(text);
+        std::string Name = std::string(text);
         if(LangWriteToLatest)
         {
             if(LangsUsed & 4) LangXP->setString(ID, Name);
@@ -3949,7 +4057,7 @@ void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &event)
             if(LangsUsed & 2 && !LangX->getString(ID).empty()) LangX->setString(ID, "");
             if(LangsUsed & 1) Lang->setString(ID, Name);
         }
-        SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<string>(ID), 0);
+        SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<std::string>(ID), 0);
     }
 }
 
@@ -4083,7 +4191,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
         {
             SetStatusText("Added 1 hidden", 2);
         }
-        SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + 1", 3);
+        SetStatusText("Edits: "+lexical_cast<std::string>(popUp.unSaved)+" + 1", 3);
         ++popUp.unSaved;
     }
     else if(How2List == DEL)
@@ -4099,7 +4207,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
             List->Set(names);
             SetStatusText("Listed all again", 2);
         }
-        SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(selections), 3);
+        SetStatusText("Edits: "+lexical_cast<std::string>(popUp.unSaved)+" + "+lexical_cast<std::string>(selections), 3);
         popUp.unSaved += selections;
     }
     else if(How2List == PASTE && Paste11)
@@ -4109,7 +4217,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
             List->SetString(Items.Item(sel), names[Items.Item(sel)]);
         }
         SetStatusText("Pasted 1 to 1", 2);
-        SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(selections), 3);
+        SetStatusText("Edits: "+lexical_cast<std::string>(popUp.unSaved)+" + "+lexical_cast<std::string>(selections), 3);
         popUp.unSaved += selections;
     }
     else
@@ -4120,12 +4228,12 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
             SetStatusText("Listed all again", 2);
             if(How2List == ENABLE)
             {
-                SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(selections), 3);
+                SetStatusText("Edits: "+lexical_cast<std::string>(popUp.unSaved)+" + "+lexical_cast<std::string>(selections), 3);
                 popUp.unSaved += selections;
             }
             else // Need more input to calculate edits for paste and inserts.
             {
-                SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + 1", 3);
+                SetStatusText("Edits: "+lexical_cast<std::string>(popUp.unSaved)+" + 1", 3);
                 ++popUp.unSaved;
             }
         }
@@ -4142,7 +4250,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
         List->SetClientData(loop, *it++);
     }
     if(showTime)
-    SetStatusText("Re-listing time: "+lexical_cast<string>((chrono::duration_cast<chrono::milliseconds>(endTime - startTime)).count())+" ms", 1);
+    SetStatusText("Re-listing time: "+lexical_cast<std::string>((chrono::duration_cast<chrono::milliseconds>(endTime - startTime)).count())+" ms", 1);
 
     // Set selections and first visible item.
     if(How2List != SEARCH)
@@ -4177,7 +4285,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
     How2List = SEARCH;
 }*/
 
-void AGE_Frame::RefreshList(ProperList *list, vector<int> *oldies)
+void AGE_Frame::RefreshList(ProperList *list, std::vector<int> *oldies)
 {
     unsigned long cookie;
     auto first_visible = list->GetVisibleRowsBegin();
@@ -4255,23 +4363,23 @@ void AGE_Frame::SearchAllSubVectors(ProperList *list, wxTextCtrl *topSearch, wxT
     if(selections == 0) return;
 
     unsigned long cookie;
-    set<uint32_t> topNums, subNums;
+    std::set<uint32_t> topNums, subNums;
     int last = list->GetFirstSelected(cookie);
     for(size_t loop = 0; loop < selections; ++loop)
     {
-        string line(list->names[last]);
+        std::string line(list->names[last]);
         last = list->GetNextSelected(cookie);
         size_t found = line.find(" ", 3);
         topNums.insert(lexical_cast<uint32_t>(line.substr(2, found - 2)));
         subNums.insert(lexical_cast<uint32_t>(line.substr(2 + found, line.find(" ", found + 3) - found - 2)));
     }
     wxString topText;
-    for(const auto &num: topNums) topText += " " + lexical_cast<string>(num) + " -|";
+    for(const auto &num: topNums) topText += " " + lexical_cast<std::string>(num) + " -|";
     topSearch->SetValue(topText.Truncate(topText.size() - 1));
     if(FilterAllSubs)
     {
         wxString subText;
-        for(const auto &num: subNums) subText += " " + lexical_cast<string>(num) + " -|";
+        for(const auto &num: subNums) subText += " " + lexical_cast<std::string>(num) + " -|";
         subSearch->SetValue(subText.Truncate(subText.size() - 1));
     }
 }
@@ -4288,7 +4396,7 @@ void AGE_Frame::SearchAllSubVectors(ProperList *list, wxTextCtrl *topSearch, wxT
     return -1;
 }*/
 
-void AGE_Frame::getSelectedItems(const size_t selections, const ProperList *list, vector<int> &indexes)
+void AGE_Frame::getSelectedItems(const size_t selections, const ProperList *list, std::vector<int> &indexes)
 {
     unsigned long cookie;
     indexes.resize(selections);
@@ -4298,7 +4406,7 @@ void AGE_Frame::getSelectedItems(const size_t selections, const ProperList *list
         indexes[sel] = list->indexes[last];
         last = list->GetNextSelected(cookie);
     }
-    SetStatusText("Times listed: "+lexical_cast<string>(++times_listed), 2);
+    SetStatusText("Times listed: "+lexical_cast<std::string>(++times_listed), 2);
 }
 
 // To show contents of last selected item instead of first selection.
@@ -4318,34 +4426,34 @@ void AGE_Frame::getSelectedItems(const size_t selections, const ProperList *list
 
 wxString AGE_Frame::FormatFloat(float value)
 {
-    if(popUp.accurateFloats)
-    return lexical_cast<string>(value);
+    if (popUp.accurateFloats)
+        return lexical_cast<std::string>(value);
 
-    stringbuf buffer;
-    ostream os (&buffer);
+    std::stringbuf buffer;
+    std::ostream os(&buffer);
     os << value;
     return buffer.str();
 }
 
 wxString AGE_Frame::FormatInt(int value)
 {
-    if(!popUp.hexMode)
-    return lexical_cast<string>(value);
+    if (!popUp.hexMode)
+        return lexical_cast<std::string>(value);
 
-    stringbuf buffer;
-    ostream os (&buffer);
-    os << hex << uppercase << value;
+    std::stringbuf buffer;
+    std::ostream os(&buffer);
+    os << std::hex << std::uppercase << value;
     return buffer.str();
 }
 
 wxString AGE_Frame::FormatUnsigned(unsigned value)
 {
-    if(!popUp.hexMode)
-    return lexical_cast<string>(value);
+    if (!popUp.hexMode)
+        return lexical_cast<std::string>(value);
 
-    stringbuf buffer;
-    ostream os (&buffer);
-    os << hex << uppercase << value;
+    std::stringbuf buffer;
+    std::ostream os(&buffer);
+    os << std::hex << std::uppercase << value;
     return buffer.str();
 }
 
@@ -4366,18 +4474,18 @@ void AGE_Frame::SaveBackup()
 
 wxString AGE_Frame::CurrentTime()
 {
-    time_t now = chrono::system_clock::to_time_t(chrono::system_clock::now());
+    time_t now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
     struct tm *parts = localtime(&now);
 
-    stringbuf buffer;
-    ostream os (&buffer);
+    std::stringbuf buffer;
+    std::ostream os(&buffer);
     os << 1900 + parts->tm_year;
-    os << setfill('0') << setw(2);
+    os << std::setfill('0') << std::setw(2);
     os << 1 + parts->tm_mon;
-    os << setw(2) << parts->tm_mday;
-    os << setw(2) << parts->tm_hour;
-    os << setw(2) << parts->tm_min;
-    os << setw(2) << parts->tm_sec;
+    os << std::setw(2) << parts->tm_mday;
+    os << std::setw(2) << parts->tm_hour;
+    os << std::setw(2) << parts->tm_min;
+    os << std::setw(2) << parts->tm_sec;
     return buffer.str();
 }
 
@@ -4504,13 +4612,13 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         }
         case eZoom:
         {
-            wxTextEntryDialog ted(this, "Enter new zooming %", "Set Scale Factor", lexical_cast<string>(int(slp_zoom * 100)));
+            wxTextEntryDialog ted(this, "Enter new zooming %", "Set Scale Factor", lexical_cast<std::string>(int(slp_zoom * 100)));
             ted.SetTextValidator(wxFILTER_DIGITS);
             if(ted.ShowModal() == wxID_OK)
             {
-                int zoom_percent = min(800, lexical_cast<int>(ted.GetValue()));
+                int zoom_percent = std::min(800, lexical_cast<int>(ted.GetValue()));
                 slp_zoom = zoom_percent / 100.f;
-                slp_zoom_btn->SetLabel("Zoom: " + lexical_cast<string>(zoom_percent) + " %");
+                slp_zoom_btn->SetLabel("Zoom: " + lexical_cast<std::string>(zoom_percent) + " %");
             }
             break;
         }
@@ -4538,7 +4646,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                     frame1 = slp_src1->getFrame(frame);
                     frame2 = slp_src2->getFrame(frame);
                 }
-                catch(const out_of_range&)
+                catch(const std::out_of_range&)
                 {
                     wxMessageBox("Frame count mismatch", "SLP");
                     break;
@@ -4678,7 +4786,7 @@ void AGE_Frame::OnFrameMouse(wxMouseEvent &event)
 void AGE_Frame::OnFrameKey(wxKeyEvent &event)
 {
     if(!dataset) return;
-    vector<int16_t*> dx(DeltaIDs.size()), dy(DeltaIDs.size());
+    std::vector<int16_t*> dx(DeltaIDs.size()), dy(DeltaIDs.size());
     if(GraphicIDs.size())
     {
         for(size_t i = 0; i < DeltaIDs.size(); ++i)
@@ -4733,9 +4841,8 @@ void AGE_Frame::OnExitSLP(wxCloseEvent &event)
 void AGE_Frame::OnExit(wxCloseEvent &event)
 {
     {
-        wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<std::string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/AutoBackups", AutoBackups);
-        Config.Write("DefaultFiles/PalettesPath", PalettesPath);
         Config.Write("Interaction/PromptForFilesOnOpen", PromptForFilesOnOpen);
         Config.Write("Interaction/AutoCopy", AutoCopy);
         Config.Write("Interaction/AutoCopyAngles", AutoCopyAngles);
@@ -4782,7 +4889,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
     if(event.CanVeto() && popUp.unSaved > 0)
     {
         int answer = wxMessageBox("Do you want to save changes made to open files?\nThere are "
-                        +lexical_cast<string>(popUp.unSaved)+" unsaved changes.",
+                        +lexical_cast<std::string>(popUp.unSaved)+" unsaved changes.",
                         "Advanced Genie Editor", wxICON_QUESTION | wxCANCEL | wxYES_NO);
         if(answer != wxNO)
         {

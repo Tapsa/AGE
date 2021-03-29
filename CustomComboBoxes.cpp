@@ -1,6 +1,7 @@
-#include "AGE_ComboBoxes.h"
+#include "Common.h"
+#include "CustomComboBoxes.h"
 
-AGEComboBox::AGEComboBox(wxWindow* parent, wxArrayString* choices, int width, bool pass) :
+AGEComboBox::AGEComboBox(wxWindow *parent, wxArrayString *choices, int width, bool pass) :
     wxComboCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxCB_READONLY)
 {
     popup = new SharedComboPopup();
@@ -9,7 +10,8 @@ AGEComboBox::AGEComboBox(wxWindow* parent, wxArrayString* choices, int width, bo
     popup->Imbue(choices);
     if (pass)
     {
-        Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent& event) {GetParent()->GetEventHandler()->ProcessEvent(event); });
+        // Stop accidental selection changes
+        Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent &event) {GetParent()->GetEventHandler()->ProcessEvent(event); });
     }
 }
 
@@ -17,18 +19,18 @@ void AGEComboBox::SetSelection(int n)
 {
     wxString str;
 
-    if(GetCount())
+    if (GetCount())
     {
         popup->SetSelection(n);
 
-        if(n >= 0)
+        if (n >= 0)
         {
             str = popup->GetString(n);
         }
     }
 
     // Refresh text portion in control
-    if(m_text)
+    if (m_text)
         m_text->ChangeValue(str);
     else
         m_valueString = str;
@@ -43,7 +45,7 @@ void AGEComboBox::Flash()
     SetSelection(sel >= 0 && sel < GetCount() ? sel : 0);
 }
 
-LinkedComboBox::LinkedComboBox(wxWindow* parent, AGETextCtrl* link, wxArrayString* choices,
+LinkedComboBox::LinkedComboBox(wxWindow *parent, AGETextCtrl *link, wxArrayString *choices,
     bool connect, int width) :
     AGEComboBox(parent, choices, width), LinkedControl(link)
 {
@@ -53,9 +55,9 @@ LinkedComboBox::LinkedComboBox(wxWindow* parent, AGETextCtrl* link, wxArrayStrin
     }
 }
 
-void LinkedComboBox::OnChoose(wxCommandEvent&)
+void LinkedComboBox::OnChoose(wxCommandEvent &)
 {
-    TextControl->ChangeValue(lexical_cast<string>(GetSelection() - 1));
+    TextControl->ChangeValue(lexical_cast<std::string>(GetSelection() - 1));
     TextControl->SaveEdits();
 }
 

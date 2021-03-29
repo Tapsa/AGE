@@ -1,11 +1,42 @@
 #pragma once
-#include "AGE_TextControls.h"
-#include "AGE_ComboBoxes.h"
-#include "AGE_CheckBoxes.h"
-#include "AGE_OpenDialog.h"
-#include "AGE_SaveDialog.h"
-#include "AGE_AboutDialog.h"
-#include "AGE_Copies.hpp"
+
+// External headers
+#include <array>
+#include <chrono>
+#include <functional>
+#include <map>
+#include <string>
+#include <wx/clrpicker.h>
+#include <wx/dcbuffer.h>
+#include <wx/frame.h>
+#include <wx/msgdlg.h>
+#include <wx/notebook.h>
+#include <wx/radiobox.h>
+#include <wx/wrapsizer.h>
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
+
+// Project headers
+#include "AboutDialog.h"
+#include "CustomComboBoxes.h"
+#include "CustomTextControls.h"
+#include "CustomWidgets.h"
+#include "DataCopies.hpp"
+#include "DelayedMessageRelay.h"
+#include "LinkedCheckBox.h"
+#include "OpenDialog.h"
+#include "SaveDialog.h"
+
+// Subproject headers
+#include "genie/lang/LangFile.h"
+#include "genie/resource/DrsFile.h"
+#include "genie/resource/SlpFile.h"
+#include "genie/resource/SmpFile.h"
+#include "genie/resource/SmxFile.h"
+
+#ifndef WIN32
+#define HINSTANCE ssize_t
+#endif
 
 #define RELOAD -2
 
@@ -19,23 +50,24 @@ public:
     wxString filename = "";
     genie::SlpFilePtr slp;
     genie::SmpFilePtr smp;
+    genie::SmxFilePtr smx;
     wxBitmap bitmap;
     sf::SoundBuffer buffers[4];// Actual data
     sf::Sound sounds[4];// To play data
-    int16_t xpos = 0, ypos = 0, xdelta = 0, ydelta = 0, delays[4] = {0, -1, -1, -1};
+    int16_t xpos = 0, ypos = 0, xdelta = 0, ydelta = 0, delays[4] = { 0, -1, -1, -1 };
     bool flip = false, is32 = false;
     float beginbearing = 0.f, endbearing = PI2A;
 
-    static enum SHOW {NONE, UNIT, GRAPHIC} currentDisplay;
+    static enum SHOW { NONE, UNIT, GRAPHIC } currentDisplay;
     static unsigned setbearing;
     static float bearing;
     static uint8_t playerColorStart, playerColorID;
 };
 
-class AGE_SLPs: public AGE_SLP
+class AGE_SLPs : public AGE_SLP
 {
 public:
-    multimap<int, AGE_SLP> deltas;
+    std::multimap<int, AGE_SLP> deltas;
     bool pause = false;
 };
 
@@ -53,8 +85,8 @@ public:
     LinkedComboBox *ItemCombo;
     wxButton *Add, *Insert, *Delete, *Copy, *Paste, *PasteInsert, *CopyAllToSelected;
 
-    void CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrolled* scroller, const wxString& itemName,
-        const wxString& listName, wxArrayString* choices);
+    void CreateControls(AGE_Frame *frame, DelayedMessageRelay *popUp, AScrolled *scroller, const wxString &itemName,
+        const wxString &listName, wxArrayString *choices);
 };
 
 class AGE_AreaTT84
@@ -73,8 +105,8 @@ public:
     AGEComboBox *ModeCombo;
     wxButton *Copy, *Paste, *CopyAllToSelected;
 
-    void CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrolled* scroller, const wxString& itemName,
-        wxArrayString* choices);
+    void CreateControls(AGE_Frame *frame, DelayedMessageRelay *popUp, AScrolled *scroller, const wxString &itemName,
+        wxArrayString *choices);
 };
 
 class AGE_AreaTT31020
@@ -91,14 +123,14 @@ public:
     AGETextCtrl *Unknown1, *Unknown2, *UsedItems, *Unknown;
     wxButton *Copy, *Paste, *CopyAllToSelected;
 
-    void CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrolled* scroller);
+    void CreateControls(AGE_Frame *frame, DelayedMessageRelay *popUp, AScrolled *scroller);
 };
 
-class Loader: public wxThread
+class Loader : public wxThread
 {
 public:
-    Loader(AGE_Frame *frame, genie::Terrain *tp):
-    wxThread()
+    Loader(AGE_Frame *frame, genie::Terrain *tp) :
+        wxThread()
     {
         HostFrame = frame;
         TerrainPointer = tp;
@@ -130,7 +162,7 @@ public:
     static AGE_Frame *openEditors[];
     static Copies copies;
 
-    DelayedPopUp popUp;
+    DelayedMessageRelay popUp;
 
     void OnOpen(wxCommandEvent &event);
     void OnExit(wxCloseEvent &event);
@@ -228,14 +260,13 @@ private:
     wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
     wxArrayString AoE1TerrainRestrictions, AoE2TerrainRestrictions, SWGBTerrainRestrictions;
     wxArrayString RoRCivResources, AoKCivResources, SWGBCivResources;
-    AGE_SaveDialog *SaveDialog;
     //int FindItem(wxArrayInt &selections, int find, int min, int max);
     //void SwapSelection(int last, wxArrayInt &selections);
     void SaveBackup();
     bool SearchMatches(const wxString &hay);
-    void getSelectedItems(const size_t selections, const ProperList *list, vector<int> &indexes);
+    void getSelectedItems(const size_t selections, const ProperList *list, std::vector<int> &indexes);
     //void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
-    void RefreshList(ProperList *list, vector<int> *oldies = 0);
+    void RefreshList(ProperList *list, std::vector<int> *oldies = 0);
     void UnitLangDLLConverter(wxCommandEvent &event);
     void ResearchLangDLLConverter(wxCommandEvent &event);
     void SearchAllSubVectors(ProperList *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch);
@@ -273,12 +304,11 @@ private:
     void OnChooseGraphic(wxCommandEvent&);
     void playWAV(wxCommandEvent &event);
     AGE_SLPs* getCurrentGraphics();
-    int produceRecentValues(wxArrayString&, vector<wxArrayString>&);
+    int produceRecentValues(wxArrayString&, std::vector<wxArrayString>&);
     void autoOdds(wxCommandEvent &event);
     void autoDrsIncrement(wxCommandEvent &event);
     void copySoundsFromCivToCiv(wxCommandEvent &event);
     void tileToPixels(float sizeX, float sizeY, Pixels &p, int centerX, int centerY);
-    void OnSyncSaveWithOpen(wxCommandEvent &event);
 
 //  General Events
 
@@ -415,7 +445,7 @@ private:
     void OnTTAgesCopy(wxCommandEvent &event);
     void OnTTAgesPaste(wxCommandEvent &event);
     void OnTTAgesPasteInsert(wxCommandEvent &event);
-    string GetTTAgesName(int);
+    std::string GetTTAgesName(int);
 
     void ListTTAgeBuildings();
     void OnTTAgesBuildingSearch(wxCommandEvent &event);
@@ -610,7 +640,7 @@ private:
     void OnCivsCopy(wxCommandEvent &event);
     void OnCivsPaste(wxCommandEvent &event);
     void OnCivsPasteInsert(wxCommandEvent &event);
-    string GetCivName(int);
+    std::string GetCivName(int);
     void OnCivCountChange();
 
     void ListResources(bool all = true);
@@ -634,7 +664,7 @@ private:
     void UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit);
     wxString GetUnitName(int, short, bool = false);
     void PrepUnitSearch();
-    vector<function<wxString(genie::Unit*)>> UnitFilterFunctions;
+    std::vector<std::function<wxString(genie::Unit*)>> UnitFilterFunctions;
 
     void ListUnitDamageGraphics();
     void OnUnitDamageGraphicsSearch(wxCommandEvent &event);
@@ -646,7 +676,7 @@ private:
     void OnUnitDamageGraphicsPaste(wxCommandEvent &event);
     void OnUnitDamageGraphicsPasteInsert(wxCommandEvent &event);
     void OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &event);
-    string GetUnitDamageGraphicName(int);
+    std::string GetUnitDamageGraphicName(int);
 
     void ListUnitAttacks();
     void OnUnitAttacksSearch(wxCommandEvent &event);
@@ -658,7 +688,7 @@ private:
     void OnUnitAttacksPaste(wxCommandEvent &event);
     void OnUnitAttacksPasteInsert(wxCommandEvent &event);
     void OnUnitAttacksCopyToUnits(wxCommandEvent &event);
-    string GetUnitAttackName(int);
+    std::string GetUnitAttackName(int);
 
     void ListUnitArmors();
     void OnUnitArmorsSearch(wxCommandEvent &event);
@@ -670,7 +700,7 @@ private:
     void OnUnitArmorsPaste(wxCommandEvent &event);
     void OnUnitArmorsPasteInsert(wxCommandEvent &event);
     void OnUnitArmorsCopyToUnits(wxCommandEvent &event);
-    string GetUnitArmorName(int);
+    std::string GetUnitArmorName(int);
 
 //  Unit Events
 
@@ -697,7 +727,7 @@ private:
     void OnUnitLinesCopy(wxCommandEvent &event);
     void OnUnitLinesPaste(wxCommandEvent &event);
     void OnUnitLinesPasteInsert(wxCommandEvent &event);
-    string GetUnitLineName(int);
+    std::string GetUnitLineName(int);
 
     void ListUnitLineUnits();
     void OnUnitLineUnitsSearch(wxCommandEvent &event);
@@ -724,7 +754,7 @@ private:
     void OnGraphicsPasteInsert(wxCommandEvent &event);
     void OnGraphicsEnable(wxCommandEvent &event);
     void OnGraphicsDisable(wxCommandEvent &event);
-    string GetGraphicName(int, bool = false);
+    std::string GetGraphicName(int, bool = false);
 
     void ListGraphicDeltas();
     void OnGraphicDeltasSearch(wxCommandEvent &event);
@@ -736,7 +766,7 @@ private:
     void OnGraphicDeltasPaste(wxCommandEvent &event);
     void OnGraphicDeltasPasteInsert(wxCommandEvent &event);
     void OnGraphicDeltasCopyToGraphics(wxCommandEvent &event);
-    string GetGraphicDeltaName(int);
+    std::string GetGraphicDeltaName(int);
 
     void ListGraphicAngleSounds();
     void OnGraphicAngleSoundsSearch(wxCommandEvent &event);
@@ -758,7 +788,7 @@ private:
     void OnTerrainsDelete(wxCommandEvent &event);
     void OnTerrainsCopy(wxCommandEvent &event);
     void OnTerrainsPaste(wxCommandEvent &event);
-    string GetTerrainName(int, bool = false);
+    std::string GetTerrainName(int, bool = false);
 
     void OnTerrainsBorderSearch(wxCommandEvent &event);
     void ListTerrainsBorders();
@@ -776,7 +806,7 @@ private:
     void OnTerrainBordersPaste(wxCommandEvent &event);
     void OnTerrainBordersMoveUp(wxCommandEvent &event);
     void OnTerrainBordersMoveDown(wxCommandEvent &event);
-    string GetTerrainBorderName(int);
+    std::string GetTerrainBorderName(int);
 
     void ListTerrainBorderTileTypes();
     void OnTerrainBorderTileTypeSearch(wxCommandEvent &event);
@@ -784,7 +814,7 @@ private:
     void OnTerrainBorderTileTypeCopy(wxCommandEvent &event);
     void OnTerrainBorderTileTypePaste(wxCommandEvent &event);
     void OnTerrainBorderTileTypeCopyToBorders(wxCommandEvent &event);
-    string GetTerrainBorderTileTypeName(int);
+    std::string GetTerrainBorderTileTypeName(int);
 
     void ListTerrainBorderBorderShapes();
     void OnTerrainBorderBorderShapeSearch(wxCommandEvent &event);
@@ -792,7 +822,7 @@ private:
     void OnTerrainBorderBorderShapeCopy(wxCommandEvent &event);
     void OnTerrainBorderBorderShapePaste(wxCommandEvent &event);
     void OnTerrainBorderBorderShapeCopyToBorders(wxCommandEvent &event);
-    string GetTerrainBorderBorderShapeName(int);
+    std::string GetTerrainBorderBorderShapeName(int);
 
 //  Terrain Restriction Events
 
@@ -846,7 +876,7 @@ private:
     void OnPlayerColorsCopy(wxCommandEvent &event);
     void OnPlayerColorsPaste(wxCommandEvent &event);
     void OnPlayerColorsPasteInsert(wxCommandEvent &event);
-    string GetPlayerColorName(int);
+    std::string GetPlayerColorName(int);
 
 //  Application Variables
 
@@ -854,13 +884,13 @@ private:
     wxString EditorVersionString, slp_extra_info;
     bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, KeepViewOnTop,
         useDynamicName, NeverHideAttributes;
-    vector<short> SelectedCivs;
+    std::vector<short> SelectedCivs;
     bool SearchAnd = false, ExcludeAnd = false, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11, Reselection;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false;
     bool DrawTerrain, RotateAngles;
     bool DrawCollisionShape, DrawClearanceShape, DrawOutline, DrawAngles, PlaySounds, AutoCopyAngles;
-    vector<genie::DrsFile*> datafiles;
-    vector<vector<genie::Color>> palettes, pc_palettes;
+    std::vector<genie::DrsFile*> datafiles;
+    std::vector<std::vector<genie::Color>> palettes, pc_palettes;
     genie::DatFile *dataset = 0;
     genie::LangFile *Lang = 0, *LangX = 0, *LangXP = 0;
     int CustomTerrains, paletteView = 0, ViewBackR, ViewBackG, ViewBackB, ViewPosX, ViewPosY;
@@ -879,11 +909,11 @@ private:
     wxColourPickerCtrl *slp_background;
     int times_listed = 0;
 
-    vector<AGEComboBox*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
+    std::vector<AGEComboBox*> ResearchComboBoxList, TechComboBoxList, CivComboBoxList, ResourceComboBoxList,
         UnitComboBoxList, GraphicComboBoxList, TerrainComboBoxList, TerrainBorderComboBoxList,
         TerrainRestrictionComboBoxList, SoundComboBoxList;
 
-    vector<int> RandomMapIDs, UnknownFSIDs, UnknownSSIDs, UnknownTSIDs, Unknown4SIDs,
+    std::vector<int> RandomMapIDs, UnknownFSIDs, UnknownSSIDs, UnknownTSIDs, Unknown4SIDs,
         ResearchIDs, TechIDs, EffectIDs,
         TTAgeIDs, TTAgeBuildIDs, TTAgeUnitIDs, TTAgeResIDs, TTAgeUnknownIDs, TTItemIDs, TTUnknownItemIDs,
         TTBuildConIDs, TTBuildBuildIDs, TTBuildUnitIDs, TTBuildResIDs,
@@ -897,7 +927,7 @@ private:
         SoundIDs, SoundItemIDs, ColorIDs,
         BorderIDs, BorderTileTypeIDs, BorderShapeIDs;
     int UnitCivID;
-    vector<float> TerrainRestrictionSubCopyAccess;
+    std::vector<float> TerrainRestrictionSubCopyAccess;
 
     bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, SyncSaveWithOpen,
         UseTXT = false, UseDRS, UseMod, UseExtra, FilterAllSubs, UseLooseSLP, LooseHD;
@@ -905,17 +935,18 @@ private:
     short How2List;
     int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidthV2, MinWindowWidth;
     void FixSizes();
-    chrono::time_point<chrono::system_clock> endTime;
+    std::chrono::time_point<std::chrono::system_clock> endTime;
     genie::GameVersion GenieVersion = genie::GV_None;
-    wxString DriveLetter, Language, CustomFolder, PalettesPath;
+    wxString DriveLetter, Language, CustomFolder;
     wxString DatFileName, SaveDatFileName, FolderDRS, FolderDRS2, Path1stDRS, PathSLP;
+    wxString PathPalettes, PathPlayerColorPalette;
     int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
     wxString LangCharset, AlexZoom;
     wxString LangFileName, LangX1FileName, LangX1P1FileName;
     wxString SaveLangFileName, SaveLangX1FileName, SaveLangX1P1FileName;
 
     genie::GameVersion version(int);
-    map<size_t, string> LangTxt;
+    std::map<size_t, std::string> LangTxt;
     HINSTANCE LanguageDLL[3];
     wxString TranslatedText(int ID, int Letters = 0);
     //void WriteTranslatedText(int ID, wxString Name);
@@ -1004,8 +1035,8 @@ private:
     wxBoxSizer *General_ScrollSpace;
     SolidText *General_TileSizes_Text;
     wxGridSizer *General_TileSizes_Grid;
-    array<wxBoxSizer*, 19> General_TileSizes_Sizers;
-    array<AGETextCtrl*, 57> General_TileSizes;
+    std::array<wxBoxSizer*, 19> General_TileSizes_Sizers;
+    std::array<AGETextCtrl*, 57> General_TileSizes;
 
     wxBoxSizer *MapRowOffset_Sizer;
     SolidText *MapRowOffset_Text;
@@ -1085,9 +1116,9 @@ private:
 
     SolidText *General_TerrainRendering_Text;
     wxGridSizer *General_TerrainRendering_Grid;
-    array<AGETextCtrl*, 25> General_SomeBytes;
+    std::array<AGETextCtrl*, 25> General_SomeBytes;
     wxGridSizer *General_Something_Grid1, *General_Something_Grid2;
-    array<AGETextCtrl*, 157> General_Something;
+    std::array<AGETextCtrl*, 157> General_Something;
 
     wxBoxSizer *Borders_Main;
     wxStaticBoxSizer *Borders_Borders;
@@ -1148,7 +1179,7 @@ private:
     wxBoxSizer *Borders_Colors_Holder;
     wxGridSizer *Borders_Colors_Grid;
     SolidText *Borders_Colors_Text;
-    array<AGETextCtrl*, 3> Borders_Colors;
+    std::array<AGETextCtrl*, 3> Borders_Colors;
     wxBoxSizer *Borders_Animation_Grid1;
     wxBoxSizer *Borders_Animation_Grid2;
     wxBoxSizer *Borders_IsAnimated_Holder;
@@ -1202,7 +1233,7 @@ private:
     SolidText *Borders_BorderStyle_Text;
     AGETextCtrl *Borders_BorderStyle;
 
-    vector<AGETextCtrl*> uiGroupMaps, uiGroupTT, uiGroupTTAge, uiGroupTTBuilding, uiGroupTTUnit, uiGroupTTResearch;
+    std::vector<AGETextCtrl*> uiGroupMaps, uiGroupTT, uiGroupTTAge, uiGroupTTBuilding, uiGroupTTUnit, uiGroupTTResearch;
     wxBoxSizer *General_Variables2_Grid;
     wxStaticBoxSizer *General_Variables1_Holder;
     wxStaticBoxSizer *General_Variables2_Holder;
@@ -1224,9 +1255,9 @@ private:
     wxBoxSizer *General_SUnknown5_Holder;
     SolidText *General_SUnknown5_Text;
     AGETextCtrl *General_SUnknown5;
-    array<wxBoxSizer*, 8> General_TTKnown_Holder;
-    array<SolidText*, 8> General_TTKnown_Text;
-    array<AGETextCtrl*, 8> General_TTKnown;
+    std::array<wxBoxSizer*, 8> General_TTKnown_Holder;
+    std::array<SolidText*, 8> General_TTKnown_Text;
+    std::array<AGETextCtrl*, 8> General_TTKnown;
 
     wxBoxSizer *General_MapPointer_Holder;
     SolidText *General_MapPointer_Text;
@@ -1254,7 +1285,7 @@ private:
     AScrolled *RMS_Scroller;
     wxBoxSizer *Unknown_ScrollSpace;
 
-    vector<AGETextCtrl*> uiGroupRandomMap, uiGroupRMBase, uiGroupRMTerrain, uiGroupRMUnit, uiGroupRMUnknown;
+    std::vector<AGETextCtrl*> uiGroupRandomMap, uiGroupRMBase, uiGroupRMTerrain, uiGroupRMUnit, uiGroupRMUnknown;
     SolidText *RMS_MapsPtr_Text;
     AGETextCtrl *RMS_MapsPtr;
 
@@ -1275,9 +1306,9 @@ private:
     AGETextCtrl *RMS_MapID;
     wxGridSizer *RMS_LandData_Grid;
     wxBoxSizer *RMS_MapID_Holder;
-    array<wxBoxSizer*, 9> RMS_LandData_Holder;
-    array<SolidText*, 9> RMS_LandData_Text;
-    array<AGETextCtrl*, 9> RMS_LandData;
+    std::array<wxBoxSizer*, 9> RMS_LandData_Holder;
+    std::array<SolidText*, 9> RMS_LandData_Text;
+    std::array<AGETextCtrl*, 9> RMS_LandData;
     SolidText *RMS_LandsPtr_Text;
     AGETextCtrl *RMS_LandsPtr;
     SolidText *RMS_TerrainsPtr_Text;
@@ -1368,9 +1399,9 @@ private:
     wxButton *RMS_Terrain_CopyToMaps;
 
     wxGridSizer *RMS_TerrainData_Grid;
-    array<wxBoxSizer*, 6> RMS_TerrainData_Holder;
-    array<SolidText*, 6> RMS_TerrainData_Text;
-    array<AGETextCtrl*, 6> RMS_TerrainData;
+    std::array<wxBoxSizer*, 6> RMS_TerrainData_Holder;
+    std::array<SolidText*, 6> RMS_TerrainData_Text;
+    std::array<AGETextCtrl*, 6> RMS_TerrainData;
 
     wxStaticBoxSizer *RMSUnit;
     wxBoxSizer *RMS_Unit_ListArea;
@@ -1442,9 +1473,9 @@ private:
     wxButton *RMS_Elevation_CopyToMaps;
 
     wxGridSizer *RMS_ElevationData_Grid;
-    array<wxBoxSizer*, 6> RMS_ElevationData_Holder;
-    array<SolidText*, 6> RMS_ElevationData_Text;
-    array<AGETextCtrl*, 6> RMS_ElevationData;
+    std::array<wxBoxSizer*, 6> RMS_ElevationData_Holder;
+    std::array<SolidText*, 6> RMS_ElevationData_Text;
+    std::array<AGETextCtrl*, 6> RMS_ElevationData;
 
 //  Techs user interface
 
@@ -1472,7 +1503,7 @@ private:
     wxButton *Research_Paste;
     wxButton *Research_PasteInsert;
 
-    vector<AGETextCtrl*> uiGroupResearch;
+    std::vector<AGETextCtrl*> uiGroupResearch;
     wxBoxSizer *Research_RequiredTechArea_Holder;
     wxGridSizer *Research_RequiredTechs_Holder;
     SolidText *Research_RequiredTechArea_Text;
@@ -1484,7 +1515,7 @@ private:
 
     wxStaticBoxSizer *Research_CostHeader_Holder;
     wxBoxSizer *Research_Cost_Texts;
-    array<wxBoxSizer*, 3> Research_Cost_Sizers;
+    std::array<wxBoxSizer*, 3> Research_Cost_Sizers;
     SolidText *Research_Resources_Text;
     AGETextCtrl *Research_Resources[3];
     LinkedComboBox *Research_Resources_ComboBox[3];
@@ -1512,12 +1543,12 @@ private:
     wxBoxSizer *Research_LangDLLName_Holder;
     SolidText *Research_LangDLLName_Text;
     AGETextCtrl *Research_LangDLLName;
-    TextCtrl_DLL *Research_DLL_LangDLLName;
+    TextIndexControl *Research_DLL_LangDLLName;
 
     wxBoxSizer *Research_LangDLLDescription_Holder;
     SolidText *Research_LangDLLDescription_Text;
     AGETextCtrl *Research_LangDLLDescription;
-    TextCtrl_DLL *Research_DLL_LangDLLDescription;
+    TextIndexControl *Research_DLL_LangDLLDescription;
 
     wxBoxSizer *Research_ResearchTime_Holder;
     SolidText *Research_ResearchTime_Text;
@@ -1554,9 +1585,9 @@ private:
     wxBoxSizer *Research_HotKey_Holder;
     SolidText *Research_HotKey_Text;
     AGETextCtrl *Research_HotKey;
-    TextCtrl_DLL *Research_DLL_HotKey;
-    TextCtrl_DLL *Research_DLL_LanguageDLLHelp;
-    TextCtrl_DLL *Research_DLL_LanguageDLLName2;
+    TextIndexControl *Research_DLL_HotKey;
+    TextIndexControl *Research_DLL_LanguageDLLHelp;
+    TextIndexControl *Research_DLL_LanguageDLLName2;
     wxBoxSizer *Research_LanguageDLLConverter_Holder[2];
     SolidText *Research_LanguageDLLConverter_Text[2];
     wxTextCtrl *Research_LanguageDLLConverter[2];
@@ -1632,7 +1663,7 @@ private:
     wxButton *Techs_Effects_CopyToTechs;
 
     wxBoxSizer *Effects_DataArea;
-    vector<AGETextCtrl*> uiGroupTechEffect;
+    std::vector<AGETextCtrl*> uiGroupTechEffect;
     wxBoxSizer *Effects_Type_Holder;
     wxBoxSizer *Effects_Type2_Holder;
     SolidText *Effects_Type_Text;
@@ -1676,7 +1707,7 @@ private:
     wxButton *Civs_Paste;
     wxButton *Civs_PasteInsert;
 
-    vector<AGETextCtrl*> uiGroupCiv;
+    std::vector<AGETextCtrl*> uiGroupCiv;
     wxBoxSizer *Civs_DataArea;
     wxBoxSizer *Civs_DataGrid1;
     wxBoxSizer *Civs_DataGrid2;
@@ -1729,9 +1760,9 @@ private:
     AGEComboBox *Units_Type_ComboBox;
     AGETextCtrl *Units_ID1;
     NumberControl *Units_LanguageDLLName;
-    TextCtrl_DLL *Units_DLL_LanguageName;
+    TextIndexControl *Units_DLL_LanguageName;
     NumberControl *Units_LanguageDLLCreation;
-    TextCtrl_DLL *Units_DLL_LanguageCreation;
+    TextIndexControl *Units_DLL_LanguageCreation;
     AGETextCtrl *Units_Class;
     LinkedComboBox *Units_Class_ComboBox[2];
     AGETextCtrl *Units_StandingGraphic[2];
@@ -1788,12 +1819,12 @@ private:
     AGETextCtrl *Units_MultipleAttributeMode;
     AGETextCtrl *Units_MinimapColor;
     AGETextCtrl *Units_LanguageDLLHelp;
-    TextCtrl_DLL *Units_DLL_LanguageHelp;
+    TextIndexControl *Units_DLL_LanguageHelp;
     wxTextCtrl *Units_LanguageDLLConverter[2];
     AGETextCtrl *Units_LanguageDLLHotKeyText;
-    TextCtrl_DLL *Units_DLL_LanguageHKText;
+    TextIndexControl *Units_DLL_LanguageHKText;
     AGETextCtrl *Units_HotKey;
-    TextCtrl_DLL *Units_DLL_HotKey4;
+    TextIndexControl *Units_DLL_HotKey4;
     AGETextCtrl *Units_Recyclable;
     LinkedCheckBox *Units_Recyclable_CheckBox;
     AGETextCtrl *Units_TrackAsResource;
@@ -1849,7 +1880,7 @@ private:
     AGETextCtrl *Units_TrackingUnitMode;
     AGETextCtrl *Units_TrackingUnitDensity;
     AGETextCtrl *Units_MoveAlgorithm;
-    array<AGETextCtrl*, 5> Units_RotationAngles;
+    std::array<AGETextCtrl*, 5> Units_RotationAngles;
 
 //  Type 40+
 
@@ -1989,7 +2020,7 @@ private:
     AGETextCtrl *Units_GarrisonRepairRate;
     AGETextCtrl *Units_PileUnit;
     LinkedComboBox *Units_PileUnit_ComboBox;
-    array<AGETextCtrl*, 6> Units_LootSwitch;
+    std::array<AGETextCtrl*, 6> Units_LootSwitch;
 
 //  Data Container Names
 //  Type 10+
@@ -2073,7 +2104,7 @@ private:
     SolidText *Units_MoveAlgorithm_Text;
     SolidText *Units_RotationAngles_Text;
     wxString Units_RotationAngles_Label;
-    array<SolidText*, 5> Units_TurnStats_Text;
+    std::array<SolidText*, 5> Units_TurnStats_Text;
 
 //  Type 40+
 
@@ -2232,7 +2263,7 @@ private:
     wxBoxSizer *Units_SelectionRadius_Holder;
     wxStaticBoxSizer *Units_ResourceStorageHeader_Holder;
     wxBoxSizer *Units_ResourceStorage_Texts;
-    array<wxBoxSizer*, 3> Units_ResourceStorage_Holder;
+    std::array<wxBoxSizer*, 3> Units_ResourceStorage_Holder;
     wxBoxSizer *Units_SelectionSound_Holder;
     wxBoxSizer *Units_DyingSound_Holder;
     wxBoxSizer *Units_AttackReaction_Holder;
@@ -2309,7 +2340,7 @@ private:
 
     wxStaticBoxSizer *Units_CostHeader_Holder;
     wxBoxSizer *Unit_Cost_Texts;
-    array<wxBoxSizer*, 3> Unit_Cost_Sizers;
+    std::array<wxBoxSizer*, 3> Unit_Cost_Sizers;
     wxBoxSizer *Units_TrainTime_Holder;
     wxBoxSizer *Units_TrainLocationID_Holder;
     wxBoxSizer *Units_ButtonID_Holder;
@@ -2469,7 +2500,7 @@ private:
 
     wxBoxSizer *Units_DataArea; // Unit window other-than unit-list-section
 
-    vector<AGETextCtrl*> uiGroupUnit, uiGroupUnitDmgGraphic, uiGroupUnitTask;
+    std::vector<AGETextCtrl*> uiGroupUnit, uiGroupUnitDmgGraphic, uiGroupUnitTask;
     wxBoxSizer *Units_ScrollSpace;
     wxStaticBoxSizer *Units_Identity_Holder;
     wxBoxSizer *Units_TypeArea_Holder;
@@ -2501,8 +2532,8 @@ private:
     wxStaticBoxSizer *TasksArea_Holder;
     wxBoxSizer *Units_Top_Holder;
     wxWrapSizer *Units_TopGrid_Holder;
-    vector<wxCheckBox*> Units_CivBoxes;
-    //vector<SolidText*> Units_CivLabels;
+    std::vector<wxCheckBox*> Units_CivBoxes;
+    //std::vector<SolidText*> Units_CivLabels;
     wxButton *Units_CopyTo;
     wxCheckBox *Units_CopyGraphics;
     wxCheckBox *Units_AutoCopy;
@@ -2555,7 +2586,7 @@ private:
     wxBoxSizer *Tasks_TargetDiplomacy_Holder;
     wxBoxSizer *Tasks_CarryCheck_Holder;
     wxBoxSizer *Tasks_PickForConstruction_Holder;
-    array<wxBoxSizer*, 6> Tasks_Graphics_Holder;
+    std::array<wxBoxSizer*, 6> Tasks_Graphics_Holder;
 
     SolidText *Tasks_Type_Text;
     SolidText *Tasks_ID_Text;
@@ -2580,7 +2611,7 @@ private:
     SolidText *Tasks_TargetDiplomacy_Text;
     LinkedCheckBox *Tasks_CarryCheck_Text;
     LinkedCheckBox *Tasks_PickForConstruction_Text;
-    array<SolidText*, 6> Tasks_Graphics_Text;
+    std::array<SolidText*, 6> Tasks_Graphics_Text;
 
     AGETextCtrl *Tasks_Type;
     AGETextCtrl *Tasks_ID;
@@ -2614,8 +2645,8 @@ private:
     AGETextCtrl *Tasks_PickForConstruction;
     AGETextCtrl *Tasks_WwiseResourceGatheringSound;
     AGETextCtrl *Tasks_WwiseResourceDepositSound;
-    array<AGETextCtrl*, 6> Tasks_Graphics;
-    array<LinkedComboBox*, 6> Tasks_Graphics_ComboBox;
+    std::array<AGETextCtrl*, 6> Tasks_Graphics;
+    std::array<LinkedComboBox*, 6> Tasks_Graphics_ComboBox;
 
 //  Graphics user interface
 
@@ -2646,7 +2677,7 @@ private:
     AScrolled *Graphics_Scroller;
     wxBoxSizer *Graphics_ScrollSpace;
 
-    vector<AGETextCtrl*> uiGroupGraphic, uiGroupGraphicDelta, uiGroupGraphicSound;
+    std::vector<AGETextCtrl*> uiGroupGraphic, uiGroupGraphicDelta, uiGroupGraphicSound;
     wxBoxSizer *Graphics_NameArea_Holder;
     wxBoxSizer *Graphics_Name_Holder;
     wxBoxSizer *Graphics_FileName_Holder;
@@ -2788,7 +2819,7 @@ private:
 
 //  Terrains user interface
 
-    vector<AGETextCtrl*> uiGroupTerrain, uiGroupBorder, uiGroupBorderFrame;
+    std::vector<AGETextCtrl*> uiGroupTerrain, uiGroupBorder, uiGroupBorderFrame;
     wxBoxSizer *Terrains_Main;
     wxStaticBoxSizer *Terrains_Terrains;
     wxBoxSizer *Terrains_Terrains_Searches[2];
@@ -2883,11 +2914,11 @@ private:
     wxBoxSizer *Terrains_Colors_Holder;
     wxGridSizer *Terrains_Colors_Grid;
     SolidText *Terrains_Colors_Text;
-    array<AGETextCtrl*, 3> Terrains_Colors;
+    std::array<AGETextCtrl*, 3> Terrains_Colors;
     wxBoxSizer *Terrains_CliffColors_Holder;
     wxGridSizer *Terrains_CliffColors_Grid;
     SolidText *Terrains_CliffColors_Text;
-    array<AGETextCtrl*, 2> Terrains_CliffColors;
+    std::array<AGETextCtrl*, 2> Terrains_CliffColors;
     wxBoxSizer *Terrains_PassableTerrain_Holder;
     wxBoxSizer *Terrains_ImpassableTerrain_Holder;
     SolidText *Terrains_PassableTerrain_Text;
@@ -2933,30 +2964,30 @@ private:
     wxBoxSizer *Terrains_ElevationGraphics_Holder;
     wxBoxSizer *Terrain_TileGraphics_Sizer;
     SolidText *Terrains_ElevationGraphics_Text;
-    array<wxBoxSizer*, 19>Terrain_TileGraphics_Sizers;
-    array<AGETextCtrl*, 57>Terrains_ElevationGraphics;
+    std::array<wxBoxSizer*, 19>Terrain_TileGraphics_Sizers;
+    std::array<AGETextCtrl*, 57>Terrains_ElevationGraphics;
     wxBoxSizer *Terrains_TerrainReplacementID_Holder;
     SolidText *Terrains_TerrainReplacementID_Text;
     AGETextCtrl *Terrains_TerrainReplacementID;
     LinkedComboBox *Terrains_TerrainReplacementID_ComboBox;
     wxBoxSizer *Terrains_TerrainDimensions_Holder;
     SolidText *Terrains_TerrainDimensions_Text;
-    array<AGETextCtrl*, 2>Terrains_TerrainDimensions;
-    auto static const TERRAINUNITS = 30;
+    std::array<AGETextCtrl*, 2>Terrains_TerrainDimensions;
+    size_t static const TERRAINUNITS = 30;
     wxBoxSizer *Terrains_TerrainUnits_Holder;
     wxBoxSizer *Terrains_TerrainUnitID_Holder;
     wxBoxSizer *Terrains_TerrainUnitID_Holder1;
     SolidText *Terrains_TerrainUnitID_Text;
-    array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitID;
-    array<LinkedComboBox*, TERRAINUNITS>Terrains_TerrainUnitID_ComboBox;
+    std::array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitID;
+    std::array<LinkedComboBox*, TERRAINUNITS>Terrains_TerrainUnitID_ComboBox;
     wxBoxSizer *Terrains_TerrainUnitDensity_Holder;
     wxBoxSizer *Terrains_TerrainUnitMaskedDensity_Holder;
     wxBoxSizer *Terrains_TerrainUnitPriority_Holder;
     SolidText *Terrains_TerrainUnitDensity_Text;
     SolidText *Terrains_TerrainUnitPriority_Text;
-    array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitDensity;
-    array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitMaskedDensity;
-    array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitPriority;
+    std::array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitDensity;
+    std::array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitMaskedDensity;
+    std::array<AGETextCtrl*, TERRAINUNITS>Terrains_TerrainUnitPriority;
     wxBoxSizer *Terrains_UsedTerrainUnits_Holder;
     SolidText *Terrains_UsedTerrainUnits_Text;
     AGETextCtrl *Terrains_UsedTerrainUnits;
@@ -2976,7 +3007,7 @@ private:
     wxButton *TerRestrict_Paste;
     wxButton *TerRestrict_PasteInsert;
 
-    vector<AGETextCtrl*> uiGroupRestriction;
+    std::vector<AGETextCtrl*> uiGroupRestriction;
     wxBoxSizer *TerRestrict_Terrains;
     wxBoxSizer *TerRestrict_DataArea;
     wxTextCtrl *TerRestrict_Terrains_Search;
@@ -3029,7 +3060,7 @@ private:
     wxButton *SoundItems_PasteInsert;
     wxButton *SoundItems_CopyToSounds;
 
-    vector<AGETextCtrl*> uiGroupSound, uiGroupSoundFile;
+    std::vector<AGETextCtrl*> uiGroupSound, uiGroupSoundFile;
     wxBoxSizer *Sounds_ID_Holder;
     SolidText *Sounds_ID_Text;
     AGETextCtrl *Sounds_ID;
@@ -3095,7 +3126,7 @@ private:
     wxButton *Colors_Paste;
     wxButton *Colors_PasteInsert;
 
-    vector<AGETextCtrl*> uiGroupColor;
+    std::vector<AGETextCtrl*> uiGroupColor;
     wxBoxSizer *Colors_DataArea;
     wxWrapSizer *Colors_WrapArea;
     wxBoxSizer *Colors_Name_Holder;
@@ -3412,14 +3443,14 @@ private:
     }
 
     template <class P>
-    inline void DeleteFromList(P &path, vector<int> &places)
+    inline void DeleteFromList(P &path, std::vector<int> &places)
     {
         for(auto loop = places.size(); loop--> 0;)
         path.erase(path.begin() + places[loop]);
         How2List = DEL;
     }
     template <class P>
-    inline void DeleteFromListIDFix(P &path, vector<int> &places)
+    inline void DeleteFromListIDFix(P &path, std::vector<int> &places)
     {
         for(auto loop = places.size(); loop--> 0;)
         path.erase(path.begin() + places[loop]);
@@ -3429,7 +3460,7 @@ private:
     }
 
     template <class P, class C>
-    inline void CopyFromList(P &path, vector<int> &places, C &copies)
+    inline void CopyFromList(P &path, std::vector<int> &places, C &copies)
     {
         copies.resize(places.size());
         for(size_t loop = 0; loop < places.size(); ++loop)
@@ -3438,7 +3469,7 @@ private:
 
     // Common paste check
     template <class P, class C>
-    inline size_t PasteCheck(P &path, const vector<int> &places, const C &copies, bool resize)
+    inline size_t PasteCheck(P &path, const std::vector<int> &places, const C &copies, bool resize)
     {
         if(Paste11)
         {
@@ -3468,7 +3499,7 @@ private:
 
     // Combined paste
     template <class P, class C>
-    inline void PasteToListNoGV(P &path, vector<int> &places, C &copies, bool resize = true)
+    inline void PasteToListNoGV(P &path, std::vector<int> &places, C &copies, bool resize = true)
     {
         size_t copy_cnt = PasteCheck(path, places, copies, resize);
         for(size_t loop = 0; loop < copy_cnt; ++loop)
@@ -3480,7 +3511,7 @@ private:
 
     // Combined paste with GV
     template <class P, class C>
-    inline void PasteToList(P &path, vector<int> &places, C &copies, bool resize = true)
+    inline void PasteToList(P &path, std::vector<int> &places, C &copies, bool resize = true)
     {
         size_t copy_cnt = PasteCheck(path, places, copies, resize);
         for(size_t loop = 0; loop < copy_cnt; ++loop)
@@ -3493,7 +3524,7 @@ private:
 
     // Combined paste with ID fix
     template <class P, class C>
-    inline void PasteToListIDFix(P &path, vector<int> &places, C &copies, bool resize = true)
+    inline void PasteToListIDFix(P &path, std::vector<int> &places, C &copies, bool resize = true)
     {
         size_t copy_cnt = PasteCheck(path, places, copies, resize);
         for(size_t loop = 0; loop < copy_cnt; ++loop)

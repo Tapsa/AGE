@@ -1,4 +1,6 @@
+#include "Common.h"
 #include "../AGE_Frame.h"
+#include "genie/resource/Color.h"
 
 uint8_t AGE_SLP::playerColorStart = 0;
 uint8_t AGE_SLP::playerColorID = 0;
@@ -10,11 +12,11 @@ void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &event)
     ListPlayerColors();
 }
 
-string AGE_Frame::GetPlayerColorName(int index)
+std::string AGE_Frame::GetPlayerColorName(int index)
 {
     if(GenieVersion < genie::GV_AoKE3)
         return dataset->PlayerColours[index].Name;
-    return "Color "+lexical_cast<string>(index);
+    return "Color "+lexical_cast<std::string>(index);
 }
 
 void AGE_Frame::ListPlayerColors()
@@ -82,7 +84,7 @@ void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
             Colors_ReferenceID->prepend(&PlayerColorPointer->StatisticsText);
         }
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected color: "+lexical_cast<string>(ColorIDs.front()), 0);
+    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected color: "+lexical_cast<std::string>(ColorIDs.front()), 0);
 
     for(auto &box: uiGroupColor) box->update();
     Colors_ID->refill();
@@ -131,7 +133,7 @@ void AGE_Frame::OnDrawPalette(wxPaintEvent &event)
     dc.Clear();
     if(paletteView >= palettes.size() || palettes[paletteView].empty()) return;
     assert(palettes[paletteView].size() == 256);
-    vector<uint8_t> rgbdata(768);
+    std::vector<uint8_t> rgbdata(768);
     uint8_t *val = rgbdata.data();
     for(int i=0; i < 256; ++i)
     {

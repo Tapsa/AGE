@@ -1,3 +1,4 @@
+#include "Common.h"
 #include "../AGE_Frame.h"
 
 wxString AGE_Frame::GetTerrainRestrictionName(int index)
@@ -68,7 +69,7 @@ void AGE_Frame::OnTerrainRestrictionSelect(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, TerRestrict_TerRestrict_ListV, TerRestrictIDs);
 
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected table: "+lexical_cast<string>(TerRestrictIDs.front()), 0);
+    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected table: "+lexical_cast<std::string>(TerRestrictIDs.front()), 0);
     ListTerrains2();
 }
 
