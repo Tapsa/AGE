@@ -26,6 +26,8 @@ To compile with MinGW you need to download `wxWidgets`, `Boost`, and `CMake`.
 
 Hopefully it will support MP3 in some year.
 
+`lz4` is used for decompressing some sprites.
+
 For Visual Studio, you also need to download and build a compatible version of `libiconv`.
 
 ### CMake 3.15.5
@@ -118,13 +120,27 @@ Visual Studio may require appending `lib` to name of some generated libraries.
 
 - Copy `FindSFML.cmake` to `\CMake\share\cmake-3.15\Modules`
 
+### lz4
+
+- Unpack the zip file.
+
+- For static linking using Visual Studio, build the liblz4 project, both `Debug` and `Release`.
+
+- Copy the header files from `lib` folder into `%Cpp libs%\lz4`.
+
+- Create folders `Debug` and `Release` inside `%Cpp libs%\lz4` folder.
+
+- Copy the generated `liblz4_static.lib` files from where they were generated, such as `build\VS2017\bin`.
+
+### Final steps
+
 Clone the following projects into same folder where the `AGE` folder is:
 
 - [Genieutils](https://github.com/Tapsa/genieutils)
 
 - [pcrio](https://github.com/Tapsa/pcrio)
 
-Update paths in `build*.bat` files, and then you are ready to go.
+MinGW: Update paths in `build*.bat` files, and then you are ready to go.
 
 Visual Studio solution should be buildable now, but you may need to add some libraries to system path, or copy them into build folders.
 

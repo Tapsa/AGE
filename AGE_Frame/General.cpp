@@ -1,3 +1,4 @@
+#include "Common.h"
 #include "../AGE_Frame.h"
 
 void AGE_Frame::ListMapData()
@@ -47,7 +48,7 @@ void AGE_Frame::OnVariableCalc(wxFocusEvent &event)
         catch(const bad_lexical_cast&){}
     }
 
-    General_CalcBoxes[4]->ChangeValue(lexical_cast<string>(result));
+    General_CalcBoxes[4]->ChangeValue(lexical_cast<std::string>(result));
 }
 
 void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
@@ -65,13 +66,13 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
         result = 0;
     }
 
-    General_CalcBoxes[0]->ChangeValue(lexical_cast<string>(result & 0xFF));
+    General_CalcBoxes[0]->ChangeValue(lexical_cast<std::string>(result & 0xFF));
     result >>= 8;
-    General_CalcBoxes[1]->ChangeValue(lexical_cast<string>(result & 0xFF));
+    General_CalcBoxes[1]->ChangeValue(lexical_cast<std::string>(result & 0xFF));
     result >>= 8;
-    General_CalcBoxes[2]->ChangeValue(lexical_cast<string>(result & 0xFF));
+    General_CalcBoxes[2]->ChangeValue(lexical_cast<std::string>(result & 0xFF));
     result >>= 8;
-    General_CalcBoxes[3]->ChangeValue(lexical_cast<string>(result & 0xFF));
+    General_CalcBoxes[3]->ChangeValue(lexical_cast<std::string>(result & 0xFF));
 }
 
 void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
@@ -490,7 +491,7 @@ wxString AGE_Frame::GetRandomMapName(int index)
 {
     if(GenieVersion >= genie::GV_AoK)
     {
-        return "Map "+lexical_cast<string>(dataset->RandomMaps.Maps[index].MapID);
+        return "Map "+lexical_cast<std::string>(dataset->RandomMaps.Maps[index].MapID);
     }
     wxString Name;
     switch(index)
@@ -507,7 +508,7 @@ wxString AGE_Frame::GetRandomMapName(int index)
         case 9: Name = "Gigantic ("; break;
         default: Name = "Map (";
     }
-    return Name += lexical_cast<string>(dataset->RandomMaps.Maps[index].MapID)+")";
+    return Name += lexical_cast<std::string>(dataset->RandomMaps.Maps[index].MapID)+")";
 }
 
 void AGE_Frame::ListRandomMaps()
@@ -563,7 +564,7 @@ void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
             RMS_UnitsPtr->prepend(&map_ptr->MapUnitsPtr);
             RMS_ElevationsPtr->prepend(&map_ptr->MapElevationsPtr);
         }
-        SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected random map: "+lexical_cast<string>(RandomMapIDs.front()), 0);
+        SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected random map: "+lexical_cast<std::string>(RandomMapIDs.front()), 0);
     }
     for(auto &box: uiGroupRandomMap) box->update();
     ListMapLands();
@@ -641,7 +642,7 @@ void AGE_Frame::OnMapLandSearch(wxCommandEvent &event)
 
 wxString AGE_Frame::GetMapLandName(int index)
 {
-    return "Land "+lexical_cast<string>(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands[index].LandID);
+    return "Land "+lexical_cast<std::string>(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands[index].LandID);
 }
 
 void AGE_Frame::ListMapLands()

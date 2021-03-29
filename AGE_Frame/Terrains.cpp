@@ -1,9 +1,11 @@
+#include "Common.h"
 #include "../AGE_Frame.h"
+#include "../Loaders.h"
 
-string AGE_Frame::GetTerrainName(int index, bool Filter)
+std::string AGE_Frame::GetTerrainName(int index, bool Filter)
 {
     if(dataset->TerrainBlock.Terrains.size() <= index) return "Nonexistent Terrain";
-    string Name;
+    std::string Name;
     if(Filter)
     {
         short Selection[2];
@@ -275,7 +277,7 @@ void AGE_Frame::OnTerrainSelect(wxCommandEvent &event)
         }
         Terrains_UsedTerrainUnits->prepend(&TerrainPointer->NumberOfTerrainUnitsUsed);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected terrain: "+lexical_cast<string>(TerrainIDs.front()), 0);
+    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected terrain: "+lexical_cast<std::string>(TerrainIDs.front()), 0);
 
     for(auto &box: uiGroupTerrain) box->update();
     if(TerrainPointer && !palettes.empty() && !palettes.front().empty())
@@ -341,7 +343,7 @@ void AGE_Frame::OnTerrainSelect(wxCommandEvent &event)
 
 wxThread::ExitCode Loader::Entry()
 {
-    const vector<genie::Color> *pal = &HostFrame->palettes.front();
+    const std::vector<genie::Color> *pal = &HostFrame->palettes.front();
     if(pal->empty()) return (wxThread::ExitCode)0;
     size_t TileHalfWidth = HostFrame->dataset->TerrainBlock.TileHalfWidth;
     size_t TileHalfHeight = HostFrame->dataset->TerrainBlock.TileHalfHeight;
@@ -358,9 +360,9 @@ wxThread::ExitCode Loader::Entry()
             size_t wwidth = (rows + cols) * TileHalfWidth;
             size_t wheight = (rows + cols) * TileHalfHeight;
             size_t warea = wwidth * wheight + 1;
-            vector<uint8_t> wrgbdata(warea * 4, 0);
+            std::vector<uint8_t> wrgbdata(warea * 4, 0);
 
-            vector<pair<size_t, size_t>> corners(rows * cols);
+            std::vector<std::pair<size_t, size_t>> corners(rows * cols);
             for(int c = 0; c < cols; ++c)
             for(int r = 0; r < rows; ++r)
             {
@@ -376,7 +378,7 @@ wxThread::ExitCode Loader::Entry()
                 {
                     frame = tileSLP.slp->getFrame(f);
                 }
-                catch(const out_of_range&){}
+                catch(const std::out_of_range&){}
                 if(frame)
                 {
                     int width = frame->getWidth();
@@ -416,7 +418,7 @@ wxThread::ExitCode Loader::Entry()
             break;
         }
     }
-    HostFrame->tileSLP = move(tileSLP);
+    HostFrame->tileSLP = std::move(tileSLP);
     return (wxThread::ExitCode)0;
 }
 

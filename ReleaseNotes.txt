@@ -13,6 +13,12 @@ I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2021.3.29[/b]:
+-Added initial SMX support.
+-Fixed reading Age of Empires DE SLP files.
+-DE palette paths are saved in recent list.
+-Improved reading of palettes.
+
 Version [b]2021.3.22[/b]:
 -Fixed several bugs in effects tab.
 -Reduced lag when dragging main window.
@@ -113,6 +119,7 @@ Scenario_t_c - GeniEd 2 source code
 Alexandra "Taichi San", DarkRain654 - data file research
 DiGiT, JustTesting1234, AOHH - genie file structure
 Cysion, Kris, Sarthos - important help
+Tevious - SMX support
 Grenadier (RvA) - terrain patch
 withmorten - UserPatch effect support
 BF_Tanks - some help

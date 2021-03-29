@@ -1,9 +1,11 @@
+#include "Common.h"
 #include "../AGE_Frame.h"
+#include "genie/resource/Color.h"
 
-string AGE_Frame::GetTerrainBorderName(int index)
+std::string AGE_Frame::GetTerrainBorderName(int index)
 {
     if(dataset->TerrainBlock.TerrainBorders[index].Name.empty() && dataset->TerrainBlock.TerrainBorders[index].Name2.empty())
-        return "Border "+lexical_cast<string>(index);
+        return "Border "+lexical_cast<std::string>(index);
     return dataset->TerrainBlock.TerrainBorders[index].Name+" - "+dataset->TerrainBlock.TerrainBorders[index].Name2;
 }
 
@@ -34,7 +36,7 @@ void AGE_Frame::InitTerrainBlends()
     Borders_ListV->Sweep();
 
     // Just do dirty work here.
-    multimap<unsigned, unsigned> blendMap;
+    std::multimap<unsigned, unsigned> blendMap;
     for(size_t loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
     {
         blendMap.emplace(dataset->TerrainBlock.Terrains[loop].BlendPriority, loop);
@@ -76,7 +78,7 @@ void AGE_Frame::InitTerrainBlends()
         {
             // Select old indexes again.
             // As the items are not sorted by
-            map<unsigned, unsigned> listMap;
+            std::map<unsigned, unsigned> listMap;
             for(size_t loop = 0; loop < name_count; ++loop)
             {
                 listMap.emplace(Borders_ListV->indexes[loop], loop);
@@ -176,7 +178,7 @@ void AGE_Frame::OnTerrainBorderSelect(wxCommandEvent &event)
         Borders_Terrain->prepend(&BorderPointer->UnderlayTerrain);
         Borders_BorderStyle->prepend(&BorderPointer->BorderStyle);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected border: "+lexical_cast<string>(BorderIDs.front()), 0);
+    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected border: "+lexical_cast<std::string>(BorderIDs.front()), 0);
 
     for(auto &box: uiGroupBorder) box->update();
     if(BorderPointer && !palettes.empty() && !palettes.front().empty())
@@ -221,7 +223,7 @@ void AGE_Frame::OnTerrainBordersMoveUp(wxCommandEvent &event)
     int32_t lowest = 70000;
     for(auto sel = 0; sel < selections; ++sel)
     {
-        lowest = min(lowest, dataset->TerrainBlock.Terrains[BorderIDs[sel]].BlendPriority);
+        lowest = std::min(lowest, dataset->TerrainBlock.Terrains[BorderIDs[sel]].BlendPriority);
     }
     int32_t newLow = lowest - 1;
     // Patch any terrain found to have same blend level.
@@ -250,7 +252,7 @@ void AGE_Frame::OnTerrainBordersMoveDown(wxCommandEvent &event)
     int32_t highest = 0;
     for(auto sel = 0; sel < selections; ++sel)
     {
-        highest = max(highest, dataset->TerrainBlock.Terrains[BorderIDs[sel]].BlendPriority);
+        highest = std::max(highest, dataset->TerrainBlock.Terrains[BorderIDs[sel]].BlendPriority);
     }
     int32_t newHigh = highest + 1;
     // Patch any terrain found to have same blend level.
@@ -269,7 +271,7 @@ void AGE_Frame::OnTerrainBordersMoveDown(wxCommandEvent &event)
     ListTerrainBorders();
 }
 
-string AGE_Frame::GetTerrainBorderTileTypeName(int index)
+std::string AGE_Frame::GetTerrainBorderTileTypeName(int index)
 {
     switch(index)
     {
@@ -292,7 +294,7 @@ string AGE_Frame::GetTerrainBorderTileTypeName(int index)
         case 16: return "Pit Tile E";
         case 17: return "1:1 Tile A";
         case 18: return "1:1 Tile B";
-        default: return "Tile Type "+lexical_cast<string>(index);
+        default: return "Tile Type "+lexical_cast<std::string>(index);
     }
 }
 
@@ -359,11 +361,11 @@ void AGE_Frame::OnTerrainBorderTileTypeCopyToBorders(wxCommandEvent &event)
     }
 }
 
-string AGE_Frame::GetTerrainBorderBorderShapeName(int index)
+std::string AGE_Frame::GetTerrainBorderBorderShapeName(int index)
 {
-    return "FC "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].FrameCount)
-    +", A "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].AngleCount)
-    +", SI "+lexical_cast<string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].ShapeID);
+    return "FC "+lexical_cast<std::string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].FrameCount)
+    +", A "+lexical_cast<std::string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].AngleCount)
+    +", SI "+lexical_cast<std::string>(dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][index].ShapeID);
 }
 
 void AGE_Frame::OnTerrainBorderBorderShapeSearch(wxCommandEvent &event)

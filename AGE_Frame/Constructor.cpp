@@ -1,4 +1,9 @@
+#include "Common.h"
 #include "../AGE_Frame.h"
+#include "../EditableVersion.h"
+#include "../Loaders.h"
+
+// Icons
 #include "../AppIcon32.xpm"
 #include "../GateOpen.xpm"
 #include "../GateClosed.xpm"
@@ -10,13 +15,14 @@
 #include "../DRSunlock.xpm"
 #include "../AutoBackup.xpm"
 #include "../Reselection.xpm"
+
 //#include "genie/util/Logger.h"
 
 std::ofstream AGE_Frame::log_out;
 
 AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
-: wxFrame(NULL, wxID_ANY, title), window_num(window), argPath(aP), font(GetFont())
-//font(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Tahoma")
+    : wxFrame(nullptr, wxID_ANY, title), window_num(window), argPath(aP), font(GetFont())
+    //font(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Tahoma")
 {
     {
         wxPanel model;
@@ -34,11 +40,11 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     {
         int temp;
 
-        wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<string>(window + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-        Config.Read("/EditorVersion", &EditorVersionString, AGE_AboutDialog::AGE_VER);
+        wxConfig Config("", "", "AGE2\\ConfigWindow" + lexical_cast<std::string>(window + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        Config.Read("/EditorVersion", &EditorVersionString, AboutDialog::AGE_VER);
         sscanf(EditorVersionString, "%f", &EditorVersion);
         Config.Read("/TimesOpened", &TimesOpened, 0);
-        if(EditorVersionString != AGE_AboutDialog::AGE_VER) TimesOpened = 0;
+        if (EditorVersionString != AboutDialog::AGE_VER) TimesOpened = 0;
         Config.Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
         Config.Read("Interaction/AutoCopy", &AutoCopy, true);
         Config.Read("Interaction/AutoCopyAngles", &AutoCopyAngles, true);
@@ -90,6 +96,8 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("DefaultFiles/FolderDRS2", &FolderDRS2, wxEmptyString);
         Config.Read("DefaultFiles/Path1stDRS", &Path1stDRS, wxEmptyString);
         Config.Read("DefaultFiles/PathLooseSprites", &PathSLP, wxEmptyString);
+        Config.Read("DefaultFiles/PathPalettes", &PathPalettes, wxEmptyString);
+        Config.Read("DefaultFiles/PathPlayerPalette", &PathPlayerColorPalette, wxEmptyString);
         Config.Read("DefaultFiles/UseDRS", &UseDRS, true);
         Config.Read("DefaultFiles/UseMod", &UseMod, false);
         Config.Read("DefaultFiles/UseExtra", &UseExtra, false);
@@ -108,16 +116,15 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         Config.Read("DefaultFiles/SaveLangX1P1Filename", &SaveLangX1P1FileName, wxEmptyString);
         Config.Read("DefaultFiles/SaveDat", &SaveDat, true);
         Config.Read("DefaultFiles/AutoBackups", &AutoBackups, false);
-        Config.Read("DefaultFiles/PalettesPath", &PalettesPath, wxEmptyString);
         Config.Read("Misc/CustomTerrains", &CustomTerrains, 42);
 
-        Config.Write("/EditorVersion", AGE_AboutDialog::AGE_VER);
+        Config.Write("/EditorVersion", AboutDialog::AGE_VER);
         Config.Write("/TimesOpened", ++TimesOpened);
 
         GG::cache_depth = temp;
     }
 
-    if(boxWidthMultiplier > 1.f)
+    if (boxWidthMultiplier > 1.f)
     {
         AGETextCtrl::SMALL *= boxWidthMultiplier;
         AGETextCtrl::MEDIUM *= boxWidthMultiplier;
@@ -128,10 +135,10 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 
     wxColour back(ViewBackR, ViewBackG, ViewBackB);
     slp_background_brush = wxBrush(back);
-    if(TimesOpened < 2) AnimSLP = ShowSLP = ShowIcons = true; // For people that had these initialized to false in previous release.
+    if (TimesOpened < 2) AnimSLP = ShowSLP = ShowIcons = true; // For people that had these initialized to false in previous release.
 
     CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);
-    int bars[5] = {295, 145, 145, 145, -1};
+    int bars[5] = { 295, 145, 145, 145, -1 };
     CreateStatusBar(5)->SetStatusWidths(5, bars);
 
     GetToolBar()->AddTool(eAddWindow, "+++", wxBitmap(AppIcon24_xpm), "Open multiple editors to easily copy between files and game versions\nUse the normal copy and paste buttons\n4 windows seem to be the maximum");
@@ -262,16 +269,16 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     AGE_Frame::FixSize(this);
 
     Bind(wxEVT_CLOSE_WINDOW, &AGE_Frame::OnExit, this);
-    Bind(wxEVT_IDLE, [this](wxIdleEvent&)
+    Bind(wxEVT_IDLE, [this](wxIdleEvent &)
     {
-        if(popUp.hasMessage)
+        if (popUp.hasMessage)
         {
             wxMessageBox(popUp.popUpMessage, popUp.popUpTitle);
             popUp.hasMessage = false;
-            if(popUp.focusTarget)
+            if (popUp.focusTarget)
             {
-                if(popUp.focusTarget->IsEnabled() && popUp.focusTarget->IsShownOnScreen())
-                popUp.focusTarget->SetFocus();
+                if (popUp.focusTarget->IsEnabled() && popUp.focusTarget->IsShownOnScreen())
+                    popUp.focusTarget->SetFocus();
                 popUp.focusTarget = 0;
             }
         }
@@ -282,31 +289,31 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     Bind(wxEVT_MENU, &AGE_Frame::OnMenuOption, this, hotWin1, closeAll);
 
     Units_AutoCopy->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnAutoCopy, this);
-    Units_CopyTo->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
+    Units_CopyTo->Bind(wxEVT_BUTTON, [this](wxCommandEvent &)
     {
         auto selections = Units_ListV->GetSelectedCount();
-        if(selections < 1) return;
+        if (selections < 1) return;
 
         int edits = 0;
         GraphicCopies graphics;
-        for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
+        for (size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
-            if(Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID)
+            if (Units_CivBoxes[civ]->IsChecked() && civ != UnitCivID)
             {
-                for(size_t loop = 0; loop < selections; ++loop)
+                for (size_t loop = 0; loop < selections; ++loop)
                 {
-                    if(!CopyGraphics)// Let's copy graphics separately.
-                    UnitsGraphicsCopy(graphics, civ, UnitIDs[loop]);
+                    if (!CopyGraphics)// Let's copy graphics separately.
+                        UnitsGraphicsCopy(graphics, civ, UnitIDs[loop]);
                     dataset->Civs[civ].Units[UnitIDs[loop]] = dataset->Civs[UnitCivID].Units[UnitIDs[loop]];
-                    if(!CopyGraphics)// Let's paste graphics separately.
-                    UnitsGraphicsPaste(graphics, civ, UnitIDs[loop]);
+                    if (!CopyGraphics)// Let's paste graphics separately.
+                        UnitsGraphicsPaste(graphics, civ, UnitIDs[loop]);
                 }
                 ++edits;
             }
         }
 
         SetStatusText("Manual unit copy", 2);
-        SetStatusText("Edits: "+lexical_cast<string>(popUp.unSaved)+" + "+lexical_cast<string>(edits), 3);
+        SetStatusText("Edits: " + lexical_cast<std::string>(popUp.unSaved) + " + " + lexical_cast<std::string>(edits), 3);
         popUp.unSaved += edits;
     });
     Units_SelectAll->Bind(wxEVT_BUTTON, &AGE_Frame::OnAutoCopy, this);
@@ -316,7 +323,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     TabBar_Main->Bind(wxEVT_NOTEBOOK_PAGE_CHANGED, &AGE_Frame::OnMenuOption, this, eTabBar);
 
     wxCommandEvent event(wxEVT_MENU);
-    if(!window && TimesOpened < 2)
+    if (!window && TimesOpened < 2)
     {
         event.SetId(eHelp);
         OnMenuOption(event);
@@ -333,7 +340,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     event.SetInt(NeverHideAttributes);
     OnMenuOption(event);
 
-    if(StayOnTop)
+    if (StayOnTop)
     {
         event.SetId(eStayOnTop);
         event.SetInt(true);
@@ -359,12 +366,12 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     SkipOpenDialog = !PromptForFilesOnOpen;
 
 #ifndef NDEBUG
-    if(!log_out.is_open())
+    if (!log_out.is_open())
     {
         genie::Logger::setLogLevel(genie::Logger::L_DEBUG);
         log_out.open("gulog.ini");
         genie::Logger::setGlobalOutputStream(log_out);
-        cout.rdbuf(log_out.rdbuf());
+        std::cout.rdbuf(log_out.rdbuf());
     }
 #endif
 
@@ -393,18 +400,9 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
 void AGE_Frame::FixSizes()
 {
     SetMinSize(wxSize(MinWindowWidth, 480));
-    if(MaxWindowWidthV2 < GetMinSize().GetWidth()) MaxWindowWidthV2 = GetMinSize().GetWidth();
-    SetMaxSize(wxSize(MaxWindowWidthV2, 0x4000));
-}
-
-bool ATabPage::Show(bool show)
-{
-    if (show)
+    if (MaxWindowWidthV2 < GetMinSize().GetWidth())
     {
-        Reparent(parent);
-        return APanel::Show(true);
+        MaxWindowWidthV2 = GetMinSize().GetWidth();
     }
-    bool result = APanel::Show(false);
-    Reparent(nullptr);
-    return result;
+    SetMaxSize(wxSize(MaxWindowWidthV2, 0x4000));
 }

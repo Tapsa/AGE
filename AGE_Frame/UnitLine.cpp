@@ -1,10 +1,11 @@
+#include "Common.h"
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetUnitLineName(int index)
+std::string AGE_Frame::GetUnitLineName(int index)
 {
     if(!dataset->UnitLines[index].Name.empty())
         return dataset->UnitLines[index].Name;
-    return "Unitline "+lexical_cast<string>(index);
+    return "Unitline "+lexical_cast<std::string>(index);
 }
 
 void AGE_Frame::OnUnitLinesSearch(wxCommandEvent &event)
@@ -61,7 +62,7 @@ void AGE_Frame::OnUnitLineSelect(wxCommandEvent &event)
         UnitLines_ID->prepend(&LinePointer->ID);
         UnitLines_Name->prepend(&LinePointer->Name);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected unit line: "+lexical_cast<string>(UnitLineIDs.front()), 0);
+    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected unit line: "+lexical_cast<std::string>(UnitLineIDs.front()), 0);
 
     UnitLines_ID->refill();
     UnitLines_Name->update();

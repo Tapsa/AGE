@@ -1,7 +1,8 @@
-#include "AGE_SaveDialog.h"
+#include "Common.h"
+#include "SaveDialog.h"
 
-AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent, const wxFont &font)
-: AGE_OpenSave(parent, "Save", this, font)
+SaveDialog::SaveDialog(wxWindow *parent, const wxFont &font)
+    : OpenSaveDialog(parent, "Save", this, font)
 {
     Path_DatFileLocation = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Compressed data set (*.dat)|*.dat", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
 
@@ -45,25 +46,25 @@ AGE_SaveDialog::AGE_SaveDialog(wxWindow *parent, const wxFont &font)
     ButtonOK->SetFocus();
 }
 
-void AGE_SaveDialog::OnDefaultAoKHD(wxCommandEvent &event)
+void SaveDialog::OnDefaultAoKHD(wxCommandEvent &event)
 {
-    AGE_OpenSave::OnDefaultAoKHD(event);
+    OpenSaveDialog::OnDefaultAoKHD(event);
 
     CheckBox_LangFileLocation->SetValue(false);
     CheckBox_LangX1FileLocation->SetValue(false);
 }
 
-void AGE_SaveDialog::OnDefaultAoP(wxCommandEvent &event)
+void SaveDialog::OnDefaultAoP(wxCommandEvent &event)
 {
-    AGE_OpenSave::OnDefaultAoP(event);
+    OpenSaveDialog::OnDefaultAoP(event);
 
     CheckBox_LangFileLocation->SetValue(false);
     CheckBox_LangX1FileLocation->SetValue(false);
 }
 
-void AGE_SaveDialog::OnDefaultDE2(wxCommandEvent &event)
+void SaveDialog::OnDefaultDE2(wxCommandEvent &event)
 {
-    AGE_OpenSave::OnDefaultDE2(event);
+    OpenSaveDialog::OnDefaultDE2(event);
 
     CheckBox_LangFileLocation->SetValue(false);
     CheckBox_LangX1FileLocation->SetValue(false);

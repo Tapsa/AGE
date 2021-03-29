@@ -1,3 +1,4 @@
+#include "Common.h"
 #include "../AGE_Frame.h"
 
 wxString AGE_Frame::GetResearchName(int index, bool Filter)
@@ -21,39 +22,39 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     if(dataset->Techs[index].RequiredTechs[l2] != -1)
                     {
                         if(HasFore) Name += ", R"; else {Name += "R"; HasFore = true;}
-                        Name += lexical_cast<string>(dataset->Techs[index].RequiredTechs[l2]);
+                        Name += lexical_cast<std::string>(dataset->Techs[index].RequiredTechs[l2]);
                     }
                     break;
                 }
                 case 3: // Min. Req. Techs
-                    Name += "MR "+lexical_cast<string>(dataset->Techs[index].RequiredTechCount);
+                    Name += "MR "+lexical_cast<std::string>(dataset->Techs[index].RequiredTechCount);
                     break;
                 case 4: // Research Location
-                    Name += "RL "+lexical_cast<string>(dataset->Techs[index].ResearchLocation);
+                    Name += "RL "+lexical_cast<std::string>(dataset->Techs[index].ResearchLocation);
                     break;
                 case 5: // Research Time
-                    Name += "RT "+lexical_cast<string>(dataset->Techs[index].ResearchTime);
+                    Name += "RT "+lexical_cast<std::string>(dataset->Techs[index].ResearchTime);
                     break;
                 case 6: // Effect
-                    Name += "E "+lexical_cast<string>(dataset->Techs[index].EffectID);
+                    Name += "E "+lexical_cast<std::string>(dataset->Techs[index].EffectID);
                     break;
                 case 7: // Type
-                    Name += "T "+lexical_cast<string>(dataset->Techs[index].Type);
+                    Name += "T "+lexical_cast<std::string>(dataset->Techs[index].Type);
                     break;
                 case 8: // Icon
-                    Name += "I "+lexical_cast<string>(dataset->Techs[index].IconID);
+                    Name += "I "+lexical_cast<std::string>(dataset->Techs[index].IconID);
                     break;
                 case 9: // Button
-                    Name += "B "+lexical_cast<string>((short)dataset->Techs[index].ButtonID);
+                    Name += "B "+lexical_cast<std::string>((short)dataset->Techs[index].ButtonID);
                     break;
                 case 10: // Lang File Pointer
-                    Name += "LH "+lexical_cast<string>(dataset->Techs[index].LanguageDLLHelp);
+                    Name += "LH "+lexical_cast<std::string>(dataset->Techs[index].LanguageDLLHelp);
                     break;
                 case 11: // Pointer 2
-                    Name += "LT "+lexical_cast<string>(dataset->Techs[index].LanguageDLLTechTree);
+                    Name += "LT "+lexical_cast<std::string>(dataset->Techs[index].LanguageDLLTechTree);
                     break;
                 case 12: // Hot Key
-                    Name += "HK "+lexical_cast<string>(dataset->Techs[index].HotKey);
+                    Name += "HK "+lexical_cast<std::string>(dataset->Techs[index].HotKey);
                     break;
                 case 13: // Cost Types
                 {
@@ -62,7 +63,7 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     if(dataset->Techs[index].ResourceCosts[l2].Type != -1)
                     {
                         if(HasFore) Name += ", CT"; else {Name += "CT"; HasFore = true;}
-                        Name += lexical_cast<string>(dataset->Techs[index].ResourceCosts[l2].Type);
+                        Name += lexical_cast<std::string>(dataset->Techs[index].ResourceCosts[l2].Type);
                     }
                     break;
                 }
@@ -72,7 +73,7 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     for(size_t l2 = 0; l2 < 3; ++l2)
                     {
                         if(HasFore) Name += ", CA"; else {Name += "CA"; HasFore = true;}
-                        Name += lexical_cast<string>(dataset->Techs[index].ResourceCosts[l2].Amount);
+                        Name += lexical_cast<std::string>(dataset->Techs[index].ResourceCosts[l2].Amount);
                     }
                     break;
                 }
@@ -82,17 +83,17 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     for(size_t l2 = 0; l2 < 3; ++l2)
                     {
                         if(HasFore) Name += ", CU"; else {Name += "CU"; HasFore = true;}
-                        Name += lexical_cast<string>((short)dataset->Techs[index].ResourceCosts[l2].Flag);
+                        Name += lexical_cast<std::string>((short)dataset->Techs[index].ResourceCosts[l2].Flag);
                     }
                     break;
                 }
                 case 16: // Civilization
                     if(GenieVersion >= genie::GV_AoKB)
-                    Name += "C "+lexical_cast<string>(dataset->Techs[index].Civ);
+                    Name += "C "+lexical_cast<std::string>(dataset->Techs[index].Civ);
                     break;
                 case 17: // Full Tech Mode
                     if(GenieVersion >= genie::GV_AoKB)
-                    Name += "F "+lexical_cast<string>(dataset->Techs[index].FullTechMode);
+                    Name += "F "+lexical_cast<std::string>(dataset->Techs[index].FullTechMode);
                     break;
                 case 18: // Internal Name 2
                     if(GenieVersion >= genie::GV_SWGB)
@@ -103,7 +104,7 @@ wxString AGE_Frame::GetResearchName(int index, bool Filter)
                     }
                     // Repeatable
                     if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
-                    Name += "L "+lexical_cast<string>((short)dataset->Techs[index].Repeatable);
+                    Name += "L "+lexical_cast<std::string>((short)dataset->Techs[index].Repeatable);
                     break;
             }
             Name += ", ";
@@ -234,7 +235,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
         }
         Research_Name[0]->prepend(&ResearchPointer->Name);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected technology: "+lexical_cast<string>(ResearchIDs.front()), 0);
+    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected technology: "+lexical_cast<std::string>(ResearchIDs.front()), 0);
 
     if(ResearchPointer && GenieVersion >= genie::GV_MATT)
     {
@@ -257,9 +258,9 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
                 Research_DLL_LanguageDLLName2->index = ResearchPointer->LanguageDLLTechTree - 140000;
             }
             Research_DLL_LanguageDLLHelp->SetLabel(TranslatedText(Research_DLL_LanguageDLLHelp->index, 512));
-            Research_LanguageDLLConverter[0]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLHelp->index));
+            Research_LanguageDLLConverter[0]->SetLabel(lexical_cast<std::string>(Research_DLL_LanguageDLLHelp->index));
             Research_DLL_LanguageDLLName2->SetLabel(TranslatedText(Research_DLL_LanguageDLLName2->index, 64));
-            Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<string>(Research_DLL_LanguageDLLName2->index));
+            Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<std::string>(Research_DLL_LanguageDLLName2->index));
         }
         if(GenieVersion >= genie::GV_CC)
         {
@@ -427,16 +428,16 @@ void AGE_Frame::CreateResearchControls()
     Research_LangDLLName->SetToolTip("Usual Technology File Pattern for The Conquerors\nName: 7000-7999\n"
         "Description: Name +1000\nHelp: Name +100000, in file Name +21000\n"
         "Tech tree: Name +150000, in file Name +10000");
-    Research_DLL_LangDLLName = new TextCtrl_DLL(Research_Scroller, wxSize(AGETextCtrl::GIANT, 40));
+    Research_DLL_LangDLLName = new TextIndexControl(Research_Scroller, wxSize(AGETextCtrl::GIANT, 40));
     Research_LangDLLDescription_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LangDLLDescription_Text = new SolidText(Research_Scroller, " Language File Description");
     Research_LangDLLDescription = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch, false);
-    Research_DLL_LangDLLDescription = new TextCtrl_DLL(Research_Scroller, wxSize(320, 40));
+    Research_DLL_LangDLLDescription = new TextIndexControl(Research_Scroller, wxSize(320, 40));
     Research_HotKey_Holder = new wxBoxSizer(wxVERTICAL);
     Research_HotKey_Text = new SolidText(Research_Scroller, " Hotkey *");
     Research_HotKey = new NumberControl(CLong, Research_Scroller, this, &uiGroupResearch, false);
     Research_HotKey->SetToolTip("Gotta be same as hotkey in units.\nNo idea how this works.");
-    Research_DLL_HotKey = new TextCtrl_DLL(Research_Scroller, wxSize(100, 40));
+    Research_DLL_HotKey = new TextIndexControl(Research_Scroller, wxSize(100, 40));
 
     Research_LanguageDLLHelp_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LanguageDLLName2_Holder = new wxBoxSizer(wxVERTICAL);
@@ -447,7 +448,7 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLConverter_Text[0] = new SolidText(Research_Scroller, " Help Converter *");
     Research_LanguageDLLConverter[0] = new wxTextCtrl(Research_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
     Research_LanguageDLLConverter[0]->SetToolTip("Language popup text in file\nHit enter to get the correction into dat file");
-    Research_DLL_LanguageDLLHelp = new TextCtrl_DLL(Research_Scroller, wxSize(610, 40));
+    Research_DLL_LanguageDLLHelp = new TextIndexControl(Research_Scroller, wxSize(610, 40));
     Research_LanguageDLLName2_Text = new SolidText(Research_Scroller, " Lang File Tech Tree *");
     Research_LanguageDLLName2 = new NumberControl(CLong, Research_Scroller, this, &uiGroupResearch, false);
     Research_LanguageDLLName2->SetToolTip("150000 + Language File Name");
@@ -455,7 +456,7 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLConverter_Text[1] = new SolidText(Research_Scroller, " Tech Tree Converter *");
     Research_LanguageDLLConverter[1] = new wxTextCtrl(Research_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
     Research_LanguageDLLConverter[1]->SetToolTip("Language help text in file\nHit enter to get the correction into dat file");
-    Research_DLL_LanguageDLLName2 = new TextCtrl_DLL(Research_Scroller, wxSize(610, 40));
+    Research_DLL_LanguageDLLName2 = new TextIndexControl(Research_Scroller, wxSize(610, 40));
 
     Research_RequiredTechArea_Holder = new wxBoxSizer(wxVERTICAL);
     Research_RequiredTechs_Holder = new wxGridSizer(6, 0, 5);

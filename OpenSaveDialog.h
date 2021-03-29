@@ -1,20 +1,25 @@
 #pragma once
-#include "Common.h"
+#include <vector>
+#include <wx/checkbox.h>
+#include <wx/dialog.h>
+#include <wx/filepicker.h>
+#include <wx/odcombo.h>
+#include <wx/sizer.h>
 
-class AGE_PairedCheckBox: public wxCheckBox
+class PairedCheckBox: public wxCheckBox
 {
 public:
-    AGE_PairedCheckBox(wxWindow *parent, const wxString &label, wxWindow **pair);
-    void DoSet3StateValue(wxCheckBoxState state);
+    PairedCheckBox(wxWindow *parent, const wxString &label, wxWindow **pair);
+    void DoSet3StateValue(wxCheckBoxState state) override;
 
 private:
     wxWindow **window_pair;
 };
 
-class AGE_OpenSave: public wxDialog
+class OpenSaveDialog : public wxDialog
 {
 public:
-    AGE_OpenSave(wxWindow *parent, const wxString &title, wxDialog *slave, const wxFont &font);
+    OpenSaveDialog(wxWindow *parent, const wxString &title, wxDialog *slave, const wxFont &font);
 
     /* Events */
 
@@ -50,21 +55,21 @@ public:
     wxOwnerDrawnComboBox *ComboBox_GenieVer;
     wxTextCtrl *DriveLetterBox;
     wxTextCtrl *LanguageBox;
-    AGE_PairedCheckBox *CheckBox_CustomDefault;
+    PairedCheckBox *CheckBox_CustomDefault;
     wxDirPickerCtrl *Path_CustomDefault;
-    AGE_PairedCheckBox *Radio_DatFileLocation;
+    PairedCheckBox *Radio_DatFileLocation;
     wxFilePickerCtrl *Path_DatFileLocation;
-    AGE_PairedCheckBox *CheckBox_LangFileLocation;
+    PairedCheckBox *CheckBox_LangFileLocation;
     wxFilePickerCtrl *Path_LangFileLocation;
-    AGE_PairedCheckBox *CheckBox_LangX1FileLocation;
+    PairedCheckBox *CheckBox_LangX1FileLocation;
     wxFilePickerCtrl *Path_LangX1FileLocation;
-    AGE_PairedCheckBox *CheckBox_LangX1P1FileLocation;
+    PairedCheckBox *CheckBox_LangX1P1FileLocation;
     wxFilePickerCtrl *Path_LangX1P1FileLocation;
     wxCheckBox *CheckBox_LangWrite;
     wxButton *ButtonOK;
     wxButton *ButtonCancel;
     wxOwnerDrawnComboBox *CheckBox_Recent;
-    vector<wxArrayString> RecentValues;
+    std::vector<wxArrayString> RecentValues;
 
 #ifdef WIN32
     wxButton *Button_PathFromRegistry;

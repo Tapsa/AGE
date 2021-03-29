@@ -4,29 +4,20 @@
     <Filter Include="GUI">
       <UniqueIdentifier>{ef1afc04-7d3a-4832-9e06-729d1d469522}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dialogs">
+      <UniqueIdentifier>{0ae780b4-24b8-4482-b4f5-225ffc5cff70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Widgets">
+      <UniqueIdentifier>{5d94d388-9f23-47d4-a764-9d2f3d3029e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Helpers">
+      <UniqueIdentifier>{1e9d9bc8-7dea-46ba-9d7d-ebb0803e8bf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{b5c01a52-0ee0-4d56-b465-d0b4c722ca2f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AGE_AboutDialog.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="AGE_CheckBoxes.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="AGE_ComboBoxes.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="AGE_OpenDialog.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="AGE_OpenSave.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="AGE_SaveDialog.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="AGE_TextControls.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
     <ClCompile Include="AGE_Frame\Civs.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
@@ -49,9 +40,6 @@
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="AGE_Frame\Research.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="SharedComboPopup.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
     <ClCompile Include="AGE_Frame\Sounds.cpp">
@@ -78,45 +66,99 @@
     <ClCompile Include="AGE_Frame\Units.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="AboutDialog.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="SaveDialog.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenDialog.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenSaveDialog.cpp">
+      <Filter>Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomComboBoxes.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomWidgets.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="LinkedCheckBox.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="LinkedControl.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Loaders.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="SharedComboPopup.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="CustomTextControls.cpp">
+      <Filter>Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="DelayedMessageRelay.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Precompile\Common.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AGE_AboutDialog.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="AGE_CheckBoxes.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="AGE_ComboBoxes.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="AGE_Copies.hpp">
-      <Filter>GUI</Filter>
-    </ClInclude>
     <ClInclude Include="AGE_Frame.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="AGE_OpenDialog.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="AGE_OpenSave.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="AGE_SaveDialog.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="AGE_TextControls.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="Common.h">
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="Main.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="SharedComboPopup.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="AboutDialog.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="SaveDialog.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenDialog.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenSaveDialog.h">
+      <Filter>Dialogs</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomComboBoxes.h">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomWidgets.h">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedCheckBox.h">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedControl.h">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="EditableVersion.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Loaders.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="SharedComboPopup.h">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="DataCopies.hpp">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="CustomTextControls.h">
+      <Filter>Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="DelayedMessageRelay.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Precompile\Common.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AGE.rc" />

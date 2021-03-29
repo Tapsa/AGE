@@ -1,8 +1,9 @@
+#include "Common.h"
 #include "../AGE_Frame.h"
 
-string AGE_Frame::GetTTAgesName(int index)
+std::string AGE_Frame::GetTTAgesName(int index)
 {
-    return "Age "+lexical_cast<string>(dataset->TechTree.TechTreeAges[index].ID);
+    return "Age "+lexical_cast<std::string>(dataset->TechTree.TechTreeAges[index].ID);
 }
 
 void AGE_Frame::OnTTAgesSearch(wxCommandEvent &event)
@@ -60,7 +61,7 @@ void AGE_Frame::OnTTAgeSelect(wxCommandEvent &event)
         TechTrees_Ages_LineMode->prepend(&AgePointer->LineMode);
         TechTrees_Ages_Items.UsedItems->prepend(&AgePointer->Common.SlotsUsed);
     }
-    SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected age: "+lexical_cast<string>(TTAgeIDs.front()), 0);
+    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected age: "+lexical_cast<std::string>(TTAgeIDs.front()), 0);
 
     for(auto &box: uiGroupTTAge) box->update();
     TechTrees_Ages_ZoneData.UsedItems->update();
@@ -610,8 +611,8 @@ void AGE_Frame::ListTTAgeUnknownItems()
 
     for(size_t loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs.front()].getZoneCount(); ++loop)
     {
-        wxString Name = lexical_cast<string>((short)dataset->TechTree.TechTreeAges[TTAgeIDs.front()].BuildingsPerZone[loop]);
-        Name += " - "+lexical_cast<string>((short)dataset->TechTree.TechTreeAges[TTAgeIDs.front()].GroupLengthPerZone[loop]);
+        wxString Name = lexical_cast<std::string>((short)dataset->TechTree.TechTreeAges[TTAgeIDs.front()].BuildingsPerZone[loop]);
+        Name += " - "+lexical_cast<std::string>((short)dataset->TechTree.TechTreeAges[TTAgeIDs.front()].GroupLengthPerZone[loop]);
         if(SearchMatches(" " + Name.Lower() + " "))
         {
             TechTrees_Ages_ZoneData.List->names.Add(Name);
@@ -692,32 +693,32 @@ wxString AGE_Frame::GetTTBuildingName(int index)
         switch(Selection[loop])
         {
             case 1: // Status
-                Name += "S "+lexical_cast<string>((short)dataset->TechTree.BuildingConnections[index].Status);
+                Name += "S "+lexical_cast<std::string>((short)dataset->TechTree.BuildingConnections[index].Status);
                 break;
             case 2: // Required Items
-                Name += "I "+lexical_cast<string>(dataset->TechTree.BuildingConnections[index].Common.SlotsUsed);
+                Name += "I "+lexical_cast<std::string>(dataset->TechTree.BuildingConnections[index].Common.SlotsUsed);
                 break;
             case 3: // Age
-                Name += "A "+lexical_cast<string>(dataset->TechTree.BuildingConnections[index].Common.UnitResearch[0]);
+                Name += "A "+lexical_cast<std::string>(dataset->TechTree.BuildingConnections[index].Common.UnitResearch[0]);
                 break;
             case 4: // Location in Age
-                Name += "LA "+lexical_cast<string>((short)dataset->TechTree.BuildingConnections[index].LocationInAge);
+                Name += "LA "+lexical_cast<std::string>((short)dataset->TechTree.BuildingConnections[index].LocationInAge);
                 break;
             case 5: // Units & Techs by Age
                 Name += "UT";
                 for(short age = 0; age < 5; ++age)
-                Name += " "+lexical_cast<string>((short)dataset->TechTree.BuildingConnections[index].UnitsTechsTotal[age]);
+                Name += " "+lexical_cast<std::string>((short)dataset->TechTree.BuildingConnections[index].UnitsTechsTotal[age]);
                 break;
             case 6: // Units & Techs @ 1st by Age
                 Name += "UT1";
                 for(short age = 0; age < 5; ++age)
-                Name += " "+lexical_cast<string>((short)dataset->TechTree.BuildingConnections[index].UnitsTechsFirst[age]);
+                Name += " "+lexical_cast<std::string>((short)dataset->TechTree.BuildingConnections[index].UnitsTechsFirst[age]);
                 break;
             case 7: // Line Mode
-                Name += "LM "+lexical_cast<string>(dataset->TechTree.BuildingConnections[index].LineMode);
+                Name += "LM "+lexical_cast<std::string>(dataset->TechTree.BuildingConnections[index].LineMode);
                 break;
             case 8: // Enabling Tech
-                Name += "E "+lexical_cast<string>(dataset->TechTree.BuildingConnections[index].EnablingResearch);
+                Name += "E "+lexical_cast<std::string>(dataset->TechTree.BuildingConnections[index].EnablingResearch);
                 break;
         }
         Name += ", ";
@@ -805,7 +806,7 @@ void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &event)
     }
     if(selections)
     {
-        SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected building: "+lexical_cast<string>(TTBuildConIDs.front()), 0);
+        SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected building: "+lexical_cast<std::string>(TTBuildConIDs.front()), 0);
     }
     else
     {
@@ -1287,31 +1288,31 @@ wxString AGE_Frame::GetTTUnitName(int index)
         switch(Selection[loop])
         {
             case 1: // Status
-                Name += "S "+lexical_cast<string>((short)dataset->TechTree.UnitConnections[index].Status);
+                Name += "S "+lexical_cast<std::string>((short)dataset->TechTree.UnitConnections[index].Status);
                 break;
             case 2: // Upper Building
-                Name += "U "+lexical_cast<string>(dataset->TechTree.UnitConnections[index].UpperBuilding);
+                Name += "U "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].UpperBuilding);
                 break;
             case 3: // Required Items
-                Name += "I "+lexical_cast<string>(dataset->TechTree.UnitConnections[index].Common.SlotsUsed);
+                Name += "I "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].Common.SlotsUsed);
                 break;
             case 4: // Age
-                Name += "A "+lexical_cast<string>(dataset->TechTree.UnitConnections[index].Common.UnitResearch[0]);
+                Name += "A "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].Common.UnitResearch[0]);
                 break;
             case 5: // Vertical Line Number
-                Name += "V "+lexical_cast<string>(dataset->TechTree.UnitConnections[index].VerticalLine);
+                Name += "V "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].VerticalLine);
                 break;
             case 6: // Space Sharing
-                Name += "LA "+lexical_cast<string>(dataset->TechTree.UnitConnections[index].LocationInAge);
+                Name += "LA "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].LocationInAge);
                 break;
             case 7: // Required Tech
-                Name += "R "+lexical_cast<string>(dataset->TechTree.UnitConnections[index].RequiredResearch);
+                Name += "R "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].RequiredResearch);
                 break;
             case 8: // Placement
-                Name += "LM "+lexical_cast<string>(dataset->TechTree.UnitConnections[index].LineMode);
+                Name += "LM "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].LineMode);
                 break;
             case 9: // Enabling Tech
-                Name += "E "+lexical_cast<string>(dataset->TechTree.UnitConnections[index].EnablingResearch);
+                Name += "E "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].EnablingResearch);
                 break;
         }
         Name += ", ";
@@ -1397,7 +1398,7 @@ void AGE_Frame::OnTTUnitSelect(wxCommandEvent &event)
     }
     if(selections)
     {
-        SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected unit: "+lexical_cast<string>(TTUnitConIDs.front()), 0);
+        SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected unit: "+lexical_cast<std::string>(TTUnitConIDs.front()), 0);
     }
     else
     {
@@ -1598,7 +1599,7 @@ void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common *t
         switch(tt_cmn_ptr->Mode[loop])
         {
             case 0:
-                Name = "Age: "+lexical_cast<string>(tt_cmn_ptr->UnitResearch[loop]);
+                Name = "Age: "+lexical_cast<std::string>(tt_cmn_ptr->UnitResearch[loop]);
                 break;
             case 1:
                 Name = "Building: "+GetBuildingName(tt_cmn_ptr->UnitResearch[loop]);
@@ -1610,7 +1611,7 @@ void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common *t
                 Name = "Technology: "+GetSimpleResearchName(tt_cmn_ptr->UnitResearch[loop]);
                 break;
             default:
-                Name = lexical_cast<string>(tt_cmn_ptr->Mode[loop])+" None: "+lexical_cast<string>(tt_cmn_ptr->UnitResearch[loop]);
+                Name = lexical_cast<std::string>(tt_cmn_ptr->Mode[loop])+" None: "+lexical_cast<std::string>(tt_cmn_ptr->UnitResearch[loop]);
         }
         if(SearchMatches(" " + Name.Lower() + " "))
         {
@@ -1686,25 +1687,25 @@ wxString AGE_Frame::GetTTResearchName(int index)
         switch(Selection[loop])
         {
             case 1: // Status
-                Name += "S "+lexical_cast<string>((short)dataset->TechTree.ResearchConnections[index].Status);
+                Name += "S "+lexical_cast<std::string>((short)dataset->TechTree.ResearchConnections[index].Status);
                 break;
             case 2: // Upper Building
-                Name += "U "+lexical_cast<string>(dataset->TechTree.ResearchConnections[index].UpperBuilding);
+                Name += "U "+lexical_cast<std::string>(dataset->TechTree.ResearchConnections[index].UpperBuilding);
                 break;
             case 3: // Required Items
-                Name += "I "+lexical_cast<string>(dataset->TechTree.ResearchConnections[index].Common.SlotsUsed);
+                Name += "I "+lexical_cast<std::string>(dataset->TechTree.ResearchConnections[index].Common.SlotsUsed);
                 break;
             case 4: // Age
-                Name += "A "+lexical_cast<string>(dataset->TechTree.ResearchConnections[index].Common.UnitResearch[0]);
+                Name += "A "+lexical_cast<std::string>(dataset->TechTree.ResearchConnections[index].Common.UnitResearch[0]);
                 break;
             case 5: // Vertical Line Number
-                Name += "V "+lexical_cast<string>(dataset->TechTree.ResearchConnections[index].VerticalLine);
+                Name += "V "+lexical_cast<std::string>(dataset->TechTree.ResearchConnections[index].VerticalLine);
                 break;
             case 6: // Location in Age
-                Name += "LA "+lexical_cast<string>(dataset->TechTree.ResearchConnections[index].LocationInAge);
+                Name += "LA "+lexical_cast<std::string>(dataset->TechTree.ResearchConnections[index].LocationInAge);
                 break;
             case 7: // First Age Mode
-                Name += "LM "+lexical_cast<string>(dataset->TechTree.ResearchConnections[index].LineMode);
+                Name += "LM "+lexical_cast<std::string>(dataset->TechTree.ResearchConnections[index].LineMode);
                 break;
         }
         Name += ", ";
@@ -1788,7 +1789,7 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &event)
     }
     if(selections)
     {
-        SetStatusText("Selections: "+lexical_cast<string>(selections)+"    Selected technology: "+lexical_cast<string>(TTResConIDs.front()), 0);
+        SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected technology: "+lexical_cast<std::string>(TTResConIDs.front()), 0);
     }
     else
     {
@@ -2253,7 +2254,7 @@ void AGE_Frame::OnTTResearchItemCopyToResearches(wxCommandEvent &event)
     }
 }
 
-void AGE_List32Box::CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrolled* scroller, const wxString& itemName,
+void AGE_List32Box::CreateControls(AGE_Frame* frame, DelayedMessageRelay* popUp, AScrolled* scroller, const wxString& itemName,
     const wxString& listName, wxArrayString* choices)
 {
     ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
@@ -2287,7 +2288,7 @@ void AGE_List32Box::CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrol
     ItemList->Add(CopyAllToSelected, 0, wxEXPAND);
 }
 
-void AGE_AreaTT84::CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrolled* scroller, const wxString& itemName,
+void AGE_AreaTT84::CreateControls(AGE_Frame* frame, DelayedMessageRelay* popUp, AScrolled* scroller, const wxString& itemName,
     wxArrayString* choices)
 {
     Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Connected Items");
@@ -2332,7 +2333,7 @@ void AGE_AreaTT84::CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScroll
     Area->Add(ItemList, 0, wxEXPAND | wxTOP, 2);
 }
 
-void AGE_AreaTT31020::CreateControls(AGE_Frame* frame, DelayedPopUp* popUp, AScrolled* scroller)
+void AGE_AreaTT31020::CreateControls(AGE_Frame* frame, DelayedMessageRelay* popUp, AScrolled* scroller)
 {
     Area = new wxStaticBoxSizer(wxVERTICAL, scroller, "Unused Zone Data");
     ItemList = new wxBoxSizer(wxVERTICAL);
@@ -2535,8 +2536,8 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Buildings_TotalUnitsTechs[loop] = new NumberControl(CUByte, TechTrees_ScrollerBuildings, this, &uiGroupTTBuilding, true, AGETextCtrl::SMALL);
     for(size_t loop = 0; loop < 5; ++loop)
     {
-        TechTrees_Buildings_TotalUnitsTechs[loop]->SetToolTip("Age "+lexical_cast<string>(loop+1));
-        TechTrees_Buildings_TotalUnitsTechs[loop+5]->SetToolTip("Age "+lexical_cast<string>(loop+1));
+        TechTrees_Buildings_TotalUnitsTechs[loop]->SetToolTip("Age "+lexical_cast<std::string>(loop+1));
+        TechTrees_Buildings_TotalUnitsTechs[loop+5]->SetToolTip("Age "+lexical_cast<std::string>(loop+1));
     }
 
     TechTrees_MainList_Units_Search = new wxTextCtrl(Tab_TechTreeUnits, wxID_ANY);
@@ -3219,7 +3220,7 @@ void AGE_Frame::CreateTechTreeControls()
     });
     TechTrees_Ages_Items.ModeCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
-        TechTrees_Ages_Items.Mode->ChangeValue(lexical_cast<string>(TechTrees_Ages_Items.ModeCombo->GetSelection()));
+        TechTrees_Ages_Items.Mode->ChangeValue(lexical_cast<std::string>(TechTrees_Ages_Items.ModeCombo->GetSelection()));
         TechTrees_Ages_Items.Mode->SaveEdits(true);
         ListTTAgeItems();
     });
@@ -3431,7 +3432,7 @@ void AGE_Frame::CreateTechTreeControls()
     });
     TechTrees_Buildings_Items.ModeCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
-        TechTrees_Buildings_Items.Mode->ChangeValue(lexical_cast<string>(TechTrees_Buildings_Items.ModeCombo->GetSelection()));
+        TechTrees_Buildings_Items.Mode->ChangeValue(lexical_cast<std::string>(TechTrees_Buildings_Items.ModeCombo->GetSelection()));
         TechTrees_Buildings_Items.Mode->SaveEdits(true);
         ListTTBuildingItems();
     });
@@ -3452,7 +3453,7 @@ void AGE_Frame::CreateTechTreeControls()
     });
     TechTrees_Units_Items.ModeCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
-        TechTrees_Units_Items.Mode->ChangeValue(lexical_cast<string>(TechTrees_Units_Items.ModeCombo->GetSelection()));
+        TechTrees_Units_Items.Mode->ChangeValue(lexical_cast<std::string>(TechTrees_Units_Items.ModeCombo->GetSelection()));
         TechTrees_Units_Items.Mode->SaveEdits(true);
         ListTTUnitItems();
     });
@@ -3483,7 +3484,7 @@ void AGE_Frame::CreateTechTreeControls()
     });
     TechTrees_Researches_Items.ModeCombo->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
-        TechTrees_Researches_Items.Mode->ChangeValue(lexical_cast<string>(TechTrees_Researches_Items.ModeCombo->GetSelection()));
+        TechTrees_Researches_Items.Mode->ChangeValue(lexical_cast<std::string>(TechTrees_Researches_Items.ModeCombo->GetSelection()));
         TechTrees_Researches_Items.Mode->SaveEdits(true);
         ListTTResearchItems();
     });
