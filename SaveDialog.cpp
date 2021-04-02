@@ -46,6 +46,14 @@ SaveDialog::SaveDialog(wxWindow *parent, const wxFont &font)
     ButtonOK->SetFocus();
 }
 
+void SaveDialog::OnDefaultDE1(wxCommandEvent &event)
+{
+    OpenSaveDialog::OnDefaultDE1(event);
+
+    CheckBox_LangFileLocation->SetValue(false);
+    CheckBox_LangX1FileLocation->SetValue(false);
+}
+
 void SaveDialog::OnDefaultAoKHD(wxCommandEvent &event)
 {
     OpenSaveDialog::OnDefaultAoKHD(event);

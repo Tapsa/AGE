@@ -40,7 +40,7 @@ void AGE_Frame::InitTTAges()
 
 void AGE_Frame::OnTTAgeSelect(wxCommandEvent &event)
 {
-    auto selections = TechTrees_MainList_Ages_ListV->GetSelectedCount();
+    size_t selections = TechTrees_MainList_Ages_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, TechTrees_MainList_Ages_ListV, TTAgeIDs);
 
@@ -50,7 +50,7 @@ void AGE_Frame::OnTTAgeSelect(wxCommandEvent &event)
     TechTrees_Ages_Items.UsedItems->clear();
 
     genie::TechTreeAge * AgePointer;
-    for(auto sel = selections; sel--> 0;)
+    for(size_t sel = selections; sel--> 0;)
     {
         AgePointer = &dataset->TechTree.TechTreeAges[TTAgeIDs[sel]];
 
@@ -61,7 +61,8 @@ void AGE_Frame::OnTTAgeSelect(wxCommandEvent &event)
         TechTrees_Ages_LineMode->prepend(&AgePointer->LineMode);
         TechTrees_Ages_Items.UsedItems->prepend(&AgePointer->Common.SlotsUsed);
     }
-    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected age: "+lexical_cast<std::string>(TTAgeIDs.front()), 0);
+    SetStatusText(wxString::Format("Selections: %zu    Selected age: %d",
+        selections, selections > 0 ? TTAgeIDs.front() : -1), 0);
 
     for(auto &box: uiGroupTTAge) box->update();
     TechTrees_Ages_ZoneData.UsedItems->update();
@@ -161,6 +162,7 @@ void AGE_Frame::ListTTAgeBuildings()
 
     TechTrees_Ages_Buildings.List->Sweep();
 
+    if (TTAgeIDs.size())
     for(size_t loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs.front()].Buildings.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetBuildingName(dataset->TechTree.TechTreeAges[TTAgeIDs.front()].Buildings[loop]);
@@ -274,6 +276,7 @@ void AGE_Frame::ListTTAgeUnits()
 
     TechTrees_Ages_Units.List->Sweep();
 
+    if (TTAgeIDs.size())
     for(size_t loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs.front()].Units.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->TechTree.TechTreeAges[TTAgeIDs.front()].Units[loop]);
@@ -402,6 +405,7 @@ void AGE_Frame::ListTTAgeResearches()
 
     TechTrees_Ages_Researches.List->Sweep();
 
+    if (TTAgeIDs.size())
     for(size_t loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs.front()].Techs.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetSimpleResearchName(dataset->TechTree.TechTreeAges[TTAgeIDs.front()].Techs[loop]);
@@ -511,7 +515,8 @@ void AGE_Frame::OnTTAgeItemSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTAgeItems()
 {
-    ListTTCommonItems(TechTrees_Ages_Items, &dataset->TechTree.TechTreeAges[TTAgeIDs.front()].Common);
+    ListTTCommonItems(TechTrees_Ages_Items, TTAgeIDs.size() ?
+        &dataset->TechTree.TechTreeAges[TTAgeIDs.front()].Common : nullptr);
     wxCommandEvent e;
     OnTTAgeItemSelect(e);
 }
@@ -519,10 +524,10 @@ void AGE_Frame::ListTTAgeItems()
 void AGE_Frame::SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common *tt_cmn_ptr)
 {
     wxBusyCursor WaitCursor;
-    auto selections = area.List->GetSelectedCount();
+    size_t selections = area.List->GetSelectedCount();
     area.Item->clear();
     area.Mode->clear();
-    if(selections > 0)
+    if (selections > 0 && tt_cmn_ptr != nullptr)
     {
         getSelectedItems(selections, area.List, TTItemIDs);
 
@@ -564,7 +569,8 @@ void AGE_Frame::SelectTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common 
 
 void AGE_Frame::OnTTAgeItemSelect(wxCommandEvent &event)
 {
-    SelectTTCommonItems(TechTrees_Ages_Items, &dataset->TechTree.TechTreeAges[TTAgeIDs.front()].Common);
+    SelectTTCommonItems(TechTrees_Ages_Items, TTAgeIDs.size() ?
+        &dataset->TechTree.TechTreeAges[TTAgeIDs.front()].Common : nullptr);
 }
 
 void AGE_Frame::OnTTAgeItemCopy(wxCommandEvent &event)
@@ -609,6 +615,7 @@ void AGE_Frame::ListTTAgeUnknownItems()
 
     TechTrees_Ages_ZoneData.List->Sweep();
 
+    if (TTAgeIDs.size())
     for(size_t loop = 0; loop < dataset->TechTree.TechTreeAges[TTAgeIDs.front()].getZoneCount(); ++loop)
     {
         wxString Name = lexical_cast<std::string>((short)dataset->TechTree.TechTreeAges[TTAgeIDs.front()].BuildingsPerZone[loop]);
@@ -780,7 +787,7 @@ void AGE_Frame::InitTTBuildings()
 
 void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &event)
 {
-    auto selections = TechTrees_MainList_Buildings_ListV->GetSelectedCount();
+    size_t selections = TechTrees_MainList_Buildings_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, TechTrees_MainList_Buildings_ListV, TTBuildConIDs);
 
@@ -788,7 +795,7 @@ void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &event)
     TechTrees_Buildings_Items.UsedItems->clear();
 
     genie::BuildingConnection * BuildingConPointer;
-    for(auto sel = selections; sel--> 0;)
+    for(size_t sel = selections; sel--> 0;)
     {
         BuildingConPointer = &dataset->TechTree.BuildingConnections[TTBuildConIDs[sel]];
 
@@ -804,14 +811,8 @@ void AGE_Frame::OnTTBuildingSelect(wxCommandEvent &event)
             TechTrees_Buildings_TotalUnitsTechs[loop+5]->prepend(&BuildingConPointer->UnitsTechsFirst[loop]);
         }
     }
-    if(selections)
-    {
-        SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected building: "+lexical_cast<std::string>(TTBuildConIDs.front()), 0);
-    }
-    else
-    {
-        SetStatusText("No selections", 0);
-    }
+    SetStatusText(wxString::Format("Selections: %zu    Selected building: %d",
+        selections, selections > 0 ? TTBuildConIDs.front() : -1), 0);
 
     for(auto &box: uiGroupTTBuilding) box->update();
     TechTrees_Buildings_Items.UsedItems->update();
@@ -896,6 +897,7 @@ void AGE_Frame::ListTTBuildingBuildings()
 
     TechTrees_Buildings_Buildings.List->Sweep();
 
+    if (TTBuildConIDs.size())
     for(size_t loop = 0; loop < dataset->TechTree.BuildingConnections[TTBuildConIDs.front()].Buildings.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetBuildingName(dataset->TechTree.BuildingConnections[TTBuildConIDs.front()].Buildings[loop]);
@@ -1009,6 +1011,7 @@ void AGE_Frame::ListTTBuildingUnits()
 
     TechTrees_Buildings_Units.List->Sweep();
 
+    if (TTBuildConIDs.size())
     for(size_t loop = 0; loop < dataset->TechTree.BuildingConnections[TTBuildConIDs.front()].Units.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->TechTree.BuildingConnections[TTBuildConIDs.front()].Units[loop]);
@@ -1122,6 +1125,7 @@ void AGE_Frame::ListTTBuildingResearches()
 
     TechTrees_Buildings_Researches.List->Sweep();
 
+    if (TTBuildConIDs.size())
     for(size_t loop = 0; loop < dataset->TechTree.BuildingConnections[TTBuildConIDs.front()].Techs.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetSimpleResearchName(dataset->TechTree.BuildingConnections[TTBuildConIDs.front()].Techs[loop]);
@@ -1231,14 +1235,16 @@ void AGE_Frame::OnTTBuildingItemSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTBuildingItems()
 {
-    ListTTCommonItems(TechTrees_Buildings_Items, &dataset->TechTree.BuildingConnections[TTBuildConIDs.front()].Common);
+    ListTTCommonItems(TechTrees_Buildings_Items, TTBuildConIDs.size() ?
+        &dataset->TechTree.BuildingConnections[TTBuildConIDs.front()].Common : nullptr);
     wxCommandEvent e;
     OnTTBuildingItemSelect(e);
 }
 
 void AGE_Frame::OnTTBuildingItemSelect(wxCommandEvent &event)
 {
-    SelectTTCommonItems(TechTrees_Buildings_Items, &dataset->TechTree.BuildingConnections[TTBuildConIDs.front()].Common);
+    SelectTTCommonItems(TechTrees_Buildings_Items, TTBuildConIDs.size() ?
+        &dataset->TechTree.BuildingConnections[TTBuildConIDs.front()].Common : nullptr);
 }
 
 void AGE_Frame::OnTTBuildingItemCopy(wxCommandEvent &event)
@@ -1374,7 +1380,7 @@ void AGE_Frame::InitTTUnits()
 
 void AGE_Frame::OnTTUnitSelect(wxCommandEvent &event)
 {
-    auto selections = TechTrees_MainList_Units_ListV->GetSelectedCount();
+    size_t selections = TechTrees_MainList_Units_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, TechTrees_MainList_Units_ListV, TTUnitConIDs);
 
@@ -1382,7 +1388,7 @@ void AGE_Frame::OnTTUnitSelect(wxCommandEvent &event)
     TechTrees_Units_Items.UsedItems->clear();
 
     genie::UnitConnection * UnitConPointer;
-    for(auto sel = selections; sel--> 0;)
+    for(size_t sel = selections; sel--> 0;)
     {
         UnitConPointer = &dataset->TechTree.UnitConnections[TTUnitConIDs[sel]];
 
@@ -1396,14 +1402,8 @@ void AGE_Frame::OnTTUnitSelect(wxCommandEvent &event)
         TechTrees_Units_LineMode->prepend(&UnitConPointer->LineMode);
         TechTrees_Units_EnablingResearch->prepend(&UnitConPointer->EnablingResearch);
     }
-    if(selections)
-    {
-        SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected unit: "+lexical_cast<std::string>(TTUnitConIDs.front()), 0);
-    }
-    else
-    {
-        SetStatusText("No selections", 0);
-    }
+    SetStatusText(wxString::Format("Selections: %zu    Selected unit: %d",
+        selections, selections > 0 ? TTUnitConIDs.front() : -1), 0);
 
     for(auto &box: uiGroupTTUnit) box->update();
     TechTrees_Units_Items.UsedItems->update();
@@ -1486,6 +1486,7 @@ void AGE_Frame::ListTTUnitUnits()
 
     TechTrees_Units_Units.List->Sweep();
 
+    if (TTUnitConIDs.size())
     for(size_t loop = 0; loop < dataset->TechTree.UnitConnections[TTUnitConIDs.front()].Units.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->TechTree.UnitConnections[TTUnitConIDs.front()].Units[loop]);
@@ -1593,6 +1594,7 @@ void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common *t
 
     area.List->Sweep();
 
+    if (tt_cmn_ptr != nullptr)
     for(size_t loop = 0; loop < tt_cmn_ptr->getSlots(); ++loop)
     {
         wxString Name;
@@ -1630,14 +1632,16 @@ void AGE_Frame::OnTTUnitItemSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTUnitItems()
 {
-    ListTTCommonItems(TechTrees_Units_Items, &dataset->TechTree.UnitConnections[TTUnitConIDs.front()].Common);
+    ListTTCommonItems(TechTrees_Units_Items, TTUnitConIDs.size() ?
+        &dataset->TechTree.UnitConnections[TTUnitConIDs.front()].Common : nullptr);
     wxCommandEvent e;
     OnTTUnitItemSelect(e);
 }
 
 void AGE_Frame::OnTTUnitItemSelect(wxCommandEvent &event)
 {
-    SelectTTCommonItems(TechTrees_Units_Items, &dataset->TechTree.UnitConnections[TTUnitConIDs.front()].Common);
+    SelectTTCommonItems(TechTrees_Units_Items, TTUnitConIDs.size() ?
+        &dataset->TechTree.UnitConnections[TTUnitConIDs.front()].Common : nullptr);
 }
 
 void AGE_Frame::OnTTUnitItemCopy(wxCommandEvent &event)
@@ -1767,7 +1771,7 @@ void AGE_Frame::InitTTResearches()
 
 void AGE_Frame::OnTTResearchSelect(wxCommandEvent &event)
 {
-    auto selections = TechTrees_MainList_Researches_ListV->GetSelectedCount();
+    size_t selections = TechTrees_MainList_Researches_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, TechTrees_MainList_Researches_ListV, TTResConIDs);
 
@@ -1775,7 +1779,7 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &event)
     TechTrees_Researches_Items.UsedItems->clear();
 
     genie::ResearchConnection * ResearchConPointer;
-    for(auto sel = selections; sel--> 0;)
+    for(size_t sel = selections; sel--> 0;)
     {
         ResearchConPointer = &dataset->TechTree.ResearchConnections[TTResConIDs[sel]];
 
@@ -1787,14 +1791,8 @@ void AGE_Frame::OnTTResearchSelect(wxCommandEvent &event)
         TechTrees_Researches_LocationInAge->prepend(&ResearchConPointer->LocationInAge);
         TechTrees_Researches_LineMode->prepend(&ResearchConPointer->LineMode);
     }
-    if(selections)
-    {
-        SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected technology: "+lexical_cast<std::string>(TTResConIDs.front()), 0);
-    }
-    else
-    {
-        SetStatusText("No selections", 0);
-    }
+    SetStatusText(wxString::Format("Selections: %zu    Selected technology: %d",
+        selections, selections > 0 ? TTResConIDs.front() : -1), 0);
 
     for(auto &box: uiGroupTTResearch) box->update();
     TechTrees_Researches_Items.UsedItems->update();
@@ -1879,6 +1877,7 @@ void AGE_Frame::ListTTResearchBuildings()
 
     TechTrees_Researches_Buildings.List->Sweep();
 
+    if (TTResConIDs.size())
     for(size_t loop = 0; loop < dataset->TechTree.ResearchConnections[TTResConIDs.front()].Buildings.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetBuildingName(dataset->TechTree.ResearchConnections[TTResConIDs.front()].Buildings[loop]);
@@ -1992,6 +1991,7 @@ void AGE_Frame::ListTTResearchUnits()
 
     TechTrees_Researches_Units.List->Sweep();
 
+    if (TTResConIDs.size())
     for(size_t loop = 0; loop < dataset->TechTree.ResearchConnections[TTResConIDs.front()].Units.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->TechTree.ResearchConnections[TTResConIDs.front()].Units[loop]);
@@ -2105,6 +2105,7 @@ void AGE_Frame::ListTTResearchResearches()
 
     TechTrees_Researches_Researches.List->Sweep();
 
+    if (TTResConIDs.size())
     for(size_t loop = 0; loop < dataset->TechTree.ResearchConnections[TTResConIDs.front()].Techs.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetSimpleResearchName(dataset->TechTree.ResearchConnections[TTResConIDs.front()].Techs[loop]);
@@ -2214,14 +2215,16 @@ void AGE_Frame::OnTTResearchItemSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTTResearchItems()
 {
-    ListTTCommonItems(TechTrees_Researches_Items, &dataset->TechTree.ResearchConnections[TTResConIDs.front()].Common);
+    ListTTCommonItems(TechTrees_Researches_Items, TTResConIDs.size() ?
+        &dataset->TechTree.ResearchConnections[TTResConIDs.front()].Common : nullptr);
     wxCommandEvent e;
     OnTTResearchItemSelect(e);
 }
 
 void AGE_Frame::OnTTResearchItemSelect(wxCommandEvent &event)
 {
-    SelectTTCommonItems(TechTrees_Researches_Items, &dataset->TechTree.ResearchConnections[TTResConIDs.front()].Common);
+    SelectTTCommonItems(TechTrees_Researches_Items, TTResConIDs.size() ?
+        &dataset->TechTree.ResearchConnections[TTResConIDs.front()].Common : nullptr);
 }
 
 void AGE_Frame::OnTTResearchItemCopy(wxCommandEvent &event)

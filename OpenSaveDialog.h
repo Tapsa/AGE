@@ -26,6 +26,7 @@ public:
     void OnDefault(const wxString &part);
     virtual void OnDefaultAoE(wxCommandEvent &event);
     virtual void OnDefaultRoR(wxCommandEvent &event);
+    virtual void OnDefaultDE1(wxCommandEvent &event);
     virtual void OnDefaultAoK(wxCommandEvent &event);
     virtual void OnDefaultTC(wxCommandEvent &event);
     virtual void OnDefaultAoKHD(wxCommandEvent &event);
@@ -46,6 +47,7 @@ public:
     wxButton *Button_DefaultAoE;
     wxButton *Button_DefaultRoR;
     wxButton *Button_DefaultAoK;
+    wxButton *Button_DefaultDE1;
     wxButton *Button_DefaultTC;
     wxButton *Button_DefaultAoKHD;
     wxButton *Button_DefaultAP;

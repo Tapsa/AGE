@@ -18,10 +18,18 @@
 
 //#include "genie/util/Logger.h"
 
-std::ofstream AGE_Frame::log_out;
+BaseMainFrame::BaseMainFrame(const wxString &title) :
+    wxFrame(nullptr, wxID_ANY, title)
+{
+}
 
-AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
-    : wxFrame(nullptr, wxID_ANY, title), window_num(window), argPath(aP), font(GetFont())
+BaseMainFrame *BaseMainFrame::Create(wxString commands)
+{
+    return new AGE_Frame("Advanced Genie Editor " + AboutDialog::AGE_VER, 0, commands);
+}
+
+AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
+    BaseMainFrame(title), window_num(window), argPath(aP), font(GetFont())
     //font(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Tahoma")
 {
     {
@@ -36,13 +44,13 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     wxBusyCursor WaitCursor;
     TabBar_Main = new wxNotebook(this, eTabBar);
     AGE_Frame::openEditors[window] = this;
-
+    std::string windowNumText = lexical_cast<std::string>(window + 1);
     {
         int temp;
 
-        wxConfig Config("", "", "AGE2\\ConfigWindow" + lexical_cast<std::string>(window + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+        wxConfig Config("", "", "AGE2\\ConfigWindow" + windowNumText, "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Read("/EditorVersion", &EditorVersionString, AboutDialog::AGE_VER);
-        sscanf(EditorVersionString, "%f", &EditorVersion);
+        (void)sscanf(EditorVersionString, "%f", &EditorVersion);
         Config.Read("/TimesOpened", &TimesOpened, 0);
         if (EditorVersionString != AboutDialog::AGE_VER) TimesOpened = 0;
         Config.Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
@@ -124,13 +132,14 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         GG::cache_depth = temp;
     }
 
-    if (boxWidthMultiplier > 1.f)
+    float scale = FromDIP(1000) / 1000.f * boxWidthMultiplier;
+    if (scale > 1.f)
     {
-        AGETextCtrl::SMALL *= boxWidthMultiplier;
-        AGETextCtrl::MEDIUM *= boxWidthMultiplier;
-        AGETextCtrl::NORMAL *= boxWidthMultiplier;
-        AGETextCtrl::LARGE *= boxWidthMultiplier;
-        AGETextCtrl::GIANT *= boxWidthMultiplier;
+        AGETextCtrl::SMALL *= scale;
+        AGETextCtrl::MEDIUM *= scale;
+        AGETextCtrl::NORMAL *= scale;
+        AGETextCtrl::LARGE *= scale;
+        AGETextCtrl::GIANT *= scale;
     }
 
     wxColour back(ViewBackR, ViewBackG, ViewBackB);
@@ -266,7 +275,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     TabBar_Main->AddPage(Tab_Unknown, "Maps");
     TabBar_Main->ChangeSelection(4);
 
-    AGE_Frame::FixSize(this);
+    FixSize(scale);
 
     Bind(wxEVT_CLOSE_WINDOW, &AGE_Frame::OnExit, this);
     Bind(wxEVT_IDLE, [this](wxIdleEvent &)
@@ -291,10 +300,10 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     Units_AutoCopy->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnAutoCopy, this);
     Units_CopyTo->Bind(wxEVT_BUTTON, [this](wxCommandEvent &)
     {
-        auto selections = Units_ListV->GetSelectedCount();
+        size_t selections = Units_ListV->GetSelectedCount();
         if (selections < 1) return;
 
-        int edits = 0;
+        size_t edits = 0;
         GraphicCopies graphics;
         for (size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
@@ -313,7 +322,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
         }
 
         SetStatusText("Manual unit copy", 2);
-        SetStatusText("Edits: " + lexical_cast<std::string>(popUp.unSaved) + " + " + lexical_cast<std::string>(edits), 3);
+        SetStatusText(wxString::Format("Edits: %zu + %zu", popUp.unSaved, edits), 3);
         popUp.unSaved += edits;
     });
     Units_SelectAll->Bind(wxEVT_BUTTON, &AGE_Frame::OnAutoCopy, this);
@@ -369,7 +378,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     if (!log_out.is_open())
     {
         genie::Logger::setLogLevel(genie::Logger::L_DEBUG);
-        log_out.open("gulog.ini");
+        log_out.open("gulog" + windowNumText + ".ini");
         genie::Logger::setGlobalOutputStream(log_out);
         std::cout.rdbuf(log_out.rdbuf());
     }
@@ -397,12 +406,27 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP)
     SetAcceleratorTable(wxAcceleratorTable(7, shortcuts));
 }
 
-void AGE_Frame::FixSizes()
+// Fancy scaling :)
+void AGE_Frame::FixSize(float scale)
 {
-    SetMinSize(wxSize(MinWindowWidth, 480));
+    float minScrollerWidth = 630 * scale;
+    int ScrollerWidth = Units_ScrollSpace->GetMinSize().GetWidth();
+    if (ScrollerWidth > minScrollerWidth)
+    {
+        int NewWidth = 270 * scale * (ScrollerWidth / minScrollerWidth) + ScrollerWidth;
+        MinWindowWidth = NewWidth;
+        SetSize(NewWidth, 870 * scale);
+    }
+    else
+    {
+        MinWindowWidth = 900 * scale;
+        SetSize(MinWindowWidth, 870 * scale);
+    }
+    SetMinSize(wxSize(MinWindowWidth, 480 * scale));
     if (MaxWindowWidthV2 < GetMinSize().GetWidth())
     {
         MaxWindowWidthV2 = GetMinSize().GetWidth();
     }
     SetMaxSize(wxSize(MaxWindowWidthV2, 0x4000));
+    Show(true);
 }

@@ -182,6 +182,7 @@ void AGE_Frame::InitTerrains2()
 
     TerRestrict_Terrains_ListV->Sweep();
 
+    if (TerRestrictIDs.size())
     for(size_t loop = 0; loop < dataset->TerrainRestrictions.front().PassableBuildableDmgMultiplier.size(); ++loop)
     {
         float val = dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier[loop];
@@ -197,14 +198,14 @@ void AGE_Frame::InitTerrains2()
 
 void AGE_Frame::OnTerrainSelect(wxCommandEvent &event)
 {
-    auto selections = Terrains_Terrains_ListV->GetSelectedCount();
+    size_t selections = Terrains_Terrains_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Terrains_Terrains_ListV, TerrainIDs);
 
     for(auto &box: uiGroupTerrain) box->clear();
 
     genie::Terrain * TerrainPointer = 0;
-    for(auto sel = selections; sel--> 0;)
+    for(size_t sel = selections; sel--> 0;)
     {
         TerrainPointer = &dataset->TerrainBlock.Terrains[TerrainIDs[sel]];
 
@@ -277,7 +278,8 @@ void AGE_Frame::OnTerrainSelect(wxCommandEvent &event)
         }
         Terrains_UsedTerrainUnits->prepend(&TerrainPointer->NumberOfTerrainUnitsUsed);
     }
-    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected terrain: "+lexical_cast<std::string>(TerrainIDs.front()), 0);
+    SetStatusText(wxString::Format("Selections: %zu    Selected terrain: %d",
+        selections, selections > 0 ? TerrainIDs.front() : -1), 0);
 
     for(auto &box: uiGroupTerrain) box->update();
     if(TerrainPointer && !palettes.empty() && !palettes.front().empty())
@@ -352,7 +354,7 @@ wxThread::ExitCode Loader::Entry()
     for(auto &file: HostFrame->datafiles)
     {
         tileSLP.slp = GG::LoadSLP(*file, TerrainPointer->SLP);
-        if(tileSLP.slp)
+        if (tileSLP.slp && tileSLP.slp->isSLP())
         {
             tileSLP.frames = tileSLP.slp->getFrameCount();
             int rows = TerrainPointer->TerrainDimensions.first;
@@ -376,10 +378,11 @@ wxThread::ExitCode Loader::Entry()
                 genie::SlpFramePtr frame;
                 try
                 {
-                    frame = tileSLP.slp->getFrame(f);
+                    genie::SlpFile *slp = static_cast<genie::SlpFile *>(tileSLP.slp.get());
+                    frame = slp->getFrame(f);
                 }
-                catch(const std::out_of_range&){}
-                if(frame)
+                catch (const std::out_of_range &) {}
+                if (frame)
                 {
                     int width = frame->getWidth();
                     int height = frame->getHeight();
@@ -487,6 +490,7 @@ void AGE_Frame::ListTerrainsBorders()
 
     Terrains_Borders_ListV->Sweep();
 
+    if (TerrainIDs.size())
     for(size_t loop = 0; loop < dataset->TerrainBlock.Terrains.size(); ++loop)
     {
         wxString Name = FormatInt(loop) + " " + GetTerrainName(loop) + " - "

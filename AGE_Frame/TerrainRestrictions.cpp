@@ -65,11 +65,12 @@ void AGE_Frame::InitTerrainRestrictions(bool all)
 
 void AGE_Frame::OnTerrainRestrictionSelect(wxCommandEvent &event)
 {
-    auto selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
+    size_t selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, TerRestrict_TerRestrict_ListV, TerRestrictIDs);
 
-    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected table: "+lexical_cast<std::string>(TerRestrictIDs.front()), 0);
+    SetStatusText(wxString::Format("Selections: %zu    Selected table: %d",
+        selections, selections > 0 ? TerRestrictIDs.front() : -1), 0);
     ListTerrains2();
 }
 

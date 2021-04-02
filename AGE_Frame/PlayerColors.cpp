@@ -53,7 +53,7 @@ void AGE_Frame::InitPlayerColors()
 
 void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
 {
-    auto selections = Colors_Colors_ListV->GetSelectedCount();
+    size_t selections = Colors_Colors_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Colors_Colors_ListV, ColorIDs);
 
@@ -61,7 +61,7 @@ void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
     Colors_ID->clear();
 
     genie::PlayerColour * PlayerColorPointer = 0;
-    for(auto loop = selections; loop--> 0;)
+    for(size_t loop = selections; loop--> 0;)
     {
         PlayerColorPointer = &dataset->PlayerColours[ColorIDs[loop]];
 
@@ -84,7 +84,8 @@ void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
             Colors_ReferenceID->prepend(&PlayerColorPointer->StatisticsText);
         }
     }
-    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected color: "+lexical_cast<std::string>(ColorIDs.front()), 0);
+    SetStatusText(wxString::Format("Selections: %zu    Selected color: %d",
+        selections, selections > 0 ? ColorIDs.front() : -1), 0);
 
     for(auto &box: uiGroupColor) box->update();
     Colors_ID->refill();
@@ -131,18 +132,19 @@ void AGE_Frame::OnDrawPalette(wxPaintEvent &event)
 {
     wxBufferedPaintDC dc(Colors_Palette_Display);
     dc.Clear();
-    if(paletteView >= palettes.size() || palettes[paletteView].empty()) return;
-    assert(palettes[paletteView].size() == 256);
+    if (paletteView >= palettes.size() || palettes[paletteView].size() < 256)
+        return;
+
     std::vector<uint8_t> rgbdata(768);
     uint8_t *val = rgbdata.data();
-    for(int i=0; i < 256; ++i)
+    for (int i = 0; i < 256; ++i)
     {
         genie::Color rgba = palettes[paletteView][i];
         *val++ = rgba.r;
         *val++ = rgba.g;
         *val++ = rgba.b;
     }
-    unsigned char *pic = (unsigned char*)rgbdata.data();
+    unsigned char *pic = (unsigned char *)rgbdata.data();
     wxBitmap bitmap = wxBitmap(wxImage(16, 16, pic, true).Scale(320, 320), 24);
     assert(bitmap.IsOk());
     dc.DrawBitmap(bitmap, 15, 15, true);

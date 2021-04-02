@@ -7,9 +7,7 @@
 #include <wx/arrstr.h>
 #include "genie/resource/Color.h"
 #include "genie/resource/DrsFile.h"
-#include "genie/resource/SlpFile.h"
-#include "genie/resource/SmpFile.h"
-#include "genie/resource/SmxFile.h"
+#include "genie/resource/SpriteFile.h"
 
 namespace GG
 {
@@ -18,10 +16,10 @@ void LoadPalettes(std::vector<std::vector<genie::Color>> &palettes, const wxStri
 void LoadPlayerPalette(std::vector<std::vector<genie::Color>> &palettes, const wxString &path);
 std::string LoadSound(wxArrayString &folders, const std::string &filename, int resnum);
 const unsigned char *LoadSound(std::vector<genie::DrsFile *> &datafiles, int resnum);
-genie::SlpFilePtr LoadSLP(genie::DrsFile &pack, int resnum);
-genie::SlpFilePtr LoadSLP(const wxString &filename);
-genie::SmpFilePtr LoadSMP(const wxString &filename);
-genie::SmxFilePtr LoadSMX(const wxString &filename);
+genie::SpriteFilePtr LoadSLP(genie::DrsFile &pack, int resnum);
+genie::SpriteFilePtr LoadSLP(const wxString &filename);
+genie::SpriteFilePtr LoadSMP(const wxString &filename);
+genie::SpriteFilePtr LoadSMX(const wxString &filename);
 
 extern size_t cache_depth;
 

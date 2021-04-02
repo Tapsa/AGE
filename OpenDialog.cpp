@@ -112,6 +112,19 @@ void OpenDialog::OnDefaultRoR(wxCommandEvent &event)
     TerrainsBox->ChangeValue("32");
 }
 
+void OpenDialog::OnDefaultDE1(wxCommandEvent &event)
+{
+    OpenSaveDialog::OnDefaultDE1(event);
+
+    CheckBox_LangFileLocation->SetValue(true);
+    Path_DRS->SetPath(game_path + "\\Data\\DRS");
+    Path_SLP->SetPath(game_path + "\\Assets\\SLP");
+    Path_Palettes->SetPath(game_path + "\\Assets\\Palettes\\palettes.conf");
+    Path_PlayerColorPalette->SetPath(game_path + "\\Assets\\Palettes\\playercolor_blue.pal");
+    TerrainsBox->ChangeValue("96");
+    CheckBox_DRSPath->SetValue(true);
+}
+
 void OpenDialog::OnDefaultAoK(wxCommandEvent &event)
 {
     OpenSaveDialog::OnDefaultAoK(event);
@@ -159,6 +172,9 @@ void OpenDialog::OnDefaultDE2(wxCommandEvent &event)
     CheckBox_LangFileLocation->SetValue(true);
     CheckBox_LangX1FileLocation->SetValue(true);
     Path_DRS->SetPath(game_path + "\\resources\\_common\\drs");
+    Path_SLP->SetPath(game_path + "\\resources\\_common\\drs\\graphics");
+    Path_Palettes->SetPath(game_path + "\\resources\\_common\\palettes\\palettes.conf");
+    Path_PlayerColorPalette->SetPath(game_path + "\\resources\\_common\\palettes\\playercolor_blue.pal");
     TerrainsBox->ChangeValue("200");
     CheckBox_DRSPath->SetValue(true);
 }

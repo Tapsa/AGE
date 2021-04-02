@@ -6,9 +6,10 @@ class SaveDialog : public OpenSaveDialog
 public:
     SaveDialog(wxWindow *parent, const wxFont &font);
 
-    void OnDefaultAoKHD(wxCommandEvent &event);
-    void OnDefaultAoP(wxCommandEvent &event);
-    void OnDefaultDE2(wxCommandEvent &event);
+    void OnDefaultDE1(wxCommandEvent &event) override;
+    void OnDefaultAoKHD(wxCommandEvent &event) override;
+    void OnDefaultAoP(wxCommandEvent &event) override;
+    void OnDefaultDE2(wxCommandEvent &event) override;
 
     wxCheckBox *SyncWithReadPaths;
 };

@@ -8,7 +8,7 @@
 
 enum ContainerType { CUByte, CFloat, CLong, CULong, CShort };
 
-class AGE_Frame;
+class BaseMainFrame;
 class LinkedControl;
 
 class AGETextCtrl : public wxTextCtrl
@@ -32,8 +32,8 @@ protected:
     bool BatchCheck(std::string &value, short &batchMode) const;
     void HandleResults(int casted);
 
-    int editedFileId, numEdits;
-    AGE_Frame *frame;
+    size_t editedFileId, numEdits;
+    BaseMainFrame *frame;
     LinkedControl *LinkedBox;
     std::vector<void *> container;
     friend class LinkedControl;
@@ -50,7 +50,7 @@ public:
 class NumberControl : public AGETextCtrl
 {
 public:
-    NumberControl(ContainerType type, wxWindow *parent, AGE_Frame *frame,
+    NumberControl(ContainerType type, wxWindow *parent, BaseMainFrame *frame,
         std::vector<AGETextCtrl *> *group, bool connect = true, int width = NORMAL);
     void SetCastType(const ContainerType type);
 
@@ -78,7 +78,7 @@ extern const unsigned short lengthiest;
 class StringControl : public AGETextCtrl
 {
 public:
-    StringControl(wxWindow *parent, AGE_Frame *frame, std::vector<AGETextCtrl *> *group,
+    StringControl(wxWindow *parent, BaseMainFrame *frame, std::vector<AGETextCtrl *> *group,
         unsigned length = NORMAL, bool connect = true);
     int SaveEdits(bool forced = false) override;
     void replenish() override;

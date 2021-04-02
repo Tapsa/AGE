@@ -221,6 +221,7 @@
   <ItemGroup>
     <ClInclude Include="AboutDialog.h" />
     <ClInclude Include="AGE_Frame.h" />
+    <ClInclude Include="BaseMainFrame.h" />
     <ClInclude Include="CustomComboBoxes.h" />
     <ClInclude Include="CustomTextControls.h" />
     <ClInclude Include="CustomWidgets.h" />

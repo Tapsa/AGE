@@ -8,16 +8,17 @@ public:
 
     /* Events */
 
-    void OnDefaultAoE(wxCommandEvent &event);
-    void OnDefaultRoR(wxCommandEvent &event);
-    void OnDefaultAoK(wxCommandEvent &event);
-    void OnDefaultTC(wxCommandEvent &event);
-    void OnDefaultAoKHD(wxCommandEvent &event);
-    void OnDefaultAoP(wxCommandEvent &event);
-    void OnDefaultDE2(wxCommandEvent &event);
-    void OnDefaultSWGB(wxCommandEvent &event);
-    void OnDefaultCC(wxCommandEvent &event);
-    void OnRecent(wxCommandEvent &event);
+    void OnDefaultAoE(wxCommandEvent &event) override;
+    void OnDefaultRoR(wxCommandEvent &event) override;
+    void OnDefaultDE1(wxCommandEvent &event) override;
+    void OnDefaultAoK(wxCommandEvent &event) override;
+    void OnDefaultTC(wxCommandEvent &event) override;
+    void OnDefaultAoKHD(wxCommandEvent &event) override;
+    void OnDefaultAoP(wxCommandEvent &event) override;
+    void OnDefaultDE2(wxCommandEvent &event) override;
+    void OnDefaultSWGB(wxCommandEvent &event) override;
+    void OnDefaultCC(wxCommandEvent &event) override;
+    void OnRecent(wxCommandEvent &event) override;
 
     /* Member Variables */
 

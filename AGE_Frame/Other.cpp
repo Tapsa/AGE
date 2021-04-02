@@ -3209,9 +3209,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             if(!AGE_Frame::openEditors[win])
             {
                 AGE_Frame* newWindow = new AGE_Frame("AGE " + AboutDialog::AGE_VER + " window "+lexical_cast<std::string>(win+1), win);
-                FixSize(newWindow);
-                wxCommandEvent OpenFiles(wxEVT_MENU, newWindow->eOpen);
-                newWindow->OnOpen(OpenFiles);
+                wxCommandEvent open;
+                newWindow->OnOpen(open);
                 break;
             }
             break;
@@ -3536,13 +3535,13 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
             wxString plainName = PathSLP + "\\" + graphic->filename;
             if(wxFileName(plainName + ".smx").FileExists())
             {
-               graphic->smx = GG::LoadSMX(plainName + ".smx");
-               if(graphic->smx) return true;
+               graphic->slp = GG::LoadSMX(plainName + ".smx");
+               if(graphic->slp) return true;
             }
             if(wxFileName(plainName + ".smp").FileExists())
             {
-               graphic->smp = GG::LoadSMP(plainName + ".smp");
-               if(graphic->smp) return true;
+               graphic->slp = GG::LoadSMP(plainName + ".smp");
+               if(graphic->slp) return true;
             }
             if(wxFileName(plainName + ".slp").FileExists())
             {
@@ -3589,30 +3588,24 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
 
 void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
 {
-    if(graphic->frameID < 0)
+    if (graphic->slp == nullptr)
     {
-        graphic->bitmap = wxNullBitmap;
-        return;
+        graphic->bitmap = wxNullBitmap; SetStatusText("No sprite to load", 1); return;
     }
-    if (graphic->smx)
+    if (graphic->frameID < 0 || graphic->frameID >= graphic->slp->getFrameCount())
+    {
+        graphic->bitmap = wxNullBitmap; SetStatusText("No frame to load", 1); return;
+    }
+    SetStatusText(wxString::Format("Looking for frame %d", graphic->frameID), 1);
+    if (graphic->slp->isSMX())
     {
         genie::SmxFramePtr frame;
-        SetStatusText("Looking for frame " + FormatInt(graphic->frameID), 1);
-        graphic->frames = graphic->smx->getFrameCount();
-        if (graphic->frames)
+        try
         {
-            try
-            {
-                frame = graphic->smx->getFrame(graphic->frameID);
-            }
-            catch (const std::out_of_range&) {}
+            genie::SmxFile *smx = static_cast<genie::SmxFile *>(graphic->slp.get());
+            frame = smx->getFrame(graphic->frameID);
         }
-        if (!frame)
-        {
-            graphic->bitmap = wxNullBitmap;
-            SetStatusText("No frame: " + FormatInt(graphic->frameID) + ", frames: " + FormatInt(graphic->frames), 1);
-            return;
-        }
+        catch (const std::out_of_range &) {}
 
         const int width = frame->getWidth();
         const int height = frame->getHeight();
@@ -3620,8 +3613,6 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         graphic->ypos = -frame->getHotspotY();
         const int area = width * height;
         std::vector<uint8_t> rgbdata(area * 4, 0);
-        uint8_t* val = rgbdata.data();
-        uint8_t* alpha = val + area * 3;
         const genie::SmxFrameData* imgdata = &frame->img_data;
         const std::vector<genie::Color>* pal = &palettes.front();
         size_t pal_chooser = frame->palette_id;
@@ -3631,14 +3622,20 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         }
         if (!pal->empty())
         {
-            for (int i = 0; i < area; ++i)
+            int32_t mainOffX = frame->getMainLayerOffsetX();
+            int32_t mainOffY = frame->getMainLayerOffsetY();
+            size_t mainWidth = frame->getMainLayerWidth();
+            for (size_t i = 0; i < imgdata->pixel_indexes.size(); ++i)
             {
+                int flat = (i / mainWidth + mainOffY) * width + i % mainWidth + mainOffX;
+                int loc = 3 * flat;
+                int locA = 3 * area + flat;
                 uint16_t colorId = 0x3FF & imgdata->pixel_indexes[i];
                 genie::Color rgba = colorId < pal->size() ? (*pal)[colorId] : genie::Color(74, 65, 42, 255);
-                *val++ = rgba.r;
-                *val++ = rgba.g;
-                *val++ = rgba.b;
-                *alpha++ = imgdata->alpha_channel[i];
+                rgbdata[loc] = rgba.r;
+                rgbdata[loc + 1] = rgba.g;
+                rgbdata[loc + 2] = rgba.b;
+                rgbdata[locA] = imgdata->alpha_channel[i];
             }
             // In case of using separate player color palette
             bool sep_pcp = pc_palettes.size();
@@ -3646,10 +3643,26 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
             {
                 pal = &pc_palettes.front();
             }
-            // Apply player color
-            for (int i = 0; i < imgdata->player_color_mask.size(); ++i)
+            // Apply shadows
+            if (ShowShadows)
             {
-                int flat = imgdata->player_color_mask[i].y * width + imgdata->player_color_mask[i].x;
+                int32_t offX = frame->getShadowLayerOffsetX();
+                int32_t offY = frame->getShadowLayerOffsetY();
+                for (size_t i = 0; i < imgdata->shadow_mask.size(); ++i)
+                {
+                    int flat = (imgdata->shadow_mask[i].y + offY) * width + imgdata->shadow_mask[i].x + offX;
+                    int loc = 3 * flat;
+                    int locA = 3 * area + flat;
+                    rgbdata[loc] = 0;
+                    rgbdata[loc + 1] = 0;
+                    rgbdata[loc + 2] = 0;
+                    rgbdata[locA] = static_cast<uint8_t>(imgdata->shadow_mask[i].index);
+                }
+            }
+            // Apply player color
+            for (size_t i = 0; i < imgdata->player_color_mask.size(); ++i)
+            {
+                int flat = (imgdata->player_color_mask[i].y + mainOffY) * width + imgdata->player_color_mask[i].x + mainOffX;
                 int loc = 3 * flat;
                 int locA = 3 * area + flat;
                 uint16_t colorId = 0x3FF & imgdata->player_color_mask[i].index;
@@ -3658,6 +3671,24 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
                 rgbdata[loc + 1] = rgba.g;
                 rgbdata[loc + 2] = rgba.b;
                 rgbdata[locA] = 255;
+            }
+            // Apply outlines
+            if (ShowOutline)
+            {
+                int32_t offX = frame->getOutlineLayerOffsetX();
+                int32_t offY = frame->getOutlineLayerOffsetY();
+                // Player color
+                for (size_t i = 0; i < imgdata->outline_pc_mask.size(); ++i)
+                {
+                    int flat = (imgdata->outline_pc_mask[i].y + offY) * width + imgdata->outline_pc_mask[i].x + offX;
+                    int loc = 3 * flat;
+                    int locA = 3 * area + flat;
+                    genie::Color rgba = sep_pcp ? pal->front() : (*pal)[AGE_SLP::playerColorID];
+                    rgbdata[loc] = rgba.r;
+                    rgbdata[loc + 1] = rgba.g;
+                    rgbdata[loc + 2] = rgba.b;
+                    rgbdata[locA] = exportFrame ? 200 : 255;
+                }
             }
         }
         unsigned char* pic = (unsigned char*)rgbdata.data();
@@ -3674,30 +3705,20 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         graphic->bitmap = wxBitmap(img, 24);
         return;
     }
-    if(graphic->smp)
+    if (graphic->slp->isSMP())
     {
         genie::SmpFramePtr frame;
-        SetStatusText("Looking for frame "+FormatInt(graphic->frameID), 1);
-        graphic->frames = graphic->smp->getFrameCount();
-        if(graphic->frames)
+        try
         {
-            try
-            {
-                frame = graphic->smp->getFrame(graphic->frameID);
-            }
-            catch(const std::out_of_range&){}
+            genie::SmpFile *smp = static_cast<genie::SmpFile *>(graphic->slp.get());
+            frame = smp->getFrame(graphic->frameID);
         }
-        if(!frame)
-        {
-            graphic->bitmap = wxNullBitmap;
-            SetStatusText("No frame: " + FormatInt(graphic->frameID) + ", frames: " + FormatInt(graphic->frames), 1);
-            return;
-        }
+        catch (const std::out_of_range &) {}
 
         const int width = frame->getWidth();
         const int height = frame->getHeight();
-        graphic->xpos = -frame->layer_hotspot_x;
-        graphic->ypos = -frame->layer_hotspot_y;
+        graphic->xpos = -frame->getHotspotX();
+        graphic->ypos = -frame->getHotspotY();
         const int area = width * height;
         std::vector<uint8_t> rgbdata(area * 4, 0);
         uint8_t *val = rgbdata.data();
@@ -3743,8 +3764,8 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         wxImage img(width, height, pic, trans, true);
         if(centralize)
         {
-            int left = frame->hotspot_x, right = width - left,
-                top = frame->hotspot_y, bottom = height - top;
+            int left = frame->getHotspotX(), right = width - left,
+                top = frame->getHotspotY(), bottom = height - top;
             int half_width = left > right ? left : right;
             int half_height = top > bottom ? top : bottom;
             img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(std::min(half_width, half_width - left), std::min(half_height, half_height - top)));
@@ -3752,35 +3773,25 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         graphic->bitmap = wxBitmap(img, 24);
         return;
     }
-    if(!graphic->slp)
+    if (!graphic->slp->isSLP())
     {
         graphic->bitmap = wxNullBitmap;
-        SetStatusText("Loading frame without SLP", 1);
+        SetStatusText("Impossible", 1);
         return;
     }
     genie::SlpFramePtr frame;
-    SetStatusText("Looking for frame "+FormatInt(graphic->frameID), 1);
-    graphic->frames = graphic->slp->getFrameCount();
-    if(graphic->frames)
+    try
     {
-        try
-        {
-            frame = graphic->slp->getFrame(graphic->frameID);
-        }
-        catch(const std::out_of_range&){}
+        genie::SlpFile *slp = static_cast<genie::SlpFile *>(graphic->slp.get());
+        frame = slp->getFrame(graphic->frameID);
     }
-    if(!frame)
-    {
-        graphic->bitmap = wxNullBitmap;
-        SetStatusText("No frame: " + FormatInt(graphic->frameID) + ", frames: " + FormatInt(graphic->frames), 1);
-        return;
-    }
+    catch (const std::out_of_range &) {}
 
     const int width = frame->getWidth();
     const int height = frame->getHeight();
     const short pal_chooser = frame->getProperties() >> 16;
-    graphic->xpos = graphic->flip ? frame->hotspot_x - width : -frame->hotspot_x;
-    graphic->ypos = -frame->hotspot_y;
+    graphic->xpos = graphic->flip ? frame->getHotspotX() - width : -frame->getHotspotX();
+    graphic->ypos = -frame->getHotspotY();
     const int area = width * height;
     std::vector<uint8_t> rgbdata(area * 4, 0);
     uint8_t *val = rgbdata.data();
@@ -3901,8 +3912,8 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
     if(graphic->flip) img = img.Mirror();
     if(centralize)
     {
-        int left = frame->hotspot_x, right = width - left,
-            top = frame->hotspot_y, bottom = height - top;
+        int left = frame->getHotspotX(), right = width - left,
+            top = frame->getHotspotY(), bottom = height - top;
         int half_width = left > right ? left : right;
         int half_height = top > bottom ? top : bottom;
         img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(std::min(half_width, half_width - left), std::min(half_height, half_height - top)));
@@ -3921,7 +3932,7 @@ void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
         return;
     }
     unsigned char *trans = img.GetAlpha();
-    if(!graphic->slp)
+    if (!graphic->slp || !graphic->slp->isSLP())
     {
         wxMessageBox("Congrats seeing this message", "No SLP");
         return;
@@ -3929,9 +3940,10 @@ void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
     genie::SlpFramePtr frame;
     try
     {
-        frame = graphic->slp->getFrame(graphic->frameID);
+        genie::SlpFile *slp = static_cast<genie::SlpFile *>(graphic->slp.get());
+        frame = slp->getFrame(graphic->frameID);
     }
-    catch(const std::out_of_range&){}
+    catch (const std::out_of_range &) {}
     if(!frame)
     {
         wxMessageBox("Congrats seeing this message", "No SLP frame " + lexical_cast<std::string>(graphic->frameID));
@@ -4288,10 +4300,10 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
 void AGE_Frame::RefreshList(ProperList *list, std::vector<int> *oldies)
 {
     unsigned long cookie;
-    auto first_visible = list->GetVisibleRowsBegin();
-    auto first_selected = list->GetFirstSelected(cookie);
+    size_t first_visible = list->GetVisibleRowsBegin();
+    int first_selected = list->GetFirstSelected(cookie);
     //auto last_item_count = list->GetItemCount();
-    auto name_count = list->names.size();
+    size_t name_count = list->names.size();
 
     //list->SetItemCount(0); // Clears selections and makes all calls to SetItemPosition be ignored.
     list->SetItemCount(name_count);
@@ -4513,7 +4525,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             if(graphic)
             {
                 bool framesleft = false;
-                if(graphic->slp || graphic->smp)
+                if(graphic->slp)
                 {
                     ChooseNextFrame(*graphic, framesleft);
                 }
@@ -4532,7 +4544,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
             if(graphic)
             {
                 bool framesleft = false;
-                if(graphic->slp || graphic->smp)
+                if(graphic->slp)
                 {
                     ChoosePreviousFrame(*graphic, framesleft);
                 }
@@ -4578,7 +4590,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         {
             if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
             {
-                if(!gallery.slp)
+                if (!gallery.slp || !gallery.slp->isSLP())
                 {
                     wxMessageBox("No SLP to save", "SLP");
                     return;
@@ -4591,10 +4603,11 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                 wxString name = gallery.filename + ".slp";
                 try
                 {
-                    gallery.slp->saveAs(name.c_str());
+                    genie::SlpFile *slp = static_cast<genie::SlpFile *>(gallery.slp.get());
+                    slp->saveAs(name.c_str());
                     wxMessageBox("Saved SLP " + name, "SLP");
                 }
-                catch(const std::ios_base::failure&)
+                catch (const std::ios_base::failure &)
                 {
                     wxMessageBox("Saving SLP failed", "SLP");
                 }
@@ -4712,19 +4725,22 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         case eShowDeltas:
         {
             ShowDeltas = event.IsChecked();
-            gallery.slpID = museum.slpID = RELOAD;
+            gallery.reload();
+            museum.reload();
             break;
         }
         case eShowStack:
         {
             ShowStack = event.IsChecked();
-            gallery.slpID = museum.slpID = RELOAD;
+            gallery.reload();
+            museum.reload();
             break;
         }
         case eShowAnnexes:
         {
             ShowAnnexes = event.IsChecked();
-            gallery.slpID = museum.slpID = RELOAD;
+            gallery.reload();
+            museum.reload();
             break;
         }
         case eRotateAngles:
@@ -4826,7 +4842,7 @@ void AGE_Frame::OnFrameKey(wxKeyEvent &event)
     popUp.unSaved += DeltaIDs.size();
     wxCommandEvent e;
     OnGraphicDeltaSelect(e);
-    gallery.slpID = RELOAD;
+    gallery.reload();
     slp_view->Refresh();
 }
 

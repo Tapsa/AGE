@@ -1,6 +1,7 @@
 #include "Common.h"
-#include "AGE_Frame.h"
+#include "BaseMainFrame.h"
 #include "CustomTextControls.h"
+#include "LinkedControl.h"
 
 const wxString AGETextCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
 const wxString AGETextCtrl::BWTITLE = "Incorrect batch script!";
@@ -14,9 +15,8 @@ unsigned AGETextCtrl::GIANT = 200;
 
 AGETextCtrl::AGETextCtrl(wxWindow *parent, int width) :
     wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxTE_PROCESS_ENTER),
-    LinkedBox(nullptr)
+    numEdits(0), LinkedBox(nullptr)
 {
-    numEdits = 0;
 }
 
 void AGETextCtrl::update()
@@ -68,7 +68,7 @@ void AGETextCtrl::HandleResults(int casted)
     {
         LinkedBox->SetChoice(casted);
     }
-    frame->SetStatusText("Edits: " + lexical_cast<std::string>(frame->popUp.unSaved) + " + " + lexical_cast<std::string>(numEdits), 3);
+    frame->SetStatusText(wxString::Format("Edits: %zu + %zu", frame->popUp.unSaved, numEdits), 3);
     frame->popUp.unSaved += numEdits;
     numEdits = 0;
 }
@@ -83,7 +83,7 @@ TextIndexControl::TextIndexControl(wxWindow *parent, wxSize dimensions) :
     });
 }
 
-NumberControl::NumberControl(ContainerType type, wxWindow *parent, AGE_Frame *frame,
+NumberControl::NumberControl(ContainerType type, wxWindow *parent, BaseMainFrame *frame,
     std::vector<AGETextCtrl *> *group, bool connect, int width) :
     AGETextCtrl(parent, width)
 {
@@ -548,7 +548,7 @@ void NumberControl::ShowNumberAsShort()
     }
 }
 
-StringControl::StringControl(wxWindow *parent, AGE_Frame *frame, std::vector<AGETextCtrl *> *group,
+StringControl::StringControl(wxWindow *parent, BaseMainFrame *frame, std::vector<AGETextCtrl *> *group,
     unsigned length, bool connect) :
     AGETextCtrl(parent, AGETextCtrl::GIANT), maxSize(length)
 {

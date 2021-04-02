@@ -53,7 +53,7 @@ void AGE_Frame::InitSounds(bool all)
 
 void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
 {
-    auto selections = Sounds_Sounds_ListV->GetSelectedCount();
+    size_t selections = Sounds_Sounds_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Sounds_Sounds_ListV, SoundIDs);
 
@@ -61,7 +61,7 @@ void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
     Sounds_ID->clear();
 
     genie::Sound * SoundPointer = 0;
-    for(auto loop = selections; loop--> 0;)
+    for(size_t loop = selections; loop--> 0;)
     {
         SoundPointer = &dataset->Sounds[SoundIDs[loop]];
 
@@ -77,7 +77,8 @@ void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
             }
         }
     }
-    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected sound: "+lexical_cast<std::string>(SoundIDs.front()), 0);
+    SetStatusText(wxString::Format("Selections: %zu    Selected sound: &d",
+        selections, selections > 0 ? SoundIDs.front() : -1), 0);
 
     for(auto &box: uiGroupSound) box->update();
     Sounds_ID->refill();
