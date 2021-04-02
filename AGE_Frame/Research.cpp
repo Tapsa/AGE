@@ -182,14 +182,14 @@ void AGE_Frame::InitResearches(bool all)
 void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
 {
     // If trying to select an existing item, don't deselect?
-    auto selections = Research_Research_ListV->GetSelectedCount();
+    size_t selections = Research_Research_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Research_Research_ListV, ResearchIDs);
 
     for(auto &box: uiGroupResearch) box->clear();
 
     genie::Tech * ResearchPointer = 0;
-    for(auto loop = selections; loop--> 0;)
+    for(size_t loop = selections; loop--> 0;)
     {
         ResearchPointer = &dataset->Techs[ResearchIDs[loop]];
 
@@ -235,7 +235,8 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
         }
         Research_Name[0]->prepend(&ResearchPointer->Name);
     }
-    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected technology: "+lexical_cast<std::string>(ResearchIDs.front()), 0);
+    SetStatusText(wxString::Format("Selections: %zu    Selected technology: %d",
+        selections, selections > 0 ? ResearchIDs.front() : -1), 0);
 
     if(ResearchPointer && GenieVersion >= genie::GV_MATT)
     {

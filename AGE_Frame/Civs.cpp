@@ -83,7 +83,8 @@ void AGE_Frame::OnCivSelect(wxCommandEvent &event)
         }
         Civs_GraphicSet->prepend(&CivPointer->IconSet);
     }
-    SetStatusText(wxString::Format("Selections: %lu    Selected civilization: %d", selections, CivIDs.front()), 0);
+    SetStatusText(wxString::Format("Selections: %zu    Selected civilization: %d",
+        selections, selections > 0 ? CivIDs.front() : -1), 0);
 
     for(auto &box: uiGroupCiv) box->update();
     ListResources();
@@ -257,6 +258,7 @@ void AGE_Frame::ListResources(bool all)
         resource_names.Add("-1 - None");
     }
 
+    if (CivIDs.size())
     for(size_t loop = 0; loop < dataset->Civs[CivIDs.front()].Resources.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - Value: "+FormatFloat(dataset->Civs[CivIDs.front()].Resources[loop])+" - "+GetResourceName(loop);

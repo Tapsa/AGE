@@ -159,6 +159,9 @@
     <ClInclude Include="Precompile\Common.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="BaseMainFrame.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="AGE.rc" />

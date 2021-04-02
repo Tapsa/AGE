@@ -5,7 +5,7 @@
 #include "License GPLv3.h"
 #include "License liblz4.h"
 
-const wxString AboutDialog::AGE_VER = "2021.3.29";
+const wxString AboutDialog::AGE_VER = "2021.4.2";
 
 AboutDialog::AboutDialog(wxWindow *parent, const wxFont &font)
     : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)

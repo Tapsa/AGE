@@ -538,35 +538,33 @@ void AGE_Frame::InitRandomMaps()
 
 void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
 {
-    auto selections = Unknowns_ListV->GetSelectedCount();
+    size_t selections = Unknowns_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Unknowns_ListV, RandomMapIDs);
-    for(auto &box: uiGroupRandomMap) box->clear();
-    if(selections > 0)
+    for (auto &box : uiGroupRandomMap) box->clear();
+    genie::MapInfo *map_ptr;
+    for (auto sel = selections; sel-- > 0;)
     {
-        genie::MapInfo * map_ptr;
-        for(auto sel = selections; sel--> 0;)
-        {
-            map_ptr = &dataset->RandomMaps.Maps[RandomMapIDs[sel]];
+        map_ptr = &dataset->RandomMaps.Maps[RandomMapIDs[sel]];
 
-            RMS_MapID->prepend(&map_ptr->MapID);
-            RMS_LandData[0]->prepend(&map_ptr->BorderSouthWest);
-            RMS_LandData[1]->prepend(&map_ptr->BorderNorthWest);
-            RMS_LandData[2]->prepend(&map_ptr->BorderNorthEast);
-            RMS_LandData[3]->prepend(&map_ptr->BorderSouthEast);
-            RMS_LandData[4]->prepend(&map_ptr->BorderUsage);
-            RMS_LandData[5]->prepend(&map_ptr->WaterShape);
-            RMS_LandData[6]->prepend(&map_ptr->BaseTerrain);
-            RMS_LandData[7]->prepend(&map_ptr->LandCoverage);
-            RMS_LandData[8]->prepend(&map_ptr->UnusedID);
-            RMS_LandsPtr->prepend(&map_ptr->MapLandsPtr);
-            RMS_TerrainsPtr->prepend(&map_ptr->MapTerrainsPtr);
-            RMS_UnitsPtr->prepend(&map_ptr->MapUnitsPtr);
-            RMS_ElevationsPtr->prepend(&map_ptr->MapElevationsPtr);
-        }
-        SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected random map: "+lexical_cast<std::string>(RandomMapIDs.front()), 0);
+        RMS_MapID->prepend(&map_ptr->MapID);
+        RMS_LandData[0]->prepend(&map_ptr->BorderSouthWest);
+        RMS_LandData[1]->prepend(&map_ptr->BorderNorthWest);
+        RMS_LandData[2]->prepend(&map_ptr->BorderNorthEast);
+        RMS_LandData[3]->prepend(&map_ptr->BorderSouthEast);
+        RMS_LandData[4]->prepend(&map_ptr->BorderUsage);
+        RMS_LandData[5]->prepend(&map_ptr->WaterShape);
+        RMS_LandData[6]->prepend(&map_ptr->BaseTerrain);
+        RMS_LandData[7]->prepend(&map_ptr->LandCoverage);
+        RMS_LandData[8]->prepend(&map_ptr->UnusedID);
+        RMS_LandsPtr->prepend(&map_ptr->MapLandsPtr);
+        RMS_TerrainsPtr->prepend(&map_ptr->MapTerrainsPtr);
+        RMS_UnitsPtr->prepend(&map_ptr->MapUnitsPtr);
+        RMS_ElevationsPtr->prepend(&map_ptr->MapElevationsPtr);
     }
-    for(auto &box: uiGroupRandomMap) box->update();
+    SetStatusText(wxString::Format("Selections: %zu    Selected random map: %d",
+        selections, selections > 0 ? RandomMapIDs.front() : -1), 0);
+    for (auto &box : uiGroupRandomMap) box->update();
     ListMapLands();
     ListMapTerrains();
     ListMapUnits();
@@ -651,7 +649,7 @@ void AGE_Frame::ListMapLands()
 
     RMS_Land_ListV->Sweep();
 
-    if(dataset->RandomMaps.Maps.size())
+    if (dataset->RandomMaps.Maps.size() && RandomMapIDs.size())
     for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetMapLandName(loop);
@@ -792,7 +790,7 @@ void AGE_Frame::ListMapTerrains()
 
     RMS_Terrain_ListV->Sweep();
 
-    if(dataset->RandomMaps.Maps.size())
+    if (dataset->RandomMaps.Maps.size() && RandomMapIDs.size())
     for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetMapTerrainName(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains[loop].Terrain);
@@ -913,7 +911,7 @@ void AGE_Frame::ListMapUnits()
 
     RMS_Unit_ListV->Sweep();
 
-    if(dataset->RandomMaps.Maps.size())
+    if (dataset->RandomMaps.Maps.size() && RandomMapIDs.size())
     for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits[loop].Unit);
@@ -1041,7 +1039,7 @@ void AGE_Frame::ListMapElevations()
 
     RMS_Elevation_ListV->Sweep();
 
-    if(dataset->RandomMaps.Maps.size())
+    if (dataset->RandomMaps.Maps.size() && RandomMapIDs.size())
     for(size_t loop = 0; loop < dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - Elevation (useless)";

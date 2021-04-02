@@ -26,31 +26,41 @@ include_directories(
 
 add_subdirectory(${EXTERN_DIR}/genieutils extern/genieutils)
 
-set(AGE_SRC Main.cpp
-    AGE_TextControls.cpp
-    AGE_CheckBoxes.cpp
-    AGE_ComboBoxes.cpp
-    AGE_AboutDialog.cpp
-    AGE_OpenSave.cpp
-    AGE_OpenDialog.cpp
-    AGE_SaveDialog.cpp
+set(AGE_SRC Precompile/Common.cpp
+    #External includes only
+    CustomWidgets.cpp
+    DelayedMessageRelay.cpp
     SharedComboPopup.cpp
 
-    AGE_Frame/Constructor.cpp
-    AGE_Frame/Other.cpp
+    #Internal includes in cpp only
+    LinkedControl.cpp
+    OpenSaveDialog.cpp
+    AboutDialog.cpp
+    Main.cpp
+    CustomTextControls.cpp
+
+    #Internal includes in headers too
+    LinkedCheckBox.cpp
+    CustomComboBoxes.cpp
+    OpenDialog.cpp
+    SaveDialog.cpp
+    Loaders.cpp
+
     AGE_Frame/Civs.cpp
     AGE_Frame/General.cpp
-    AGE_Frame/Graphics.cpp
     AGE_Frame/PlayerColors.cpp
     AGE_Frame/Research.cpp
-    AGE_Frame/Sounds.cpp
-    AGE_Frame/Techs.cpp
     AGE_Frame/TechTrees.cpp
     AGE_Frame/TerrainBorders.cpp
     AGE_Frame/TerrainRestrictions.cpp
-    AGE_Frame/Terrains.cpp
     AGE_Frame/UnitLine.cpp
     AGE_Frame/Units.cpp
+    AGE_Frame/Techs.cpp
+    AGE_Frame/Graphics.cpp
+    AGE_Frame/Sounds.cpp
+    AGE_Frame/Terrains.cpp
+    AGE_Frame/Other.cpp
+    AGE_Frame/Constructor.cpp
 
     Resources.rc
     )

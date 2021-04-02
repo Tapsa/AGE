@@ -18,6 +18,7 @@
 
 // Project headers
 #include "AboutDialog.h"
+#include "BaseMainFrame.h"
 #include "CustomComboBoxes.h"
 #include "CustomTextControls.h"
 #include "CustomWidgets.h"
@@ -38,19 +39,15 @@
 #define HINSTANCE ssize_t
 #endif
 
-#define RELOAD -2
-
 const float PI2A = 6.28319f, PI2 = 6.2832f;
 
 class AGE_SLP
 {
 public:
-    int32_t slpID = -1, frameID, datID = -1, lastSlpID = RELOAD, startframe;
+    int32_t slpID = -1, frameID, datID = -1, lastSlpID = -2, startframe;
     uint16_t angles, fpa, frames, mirror;
     wxString filename = "";
-    genie::SlpFilePtr slp;
-    genie::SmpFilePtr smp;
-    genie::SmxFilePtr smx;
+    genie::SpriteFilePtr slp;
     wxBitmap bitmap;
     sf::SoundBuffer buffers[4];// Actual data
     sf::Sound sounds[4];// To play data
@@ -58,6 +55,7 @@ public:
     bool flip = false, is32 = false;
     float beginbearing = 0.f, endbearing = PI2A;
 
+    inline void reload(void) { slpID = -1; lastSlpID = -2; }
     static enum SHOW { NONE, UNIT, GRAPHIC } currentDisplay;
     static unsigned setbearing;
     static float bearing;
@@ -145,27 +143,21 @@ protected:
     AGE_Frame *HostFrame;
 };
 
-class AGE_Frame: public wxFrame
+class AGE_Frame : public BaseMainFrame
 {
 public:
     AGE_Frame(const wxString &title, short window, wxString aP = wxEmptyString);
-    static void FixSize(AGE_Frame*);
+    void FixSize(float scale);
 
     struct Pixels
     {
         float x1, y1, x2, y2, x3, y3, x4, y4;
     };
 
-//  Stuff related to editing multiple files at once
+    std::ofstream log_out;
 
-    static std::ofstream log_out;
-    static AGE_Frame *openEditors[];
-    static Copies copies;
-
-    DelayedMessageRelay popUp;
-
-    void OnOpen(wxCommandEvent &event);
-    void OnExit(wxCloseEvent &event);
+    void OnOpen(wxCommandEvent &event) override;
+    void OnExit(wxCloseEvent &event) override;
 
 private:
 //  Constructions Methods
@@ -934,7 +926,6 @@ private:
     enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
     short How2List;
     int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidthV2, MinWindowWidth;
-    void FixSizes();
     std::chrono::time_point<std::chrono::system_clock> endTime;
     genie::GameVersion GenieVersion = genie::GV_None;
     wxString DriveLetter, Language, CustomFolder;

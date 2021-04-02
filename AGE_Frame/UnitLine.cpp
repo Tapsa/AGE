@@ -47,7 +47,7 @@ void AGE_Frame::InitUnitLines()
 
 void AGE_Frame::OnUnitLineSelect(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLines_ListV->GetSelectedCount();
+    size_t selections = UnitLines_UnitLines_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, UnitLines_UnitLines_ListV, UnitLineIDs);
 
@@ -55,14 +55,15 @@ void AGE_Frame::OnUnitLineSelect(wxCommandEvent &event)
     UnitLines_Name->clear();
 
     genie::UnitLine * LinePointer;
-    for(auto loop = selections; loop--> 0;)
+    for(size_t loop = selections; loop--> 0;)
     {
         LinePointer = &dataset->UnitLines[UnitLineIDs[loop]];
 
         UnitLines_ID->prepend(&LinePointer->ID);
         UnitLines_Name->prepend(&LinePointer->Name);
     }
-    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected unit line: "+lexical_cast<std::string>(UnitLineIDs.front()), 0);
+    SetStatusText(wxString::Format("Selections: %zu    Selected unit line: %d",
+        selections, selections > 0 ? UnitLineIDs.front() : -1), 0);
 
     UnitLines_ID->refill();
     UnitLines_Name->update();
@@ -155,6 +156,7 @@ void AGE_Frame::ListUnitLineUnits()
 
     UnitLines_UnitLineUnits_ListV->Sweep();
 
+    if (UnitLineIDs.size())
     for(size_t loop = 0; loop < dataset->UnitLines[UnitLineIDs.front()].UnitIDs.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetUnitLineUnitName(dataset->UnitLines[UnitLineIDs.front()].UnitIDs[loop]);

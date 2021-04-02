@@ -1047,14 +1047,14 @@ void AGE_Frame::OnChooseGraphic(wxCommandEvent&)
     if(UnitIDs.size() && dataset && UnitCivID < dataset->Civs.size() && UnitIDs.front() < dataset->Civs[UnitCivID].Units.size())
     {
         museum.datID = loadChosenGraphic(UnitIDs.front());
-        museum.slpID = RELOAD;
+        museum.reload();
         if(slp_window) slp_view->Refresh();
     }
 }
 
 void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
 {
-    auto selections = Units_ListV->GetSelectedCount();
+    size_t selections = Units_ListV->GetSelectedCount();
 
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Units_ListV, UnitIDs);
@@ -1080,7 +1080,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
 
     short unitType = -1;
     genie::Unit * UnitPointer = 0;
-    for(auto sel = selections; sel--> 0;)
+    for(size_t sel = selections; sel--> 0;)
     {
         unitType = -1;
         // This makes auto-copy automatic.
@@ -1417,7 +1417,8 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
             }
         }
     }
-    SetStatusText("Civilization: "+lexical_cast<std::string>(UnitCivID)+"    Selections: "+lexical_cast<std::string>(selections)+"    Selected unit: "+lexical_cast<std::string>(UnitIDs.front()), 0);
+    SetStatusText(wxString::Format("Civilization: %d    Selections: %zu    Selected unit: %d",
+        UnitCivID, selections, selections > 0 ? UnitIDs.front() : -1), 0);
 
     bool showUnitData = -1 != unitType;
     switch(unitType)
@@ -1524,7 +1525,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
         }
         iconSLP.frameID = UnitPointer->IconID + UnitPointer->Building.GraphicsAngle; // frame
         museum.datID = loadChosenGraphic(UnitIDs.front());
-        museum.slpID = RELOAD;
+        museum.reload();
     }
     else
     {
@@ -1548,20 +1549,28 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
     Units_LanguageDLLConverter[0]->Enable(showUnitData);
     Units_LanguageDLLConverter[1]->Enable(showUnitData);
 
-    // Don't count disabled units anymore.
-    for(size_t loop = SelectedCivs.size(); loop--> 0;)
+    if (selections > 0)
     {
-        if(dataset->Civs[SelectedCivs[loop]].UnitPointers[UnitIDs.front()] == 0)
-            SelectedCivs.erase(SelectedCivs.begin() + loop);
+        // Don't count disabled units anymore.
+        for (size_t loop = SelectedCivs.size(); loop-- > 0;)
+        {
+            if (dataset->Civs[SelectedCivs[loop]].UnitPointers[UnitIDs.front()] == 0)
+                SelectedCivs.erase(SelectedCivs.begin() + loop);
+        }
+    }
+    else
+    {
+        SelectedCivs.clear();
     }
 
     ListUnitDamageGraphics();
     ListUnitAttacks();
     ListUnitArmors();
-    if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2)) // AoK, TC, SWGB or CC
+    // AoK, TC, SWGB or CC
+    if (selections > 0 && GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
         genie::UnitHeader * UnitHeadPointer;
-        for(auto sel = selections; sel--> 0;)
+        for(size_t sel = selections; sel--> 0;)
         {
             UnitHeadPointer = &dataset->UnitHeaders[UnitIDs[sel]];
 
@@ -5887,6 +5896,7 @@ void AGE_Frame::CreateUnitControls()
         if(!Units_ListV->GetSelectedCount() || copies.Dat.UnitExists.size() == 0) return;
 
         wxBusyCursor WaitCursor;
+        size_t numUnitCopies = copies.Dat.UnitCopies.front().size();
         if(Paste11)
         {
             if(Paste11Check(UnitIDs.size(), copies.Dat.UnitExists.front().size()))
@@ -5903,7 +5913,7 @@ void AGE_Frame::CreateUnitControls()
                 PasteUnits(true);
                 for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
                 {
-                    for(size_t loop = 0; loop < copies.Dat.UnitCopies.front().size(); ++loop)
+                    for(size_t loop = 0; loop < numUnitCopies; ++loop)
                     {
                         size_t paste_pos = UnitIDs[loop];
                         dataset->Civs[civ].UnitPointers[paste_pos] = copies.Dat.UnitExists[civ][loop];
@@ -5929,16 +5939,16 @@ void AGE_Frame::CreateUnitControls()
                 }
             }
 
-            if(copies.Dat.UnitCopies.front().size()+UnitIDs.front() > dataset->Civs.front().Units.size())
+            if(numUnitCopies+UnitIDs.front() > dataset->Civs.front().Units.size())
             for(size_t civ = 0; civ < dataset->Civs.size(); ++civ) // Resize if not enough room.
             {
-                dataset->Civs[civ].Units.resize(copies.Dat.UnitCopies.front().size()+UnitIDs.front());
-                dataset->Civs[civ].UnitPointers.resize(copies.Dat.UnitCopies.front().size()+UnitIDs.front());
+                dataset->Civs[civ].Units.resize(numUnitCopies+UnitIDs.front());
+                dataset->Civs[civ].UnitPointers.resize(numUnitCopies+UnitIDs.front());
             }
             PasteUnits();
             for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
             {
-                for(size_t loop = 0; loop < copies.Dat.UnitCopies.front().size(); ++loop)
+                for(size_t loop = 0; loop < numUnitCopies; ++loop)
                 {
                     size_t paste_pos = UnitIDs.front() + loop;
                     dataset->Civs[civ].UnitPointers[paste_pos] = copies.Dat.UnitExists[civ][loop];
@@ -5953,8 +5963,8 @@ void AGE_Frame::CreateUnitControls()
         ListUnits(UnitCivID);
 
         SetStatusText("Unit special paste", 2);
-        SetStatusText("Edits: "+lexical_cast<std::string>(popUp.unSaved)+" + "+FormatInt(copies.Dat.UnitCopies.front().size()), 3);
-        popUp.unSaved += copies.Dat.UnitCopies.front().size();
+        SetStatusText(wxString::Format("Edits: %zu + %zu", popUp.unSaved, numUnitCopies), 3);
+        popUp.unSaved += numUnitCopies;
     });
 
     Units_PasteInsert->Bind(wxEVT_BUTTON, [this](wxCommandEvent&)
@@ -5974,15 +5984,16 @@ void AGE_Frame::CreateUnitControls()
         }
 
         genie::Unit Temp2;
-        for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+        size_t numUnitCopies = copies.Dat.UnitCopies.front().size();
+        for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
-            dataset->Civs[civ].Units.insert(dataset->Civs[civ].Units.begin() + UnitIDs.front(), copies.Dat.UnitCopies.front().size(), Temp2);
-            dataset->Civs[civ].UnitPointers.insert(dataset->Civs[civ].UnitPointers.begin() + UnitIDs.front(), copies.Dat.UnitCopies.front().size(), 0);
+            dataset->Civs[civ].Units.insert(dataset->Civs[civ].Units.begin() + UnitIDs.front(), numUnitCopies, Temp2);
+            dataset->Civs[civ].UnitPointers.insert(dataset->Civs[civ].UnitPointers.begin() + UnitIDs.front(), numUnitCopies, 0);
         }
         PasteUnits();
-        for(short civ = 0; civ < dataset->Civs.size(); ++civ)
+        for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
-            for(size_t loop = 0; loop < copies.Dat.UnitCopies.front().size(); ++loop)
+            for(size_t loop = 0; loop < numUnitCopies; ++loop)
             {
                 dataset->Civs[civ].UnitPointers[UnitIDs.front()+loop] = (int32_t)copies.Dat.UnitExists[civ][loop];
             }

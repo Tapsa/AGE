@@ -161,73 +161,73 @@ void AGE_Frame::InitGraphics(bool all)
 
 void AGE_Frame::OnGraphicSelect(wxCommandEvent &event)
 {
-    auto selections = Graphics_Graphics_ListV->GetSelectedCount();
+    size_t selections = Graphics_Graphics_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    for(auto &box: uiGroupGraphic) box->clear();
+    for (auto &box : uiGroupGraphic) box->clear();
     Graphics_ID->clear();
-    if(selections > 0)
+    getSelectedItems(selections, Graphics_Graphics_ListV, GraphicIDs);
+
+    genie::Graphic *GraphicPointer = 0;
+    for (auto sel = selections; sel-- > 0;)
     {
-        getSelectedItems(selections, Graphics_Graphics_ListV, GraphicIDs);
+        if (GenieVersion >= genie::GV_AoE && !dataset->GraphicPointers[GraphicIDs[sel]]) continue;
+        GraphicPointer = &dataset->Graphics[GraphicIDs[sel]];
 
-        genie::Graphic * GraphicPointer = 0;
-        for(auto sel = selections; sel--> 0;)
+        Graphics_Name->prepend(&GraphicPointer->Name);
+        Graphics_FileName->prepend(&GraphicPointer->FileName);
+        if (GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
         {
-            if(GenieVersion >= genie::GV_AoE && !dataset->GraphicPointers[GraphicIDs[sel]]) continue;
-            GraphicPointer = &dataset->Graphics[GraphicIDs[sel]];
-
-            Graphics_Name->prepend(&GraphicPointer->Name);
-            Graphics_FileName->prepend(&GraphicPointer->FileName);
-            if(GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
-            {
-                Graphics_FirstFrame->prepend(&GraphicPointer->FirstFrame);
-            }
-            Graphics_SLP->prepend(&GraphicPointer->SLP);
-            Graphics_Loaded->prepend(&GraphicPointer->IsLoaded);
-            Graphics_ColorFlag->prepend(&GraphicPointer->OldColorFlag);
-            Graphics_DrawLevel->prepend(&GraphicPointer->Layer);
-            Graphics_PlayerColor->prepend(&GraphicPointer->PlayerColor);
-            Graphics_TransparentPicking->prepend(&GraphicPointer->TransparentSelection);
-            for(size_t loop = 0; loop < 4; ++loop)
-            {
-                Graphics_Coordinates[loop]->prepend(&GraphicPointer->Coordinates[loop]);
-            }
-            Graphics_SoundID->prepend(&GraphicPointer->SoundID);
-            if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
-            {
-                Graphics_ParticleEffectName->prepend(&GraphicPointer->ParticleEffectName);
-                Graphics_WwiseSoundID->prepend(&GraphicPointer->WwiseSoundID);
-            }
-            Graphics_AngleSoundsUsed->prepend(&GraphicPointer->AngleSoundsUsed);
-            Graphics_FrameCount->prepend(&GraphicPointer->FrameCount);
-            Graphics_AngleCount->prepend(&GraphicPointer->AngleCount);
-            Graphics_SpeedMultiplier->prepend(&GraphicPointer->SpeedMultiplier);
-            Graphics_FrameDuration->prepend(&GraphicPointer->AnimationDuration);
-            Graphics_ReplayDelay->prepend(&GraphicPointer->ReplayDelay);
-            Graphics_SequenceType->prepend(&GraphicPointer->SequenceType);
-            Graphics_ID->prepend(&GraphicPointer->ID);
-            Graphics_MirroringMode->prepend(&GraphicPointer->MirroringMode);
-            if(GenieVersion >= genie::GV_AoKB)
+            Graphics_FirstFrame->prepend(&GraphicPointer->FirstFrame);
+        }
+        Graphics_SLP->prepend(&GraphicPointer->SLP);
+        Graphics_Loaded->prepend(&GraphicPointer->IsLoaded);
+        Graphics_ColorFlag->prepend(&GraphicPointer->OldColorFlag);
+        Graphics_DrawLevel->prepend(&GraphicPointer->Layer);
+        Graphics_PlayerColor->prepend(&GraphicPointer->PlayerColor);
+        Graphics_TransparentPicking->prepend(&GraphicPointer->TransparentSelection);
+        for (size_t loop = 0; loop < 4; ++loop)
+        {
+            Graphics_Coordinates[loop]->prepend(&GraphicPointer->Coordinates[loop]);
+        }
+        Graphics_SoundID->prepend(&GraphicPointer->SoundID);
+        if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+        {
+            Graphics_ParticleEffectName->prepend(&GraphicPointer->ParticleEffectName);
+            Graphics_WwiseSoundID->prepend(&GraphicPointer->WwiseSoundID);
+        }
+        Graphics_AngleSoundsUsed->prepend(&GraphicPointer->AngleSoundsUsed);
+        Graphics_FrameCount->prepend(&GraphicPointer->FrameCount);
+        Graphics_AngleCount->prepend(&GraphicPointer->AngleCount);
+        Graphics_SpeedMultiplier->prepend(&GraphicPointer->SpeedMultiplier);
+        Graphics_FrameDuration->prepend(&GraphicPointer->AnimationDuration);
+        Graphics_ReplayDelay->prepend(&GraphicPointer->ReplayDelay);
+        Graphics_SequenceType->prepend(&GraphicPointer->SequenceType);
+        Graphics_ID->prepend(&GraphicPointer->ID);
+        Graphics_MirroringMode->prepend(&GraphicPointer->MirroringMode);
+        if (GenieVersion >= genie::GV_AoKB)
             Graphics_EditorFlag->prepend(&GraphicPointer->EditorFlag);
-        }
-        SetStatusText("Selections: "+lexical_cast<std::string>(GraphicIDs.size())+"    Selected graphic: "+lexical_cast<std::string>(GraphicIDs.front()), 0);
+    }
+    SetStatusText(wxString::Format("Selections: %zu    Selected graphic: %d",
+        selections, selections > 0 ? GraphicIDs.front() : -1), 0);
 
+    if (selections > 0)
+    {
         selections = GenieVersion < genie::GV_AoE ? 1 : dataset->GraphicPointers[GraphicIDs.front()];
-
-        if(GraphicPointer)
-        {
-            Graphics_MirroringMode->SetToolTip("If used, should be " + lexical_cast<std::string>((GraphicPointer->AngleCount >> 1) + (GraphicPointer->AngleCount >> 2)) + " for this sprite.\n" + MirrorHelp);
-            gallery.datID = GraphicIDs.front();
-            gallery.slpID = RELOAD; // Force reloading delta graphics.
-        }
+    }
+    if (GraphicPointer)
+    {
+        Graphics_MirroringMode->SetToolTip("If used, should be " + lexical_cast<std::string>((GraphicPointer->AngleCount >> 1) + (GraphicPointer->AngleCount >> 2)) + " for this sprite.\n" + MirrorHelp);
+        gallery.datID = GraphicIDs.front();
+        gallery.reload(); // Force reloading delta graphics.
     }
     AGE_SLP::setbearing = 1u;
-    for(auto &box: uiGroupGraphic) box->update();
+    for (auto &box : uiGroupGraphic) box->update();
 
     Graphics_ID->refill();
     Deltas_Add->Enable(selections);
     ListGraphicDeltas();
     ListGraphicAngleSounds();
-    if(slp_window) slp_view->Refresh();
+    if (slp_window) slp_view->Refresh();
 }
 
 void AGE_Frame::CalcDrawCenter(wxWindowBase *canvas, int &centerX, int &centerY)
@@ -243,6 +243,11 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     wxBufferedPaintDC dc(canvas);
     dc.SetBackground(slp_background_brush);
     dc.Clear();
+    if (!dataset)
+    {
+        // Nothing to draw.
+        return;
+    }
     dc.SetUserScale(slp_zoom, slp_zoom);
     int centerX, centerY, text_pos = 5 / slp_zoom;
     CalcDrawCenter(canvas, centerX, centerY);
@@ -263,7 +268,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         if(AGE_SLP::currentDisplay != AGE_SLP::SHOW::GRAPHIC)
         {
             AGE_SLP::currentDisplay = AGE_SLP::SHOW::GRAPHIC;
-            gallery.slpID = RELOAD;
+            gallery.reload();
 
             slp_stack->Enable(false);
             slp_annex->Enable(false);
@@ -277,7 +282,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         if(AGE_SLP::currentDisplay != AGE_SLP::SHOW::UNIT)
         {
             AGE_SLP::currentDisplay = AGE_SLP::SHOW::UNIT;
-            museum.slpID = RELOAD;
+            museum.reload();
 
             slp_stack->Enable(true);
             slp_annex->Enable(true);
@@ -288,7 +293,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     }
     if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
     {
-        if(GraphicIDs.size() == 0 || dataset->Graphics[gallery.datID].FrameCount == 0)
+        if (gallery.datID >= dataset->Graphics.size() || dataset->Graphics[gallery.datID].FrameCount == 0)
         {
             dc.DrawLabel("No frames", wxRect(text_pos, text_pos, 100, 40));
             return;
@@ -327,6 +332,10 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     }
     else if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::UNIT)
     {
+        if (UnitCivID >= dataset->Civs.size())
+        {
+            return;
+        }
         Pixels collision, clearance, selection;
         if(UnitIDs.size())
         {
@@ -475,7 +484,7 @@ void AGE_Frame::initSounds(AGE_SLP &art, unsigned sound_num, size_t slot)
     if(sound_num < dataset->Sounds.size() && dataset->Sounds[sound_num].Items.size())
     {
         // TODO: Handle randomization, civ sounds.
-        auto &sound_item = dataset->Sounds[sound_num].Items[0];
+        genie::SoundItem &sound_item = dataset->Sounds[sound_num].Items[0];
         if(LooseHD)
         {
             std::string soundname = GG::LoadSound(soundfolders, sound_item.FileName, sound_item.ResourceID);
@@ -935,7 +944,7 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     AddToList(dataset->Graphics[GraphicIDs.front()].Deltas);
-    gallery.slpID = RELOAD;
+    gallery.reload();
     ListGraphicDeltas();
     if(slp_window && ShowDeltas) slp_view->Refresh();
 }
@@ -947,7 +956,7 @@ void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs.front());
-    gallery.slpID = RELOAD;
+    gallery.reload();
     ListGraphicDeltas();
     if(slp_window && ShowDeltas) slp_view->Refresh();
 }
@@ -959,7 +968,7 @@ void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs);
-    gallery.slpID = RELOAD;
+    gallery.reload();
     ListGraphicDeltas();
     if(slp_window && ShowDeltas) slp_view->Refresh();
 }
@@ -981,7 +990,7 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs, copies.GraphicDelta);
-    gallery.slpID = RELOAD;
+    gallery.reload();
     ListGraphicDeltas();
     if(slp_window && ShowDeltas) slp_view->Refresh();
 }
@@ -993,7 +1002,7 @@ void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs.front(), copies.GraphicDelta);
-    gallery.slpID = RELOAD;
+    gallery.reload();
     ListGraphicDeltas();
     if(slp_window && ShowDeltas) slp_view->Refresh();
 }
@@ -1566,7 +1575,8 @@ void AGE_Frame::CreateGraphicsControls()
                 AGE_SLP source;
                 source.slpID = dataset->Graphics[i].SLP;
                 source.filename = dataset->Graphics[i].FileName;
-                if(!LoadSLP(&source)) continue;
+                if (!LoadSLP(&source) || !source.slp->isSLP()) continue;
+                genie::SlpFile *slp = static_cast<genie::SlpFile *>(source.slp.get());
                 size_t north = dataset->Graphics[i].MirroringMode;
                 wxString name = path + source.filename + ".slp";
 
@@ -1602,7 +1612,7 @@ void AGE_Frame::CreateGraphicsControls()
                             size_t frame_pos = a * frames + f;
                             try
                             {
-                                genie::SlpFramePtr src_frame = source.slp->getFrame(source.frameID);
+                                genie::SlpFramePtr src_frame = slp->getFrame(source.frameID);
                                 if(source.flip)
                                 {
                                     target.setFrame(frame_pos, src_frame->mirrorX());
@@ -1627,14 +1637,14 @@ void AGE_Frame::CreateGraphicsControls()
                     {
                         // Set correct total frame count.
                         target.setFrameCount(angles * frames);
-                        target.version = source.slp->version;
-                        target.comment = source.slp->comment;
+                        target.version = slp->version;
+                        target.comment = slp->comment;
                         target.saveAs(name.c_str());
                     }
                 }
                 else // Nothing to mirror, save as is.
                 {
-                    source.slp->saveAs(name.c_str());
+                    slp->saveAs(name.c_str());
                 }
             }
         }
@@ -1813,7 +1823,7 @@ void AGE_Frame::CreateGraphicsControls()
                 LINE_PARSED:;
             }
             // In case the currently viewed graphics was changed.
-            gallery.slpID = RELOAD;
+            gallery.reload();
             ListGraphicDeltas();
             if(slp_window)
             {
@@ -1837,7 +1847,7 @@ void AGE_Frame::CreateGraphicsControls()
     GraphicDeltas_GraphicID_ComboBox->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
         static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
-        gallery.slpID = RELOAD;
+        gallery.reload();
         ListGraphicDeltas();
         if (slp_window && ShowDeltas)
         {
@@ -1885,7 +1895,7 @@ void AGE_Frame::CreateGraphicsControls()
         event.Skip();
         if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
         {
-            gallery.slpID = RELOAD;
+            gallery.reload();
             ListGraphicDeltas();
             if (slp_window && ShowDeltas)
             {
@@ -1896,7 +1906,7 @@ void AGE_Frame::CreateGraphicsControls()
     GraphicDeltas_GraphicID->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
     {
         static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
-        gallery.slpID = RELOAD;
+        gallery.reload();
         ListGraphicDeltas();
         if (slp_window && ShowDeltas)
         {
@@ -2010,7 +2020,7 @@ void AGE_Frame::ResizeAngles()
 
 void AGE_Frame::UpdateGraphicsView(void)
 {
-    gallery.slpID = RELOAD;
+    gallery.reload();
     if (slp_window)
     {
         slp_view->Refresh();

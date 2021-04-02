@@ -23,6 +23,7 @@ OpenSaveDialog::OpenSaveDialog(wxWindow *parent, const wxString &title, wxDialog
 
     Button_DefaultAoE = new wxButton(slave, wxID_ANY, "Age of Empires");
     Button_DefaultRoR = new wxButton(slave, wxID_ANY, "Rise of Rome");
+    Button_DefaultDE1 = new wxButton(slave, wxID_ANY, "Age of Empires: Definitive Edition");
     Button_DefaultAoK = new wxButton(slave, wxID_ANY, "Age of Kings");
     Button_DefaultTC = new wxButton(slave, wxID_ANY, "The Conquerors");
     Button_DefaultAoKHD = new wxButton(slave, wxID_ANY, "Age of Empires II: HD");
@@ -43,6 +44,7 @@ OpenSaveDialog::OpenSaveDialog(wxWindow *parent, const wxString &title, wxDialog
     Defaults->Add(Button_DefaultAP, 0, wxEXPAND | wxRIGHT, 50);
     Defaults_StarWars->Add(Button_DefaultSWGB, 0, wxEXPAND | wxLEFT, 50);
     Defaults_StarWars->Add(Button_DefaultCC, 0, wxEXPAND);
+    Defaults_StarWars->Add(Button_DefaultDE1, 0, wxEXPAND);
     Defaults_StarWars->Add(Button_DefaultDE2, 0, wxEXPAND);
 
     SolidText *Text_GenieVer = new SolidText(slave, "      Genie version:");
@@ -109,6 +111,7 @@ OpenSaveDialog::OpenSaveDialog(wxWindow *parent, const wxString &title, wxDialog
 
     Button_DefaultAoE->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &OpenSaveDialog::OnDefaultAoE, this);
     Button_DefaultRoR->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &OpenSaveDialog::OnDefaultRoR, this);
+    Button_DefaultDE1->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &OpenSaveDialog::OnDefaultDE1, this);
     Button_DefaultAoK->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &OpenSaveDialog::OnDefaultAoK, this);
     Button_DefaultTC->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &OpenSaveDialog::OnDefaultTC, this);
     Button_DefaultAoKHD->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &OpenSaveDialog::OnDefaultAoKHD, this);
@@ -191,6 +194,22 @@ void OpenSaveDialog::OnDefaultRoR(wxCommandEvent &event)
     CheckBox_LangX1FileLocation->SetValue(true);
     CheckBox_LangX1P1FileLocation->SetValue(false);
     CheckBox_LangWrite->Enable(true);
+}
+
+void OpenSaveDialog::OnDefaultDE1(wxCommandEvent &event)
+{
+    OnDefault("\\Steam\\steamapps\\common\\AoEDE");
+    wxString locale = LanguageBox->GetValue();
+
+    ComboBox_GenieVer->SetSelection(EV_Tapsa);
+    CheckBox_LangWrite->Enable(false);
+    if (!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Data\\empires.dat");
+    Path_LangFileLocation->SetPath(game_path + "\\Data\\Localization\\" + locale + "\\strings.txt");
+    Path_LangX1FileLocation->SetPath(wxEmptyString);
+    Path_LangX1P1FileLocation->SetPath(wxEmptyString);
+    Radio_DatFileLocation->SetValue(true);
+    CheckBox_LangX1FileLocation->SetValue(false);
+    CheckBox_LangX1P1FileLocation->SetValue(false);
 }
 
 void OpenSaveDialog::OnDefaultAoK(wxCommandEvent &event)

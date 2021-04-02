@@ -1,5 +1,7 @@
 #include "Common.h"
 #include "Loaders.h"
+#include "genie/resource/SmpFile.h"
+#include "genie/resource/SmxFile.h"
 
 namespace GG
 {
@@ -51,6 +53,9 @@ void LoadPalettes(std::vector<std::vector<genie::Color>> &palettes, const wxStri
 
 void LoadPlayerPalette(std::vector<std::vector<genie::Color>> &palettes, const wxString &path)
 {
+    if (wxEmptyString == path)
+        return;
+
     genie::PalFile pal;
     try
     {
@@ -94,9 +99,9 @@ const unsigned char* LoadSound(std::vector<genie::DrsFile*> &datafiles, int resn
     return 0;
 }
 
-genie::SlpFilePtr LoadSLP(genie::DrsFile &pack, int resnum)
+genie::SpriteFilePtr LoadSLP(genie::DrsFile &pack, int resnum)
 {
-    genie::SlpFilePtr slp = pack.getSlpFile(resnum);
+    genie::SpriteFilePtr slp = pack.getSlpFile(resnum);
     if(slp)
     {
         // Takes care of unloading excess SLPs.
@@ -105,16 +110,15 @@ genie::SlpFilePtr LoadSLP(genie::DrsFile &pack, int resnum)
     return slp;
 }
 
-genie::SlpFilePtr LoadSLP(const wxString &filename)
+genie::SpriteFilePtr LoadSLP(const wxString &filename)
 {
-    genie::SlpFilePtr slp = std::static_pointer_cast<genie::SlpFile>(slp_cache.use(filename));
+    genie::SpriteFilePtr slp = slp_cache.use(filename);
     if(!slp)
     {
         try
         {
             slp.reset(new genie::SlpFile());
-            slp->load(filename.c_str());
-            slp->freelock();
+            slp->loadAndRelease(filename.c_str());
             slp_cache.put(filename, slp);
         }
         catch(const std::ios_base::failure&)
@@ -125,16 +129,15 @@ genie::SlpFilePtr LoadSLP(const wxString &filename)
     return slp;
 }
 
-genie::SmpFilePtr LoadSMP(const wxString &filename)
+genie::SpriteFilePtr LoadSMP(const wxString &filename)
 {
-    genie::SmpFilePtr smp = std::static_pointer_cast<genie::SmpFile>(slp_cache.use(filename));
+    genie::SpriteFilePtr smp = slp_cache.use(filename);
     if(!smp)
     {
         try
         {
             smp.reset(new genie::SmpFile());
-            smp->load(filename.c_str());
-            smp->freelock();
+            smp->loadAndRelease(filename.c_str());
             slp_cache.put(filename, smp);
         }
         catch(const std::ios_base::failure&)
@@ -145,16 +148,15 @@ genie::SmpFilePtr LoadSMP(const wxString &filename)
     return smp;
 }
 
-genie::SmxFilePtr LoadSMX(const wxString &filename)
+genie::SpriteFilePtr LoadSMX(const wxString &filename)
 {
-    genie::SmxFilePtr smx = std::static_pointer_cast<genie::SmxFile>(slp_cache.use(filename));
+    genie::SpriteFilePtr smx = slp_cache.use(filename);
     if(!smx)
     {
         try
         {
             smx.reset(new genie::SmxFile());
-            smx->load(filename.c_str());
-            smx->freelock();
+            smx->loadAndRelease(filename.c_str());
             slp_cache.put(filename, smx);
         }
         catch(const std::ios_base::failure&)

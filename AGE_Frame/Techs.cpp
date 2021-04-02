@@ -115,19 +115,20 @@ void AGE_Frame::InitTechs(bool all)
 
 void AGE_Frame::OnEffectSelect(wxCommandEvent &event)
 {
-    auto selections = Techs_ListV->GetSelectedCount();
+    size_t selections = Techs_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Techs_ListV, TechIDs);
 
     Techs_Name->clear();
 
     genie::Effect * TechPointer;
-    for(auto loop = selections; loop--> 0;)
+    for(size_t loop = selections; loop--> 0;)
     {
         TechPointer = &dataset->Effects[TechIDs[loop]];
         Techs_Name->prepend(&TechPointer->Name);
     }
-    SetStatusText("Selections: "+lexical_cast<std::string>(selections)+"    Selected effect: "+lexical_cast<std::string>(TechIDs.front()), 0);
+    SetStatusText(wxString::Format("Selections: %zu    Selected effect: %d",
+        selections, selections > 0 ? TechIDs.front() : -1), 0);
 
     Techs_Name->update();
     ListEffectCmds();
@@ -458,7 +459,7 @@ void AGE_Frame::ListEffectCmds()
 
     Techs_Effects_ListV->Sweep();
 
-    if(dataset->Effects.size())
+    if (dataset->Effects.size() && TechIDs.size())
     for(size_t loop = 0; loop < dataset->Effects[TechIDs.front()].EffectCommands.size(); ++loop)
     {
         wxString Name = FormatInt(loop)+" - "+GetEffectCmdName(loop, TechIDs.front());
