@@ -41,6 +41,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     font.SetPointSize(8);
     SetIcon(wxIcon(AppIcon32_xpm));
     SetFont(font);
+    displayScaling = FromDIP(1000) / 1000.f;
     wxBusyCursor WaitCursor;
     TabBar_Main = new wxNotebook(this, eTabBar);
     AGE_Frame::openEditors[window] = this;
@@ -132,14 +133,14 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
         GG::cache_depth = temp;
     }
 
-    float scale = FromDIP(1000) / 1000.f * boxWidthMultiplier;
-    if (scale > 1.f)
+    float boxWidthScaling = boxWidthMultiplier * displayScaling;
+    if (boxWidthScaling > 1.f)
     {
-        AGETextCtrl::SMALL *= scale;
-        AGETextCtrl::MEDIUM *= scale;
-        AGETextCtrl::NORMAL *= scale;
-        AGETextCtrl::LARGE *= scale;
-        AGETextCtrl::GIANT *= scale;
+        AGETextCtrl::SMALL = 50 * boxWidthScaling;
+        AGETextCtrl::MEDIUM = 70 * boxWidthScaling;
+        AGETextCtrl::NORMAL = 100 * boxWidthScaling;
+        AGETextCtrl::LARGE = 150 * boxWidthScaling;
+        AGETextCtrl::GIANT = 200 * boxWidthScaling;
     }
 
     wxColour back(ViewBackR, ViewBackG, ViewBackB);
@@ -275,7 +276,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     TabBar_Main->AddPage(Tab_Unknown, "Maps");
     TabBar_Main->ChangeSelection(4);
 
-    FixSize(scale);
+    FixSize(displayScaling);
 
     Bind(wxEVT_CLOSE_WINDOW, &AGE_Frame::OnExit, this);
     Bind(wxEVT_IDLE, [this](wxIdleEvent &)

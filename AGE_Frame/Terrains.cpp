@@ -568,7 +568,7 @@ void AGE_Frame::CreateTerrainControls()
         Terrains_Terrains_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
         Terrains_SearchFilters[loop] = new AGEComboBox(Tab_Terrains, &terrain_filters);
     }
-    Terrains_Terrains_ListV = new ProperList(Tab_Terrains, wxSize(200, 100));
+    Terrains_Terrains_ListV = new ProperList(Tab_Terrains, ASize(200, 100));
     Terrains_UsedCountHolder = new wxBoxSizer(wxHORIZONTAL);
     Terrains_UsedCountText = new SolidText(Tab_Terrains, " Terrains Used *");
     Terrains_UsedCount = new NumberControl(CShort, Tab_Terrains, this, nullptr, false);
@@ -674,7 +674,7 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_Borders = new wxStaticBoxSizer(wxVERTICAL, Terrains_Scroller, "Borders");
     Terrains_Borders_Search = new wxTextCtrl(Terrains_Scroller, wxID_ANY);
     Terrains_Borders_Search_R = new wxTextCtrl(Terrains_Scroller, wxID_ANY);
-    Terrains_Borders_ListV = new ProperList(Terrains_Scroller, wxSize(200, 250));
+    Terrains_Borders_ListV = new ProperList(Terrains_Scroller, ASize(200, 250));
     Terrains_Border = new NumberControl(CShort, Terrains_Scroller, this, nullptr, false);
     Terrains_Border_ComboBox = new LinkedComboBox(Terrains_Scroller, Terrains_Border, &border_names, false);
     TerrainBorderComboBoxList.push_back(Terrains_Border_ComboBox);

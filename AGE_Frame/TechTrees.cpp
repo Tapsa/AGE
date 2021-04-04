@@ -2263,7 +2263,7 @@ void AGE_List32Box::CreateControls(AGE_Frame* frame, DelayedMessageRelay* popUp,
     ItemList = new wxStaticBoxSizer(wxVERTICAL, scroller, listName);
     Search = new wxTextCtrl(scroller, wxID_ANY);
     SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
-    List = new ProperList(scroller, wxSize(10, 100));
+    List = new ProperList(scroller, frame->ASize(10, 100));
     Item = new NumberControl(CLong, scroller, frame, nullptr, false);
     ItemCombo = new LinkedComboBox(scroller, Item, choices, false);
     Buttons = new wxGridSizer(3, 0, 0);
@@ -2302,7 +2302,7 @@ void AGE_AreaTT84::CreateControls(AGE_Frame* frame, DelayedMessageRelay* popUp, 
 
     Search = new wxTextCtrl(scroller, wxID_ANY);
     SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
-    List = new ProperList(scroller, wxSize(10, 100));
+    List = new ProperList(scroller, frame->ASize(10, 100));
     Item_H = new wxBoxSizer(wxHORIZONTAL);
     Item = new NumberControl(CLong, scroller, frame, nullptr, false);
     ItemCombo = new LinkedComboBox(scroller, Item, choices, false);
@@ -2350,7 +2350,7 @@ void AGE_AreaTT31020::CreateControls(AGE_Frame* frame, DelayedMessageRelay* popU
 
     Search = new wxTextCtrl(scroller, wxID_ANY);
     SearchRecursive = new wxTextCtrl(scroller, wxID_ANY);
-    List = new ProperList(scroller, wxSize(10, 100));
+    List = new ProperList(scroller, frame->ASize(10, 100));
     Unknowns_H = new wxBoxSizer(wxHORIZONTAL);
     Unknown1 = new NumberControl(CUByte, scroller, frame, nullptr, false, AGETextCtrl::SMALL);
     Unknown2 = new NumberControl(CUByte, scroller, frame, nullptr, false, AGETextCtrl::SMALL);
@@ -2442,7 +2442,7 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_MainList_Researches = new wxBoxSizer(wxVERTICAL);
     TechTrees_MainList_Ages_Search = new wxTextCtrl(Tab_TechTreeAges, wxID_ANY);
     TechTrees_MainList_Ages_Search_R = new wxTextCtrl(Tab_TechTreeAges, wxID_ANY);
-    TechTrees_MainList_Ages_ListV = new ProperList(Tab_TechTreeAges, wxSize(200, 300));
+    TechTrees_MainList_Ages_ListV = new ProperList(Tab_TechTreeAges, ASize(200, 300));
     TechTrees_MainList_Ages_Buttons = new wxGridSizer(3, 0, 0);
     TechTrees_MainList_Ages_Add = new wxButton(Tab_TechTreeAges, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     TechTrees_MainList_Ages_Insert = new wxButton(Tab_TechTreeAges, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -2486,7 +2486,7 @@ void AGE_Frame::CreateTechTreeControls()
         TechTrees_MainList_Buildings_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
         TechTrees_MainList_Buildings_SearchFilters[loop] = new AGEComboBox(Tab_TechTreeBuildings, &tt_building_filters);
     }
-    TechTrees_MainList_Buildings_ListV = new ProperList(Tab_TechTreeBuildings, wxSize(200, 300));
+    TechTrees_MainList_Buildings_ListV = new ProperList(Tab_TechTreeBuildings, ASize(200, 300));
     TechTrees_MainList_Buildings_Buttons = new wxGridSizer(3, 0, 0);
     TechTrees_MainList_Buildings_Add = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     TechTrees_MainList_Buildings_Insert = new wxButton(Tab_TechTreeBuildings, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -2552,7 +2552,7 @@ void AGE_Frame::CreateTechTreeControls()
         TechTrees_MainList_Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
         TechTrees_MainList_Units_SearchFilters[loop] = new AGEComboBox(Tab_TechTreeUnits, &tt_unit_filters);
     }
-    TechTrees_MainList_Units_ListV = new ProperList(Tab_TechTreeUnits, wxSize(200, 300));
+    TechTrees_MainList_Units_ListV = new ProperList(Tab_TechTreeUnits, ASize(200, 300));
     TechTrees_MainList_Units_Buttons = new wxGridSizer(3, 0, 0);
     TechTrees_MainList_Units_Add = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     TechTrees_MainList_Units_Insert = new wxButton(Tab_TechTreeUnits, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -2616,7 +2616,7 @@ void AGE_Frame::CreateTechTreeControls()
         TechTrees_MainList_Researches_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
         TechTrees_MainList_Researches_SearchFilters[loop] = new AGEComboBox(Tab_TechTreeResearches, &tt_research_filters);
     }
-    TechTrees_MainList_Researches_ListV = new ProperList(Tab_TechTreeResearches, wxSize(200, 300));
+    TechTrees_MainList_Researches_ListV = new ProperList(Tab_TechTreeResearches, ASize(200, 300));
     TechTrees_MainList_Researches_Buttons = new wxGridSizer(3, 0, 0);
     TechTrees_MainList_Researches_Add = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     TechTrees_MainList_Researches_Insert = new wxButton(Tab_TechTreeResearches, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));

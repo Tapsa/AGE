@@ -3191,7 +3191,7 @@ void AGE_Frame::CreateUnitControls()
         Units_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
         Units_SearchFilters[loop] = new AGEComboBox(Tab_Units, &unit_filters, AGETextCtrl::LARGE);
     }
-    Units_ListV = new ProperList(Tab_Units, wxSize(200, 100));
+    Units_ListV = new ProperList(Tab_Units, ASize(200, 100));
     wxGridSizer *Units_Buttons = new wxGridSizer(3, 0, 0);
     wxBoxSizer *Units_Buttons1 = new wxBoxSizer(wxHORIZONTAL);
     Units_Add = new wxButton(Tab_Units, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
@@ -3675,22 +3675,22 @@ void AGE_Frame::CreateUnitControls()
     Units_LanguageDLLName->SetToolTip("Usual Unit File Pattern for The Conquerors\nName: 5000-5999\n"
         "Creation: Name +1000\nHotkey: Name +11000\nHelp: Name +100000, in file Name +21000\n"
         "Hotkey Text: Name +150000, in file Name +10000\nTech tree: Name +9000");
-    Units_DLL_LanguageName = new TextIndexControl(Units_Scroller, wxSize(AGETextCtrl::GIANT, 25));
+    Units_DLL_LanguageName = new TextIndexControl(Units_Scroller, ASize(200, 25));
     Units_LanguageDLLCreation = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false);
-    Units_DLL_LanguageCreation = new TextIndexControl(Units_Scroller, wxSize(AGETextCtrl::GIANT, 25));
+    Units_DLL_LanguageCreation = new TextIndexControl(Units_Scroller, ASize(200, 25));
     Units_HotKey = new NumberControl(CLong, Units_Scroller, this, &uiGroupUnit, false);
     Units_HotKey->SetToolTip("10000 + Language File Creation (usually)");
-    Units_DLL_HotKey4 = new TextIndexControl(Units_Scroller, wxSize(AGETextCtrl::GIANT, 25));
+    Units_DLL_HotKey4 = new TextIndexControl(Units_Scroller, ASize(200, 25));
     Units_LanguageDLLHelp = new NumberControl(CLong, Units_Scroller, this, &uiGroupUnit, false);
     Units_LanguageDLLHelp->SetToolTip("100000 + Language File Name\nThis is linked to the help text below");
     Units_LanguageDLLConverter[0] = new wxTextCtrl(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
     Units_LanguageDLLConverter[0]->SetToolTip("Language help text in file\nHit enter to get the correction into dat file");
-    Units_DLL_LanguageHelp = new TextIndexControl(Units_Scroller, wxSize(610, 55));
+    Units_DLL_LanguageHelp = new TextIndexControl(Units_Scroller, ASize(610, 55));
     Units_LanguageDLLHotKeyText = new NumberControl(CLong, Units_Scroller, this, &uiGroupUnit, false);
     Units_LanguageDLLHotKeyText->SetToolTip("150000 + Language File Name\nThis seems to be used only in AoE (not RoR)\nThis language line has other purposes in SWGB and CC");
     Units_LanguageDLLConverter[1] = new wxTextCtrl(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
     Units_LanguageDLLConverter[1]->SetToolTip("Language hotkey text in file\nHit enter to get the correction into dat file");
-    Units_DLL_LanguageHKText = new TextIndexControl(Units_Scroller, wxSize(610, 25));
+    Units_DLL_LanguageHKText = new TextIndexControl(Units_Scroller, ASize(610, 25));
 
     wxArrayString choices;
     choices.Add("Stand 1");
@@ -3710,7 +3710,7 @@ void AGE_Frame::CreateUnitControls()
     Units_DamageGraphics_ListArea = new wxBoxSizer(wxVERTICAL);
     Units_DamageGraphics_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
     Units_DamageGraphics_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-    Units_DamageGraphics_ListV = new ProperList(Units_Scroller, wxSize(140, 100));
+    Units_DamageGraphics_ListV = new ProperList(Units_Scroller, ASize(140, 100));
     Units_DamageGraphics_Buttons = new wxGridSizer(3, 0, 0);
     Units_DamageGraphics_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Units_DamageGraphics_Insert = new wxButton(Units_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
@@ -3737,7 +3737,7 @@ void AGE_Frame::CreateUnitControls()
 
     Units_IconID = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false, AGETextCtrl::SMALL);
     Units_IconID->SetToolTip("Download Turtle Pack from AoKH to add more than 127 icons.");
-    Units_IconID_SLP = new APanel(Units_Scroller, wxSize(55, 50));
+    Units_IconID_SLP = new APanel(Units_Scroller, ASize(55, 50));
     Units_IconAngle = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false, AGETextCtrl::SMALL);
     Units_IconAngle->SetToolTip("Effect attribute 17 changes this\n0   Default\n1+ Use icon from 2nd age etc\nIn AoE 1 can be used to set the unit\nhave icon graphics of later ages straight in stone age");
     Units_ChargingGraphic = new NumberControl(CLong, Units_Scroller, this, &uiGroupUnit, false);
@@ -3811,7 +3811,7 @@ void AGE_Frame::CreateUnitControls()
     Units_Attacks_DataArea = new wxBoxSizer(wxVERTICAL);
     Units_Attacks_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
     Units_Attacks_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-    Units_Attacks_ListV = new ProperList(Units_Scroller, wxSize(140, 100));
+    Units_Attacks_ListV = new ProperList(Units_Scroller, ASize(140, 100));
     Units_Attacks_Buttons = new wxGridSizer(3, 0, 0);
     Units_Attacks_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Units_Attacks_Insert = new wxButton(Units_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
@@ -3850,7 +3850,7 @@ void AGE_Frame::CreateUnitControls()
     Units_Armors_DataArea = new wxBoxSizer(wxVERTICAL);
     Units_Armors_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
     Units_Armors_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-    Units_Armors_ListV = new ProperList(Units_Scroller, wxSize(140, 100));
+    Units_Armors_ListV = new ProperList(Units_Scroller, ASize(140, 100));
     Units_Armors_Buttons = new wxGridSizer(3, 0, 0);
     Units_Armors_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Units_Armors_Insert = new wxButton(Units_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
@@ -4277,7 +4277,7 @@ void AGE_Frame::CreateUnitControls()
     Units_UnitHeads_Name = new SolidText(Units_Scroller, "Unit Header");
     Units_Tasks_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
     Units_Tasks_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
-    Units_Tasks_ListV = new ProperList(Units_Scroller, wxSize(140, 190));
+    Units_Tasks_ListV = new ProperList(Units_Scroller, ASize(140, 190));
     Units_Tasks_Buttons = new wxGridSizer(3, 0, 0);
     Units_Tasks_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Units_Tasks_Insert = new wxButton(Units_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));

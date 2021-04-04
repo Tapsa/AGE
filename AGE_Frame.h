@@ -55,7 +55,7 @@ public:
     bool flip = false, is32 = false;
     float beginbearing = 0.f, endbearing = PI2A;
 
-    inline void reload(void) { slpID = -1; lastSlpID = -2; }
+    inline virtual void reload(void) { slpID = -1; lastSlpID = -2; filename = ""; }
     static enum SHOW { NONE, UNIT, GRAPHIC } currentDisplay;
     static unsigned setbearing;
     static float bearing;
@@ -67,6 +67,8 @@ class AGE_SLPs : public AGE_SLP
 public:
     std::multimap<int, AGE_SLP> deltas;
     bool pause = false;
+
+    inline void reload(void) override { deltas.clear(); AGE_SLP::reload(); }
 };
 
 class AGE_Frame;
@@ -148,6 +150,10 @@ class AGE_Frame : public BaseMainFrame
 public:
     AGE_Frame(const wxString &title, short window, wxString aP = wxEmptyString);
     void FixSize(float scale);
+    inline wxSize ASize(int x, int y) const
+    {
+        return wxSize(x * displayScaling, y * displayScaling);
+    }
 
     struct Pixels
     {
@@ -872,7 +878,7 @@ private:
 
 //  Application Variables
 
-    float EditorVersion, slp_zoom = 1, boxWidthMultiplier;
+    float EditorVersion, slp_zoom = 1, boxWidthMultiplier, displayScaling;
     wxString EditorVersionString, slp_extra_info;
     bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, KeepViewOnTop,
         useDynamicName, NeverHideAttributes;

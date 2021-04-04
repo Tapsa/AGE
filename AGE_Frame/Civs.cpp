@@ -387,7 +387,7 @@ void AGE_Frame::CreateCivControls()
     Civs_Civs = new wxStaticBoxSizer(wxVERTICAL, Tab_Civs, "Civilizations");
     Civs_Civs_Search = new wxTextCtrl(Tab_Civs, wxID_ANY);
     Civs_Civs_Search_R = new wxTextCtrl(Tab_Civs, wxID_ANY);
-    Civs_Civs_ListV = new ProperList(Tab_Civs, wxSize(200, 100));
+    Civs_Civs_ListV = new ProperList(Tab_Civs, ASize(200, 100));
     Civs_Add = new wxButton(Tab_Civs, wxID_ANY, "Add *", wxDefaultPosition, wxSize(10, -1));
     Civs_Add->SetToolTip("I highly recommend you to download UserPatch\nfrom xOmicron, if you play The Conquerors.\nWith it you can use added civilizations.\nStar Wars versions can already have more civilizations.");
     Civs_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -435,7 +435,7 @@ void AGE_Frame::CreateCivControls()
     Civs_ResourceValue_Holder = new wxBoxSizer(wxVERTICAL);
     Civs_ResourceValue_Text = new SolidText(Tab_Civs, " Resource Value");
     Civs_ResourceValue = new NumberControl(CFloat, Tab_Civs, this, nullptr, false);
-    Civs_Resources_ListV = new ProperList(Tab_Civs, wxSize(200, 100));
+    Civs_Resources_ListV = new ProperList(Tab_Civs, ASize(200, 100));
     Civs_Resources_Buttons = new wxGridSizer(3, 0, 0);
     Resources_Add = new wxButton(Tab_Civs, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Resources_Insert = new wxButton(Tab_Civs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));

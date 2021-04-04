@@ -406,7 +406,7 @@ void AGE_Frame::CreateResearchControls()
         Research_Research_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
         Research_SearchFilters[loop] = new AGEComboBox(Tab_Research, &research_filters);
     }
-    Research_Research_ListV = new ProperList(Tab_Research, wxSize(200, 100));
+    Research_Research_ListV = new ProperList(Tab_Research, ASize(200, 100));
     Research_Research_Buttons = new wxGridSizer(3, 0, 0);
     Research_Add = new wxButton(Tab_Research, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Research_Insert = new wxButton(Tab_Research, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -429,16 +429,16 @@ void AGE_Frame::CreateResearchControls()
     Research_LangDLLName->SetToolTip("Usual Technology File Pattern for The Conquerors\nName: 7000-7999\n"
         "Description: Name +1000\nHelp: Name +100000, in file Name +21000\n"
         "Tech tree: Name +150000, in file Name +10000");
-    Research_DLL_LangDLLName = new TextIndexControl(Research_Scroller, wxSize(AGETextCtrl::GIANT, 40));
+    Research_DLL_LangDLLName = new TextIndexControl(Research_Scroller, ASize(200, 40));
     Research_LangDLLDescription_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LangDLLDescription_Text = new SolidText(Research_Scroller, " Language File Description");
     Research_LangDLLDescription = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch, false);
-    Research_DLL_LangDLLDescription = new TextIndexControl(Research_Scroller, wxSize(320, 40));
+    Research_DLL_LangDLLDescription = new TextIndexControl(Research_Scroller, ASize(320, 40));
     Research_HotKey_Holder = new wxBoxSizer(wxVERTICAL);
     Research_HotKey_Text = new SolidText(Research_Scroller, " Hotkey *");
     Research_HotKey = new NumberControl(CLong, Research_Scroller, this, &uiGroupResearch, false);
     Research_HotKey->SetToolTip("Gotta be same as hotkey in units.\nNo idea how this works.");
-    Research_DLL_HotKey = new TextIndexControl(Research_Scroller, wxSize(100, 40));
+    Research_DLL_HotKey = new TextIndexControl(Research_Scroller, ASize(100, 40));
 
     Research_LanguageDLLHelp_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LanguageDLLName2_Holder = new wxBoxSizer(wxVERTICAL);
@@ -449,7 +449,7 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLConverter_Text[0] = new SolidText(Research_Scroller, " Help Converter *");
     Research_LanguageDLLConverter[0] = new wxTextCtrl(Research_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
     Research_LanguageDLLConverter[0]->SetToolTip("Language popup text in file\nHit enter to get the correction into dat file");
-    Research_DLL_LanguageDLLHelp = new TextIndexControl(Research_Scroller, wxSize(610, 40));
+    Research_DLL_LanguageDLLHelp = new TextIndexControl(Research_Scroller, ASize(610, 40));
     Research_LanguageDLLName2_Text = new SolidText(Research_Scroller, " Lang File Tech Tree *");
     Research_LanguageDLLName2 = new NumberControl(CLong, Research_Scroller, this, &uiGroupResearch, false);
     Research_LanguageDLLName2->SetToolTip("150000 + Language File Name");
@@ -457,7 +457,7 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLConverter_Text[1] = new SolidText(Research_Scroller, " Tech Tree Converter *");
     Research_LanguageDLLConverter[1] = new wxTextCtrl(Research_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
     Research_LanguageDLLConverter[1]->SetToolTip("Language help text in file\nHit enter to get the correction into dat file");
-    Research_DLL_LanguageDLLName2 = new TextIndexControl(Research_Scroller, wxSize(610, 40));
+    Research_DLL_LanguageDLLName2 = new TextIndexControl(Research_Scroller, ASize(610, 40));
 
     Research_RequiredTechArea_Holder = new wxBoxSizer(wxVERTICAL);
     Research_RequiredTechs_Holder = new wxGridSizer(6, 0, 5);
@@ -487,7 +487,7 @@ void AGE_Frame::CreateResearchControls()
     Research_IconID_Holder = new wxBoxSizer(wxVERTICAL);
     Research_IconID_Text = new SolidText(Research_Scroller, " Icon");
     Research_IconID = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch, false);
-    Research_IconID_SLP = new APanel(Research_Scroller, wxSize(55, 50));
+    Research_IconID_SLP = new APanel(Research_Scroller, ASize(55, 50));
     Research_ButtonID_Holder = new wxBoxSizer(wxVERTICAL);
     Research_ButtonID_Text = new SolidText(Research_Scroller, " Button");
     Research_ButtonID = new NumberControl(CUByte, Research_Scroller, this, &uiGroupResearch);

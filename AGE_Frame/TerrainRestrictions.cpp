@@ -240,7 +240,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
     TerRestrict_TerRestrict = new wxStaticBoxSizer(wxVERTICAL, Tab_TerrainRestrictions, "Terrain Tables");
     TerRestrict_TerRestrict_Search = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
     TerRestrict_TerRestrict_Search_R = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
-    TerRestrict_TerRestrict_ListV = new ProperList(Tab_TerrainRestrictions, wxSize(200, 100));
+    TerRestrict_TerRestrict_ListV = new ProperList(Tab_TerrainRestrictions, ASize(200, 100));
     TerRestrict_Add = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     TerRestrict_Insert = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
     TerRestrict_Delete = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
@@ -252,7 +252,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
     TerRestrict_DataArea = new wxBoxSizer(wxVERTICAL);
     TerRestrict_Terrains_Search = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
     TerRestrict_Terrains_Search_R = new wxTextCtrl(Tab_TerrainRestrictions, wxID_ANY);
-    TerRestrict_Terrains_ListV = new ProperList(Tab_TerrainRestrictions, wxSize(200, 100));
+    TerRestrict_Terrains_ListV = new ProperList(Tab_TerrainRestrictions, ASize(200, 100));
     TerRestrict_Terrains_Buttons = new wxGridSizer(2, 0, 0);
     TerRestrict_Terrains_Copy = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
     TerRestrict_Terrains_Paste = new wxButton(Tab_TerrainRestrictions, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));

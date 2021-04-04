@@ -13,12 +13,17 @@ I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2021.4.4[/b]:
+-Fixed crash when no palettes were loaded.
+-Made SLP view update more reliably.
+-Smoother scrolling.
+-Improvements for high display scaling.
+
 Version [b]2021.4.2[/b]:
 -Added SMX reading support.
 -Fixed reading Age of Empires DE SLP files.
 -DE palette paths are saved in recent list.
 -Improved reading of palettes.
--Made SLP view update more reliably.
 -Fixed some rare crashes when switching data files.
 
 Version [b]2021.3.22[/b]:

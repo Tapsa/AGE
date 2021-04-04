@@ -1131,7 +1131,7 @@ void AGE_Frame::CreateGraphicsControls()
         Graphics_Graphics_Searches[loop] = new wxBoxSizer(wxHORIZONTAL);
         Graphics_SearchFilters[loop] = new AGEComboBox(Tab_Graphics, &graphic_filters);
     }
-    Graphics_Graphics_ListV = new ProperList(Tab_Graphics, wxSize(200, 100));
+    Graphics_Graphics_ListV = new ProperList(Tab_Graphics, ASize(200, 100));
     Graphics_Graphics_Buttons = new wxGridSizer(3, 0, 0);
     Graphics_Add = new wxButton(Tab_Graphics, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Graphics_Insert = new wxButton(Tab_Graphics, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -1244,7 +1244,7 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_Deltas = new wxBoxSizer(wxVERTICAL);
     Graphics_Deltas_Search = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
     Graphics_Deltas_Search_R = new wxTextCtrl(Graphics_Scroller, wxID_ANY);
-    Graphics_Deltas_ListV = new ProperList(Graphics_Scroller, wxSize(140, 140));
+    Graphics_Deltas_ListV = new ProperList(Graphics_Scroller, ASize(140, 140));
     Graphics_Deltas_Buttons = new wxGridSizer(3, 0, 0);
     Deltas_Add = new wxButton(Graphics_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Deltas_Insert = new wxButton(Graphics_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
@@ -1300,7 +1300,7 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_AngleSoundsUsed = new NumberControl(CUByte, Graphics_Scroller, this, &uiGroupGraphic, false);
     Graphics_AngleSoundsUsed_CheckBox = new LinkedCheckBox(Graphics_Scroller, "Used", Graphics_AngleSoundsUsed, false);
     Graphics_AngleSounds = new wxBoxSizer(wxVERTICAL);
-    Graphics_AngleSounds_ListV = new ProperList(Graphics_Scroller, wxSize(240, 140));
+    Graphics_AngleSounds_ListV = new ProperList(Graphics_Scroller, ASize(240, 140));
     wxBoxSizer *AngleSounds_CopySizer = new wxBoxSizer(wxHORIZONTAL);
     AngleSounds_AutoCopy = new wxCheckBox(Graphics_Scroller, wxID_ANY, "Automatically");
     AngleSounds_Copy = new wxButton(Graphics_Scroller, wxID_ANY, "Copy to all", wxDefaultPosition, wxSize(10, -1));
