@@ -473,10 +473,10 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             loadDRS.SetInt(true);
             OnMenuOption(loadDRS);
         }
-        // Load custom palettes
-        GG::LoadPalettes(palettes, PathPalettes);
-        GG::LoadPlayerPalette(pc_palettes, PathPlayerColorPalette);
     }
+    // Load custom palettes
+    GG::LoadPalettes(palettes, PathPalettes);
+    GG::LoadPlayerPalette(pc_palettes, PathPlayerColorPalette);
 
     if(dataset)
     {   // Without these, nothing can be edited.
@@ -2756,7 +2756,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             {
                 wxPoint parentPos = GetPosition();
                 parentPos.x += MinWindowWidth;
-                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, wxSize(512, 600), KeepViewOnTop ? (wxSTAY_ON_TOP | wxDEFAULT_FRAME_STYLE) : wxDEFAULT_FRAME_STYLE);
+                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, ASize(512, 600), KeepViewOnTop ? (wxSTAY_ON_TOP | wxDEFAULT_FRAME_STYLE) : wxDEFAULT_FRAME_STYLE);
                 //slp_window->SetBackgroundStyle(wxBG_STYLE_SYSTEM);
                 slp_window->SetBackgroundColour(wxColour(240, 240, 240));
                 slp_window->SetIcon(wxIcon(Villager32_xpm));
@@ -3595,6 +3595,10 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
     if (graphic->frameID < 0 || graphic->frameID >= graphic->slp->getFrameCount())
     {
         graphic->bitmap = wxNullBitmap; SetStatusText("No frame to load", 1); return;
+    }
+    if (palettes.empty())
+    {
+        graphic->bitmap = wxNullBitmap; SetStatusText("No palettes loaded", 1); return;
     }
     SetStatusText(wxString::Format("Looking for frame %d", graphic->frameID), 1);
     if (graphic->slp->isSMX())

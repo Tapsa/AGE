@@ -270,7 +270,7 @@ void AGE_Frame::CreateUnitLineControls()
     UnitLines_UnitLines = new wxStaticBoxSizer(wxVERTICAL, Tab_UnitLine, "Unitlines (Used by AIs)");
     UnitLines_UnitLines_Search = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
     UnitLines_UnitLines_Search_R = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
-    UnitLines_UnitLines_ListV = new ProperList(Tab_UnitLine, wxSize(200, 100));
+    UnitLines_UnitLines_ListV = new ProperList(Tab_UnitLine, ASize(200, 100));
     UnitLines_Add = new wxButton(Tab_UnitLine, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     UnitLines_Insert = new wxButton(Tab_UnitLine, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
     UnitLines_Delete = new wxButton(Tab_UnitLine, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
@@ -281,7 +281,7 @@ void AGE_Frame::CreateUnitLineControls()
     UnitLines_UnitLineUnits = new wxStaticBoxSizer(wxVERTICAL, Tab_UnitLine, "Units");
     UnitLines_UnitLineUnits_Search = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
     UnitLines_UnitLineUnits_Search_R = new wxTextCtrl(Tab_UnitLine, wxID_ANY);
-    UnitLines_UnitLineUnits_ListV = new ProperList(Tab_UnitLine, wxSize(200, 100));
+    UnitLines_UnitLineUnits_ListV = new ProperList(Tab_UnitLine, ASize(200, 100));
     UnitLineUnits_Add = new wxButton(Tab_UnitLine, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     UnitLineUnits_Insert = new wxButton(Tab_UnitLine, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
     UnitLineUnits_Delete = new wxButton(Tab_UnitLine, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));

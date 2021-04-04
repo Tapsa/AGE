@@ -91,8 +91,8 @@ AScrolled::AScrolled(wxWindow *parent) :
     // Smooth scrolling
     Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent &event)
     {
-        int pos;
+        int pos, rate = event.GetWheelRotation() / 120;
         GetViewStart(&pos, &pos);
-        Scroll(0, event.GetWheelRotation() < 0 ? pos + 3 : std::max(pos - 3, 0));
+        Scroll(0, std::max(pos - rate, 0));
     });
 }

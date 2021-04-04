@@ -1166,7 +1166,7 @@ void AGE_Frame::CreateUnknownControls()
     Unknowns_ListArea = new wxBoxSizer(wxVERTICAL);
     Unknowns_Search = new wxTextCtrl(Tab_Unknown, wxID_ANY);
     Unknowns_Search_R = new wxTextCtrl(Tab_Unknown, wxID_ANY);
-    Unknowns_ListV = new ProperList(Tab_Unknown, wxSize(200, 220));
+    Unknowns_ListV = new ProperList(Tab_Unknown, ASize(200, 220));
     Unknowns_Buttons = new wxGridSizer(3, 0, 0);
     Unknowns_Add = new wxButton(Tab_Unknown, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Unknowns_Insert = new wxButton(Tab_Unknown, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -1207,7 +1207,7 @@ void AGE_Frame::CreateUnknownControls()
     RMS_Land_ListArea = new wxBoxSizer(wxVERTICAL);
     RMS_Land_Search = new wxTextCtrl(RMS_Scroller, wxID_ANY);
     RMS_Land_Search_R = new wxTextCtrl(RMS_Scroller, wxID_ANY);
-    RMS_Land_ListV = new ProperList(RMS_Scroller, wxSize(140, 100));
+    RMS_Land_ListV = new ProperList(RMS_Scroller, ASize(140, 100));
     RMS_Land_Buttons = new wxGridSizer(3, 0, 0);
     RMS_Land_Add = new wxButton(RMS_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     RMS_Land_Insert = new wxButton(RMS_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
@@ -1280,7 +1280,7 @@ void AGE_Frame::CreateUnknownControls()
     RMS_Terrain_ListArea = new wxBoxSizer(wxVERTICAL);
     RMS_Terrain_Search = new wxTextCtrl(RMS_Scroller, wxID_ANY);
     RMS_Terrain_Search_R = new wxTextCtrl(RMS_Scroller, wxID_ANY);
-    RMS_Terrain_ListV = new ProperList(RMS_Scroller, wxSize(140, 100));
+    RMS_Terrain_ListV = new ProperList(RMS_Scroller, ASize(140, 100));
     RMS_Terrain_Buttons = new wxGridSizer(3, 0, 0);
     RMS_Terrain_Add = new wxButton(RMS_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     RMS_Terrain_Insert = new wxButton(RMS_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
@@ -1310,7 +1310,7 @@ void AGE_Frame::CreateUnknownControls()
     RMS_Unit_ListArea = new wxBoxSizer(wxVERTICAL);
     RMS_Unit_Search = new wxTextCtrl(RMS_Scroller, wxID_ANY);
     RMS_Unit_Search_R = new wxTextCtrl(RMS_Scroller, wxID_ANY);
-    RMS_Unit_ListV = new ProperList(RMS_Scroller, wxSize(140, 250));
+    RMS_Unit_ListV = new ProperList(RMS_Scroller, ASize(140, 250));
     RMS_Unit_Buttons = new wxGridSizer(3, 0, 0);
     RMS_Unit_Add = new wxButton(RMS_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     RMS_Unit_Insert = new wxButton(RMS_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
@@ -1372,7 +1372,7 @@ void AGE_Frame::CreateUnknownControls()
     RMS_Elevation_ListArea = new wxBoxSizer(wxVERTICAL);
     RMS_Elevation_Search = new wxTextCtrl(RMS_Scroller, wxID_ANY);
     RMS_Elevation_Search_R = new wxTextCtrl(RMS_Scroller, wxID_ANY);
-    RMS_Elevation_ListV = new ProperList(RMS_Scroller, wxSize(140, 100));
+    RMS_Elevation_ListV = new ProperList(RMS_Scroller, ASize(140, 100));
     RMS_Elevation_Buttons = new wxGridSizer(3, 0, 0);
     RMS_Elevation_Add = new wxButton(RMS_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     RMS_Elevation_Insert = new wxButton(RMS_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));

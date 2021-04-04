@@ -222,7 +222,7 @@ void AGE_Frame::CreatePlayerColorControls()
     Colors_Colors = new wxStaticBoxSizer(wxVERTICAL, Tab_PlayerColors, "Player Colors");
     Colors_Colors_Search = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
     Colors_Colors_Search_R = new wxTextCtrl(Tab_PlayerColors, wxID_ANY);
-    Colors_Colors_ListV = new ProperList(Tab_PlayerColors, wxSize(200, 100));
+    Colors_Colors_ListV = new ProperList(Tab_PlayerColors, ASize(200, 100));
     Colors_Colors_Buttons = new wxGridSizer(3, 0, 0);
     Colors_Add = new wxButton(Tab_PlayerColors, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Colors_Insert = new wxButton(Tab_PlayerColors, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
@@ -280,7 +280,7 @@ void AGE_Frame::CreatePlayerColorControls()
     Colors_Type->SetToolTip("0   Transform\n1   Transform player color\n2   Shadow\n3   Translucent");
     Colors_ReferenceID = new NumberControl(CLong, Tab_PlayerColors, this, &uiGroupColor);
     Colors_ReferenceID_ComboBox = new LinkedComboBox(Tab_PlayerColors, Colors_ReferenceID, &color_names);
-    Colors_Palette_Display = new APanel(Tab_PlayerColors, wxSize(256, 256));
+    Colors_Palette_Display = new APanel(Tab_PlayerColors, ASize(256, 256));
 
     Colors_Colors_Buttons->Add(Colors_Add, 1, wxEXPAND);
     Colors_Colors_Buttons->Add(Colors_Delete, 1, wxEXPAND);

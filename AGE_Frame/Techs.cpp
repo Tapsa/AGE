@@ -1293,7 +1293,7 @@ void AGE_Frame::CreateTechControls()
     Techs_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
     Techs_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
     Techs_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
-    Techs_ListV = new ProperList(Tab_Techs, wxSize(200, 100));
+    Techs_ListV = new ProperList(Tab_Techs, ASize(200, 100));
     Techs_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Techs_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
     Techs_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
@@ -1313,7 +1313,7 @@ void AGE_Frame::CreateTechControls()
     Techs_Effects_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
     Techs_Effects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
     Techs_Effects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
-    Techs_Effects_ListV = new ProperList(Tab_Techs, wxSize(200, 100));
+    Techs_Effects_ListV = new ProperList(Tab_Techs, ASize(200, 100));
     Techs_Effects_Add = new wxButton(Tab_Techs, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
     Techs_Effects_Insert = new wxButton(Tab_Techs, wxID_ANY, "Insert New", wxDefaultPosition, wxSize(10, -1));
     Techs_Effects_Delete = new wxButton(Tab_Techs, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
@@ -1382,7 +1382,7 @@ void AGE_Frame::CreateTechControls()
     Techs_AllEffects_UseAnd[0] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
     Techs_AllEffects_Search_R = new wxTextCtrl(Tab_Techs, wxID_ANY);
     Techs_AllEffects_UseAnd[1] = new wxCheckBox(Tab_Techs, wxID_ANY, "And");
-    Techs_AllEffects_ListV = new ProperList(Tab_Techs, wxSize(200, 100));
+    Techs_AllEffects_ListV = new ProperList(Tab_Techs, ASize(200, 100));
     Techs_AllEffects_Buttons = new wxBoxSizer(wxHORIZONTAL);
     Techs_AllEffects_Load = new wxButton(Tab_Techs, wxID_ANY, "Reload", wxDefaultPosition, wxSize(10, -1));
     Techs_AllEffects_Clear = new wxButton(Tab_Techs, wxID_ANY, "Clear *", wxDefaultPosition, wxSize(10, -1));
