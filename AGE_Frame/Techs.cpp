@@ -11,9 +11,9 @@ wxString AGE_Frame::GetEffectName(int index)
 
 void AGE_Frame::OnEffectRenameGE2(wxCommandEvent &event)
 {
-    if(!dataset) return;
+    if (!dataset) return;
 
-    for(auto &tech: dataset->Effects)
+    for (genie::Effect &tech : dataset->Effects)
     {
         tech.Name = "Effect";
     }
@@ -24,7 +24,7 @@ void AGE_Frame::OnEffectRename(wxCommandEvent &event)
 {
     if(!dataset) return;
 
-    for(auto &tech: dataset->Effects)
+    for (genie::Effect &tech : dataset->Effects)
     {
         if(tech.EffectCommands.size()) // Other than empty techs, not researches if research loop doesn't rename them.
         {
@@ -104,11 +104,20 @@ void AGE_Frame::InitTechs(bool all)
             Techs_ListV->names.Add(Name);
             Techs_ListV->indexes.push_back(loop);
         }
-        if(all) tech_names.Add(Name);
+        if (all)
+        {
+            tech_names.Add(Name);
+        }
     }
 
     RefreshList(Techs_ListV, &TechIDs);
-    if(all) for(auto &list: TechComboBoxList) list->Flash();
+    if (all)
+    {
+        for (AGEComboBox *list : TechComboBoxList)
+        {
+            list->Flash();
+        }
+    }
 
     SearchAnd = ExcludeAnd = false;
 }
@@ -145,8 +154,8 @@ void AGE_Frame::OnEffectAdd(wxCommandEvent &event)    // Works.
 
 void AGE_Frame::OnEffectInsert(wxCommandEvent &event) // Works.
 {
-    auto selections = Techs_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Techs_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->Effects, TechIDs.front());
@@ -155,8 +164,8 @@ void AGE_Frame::OnEffectInsert(wxCommandEvent &event) // Works.
 
 void AGE_Frame::OnEffectDelete(wxCommandEvent &event) // Works.
 {
-    auto selections = Techs_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Techs_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->Effects, TechIDs);
@@ -165,8 +174,8 @@ void AGE_Frame::OnEffectDelete(wxCommandEvent &event) // Works.
 
 void AGE_Frame::OnEffectCopy(wxCommandEvent &event)   // Works.
 {
-    auto selections = Techs_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Techs_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->Effects, TechIDs, copies.Effect);
@@ -175,8 +184,8 @@ void AGE_Frame::OnEffectCopy(wxCommandEvent &event)   // Works.
 
 void AGE_Frame::OnEffectPaste(wxCommandEvent &event)  // Works.
 {
-    auto selections = Techs_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Techs_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->Effects, TechIDs, copies.Effect);
@@ -185,8 +194,8 @@ void AGE_Frame::OnEffectPaste(wxCommandEvent &event)  // Works.
 
 void AGE_Frame::OnEffectPasteInsert(wxCommandEvent &event)    // Works.
 {
-    auto selections = Techs_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Techs_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->Effects, TechIDs.front(), copies.Effect);
@@ -479,9 +488,9 @@ void AGE_Frame::ListEffectCmds()
 
 void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
 {
-    auto selections = Techs_Effects_ListV->GetSelectedCount();
+    size_t selections = Techs_Effects_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    for (auto &box : uiGroupTechEffect)
+    for (AGETextCtrl *box : uiGroupTechEffect)
     {
         box->clear();
     }
@@ -494,7 +503,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
         Effects_Type_Holder->Show(true);
 
         genie::EffectCommand * EffectPointer = nullptr;
-        for(auto loop = selections; loop--> 0;)
+        for(size_t loop = selections; loop--> 0;)
         {
             EffectPointer = &dataset->Effects[TechIDs.front()].EffectCommands[EffectIDs[loop]];
             Effects_Type->prepend(&EffectPointer->Type);
@@ -1125,7 +1134,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
         Effects_Info_B->SetLabel("");
         Effects_Info_C->SetLabel("");
     }
-    for (auto &box : uiGroupTechEffect)
+    for (AGETextCtrl *box : uiGroupTechEffect)
     {
         box->update();
     }
@@ -1171,8 +1180,8 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
 
 void AGE_Frame::OnEffectCmdAdd(wxCommandEvent &event) // Works.
 {
-    auto selections = Techs_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Techs_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     AddToList(dataset->Effects[TechIDs.front()].EffectCommands);
@@ -1181,8 +1190,8 @@ void AGE_Frame::OnEffectCmdAdd(wxCommandEvent &event) // Works.
 
 void AGE_Frame::OnEffectCmdInsert(wxCommandEvent &event)  // Works.
 {
-    auto selections = Techs_Effects_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Techs_Effects_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->Effects[TechIDs.front()].EffectCommands, EffectIDs.front());
@@ -1191,8 +1200,8 @@ void AGE_Frame::OnEffectCmdInsert(wxCommandEvent &event)  // Works.
 
 void AGE_Frame::OnEffectCmdDelete(wxCommandEvent &event)  // Works.
 {
-    auto selections = Techs_Effects_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Techs_Effects_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->Effects[TechIDs.front()].EffectCommands, EffectIDs);
@@ -1201,8 +1210,8 @@ void AGE_Frame::OnEffectCmdDelete(wxCommandEvent &event)  // Works.
 
 void AGE_Frame::OnEffectCmdCopy(wxCommandEvent &event)    // Works.
 {
-    auto selections = Techs_Effects_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Techs_Effects_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->Effects[TechIDs.front()].EffectCommands, EffectIDs, copies.EffectCmd);
@@ -1211,8 +1220,8 @@ void AGE_Frame::OnEffectCmdCopy(wxCommandEvent &event)    // Works.
 
 void AGE_Frame::OnEffectCmdPaste(wxCommandEvent &event)   // Works.
 {
-    auto selections = Techs_Effects_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Techs_Effects_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->Effects[TechIDs.front()].EffectCommands, EffectIDs, copies.EffectCmd);
@@ -1221,8 +1230,8 @@ void AGE_Frame::OnEffectCmdPaste(wxCommandEvent &event)   // Works.
 
 void AGE_Frame::OnEffectCmdPasteInsert(wxCommandEvent &event) // Works.
 {
-    auto selections = Techs_Effects_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Techs_Effects_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->Effects[TechIDs.front()].EffectCommands, EffectIDs.front(), copies.EffectCmd);

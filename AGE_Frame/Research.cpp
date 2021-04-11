@@ -166,7 +166,10 @@ void AGE_Frame::InitResearches(bool all)
     RefreshList(Research_Research_ListV, &ResearchIDs);
     if(all)
     {
-        for(auto &list: ResearchComboBoxList) list->Flash();
+        for (AGEComboBox *list : ResearchComboBoxList)
+        {
+            list->Flash();
+        }
         if(GenieVersion >= genie::GV_AoKA)
         {
             TechTrees_Ages_Items.ItemCombo->Flash();
@@ -186,7 +189,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Research_Research_ListV, ResearchIDs);
 
-    for(auto &box: uiGroupResearch) box->clear();
+    for (AGETextCtrl *box : uiGroupResearch) box->clear();
 
     genie::Tech * ResearchPointer = 0;
     for(size_t loop = selections; loop--> 0;)
@@ -281,7 +284,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
     {
         techSLP.slpID = -1;
     }
-    for(auto &box: uiGroupResearch) box->update();
+    for (AGETextCtrl *box : uiGroupResearch) box->update();
     Research_IconID_SLP->Refresh();
 }
 
@@ -315,8 +318,8 @@ void AGE_Frame::OnResearchAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnResearchInsert(wxCommandEvent &event)
 {
-    auto selections = Research_Research_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Research_Research_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->Techs, ResearchIDs.front());
@@ -325,8 +328,8 @@ void AGE_Frame::OnResearchInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnResearchDelete(wxCommandEvent &event)
 {
-    auto selections = Research_Research_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Research_Research_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->Techs, ResearchIDs);
@@ -335,8 +338,8 @@ void AGE_Frame::OnResearchDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnResearchCopy(wxCommandEvent &event)
 {
-    auto selections = Research_Research_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Research_Research_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->Techs, ResearchIDs, copies.Tech);
@@ -345,8 +348,8 @@ void AGE_Frame::OnResearchCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnResearchPaste(wxCommandEvent &event)
 {
-    auto selections = Research_Research_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Research_Research_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->Techs, ResearchIDs, copies.Tech);
@@ -355,8 +358,8 @@ void AGE_Frame::OnResearchPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnResearchPasteInsert(wxCommandEvent &event)
 {
-    auto selections = Research_Research_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Research_Research_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->Techs, ResearchIDs.front(), copies.Tech);
@@ -516,7 +519,7 @@ void AGE_Frame::CreateResearchControls()
 
     Research_CostHeader_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Research_Scroller, "Costs");
     Research_Cost_Texts = new wxBoxSizer(wxVERTICAL);
-    for(auto &sizer: Research_Cost_Sizers)
+    for (wxBoxSizer *&sizer : Research_Cost_Sizers)
     sizer = new wxBoxSizer(wxVERTICAL);
     Research_Resources_Text = new SolidText(Research_Scroller, "Type", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(90, -1));
     Research_Amount_Text = new SolidText(Research_Scroller, "Amount", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(90, -1));
@@ -595,7 +598,7 @@ void AGE_Frame::CreateResearchControls()
         Research_Cost_Sizers[loop]->Add(sizer_cost, 0, wxEXPAND | wxTOP, 5);
     }
     Research_CostHeader_Holder->Add(Research_Cost_Texts);
-    for(auto &sizer: Research_Cost_Sizers)
+    for (wxBoxSizer *&sizer : Research_Cost_Sizers)
     Research_CostHeader_Holder->Add(sizer, 0, wxLEFT, 5);
 
     for(size_t loop = 0; loop < 6; ++loop)

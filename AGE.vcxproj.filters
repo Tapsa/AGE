@@ -105,6 +105,9 @@
     <ClCompile Include="Precompile\Common.cpp">
       <Filter>Common</Filter>
     </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AGE_Frame.h">
@@ -161,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="BaseMainFrame.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprites.h">
+      <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

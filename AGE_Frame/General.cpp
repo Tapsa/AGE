@@ -77,7 +77,7 @@ void AGE_Frame::OnVariableCalcReverse(wxFocusEvent &event)
 
 void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
 {
-    for(auto &box: uiGroupMaps) box->clear();
+    for (AGETextCtrl *box : uiGroupMaps) box->clear();
     General_VFP->prepend(&dataset->TerrainBlock.VirtualFunctionPtr);
     General_MapPointer->prepend(&dataset->TerrainBlock.MapPointer);
     General_MapWidth->prepend(&dataset->TerrainBlock.MapWidth);
@@ -162,7 +162,7 @@ void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
             General_SUnknown8->prepend(&dataset->SUnknown8);
         }
     }
-    for(auto &box: uiGroupMaps) box->update();
+    for (AGETextCtrl *box : uiGroupMaps) box->update();
 }
 
 void AGE_Frame::CreateGeneralControls()
@@ -313,13 +313,13 @@ void AGE_Frame::CreateGeneralControls()
     General_TerrainRendering_Grid = new wxFlexGridSizer(8, 5, 5);
     General_Something_Grid1 = new wxFlexGridSizer(16, 0, 0);
     General_Something_Grid2 = new wxFlexGridSizer(8, 0, 0);
-    for(auto &sizer: General_TileSizes_Sizers)
+    for (wxBoxSizer *&sizer : General_TileSizes_Sizers)
     sizer = new wxBoxSizer(wxHORIZONTAL);
-    for(auto &box: General_TileSizes)
+    for (AGETextCtrl *&box : General_TileSizes)
     box = new NumberControl(CShort, General_Scroller, this, &uiGroupMaps, true, AGETextCtrl::SMALL);
-    for(auto &box: General_SomeBytes)
+    for (AGETextCtrl *&box : General_SomeBytes)
     box = new NumberControl(CUByte, General_Scroller, this, &uiGroupMaps, true, AGETextCtrl::SMALL);
-    for(auto &box: General_Something)
+    for (AGETextCtrl *&box : General_Something)
     box = new NumberControl(CULong, General_Scroller, this, &uiGroupMaps, true, AGETextCtrl::NORMAL);
 
     General_TopRow->Add(General_Refresh, 0, wxRIGHT, 100);
@@ -335,7 +335,7 @@ void AGE_Frame::CreateGeneralControls()
         General_TileSizes_Sizers[tile]->Add(General_TileSizes[loop++]);
         General_TileSizes_Sizers[tile++]->Add(General_TileSizes[loop++]);
     }
-    for(auto &sizer: General_TileSizes_Sizers)
+    for (wxBoxSizer *&sizer : General_TileSizes_Sizers)
     General_TileSizes_Grid->Add(sizer);
 
     MapRowOffset_Sizer->Add(MapRowOffset_Text);
@@ -541,9 +541,9 @@ void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
     size_t selections = Unknowns_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Unknowns_ListV, RandomMapIDs);
-    for (auto &box : uiGroupRandomMap) box->clear();
+    for (AGETextCtrl *box : uiGroupRandomMap) box->clear();
     genie::MapInfo *map_ptr;
-    for (auto sel = selections; sel-- > 0;)
+    for (size_t sel = selections; sel-- > 0;)
     {
         map_ptr = &dataset->RandomMaps.Maps[RandomMapIDs[sel]];
 
@@ -564,7 +564,7 @@ void AGE_Frame::OnRandomMapSelect(wxCommandEvent &event)
     }
     SetStatusText(wxString::Format("Selections: %zu    Selected random map: %d",
         selections, selections > 0 ? RandomMapIDs.front() : -1), 0);
-    for (auto &box : uiGroupRandomMap) box->update();
+    for (AGETextCtrl *box : uiGroupRandomMap) box->update();
     ListMapLands();
     ListMapTerrains();
     ListMapUnits();
@@ -582,8 +582,8 @@ void AGE_Frame::OnRandomMapAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnRandomMapInsert(wxCommandEvent &event)
 {
-    auto selections = Unknowns_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Unknowns_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->RandomMaps.Maps, RandomMapIDs.front());
@@ -592,8 +592,8 @@ void AGE_Frame::OnRandomMapInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnRandomMapDelete(wxCommandEvent &event)
 {
-    auto selections = Unknowns_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Unknowns_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->RandomMaps.Maps, RandomMapIDs);
@@ -602,8 +602,8 @@ void AGE_Frame::OnRandomMapDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnRandomMapCopy(wxCommandEvent &event)
 {
-    auto selections = Unknowns_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Unknowns_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->RandomMaps.Maps, RandomMapIDs, copies.Map);
@@ -614,8 +614,8 @@ void AGE_Frame::OnRandomMapCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnRandomMapPaste(wxCommandEvent &event)
 {
-    auto selections = Unknowns_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Unknowns_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->RandomMaps.Maps, RandomMapIDs, copies.Map);
@@ -624,8 +624,8 @@ void AGE_Frame::OnRandomMapPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnRandomMapPasteInsert(wxCommandEvent &event)
 {
-    auto selections = Unknowns_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Unknowns_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->RandomMaps.Maps, RandomMapIDs.front(), copies.Map);
@@ -667,13 +667,13 @@ void AGE_Frame::ListMapLands()
 
 void AGE_Frame::OnMapLandSelect(wxCommandEvent &event)
 {
-    auto selections = RMS_Land_ListV->GetSelectedCount();
+    size_t selections = RMS_Land_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, RMS_Land_ListV, UnknownFSIDs);
-    for(auto &box: uiGroupRMBase) box->clear();
+    for (AGETextCtrl *box : uiGroupRMBase) box->clear();
 
     genie::MapLand * land_ptr;
-    for(auto sel = selections; sel--> 0;)
+    for(size_t sel = selections; sel--> 0;)
     {
         land_ptr = &dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands[UnknownFSIDs[sel]];
 
@@ -694,13 +694,13 @@ void AGE_Frame::OnMapLandSelect(wxCommandEvent &event)
         RMS_Land_Clumpiness->prepend(&land_ptr->Clumpiness);
     }
 
-    for(auto &box: uiGroupRMBase) box->update();
+    for (AGETextCtrl *box : uiGroupRMBase) box->update();
 }
 
 void AGE_Frame::OnMapLandAdd(wxCommandEvent &event)
 {
-    auto selections = Unknowns_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Unknowns_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     AddToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands);
@@ -709,8 +709,8 @@ void AGE_Frame::OnMapLandAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnMapLandInsert(wxCommandEvent &event)
 {
-    auto selections = RMS_Land_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Land_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands, UnknownFSIDs.front());
@@ -719,8 +719,8 @@ void AGE_Frame::OnMapLandInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnMapLandDelete(wxCommandEvent &event)
 {
-    auto selections = RMS_Land_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Land_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands, UnknownFSIDs);
@@ -729,8 +729,8 @@ void AGE_Frame::OnMapLandDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnMapLandCopy(wxCommandEvent &event)
 {
-    auto selections = RMS_Land_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Land_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands, UnknownFSIDs, copies.MapLand);
@@ -741,8 +741,8 @@ void AGE_Frame::OnMapLandCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnMapLandPaste(wxCommandEvent &event)
 {
-    auto selections = RMS_Land_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Land_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands, UnknownFSIDs, copies.MapLand);
@@ -751,8 +751,8 @@ void AGE_Frame::OnMapLandPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnMapLandPasteInsert(wxCommandEvent &event)
 {
-    auto selections = RMS_Land_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Land_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapLands, UnknownFSIDs.front(), copies.MapLand);
@@ -808,13 +808,13 @@ void AGE_Frame::ListMapTerrains()
 
 void AGE_Frame::OnMapTerrainSelect(wxCommandEvent &event)
 {
-    auto selections = RMS_Terrain_ListV->GetSelectedCount();
+    size_t selections = RMS_Terrain_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, RMS_Terrain_ListV, UnknownSSIDs);
-    for(auto &box: uiGroupRMTerrain) box->clear();
+    for (AGETextCtrl *box : uiGroupRMTerrain) box->clear();
 
     genie::MapTerrain * terrain_ptr;
-    for(auto sel = selections; sel--> 0;)
+    for(size_t sel = selections; sel--> 0;)
     {
         terrain_ptr = &dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains[UnknownSSIDs[sel]];
 
@@ -826,13 +826,13 @@ void AGE_Frame::OnMapTerrainSelect(wxCommandEvent &event)
         RMS_TerrainData[5]->prepend(&terrain_ptr->Clumpiness);
     }
 
-    for(auto &box: uiGroupRMTerrain) box->update();
+    for (AGETextCtrl *box : uiGroupRMTerrain) box->update();
 }
 
 void AGE_Frame::OnMapTerrainAdd(wxCommandEvent &event)
 {
-    auto selections = Unknowns_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Unknowns_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     AddToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains);
@@ -841,8 +841,8 @@ void AGE_Frame::OnMapTerrainAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnMapTerrainInsert(wxCommandEvent &event)
 {
-    auto selections = RMS_Terrain_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Terrain_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains, UnknownSSIDs.front());
@@ -851,8 +851,8 @@ void AGE_Frame::OnMapTerrainInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnMapTerrainDelete(wxCommandEvent &event)
 {
-    auto selections = RMS_Terrain_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Terrain_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains, UnknownSSIDs);
@@ -861,8 +861,8 @@ void AGE_Frame::OnMapTerrainDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnMapTerrainCopy(wxCommandEvent &event)
 {
-    auto selections = RMS_Terrain_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Terrain_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains, UnknownSSIDs, copies.MapTerrain);
@@ -873,8 +873,8 @@ void AGE_Frame::OnMapTerrainCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnMapTerrainPaste(wxCommandEvent &event)
 {
-    auto selections = RMS_Terrain_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Terrain_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains, UnknownSSIDs, copies.MapTerrain);
@@ -883,8 +883,8 @@ void AGE_Frame::OnMapTerrainPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnMapTerrainPasteInsert(wxCommandEvent &event)
 {
-    auto selections = RMS_Terrain_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Terrain_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapTerrains, UnknownSSIDs.front(), copies.MapTerrain);
@@ -929,13 +929,13 @@ void AGE_Frame::ListMapUnits()
 
 void AGE_Frame::OnMapUnitSelect(wxCommandEvent &event)
 {
-    auto selections = RMS_Unit_ListV->GetSelectedCount();
+    size_t selections = RMS_Unit_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, RMS_Unit_ListV, UnknownTSIDs);
-    for(auto &box: uiGroupRMUnit) box->clear();
+    for (AGETextCtrl *box : uiGroupRMUnit) box->clear();
 
     genie::MapUnit * object_ptr;
-    for(auto sel = selections; sel--> 0;)
+    for(size_t sel = selections; sel--> 0;)
     {
         object_ptr = &dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits[UnknownTSIDs[sel]];
 
@@ -954,13 +954,13 @@ void AGE_Frame::OnMapUnitSelect(wxCommandEvent &event)
         RMS_Unit_MaxDistanceToPlayers->prepend(&object_ptr->MaxDistanceToPlayers);
     }
 
-    for(auto &box: uiGroupRMUnit) box->update();
+    for (AGETextCtrl *box : uiGroupRMUnit) box->update();
 }
 
 void AGE_Frame::OnMapUnitAdd(wxCommandEvent &event)
 {
-    auto selections = Unknowns_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Unknowns_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     AddToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits);
@@ -969,8 +969,8 @@ void AGE_Frame::OnMapUnitAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnMapUnitInsert(wxCommandEvent &event)
 {
-    auto selections = RMS_Unit_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Unit_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits, UnknownTSIDs.front());
@@ -979,8 +979,8 @@ void AGE_Frame::OnMapUnitInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnMapUnitDelete(wxCommandEvent &event)
 {
-    auto selections = RMS_Unit_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Unit_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits, UnknownTSIDs);
@@ -989,8 +989,8 @@ void AGE_Frame::OnMapUnitDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnMapUnitCopy(wxCommandEvent &event)
 {
-    auto selections = RMS_Unit_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Unit_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits, UnknownTSIDs, copies.MapUnit);
@@ -1001,8 +1001,8 @@ void AGE_Frame::OnMapUnitCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnMapUnitPaste(wxCommandEvent &event)
 {
-    auto selections = RMS_Unit_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Unit_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits, UnknownTSIDs, copies.MapUnit);
@@ -1011,8 +1011,8 @@ void AGE_Frame::OnMapUnitPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnMapUnitPasteInsert(wxCommandEvent &event)
 {
-    auto selections = RMS_Unit_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Unit_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapUnits, UnknownTSIDs.front(), copies.MapUnit);
@@ -1057,13 +1057,13 @@ void AGE_Frame::ListMapElevations()
 
 void AGE_Frame::OnMapElevationSelect(wxCommandEvent &event)
 {
-    auto selections = RMS_Elevation_ListV->GetSelectedCount();
+    size_t selections = RMS_Elevation_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, RMS_Elevation_ListV, Unknown4SIDs);
-    for(auto &box: uiGroupRMUnknown) box->clear();
+    for (AGETextCtrl *box : uiGroupRMUnknown) box->clear();
 
     genie::MapElevation * elevation_ptr;
-    for(auto sel = selections; sel--> 0;)
+    for(size_t sel = selections; sel--> 0;)
     {
         elevation_ptr = &dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations[Unknown4SIDs[sel]];
 
@@ -1075,13 +1075,13 @@ void AGE_Frame::OnMapElevationSelect(wxCommandEvent &event)
         RMS_ElevationData[5]->prepend(&elevation_ptr->TileSpacing);
     }
 
-    for(auto &box: uiGroupRMUnknown) box->update();
+    for (AGETextCtrl *box : uiGroupRMUnknown) box->update();
 }
 
 void AGE_Frame::OnMapElevationAdd(wxCommandEvent &event)
 {
-    auto selections = Unknowns_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Unknowns_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     AddToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations);
@@ -1090,8 +1090,8 @@ void AGE_Frame::OnMapElevationAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnMapElevationInsert(wxCommandEvent &event)
 {
-    auto selections = RMS_Elevation_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Elevation_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations, Unknown4SIDs.front());
@@ -1100,8 +1100,8 @@ void AGE_Frame::OnMapElevationInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnMapElevationDelete(wxCommandEvent &event)
 {
-    auto selections = RMS_Elevation_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Elevation_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations, Unknown4SIDs);
@@ -1110,8 +1110,8 @@ void AGE_Frame::OnMapElevationDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnMapElevationCopy(wxCommandEvent &event)
 {
-    auto selections = RMS_Elevation_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Elevation_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations, Unknown4SIDs, copies.MapElevation);
@@ -1122,8 +1122,8 @@ void AGE_Frame::OnMapElevationCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnMapElevationPaste(wxCommandEvent &event)
 {
-    auto selections = RMS_Elevation_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Elevation_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations, Unknown4SIDs, copies.MapElevation);
@@ -1132,8 +1132,8 @@ void AGE_Frame::OnMapElevationPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnMapElevationPasteInsert(wxCommandEvent &event)
 {
-    auto selections = RMS_Elevation_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = RMS_Elevation_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->RandomMaps.Maps[RandomMapIDs.front()].MapElevations, Unknown4SIDs.front(), copies.MapElevation);

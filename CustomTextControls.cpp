@@ -142,7 +142,7 @@ int NumberControl::SaveChangesAsUByte(bool forced)
         short batchMode = 0;
         if (value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            frame->popUp.post(BATCHWARNING, BWTITLE, NULL);
+            frame->popUp.post(BATCHWARNING, BWTITLE);
             return 1;
         }
         try
@@ -152,7 +152,7 @@ int NumberControl::SaveChangesAsUByte(bool forced)
             {
                 if (batchMode > 0)
                 {
-                    for (auto &pointer : container)
+                    for (void *pointer : container)
                     {
                         ++numEdits;
                         switch (batchMode)
@@ -170,7 +170,7 @@ int NumberControl::SaveChangesAsUByte(bool forced)
                 }
                 if (*(uint8_t *)container.back() != casted || forced)
                 {
-                    for (auto &pointer : container)
+                    for (void *pointer : container)
                     {
                         ++numEdits;
                         *(uint8_t *)pointer = casted;
@@ -207,7 +207,7 @@ int NumberControl::SaveChangesAsFloat(bool forced)
         short batchMode = 0;
         if (value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            frame->popUp.post(BATCHWARNING, BWTITLE, NULL);
+            frame->popUp.post(BATCHWARNING, BWTITLE);
             return 1;
         }
         try
@@ -218,7 +218,7 @@ int NumberControl::SaveChangesAsFloat(bool forced)
             else casted = lexical_cast<float>(value);
             if (batchMode > 0)
             {
-                for (auto &pointer : container)
+                for (void *pointer : container)
                 {
                     ++numEdits;
                     switch (batchMode)
@@ -235,7 +235,7 @@ int NumberControl::SaveChangesAsFloat(bool forced)
             }
             if (*(float *)container.back() != casted || forced)
             {
-                for (auto &pointer : container)
+                for (void *pointer : container)
                 {
                     ++numEdits;
                     *(float *)pointer = casted;
@@ -267,7 +267,7 @@ int NumberControl::SaveChangesAsLong(bool forced)
         short batchMode = 0;
         if (value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            frame->popUp.post(BATCHWARNING, BWTITLE, NULL);
+            frame->popUp.post(BATCHWARNING, BWTITLE);
             return 1;
         }
         try
@@ -275,7 +275,7 @@ int NumberControl::SaveChangesAsLong(bool forced)
             int32_t casted = lexical_cast<int32_t>(value);
             if (batchMode > 0)
             {
-                for (auto &pointer : container)
+                for (void *pointer : container)
                 {
                     ++numEdits;
                     switch (batchMode)
@@ -293,7 +293,7 @@ int NumberControl::SaveChangesAsLong(bool forced)
             }
             if (*(int32_t *)container.back() != casted || forced)
             {
-                for (auto &pointer : container)
+                for (void *pointer : container)
                 {
                     ++numEdits;
                     *(int32_t *)pointer = casted;
@@ -325,7 +325,7 @@ int NumberControl::SaveChangesAsULong(bool forced)
         short batchMode = 0;
         if (value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            frame->popUp.post(BATCHWARNING, BWTITLE, NULL);
+            frame->popUp.post(BATCHWARNING, BWTITLE);
             return 1;
         }
         try
@@ -333,7 +333,7 @@ int NumberControl::SaveChangesAsULong(bool forced)
             uint32_t casted = lexical_cast<uint32_t>(value);
             if (batchMode > 0)
             {
-                for (auto &pointer : container)
+                for (void *pointer : container)
                 {
                     ++numEdits;
                     switch (batchMode)
@@ -351,7 +351,7 @@ int NumberControl::SaveChangesAsULong(bool forced)
             }
             if (*(uint32_t *)container.back() != casted || forced)
             {
-                for (auto &pointer : container)
+                for (void *pointer : container)
                 {
                     ++numEdits;
                     *(uint32_t *)pointer = casted;
@@ -383,7 +383,7 @@ int NumberControl::SaveChangesAsShort(bool forced)
         short batchMode = 0;
         if (value[0] == 'b' && !BatchCheck(value, batchMode))
         {
-            frame->popUp.post(BATCHWARNING, BWTITLE, NULL);
+            frame->popUp.post(BATCHWARNING, BWTITLE);
             return 1;
         }
         try
@@ -391,7 +391,7 @@ int NumberControl::SaveChangesAsShort(bool forced)
             int16_t casted = lexical_cast<int16_t>(value);
             if (batchMode > 0)
             {
-                for (auto &pointer : container)
+                for (void *pointer : container)
                 {
                     ++numEdits;
                     switch (batchMode)
@@ -409,7 +409,7 @@ int NumberControl::SaveChangesAsShort(bool forced)
             }
             if (*(int16_t *)container.back() != casted || forced)
             {
-                for (auto &pointer : container)
+                for (void *pointer : container)
                 {
                     ++numEdits;
                     *(int16_t *)pointer = casted;
@@ -579,7 +579,7 @@ int StringControl::SaveEdits(bool forced) // This may crash the program.
             BatchCheck(value, batchMode);
             if(batchMode > 0)
             {
-                for(auto &pointer: container)
+                for (void *pointer : container)
                 {
                     ++numEdits;
                     std::string vasili = *(std::string*)pointer;
@@ -597,7 +597,7 @@ int StringControl::SaveEdits(bool forced) // This may crash the program.
         }*/
         if (value.size() <= maxSize)
         {
-            for (auto &pointer : container)
+            for (void *pointer : container)
             {
                 ++numEdits;
                 *(std::string *)pointer = value; // replenish data field
@@ -606,7 +606,7 @@ int StringControl::SaveEdits(bool forced) // This may crash the program.
         else
         {
             value = value.substr(0, maxSize);
-            for (auto &pointer : container)
+            for (void *pointer : container)
             {
                 ++numEdits;
                 *(std::string *)pointer = value;

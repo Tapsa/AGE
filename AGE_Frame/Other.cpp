@@ -14,8 +14,7 @@
 #include "../DRSlock.xpm"
 #include "../Villager32.xpm"
 
-float AGE_SLP::bearing = 0.f;
-unsigned AGE_SLP::setbearing = 0u;
+const genie::Color ColorNotFound(74, 65, 42, 255);
 
 genie::GameVersion AGE_Frame::version(int ver)
 {
@@ -2013,9 +2012,9 @@ void AGE_Frame::OnGameVersionChange()
     if(DataOpened)  // Hiding stuff according to game version should be here.
     {
         // Some general tab handling
-        for(auto loop = dataset->TerrainBlock.getSomethingSize(); loop < General_Something.size(); ++loop)
+        for(size_t loop = dataset->TerrainBlock.getSomethingSize(); loop < General_Something.size(); ++loop)
         General_Something[loop]->Show(false);
-        for(auto loop = dataset->TerrainBlock.getBytesSize(); loop < General_SomeBytes.size(); ++loop)
+        for(size_t loop = dataset->TerrainBlock.getBytesSize(); loop < General_SomeBytes.size(); ++loop)
         General_SomeBytes[loop]->Show(false);
         if(ShowUnknowns)
         {
@@ -2747,6 +2746,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
         case eShowSLP:
         {
             ShowSLP = event.IsChecked();
+            setbearing = 0u;
+            bearing = 0.f;
 
             Units_Main->Layout();
             Research_Main->Layout();
@@ -3022,7 +3023,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     if(UseMod) addFilesToRead(FilesToRead, FolderDRS2);
                     addFilesToRead(FilesToRead, FolderDRS);
                     genie::PalFilePtr pal;
-                    for(auto &file: datafiles)
+                    for (genie::DrsFile *file : datafiles)
                     {
                         pal.reset();
                         pal = file->getPalFile(50500);
@@ -3043,7 +3044,10 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             animater.Stop();
             if(!LooseHD)
             {
-                for(auto &file: datafiles) delete file;
+                for (genie::DrsFile *file : datafiles)
+                {
+                    delete file;
+                }
                 datafiles.clear();
                 palettes.clear();
             }
@@ -3093,7 +3097,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 ///folders.clear();/
                 //addDRSFolders4SLPs(folders, FolderDRS); //Found properties: 0x00, 0x08, 0x10, 0x18, no offsets.
                 for(int i=0; i < folders.size(); ++i)
-                //for(auto &file: datafiles)
+                //for (genie::DrsFile *file: datafiles)
                 {
                     wxDir dir(folders[i]);
                     if(!dir.IsOpened()) continue;
@@ -3394,11 +3398,12 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
         }
         case eCacheDepth:
         {
-            wxTextEntryDialog ted(this, "Enter new cache depth", "Set Cache Depth", lexical_cast<std::string>(GG::cache_depth));
+            wxTextEntryDialog ted(this, "Enter new cache size in megabytes", "Set Cache Size", lexical_cast<std::string>(GG::cache_size / 1000000u));
             ted.SetTextValidator(wxFILTER_DIGITS);
             if(ted.ShowModal() == wxID_OK)
             {
-                GG::cache_depth = lexical_cast<size_t>(ted.GetValue());
+                int temp = lexical_cast<int>(ted.GetValue());
+                GG::cache_size = std::min(std::max(temp, 100), 3000) * 1000000u;
             }
             break;
         }
@@ -3575,7 +3580,7 @@ bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
     }
     else
     {
-        for(auto &file: datafiles)
+        for (genie::DrsFile *file : datafiles)
         {
             graphic->slp = GG::LoadSLP(*file, graphic->slpID);
             if(graphic->slp) return true;
@@ -3592,9 +3597,12 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
     {
         graphic->bitmap = wxNullBitmap; SetStatusText("No sprite to load", 1); return;
     }
-    if (graphic->frameID < 0 || graphic->frameID >= graphic->slp->getFrameCount())
+    uint32_t numFrames = graphic->slp->getFrameCount();
+    if (graphic->frameID < 0 || graphic->frameID >= numFrames)
     {
-        graphic->bitmap = wxNullBitmap; SetStatusText("No frame to load", 1); return;
+        graphic->bitmap = wxNullBitmap;
+        SetStatusText(wxString::Format("No frame %d within %u frames to load", graphic->frameID, numFrames), 1);
+        return;
     }
     if (palettes.empty())
     {
@@ -3635,7 +3643,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
                 int loc = 3 * flat;
                 int locA = 3 * area + flat;
                 uint16_t colorId = 0x3FF & imgdata->pixel_indexes[i];
-                genie::Color rgba = colorId < pal->size() ? (*pal)[colorId] : genie::Color(74, 65, 42, 255);
+                genie::Color rgba = colorId < pal->size() ? (*pal)[colorId] : ColorNotFound;
                 rgbdata[loc] = rgba.r;
                 rgbdata[loc + 1] = rgba.g;
                 rgbdata[loc + 2] = rgba.b;
@@ -3670,7 +3678,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
                 int loc = 3 * flat;
                 int locA = 3 * area + flat;
                 uint16_t colorId = 0x3FF & imgdata->player_color_mask[i].index;
-                genie::Color rgba = colorId < pal->size() ? (*pal)[colorId] : genie::Color(74, 65, 42, 255);
+                genie::Color rgba = colorId < pal->size() ? (*pal)[colorId] : ColorNotFound;
                 rgbdata[loc] = rgba.r;
                 rgbdata[loc + 1] = rgba.g;
                 rgbdata[loc + 2] = rgba.b;
@@ -3687,7 +3695,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
                     int flat = (imgdata->outline_pc_mask[i].y + offY) * width + imgdata->outline_pc_mask[i].x + offX;
                     int loc = 3 * flat;
                     int locA = 3 * area + flat;
-                    genie::Color rgba = sep_pcp ? pal->front() : (*pal)[AGE_SLP::playerColorID];
+                    genie::Color rgba = sep_pcp ? pal->front() : (*pal)[playerColorID];
                     rgbdata[loc] = rgba.r;
                     rgbdata[loc + 1] = rgba.g;
                     rgbdata[loc + 2] = rgba.b;
@@ -3793,17 +3801,17 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
 
     const int width = frame->getWidth();
     const int height = frame->getHeight();
-    const short pal_chooser = frame->getProperties() >> 16;
+    const short pal_chooser = frame->getProperties() >> 16 & 255;
     graphic->xpos = graphic->flip ? frame->getHotspotX() - width : -frame->getHotspotX();
     graphic->ypos = -frame->getHotspotY();
     const int area = width * height;
     std::vector<uint8_t> rgbdata(area * 4, 0);
-    uint8_t *val = rgbdata.data();
-    uint8_t *alpha = val + area * 3;
     const genie::SlpFrameData *imgdata = &frame->img_data;
     graphic->is32 = frame->is32bit();
     if(graphic->is32)
     {
+        uint8_t *val = rgbdata.data();
+        uint8_t *alpha = val + area * 3;
         for(int i=0; i < area; ++i)
         {
             uint32_t bgra = imgdata->bgra_channels[i];
@@ -3813,18 +3821,22 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
             *alpha++ = uint8_t(bgra >> 24);
         }
         // Apply transparency
-        if(!ShowOutline)
-        for(int i=0; i < imgdata->transparency_mask.size(); ++i)
+        for (int i = 0; i < imgdata->transparency_mask.size(); ++i)
         {
             int flat = imgdata->transparency_mask[i].y * width + imgdata->transparency_mask[i].x;
-            rgbdata[3 * area + flat] = 0;
+            int locA = 3 * area + flat;
+            rgbdata[locA] = 255 - rgbdata[locA];
         }
-        // Temp hack for interface files
-        graphic->xpos = -width / 2;
-        graphic->ypos = -height / 3 * 2;
+        // Hack for interface files
+        if (!graphic->xpos && !graphic->ypos)
+        {
+            graphic->xpos = -width / 2;
+            graphic->ypos = -height / 3 * 2;
+        }
     }
     else
     {
+        bool simpleShadows = imgdata->special_shadow_mask.empty();
         const std::vector<genie::Color> *pal = &palettes.front();
         if(imgdata->palette.size())
         {
@@ -3836,13 +3848,20 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         }
         if(!pal->empty())
         {
-            for(int i=0; i < area; ++i)
+            int32_t mainOffX = frame->getMainLayerOffsetX();
+            int32_t mainOffY = frame->getMainLayerOffsetY();
+            size_t mainWidth = frame->getMainLayerWidth();
+            for (size_t i = 0; i < imgdata->pixel_indexes.size(); ++i)
             {
-                genie::Color rgba = (*pal)[imgdata->pixel_indexes[i]];
-                *val++ = rgba.r;
-                *val++ = rgba.g;
-                *val++ = rgba.b;
-                *alpha++ = imgdata->alpha_channel[i];
+                int flat = (i / mainWidth + mainOffY) * width + i % mainWidth + mainOffX;
+                int loc = 3 * flat;
+                int locA = 3 * area + flat;
+                uint16_t colorId = imgdata->pixel_indexes[i];
+                genie::Color rgba = colorId < pal->size() ? (*pal)[colorId] : ColorNotFound;
+                rgbdata[loc] = rgba.r;
+                rgbdata[loc + 1] = rgba.g;
+                rgbdata[loc + 2] = rgba.b;
+                rgbdata[locA] = imgdata->alpha_channel[i];
             }
             // In case of using separate player color palette
             bool sep_pcp = pc_palettes.size();
@@ -3851,24 +3870,44 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
                 pal = &pc_palettes.front();
             }
             // Apply shadows
-            if(ShowShadows)
-            for(int i=0; i < imgdata->shadow_mask.size(); ++i)
+            if (ShowShadows)
             {
-                int flat = imgdata->shadow_mask[i].y * width + imgdata->shadow_mask[i].x;
-                int loc = 3 * flat;
-                int locA = 3 * area + flat;
-                rgbdata[loc] = 0;
-                rgbdata[loc + 1] = 0;
-                rgbdata[loc + 2] = 0;
-                rgbdata[locA] = 127;
+                if (simpleShadows)
+                {
+                    for (int i = 0; i < imgdata->shadow_mask.size(); ++i)
+                    {
+                        int flat = (imgdata->shadow_mask[i].y + mainOffY) * width + imgdata->shadow_mask[i].x + mainOffX;
+                        int loc = 3 * flat;
+                        int locA = 3 * area + flat;
+                        rgbdata[loc] = 0;
+                        rgbdata[loc + 1] = 0;
+                        rgbdata[loc + 2] = 0;
+                        rgbdata[locA] = 127;
+                    }
+                }
+                else
+                {
+                    int32_t offX = frame->getShadowLayerOffsetX();
+                    int32_t offY = frame->getShadowLayerOffsetY();
+                    for (size_t i = 0; i < imgdata->special_shadow_mask.size(); ++i)
+                    {
+                        int flat = (imgdata->special_shadow_mask[i].y + offY) * width + imgdata->special_shadow_mask[i].x + offX;
+                        int loc = 3 * flat;
+                        int locA = 3 * area + flat;
+                        rgbdata[loc] = 0;
+                        rgbdata[loc + 1] = 0;
+                        rgbdata[loc + 2] = 0;
+                        rgbdata[locA] = static_cast<uint8_t>(imgdata->special_shadow_mask[i].index);
+                    }
+                }
             }
             // Apply player color
             for(int i=0; i < imgdata->player_color_mask.size(); ++i)
             {
-                int flat = imgdata->player_color_mask[i].y * width + imgdata->player_color_mask[i].x;
+                int flat = (imgdata->player_color_mask[i].y + mainOffY) * width + imgdata->player_color_mask[i].x + mainOffX;
                 int loc = 3 * flat;
                 int locA = 3 * area + flat;
-                genie::Color rgba = (*pal)[imgdata->player_color_mask[i].index + (sep_pcp ? 0 : AGE_SLP::playerColorStart)];
+                genie::Color rgba = (*pal)[imgdata->player_color_mask[i].index + (sep_pcp ? 0 : playerColorStart)];
                 rgbdata[loc] = rgba.r;
                 rgbdata[loc + 1] = rgba.g;
                 rgbdata[loc + 2] = rgba.b;
@@ -3898,10 +3937,10 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
                 // Player color
                 for(int i=0; i < imgdata->outline_pc_mask.size(); ++i)
                 {
-                    int flat = imgdata->outline_pc_mask[i].y * width + imgdata->outline_pc_mask[i].x;
+                    int flat = (imgdata->outline_pc_mask[i].y + mainOffY) * width + imgdata->outline_pc_mask[i].x + mainOffX;
                     int loc = 3 * flat;
                     int locA = 3 * area + flat;
-                    genie::Color rgba = sep_pcp ? pal->front() : (*pal)[AGE_SLP::playerColorID];
+                    genie::Color rgba = sep_pcp ? pal->front() : (*pal)[playerColorID];
                     rgbdata[loc] = rgba.r;
                     rgbdata[loc + 1] = rgba.g;
                     rgbdata[loc + 2] = rgba.b;
@@ -4053,7 +4092,7 @@ void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &event)
         if(!WriteLangs)
         {
             wxString message = "In order to edit language entries, check write language files in the open files dialog and reopen them.";
-            popUp.post(message, "Warning", NULL);
+            popUp.post(message, "Warning");
             return;
         }
 
@@ -4376,12 +4415,12 @@ void AGE_Frame::SearchAllSubVectors(ProperList *list, wxTextCtrl *topSearch, wxT
 {
     size_t selections = list->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    if(selections == 0) return;
+    if (selections == 0) return;
 
     unsigned long cookie;
     std::set<uint32_t> topNums, subNums;
     int last = list->GetFirstSelected(cookie);
-    for(size_t loop = 0; loop < selections; ++loop)
+    for (size_t loop = 0; loop < selections; ++loop)
     {
         std::string line(list->names[last]);
         last = list->GetNextSelected(cookie);
@@ -4390,12 +4429,18 @@ void AGE_Frame::SearchAllSubVectors(ProperList *list, wxTextCtrl *topSearch, wxT
         subNums.insert(lexical_cast<uint32_t>(line.substr(2 + found, line.find(" ", found + 3) - found - 2)));
     }
     wxString topText;
-    for(const auto &num: topNums) topText += " " + lexical_cast<std::string>(num) + " -|";
+    for (unsigned num : topNums)
+    {
+        topText += " " + lexical_cast<std::string>(num) + " -|";
+    }
     topSearch->SetValue(topText.Truncate(topText.size() - 1));
-    if(FilterAllSubs)
+    if (FilterAllSubs)
     {
         wxString subText;
-        for(const auto &num: subNums) subText += " " + lexical_cast<std::string>(num) + " -|";
+        for (unsigned num : subNums)
+        {
+            subText += " " + lexical_cast<std::string>(num) + " -|";
+        }
         subSearch->SetValue(subText.Truncate(subText.size() - 1));
     }
 }
@@ -4508,11 +4553,11 @@ wxString AGE_Frame::CurrentTime()
 AGE_SLPs* AGE_Frame::getCurrentGraphics()
 {
     AGE_SLPs *graphic = 0;
-    if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
+    if(currentDisplay == SHOW::GRAPHIC)
     {
         graphic = &gallery;
     }
-    else if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::UNIT)
+    else if(currentDisplay == SHOW::UNIT)
     {
         graphic = &museum;
     }
@@ -4563,14 +4608,14 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         }
         case eFirstFrame:
         {
-            AGE_SLP::bearing = 0.f;
-            AGE_SLP::setbearing = 1u;
+            bearing = 0.f;
+            setbearing = 1u;
             break;
         }
         case eExportFrame:
         {
             exportFrame = true;
-            if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
+            if(currentDisplay == SHOW::GRAPHIC)
             {
                 if(LoadSLP(&gallery)) FrameToBitmap(&gallery, true);
                 if(gallery.bitmap.IsOk())
@@ -4583,7 +4628,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         }
         case eImportFrame:
         {
-            if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
+            if(currentDisplay == SHOW::GRAPHIC)
             {
                 BitmapToSLP(&gallery);
             }
@@ -4592,7 +4637,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         }
         case eSaveSLP:
         {
-            if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
+            if(currentDisplay == SHOW::GRAPHIC)
             {
                 if (!gallery.slp || !gallery.slp->isSLP())
                 {
@@ -4676,7 +4721,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
 
                 genie::SlpFrameData *imgdata = &frame1->img_data;
                 imgdata->shadow_mask.clear();
-                for(auto const &shadow_pixel: frame2->img_data.shadow_mask)
+                for (genie::XY16 const &shadow_pixel : frame2->img_data.shadow_mask)
                 {
                     const uint32_t x = shadow_pixel.x + offset_x,
                         y = shadow_pixel.y + offset_y,
@@ -4685,7 +4730,7 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
                     {
                         if(imgdata->alpha_channel[slot] == 0)
                         {
-                            imgdata->shadow_mask.push_back({x, y});
+                            imgdata->shadow_mask.emplace_back(x, y);
                         }
                     }
                 }
@@ -4797,9 +4842,9 @@ void AGE_Frame::OnFrameMouse(wxMouseEvent &event)
     wxPoint coords(slp_view->ScreenToClient(wxGetMousePosition()));
     coords.x -= centerX;
     coords.y -= centerY;
-    AGE_SLP::bearing = atan2(coords.x, -coords.y << 1) + 3.1416f;
-    assert(AGE_SLP::bearing >= 0.f && PI2 >= AGE_SLP::bearing);
-    AGE_SLP::setbearing = 1u;
+    bearing = atan2(coords.x, -coords.y << 1) + 3.1416f;
+    assert(bearing >= 0.f && PI2 >= bearing);
+    setbearing = 1u;
     slp_view->Refresh();
 }
 
@@ -4900,7 +4945,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/DrawCollisionShape", DrawCollisionShape);
         Config.Write("Interface/DrawClearanceShape", DrawClearanceShape);
         Config.Write("Interface/DrawSelectionShape", DrawOutline);
-        Config.Write("Interface/CacheDepth", GG::cache_depth);
+        Config.Write("Interface/CacheSizeMB", GG::cache_size / 1000000u);
         Config.Write("Interface/ViewPosX", ViewPosX);
         Config.Write("Interface/ViewPosY", ViewPosY);
         Config.Write("Interface/BoxWidthMultiplier", boxWidthMultiplier);

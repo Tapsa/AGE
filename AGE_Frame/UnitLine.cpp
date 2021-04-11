@@ -81,8 +81,8 @@ void AGE_Frame::OnUnitLinesAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLinesInsert(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLines_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = UnitLines_UnitLines_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToListIDFix(dataset->UnitLines, UnitLineIDs.front());
@@ -91,8 +91,8 @@ void AGE_Frame::OnUnitLinesInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLines_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = UnitLines_UnitLines_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromListIDFix(dataset->UnitLines, UnitLineIDs);
@@ -101,8 +101,8 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLinesCopy(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLines_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = UnitLines_UnitLines_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->UnitLines, UnitLineIDs, copies.UnitLine);
@@ -111,8 +111,8 @@ void AGE_Frame::OnUnitLinesCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLines_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = UnitLines_UnitLines_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToListIDFix(dataset->UnitLines, UnitLineIDs, copies.UnitLine);
@@ -121,8 +121,8 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLines_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = UnitLines_UnitLines_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToListIDFix(dataset->UnitLines, UnitLineIDs.front(), copies.UnitLine);
@@ -174,7 +174,7 @@ void AGE_Frame::ListUnitLineUnits()
 
 void AGE_Frame::OnUnitLineUnitSelect(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
+    size_t selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     UnitLineUnits_Units->clear();
     if(selections > 0)
@@ -182,7 +182,7 @@ void AGE_Frame::OnUnitLineUnitSelect(wxCommandEvent &event)
         getSelectedItems(selections, UnitLines_UnitLineUnits_ListV, UnitLineUnitIDs);
 
         int16_t * UnitPointer;
-        for(auto loop = selections; loop--> 0;)
+        for(size_t loop = selections; loop--> 0;)
         {
             UnitPointer = &dataset->UnitLines[UnitLineIDs.front()].UnitIDs[UnitLineUnitIDs[loop]];
             UnitLineUnits_Units->prepend(UnitPointer);
@@ -193,8 +193,8 @@ void AGE_Frame::OnUnitLineUnitSelect(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLines_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = UnitLines_UnitLines_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     AddToListNoGV(dataset->UnitLines[UnitLineIDs.front()].UnitIDs);
@@ -203,8 +203,8 @@ void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToListNoGV(dataset->UnitLines[UnitLineIDs.front()].UnitIDs, UnitLineUnitIDs.front());
@@ -213,8 +213,8 @@ void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->UnitLines[UnitLineIDs.front()].UnitIDs, UnitLineUnitIDs);
@@ -223,8 +223,8 @@ void AGE_Frame::OnUnitLineUnitsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->UnitLines[UnitLineIDs.front()].UnitIDs, UnitLineUnitIDs, copies.UnitLineUnit);
@@ -233,8 +233,8 @@ void AGE_Frame::OnUnitLineUnitsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToListNoGV(dataset->UnitLines[UnitLineIDs.front()].UnitIDs, UnitLineUnitIDs, copies.UnitLineUnit);
@@ -243,8 +243,8 @@ void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &event)
 {
-    auto selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = UnitLines_UnitLineUnits_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToListNoGV(dataset->UnitLines[UnitLineIDs.front()].UnitIDs, UnitLineUnitIDs.front(), copies.UnitLineUnit);

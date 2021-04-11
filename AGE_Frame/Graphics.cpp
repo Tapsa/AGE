@@ -2,7 +2,7 @@
 #include "../AGE_Frame.h"
 #include "../Loaders.h"
 
-const wxString AGE_Frame::MirrorHelp = "Angle count clockwise from east after mirroring starts.\n"
+const wxString MirrorHelp = "Angle count clockwise from east after mirroring starts.\n"
     "Angles before south are mirrored too.\nFrom the graphics scanner, if the graphic mirror is > 0,\n"
     "mirror = (angle_count >> 1) + (angle_count >> 2)";
 
@@ -98,7 +98,7 @@ std::string AGE_Frame::GetGraphicName(int index, bool Filter)
                     break;
             }
             Name += ", ";
-            if(Selection[loop+1] < 1) break; // Internal name breaks
+            if(Selection[1] < 1) break; // Internal name breaks
         }
         if(Selection[0] == 1) goto InternalName;
     }
@@ -154,7 +154,13 @@ void AGE_Frame::InitGraphics(bool all)
     }
 
     RefreshList(Graphics_Graphics_ListV, &GraphicIDs);
-    if(all) for(auto &list: GraphicComboBoxList) list->Flash();
+    if (all)
+    {
+        for (AGEComboBox *list : GraphicComboBoxList)
+        {
+            list->Flash();
+        }
+    }
 
     SearchAnd = ExcludeAnd = false;
 }
@@ -163,12 +169,12 @@ void AGE_Frame::OnGraphicSelect(wxCommandEvent &event)
 {
     size_t selections = Graphics_Graphics_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    for (auto &box : uiGroupGraphic) box->clear();
+    for (AGETextCtrl *box : uiGroupGraphic) box->clear();
     Graphics_ID->clear();
     getSelectedItems(selections, Graphics_Graphics_ListV, GraphicIDs);
 
     genie::Graphic *GraphicPointer = 0;
-    for (auto sel = selections; sel-- > 0;)
+    for (size_t sel = selections; sel-- > 0;)
     {
         if (GenieVersion >= genie::GV_AoE && !dataset->GraphicPointers[GraphicIDs[sel]]) continue;
         GraphicPointer = &dataset->Graphics[GraphicIDs[sel]];
@@ -216,12 +222,14 @@ void AGE_Frame::OnGraphicSelect(wxCommandEvent &event)
     }
     if (GraphicPointer)
     {
-        Graphics_MirroringMode->SetToolTip("If used, should be " + lexical_cast<std::string>((GraphicPointer->AngleCount >> 1) + (GraphicPointer->AngleCount >> 2)) + " for this sprite.\n" + MirrorHelp);
+        int goodMirrorMode = (GraphicPointer->AngleCount >> 1) + (GraphicPointer->AngleCount >> 2);
+        Graphics_MirroringMode->SetToolTip("If used, should be " +
+            lexical_cast<std::string>(goodMirrorMode) + " for this sprite.\n" + MirrorHelp);
         gallery.datID = GraphicIDs.front();
         gallery.reload(); // Force reloading delta graphics.
     }
-    AGE_SLP::setbearing = 1u;
-    for (auto &box : uiGroupGraphic) box->update();
+    setbearing = 1u;
+    for (AGETextCtrl *box : uiGroupGraphic) box->update();
 
     Graphics_ID->refill();
     Deltas_Add->Enable(selections);
@@ -255,8 +263,8 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     {
         dc.DrawBitmap(tileSLP.bitmap, centerX - tileSLP.xpos, centerY - tileSLP.ypos, true);
     }
-    unsigned c8 = unsigned((AGE_SLP::bearing + 0.392699f) * 1.27324f) % 8u;
-    unsigned c16 = unsigned((AGE_SLP::bearing + 0.19635f) * 2.54648f) % 16u;
+    unsigned c8 = unsigned((bearing + 0.392699f) * 1.27324f) % 8u;
+    unsigned c16 = unsigned((bearing + 0.19635f) * 2.54648f) % 16u;
     dc.DrawLabel("Angle "+FormatInt(c8)+"/8 "+FormatInt(c16)+"/16", wxRect((centerX << 1) - 80, text_pos, 80, 20));
     if(slp_extra_info.size())
     {
@@ -265,9 +273,9 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     }
     if(6 == TabBar_Main->GetSelection())
     {
-        if(AGE_SLP::currentDisplay != AGE_SLP::SHOW::GRAPHIC)
+        if(currentDisplay != SHOW::GRAPHIC)
         {
-            AGE_SLP::currentDisplay = AGE_SLP::SHOW::GRAPHIC;
+            currentDisplay = SHOW::GRAPHIC;
             gallery.reload();
 
             slp_stack->Enable(false);
@@ -279,9 +287,9 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
     }
     else if(4 == TabBar_Main->GetSelection())
     {
-        if(AGE_SLP::currentDisplay != AGE_SLP::SHOW::UNIT)
+        if(currentDisplay != SHOW::UNIT)
         {
-            AGE_SLP::currentDisplay = AGE_SLP::SHOW::UNIT;
+            currentDisplay = SHOW::UNIT;
             museum.reload();
 
             slp_stack->Enable(true);
@@ -291,7 +299,8 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             slp_selection->Enable(true);
         }
     }
-    if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::GRAPHIC)
+    size_t spriteMemoryInUse = 0u;
+    if(currentDisplay == SHOW::GRAPHIC)
     {
         if (gallery.datID >= dataset->Graphics.size() || dataset->Graphics[gallery.datID].FrameCount == 0)
         {
@@ -300,13 +309,13 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         if(gallery.slpID != dataset->Graphics[gallery.datID].SLP) // SLP changed
         {
-            AGE_SLP::setbearing = 1u;
+            setbearing = 1u;
             bool has_base = initArt(gallery, gallery.datID);
             // SLP cache reduces reloading times.
             gallery.deltas.clear();
             // Load possible delta graphics.
             if(ShowDeltas)
-            for(auto const &delta: dataset->Graphics[gallery.datID].Deltas)
+            for(const genie::GraphicDelta &delta: dataset->Graphics[gallery.datID].Deltas)
             {
                 AGE_SLP art;
                 if(delta.GraphicID < dataset->Graphics.size())
@@ -329,8 +338,9 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             }
         }
         DrawGraphics(dc, gallery, centerX, centerY);
+        spriteMemoryInUse = gallery.getMemoryInUse();
     }
-    else if(AGE_SLP::currentDisplay == AGE_SLP::SHOW::UNIT)
+    else if(currentDisplay == SHOW::UNIT)
     {
         if (UnitCivID >= dataset->Civs.size())
         {
@@ -363,12 +373,12 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         }
         if(UnitIDs.size() == 0 || museum.datID >= dataset->Graphics.size())
         {
-            dc.DrawLabel("!Graphic " + FormatInt(museum.datID), wxRect(text_pos, text_pos, 100, 40));
+            dc.DrawLabel("No graphic " + FormatInt(museum.datID), wxRect(text_pos, text_pos, 100, 40));
             return;
         }
         if(museum.slpID != dataset->Graphics[museum.datID].SLP) // SLP changed
         {
-            AGE_SLP::setbearing = 1u;
+            setbearing = 1u;
             initArt(museum, museum.datID);
             museum.deltas.clear();
             if(ShowDeltas)
@@ -413,6 +423,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
             }
         }
         DrawGraphics(dc, museum, centerX, centerY);
+        spriteMemoryInUse = museum.getMemoryInUse();
         if(UnitIDs.size())
         {
             if(DrawCollisionShape)
@@ -441,11 +452,18 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         dc.DrawLine(centerX - 1, centerY + 1, centerX - 25, centerY + 13);
         dc.DrawLine(centerX + 1, centerY + 1, centerX + 25, centerY + 13);
     }
+    if (GG::cache_size < spriteMemoryInUse)
+    {
+        // Have to delay the message.
+        popUp.post(wxString::Format("Increasing cache size from %zu to %zu megabytes in order to display current sprites.",
+            GG::cache_size / 1000000u, spriteMemoryInUse / 1000000u), "Warning");
+        GG::cache_size = spriteMemoryInUse;
+    }
 }
 
 bool AGE_Frame::initArt(AGE_SLP &art, unsigned graphicID)
 {
-    auto &graphic = dataset->Graphics[graphicID];
+    genie::Graphic &graphic = dataset->Graphics[graphicID];
     art.datID = graphicID;
     art.angles = graphic.AngleCount;
     art.fpa = graphic.FrameCount;
@@ -533,7 +551,7 @@ void AGE_Frame::SetDisplayBearings(AGE_SLP &graphic, const genie::GraphicDelta &
 
 void AGE_Frame::CalcAngle(AGE_SLP &graphic)
 {
-    float result = AGE_SLP::bearing + 3.14159f / graphic.angles;
+    float result = bearing + 3.14159f / graphic.angles;
     float bearing = result > PI2A ? result - PI2A : result;
     if(graphic.beginbearing < graphic.endbearing)
     {
@@ -567,7 +585,7 @@ void AGE_Frame::CalcAngle(AGE_SLP &graphic)
         }
     }
     graphic.startframe = angle * graphic.fpa;
-    graphic.frameID = AGE_SLP::setbearing == 2u ? graphic.fpa - 1 + graphic.startframe : graphic.startframe;
+    graphic.frameID = setbearing == 2u ? graphic.fpa - 1 + graphic.startframe : graphic.startframe;
 }
 
 void AGE_Frame::DrawAngle(wxBufferedPaintDC &dc, int x, int y, int centerX, int centerY)
@@ -599,18 +617,21 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLPs &spritemap, int cen
     }
     bool framesleft = false;
     int text_pos = 5 / slp_zoom;
+    wxRect banner(text_pos, text_pos, 100, 40);
     if(spritemap.deltas.size())
     {
-        GG::cache_depth = std::max(GG::cache_depth, spritemap.deltas.size());
         int fpms = 0x7FFF;
-        std::set<uint32_t> slpIDs;
-        for(auto &delta: spritemap.deltas)
+        wxString text = "Sprites";
+        for(std::pair<const int, AGE_SLP> &delta: spritemap.deltas)
         {
-            if(AGE_SLP::setbearing)
+            if(setbearing)
             {
                 CalcAngle(delta.second);
             }
-            if(LoadSLP(&delta.second)) FrameToBitmap(&delta.second);
+            if (LoadSLP(&delta.second))
+            {
+                FrameToBitmap(&delta.second);
+            }
             if(delta.second.bitmap.IsOk())
             {
                 dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
@@ -622,38 +643,29 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLPs &spritemap, int cen
                 {
                     fpms = std::min(fpms, ShouldAnimate(delta.second, framesleft));
                 }
-                slpIDs.insert(delta.second.slpID);
+                text += "\n" + FormatInt(delta.second.slpID) + " " + delta.second.filename;
             }
         }
         if(AnimSLP)
         {
             animater.Start(fpms);
         }
-        /*if(slpIDs.count(-1) == slpIDs.size())
+        if (text.size() > 7)
         {
-            dc.DrawLabel("No SLP", wxRect(text_pos, text_pos, 100, 40));
-            return;
+            dc.DrawLabel(text, banner);
         }
-        else*/
-        {
-            wxString slps = "SLPs";
-            for(auto const &ID: slpIDs)
-            slps += " " + FormatInt(ID);
-            dc.DrawLabel(slps, wxRect(text_pos, text_pos, 100, 40));
-        }
+        else dc.DrawLabel("No sprites associated with " + FormatInt(spritemap.slpID) + " " + spritemap.filename, banner);
     }
     else
     {
-        /*if(spritemap.slpID == -1)
-        {
-            dc.DrawLabel("No SLP", wxRect(text_pos, text_pos, 100, 40));
-            return;
-        }*/
-        if(AGE_SLP::setbearing)
+        if(setbearing)
         {
             CalcAngle(spritemap);
         }
-        if(LoadSLP(&spritemap)) FrameToBitmap(&spritemap);
+        if (LoadSLP(&spritemap))
+        {
+            FrameToBitmap(&spritemap);
+        }
         if(spritemap.bitmap.IsOk())
         {
             dc.DrawBitmap(spritemap.bitmap, spritemap.xpos + centerX, spritemap.ypos + centerY, true);
@@ -666,9 +678,9 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLPs &spritemap, int cen
             {
                 animater.Start(ShouldAnimate(spritemap, framesleft));
             }
-            dc.DrawLabel("SLP " + FormatInt(spritemap.slpID) + "\n" + spritemap.filename, wxRect(text_pos, text_pos, 100, 40));
+            dc.DrawLabel("Sprite " + FormatInt(spritemap.slpID) + " " + spritemap.filename, banner);
         }
-        else dc.DrawLabel("!SLP " + FormatInt(spritemap.slpID) + "\n" + spritemap.filename, wxRect(text_pos, text_pos, 100, 40));
+        else dc.DrawLabel("No sprite " + FormatInt(spritemap.slpID) + " " + spritemap.filename, banner);
     }
     if(AnimSLP)
     {
@@ -689,37 +701,37 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLPs &spritemap, int cen
 
 void AGE_Frame::HandleLastFrame(const uint16_t angles, bool framesleft, unsigned clockwise)
 {
-    if(framesleft)
+    if (framesleft)
     {
-        AGE_SLP::setbearing = 0u;
+        setbearing = 0u;
     }
     else // Switch graphics to next angle or loop this angle
     {
-        if(RotateAngles)
+        if (RotateAngles)
         {
             float rotationrate = PI2;
-            if(angles)
+            if (angles)
             {
                 rotationrate = PI2 / angles;
             }
-            if(clockwise == 1u)
+            if (clockwise == 1u)
             {
-                AGE_SLP::bearing += rotationrate;
-                if(AGE_SLP::bearing >= PI2A)
+                bearing += rotationrate;
+                if (bearing >= PI2A)
                 {
-                    AGE_SLP::bearing -= PI2A;
+                    bearing -= PI2A;
                 }
             }
             else
             {
-                AGE_SLP::bearing -= rotationrate;
-                if(AGE_SLP::bearing < 0.f)
+                bearing -= rotationrate;
+                if (bearing < 0.f)
                 {
-                    AGE_SLP::bearing += PI2A;
+                    bearing += PI2A;
                 }
             }
         }
-        AGE_SLP::setbearing = clockwise;
+        setbearing = clockwise;
     }
 }
 
@@ -850,8 +862,8 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicsEnable(wxCommandEvent &event)
 {
-    auto selections = Graphics_Graphics_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Graphics_Graphics_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     for(size_t loop = 0; loop < selections; ++loop)
@@ -865,8 +877,8 @@ void AGE_Frame::OnGraphicsEnable(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicsDisable(wxCommandEvent &event)
 {
-    auto selections = Graphics_Graphics_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Graphics_Graphics_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     for(size_t loop = 0; loop < selections; ++loop)
@@ -913,15 +925,15 @@ void AGE_Frame::ListGraphicDeltas()
 
 void AGE_Frame::OnGraphicDeltaSelect(wxCommandEvent &event)
 {
-    auto selections = Graphics_Deltas_ListV->GetSelectedCount();
+    size_t selections = Graphics_Deltas_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    for(auto &box: uiGroupGraphicDelta) box->clear();
+    for (AGETextCtrl *box : uiGroupGraphicDelta) box->clear();
     if(selections > 0)
     {
         getSelectedItems(selections, Graphics_Deltas_ListV, DeltaIDs);
 
         genie::GraphicDelta * DeltaPointer;
-        for(auto sel = selections; sel--> 0;)
+        for(size_t sel = selections; sel--> 0;)
         {
             DeltaPointer = &dataset->Graphics[GraphicIDs.front()].Deltas[DeltaIDs[sel]];
 
@@ -934,13 +946,13 @@ void AGE_Frame::OnGraphicDeltaSelect(wxCommandEvent &event)
             GraphicDeltas_Padding2->prepend(&DeltaPointer->Padding2);
         }
     }
-    for(auto &box: uiGroupGraphicDelta) box->update();
+    for (AGETextCtrl *box : uiGroupGraphicDelta) box->update();
 }
 
 void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &event)
 {
-    auto selections = Graphics_Graphics_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Graphics_Graphics_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     AddToList(dataset->Graphics[GraphicIDs.front()].Deltas);
@@ -951,8 +963,8 @@ void AGE_Frame::OnGraphicDeltasAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &event)
 {
-    auto selections = Graphics_Deltas_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Graphics_Deltas_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs.front());
@@ -963,8 +975,8 @@ void AGE_Frame::OnGraphicDeltasInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &event)
 {
-    auto selections = Graphics_Deltas_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Graphics_Deltas_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs);
@@ -975,8 +987,8 @@ void AGE_Frame::OnGraphicDeltasDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &event)
 {
-    auto selections = Graphics_Deltas_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Graphics_Deltas_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs, copies.GraphicDelta);
@@ -985,8 +997,8 @@ void AGE_Frame::OnGraphicDeltasCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &event)
 {
-    auto selections = Graphics_Deltas_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Graphics_Deltas_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs, copies.GraphicDelta);
@@ -997,8 +1009,8 @@ void AGE_Frame::OnGraphicDeltasPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnGraphicDeltasPasteInsert(wxCommandEvent &event)
 {
-    auto selections = Graphics_Deltas_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Graphics_Deltas_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->Graphics[GraphicIDs.front()].Deltas, DeltaIDs.front(), copies.GraphicDelta);
@@ -1048,9 +1060,9 @@ void AGE_Frame::ListGraphicAngleSounds()
 
 void AGE_Frame::OnGraphicAngleSoundSelect(wxCommandEvent &event)
 {
-    auto selections = Graphics_AngleSounds_ListV->GetSelectedCount();
+    size_t selections = Graphics_AngleSounds_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    for(auto &box: uiGroupGraphicSound) box->clear();
+    for (AGETextCtrl *box : uiGroupGraphicSound) box->clear();
     if(selections > 0)
     {
         getSelectedItems(selections, Graphics_AngleSounds_ListV, AttackSoundIDs);
@@ -1074,7 +1086,7 @@ void AGE_Frame::OnGraphicAngleSoundSelect(wxCommandEvent &event)
                 Graphics_WwiseAngleSoundID[2]->prepend(&angle_ptr->WwiseSoundID3);
             }
         }
-        else for(auto sel = selections; sel--> 0;)
+        else for(size_t sel = selections; sel--> 0;)
         {
             angle_ptr = &dataset->Graphics[GraphicIDs.front()].AngleSounds[AttackSoundIDs[sel]];
 
@@ -1092,13 +1104,13 @@ void AGE_Frame::OnGraphicAngleSoundSelect(wxCommandEvent &event)
             }
         }
     }
-    for(auto &box: uiGroupGraphicSound) box->update();
+    for (AGETextCtrl *box : uiGroupGraphicSound) box->update();
 }
 
 void AGE_Frame::OnGraphicAngleSoundsCopy(wxCommandEvent &event)
 {
-    auto selections = Graphics_AngleSounds_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Graphics_AngleSounds_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     genie::GraphicAngleSound Copy = dataset->Graphics[GraphicIDs.front()].AngleSounds[AttackSoundIDs.front()];
@@ -1568,7 +1580,7 @@ void AGE_Frame::CreateGraphicsControls()
         wxString path = dd.GetPath() + "\\";
 
         // Export SLP file from each selected graphic.
-        for(auto &i: GraphicIDs)
+        for (int i : GraphicIDs)
         {
             if(dataset->Graphics[i].SLP != -1)
             {
@@ -2002,7 +2014,7 @@ void AGE_Frame::ResizeAngles()
     {
         for(size_t loop = 0; loop < GraphicIDs.size(); ++loop)
         {
-            auto &graphic = dataset->Graphics[GraphicIDs[loop]];
+            genie::Graphic &graphic = dataset->Graphics[GraphicIDs[loop]];
             if(graphic.AngleSounds.size())
             {
                 graphic.AngleSounds.resize(graphic.AngleCount, graphic.AngleSounds.front());

@@ -45,6 +45,7 @@ set(AGE_SRC Precompile/Common.cpp
     OpenDialog.cpp
     SaveDialog.cpp
     Loaders.cpp
+    Sprites.cpp
 
     AGE_Frame/Civs.cpp
     AGE_Frame/General.cpp

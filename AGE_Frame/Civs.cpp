@@ -49,7 +49,13 @@ void AGE_Frame::InitCivs(bool all)
     }
 
     RefreshList(Civs_Civs_ListV, &CivIDs);
-    if(all) for(auto &list: CivComboBoxList) list->Flash();
+    if (all)
+    {
+        for (AGEComboBox *list : CivComboBoxList)
+        {
+            list->Flash();
+        }
+    }
 }
 
 void AGE_Frame::OnCivSelect(wxCommandEvent &event)
@@ -58,7 +64,7 @@ void AGE_Frame::OnCivSelect(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Civs_Civs_ListV, CivIDs);
 
-    for(auto &box: uiGroupCiv) box->clear();
+    for (AGETextCtrl *box : uiGroupCiv) box->clear();
 
     genie::Civ * CivPointer;
     for(size_t sel = selections; sel--> 0;)
@@ -86,7 +92,7 @@ void AGE_Frame::OnCivSelect(wxCommandEvent &event)
     SetStatusText(wxString::Format("Selections: %zu    Selected civilization: %d",
         selections, selections > 0 ? CivIDs.front() : -1), 0);
 
-    for(auto &box: uiGroupCiv) box->update();
+    for (AGETextCtrl *box : uiGroupCiv) box->update();
     ListResources();
 }
 
@@ -112,8 +118,8 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnCivsInsert(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Civs_Civs_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     genie::Civ Temp;
@@ -133,8 +139,8 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnCivsDelete(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Civs_Civs_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->Civs, CivIDs);
@@ -144,8 +150,8 @@ void AGE_Frame::OnCivsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnCivsCopy(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Civs_Civs_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->Civs, CivIDs, copies.Civ);
@@ -154,8 +160,8 @@ void AGE_Frame::OnCivsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnCivsPaste(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Civs_Civs_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->Civs, CivIDs, copies.Civ);
@@ -165,8 +171,8 @@ void AGE_Frame::OnCivsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnCivsPasteInsert(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Civs_Civs_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->Civs, CivIDs.front(), copies.Civ);
@@ -271,7 +277,13 @@ void AGE_Frame::ListResources(bool all)
     }
 
     RefreshList(Civs_Resources_ListV, &ResourceIDs);
-    if(all) for(auto &list: ResourceComboBoxList) list->Flash();
+    if (all)
+    {
+        for (AGEComboBox *list : ResourceComboBoxList)
+        {
+            list->Flash();
+        }
+    }
 
     wxCommandEvent e;
     OnResourceSelect(e);
@@ -279,14 +291,14 @@ void AGE_Frame::ListResources(bool all)
 
 void AGE_Frame::OnResourceSelect(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedCount();
+    size_t selections = Civs_Resources_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Civs_Resources_ListV, ResourceIDs);
 
     Civs_ResourceValue->clear();
 
     float * CivResourcePointer;
-    for(auto loop = selections; loop--> 0;)
+    for(size_t loop = selections; loop--> 0;)
     {
         CivResourcePointer = &dataset->Civs[CivIDs.front()].Resources[ResourceIDs[loop]];
         Civs_ResourceValue->prepend(CivResourcePointer);
@@ -297,8 +309,8 @@ void AGE_Frame::OnResourceSelect(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesAdd(wxCommandEvent &event)
 {
-    auto selections = Civs_Civs_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Civs_Civs_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
@@ -309,8 +321,8 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesInsert(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Civs_Resources_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
@@ -321,13 +333,13 @@ void AGE_Frame::OnResourcesInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesDelete(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Civs_Resources_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     for(size_t loop2 = 0; loop2 < dataset->Civs.size(); ++loop2)
     {
-        for(auto loop = selections; loop--> 0;)
+        for(size_t loop = selections; loop--> 0;)
         dataset->Civs[loop2].Resources.erase(dataset->Civs[loop2].Resources.begin() + ResourceIDs[loop]);
     }
     How2List = DEL;
@@ -336,8 +348,8 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesCopy(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Civs_Resources_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->Civs[CivIDs.front()].Resources, ResourceIDs, copies.Resource);
@@ -346,8 +358,8 @@ void AGE_Frame::OnResourcesCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesPaste(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Civs_Resources_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToListNoGV(dataset->Civs[CivIDs.front()].Resources, ResourceIDs, copies.Resource, false);
@@ -356,8 +368,8 @@ void AGE_Frame::OnResourcesPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Civs_Resources_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToListNoGV(dataset->Civs[CivIDs.front()].Resources, ResourceIDs.front(), copies.Resource);
@@ -366,8 +378,8 @@ void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnResourcesCopyToAll(wxCommandEvent &event)
 {
-    auto selections = Civs_Resources_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Civs_Resources_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     for(size_t loop = 0; loop < selections; ++loop)
@@ -541,7 +553,7 @@ void AGE_Frame::CreateCivControls()
             event.Skip();
             if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
             {
-                for (auto const& ID : CivIDs)
+                for (int ID : CivIDs)
                 {
                     if (GenieVersion < genie::GV_SWGB)
                         Units_CivBoxes[ID]->SetLabel(dataset->Civs[ID].Name.substr(0, 2));
@@ -554,7 +566,7 @@ void AGE_Frame::CreateCivControls()
         Civs_Name[loop]->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
         {
             static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
-            for (auto const& ID : CivIDs)
+            for (int ID : CivIDs)
             {
                 if (GenieVersion < genie::GV_SWGB)
                     Units_CivBoxes[ID]->SetLabel(dataset->Civs[ID].Name.substr(0, 2));
