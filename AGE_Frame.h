@@ -4,7 +4,6 @@
 #include <array>
 #include <chrono>
 #include <functional>
-#include <map>
 #include <string>
 #include <wx/clrpicker.h>
 #include <wx/dcbuffer.h>
@@ -13,8 +12,6 @@
 #include <wx/notebook.h>
 #include <wx/radiobox.h>
 #include <wx/wrapsizer.h>
-#include <SFML/Audio/Sound.hpp>
-#include <SFML/Audio/SoundBuffer.hpp>
 
 // Project headers
 #include "AboutDialog.h"
@@ -27,6 +24,7 @@
 #include "LinkedCheckBox.h"
 #include "OpenDialog.h"
 #include "SaveDialog.h"
+#include "Sprites.h"
 
 // Subproject headers
 #include "genie/lang/LangFile.h"
@@ -38,38 +36,6 @@
 #ifndef WIN32
 #define HINSTANCE ssize_t
 #endif
-
-const float PI2A = 6.28319f, PI2 = 6.2832f;
-
-class AGE_SLP
-{
-public:
-    int32_t slpID = -1, frameID, datID = -1, lastSlpID = -2, startframe;
-    uint16_t angles, fpa, frames, mirror;
-    wxString filename = "";
-    genie::SpriteFilePtr slp;
-    wxBitmap bitmap;
-    sf::SoundBuffer buffers[4];// Actual data
-    sf::Sound sounds[4];// To play data
-    int16_t xpos = 0, ypos = 0, xdelta = 0, ydelta = 0, delays[4] = { 0, -1, -1, -1 };
-    bool flip = false, is32 = false;
-    float beginbearing = 0.f, endbearing = PI2A;
-
-    inline virtual void reload(void) { slpID = -1; lastSlpID = -2; filename = ""; }
-    static enum SHOW { NONE, UNIT, GRAPHIC } currentDisplay;
-    static unsigned setbearing;
-    static float bearing;
-    static uint8_t playerColorStart, playerColorID;
-};
-
-class AGE_SLPs : public AGE_SLP
-{
-public:
-    std::multimap<int, AGE_SLP> deltas;
-    bool pause = false;
-
-    inline void reload(void) override { deltas.clear(); AGE_SLP::reload(); }
-};
 
 class AGE_Frame;
 class AGE_List32Box
@@ -149,6 +115,9 @@ class AGE_Frame : public BaseMainFrame
 {
 public:
     AGE_Frame(const wxString &title, short window, wxString aP = wxEmptyString);
+    AGE_Frame(const AGE_Frame &) = delete;
+    AGE_Frame &operator=(const AGE_Frame &) = delete;
+
     void FixSize(float scale);
     inline wxSize ASize(int x, int y) const
     {
@@ -893,7 +862,7 @@ private:
     genie::LangFile *Lang = 0, *LangX = 0, *LangXP = 0;
     int CustomTerrains, paletteView = 0, ViewBackR, ViewBackG, ViewBackB, ViewPosX, ViewPosY;
     wxBrush slp_background_brush;
-    wxFrame *slp_window = 0;
+    wxFrame *slp_window = nullptr;
     APanel *slp_view;
     wxSizer *slp_sizer;
     wxButton *slp_next, *slp_frame_export, *slp_frame_import, *slp_save, *slp_prev, *slp_first,
@@ -954,6 +923,10 @@ private:
     void BitmapToSLP(AGE_SLP*);
     AGE_SLP iconSLP, techSLP, tileSLP, borderSLP;
     AGE_SLPs gallery, museum;
+    enum class SHOW { NONE, UNIT, GRAPHIC } currentDisplay = SHOW::NONE;
+    uint8_t playerColorStart = 0, playerColorID = 0;
+    unsigned setbearing;
+    float bearing;
 
 public:
 //  Constants, remove unneeded entries.
@@ -988,8 +961,6 @@ public:
         // invisible
         hotWin1, hotWin2, hotWin3, hotWin4, closeAll
     };
-
-    static const wxString MirrorHelp;
 
 //  User Interface
 private:
@@ -3434,7 +3405,7 @@ private:
     {
         path.emplace(path.begin() + place);
         path[place].setGameVersion(GenieVersion);
-        for(auto loop = path.size(); loop--> place;) // ID Fix
+        for(size_t loop = path.size(); loop--> place;) // ID Fix
         path[loop].ID = loop;
         How2List = INSNEW;
     }
@@ -3442,16 +3413,16 @@ private:
     template <class P>
     inline void DeleteFromList(P &path, std::vector<int> &places)
     {
-        for(auto loop = places.size(); loop--> 0;)
+        for(size_t loop = places.size(); loop--> 0;)
         path.erase(path.begin() + places[loop]);
         How2List = DEL;
     }
     template <class P>
     inline void DeleteFromListIDFix(P &path, std::vector<int> &places)
     {
-        for(auto loop = places.size(); loop--> 0;)
+        for(size_t loop = places.size(); loop--> 0;)
         path.erase(path.begin() + places[loop]);
-        for(auto loop = path.size(); loop--> places.front();) // ID Fix
+        for(size_t loop = path.size(); loop--> places.front();) // ID Fix
         path[loop].ID = loop;
         How2List = DEL;
     }
@@ -3543,7 +3514,7 @@ private:
     template <class P, class C>
     inline void PasteInsertToList(P &path, int place, C &copies)
     {
-        for(auto loop = copies.size(); loop--> 0;)
+        for(size_t loop = copies.size(); loop--> 0;)
         copies[loop].setGameVersion(GenieVersion);
         path.insert(path.begin() + place, copies.begin(), copies.end());
         How2List = INSPASTE;
@@ -3551,10 +3522,10 @@ private:
     template <class P, class C>
     inline void PasteInsertToListIDFix(P &path, int place, C &copies)
     {
-        for(auto loop = copies.size(); loop--> 0;)
+        for(size_t loop = copies.size(); loop--> 0;)
         copies[loop].setGameVersion(GenieVersion);
         path.insert(path.begin() + place, copies.begin(), copies.end());
-        for(auto loop = path.size(); loop--> place;) // ID Fix
+        for(size_t loop = path.size(); loop--> place;) // ID Fix
         path[loop].ID = loop;
         How2List = INSPASTE;
     }

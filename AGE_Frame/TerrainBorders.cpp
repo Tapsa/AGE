@@ -56,9 +56,9 @@ void AGE_Frame::InitTerrainBlends()
     }
 
     unsigned long cookie;
-    auto first_visible = Borders_ListV->GetVisibleRowsBegin();
-    auto first_selected = Borders_ListV->GetFirstSelected(cookie);
-    auto name_count = Borders_ListV->names.size();
+    size_t first_visible = Borders_ListV->GetVisibleRowsBegin();
+    int first_selected = Borders_ListV->GetFirstSelected(cookie);
+    size_t name_count = Borders_ListV->names.size();
 
     Borders_ListV->SetItemCount(name_count);
     if(name_count)
@@ -129,11 +129,20 @@ void AGE_Frame::InitTerrainBorders(bool all)
             Borders_ListV->names.Add(Name);
             Borders_ListV->indexes.push_back(loop);
         }
-        if(all) border_names.Add(Name);
+        if (all)
+        {
+            border_names.Add(Name);
+        }
     }
 
     RefreshList(Borders_ListV, &BorderIDs);
-    if(all) for(auto &list: TerrainBorderComboBoxList) list->Flash();
+    if (all)
+    {
+        for (AGEComboBox *list : TerrainBorderComboBoxList)
+        {
+            list->Flash();
+        }
+    }
 }
 
 void AGE_Frame::OnTerrainBorderSelect(wxCommandEvent &event)
@@ -145,7 +154,7 @@ void AGE_Frame::OnTerrainBorderSelect(wxCommandEvent &event)
     if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
         return;
 
-    for(auto &box: uiGroupBorder) box->clear();
+    for (AGETextCtrl *box : uiGroupBorder) box->clear();
 
     genie::TerrainBorder * BorderPointer = 0;
     for(size_t sel = selections; sel--> 0;)
@@ -181,7 +190,7 @@ void AGE_Frame::OnTerrainBorderSelect(wxCommandEvent &event)
     SetStatusText(wxString::Format("Selections: %zu    Selected border: %d",
         selections, selections > 0 ? BorderIDs.front() : -1), 0);
 
-    for(auto &box: uiGroupBorder) box->update();
+    for (AGETextCtrl *box : uiGroupBorder) box->update();
     if(BorderPointer && !palettes.empty() && !palettes.front().empty())
     {
         genie::Color high = palettes.front()[(uint8_t)BorderPointer->Colors[0]];
@@ -216,13 +225,13 @@ void AGE_Frame::OnTerrainBordersPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainBordersMoveUp(wxCommandEvent &event)
 {
-    auto selections = Borders_ListV->GetSelectedCount();
+    size_t selections = Borders_ListV->GetSelectedCount();
     if(!selections) return;
 
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Borders_ListV, BorderIDs);
     int32_t lowest = 70000;
-    for(auto sel = 0; sel < selections; ++sel)
+    for(size_t sel = 0; sel < selections; ++sel)
     {
         lowest = std::min(lowest, dataset->TerrainBlock.Terrains[BorderIDs[sel]].BlendPriority);
     }
@@ -236,7 +245,7 @@ void AGE_Frame::OnTerrainBordersMoveUp(wxCommandEvent &event)
         }
     }
     // Loop through terrains and patch their blend level.
-    for(auto sel = 0; sel < selections; ++sel)
+    for(size_t sel = 0; sel < selections; ++sel)
     {
         dataset->TerrainBlock.Terrains[BorderIDs[sel]].BlendPriority = newLow;
     }
@@ -245,13 +254,13 @@ void AGE_Frame::OnTerrainBordersMoveUp(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainBordersMoveDown(wxCommandEvent &event)
 {
-    auto selections = Borders_ListV->GetSelectedCount();
+    size_t selections = Borders_ListV->GetSelectedCount();
     if(!selections) return;
 
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Borders_ListV, BorderIDs);
     int32_t highest = 0;
-    for(auto sel = 0; sel < selections; ++sel)
+    for(size_t sel = 0; sel < selections; ++sel)
     {
         highest = std::max(highest, dataset->TerrainBlock.Terrains[BorderIDs[sel]].BlendPriority);
     }
@@ -265,7 +274,7 @@ void AGE_Frame::OnTerrainBordersMoveDown(wxCommandEvent &event)
         }
     }
     // Loop through terrains and patch their blend level.
-    for(auto sel = 0; sel < selections; ++sel)
+    for(size_t sel = 0; sel < selections; ++sel)
     {
         dataset->TerrainBlock.Terrains[BorderIDs[sel]].BlendPriority = newHigh;
     }
@@ -330,7 +339,7 @@ void AGE_Frame::ListTerrainBorderTileTypes()
 
 void AGE_Frame::OnTerrainBorderTileTypeSelect(wxCommandEvent &event)
 {
-    auto selections = Borders_TileTypes_ListV->GetSelectedCount();
+    size_t selections = Borders_TileTypes_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Borders_TileTypes_ListV, BorderTileTypeIDs);
 
@@ -401,14 +410,14 @@ void AGE_Frame::ListTerrainBorderBorderShapes()
 
 void AGE_Frame::OnTerrainBorderBorderShapeSelect(wxCommandEvent &event)
 {
-    auto selections = Borders_BorderShapes_ListV->GetSelectedCount();
+    size_t selections = Borders_BorderShapes_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Borders_BorderShapes_ListV, BorderShapeIDs);
 
-    for(auto &box: uiGroupBorderFrame) box->clear();
+    for (AGETextCtrl *box : uiGroupBorderFrame) box->clear();
 
     genie::FrameData * FramePointer = 0;
-    for(auto loop = selections; loop--> 0;)
+    for(size_t loop = selections; loop--> 0;)
     {
         FramePointer = &dataset->TerrainBlock.TerrainBorders[BorderIDs.front()].Borders[BorderTileTypeIDs.front()][BorderShapeIDs[loop]];
 
@@ -420,7 +429,7 @@ void AGE_Frame::OnTerrainBorderBorderShapeSelect(wxCommandEvent &event)
         borderSLP.frameID = FramePointer->ShapeID;
     Border_Shape_SLP->Refresh();
 
-    for(auto &box: uiGroupBorderFrame) box->update();
+    for (AGETextCtrl *box : uiGroupBorderFrame) box->update();
 }
 
 void AGE_Frame::OnDrawBorderSLP(wxPaintEvent &event)

@@ -91,13 +91,11 @@ For Visual Studio, open the solution for your Visual Studio version or nearest o
 - Run from `\boost_1_75_0`:
 
     ```sh
-    b2 toolset=gcc link=shared
-    
-    runtime-link=shared threading=multi install --with-iostreams
+    b2 toolset=gcc link=shared runtime-link=shared threading=multi --with-iostreams
     
     # For Visual Studio, zlib needs to be built too.
     
-    b2 toolset=msvc link=static runtime-link=static threading=multi install --with-iostreams -s ZLIB_SOURCE=".\tools\boost_install\test\iostreams\zlib-1.2.11" -s ZLIB_INCLUDE=".\tools\boost_install\test\iostreams\zlib-1.2.11"
+    b2 toolset=msvc link=static runtime-link=shared threading=multi --with-iostreams -s ZLIB_SOURCE=".\tools\boost_install\test\iostreams\zlib-1.2.11" -s ZLIB_INCLUDE=".\tools\boost_install\test\iostreams\zlib-1.2.11"
     ```
 
 You can safely delete the `boost_1_75_0` folder after build completes.

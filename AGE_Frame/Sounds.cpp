@@ -44,11 +44,20 @@ void AGE_Frame::InitSounds(bool all)
             Sounds_Sounds_ListV->names.Add(Name);
             Sounds_Sounds_ListV->indexes.push_back(loop);
         }
-        if(all) sound_names.Add(Name);
+        if (all)
+        {
+            sound_names.Add(Name);
+        }
     }
 
     RefreshList(Sounds_Sounds_ListV, &SoundIDs);
-    if(all) for(auto &list: SoundComboBoxList) list->Flash();
+    if (all)
+    {
+        for (AGEComboBox *list : SoundComboBoxList)
+        {
+            list->Flash();
+        }
+    }
 }
 
 void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
@@ -57,7 +66,7 @@ void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Sounds_Sounds_ListV, SoundIDs);
 
-    for(auto &box: uiGroupSound) box->clear();
+    for (AGETextCtrl *box : uiGroupSound) box->clear();
     Sounds_ID->clear();
 
     genie::Sound * SoundPointer = 0;
@@ -80,7 +89,7 @@ void AGE_Frame::OnSoundSelect(wxCommandEvent &event)
     SetStatusText(wxString::Format("Selections: %zu    Selected sound: &d",
         selections, selections > 0 ? SoundIDs.front() : -1), 0);
 
-    for(auto &box: uiGroupSound) box->update();
+    for (AGETextCtrl *box : uiGroupSound) box->update();
     Sounds_ID->refill();
     ListSoundItems();
 }
@@ -96,8 +105,8 @@ void AGE_Frame::OnSoundsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundsInsert(wxCommandEvent &event)
 {
-    auto selections = Sounds_Sounds_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Sounds_Sounds_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToListIDFix(dataset->Sounds, SoundIDs.front());
@@ -106,8 +115,8 @@ void AGE_Frame::OnSoundsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundsDelete(wxCommandEvent &event)
 {
-    auto selections = Sounds_Sounds_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Sounds_Sounds_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromListIDFix(dataset->Sounds, SoundIDs);
@@ -116,8 +125,8 @@ void AGE_Frame::OnSoundsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundsCopy(wxCommandEvent &event)
 {
-    auto selections = Sounds_Sounds_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Sounds_Sounds_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->Sounds, SoundIDs, copies.Sound);
@@ -126,8 +135,8 @@ void AGE_Frame::OnSoundsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundsPaste(wxCommandEvent &event)
 {
-    auto selections = Sounds_Sounds_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Sounds_Sounds_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToListIDFix(dataset->Sounds, SoundIDs, copies.Sound);
@@ -136,8 +145,8 @@ void AGE_Frame::OnSoundsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &event)
 {
-    auto selections = Sounds_Sounds_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Sounds_Sounds_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToListIDFix(dataset->Sounds, SoundIDs.front(), copies.Sound);
@@ -223,21 +232,21 @@ void AGE_Frame::OnSoundItemSelect(wxCommandEvent &event)
     if(!SoundIDs.empty())
     {
         size_t sum = 0;
-        for(auto &file: dataset->Sounds[SoundIDs.front()].Items)
+        for (genie::SoundItem &file : dataset->Sounds[SoundIDs.front()].Items)
         {
             sum += file.Probability;
         }
         Sounds_TotalProbability_Info->SetLabel("Used "+lexical_cast<std::string>(sum)+"/"+lexical_cast<std::string>(dataset->Sounds[SoundIDs.front()].TotalProbability));
     }
-    auto selections = Sounds_Items_ListV->GetSelectedCount();
+    size_t selections = Sounds_Items_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    for(auto &box: uiGroupSoundFile) box->clear();
+    for (AGETextCtrl *box : uiGroupSoundFile) box->clear();
     if(selections > 0)
     {
         getSelectedItems(selections, Sounds_Items_ListV, SoundItemIDs);
 
         genie::SoundItem * SoundItemPointer;
-        for(auto loop = selections; loop--> 0;)
+        for(size_t loop = selections; loop--> 0;)
         {
             SoundItemPointer = &dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs[loop]];
 
@@ -251,13 +260,13 @@ void AGE_Frame::OnSoundItemSelect(wxCommandEvent &event)
             }
         }
     }
-    for(auto &box: uiGroupSoundFile) box->update();
+    for (AGETextCtrl *box : uiGroupSoundFile) box->update();
 }
 
 void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &event)
 {
-    auto selections = Sounds_Sounds_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Sounds_Sounds_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     AddToList(dataset->Sounds[SoundIDs.front()].Items);
@@ -266,8 +275,8 @@ void AGE_Frame::OnSoundItemsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundItemsInsert(wxCommandEvent &event)
 {
-    auto selections = Sounds_Items_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Sounds_Items_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToList(dataset->Sounds[SoundIDs.front()].Items, SoundItemIDs.front());
@@ -276,8 +285,8 @@ void AGE_Frame::OnSoundItemsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundItemsDelete(wxCommandEvent &event)
 {
-    auto selections = Sounds_Items_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Sounds_Items_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->Sounds[SoundIDs.front()].Items, SoundItemIDs);
@@ -286,8 +295,8 @@ void AGE_Frame::OnSoundItemsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundItemsCopy(wxCommandEvent &event)
 {
-    auto selections = Sounds_Items_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Sounds_Items_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->Sounds[SoundIDs.front()].Items, SoundItemIDs, copies.SoundItem);
@@ -296,8 +305,8 @@ void AGE_Frame::OnSoundItemsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &event)
 {
-    auto selections = Sounds_Items_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Sounds_Items_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToList(dataset->Sounds[SoundIDs.front()].Items, SoundItemIDs, copies.SoundItem);
@@ -306,8 +315,8 @@ void AGE_Frame::OnSoundItemsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnSoundItemsPasteInsert(wxCommandEvent &event)
 {
-    auto selections = Sounds_Items_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Sounds_Items_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToList(dataset->Sounds[SoundIDs.front()].Items, SoundItemIDs.front(), copies.SoundItem);
@@ -594,7 +603,7 @@ void AGE_Frame::CreateSoundControls()
     SoundFile_AutoIncrement->Bind(wxEVT_BUTTON, &AGE_Frame::autoDrsIncrement, this);
     SoundFile_CopyCivToCiv->Bind(wxEVT_BUTTON, &AGE_Frame::copySoundsFromCivToCiv, this);
 
-    for(auto &box: uiGroupSoundFile)
+    for (AGETextCtrl *box : uiGroupSoundFile)
     {
         box->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Sounds, this);
         box->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Sounds, this);
@@ -638,7 +647,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
     if(SoundItemIDs.size() && dataset && SoundItemIDs.front() < dataset->Sounds[SoundIDs.front()].Items.size())
     {
         bool loop = SoundFile_Loop->GetValue();
-        auto &sound_item = dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs.front()];
+        genie::SoundItem &sound_item = dataset->Sounds[SoundIDs.front()].Items[SoundItemIDs.front()];
         if(LooseHD)
         {
             std::string soundname = GG::LoadSound(soundfolders, sound_item.FileName, sound_item.ResourceID);
@@ -699,7 +708,7 @@ void AGE_Frame::copySoundsFromCivToCiv(wxCommandEvent &event)
         targetCiv = SoundFile_Target_Civ->GetSelection();
     if(sourceCiv == targetCiv) return;
     wxBusyCursor WaitCursor;
-    for(auto &sound: dataset->Sounds)
+    for (genie::Sound &sound : dataset->Sounds)
     {
         std::vector<size_t> targets;
         std::vector<genie::SoundItem> soundCopies;

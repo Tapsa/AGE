@@ -2,10 +2,14 @@
 #include "AboutDialog.h"
 #include "AppIcon64.xpm"
 #include "CustomWidgets.h"
-#include "License GPLv3.h"
-#include "License liblz4.h"
+#include "Licenses/boost.h"
+#include "Licenses/GPLv3.h"
+#include "Licenses/LGPLv2.h"
+#include "Licenses/liblz4.h"
+#include "Licenses/SFML.h"
+#include "Licenses/wxWidgets.h"
 
-const wxString AboutDialog::AGE_VER = "2021.4.4";
+const wxString AboutDialog::AGE_VER = "2021.4.11";
 
 AboutDialog::AboutDialog(wxWindow *parent, const wxFont &font)
     : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)
@@ -24,6 +28,7 @@ AboutDialog::AboutDialog(wxWindow *parent, const wxFont &font)
         "\nwxWidgets - wxWindows Library Licence, Version 3.1, 2005"
         "\nboost - Boost Software License, Version 1.0, 17 August 2003"
         "\nSimple and Fast Multimedia Library - zlib/libpng License"
+        "\nOpen Audio Library - GNU Library General Public License, Version 2, June 1991"
         "\nlibiconv - GNU General Public License, Version 3, 29 June 2007"
         "\nlz4 - BSD 2-Clause License");
     wxHyperlinkCtrl *AoKHThread = new wxHyperlinkCtrl(this, wxID_ANY, "Age of Kings Heaven AGE forum topic",
@@ -38,22 +43,46 @@ AboutDialog::AboutDialog(wxWindow *parent, const wxFont &font)
 
     wxBoxSizer *MainRight = new wxBoxSizer(wxHORIZONTAL);
     wxBoxSizer *MainAbout = new wxBoxSizer(wxVERTICAL);
-    wxBoxSizer *Buttons = new wxBoxSizer(wxHORIZONTAL);
-    wxButton *ButtonOK = new wxButton(this, wxID_OK, "All right");
+    wxSizer *Buttons = new wxGridSizer(5, 2, 2);
+    wxButton *ButtonBoost = new wxButton(this, wxID_ANY, "boost");
     wxButton *ButtonGPLv3 = new wxButton(this, wxID_ANY, "GPLv3");
+    wxButton *ButtonLGPLv2 = new wxButton(this, wxID_ANY, "LGPLv2");
     wxButton *ButtonLz4 = new wxButton(this, wxID_ANY, "lz4");
+    wxButton *ButtonSFML = new wxButton(this, wxID_ANY, "SFML");
+    wxButton *ButtonWx = new wxButton(this, wxID_ANY, "wxWidgets");
+    wxButton *ButtonOK = new wxButton(this, wxID_OK, "All right");
 
     ButtonGPLv3->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [](wxCommandEvent &)
     {
         wxMessageBox(licenseGPLv3, "GNU General Public License, Version 3, 29 June 2007");
     });
+    ButtonLGPLv2->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [](wxCommandEvent &)
+    {
+        wxMessageBox(licenseLGPLv2, "GNU Library General Public License, Version 2, June 1991");
+    });
     ButtonLz4->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [](wxCommandEvent &)
     {
         wxMessageBox(licenseLZ4, "lz4 - BSD 2-Clause License");
     });
+    ButtonWx->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [](wxCommandEvent &)
+    {
+        wxMessageBox(licenseWx, "wxWindows Library Licence, Version 3.1, 2005");
+    });
+    ButtonBoost->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [](wxCommandEvent &)
+    {
+        wxMessageBox(licenseBoost, "Boost Software License, Version 1.0, 17 August 2003");
+    });
+    ButtonSFML->Bind(wxEVT_COMMAND_BUTTON_CLICKED, [](wxCommandEvent &)
+    {
+        wxMessageBox(licenseSFML, "SFML - zlib/libpng License");
+    });
 
+    Buttons->Add(ButtonBoost);
     Buttons->Add(ButtonGPLv3);
+    Buttons->Add(ButtonLGPLv2);
     Buttons->Add(ButtonLz4);
+    Buttons->Add(ButtonSFML);
+    Buttons->Add(ButtonWx);
     Buttons->Add(ButtonOK);
     MainRight->Add(Title, 1, wxEXPAND);
     MainRight->Add(Image);

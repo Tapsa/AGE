@@ -2,10 +2,6 @@
 #include "../AGE_Frame.h"
 #include "genie/resource/Color.h"
 
-uint8_t AGE_SLP::playerColorStart = 0;
-uint8_t AGE_SLP::playerColorID = 0;
-AGE_SLP::SHOW AGE_SLP::currentDisplay = AGE_SLP::SHOW::NONE;
-
 void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &event)
 {
     How2List = SEARCH;
@@ -57,7 +53,7 @@ void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, Colors_Colors_ListV, ColorIDs);
 
-    for(auto &box: uiGroupColor) box->clear();
+    for (AGETextCtrl *box : uiGroupColor) box->clear();
     Colors_ID->clear();
 
     genie::PlayerColour * PlayerColorPointer = 0;
@@ -87,7 +83,7 @@ void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
     SetStatusText(wxString::Format("Selections: %zu    Selected color: %d",
         selections, selections > 0 ? ColorIDs.front() : -1), 0);
 
-    for(auto &box: uiGroupColor) box->update();
+    for (AGETextCtrl *box : uiGroupColor) box->update();
     Colors_ID->refill();
     if(PlayerColorPointer && !palettes.empty() && !palettes.front().empty())
     {
@@ -96,15 +92,15 @@ void AGE_Frame::OnPlayerColorSelect(wxCommandEvent &event)
 
         if(GenieVersion < genie::GV_AoKE3)
         {
-            AGE_SLP::playerColorStart = uint8_t(16 * (1 + ColorIDs.front()));
+            playerColorStart = uint8_t(16 * (1 + ColorIDs.front()));
         }
         else
         {
-            AGE_SLP::playerColorID = (uint8_t)PlayerColorPointer->UnitOutlineColor;
-            AGE_SLP::playerColorStart = (uint8_t)PlayerColorPointer->PlayerColorBase;
+            playerColorID = (uint8_t)PlayerColorPointer->UnitOutlineColor;
+            playerColorStart = (uint8_t)PlayerColorPointer->PlayerColorBase;
 
-            genie::Color playerColor = palettes.front()[AGE_SLP::playerColorID];
-            genie::Color paletteStart = palettes.front()[AGE_SLP::playerColorStart];
+            genie::Color playerColor = palettes.front()[playerColorID];
+            genie::Color paletteStart = palettes.front()[playerColorStart];
             genie::Color minimap2 = palettes.front()[(uint8_t)PlayerColorPointer->MinimapColor2];
             genie::Color minimap3 = palettes.front()[(uint8_t)PlayerColorPointer->MinimapColor3];
             genie::Color selection1 = palettes.front()[(uint8_t)PlayerColorPointer->UnitSelectionColor1];
@@ -161,8 +157,8 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &event)
 
 void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &event)
 {
-    auto selections = Colors_Colors_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Colors_Colors_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     InsertToListIDFix(dataset->PlayerColours, ColorIDs.front());
@@ -171,8 +167,8 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &event)
 {
-    auto selections = Colors_Colors_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Colors_Colors_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     DeleteFromListIDFix(dataset->PlayerColours, ColorIDs);
@@ -181,8 +177,8 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &event)
 
 void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &event)
 {
-    auto selections = Colors_Colors_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Colors_Colors_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     CopyFromList(dataset->PlayerColours, ColorIDs, copies.PlayerColor);
@@ -196,8 +192,8 @@ void AGE_Frame::OnPlayerColorsCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &event)
 {
-    auto selections = Colors_Colors_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Colors_Colors_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteToListIDFix(dataset->PlayerColours, ColorIDs, copies.PlayerColor);
@@ -206,8 +202,8 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &event)
 {
-    auto selections = Colors_Colors_ListV->GetSelectedCount();
-    if(selections < 1) return;
+    size_t selections = Colors_Colors_ListV->GetSelectedCount();
+    if (!selections) return;
 
     wxBusyCursor WaitCursor;
     PasteInsertToListIDFix(dataset->PlayerColours, ColorIDs.front(), copies.PlayerColor);

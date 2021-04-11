@@ -56,11 +56,20 @@ void AGE_Frame::InitTerrainRestrictions(bool all)
             TerRestrict_TerRestrict_ListV->names.Add(Name);
             TerRestrict_TerRestrict_ListV->indexes.push_back(loop);
         }
-        if(all) restriction_names.Add(Name);
+        if (all)
+        {
+            restriction_names.Add(Name);
+        }
     }
 
     RefreshList(TerRestrict_TerRestrict_ListV, &TerRestrictIDs);
-    if(all) for(auto &list: TerrainRestrictionComboBoxList) list->Flash();
+    if (all)
+    {
+        for (AGEComboBox *list : TerrainRestrictionComboBoxList)
+        {
+            list->Flash();
+        }
+    }
 }
 
 void AGE_Frame::OnTerrainRestrictionSelect(wxCommandEvent &event)
@@ -76,11 +85,11 @@ void AGE_Frame::OnTerrainRestrictionSelect(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &event)
 {
-    auto selections = TerRestrict_Terrains_ListV->GetSelectedCount();
+    size_t selections = TerRestrict_Terrains_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
     getSelectedItems(selections, TerRestrict_Terrains_ListV, TerRestrictTerIDs);
 
-    for(auto &box: uiGroupRestriction) box->clear();
+    for (AGETextCtrl *box : uiGroupRestriction) box->clear();
 
     genie::TerrainRestriction * TerRestPointer;
     for(short rest = TerRestrictIDs.size(); rest--> 0;)
@@ -99,7 +108,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainSelect(wxCommandEvent &event)
         }
     }
 
-    for(auto &box: uiGroupRestriction) box->update();
+    for (AGETextCtrl *box : uiGroupRestriction) box->update();
 }
 
 void AGE_Frame::OnTerrainRestrictionsAdd(wxCommandEvent &event)
@@ -177,8 +186,8 @@ void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent &event)
 {
-    auto selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
-    auto Selections2 = TerRestrict_Terrains_ListV->GetSelectedCount();
+    size_t selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
+    size_t Selections2 = TerRestrict_Terrains_ListV->GetSelectedCount();
     if(selections < 1 || Selections2 < 1) return;
 
     wxBusyCursor WaitCursor;
@@ -190,8 +199,8 @@ void AGE_Frame::OnTerrainRestrictionsTerrainCopy(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
 {
-    auto selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
-    auto Selections2 = TerRestrict_Terrains_ListV->GetSelectedCount();
+    size_t selections = TerRestrict_TerRestrict_ListV->GetSelectedCount();
+    size_t Selections2 = TerRestrict_Terrains_ListV->GetSelectedCount();
     if(selections < 1 || Selections2 < 1) return;
 
     wxBusyCursor WaitCursor;

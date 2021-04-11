@@ -6,7 +6,7 @@
 namespace GG
 {
 
-size_t cache_depth = 42;
+size_t cache_size;
 LRU_SLP slp_cache;
 
 void LoadPalettes(std::vector<std::vector<genie::Color>> &palettes, const wxString &path)
@@ -73,7 +73,7 @@ void LoadPlayerPalette(std::vector<std::vector<genie::Color>> &palettes, const w
 // Need to use basic std::string for SFML and genieutils uses it too...
 std::string LoadSound(wxArrayString &folders, const std::string &filename, int resnum)
 {
-    for(auto &f: folders)
+    for(wxString &f: folders)
     {
         std::string folder(f), sound = folder + filename;
         if(!wxFileName(sound).FileExists())
@@ -88,7 +88,7 @@ std::string LoadSound(wxArrayString &folders, const std::string &filename, int r
 
 const unsigned char* LoadSound(std::vector<genie::DrsFile*> &datafiles, int resnum)
 {
-    for(auto &file: datafiles)
+    for(genie::DrsFile* file: datafiles)
     {
         const unsigned char* sound = file->getWavPtr(resnum);
         if(sound)
@@ -167,32 +167,43 @@ genie::SpriteFilePtr LoadSMX(const wxString &filename)
     return smx;
 }
 
+void LoadNextBatch(void)
+{
+    slp_cache.AdvanceProductionBatch();
+}
+
 void LRU_SLP::put(const wxString &key, const genie::SpriteFilePtr &slp)
 {
     // Put key as first item.
-    auto it = slp_cache_map.find(key);
-    slp_cache_list.push_front(pair_t(key, slp));
+    memory_in_use += slp->getSizeInMemory();
+    map_it it = slp_cache_map.find(key);
+    slp_cache_list.emplace_front(production_batch, key, slp);
     if (it != slp_cache_map.end())
     {
+        memory_in_use -= it->second->slp->getSizeInMemory();
         slp_cache_list.erase(it->second);
         //slp_cache_map.erase(it); // Why is this needed?
     }
     slp_cache_map[key] = slp_cache_list.begin();
 
     // Unload from end excess items.
-    if (slp_cache_map.size() > cache_depth)
+    list_it last = slp_cache_list.end();
+    while (memory_in_use > cache_size && --last != slp_cache_list.begin())
     {
-        auto last = --(slp_cache_list.end());
-        // Remember to unload before popping.
-        last->second->unload();
-        slp_cache_map.erase(last->first);
-        slp_cache_list.pop_back();
+        if (last->batch != production_batch)
+        {
+            memory_in_use -= last->slp->getSizeInMemory();
+            // Remember to unload before popping.
+            last->slp->unload();
+            slp_cache_map.erase(last->key);
+            slp_cache_list.erase(list_it(last++));
+        }
     }
 }
 
 genie::SpriteFilePtr LRU_SLP::use(const wxString &key)
 {
-    auto it = slp_cache_map.find(key);
+    map_it it = slp_cache_map.find(key);
     if (it == slp_cache_map.end())
     {
         return genie::SpriteFilePtr();
@@ -200,7 +211,7 @@ genie::SpriteFilePtr LRU_SLP::use(const wxString &key)
     else
     {
         slp_cache_list.splice(slp_cache_list.begin(), slp_cache_list, it->second);
-        return it->second->second;
+        return it->second->slp;
     }
 }
 

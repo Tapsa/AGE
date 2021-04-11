@@ -10,5 +10,5 @@ public:
     wxWindow *focusTarget = 0;
     size_t unSaved = 0, loadedFileId = 0;
 
-    void post(const wxString &message, const wxString &title, wxWindow *target);
+    void post(const wxString &message, const wxString &title, wxWindow *target = nullptr);
 };

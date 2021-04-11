@@ -32,6 +32,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     BaseMainFrame(title), window_num(window), argPath(aP), font(GetFont())
     //font(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Tahoma")
 {
+    wxBusyCursor WaitCursor;
     {
         wxPanel model;
         //SetBackgroundStyle(wxBG_STYLE_SYSTEM);
@@ -42,11 +43,10 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     SetIcon(wxIcon(AppIcon32_xpm));
     SetFont(font);
     displayScaling = FromDIP(1000) / 1000.f;
-    wxBusyCursor WaitCursor;
     TabBar_Main = new wxNotebook(this, eTabBar);
     AGE_Frame::openEditors[window] = this;
-    std::string windowNumText = lexical_cast<std::string>(window + 1);
     {
+        std::string windowNumText = lexical_cast<std::string>(window + 1);
         int temp;
 
         wxConfig Config("", "", "AGE2\\ConfigWindow" + windowNumText, "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
@@ -88,7 +88,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
         Config.Read("Interface/DrawCollisionShape", &DrawCollisionShape, true);
         Config.Read("Interface/DrawClearanceShape", &DrawClearanceShape, true);
         Config.Read("Interface/DrawSelectionShape", &DrawOutline, true);
-        Config.Read("Interface/CacheDepth", &temp, 32);
+        Config.Read("Interface/CacheSizeMB", &temp, 1000);
         Config.Read("Interface/AlexZoom", &AlexZoom, "x1");
         Config.Read("Interface/ViewPosX", &ViewPosX, -1);
         Config.Read("Interface/ViewPosY", &ViewPosY, -1);
@@ -130,7 +130,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
         Config.Write("/EditorVersion", AboutDialog::AGE_VER);
         Config.Write("/TimesOpened", ++TimesOpened);
 
-        GG::cache_depth = temp;
+        GG::cache_size = std::min(std::max(temp, 100), 3000) * 1000000u;
     }
 
     float boxWidthScaling = boxWidthMultiplier * displayScaling;
@@ -190,7 +190,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     SubMenu_SLP->Check(eStayOnTopSLP, KeepViewOnTop);
     SubMenu_SLP->Append(eSlpPals, "Set &palettes");
     SubMenu_SLP->Append(eSlpPCPal, "Set &player color palette");
-    SubMenu_SLP->Append(eCacheDepth, "Set &cache depth");
+    SubMenu_SLP->Append(eCacheDepth, "Set &cache size");
     SubMenu_SLP->Append(eSlpZoom, "Set &zoom level");
     SubMenu_SLP->Append(eCompileList, "Compile SLP &list");
 
@@ -379,7 +379,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     if (!log_out.is_open())
     {
         genie::Logger::setLogLevel(genie::Logger::L_DEBUG);
-        log_out.open("gulog" + windowNumText + ".ini");
+        log_out.open("gulog.txt");
         genie::Logger::setGlobalOutputStream(log_out);
         std::cout.rdbuf(log_out.rdbuf());
     }
