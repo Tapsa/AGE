@@ -1,7 +1,10 @@
 #include "Common.h"
+#include "../AboutDialog.h"
 #include "../AGE_Frame.h"
 #include "../EditableVersion.h"
 #include "../Loaders.h"
+#include "../OpenDialog.h"
+#include "../SaveDialog.h"
 
 #ifndef WIN32
 // dummies for code that is not used on linux
@@ -2245,14 +2248,14 @@ void AGE_Frame::OnGameVersionChange()
         bool emerge = GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2;
         if(appear || emerge)
         {
-            Graphics_Name->setMaxChars(lengthiest);
-            Graphics_FileName->setMaxChars(lengthiest);
-            SoundItems_Name->setMaxChars(lengthiest);
-            Terrains_Name->setMaxChars(lengthiest);
-            Terrains_FileName->setMaxChars(lengthiest);
+            Graphics_Name->setMaxChars(maxStringlength);
+            Graphics_FileName->setMaxChars(maxStringlength);
+            SoundItems_Name->setMaxChars(maxStringlength);
+            Terrains_Name->setMaxChars(maxStringlength);
+            Terrains_FileName->setMaxChars(maxStringlength);
             // Fixed size elsewhere
-            Techs_Name->setMaxChars(lengthiest);
-            Civs_Name[0]->setMaxChars(lengthiest);
+            Techs_Name->setMaxChars(maxStringlength);
+            Civs_Name[0]->setMaxChars(maxStringlength);
         }
         if(appear)
         {
@@ -3210,7 +3213,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
         case eAddWindow:
         {
             for(size_t win = 0; win < 4; ++win)
-            if(!AGE_Frame::openEditors[win])
+            if(!openEditors[win])
             {
                 AGE_Frame* newWindow = new AGE_Frame("AGE " + AboutDialog::AGE_VER + " window "+lexical_cast<std::string>(win+1), win);
                 wxCommandEvent open;
@@ -3233,32 +3236,44 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
         }
         case hotWin1:
         {
-            if(AGE_Frame::openEditors[0]) AGE_Frame::openEditors[0]->Raise();
+            if (openEditors[0])
+            {
+                openEditors[0]->Raise();
+            }
             break;
         }
         case hotWin2:
         {
-            if(AGE_Frame::openEditors[1]) AGE_Frame::openEditors[1]->Raise();
+            if (openEditors[1])
+            {
+                openEditors[1]->Raise();
+            }
             break;
         }
         case hotWin3:
         {
-            if(AGE_Frame::openEditors[2]) AGE_Frame::openEditors[2]->Raise();
+            if (openEditors[2])
+            {
+                openEditors[2]->Raise();
+            }
             break;
         }
         case hotWin4:
         {
-            if(AGE_Frame::openEditors[3]) AGE_Frame::openEditors[3]->Raise();
+            if (openEditors[3])
+            {
+                openEditors[3]->Raise();
+            }
             break;
         }
         case closeAll:
         {
             wxCloseEvent ce(wxEVT_CLOSE_WINDOW);
-            AGE_Frame::openEditors[window_num] = 0;
+            openEditors[window_num] = 0;
             for(size_t win = 0; win < 4; ++win)
-            if(AGE_Frame::openEditors[win])
+            if(openEditors[win])
             {
-                AGE_Frame::openEditors[win]->OnExit(ce);
+                openEditors[win]->OnExit(ce);
             }
             OnExit(ce);
             break;
@@ -3398,7 +3413,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
         }
         case eCacheDepth:
         {
-            wxTextEntryDialog ted(this, "Enter new cache size in megabytes", "Set Cache Size", lexical_cast<std::string>(GG::cache_size / 1000000u));
+            wxTextEntryDialog ted(this, "Enter new cache size in megabytes",
+                "Set Cache Size", lexical_cast<std::string>(GG::cache_size / 1000000u));
             ted.SetTextValidator(wxFILTER_DIGITS);
             if(ted.ShowModal() == wxID_OK)
             {
@@ -3419,7 +3435,8 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
         }
         case eBoxWidth:
         {
-            wxTextEntryDialog ted(this, "Enter new multiplier for data box widths", "Set Box Width Multiplier", FormatFloat(boxWidthMultiplier));
+            wxTextEntryDialog ted(this, "Enter new multiplier for data box widths",
+                "Set Box Width Multiplier", FormatFloat(boxWidthMultiplier));
             ted.SetTextValidator(wxFILTER_NUMERIC);
             if(ted.ShowModal() == wxID_OK)
             {
@@ -3427,6 +3444,24 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                 {
                     boxWidthMultiplier = lexical_cast<float>(ted.GetValue());
                     wxMessageBox("Please restart me!", "AGE");
+                }
+                catch(const bad_lexical_cast&)
+                {
+                    wxMessageBox("Bad floating point", "AGE");
+                }
+            }
+            break;
+        }
+        case eScrollRate:
+        {
+            wxTextEntryDialog ted(this, "Enter new scroll rate in pixels. 120 is the most sensitive.",
+                "Set Scroll Rate", FormatInt(AScrolled::rate * 120.f));
+            ted.SetTextValidator(wxFILTER_NUMERIC);
+            if(ted.ShowModal() == wxID_OK)
+            {
+                try
+                {
+                    AScrolled::rate = lexical_cast<float>(ted.GetValue()) / 120.f;
                 }
                 catch(const bad_lexical_cast&)
                 {
@@ -4949,6 +4984,12 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/ViewPosX", ViewPosX);
         Config.Write("Interface/ViewPosY", ViewPosY);
         Config.Write("Interface/BoxWidthMultiplier", boxWidthMultiplier);
+        // Global settings
+        if (window_num == 0)
+        {
+            int rate = AScrolled::rate * 120.f;
+            Config.Write("Interface/ScrollRate", rate);
+        }
     }
 
     if(event.CanVeto() && popUp.unSaved > 0)
@@ -4985,7 +5026,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         delete LangXP;
     }
 
-    AGE_Frame::openEditors[window_num] = 0;
+    openEditors[window_num] = 0;
     while(animater.IsRunning())
     {
         if(event.CanVeto())

@@ -1546,7 +1546,6 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_ScrollSpace->Add(Graphics_AngleSoundArea_Holder, 0, wxEXPAND | wxTOP, 5);
 
     Graphics_Scroller->SetSizer(Graphics_ScrollSpace);
-    Graphics_Scroller->SetScrollRate(0, 15);
 
     Graphics_Main->Add(Graphics_Graphics, 21, wxEXPAND | wxALL, 5);
     Graphics_Main->Add(Graphics_Scroller, 65, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);

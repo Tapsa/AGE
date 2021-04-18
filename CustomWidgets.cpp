@@ -1,6 +1,8 @@
 #include "Common.h"
 #include "CustomWidgets.h"
 
+float AScrolled::rate;
+
 ProperList::ProperList(wxWindow *parent, const wxSize &size) :
     wxVListBox(parent, wxID_ANY, wxDefaultPosition, size, wxLB_INT_HEIGHT | wxLB_MULTIPLE)//wxLB_EXTENDED)
 {
@@ -86,13 +88,28 @@ bool ATabPage::Show(bool show)
 }
 
 AScrolled::AScrolled(wxWindow *parent) :
-    wxScrolled<APanel>(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL)
+    wxScrolled<APanel>(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL | wxTAB_TRAVERSAL),
+    remainder(0)
 {
     // Smooth scrolling
     Bind(wxEVT_MOUSEWHEEL, [this](wxMouseEvent &event)
     {
-        int pos, rate = event.GetWheelRotation() / 120;
-        GetViewStart(&pos, &pos);
-        Scroll(0, std::max(pos - rate, 0));
+        float rotation = static_cast<float>(event.GetWheelRotation());
+        if (remainder != 0 && (remainder < 0) ^ (rotation < 0))
+        {
+            remainder = 0;
+        }
+        float scaled = rate * rotation + remainder;
+        int lines = static_cast<int>(scaled);
+        if (lines != 0)
+        {
+            int pos;
+            remainder = scaled - static_cast<float>(lines);
+            GetViewStart(&pos, &pos);
+            Scroll(0, std::max(pos - lines, 0));
+        }
     });
+
+    // Pixel perfect scroll rate.
+    SetScrollRate(0, 1);
 }

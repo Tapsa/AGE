@@ -11,10 +11,11 @@ public:
     virtual void OnOpen(wxCommandEvent &event) = 0;
     virtual void OnExit(wxCloseEvent &event) = 0;
 
-//  Stuff used when editing multiple files at once.
-    static BaseMainFrame *openEditors[];
-    static Copies copies;
-
-//  Enables working error messages after focus loss.
+    // Enables working error messages after focus loss.
     DelayedMessageRelay popUp;
+
+protected:
+    // Stuff used when editing multiple files at once.
+    static BaseMainFrame *openEditors[4];
+    static Copies copies;
 };

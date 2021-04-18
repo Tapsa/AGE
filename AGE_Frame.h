@@ -14,7 +14,6 @@
 #include <wx/wrapsizer.h>
 
 // Project headers
-#include "AboutDialog.h"
 #include "BaseMainFrame.h"
 #include "CustomComboBoxes.h"
 #include "CustomTextControls.h"
@@ -22,8 +21,6 @@
 #include "DataCopies.hpp"
 #include "DelayedMessageRelay.h"
 #include "LinkedCheckBox.h"
-#include "OpenDialog.h"
-#include "SaveDialog.h"
 #include "Sprites.h"
 
 // Subproject headers
@@ -36,6 +33,8 @@
 #ifndef WIN32
 #define HINSTANCE ssize_t
 #endif
+
+const unsigned short maxStringlength = 0x7FFF;
 
 class AGE_Frame;
 class AGE_List32Box
@@ -115,8 +114,6 @@ class AGE_Frame : public BaseMainFrame
 {
 public:
     AGE_Frame(const wxString &title, short window, wxString aP = wxEmptyString);
-    AGE_Frame(const AGE_Frame &) = delete;
-    AGE_Frame &operator=(const AGE_Frame &) = delete;
 
     void FixSize(float scale);
     inline wxSize ASize(int x, int y) const
@@ -937,7 +934,7 @@ public:
         ePrompt = wxID_HIGHEST + 1, eVasili,
         eButtons, eNeverHide, eShowSLP, eShowIcons, eTips, eStayOnTop, eStayOnTopSLP, eAbout, eSlpPals,
         eSlpPCPal, eCacheDepth, eSlpZoom, eBackup, eUnknown, eHelp, eDRS, eHex, eFloat, ePaste,
-        eReselection, eAddWindow, eCompileList, eBoxWidth,
+        eReselection, eAddWindow, eCompileList, eBoxWidth, eScrollRate,
 
         // open and save
         eOpen,

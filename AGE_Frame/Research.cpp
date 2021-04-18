@@ -422,10 +422,10 @@ void AGE_Frame::CreateResearchControls()
     Research_ScrollSpace = new wxBoxSizer(wxVERTICAL);
     Research_Name_Holder[0] = new wxBoxSizer(wxVERTICAL);
     Research_Name_Text[0] = new SolidText(Research_Scroller, " Internal Name");
-    Research_Name[0] = new StringControl(Research_Scroller,  this, &uiGroupResearch, lengthiest, false);
+    Research_Name[0] = new StringControl(Research_Scroller,  this, &uiGroupResearch, maxStringlength, false);
     Research_Name_Holder[1] = new wxBoxSizer(wxVERTICAL);
     Research_Name_Text[1] = new SolidText(Research_Scroller, " Internal Name 2");
-    Research_Name[1] = new StringControl(Research_Scroller,  this, &uiGroupResearch, lengthiest, false);
+    Research_Name[1] = new StringControl(Research_Scroller,  this, &uiGroupResearch, maxStringlength, false);
     Research_LangDLLName_Holder = new wxBoxSizer(wxVERTICAL);
     Research_LangDLLName_Text = new SolidText(Research_Scroller, " Language File Name *");
     Research_LangDLLName = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch, false);
@@ -684,7 +684,6 @@ void AGE_Frame::CreateResearchControls()
     Research_ScrollSpace->Add(Research_CostHeader_Holder, 0, wxTOP, 5);
 
     Research_Scroller->SetSizer(Research_ScrollSpace);
-    Research_Scroller->SetScrollRate(0, 15);
 
     Research_Main->Add(Research_Research, 21, wxEXPAND | wxALL, 5);
     Research_Main->Add(Research_Scroller, 65, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);

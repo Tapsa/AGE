@@ -983,7 +983,6 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_ScrollSpace->Add(Terrains_Animation_Grid2, 0, wxTOP, 5);
 
     Terrains_Scroller->SetSizer(Terrains_ScrollSpace);
-    Terrains_Scroller->SetScrollRate(0, 15);
 
     Terrains_Main->Add(Terrains_Terrains, 21, wxEXPAND | wxALL, 5);
     Terrains_Main->Add(Terrains_Scroller, 65, wxEXPAND | wxTOP | wxBOTTOM | wxRIGHT, 5);

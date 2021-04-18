@@ -3688,8 +3688,8 @@ void AGE_Frame::CreateUnitControls()
     Units_CopyID = new NumberControl(CShort, Tab_Units, this, nullptr, true, AGETextCtrl::SMALL);
     Units_BaseID = new NumberControl(CShort, Tab_Units, this, nullptr, true, AGETextCtrl::SMALL);
     Units_TelemetryID = new NumberControl(CShort, Tab_Units, this, &uiGroupUnit);
-    Units_Name = new StringControl(Tab_Units, this, &uiGroupUnit, lengthiest, false);
-    Units_Name2 = new StringControl(Tab_Units, this, &uiGroupUnit, lengthiest, false);
+    Units_Name = new StringControl(Tab_Units, this, &uiGroupUnit, maxStringlength, false);
+    Units_Name2 = new StringControl(Tab_Units, this, &uiGroupUnit, maxStringlength, false);
     Units_LanguageDLLName = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false);
     Units_LanguageDLLName->SetToolTip("Usual Unit File Pattern for The Conquerors\nName: 5000-5999\n"
         "Creation: Name +1000\nHotkey: Name +11000\nHelp: Name +100000, in file Name +21000\n"
@@ -5629,7 +5629,6 @@ void AGE_Frame::CreateUnitControls()
     Units_ScrollSpace->Add(TasksArea_Holder, 0, wxEXPAND | wxTOP, 5);
 
     Units_Scroller->SetSizer(Units_ScrollSpace);
-    Units_Scroller->SetScrollRate(0, 20);
 
     Units_Top_Holder->Add(Units_AutoCopy);
     Units_Top_Holder->Add(Units_CopyTo);

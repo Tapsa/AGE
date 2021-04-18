@@ -3,10 +3,9 @@
 #include "CustomTextControls.h"
 #include "LinkedControl.h"
 
-const wxString AGETextCtrl::BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
-const wxString AGETextCtrl::BWTITLE = "Incorrect batch script!";
-const wxString AGETextCtrl::IETITLE = "Invalid entry!";
-const unsigned short lengthiest = 0x7FFF;
+const wxString BATCHWARNING = "Use b+[x], b-[x], b*[x] or b/[x]\nwhere [x] is a number.";
+const wxString BWTITLE = "Incorrect batch script!";
+const wxString IETITLE = "Invalid entry!";
 unsigned AGETextCtrl::SMALL = 50;
 unsigned AGETextCtrl::MEDIUM = 70;
 unsigned AGETextCtrl::NORMAL = 100;
