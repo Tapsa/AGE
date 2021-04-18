@@ -24,7 +24,6 @@ public:
     void refill();
 
     static unsigned SMALL, MEDIUM, NORMAL, LARGE, GIANT;
-    static const wxString BATCHWARNING, BWTITLE, IETITLE;
 
 protected:
     inline void OnKillFocus(wxFocusEvent &event) { event.Skip(); SaveEdits(); }
@@ -72,8 +71,6 @@ private:
     int SaveChangesAsULong(bool force = false);
     int SaveChangesAsShort(bool force = false);
 };
-
-extern const unsigned short lengthiest;
 
 class StringControl : public AGETextCtrl
 {

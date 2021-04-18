@@ -1,4 +1,5 @@
 #include "Common.h"
+#include "../AboutDialog.h"
 #include "../AGE_Frame.h"
 #include "../EditableVersion.h"
 #include "../Loaders.h"
@@ -44,7 +45,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     SetFont(font);
     displayScaling = FromDIP(1000) / 1000.f;
     TabBar_Main = new wxNotebook(this, eTabBar);
-    AGE_Frame::openEditors[window] = this;
+    openEditors[window] = this;
     {
         std::string windowNumText = lexical_cast<std::string>(window + 1);
         int temp;
@@ -52,8 +53,14 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
         wxConfig Config("", "", "AGE2\\ConfigWindow" + windowNumText, "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Read("/EditorVersion", &EditorVersionString, AboutDialog::AGE_VER);
         (void)sscanf(EditorVersionString, "%f", &EditorVersion);
-        Config.Read("/TimesOpened", &TimesOpened, 0);
-        if (EditorVersionString != AboutDialog::AGE_VER) TimesOpened = 0;
+        if (EditorVersionString == AboutDialog::AGE_VER)
+        {
+            Config.Read("/TimesOpened", &TimesOpened, 0);
+        }
+        else
+        {
+            TimesOpened = 0;
+        }
         Config.Read("Interaction/PromptForFilesOnOpen", &PromptForFilesOnOpen, true);
         Config.Read("Interaction/AutoCopy", &AutoCopy, true);
         Config.Read("Interaction/AutoCopyAngles", &AutoCopyAngles, true);
@@ -93,6 +100,13 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
         Config.Read("Interface/ViewPosX", &ViewPosX, -1);
         Config.Read("Interface/ViewPosY", &ViewPosY, -1);
         Config.Read("Interface/BoxWidthMultiplier", &boxWidthMultiplier, 1.f);
+        // Global settings
+        if (window == 0)
+        {
+            int rate;
+            Config.Read("Interface/ScrollRate", &rate, 60);
+            AScrolled::rate = rate / 120.f;
+        }
         Config.Read("DefaultFiles/DriveLetter", &DriveLetter, "C");
         Config.Read("DefaultFiles/CustomFolder", &CustomFolder, wxEmptyString);
         Config.Read("DefaultFiles/SyncSaveWithOpen", &SyncSaveWithOpen, true);
@@ -178,6 +192,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     SubMenu_Options->AppendCheckItem(eStayOnTop, "&Stay on top");
     SubMenu_Options->Check(eStayOnTop, StayOnTop);
     SubMenu_Options->Append(eBoxWidth, "Set &width of the boxes");
+    SubMenu_Options->Append(eScrollRate, "Set scroll &rate");
     SubMenu_Options->AppendCheckItem(eNeverHide, "Never hide &attributes");
     SubMenu_Options->Check(eNeverHide, NeverHideAttributes);
 
@@ -295,7 +310,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     });
     Bind(wxEVT_MENU, &AGE_Frame::OnOpen, this, eOpen);
     Bind(wxEVT_MENU, &AGE_Frame::OnSave, this, eSave);
-    Bind(wxEVT_MENU, &AGE_Frame::OnMenuOption, this, ePrompt, eBoxWidth);
+    Bind(wxEVT_MENU, &AGE_Frame::OnMenuOption, this, ePrompt, eScrollRate);
     Bind(wxEVT_MENU, &AGE_Frame::OnMenuOption, this, hotWin1, closeAll);
 
     Units_AutoCopy->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnAutoCopy, this);
@@ -410,20 +425,20 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
 // Fancy scaling :)
 void AGE_Frame::FixSize(float scale)
 {
+    wxRect maxSize(wxDisplay(wxDisplay::GetFromWindow(this)).GetClientArea());
     float minScrollerWidth = 630 * scale;
     int ScrollerWidth = Units_ScrollSpace->GetMinSize().GetWidth();
     if (ScrollerWidth > minScrollerWidth)
     {
         int NewWidth = 270 * scale * (ScrollerWidth / minScrollerWidth) + ScrollerWidth;
-        MinWindowWidth = NewWidth;
-        SetSize(NewWidth, 870 * scale);
+        MinWindowWidth = std::min<int>(NewWidth, maxSize.width);
     }
     else
     {
-        MinWindowWidth = 900 * scale;
-        SetSize(MinWindowWidth, 870 * scale);
+        MinWindowWidth = std::min<int>(900 * scale, maxSize.width);
     }
-    SetMinSize(wxSize(MinWindowWidth, 480 * scale));
+    SetSize(MinWindowWidth, std::min<int>(870 * scale, maxSize.height));
+    SetMinSize(wxSize(MinWindowWidth, std::min<int>(480 * scale, maxSize.height)));
     if (MaxWindowWidthV2 < GetMinSize().GetWidth())
     {
         MaxWindowWidthV2 = GetMinSize().GetWidth();

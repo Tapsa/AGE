@@ -295,7 +295,7 @@ void AGE_Frame::CreateUnitLineControls()
     UnitLines_ID = new NumberControl(CShort, Tab_UnitLine, this, nullptr);
     UnitLines_Name_Holder = new wxBoxSizer(wxVERTICAL);
     UnitLines_Name_Text = new SolidText(Tab_UnitLine, " Unitline Name");
-    UnitLines_Name = new StringControl(Tab_UnitLine, this, nullptr, lengthiest, false);
+    UnitLines_Name = new StringControl(Tab_UnitLine, this, nullptr, maxStringlength, false);
 
     UnitLineUnits_Holder = new wxBoxSizer(wxVERTICAL);
     UnitLineUnits_Text = new SolidText(Tab_UnitLine, " Unit");

@@ -55,4 +55,9 @@ class AScrolled : public wxScrolled<APanel>
 {
 public:
     AScrolled(wxWindow *parent);
+
+    static float rate;
+
+private:
+    float remainder;
 };

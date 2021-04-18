@@ -2909,22 +2909,18 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Data_Researches->Add(TechTrees_Data_Researches2, 0, wxEXPAND);
 
     TechTrees_ScrollerAges->SetSizer(TechTrees_Data_Ages);
-    TechTrees_ScrollerAges->SetScrollRate(0, 15);
     TechTrees_TabAges->Add(TechTrees_MainList_Ages, 21, wxEXPAND | wxRIGHT, 5);
     TechTrees_TabAges->Add(TechTrees_ScrollerAges, 65, wxEXPAND | wxTOP, 5);
 
     TechTrees_ScrollerBuildings->SetSizer(TechTrees_Data_Buildings);
-    TechTrees_ScrollerBuildings->SetScrollRate(0, 15);
     TechTrees_TabBuildings->Add(TechTrees_MainList_Buildings, 21, wxEXPAND | wxRIGHT, 5);
     TechTrees_TabBuildings->Add(TechTrees_ScrollerBuildings, 65, wxEXPAND | wxTOP, 5);
 
     TechTrees_ScrollerUnits->SetSizer(TechTrees_Data_Units);
-    TechTrees_ScrollerUnits->SetScrollRate(0, 15);
     TechTrees_TabUnits->Add(TechTrees_MainList_Units, 21, wxEXPAND | wxRIGHT, 5);
     TechTrees_TabUnits->Add(TechTrees_ScrollerUnits, 65, wxEXPAND | wxTOP, 5);
 
     TechTrees_ScrollerResearches->SetSizer(TechTrees_Data_Researches);
-    TechTrees_ScrollerResearches->SetScrollRate(0, 15);
     TechTrees_TabResearches->Add(TechTrees_MainList_Researches, 21, wxEXPAND | wxRIGHT, 5);
     TechTrees_TabResearches->Add(TechTrees_ScrollerResearches, 65, wxEXPAND | wxTOP, 5);
 
