@@ -54,7 +54,7 @@ void AGE_Frame::OnEffectRename(wxCommandEvent &event)
     short CivTechTreeID=0, CivTeamBonusID = 0;
     for(size_t loop2=dataset->Civs.size(); loop2--> 0;) // Rename of techs. Make it reverse loop.
     {
-        std::string CivName = lexical_cast<std::string>(dataset->Civs[loop2].Name); // Civ internal name.
+        std::string CivName = dataset->Civs[loop2].Name; // Civ internal name.
         CivTechTreeID = dataset->Civs[loop2].TechTreeID;
         CivTeamBonusID = dataset->Civs[loop2].TeamBonusID;
         if(CivTechTreeID >= 0)
@@ -204,10 +204,18 @@ void AGE_Frame::OnEffectPasteInsert(wxCommandEvent &event)    // Works.
 
 wxString AGE_Frame::Tester(genie::EffectCommand effect, wxString how)
 {
-    return ((effect.C == 8 || effect.C == 9) ? (effect.C == 8 ? "armor type " : "attack type ")
-        + FormatInt((uint16_t)effect.D >> 8) + how + FormatInt(uint16_t(effect.D) & 0xFF)
-        : "attr " + FormatInt(effect.C) + how + FormatFloat(effect.D))
-        + ((effect.B == -1) ? " for unit " + FormatInt(effect.A) : " for class " + FormatInt(effect.B));
+    return ((effect.C == 8 || effect.C == 9) ?
+        (effect.C == 8 ? "armor type " : "attack type ") +
+        (effect.D >= 0 ?
+            FormatInt(static_cast<uint16_t>(effect.D) >> 8) + how +
+            FormatInt(static_cast<int16_t>(effect.D) & 0xFF) :
+            (GameVersion != EV_UP ?
+                FormatInt(static_cast<uint16_t>(-effect.D) >> 8) + how +
+                FormatInt(-(static_cast<int16_t>(-effect.D) & 0xFF)) :
+                FormatInt(static_cast<uint16_t>(effect.D) >> 8) + how +
+                FormatInt(static_cast<int16_t>(effect.D) | -256))) :
+        "attr " + FormatInt(effect.C) + how + FormatFloat(effect.D)) +
+        ((effect.B == -1) ? " for unit " + FormatInt(effect.A) : " for class " + FormatInt(effect.B));
 }
 
 wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
@@ -486,6 +494,15 @@ void AGE_Frame::ListEffectCmds()
     OnEffectCmdSelect(e);
 }
 
+int32_t AGE_Frame::CombineEffects89(uint16_t type, int16_t amount)
+{
+    int32_t combination = (type < 0xFF ? type : 0xFF) << 8 | (GameVersion != EV_UP ?
+        std::min(std::abs(amount), 0xFF) : amount < 0xFF ? amount > -256 ? amount & 0xFF : 0 : 0xFF);
+    return amount >= 0 ? combination : GameVersion != EV_UP ? -combination : combination | -65536;
+}
+
+const short plainId = -32768;
+
 void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
 {
     size_t selections = Techs_Effects_ListV->GetSelectedCount();
@@ -494,8 +511,8 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
     {
         box->clear();
     }
-    short attributeNameId = -1;
-    short researchNameId = -1;
+    techAttributeNameId = plainId;
+    techResearchNameId = plainId;
     bool enableD = true;
     if(selections > 0)
     {
@@ -526,6 +543,24 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
             Effects_Type_ComboBox->SetSelection(0);
         }
 
+        auto Populate89 = [this](float data)
+        {
+            int16_t amount = static_cast<int16_t>(data >= 0 || GameVersion == EV_UP ? data : -data);
+            uint16_t type = static_cast<uint16_t>(amount) >> 8; amount &= 0xFF;
+            if (data < 0)
+            {
+                amount = GameVersion != EV_UP ? -amount : amount | -256;
+            }
+            Effects_D->Show(false);
+            Effects_89_Amount->Show(true);
+            Effects_89_Amount->ChangeValue(lexical_cast<std::string>(amount)); // Correct value
+            Effects_89_Type->Show(true);
+            Effects_89_Type_CB1->Show(true);
+            Effects_89_Type->ChangeValue(lexical_cast<std::string>(type)); // Correct class
+            Effects_89_Type_CB1->SetChoice(type);
+            Effects_89_Type_Text->SetLabel("Type ");
+        };
+
         bool NeverHide = Effects_NeverHide->GetValue();
         switch(EffectPointer->Type)
         {
@@ -548,7 +583,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_C_ComboBox->TakeControl();
                 Effects_C_ComboBox->SwapList(&effect_attribute_names);
                 Effects_C_ComboBox->Show(true);
-                attributeNameId = EffectPointer->C;
+                techAttributeNameId = EffectPointer->C;
                 Effects_D_ComboBox->Show(false);
                 Effects_A->Show(true);
                 Effects_B->Show(true);
@@ -565,15 +600,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 if(EffectPointer->C == 8 || EffectPointer->C == 9)
                 {
                     enableD = NeverHide;
-                    Effects_D->Show(false);
-                    Effects_89_Amount->Show(true);
-                    Effects_89_Amount->ChangeValue(lexical_cast<std::string>(uint16_t(EffectPointer->D) & 0xFF)); // Correct value
-                    Effects_89_Type->Show(true);
-                    Effects_89_Type_CB1->Show(true);
-                    uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
-                    Effects_89_Type->ChangeValue(lexical_cast<std::string>(attack_type)); // Correct class
-                    Effects_89_Type_CB1->SetChoice(attack_type);
-                    Effects_89_Type_Text->SetLabel("Type ");
+                    Populate89(EffectPointer->D);
                 }
                 else
                 {
@@ -720,7 +747,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_C_ComboBox->TakeControl();
                 Effects_C_ComboBox->SwapList(&effect_attribute_names);
                 Effects_C_ComboBox->Show(true);
-                attributeNameId = EffectPointer->C;
+                techAttributeNameId = EffectPointer->C;
                 Effects_D_ComboBox->Show(false);
                 Effects_A->Show(true);
                 Effects_B->Show(true);
@@ -736,16 +763,8 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 if(EffectPointer->C == 8 || EffectPointer->C == 9)
                 {
                     enableD = NeverHide;
-                    Effects_D->Show(false);
-                    Effects_89_Amount->Show(true);
-                    Effects_89_Amount->ChangeValue(lexical_cast<std::string>(uint16_t(EffectPointer->D) & 0xFF)); // Correct value
-                    Effects_89_Type->Show(true);
-                    Effects_89_Type_CB1->Show(true);
-                    uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
-                    Effects_89_Type->ChangeValue(lexical_cast<std::string>(attack_type)); // Correct class
-                    Effects_89_Type_CB1->SetChoice(attack_type);
+                    Populate89(EffectPointer->D);
                     Effects_D_Text->SetLabel("Amount [+] ");
-                    Effects_89_Type_Text->SetLabel("Type ");
                 }
                 else
                 {
@@ -777,7 +796,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_C_ComboBox->TakeControl();
                 Effects_C_ComboBox->SwapList(&effect_attribute_names);
                 Effects_C_ComboBox->Show(true);
-                attributeNameId = EffectPointer->C;
+                techAttributeNameId = EffectPointer->C;
                 Effects_D_ComboBox->Show(false);
                 Effects_A->Show(true);
                 Effects_B->Show(true);
@@ -793,16 +812,8 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 if(EffectPointer->C == 8 || EffectPointer->C == 9)
                 {
                     enableD = NeverHide;
-                    Effects_D->Show(false);
-                    Effects_89_Amount->Show(true);
-                    Effects_89_Amount->ChangeValue(lexical_cast<std::string>(uint16_t(EffectPointer->D) & 0xFF)); // Correct value
-                    Effects_89_Type->Show(true);
-                    Effects_89_Type_CB1->Show(true);
-                    uint16_t attack_type = (uint16_t)EffectPointer->D >> 8;
-                    Effects_89_Type->ChangeValue(lexical_cast<std::string>(attack_type)); // Correct class
-                    Effects_89_Type_CB1->SetChoice(attack_type);
+                    Populate89(EffectPointer->D);
                     Effects_D_Text->SetLabel("Amount [%] ");
-                    Effects_89_Type_Text->SetLabel("Type ");
                 }
                 else
                 {
@@ -923,7 +934,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 Effects_B_ComboBox->TakeControl();
                 Effects_B_ComboBox->SwapList(&modify_research_names);
                 Effects_B_ComboBox->Show(true);
-                researchNameId = EffectPointer->B;
+                techResearchNameId = EffectPointer->B;
                 Effects_C_CheckBox->Show(false);
                 Effects_C_ComboBox->Show(false);
                 Effects_D_ComboBox->Show(false);
@@ -1141,34 +1152,34 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
     Effects_D->Enable(enableD);
     Effects_Type_Holder->Layout();
     Effects_Data_Holder->Layout();
-    if (attributeNameId != -1)
+    if (techAttributeNameId != plainId)
     {
-        if (attributeNameId >= 0 && attributeNameId <= 23)
+        if (techAttributeNameId >= 0 && techAttributeNameId <= 23)
         {
-            Effects_C_ComboBox->SetSelection(attributeNameId + 1);
+            Effects_C_ComboBox->SetSelection(techAttributeNameId + 1);
         }
-        else if (attributeNameId >= 100 && attributeNameId <= 109)
+        else if (techAttributeNameId >= 100 && techAttributeNameId <= 109)
         {
-            Effects_C_ComboBox->SetSelection(attributeNameId - 75);
+            Effects_C_ComboBox->SetSelection(techAttributeNameId - 75);
         }
         else
         {
             Effects_C_ComboBox->SetSelection(0);
         }
     }
-    if (researchNameId != -1)
+    if (techResearchNameId != plainId)
     {
-        if (researchNameId == -2)
+        if (techResearchNameId == -2)
         {
             Effects_B_ComboBox->SetSelection(1);
         }
-        else if (researchNameId >= 0 && researchNameId <= 4)
+        else if (techResearchNameId >= 0 && techResearchNameId <= 3)
         {
-            Effects_B_ComboBox->SetSelection(researchNameId + 2);
+            Effects_B_ComboBox->SetSelection(techResearchNameId + 2);
         }
-        else if (researchNameId >= 16384 && researchNameId <= 16387)
+        else if (techResearchNameId >= 16384 && techResearchNameId <= 16387)
         {
-            Effects_B_ComboBox->SetSelection(researchNameId - 16378);
+            Effects_B_ComboBox->SetSelection(techResearchNameId - 16378);
         }
         else
         {
@@ -1258,7 +1269,8 @@ void AGE_Frame::LoadAllEffects(wxCommandEvent &event)
     {
         for(short effect = 0; effect < dataset->Effects[tech].EffectCommands.size(); ++effect)
         {
-            wxString Name = " T"+lexical_cast<std::string>(tech)+" E"+lexical_cast<std::string>(effect)+" - "+GetEffectCmdName(effect, tech);
+            wxString Name = " T" + lexical_cast<std::string>(tech) +
+                " E" + lexical_cast<std::string>(effect) + " - " + GetEffectCmdName(effect, tech);
             if(SearchMatches(" " + Name.Lower() + " "))
             {
                 Techs_AllEffects_ListV->names.Add(Name);
@@ -1636,44 +1648,72 @@ void AGE_Frame::CreateTechControls()
     Effects_B_CheckBox->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnUpdateCheck_Techs, this);
     Effects_B_ComboBox->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
-        // DETECT UP AND PLUSONE!!!
-        switch (event.GetSelection())
+        if (techResearchNameId != plainId)
         {
-            case 0: Effects_B->ChangeValue("-1"); break;
-            case 1: Effects_B->ChangeValue("-2"); break;
-            case 2: Effects_B->ChangeValue("0"); break;
-            case 3: Effects_B->ChangeValue("1"); break;
-            case 4: Effects_B->ChangeValue("2"); break;
-            case 5: Effects_B->ChangeValue("3"); break;
-            case 6: Effects_B->ChangeValue("16384"); break;
-            case 7: Effects_B->ChangeValue("16385"); break;
-            case 8: Effects_B->ChangeValue("16386"); break;
-            case 9: Effects_B->ChangeValue("16387"); break;
-            default: Effects_B->ChangeValue("-1");
+            switch (event.GetSelection())
+            {
+                case 0: Effects_B->ChangeValue("-1"); break;
+                case 1: Effects_B->ChangeValue("-2"); break;
+                case 2: Effects_B->ChangeValue("0"); break;
+                case 3: Effects_B->ChangeValue("1"); break;
+                case 4: Effects_B->ChangeValue("2"); break;
+                case 5: Effects_B->ChangeValue("3"); break;
+                case 6: Effects_B->ChangeValue("16384"); break;
+                case 7: Effects_B->ChangeValue("16385"); break;
+                case 8: Effects_B->ChangeValue("16386"); break;
+                case 9: Effects_B->ChangeValue("16387"); break;
+                default: Effects_B->ChangeValue("-1");
+            }
+            Effects_B->SaveEdits();
         }
-        Effects_B->SaveEdits();
+        else
+        {
+            Effects_B_ComboBox->OnChoose(event);
+        }
         ListEffectCmds();
     });
     Effects_C_CheckBox->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnUpdateCheck_Techs, this);
     Effects_C_ComboBox->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
-        // DETECT EA AND PLUSONE!!!
-        int selection = event.GetSelection();
-        selection = (selection < 25) ? selection - 1 : selection + 75;
-        Effects_C->ChangeValue(lexical_cast<std::string>(selection));
-        Effects_C->SaveEdits();
+        if (techAttributeNameId != plainId)
+        {
+            int selection = event.GetSelection();
+            selection = (selection < 25) ? selection - 1 : selection + 75;
+            std::string newValue(lexical_cast<std::string>(selection));
+            if (Effects_C->GetValue() != newValue)
+            {
+                Effects_C->ChangeValue(newValue);
+                Effects_C->SaveEdits();
+            }
+            else return;
+        }
+        else
+        {
+            Effects_C_ComboBox->OnChoose(event);
+        }
         ListEffectCmds();
     });
     Effects_D_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Techs, this);
     Effects_89_Type_CB1->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
-        uint16_t Class = (event.GetSelection() - 1) << 8;
-        uint8_t Amount = lexical_cast<int>(Effects_89_Amount->GetValue());
-        Effects_D->ChangeValue(lexical_cast<std::string>(Amount + Class));
-        Effects_D->SaveEdits();
-
-        ListEffectCmds();
-        return;
+        uint16_t type = static_cast<uint16_t>(event.GetSelection() - 1);
+        int16_t amount;
+        try
+        {
+            amount = lexical_cast<int16_t>(Effects_89_Amount->GetValue());
+        }
+        catch (const bad_lexical_cast &)
+        {
+            popUp.post("Bad integer. Valid range is from 0 or -255 to 255.", "AGE", Effects_89_Amount);
+            return;
+        }
+        std::string newValue(lexical_cast<std::string>(CombineEffects89(type, amount)));
+        if (Effects_D->GetValue() != newValue)
+        {
+            Effects_D->ChangeValue(newValue);
+            Effects_D->SaveEdits();
+            ListEffectCmds();
+        }
     });
 }
 
@@ -1695,12 +1735,35 @@ void AGE_Frame::OnKillFocus_Techs(wxFocusEvent &event)
 void AGE_Frame::UpdateEffects89(bool forced)
 {
     // if has something, then update float value.
-    if(!Effects_89_Amount->IsEmpty() && !Effects_89_Type->IsEmpty())
+    if (!Effects_89_Amount->IsEmpty() && !Effects_89_Type->IsEmpty())
     {
-        uint16_t Class = lexical_cast<int>(Effects_89_Type->GetValue()) << 8;
-        uint8_t Amount = lexical_cast<int>(Effects_89_Amount->GetValue());
-        Effects_D->ChangeValue(lexical_cast<std::string>(Amount + Class));
-        Effects_D->SaveEdits(forced);
+        uint16_t type;
+        try
+        {
+            type = lexical_cast<uint16_t>(Effects_89_Type->GetValue());
+        }
+        catch (const bad_lexical_cast &)
+        {
+            popUp.post("Bad integer. Valid range is from 0 to 255.", "AGE", Effects_89_Type);
+            return;
+        }
+        int16_t amount;
+        try
+        {
+            amount = lexical_cast<int16_t>(Effects_89_Amount->GetValue());
+        }
+        catch (const bad_lexical_cast &)
+        {
+            popUp.post("Bad integer. Valid range is from 0 or -255 to 255.", "AGE", Effects_89_Amount);
+            return;
+        }
+        std::string newValue(lexical_cast<std::string>(CombineEffects89(type, amount)));
+        if (Effects_D->GetValue() != newValue)
+        {
+            Effects_D->ChangeValue(newValue);
+            Effects_D->SaveEdits(forced);
+        }
+        else return;
     }
     ListEffectCmds();
 }
