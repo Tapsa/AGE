@@ -15,6 +15,8 @@ Guide makers et cetera, please include the version into which your guide was wri
 
 Version [b]2021.4.25[/b]:
 -Fixed more bugs in effects tab including inability to type in negative armor and attack values for UP and DE2.
+-Show all angles of DE sprites.
+-Fixed targeting with mouse.
 
 Version [b]2021.4.18[/b]:
 -Scroll rate of tabs can be adjusted in options.
