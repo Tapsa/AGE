@@ -199,6 +199,7 @@ private:
     void OnEnter_Colors(wxCommandEvent &event);
 
     void UpdateEffects89(bool forced);
+    int32_t CombineEffects89(uint16_t type, int16_t amount);
     void UpdateGraphicsView(void);
 
     void OnUpdateCheck_Techs(wxCommandEvent &event);
@@ -896,7 +897,7 @@ private:
     bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, SyncSaveWithOpen,
         UseTXT = false, UseDRS, UseMod, UseExtra, FilterAllSubs, UseLooseSLP, LooseHD;
     enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
-    short How2List;
+    short How2List, techAttributeNameId, techResearchNameId;
     int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidthV2, MinWindowWidth;
     std::chrono::time_point<std::chrono::system_clock> endTime;
     genie::GameVersion GenieVersion = genie::GV_None;
