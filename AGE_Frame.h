@@ -852,7 +852,7 @@ private:
     std::vector<short> SelectedCivs;
     bool SearchAnd = false, ExcludeAnd = false, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11, Reselection;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false;
-    bool DrawTerrain, RotateAngles;
+    bool DrawTerrain, RotateAngles, FillMissingFrames;
     bool DrawCollisionShape, DrawClearanceShape, DrawOutline, DrawAngles, PlaySounds, AutoCopyAngles;
     std::vector<genie::DrsFile*> datafiles;
     std::vector<std::vector<genie::Color>> palettes, pc_palettes;

@@ -291,6 +291,9 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
     }
     else wxMessageBox("No file " + DatFileName);
 
+    FillMissingFrames = GenieVersion > genie::GV_LatestTap && GenieVersion < genie::GV_C2 ||
+        GenieVersion > genie::GV_LatestDE2 || GenieVersion < genie::GV_Tapsa;
+
     // txt language file
     LangTxt.clear();
     if(LangFileName.size() && 't' == LangFileName[LangFileName.size() - 1])
@@ -4877,8 +4880,14 @@ void AGE_Frame::OnFrameMouse(wxMouseEvent &event)
     wxPoint coords(slp_view->ScreenToClient(wxGetMousePosition()));
     coords.x -= centerX;
     coords.y -= centerY;
-    bearing = atan2(coords.x, -coords.y << 1) + 3.1416f;
-    assert(bearing >= 0.f && PI2 >= bearing);
+    float anchor = FillMissingFrames ? 3.1416f : 4.7124f;
+    bearing = atan2(coords.x, -coords.y << 1) + anchor;
+    if (bearing >= PI2A)
+    {
+        assert(!FillMissingFrames);
+        bearing -= PI2A;
+    }
+    assert(bearing >= 0.f && PI2 > bearing);
     setbearing = 1u;
     slp_view->Refresh();
 }

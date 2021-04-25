@@ -571,7 +571,7 @@ void AGE_Frame::CalcAngle(AGE_SLP &graphic)
     }
     uint16_t angle = bearing * 0.159154f * graphic.angles;
     graphic.flip = false;
-    if(graphic.mirror)
+    if (FillMissingFrames && graphic.mirror)
     {
         if(angle > graphic.angles >> 1)
         {
