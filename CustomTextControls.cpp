@@ -18,6 +18,11 @@ AGETextCtrl::AGETextCtrl(wxWindow *parent, int width) :
 {
 }
 
+void AGETextCtrl::SetAsText(unsigned value)
+{
+    ChangeValue(lexical_cast<std::string>(value));
+}
+
 void AGETextCtrl::update()
 {
     if (container.empty())

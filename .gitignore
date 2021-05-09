@@ -1,3 +1,4 @@
+enc_temp_folder/
 *debug/
 *release/
 .vs/

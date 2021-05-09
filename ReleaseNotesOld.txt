@@ -324,7 +324,7 @@ Version [b]3.3[/b] (2013.2.22):
 Version [b]3.2[/b]:
 -Instant crash fixed for AoE/RoR.
 
-Version [b]3.1[/b]:
+Version [b]3.1[/b] (2013.2.11):
 -Fixed civilization related unit copy/paste issues.
 -Referencing nonexistent units and researches in tech tree tab and unitline tab no longer crashes the program.
 -Fixed showing the second name of civilization in Star Wars versions.
@@ -338,13 +338,13 @@ Version [b]3.1[/b]:
 -All data in the dat files is editable in some way or another.
 -Named rest of the Star Wars terrain tables.
 
-Version [b]3.0[/b]:
+Version [b]3.0[/b] (2013.1.25):
 -Language files can be edited.
 -Fatal bug in non-automatic unit copy to all civilizations fixed.
 -Ability to copy all sub-items to all selected items.
 -AI warning if over 900 units added in AoE series.
 
-Version [b]2.45[/b]:
+Version [b]2.45[/b] (2012.12.21):
 -Editing all selected items simultaneously (b+, b-, b*, b/ prefixes available).
 -Civilization limits removed from auto-copy (works for 32767 civilizations).
 -German language file shows correctly when writing is enabled.
@@ -352,50 +352,50 @@ Version [b]2.45[/b]:
 -Unknowns are again shown on opening according to settings ini file.
 -Graphic attack sound delays are correctly initialized.
 
-Version [b]2.44[/b]:
+Version [b]2.44[/b] (2012.12.3):
 -Improved layout of graphics.
 -Team bonus technologies get renamed again.
 
-Version [b]2.43[/b]:
+Version [b]2.43[/b] (2012.11.21):
 -Option to use Apre's language DLL reader/writer.
 
-Version [b]2.42[/b]:
+Version [b]2.42[/b] (2012.11.18):
 -Unlinked auto-copy from other copy buttons.
 
-Version [b]2.41[/b]:
+Version [b]2.41[/b] (2012.11.12):
 -Adding bugs fixed.
 -Ability to edit and copy between multiple files at once.
 -Copying between game versions may or may not work.
 
-Version [b]2.40[/b]:
+Version [b]2.40[/b] (2012.10.26):
 -Fixed a bug that prevented attacks/armors to be deleted.
 -Added extracting/importing for graphics.
 
-Version [b]2.39[/b]:
+Version [b]2.39[/b] (2012.10.11):
 -Practically unlimited search text parts with | character.
 -All effects and all sound files lists have multiple selection fully working.
 -Auto-copy related warning when over 30 civilizations are created.
 
-Version [b]2.38[/b]:
+Version [b]2.38[/b] (2012.9.30):
 -Updated unit command variables.
 -Added/improved tooltips.
 -Fixed some variables for AoE/RoR (selection effect and editor selection color earlier improperly shown as attribute and civilization).
 -Armor class names really show up for AoE/RoR (instead of AoK/TC names).
 
-Version [b]2.37[/b]:
+Version [b]2.37[/b] (2012.9.10):
 -Added a list of effects of all technologies.
 -Added a list of files of all sounds.
 -Added attack and armor counts to units' search filters.
 -Improved attack/armor list for AoE/RoR.
 
-Version [b]2.36[/b]:
+Version [b]2.36[/b] (2012.9.7):
 -Fixed color and hotkey variables.
 -Added terrain table to units' search filters.
 -Added technology to research' search filters.
 -Fixed research pointer 2.
 -More tool tips.
 
-Version [b]2.35[/b]:
+Version [b]2.35[/b] (2012.8.19):
 -Loads of bug fixes.
 -Multiple selections.
 -Warning messages for file handling.
@@ -406,68 +406,68 @@ Version [b]2.35[/b]:
 -Indexes fixed on enabling.
 -Tab traversal corrected for all tabs.
 
-Version [b]2.34[/b]:
+Version [b]2.34[/b] (2012.6.26):
 -Corrected attributes 105 and 106.
 -Another fix.
 
-Version [b]2.33[/b]:
+Version [b]2.33[/b] (2012.5.29):
 -Upgraded auto-copy interface.
 -Upgraded units tab's layout.
 -Fixed special copy/paste without all civs.
 -Improved auto/normal copying/pasting.
 
-Version [b]2.32[/b]:
+Version [b]2.32[/b] (2012.5.1):
 -Relocated hiding unknowns option.
 -Reformed auto-copy interface.
 
-Version [b]2.31[/b]:
+Version [b]2.31[/b] (2012.4.16):
 -All civilizations selectable for enabling/disabling.
 -Index fixes can be disabled.
 
-Version [b]2.30[/b]:
+Version [b]2.30[/b] (2012.4.6):
 -Almost completed resources list.
 -Advanced effects list.
 
-Version [b]2.29[/b]:
+Version [b]2.29[/b] (2012.3.30):
 -Added inserting features.
 
-Version [b]2.28[/b]:
+Version [b]2.28[/b] (2012.2.8):
 -Speed improvements.
 
-Version [b]2.27[/b]:
+Version [b]2.27[/b] (2012.1.31):
 -Empty entries get reversed.
 
-Version [b]2.26[/b]:
+Version [b]2.26[/b] (2012.1.16):
 -Bug fixes.
 
-Version [b]2.25[/b]:
+Version [b]2.25[/b] (2012.1.13):
 -Added space into beginning of list items.
 -Relayouted annex unit misplacement grid.
 -Added copy graphics only for units.
 
-Version [b]2.24[/b]:
+Version [b]2.24[/b] (2012.1.11):
 -Improved resource-storage-enabler tool tip.
 -Simplified attack/armor lists.
 
-Version [b]2.23[/b]:
+Version [b]2.23[/b] (2012.1.8):
 -Auto-copy exiting bug fixed.
 -Improved attack/armor lists.
 
-Version [b]2.22[/b]:
+Version [b]2.22[/b] (2012.1.6):
 -Search filters for graphics.
 Searching them requires hitting enter button.
 
-Version [b]2.21[/b]:
+Version [b]2.21[/b] (2012.1.5):
 -Searching speed improvements.
 -Filters for researches.
 -Upgraded terrain table terrain list.
 -Upgraded civ resource list.
 
-Version [b]2.20[/b]:
+Version [b]2.20[/b] (2012.1.3):
 -Enable/Disable buttons for units and graphics.
 -Improved tool tips and resources lists.
 
-Version [b]2.19[/b]:
+Version [b]2.19[/b] (2012.1.1):
 -Speed improvements, especially unit searching.
 
 Version [b]2.18[/b]:
@@ -480,37 +480,37 @@ Version [b]2.16[/b]:
 Version [b]2.15[/b]:
 -Upgraded tech tree section.
 
-Version [b]2.14[/b]:
+Version [b]2.14[/b] (2011.12.28):
 -Finished tech tree section.
 
-Version [b]2.13[/b]:
+Version [b]2.13[/b] (2011.12.22):
 -Renamed things in general section.
 -Added data converter tool for discovering unknown data.
 
-Version [b]2.12[/b]:
+Version [b]2.12[/b] (2011.12.20):
 -[color=blue]Added tool tips for lots of unit variables.[/color]
 -Bug fixes.
 -Improvements.
 -Improved layout.
 
-Version [b]2.10[/b]:
+Version [b]2.10[/b] (2011.12.18):
 -Added Unitline tab for Star Wars versions.
 
-Version [b]2.9[/b]:
+Version [b]2.9[/b] (2011.12.16):
 -All data is editable now (except some zeroes and a one in SWGB).
 -Customized lists for Star Wars versions.
 -AoE/RoR related upgrades.
 -Completed terrain border section.
 -Improved layout.
 
-Version [b]2.8[/b]:
+Version [b]2.8[/b] (2011.12.9):
 -Unit section speed improvements.
 
-Version [b]2.7[/b]:
+Version [b]2.7[/b] (2011.12.9):
 -Fixed important bug in unit editing.
 -Improved layout.
 
-Version [b]2.6[/b]:
+Version [b]2.6[/b] (2011.12.4):
 -Corrected required researches initialization.
 -Improved layout.
 -Non-existent list items (some units and graphics) marked as disabled.
@@ -522,16 +522,16 @@ Version [b]2.5[/b]:
 Version [b]2.4[/b]:
 -Restored graphic name workaround.
 
-Version [b]2.3[/b]:
+Version [b]2.3[/b] (2011.11.20):
 -Fixed fatal bug in AoE and RoR command index fixes.
 -Added general unknown section.
 -Fixed bug in editing new units, etc.
 -Fixed "bug" when saving instantly after editing.
 
-Version [b]2.2[/b]:
+Version [b]2.2[/b] (2011.11.19):
 -Fixed bugs in research combo boxes.
 
-Version [b]2.1[/b]:
+Version [b]2.1[/b] (2011.11.18):
 -Graphics can be added again.
 
 Version [b]2.0 Beta 3[/b] (2011.9.4):

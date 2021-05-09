@@ -20,6 +20,7 @@ public:
     inline void prepend(void *data) { container.push_back(data); }
     virtual void replenish() = 0;
     virtual int SaveEdits(bool forced = false) = 0;
+    void SetAsText(unsigned value);
     void update();
     void refill();
 

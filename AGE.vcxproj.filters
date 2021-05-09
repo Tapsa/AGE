@@ -108,6 +108,12 @@
     <ClCompile Include="Sprites.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="AGE_Frame\Animation.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="AGE_Frame\Lists.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AGE_Frame.h">

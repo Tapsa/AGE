@@ -2793,8 +2793,12 @@ void AGE_Frame::OnUnitCommandSelect(wxCommandEvent &event)
 {
     size_t selections = Units_Tasks_ListV->GetSelectedCount();
     wxBusyCursor WaitCursor;
-    for (AGETextCtrl *box : uiGroupUnitTask) box->clear();
+    for (AGETextCtrl *box : uiGroupUnitTask)
+    {
+        box->clear();
+    }
     Tasks_ID->clear();
+    genie::Task *task_ptr = nullptr;
     if(selections > 0)
     {
         getSelectedItems(selections, Units_Tasks_ListV, CommandIDs);
@@ -2802,7 +2806,6 @@ void AGE_Frame::OnUnitCommandSelect(wxCommandEvent &event)
         bool showWarning = false;
         bool uniqueTasks = (GenieVersion < genie::GV_AoK || GenieVersion >= genie::GV_C15 && GenieVersion <= genie::GV_LatestDE2);
         wxString warning = "Command count of civs\n";
-        genie::Task * task_ptr = 0;
         for(size_t sel = selections; sel--> 0;)
         {
             for(short vecCiv = uniqueTasks ? SelectedCivs.size() : 1; vecCiv--> 0;)
@@ -2862,58 +2865,43 @@ void AGE_Frame::OnUnitCommandSelect(wxCommandEvent &event)
                 wxMessageBox(warning);
             }
         }
-        if(task_ptr)
-        switch(task_ptr->ActionType)
+    }
+    for (AGETextCtrl *box : uiGroupUnitTask)
+    {
+        box->update();
+    }
+    Tasks_ID->refill();
+    if (task_ptr != nullptr)
+    {
+        if (task_ptr->ActionType >= 0 && task_ptr->ActionType <= 14)
         {
-            case 0: Tasks_ActionType_ComboBox->SetSelection(1); break;
-            case 1: Tasks_ActionType_ComboBox->SetSelection(2); break;
-            case 2: Tasks_ActionType_ComboBox->SetSelection(3); break;
-            case 3: Tasks_ActionType_ComboBox->SetSelection(4); break;
-            case 4: Tasks_ActionType_ComboBox->SetSelection(5); break;
-            case 5: Tasks_ActionType_ComboBox->SetSelection(6); break;
-            case 6: Tasks_ActionType_ComboBox->SetSelection(7); break;
-            case 7: Tasks_ActionType_ComboBox->SetSelection(8); break;
-            case 8: Tasks_ActionType_ComboBox->SetSelection(9); break;
-            case 9: Tasks_ActionType_ComboBox->SetSelection(10); break;
-            case 10: Tasks_ActionType_ComboBox->SetSelection(11); break;
-            case 11: Tasks_ActionType_ComboBox->SetSelection(12); break;
-            case 12: Tasks_ActionType_ComboBox->SetSelection(13); break;
-            case 13: Tasks_ActionType_ComboBox->SetSelection(14); break;
-            case 14: Tasks_ActionType_ComboBox->SetSelection(15); break;
-            case 20: Tasks_ActionType_ComboBox->SetSelection(16); break;
-            case 21: Tasks_ActionType_ComboBox->SetSelection(17); break;
-            case 101: Tasks_ActionType_ComboBox->SetSelection(18); break;
-            case 102: Tasks_ActionType_ComboBox->SetSelection(19); break;
-            case 103: Tasks_ActionType_ComboBox->SetSelection(20); break;
-            case 104: Tasks_ActionType_ComboBox->SetSelection(21); break;
-            case 105: Tasks_ActionType_ComboBox->SetSelection(22); break;
-            case 106: Tasks_ActionType_ComboBox->SetSelection(23); break;
-            case 107: Tasks_ActionType_ComboBox->SetSelection(24); break;
-            case 108: Tasks_ActionType_ComboBox->SetSelection(25); break;
-            case 109: Tasks_ActionType_ComboBox->SetSelection(26); break;
-            case 110: Tasks_ActionType_ComboBox->SetSelection(27); break;
-            case 111: Tasks_ActionType_ComboBox->SetSelection(28); break;
-            case 120: Tasks_ActionType_ComboBox->SetSelection(29); break;
-            case 121: Tasks_ActionType_ComboBox->SetSelection(30); break;
-            case 122: Tasks_ActionType_ComboBox->SetSelection(31); break;
-            case 123: Tasks_ActionType_ComboBox->SetSelection(32); break;
-            case 124: Tasks_ActionType_ComboBox->SetSelection(33); break;
-            case 125: Tasks_ActionType_ComboBox->SetSelection(34); break;
-            case 130: Tasks_ActionType_ComboBox->SetSelection(35); break;
-            case 131: Tasks_ActionType_ComboBox->SetSelection(36); break;
-            case 132: Tasks_ActionType_ComboBox->SetSelection(37); break;
-            case 133: Tasks_ActionType_ComboBox->SetSelection(38); break;
-            case 134: Tasks_ActionType_ComboBox->SetSelection(39); break;
-            case 135: Tasks_ActionType_ComboBox->SetSelection(40); break;
-            case 136: Tasks_ActionType_ComboBox->SetSelection(41); break;
-            case 149: Tasks_ActionType_ComboBox->SetSelection(42); break;
-            case 150: Tasks_ActionType_ComboBox->SetSelection(43); break;
-            case 151: Tasks_ActionType_ComboBox->SetSelection(44); break;
-            default: Tasks_ActionType_ComboBox->SetSelection(0);
+            Tasks_ActionType_ComboBox->SetChoice(task_ptr->ActionType);
+        }
+        else if (task_ptr->ActionType >= 20 && task_ptr->ActionType <= 21)
+        {
+            Tasks_ActionType_ComboBox->SetChoice(task_ptr->ActionType - 5);
+        }
+        else if (task_ptr->ActionType >= 101 && task_ptr->ActionType <= 111)
+        {
+            Tasks_ActionType_ComboBox->SetChoice(task_ptr->ActionType - 84);
+        }
+        else if (task_ptr->ActionType >= 120 && task_ptr->ActionType <= 125)
+        {
+            Tasks_ActionType_ComboBox->SetChoice(task_ptr->ActionType - 92);
+        }
+        else if (task_ptr->ActionType >= 130 && task_ptr->ActionType <= 136)
+        {
+            Tasks_ActionType_ComboBox->SetChoice(task_ptr->ActionType - 96);
+        }
+        else if (task_ptr->ActionType >= 149 && task_ptr->ActionType <= 151)
+        {
+            Tasks_ActionType_ComboBox->SetChoice(task_ptr->ActionType - 108);
+        }
+        else
+        {
+            Tasks_ActionType_ComboBox->SetChoice(-1);
         }
     }
-    for (AGETextCtrl *box : uiGroupUnitTask) box->update();
-    Tasks_ID->refill();
     wxCommandEvent E;
     OnChooseGraphic(E);
 }
@@ -4118,13 +4106,13 @@ void AGE_Frame::CreateUnitControls()
         UnitComboBoxList.push_back(Units_DropSite_ComboBox[loop]);
     }
 
-    for(size_t loop = 0; loop < 3; ++loop)
-    Units_SizeRadius[loop] = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit, false);
+    for (size_t loop = 0; loop < 3; ++loop)
+    Units_SizeRadius[loop] = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit, loop == 2);
     Units_MinCollisionSizeMultiplier = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit);
     Units_MinCollisionSizeMultiplier->SetToolTip("Scales collision size under certain circumstances.");
     Units_SelectionRadiusBox = new wxBoxSizer(wxHORIZONTAL);
     for(size_t loop = 0; loop < 3; ++loop)
-    Units_SelectionRadius[loop] = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit, false);
+    Units_SelectionRadius[loop] = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit, loop == 2);
     for(size_t loop = 0; loop < 2; ++loop)
     Units_ClearanceSize[loop] = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit, false);
     Units_SizeRadius[2]->SetToolTip("Setting \"can be built on\" to 1 and this to 0 causes\nfarms to be walkable in AoE/RoR.");
@@ -4334,7 +4322,7 @@ void AGE_Frame::CreateUnitControls()
     Tasks_ActionType_Holder = new wxBoxSizer(wxVERTICAL);
     Tasks_ActionType_Text = new SolidText(Units_Scroller, " Action Type");
     Tasks_ActionType = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnitTask, false);
-    Tasks_ActionType_ComboBox = new AGEComboBox(Units_Scroller, &task_names, false, AGETextCtrl::GIANT);
+    Tasks_ActionType_ComboBox = new LinkedComboBox(Units_Scroller, Tasks_ActionType, &task_names, false, AGETextCtrl::GIANT);
     Tasks_ClassID_Holder = new wxBoxSizer(wxVERTICAL);
     Tasks_ClassID_Text = new SolidText(Units_Scroller, " Class");
     Tasks_ClassID = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnitTask);
@@ -6343,53 +6331,34 @@ void AGE_Frame::CreateUnitControls()
     Tasks_ProdResource->Bind(wxEVT_TEXT_ENTER, SaveThenListTasks);
     Tasks_ActionType_ComboBox->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
     {
-        switch (event.GetSelection())
+        unsigned selection = static_cast<unsigned>(event.GetSelection() - 1);
+        if (selection < 15)
         {
-            case 1: Tasks_ActionType->ChangeValue("0"); break;
-            case 2: Tasks_ActionType->ChangeValue("1"); break;
-            case 3: Tasks_ActionType->ChangeValue("2"); break;
-            case 4: Tasks_ActionType->ChangeValue("3"); break;
-            case 5: Tasks_ActionType->ChangeValue("4"); break;
-            case 6: Tasks_ActionType->ChangeValue("5"); break;
-            case 7: Tasks_ActionType->ChangeValue("6"); break;
-            case 8: Tasks_ActionType->ChangeValue("7"); break;
-            case 9: Tasks_ActionType->ChangeValue("8"); break;
-            case 10: Tasks_ActionType->ChangeValue("9"); break;
-            case 11: Tasks_ActionType->ChangeValue("10"); break;
-            case 12: Tasks_ActionType->ChangeValue("11"); break;
-            case 13: Tasks_ActionType->ChangeValue("12"); break;
-            case 14: Tasks_ActionType->ChangeValue("13"); break;
-            case 15: Tasks_ActionType->ChangeValue("14"); break;
-            case 16: Tasks_ActionType->ChangeValue("20"); break;
-            case 17: Tasks_ActionType->ChangeValue("21"); break;
-            case 18: Tasks_ActionType->ChangeValue("101"); break;
-            case 19: Tasks_ActionType->ChangeValue("102"); break;
-            case 20: Tasks_ActionType->ChangeValue("103"); break;
-            case 21: Tasks_ActionType->ChangeValue("104"); break;
-            case 22: Tasks_ActionType->ChangeValue("105"); break;
-            case 23: Tasks_ActionType->ChangeValue("106"); break;
-            case 24: Tasks_ActionType->ChangeValue("107"); break;
-            case 25: Tasks_ActionType->ChangeValue("108"); break;
-            case 26: Tasks_ActionType->ChangeValue("109"); break;
-            case 27: Tasks_ActionType->ChangeValue("110"); break;
-            case 28: Tasks_ActionType->ChangeValue("111"); break;
-            case 29: Tasks_ActionType->ChangeValue("120"); break;
-            case 30: Tasks_ActionType->ChangeValue("121"); break;
-            case 31: Tasks_ActionType->ChangeValue("122"); break;
-            case 32: Tasks_ActionType->ChangeValue("123"); break;
-            case 33: Tasks_ActionType->ChangeValue("124"); break;
-            case 34: Tasks_ActionType->ChangeValue("125"); break;
-            case 35: Tasks_ActionType->ChangeValue("130"); break;
-            case 36: Tasks_ActionType->ChangeValue("131"); break;
-            case 37: Tasks_ActionType->ChangeValue("132"); break;
-            case 38: Tasks_ActionType->ChangeValue("133"); break;
-            case 39: Tasks_ActionType->ChangeValue("134"); break;
-            case 40: Tasks_ActionType->ChangeValue("135"); break;
-            case 41: Tasks_ActionType->ChangeValue("136"); break;
-            case 42: Tasks_ActionType->ChangeValue("149"); break;
-            case 43: Tasks_ActionType->ChangeValue("150"); break;
-            case 44: Tasks_ActionType->ChangeValue("151"); break;
-            default: Tasks_ActionType->ChangeValue("-1");
+            Tasks_ActionType->SetAsText(selection);
+        }
+        else if (selection < 17)
+        {
+            Tasks_ActionType->SetAsText(selection + 5);
+        }
+        else if (selection < 28)
+        {
+            Tasks_ActionType->SetAsText(selection + 84);
+        }
+        else if (selection < 34)
+        {
+            Tasks_ActionType->SetAsText(selection + 92);
+        }
+        else if (selection < 41)
+        {
+            Tasks_ActionType->SetAsText(selection + 96);
+        }
+        else if (selection < 44)
+        {
+            Tasks_ActionType->SetAsText(selection + 108);
+        }
+        else
+        {
+            Tasks_ActionType->ChangeValue("-1");
         }
         Tasks_ActionType->SaveEdits();
         ListUnitCommands();

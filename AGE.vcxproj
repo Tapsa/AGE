@@ -184,10 +184,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AboutDialog.cpp" />
+    <ClCompile Include="AGE_Frame\Animation.cpp" />
     <ClCompile Include="AGE_Frame\Civs.cpp" />
     <ClCompile Include="AGE_Frame\Constructor.cpp" />
     <ClCompile Include="AGE_Frame\General.cpp" />
     <ClCompile Include="AGE_Frame\Graphics.cpp" />
+    <ClCompile Include="AGE_Frame\Lists.cpp" />
     <ClCompile Include="AGE_Frame\Other.cpp" />
     <ClCompile Include="AGE_Frame\PlayerColors.cpp" />
     <ClCompile Include="AGE_Frame\Research.cpp" />

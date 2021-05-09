@@ -119,12 +119,14 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
         Config.Read("DefaultFiles/FolderDRS2", &FolderDRS2, wxEmptyString);
         Config.Read("DefaultFiles/Path1stDRS", &Path1stDRS, wxEmptyString);
         Config.Read("DefaultFiles/PathLooseSprites", &PathSLP, wxEmptyString);
+        Config.Read("DefaultFiles/PathLooseModSprites", &PathModSLP, wxEmptyString);
         Config.Read("DefaultFiles/PathPalettes", &PathPalettes, wxEmptyString);
         Config.Read("DefaultFiles/PathPlayerPalette", &PathPlayerColorPalette, wxEmptyString);
         Config.Read("DefaultFiles/UseDRS", &UseDRS, true);
         Config.Read("DefaultFiles/UseMod", &UseMod, false);
         Config.Read("DefaultFiles/UseExtra", &UseExtra, false);
         Config.Read("DefaultFiles/UseLooseSprites", &UseLooseSLP, false);
+        Config.Read("DefaultFiles/UseLooseModSprites", &UseLooseModSLP, false);
         Config.Read("DefaultFiles/LangsUsed", &LangsUsed, 7);
         Config.Read("DefaultFiles/WriteLangs", &WriteLangs, false);
         Config.Read("DefaultFiles/SaveLangs", &SaveLangs, false);
@@ -312,6 +314,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     Bind(wxEVT_MENU, &AGE_Frame::OnSave, this, eSave);
     Bind(wxEVT_MENU, &AGE_Frame::OnMenuOption, this, ePrompt, eScrollRate);
     Bind(wxEVT_MENU, &AGE_Frame::OnMenuOption, this, hotWin1, closeAll);
+    Bind(wxEVT_MENU, &AGE_Frame::OnAnimationMenuOption, this, eShowSLP, eSlpZoom);
 
     Units_AutoCopy->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnAutoCopy, this);
     Units_CopyTo->Bind(wxEVT_BUTTON, [this](wxCommandEvent &)
@@ -382,11 +385,11 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
 
     event.SetId(eShowSLP);
     event.SetInt(ShowSLP);
-    OnMenuOption(event);
+    OnAnimationMenuOption(event);
 
     event.SetId(eShowIcons);
     event.SetInt(ShowIcons);
-    OnMenuOption(event);
+    OnAnimationMenuOption(event);
 
     SkipOpenDialog = !PromptForFilesOnOpen;
 

@@ -155,10 +155,12 @@ private:
     bool SaveLang();
     bool SaveLangX1();
     bool SaveLangX1P1();
+    void FillListsBasedOnGameVersion();
     void LoadLists();
     void OnGameVersionChange();
     void OnSave(wxCommandEvent &event);
     void OnMenuOption(wxCommandEvent &event);
+    void OnAnimationMenuOption(wxCommandEvent &event);
     void OnAutoCopy(wxCommandEvent &event);
     void OnExitSLP(wxCloseEvent &event);
     void OnFrameButton(wxCommandEvent &event);
@@ -225,12 +227,9 @@ private:
     wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
     wxArrayString AoE1TerrainRestrictions, AoE2TerrainRestrictions, SWGBTerrainRestrictions;
     wxArrayString RoRCivResources, AoKCivResources, SWGBCivResources;
-    //int FindItem(wxArrayInt &selections, int find, int min, int max);
-    //void SwapSelection(int last, wxArrayInt &selections);
     void SaveBackup();
     bool SearchMatches(const wxString &hay);
     void getSelectedItems(const size_t selections, const ProperList *list, std::vector<int> &indexes);
-    //void Listing(wxListBox *List, wxArrayString &names, list<void*> &data);
     void RefreshList(ProperList *list, std::vector<int> *oldies = 0);
     void UnitLangDLLConverter(wxCommandEvent &event);
     void ResearchLangDLLConverter(wxCommandEvent &event);
@@ -398,6 +397,11 @@ private:
     void OnEffectCmdCopyToTechs(wxCommandEvent &event);
     inline wxString Tester(genie::EffectCommand, wxString);
     wxString GetEffectCmdName(int, int);
+
+    void (*SetEffectTypeChoice)(LinkedComboBox *, short) = [](LinkedComboBox *, short) {};
+    void (*SetEffectAttributeChoice)(LinkedComboBox *, short) = [](LinkedComboBox *, short) {};
+    void (*OnChooseEffectType)(AGETextCtrl *, unsigned) = [](AGETextCtrl *, unsigned) {};
+    void (*OnChooseEffectAttribute)(AGETextCtrl *, unsigned) = [](AGETextCtrl *, unsigned) {};
 
 //  Tech Tree Events
 
@@ -859,6 +863,7 @@ private:
     genie::DatFile *dataset = 0;
     genie::LangFile *Lang = 0, *LangX = 0, *LangXP = 0;
     int CustomTerrains, paletteView = 0, ViewBackR, ViewBackG, ViewBackB, ViewPosX, ViewPosY;
+    bool slp_tool_on = false;
     wxBrush slp_background_brush;
     wxFrame *slp_window = nullptr;
     APanel *slp_view;
@@ -892,24 +897,22 @@ private:
         SoundIDs, SoundItemIDs, ColorIDs,
         BorderIDs, BorderTileTypeIDs, BorderShapeIDs;
     int UnitCivID;
-    std::vector<float> TerrainRestrictionSubCopyAccess;
 
     bool SaveDat, SaveApf, WriteLangs, SaveLangs, LangWriteToLatest, SyncSaveWithOpen,
-        UseTXT = false, UseDRS, UseMod, UseExtra, FilterAllSubs, UseLooseSLP, LooseHD;
+        UseTXT = false, UseDRS, UseMod, UseExtra, FilterAllSubs, UseLooseSLP, UseLooseModSLP, LooseHD;
     enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
     short How2List, techAttributeNameId, techResearchNameId;
     int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidthV2, MinWindowWidth;
     std::chrono::time_point<std::chrono::system_clock> endTime;
     genie::GameVersion GenieVersion = genie::GV_None;
     wxString DriveLetter, Language, CustomFolder;
-    wxString DatFileName, SaveDatFileName, FolderDRS, FolderDRS2, Path1stDRS, PathSLP;
+    wxString DatFileName, SaveDatFileName, FolderDRS, FolderDRS2, Path1stDRS, PathSLP, PathModSLP;
     wxString PathPalettes, PathPlayerColorPalette;
     int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
     wxString LangCharset, AlexZoom;
     wxString LangFileName, LangX1FileName, LangX1P1FileName;
     wxString SaveLangFileName, SaveLangX1FileName, SaveLangX1P1FileName;
 
-    genie::GameVersion version(int);
     std::map<size_t, std::string> LangTxt;
     HINSTANCE LanguageDLL[3];
     wxString TranslatedText(int ID, int Letters = 0);
@@ -933,9 +936,12 @@ public:
     {
         // menus and tool bar
         ePrompt = wxID_HIGHEST + 1, eVasili,
-        eButtons, eNeverHide, eShowSLP, eShowIcons, eTips, eStayOnTop, eStayOnTopSLP, eAbout, eSlpPals,
-        eSlpPCPal, eCacheDepth, eSlpZoom, eBackup, eUnknown, eHelp, eDRS, eHex, eFloat, ePaste,
+        eButtons, eNeverHide, eTips, eStayOnTop, eAbout,
+        eBackup, eUnknown, eHelp, eDRS, eHex, eFloat, ePaste,
         eReselection, eAddWindow, eCompileList, eBoxWidth, eScrollRate,
+
+        // animation menu
+        eShowSLP, eShowIcons, eSlpPals, eSlpPCPal, eStayOnTopSLP, eCacheDepth, eSlpZoom,
 
         // open and save
         eOpen,
@@ -1633,7 +1639,7 @@ private:
     wxBoxSizer *Effects_Type_Holder;
     wxBoxSizer *Effects_Type2_Holder;
     SolidText *Effects_Type_Text;
-    AGEComboBox *Effects_Type_ComboBox;
+    LinkedComboBox *Effects_Type_ComboBox;
     AGETextCtrl *Effects_Type;
     wxStaticBoxSizer *Effects_Data_Holder;
     SolidText *Effects_A_Text;
@@ -2583,7 +2589,7 @@ private:
     AGETextCtrl *Tasks_ID;
     AGETextCtrl *Tasks_IsDefault;
     AGETextCtrl *Tasks_ActionType;
-    AGEComboBox *Tasks_ActionType_ComboBox;
+    LinkedComboBox *Tasks_ActionType_ComboBox;
     AGETextCtrl *Tasks_ClassID;
     AGETextCtrl *Tasks_UnitID;
     LinkedComboBox *Tasks_UnitID_ComboBox;

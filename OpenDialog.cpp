@@ -25,6 +25,7 @@ OpenDialog::OpenDialog(wxWindow *parent, const wxFont &font)
     CheckBox_DRSPath2 = new PairedCheckBox(this, "Path for mod DRS files", (wxWindow **)&Path_DRS2);
     CheckBox_DRSPath3 = new PairedCheckBox(this, "Extra 1st priority DRS file", (wxWindow **)&Path_DRS3);
     CheckBox_SlpPath = new PairedCheckBox(this, "Path for loose SLP files", (wxWindow **)&Path_SLP);
+    CheckBox_ModSlpPath = new PairedCheckBox(this, "Path for mod SLP files", (wxWindow **)&Path_ModSLP);
     SolidText *Text_PalettesPath = new SolidText(this, "Path for palette configuration *");
     Text_PalettesPath->SetToolTip("Used by Age of Empires DE and II DE");
     SolidText *Text_PlayerColorPalettePath = new SolidText(this, "Path for player color palette *");
@@ -33,6 +34,7 @@ OpenDialog::OpenDialog(wxWindow *parent, const wxFont &font)
     Path_DRS2 = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     Path_DRS3 = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DRS (*.drs)|*.drs", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
     Path_SLP = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
+    Path_ModSLP = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     Path_Palettes = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Configuration (*.conf)|*.conf", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
     Path_PlayerColorPalette = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Palette (*.pal)|*.pal", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 
@@ -61,6 +63,8 @@ OpenDialog::OpenDialog(wxWindow *parent, const wxFont &font)
     Layout->Add(Path_DRS3, 1, wxEXPAND);
     Layout->Add(CheckBox_SlpPath, 1, wxEXPAND);
     Layout->Add(Path_SLP, 1, wxEXPAND);
+    Layout->Add(CheckBox_ModSlpPath, 1, wxEXPAND);
+    Layout->Add(Path_ModSLP, 1, wxEXPAND);
     Layout->Add(Text_PalettesPath, 1, wxEXPAND);
     Layout->Add(Path_Palettes, 1, wxEXPAND);
     Layout->Add(Text_PlayerColorPalettePath, 1, wxEXPAND);
@@ -213,6 +217,7 @@ void OpenDialog::OnRecent(wxCommandEvent &event)
     Path_DRS2->SetPath(RecentValues[sel][6]);
     Path_DRS3->SetPath(RecentValues[sel][7]);
     Path_SLP->SetPath(RecentValues[sel][8]);
-    Path_Palettes->SetPath(RecentValues[sel][9]);
-    Path_PlayerColorPalette->SetPath(RecentValues[sel][10]);
+    Path_ModSLP->SetPath(RecentValues[sel][9]);
+    Path_Palettes->SetPath(RecentValues[sel][10]);
+    Path_PlayerColorPalette->SetPath(RecentValues[sel][11]);
 }
