@@ -18,6 +18,8 @@ Version [b]2021.5.9[/b]:
 -Updated armor list defaults for DE2.
 -Fixed multiple bugs in units and terrain restrictions tabs.
 -Added additional folder for loading modded sprite files.
+-Prevented AGE windows from spawning beyond observable desktop.
+-Fixed fresh bug in SLP view close handler.
 
 Version [b]2021.4.25[/b]:
 -Fixed more bugs in effects tab including inability to type in negative armor and attack values for UP and DE2.

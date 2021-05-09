@@ -2116,7 +2116,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/KeepViewOnTop", KeepViewOnTop);
         Config.Write("Interface/Paste11", Paste11);
         Config.Write("Interface/Reselection", Reselection);
-        Config.Write("Interface/MaxWindowWidthV2", MaxWindowWidthV2);
+        Config.Write("Interface/MaxWindowWidthV2", maxWindowWidthV2);
         wxPoint pos = GetPosition();
         Config.Write("Interface/WindowPosX", pos.x);
         Config.Write("Interface/WindowPosY", pos.y);
