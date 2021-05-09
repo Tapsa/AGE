@@ -61,6 +61,8 @@ set(AGE_SRC Precompile/Common.cpp
     AGE_Frame/Sounds.cpp
     AGE_Frame/Terrains.cpp
     AGE_Frame/Other.cpp
+    AGE_Frame/Lists.cpp
+    AGE_Frame/Animation.cpp
     AGE_Frame/Constructor.cpp
 
     Resources.rc

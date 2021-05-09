@@ -204,13 +204,13 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
     if(selections < 1 || Selections2 < 1) return;
 
     wxBusyCursor WaitCursor;
-    short CopyCount = TerrainRestrictionSubCopyAccess.size();
+    size_t CopyCount = copies.TerrainRestrictionSubAccess.size();
     if(Paste11)
     {
         if(Paste11Check(TerRestrictTerIDs.size(), copies.TerrainRestrictionSubGraphics.size()))
         {
             for(size_t loop = 0; loop < CopyCount; ++loop)
-            dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier[TerRestrictTerIDs[loop]] = TerrainRestrictionSubCopyAccess[loop];
+            dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier[TerRestrictTerIDs[loop]] = copies.TerrainRestrictionSubAccess[loop];
             if(GenieVersion >= genie::GV_AoKA || (GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap))
             {
                 for(size_t loop = 0; loop < CopyCount; ++loop)
@@ -226,7 +226,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
         if(CopyCount+TerRestrictTerIDs.front() > dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier.size())
         CopyCount -= CopyCount+TerRestrictTerIDs.front() - dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier.size();
         for(size_t loop = 0; loop < CopyCount; ++loop)
-        dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier[TerRestrictTerIDs.front()+loop] = TerrainRestrictionSubCopyAccess[loop];
+        dataset->TerrainRestrictions[TerRestrictIDs.front()].PassableBuildableDmgMultiplier[TerRestrictTerIDs.front()+loop] = copies.TerrainRestrictionSubAccess[loop];
         if(GenieVersion >= genie::GV_AoKA || (GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap))
         {
             for(size_t loop = 0; loop < CopyCount; ++loop)
@@ -236,8 +236,7 @@ void AGE_Frame::OnTerrainRestrictionsTerrainPaste(wxCommandEvent &event)
             }
         }
     }
-    wxCommandEvent e;
-    OnTerrainRestrictionsTerrainSelect(e);
+    ListTerrains2();
 }
 
 void AGE_Frame::CreateTerrainRestrictionControls()
@@ -276,7 +275,7 @@ void AGE_Frame::CreateTerrainRestrictionControls()
     TerRestrict_Graphics_Text[2] = new SolidText(Tab_TerrainRestrictions, " Walk Tile Graphic");
     for(size_t loop = 0; loop < 3; ++loop)
     {
-        TerRestrict_Graphics[loop] = new NumberControl(CLong, Tab_TerrainRestrictions, this, &uiGroupRestriction, false, AGETextCtrl::LARGE);
+        TerRestrict_Graphics[loop] = new NumberControl(CLong, Tab_TerrainRestrictions, this, &uiGroupRestriction, true, AGETextCtrl::LARGE);
         TerRestrict_Graphics_ComboBox[loop] = new LinkedComboBox(Tab_TerrainRestrictions, TerRestrict_Graphics[loop], &graphic_names);
         GraphicComboBoxList.push_back(TerRestrict_Graphics_ComboBox[loop]);
     }

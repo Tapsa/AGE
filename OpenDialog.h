@@ -26,6 +26,7 @@ public:
     wxButton *Button_RawDecompress;
     wxFilePickerCtrl *Path_RawDecompress, *Path_DRS3, *Path_Palettes, *Path_PlayerColorPalette;
     wxTextCtrl *TerrainsBox;
-    PairedCheckBox *CheckBox_DRSPath, *CheckBox_DRSPath2, *CheckBox_DRSPath3, *CheckBox_SlpPath;
-    wxDirPickerCtrl *Path_DRS, *Path_DRS2, *Path_SLP;
+    PairedCheckBox *CheckBox_DRSPath, *CheckBox_DRSPath2, *CheckBox_DRSPath3,
+       *CheckBox_SlpPath, *CheckBox_ModSlpPath;
+    wxDirPickerCtrl *Path_DRS, *Path_DRS2, *Path_SLP, *Path_ModSLP;
 };

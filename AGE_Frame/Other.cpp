@@ -15,11 +15,8 @@
 // Icons
 #include "../DRSunlock.xpm"
 #include "../DRSlock.xpm"
-#include "../Villager32.xpm"
 
-const genie::Color ColorNotFound(74, 65, 42, 255);
-
-genie::GameVersion AGE_Frame::version(int ver)
+genie::GameVersion EditorVersionAsGameVersion(int ver)
 {
     switch(ver)
     {
@@ -46,6 +43,55 @@ genie::GameVersion AGE_Frame::version(int ver)
 
         default: wxMessageBox("Wrong version", "Oops!");
         return genie::GV_None;
+    }
+}
+
+wxString FixEditorVersion(wxString ver)
+{
+    switch (lexical_cast<int>(ver))
+    {
+        case EV_TEST:
+            return "Test      ";
+        case EV_MIK:
+            return "Mike      ";
+        case EV_DAVE:
+            return "Dave      ";
+        case EV_MATT:
+            return "Matt      ";
+        case EV_AoEB:
+            return "AoE Beta  ";
+        case EV_AoE:
+            return "AoE       ";
+        case EV_RoR:
+            return "RoR       ";
+        case EV_Tapsa:
+            return "AoE DE    ";
+        case EV_AoKE3:
+            return "AoK E3    ";
+        case EV_AoKA:
+            return "AoK Alpha ";
+        case EV_AoKB:
+            return "AoK Beta  ";
+        case EV_AoK:
+            return "AoK       ";
+        case EV_TC:
+            return "TC        ";
+        case EV_UP:
+            return "UP        ";
+        case EV_TCV:
+            return "TC TP     ";
+        case EV_Cysion:
+            return "AoK HD    ";
+        case EV_DE2:
+            return "AoK DE    ";
+        case EV_SWGB:
+            return "SWGB      ";
+        case EV_CC:
+            return "CC        ";
+        case EV_EF:
+            return "EF        ";
+        default:
+            return "None      ";
     }
 }
 
@@ -84,7 +130,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             OpenBox.RecentValues.resize(RecentItems);
             for(int i=0; i < RecentItems; ++i)
             {
-                OpenBox.RecentValues[i].Alloc(11);
+                OpenBox.RecentValues[i].Alloc(12);
                 wxString temp, entry = "Recent" + wxString::Format("%04d", i + 1);
                 RecentOpen.Read(entry + "/DatVersion", &temp, "-1");
                 if (RecentVersion < 2 && lexical_cast<int>(temp) > EV_TC)
@@ -100,15 +146,29 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 RecentOpen.Read(entry + "/PathDRS2", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/PathDRS3", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/LooseSLP", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                if (RecentVersion >= 3)
+                {
+                    RecentOpen.Read(entry + "/LooseModSLP", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                }
+                else
+                {
+                    OpenBox.RecentValues[i].Add("");
+                }
                 RecentOpen.Read(entry + "/PathPalettes", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/PathPlayerPalette", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
             }
         }
-        if(OpenBox.RecentValues.size())
-        for(int i=0; i < RecentItems; ++i)
-        OpenBox.CheckBox_Recent->Append(OpenBox.RecentValues[i][1]);
+        if (OpenBox.RecentValues.size())
+        {
+            for (int i = 0; i < RecentItems; ++i)
+            {
+                OpenBox.CheckBox_Recent->Append(FixEditorVersion(OpenBox.RecentValues[i][0]) + OpenBox.RecentValues[i][1]);
+            }
+        }
         else
-        OpenBox.CheckBox_Recent->Append("Happy Modding!");
+        {
+            OpenBox.CheckBox_Recent->Append("Happy Modding!");
+        }
         OpenBox.CheckBox_Recent->SetSelection(0);
 
         OpenBox.Path_CustomDefault->SetPath(CustomFolder);
@@ -129,12 +189,14 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         OpenBox.Path_DRS2->SetPath(FolderDRS2);
         OpenBox.Path_DRS3->SetPath(Path1stDRS);
         OpenBox.Path_SLP->SetPath(PathSLP);
+        OpenBox.Path_ModSLP->SetPath(PathModSLP);
         OpenBox.Path_Palettes->SetPath(PathPalettes);
         OpenBox.Path_PlayerColorPalette->SetPath(PathPlayerColorPalette);
         OpenBox.CheckBox_DRSPath->SetValue(UseDRS);
         OpenBox.CheckBox_DRSPath2->SetValue(UseMod);
         OpenBox.CheckBox_DRSPath3->SetValue(UseExtra);
         OpenBox.CheckBox_SlpPath->SetValue(UseLooseSLP);
+        OpenBox.CheckBox_ModSlpPath->SetValue(UseLooseModSLP);
 
         if((argPath).size() > 3)
         {
@@ -179,12 +241,14 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         FolderDRS2 = OpenBox.Path_DRS2->GetPath();
         Path1stDRS = OpenBox.Path_DRS3->GetPath();
         PathSLP = OpenBox.Path_SLP->GetPath();
+        PathModSLP = OpenBox.Path_ModSLP->GetPath();
         PathPalettes = OpenBox.Path_Palettes->GetPath();
         PathPlayerColorPalette = OpenBox.Path_PlayerColorPalette->GetPath();
         UseDRS = OpenBox.CheckBox_DRSPath->GetValue();
         UseMod = OpenBox.CheckBox_DRSPath2->GetValue();
         UseExtra = OpenBox.CheckBox_DRSPath3->GetValue();
         UseLooseSLP = OpenBox.CheckBox_SlpPath->GetValue();
+        UseLooseModSLP = OpenBox.CheckBox_ModSlpPath->GetValue();
         WriteLangs = OpenBox.CheckBox_LangWrite->GetValue();
         LangWriteToLatest = OpenBox.CheckBox_LangWriteToLatest->GetValue();
 
@@ -205,12 +269,14 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         Config.Write("DefaultFiles/FolderDRS2", FolderDRS2);
         Config.Write("DefaultFiles/Path1stDRS", Path1stDRS);
         Config.Write("DefaultFiles/PathLooseSprites", PathSLP);
+        Config.Write("DefaultFiles/PathLooseModSprites", PathModSLP);
         Config.Write("DefaultFiles/PathPalettes", PathPalettes);
         Config.Write("DefaultFiles/PathPlayerPalette", PathPlayerColorPalette);
         Config.Write("DefaultFiles/UseDRS", UseDRS);
         Config.Write("DefaultFiles/UseMod", UseMod);
         Config.Write("DefaultFiles/UseExtra", UseExtra);
         Config.Write("DefaultFiles/UseLooseSprites", UseLooseSLP);
+        Config.Write("DefaultFiles/UseLooseModSprites", UseLooseModSLP);
         Config.Write("DefaultFiles/LangsUsed", LangsUsed);
         Config.Write("DefaultFiles/WriteLangs", WriteLangs);
         Config.Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
@@ -225,7 +291,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         if(!OpenBox.CheckBox_LangX1P1FileLocation->IsChecked()) LangX1P1FileName = "";
 
         wxArrayString latest;
-        latest.Alloc(11);
+        latest.Alloc(12);
         latest.Add(lexical_cast<std::string>(GameVersion));
         latest.Add(DatFileName);
         latest.Add(LangFileName);
@@ -235,12 +301,13 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         latest.Add(FolderDRS2);
         latest.Add(Path1stDRS);
         latest.Add(PathSLP);
+        latest.Add(PathModSLP);
         latest.Add(PathPalettes);
         latest.Add(PathPlayerColorPalette);
         int items = produceRecentValues(latest, OpenBox.RecentValues);
         wxConfig RecentOpen("", "", "AGE2\\RecentOpen", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentOpen.Write("Recent/Items", items);
-        RecentOpen.Write("Recent/Version", 2);
+        RecentOpen.Write("Recent/Version", 3);
         for(int i=0; i < items; ++i)
         {
             wxString entry = "Recent" + wxString::Format("%04d", i + 1);
@@ -253,12 +320,22 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             RecentOpen.Write(entry + "/PathDRS2", OpenBox.RecentValues[i][6]);
             RecentOpen.Write(entry + "/PathDRS3", OpenBox.RecentValues[i][7]);
             RecentOpen.Write(entry + "/LooseSLP", OpenBox.RecentValues[i][8]);
-            RecentOpen.Write(entry + "/PathPalettes", OpenBox.RecentValues[i][9]);
-            RecentOpen.Write(entry + "/PathPlayerPalette", OpenBox.RecentValues[i][10]);
+            RecentOpen.Write(entry + "/LooseModSLP", OpenBox.RecentValues[i][9]);
+            RecentOpen.Write(entry + "/PathPalettes", OpenBox.RecentValues[i][10]);
+            RecentOpen.Write(entry + "/PathPlayerPalette", OpenBox.RecentValues[i][11]);
         }
     }
 
-    GenieVersion = version(GameVersion);
+    if (PathSLP.empty())
+    {
+        UseLooseSLP = false;
+    }
+    if (PathModSLP.empty())
+    {
+        UseLooseModSLP = false;
+    }
+
+    GenieVersion = EditorVersionAsGameVersion(GameVersion);
     LooseHD = false;
 
     delete dataset;
@@ -545,1376 +622,8 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         }
 
         How2List = SEARCH;
-
-        task_names.Clear();
-        // When changing this, edit all 4 other places too
-        task_names.Add("Unused Ability/Invalid Ability");   // Selection 0
-        task_names.Add("0: None");
-        task_names.Add("1: Move to");
-        task_names.Add(GenieVersion < genie::GV_AoKA ? "2: None" : "2: Follow");
-        task_names.Add("3: Garrison");
-        task_names.Add("4: Explore");
-        task_names.Add("5: Gather/Rebuild");
-        task_names.Add("6: Graze, deleted?");
-        task_names.Add("7: Combat");
-        task_names.Add("8: Shoot");
-        task_names.Add("9: Attack");
-        task_names.Add("10: Fly");
-        task_names.Add("11: Scare/Hunt, deleted?");
-        task_names.Add("12: Unload (Boat-Like)");
-        task_names.Add(GenieVersion < genie::GV_AoKA ? "13: None" : "13: Guard");
-        task_names.Add(GenieVersion < genie::GV_AoKA ? "14: None" : "HD 14: Siege Tower Ability");
-        task_names.Add("20: Escape, deleted?");
-        task_names.Add("21: Make");
-        //task_names.Add("100: Num"); // Useless
-        task_names.Add("101: Build");
-        task_names.Add("102: Make a Unit");
-        task_names.Add("103: Make a Tech");
-        task_names.Add("104: Convert");
-        task_names.Add("105: Heal");
-        task_names.Add("106: Repair");
-        task_names.Add("107: Get Auto-converted");
-        task_names.Add("108: Discovery Artifact");
-        task_names.Add("109: Unknown, nothing?");
-        task_names.Add("110: Hunt");
-        task_names.Add("111: Trade");
-        task_names.Add("120: Generate Wonder Victory");
-        if(GenieVersion >= genie::GV_AoKA)
-        {
-            task_names.Add("121: Deselect when Tasked (Farm)");
-            task_names.Add("122: Loot (Gather)");
-            task_names.Add("123: Housing");
-            task_names.Add("124: Pack");
-            task_names.Add("125: Unpack & Attack");
-            task_names.Add("130: Unknown, nothing?");
-            task_names.Add("131: Off-Map Trade");
-            task_names.Add("132: Pickup Unit");
-            task_names.Add("133: Charge Attack");
-            task_names.Add("134: Transform Unit");
-            task_names.Add("135: Kidnap Unit");
-            task_names.Add("136: Deposit Unit");
-            task_names.Add("149: Shear");
-            task_names.Add("HD 150: Regeneration");
-            task_names.Add("HD 151: Feitoria Ability");
-        }
-        Tasks_ActionType_ComboBox->Flash();
-
-        age_names.Clear();
-        age_names.Add("Nomad");
-        if(GenieVersion >= genie::GV_SWGB)
-        {
-            age_names.Add("1st Tech Level");
-            age_names.Add("2nd Tech Level");
-            age_names.Add("3rd Tech Level");
-            age_names.Add("4th Tech Level");
-            age_names.Add("5th Tech Level");
-        }
-        else if(GenieVersion >= genie::GV_AoKA)
-        {
-            age_names.Add("Dark Age");
-            age_names.Add("Feudal Age");
-            age_names.Add("Castle Age");
-            age_names.Add("Imperial Age");
-            age_names.Add("Post-Imperial Age");
-        }
-        else
-        {
-            age_names.Add("Stone Age");
-            age_names.Add("Tool Age");
-            age_names.Add("Bronze Age");
-            age_names.Add("Iron Age");
-            age_names.Add("Post-Iron Age");
-        }
-
-        wxArrayString DefAoE1Armors, DefAoE2Armors, DefSWGBArmors,
-            DefAoE1TerrainRests, DefAoE2TerrainRests, DefSWGBTerrainRests,
-            DefRoRCivRes, DefAoKCivRes, DefSWGBCivRes;
-
-        // AoE & RoR
-        DefAoE1Armors.Add("0 - Stone Defense & Fire Galley");
-        DefAoE1Armors.Add("1 - Stone Defense & Archers");
-        DefAoE1Armors.Add("2 - Unused");
-        DefAoE1Armors.Add("3 - Base Pierce");
-        DefAoE1Armors.Add("4 - Base Melee");
-        DefAoE1Armors.Add("5 - Unused");
-        DefAoE1Armors.Add("6 - Buildings");
-        DefAoE1Armors.Add("7 - Priests");
-        DefAoE1Armors.Add("8 - Cavalry");
-        DefAoE1Armors.Add("9 - Infantry");
-        DefAoE1Armors.Add("10 - Stone Defense");
-        DefAoE1Armors.Add("11 - Unused");
-        DefAoE1Armors.Add("12 - Villagers & Gazelles & Medusa");
-        DefAoE1TerrainRests.Add("Land + water");
-        DefAoE1TerrainRests.Add("Land");
-        DefAoE1TerrainRests.Add("Beach");
-        DefAoE1TerrainRests.Add("Water");
-        DefAoE1TerrainRests.Add("Land");
-        DefAoE1TerrainRests.Add("Nothing");
-        DefAoE1TerrainRests.Add("Water + beach");
-        DefAoE1TerrainRests.Add("Land + shallows");
-        DefAoE1TerrainRests.Add("Plain");
-        DefAoE1TerrainRests.Add("Land - dirt");
-        DefAoE1TerrainRests.Add("Land + beach");
-        DefRoRCivRes.Add("Food Storage");
-        DefRoRCivRes.Add("Wood Storage");
-        DefRoRCivRes.Add("Stone Storage");
-        DefRoRCivRes.Add("Gold Storage");
-        DefRoRCivRes.Add("Population Headroom");// MAX_POP
-        DefRoRCivRes.Add("Conversion Range");
-        DefRoRCivRes.Add("Current Age");
-        DefRoRCivRes.Add("Artifacts Captured");
-        DefRoRCivRes.Add("Unused (Trade Bonus)");
-        DefRoRCivRes.Add("Trade Goods");
-        DefRoRCivRes.Add("Trade Production");
-        DefRoRCivRes.Add("Current Population");// POPULATION
-        DefRoRCivRes.Add("Corpse Decay Time");
-        DefRoRCivRes.Add("Remarkable Discovery");
-        DefRoRCivRes.Add("Ruins Captured");
-        DefRoRCivRes.Add("Meat Storage");
-        DefRoRCivRes.Add("Berry Storage");
-        DefRoRCivRes.Add("Fish Storage");
-        DefRoRCivRes.Add("Unused (Trade Tax)");
-        DefRoRCivRes.Add("Total Units Owned");// TOTAL_UNITS / TOTAL_POP
-        DefRoRCivRes.Add("Units Killed");
-        DefRoRCivRes.Add("Technology Count");
-        DefRoRCivRes.Add("% Map Explored");
-        DefRoRCivRes.Add("Bronze Age Tech ID");
-        DefRoRCivRes.Add("Iron Age Tech ID");
-        DefRoRCivRes.Add("Tool Age Tech ID");
-        DefRoRCivRes.Add("Attack Warning Sound ID");
-        DefRoRCivRes.Add("Enable Priest Conversion");
-        DefRoRCivRes.Add("Enable Building Conversion");
-        DefRoRCivRes.Add("Bribery (Gold Replace)");// Allows paying missing cost with gold.
-        DefRoRCivRes.Add("Unused (Building Limit)");
-        DefRoRCivRes.Add("Unused (Food Limit)");
-        DefRoRCivRes.Add("Unit Limit");
-        DefRoRCivRes.Add("Food Maintenance");
-        DefRoRCivRes.Add("Faith");
-        DefRoRCivRes.Add("Faith Recharging Rate");
-        DefRoRCivRes.Add("Farm Food Amount");
-        DefRoRCivRes.Add("Civilian Population");
-        DefRoRCivRes.Add("Unused");
-        DefRoRCivRes.Add("All Techs Achieved");
-        DefRoRCivRes.Add("Military Population");
-        DefRoRCivRes.Add("Conversions");
-        DefRoRCivRes.Add("Standing Wonders");
-        DefRoRCivRes.Add("Razings");
-        DefRoRCivRes.Add("Kill Ratio");
-        DefRoRCivRes.Add("Survival to Finish");
-        DefRoRCivRes.Add("Tribute Inefficiency");
-        DefRoRCivRes.Add("Gold Mining Productivity");
-        DefRoRCivRes.Add("Town Center Unavailable");
-        DefRoRCivRes.Add("Gold Counter");
-        DefRoRCivRes.Add("Reveal Ally");
-        DefRoRCivRes.Add("Unused (Houses)");
-        DefRoRCivRes.Add("Temples");
-        DefRoRCivRes.Add("Tribute Sent");
-        DefRoRCivRes.Add("All Ruins Captured");
-        DefRoRCivRes.Add("All Artifacts Captured");
-        DefRoRCivRes.Add("RoR: Heal Bonus");
-        DefRoRCivRes.Add("RoR: Martyrdom");
-
-        // AoK & TC
-        DefAoE2Armors.Add("0 - Unused");
-        DefAoE2Armors.Add("1 - Infantry");  // Selection 2
-        DefAoE2Armors.Add("2 - Turtle Ships");
-        DefAoE2Armors.Add("3 - Base Pierce");
-        DefAoE2Armors.Add("4 - Base Melee");
-        DefAoE2Armors.Add("5 - War Elephants");
-        DefAoE2Armors.Add("6 - Unused");
-        DefAoE2Armors.Add("7 - Unused");
-        DefAoE2Armors.Add("8 - Cavalry");
-        DefAoE2Armors.Add("9 - Unused");
-        DefAoE2Armors.Add("10 - Unused");
-        DefAoE2Armors.Add("11 - All Buildings (except Port)");
-        DefAoE2Armors.Add("12 - Unused");
-        DefAoE2Armors.Add("13 - Stone Defense");
-        DefAoE2Armors.Add("14 - FE Predator Animals"); // FE
-        DefAoE2Armors.Add("15 - Archers");
-        DefAoE2Armors.Add("16 - Ships & Camels & Saboteurs");
-        DefAoE2Armors.Add("17 - Rams");
-        DefAoE2Armors.Add("18 - Trees");
-        DefAoE2Armors.Add("19 - Unique Units (except Turtle Ship)");
-        DefAoE2Armors.Add("20 - Siege Weapons");
-        DefAoE2Armors.Add("21 - Standard Buildings");
-        DefAoE2Armors.Add("22 - Walls & Gates");
-        DefAoE2Armors.Add("23 - FE Gunpowder Units"); // FE
-        DefAoE2Armors.Add("24 - Boars");
-        DefAoE2Armors.Add("25 - Monks");
-        DefAoE2Armors.Add("26 - Castle");
-        DefAoE2Armors.Add("27 - Spearmen");
-        DefAoE2Armors.Add("28 - Cavalry Archers");
-        DefAoE2Armors.Add("29 - Eagle Warriors");
-        DefAoE2Armors.Add("30 - HD Camels");
-        DefAoE2TerrainRests.Add("All");
-        DefAoE2TerrainRests.Add("Land + shallows");
-        DefAoE2TerrainRests.Add("Beach");
-        DefAoE2TerrainRests.Add("Water");
-        DefAoE2TerrainRests.Add("Land");
-        DefAoE2TerrainRests.Add("Nothing");
-        DefAoE2TerrainRests.Add("Water");
-        DefAoE2TerrainRests.Add("All - water");
-        DefAoE2TerrainRests.Add("Land - farm");
-        DefAoE2TerrainRests.Add("Nothing");
-        DefAoE2TerrainRests.Add("Land + beach");
-        DefAoE2TerrainRests.Add("Land - farm");
-        DefAoE2TerrainRests.Add("All - water bridge");
-        DefAoE2TerrainRests.Add("Water");
-        DefAoE2TerrainRests.Add("All - water bridge");
-        DefAoE2TerrainRests.Add("Water");
-        DefAoE2TerrainRests.Add("Grass + beach");
-        DefAoE2TerrainRests.Add("Water (+bridge) - beach");
-        DefAoE2TerrainRests.Add("All - water bridge");
-        DefAoE2TerrainRests.Add("Only water + ice");
-        DefAoE2TerrainRests.Add("All - water");
-        DefAoE2TerrainRests.Add("Shallow water");
-        DefAoKCivRes.Add("Food Storage");
-        DefAoKCivRes.Add("Wood Storage");
-        DefAoKCivRes.Add("Stone Storage");
-        DefAoKCivRes.Add("Gold Storage");
-        DefAoKCivRes.Add("Population Headroom");
-        DefAoKCivRes.Add("Conversion Range");
-        DefAoKCivRes.Add("Current Age");
-        DefAoKCivRes.Add("Relics Captured");
-        DefAoKCivRes.Add("Unused (Trade Bonus)");
-        DefAoKCivRes.Add("Trade Goods");
-        DefAoKCivRes.Add("Unused (Trade Production)");
-        DefAoKCivRes.Add("Current Population");
-        DefAoKCivRes.Add("Corpse Decay Time");
-        DefAoKCivRes.Add("Remarkable Discovery");
-        DefAoKCivRes.Add("Monuments Captured");
-        DefAoKCivRes.Add("Meat Storage");
-        DefAoKCivRes.Add("Berry Storage");
-        DefAoKCivRes.Add("Fish Storage");
-        DefAoKCivRes.Add("Unused");
-        DefAoKCivRes.Add("Total Units Owned");
-        DefAoKCivRes.Add("Units Killed");
-        DefAoKCivRes.Add("Technology Count");
-        DefAoKCivRes.Add("% Map Explored");
-        DefAoKCivRes.Add("Castle Age Tech ID");
-        DefAoKCivRes.Add("Imperial Age Tech ID");
-        DefAoKCivRes.Add("Feudal Age Tech ID");
-        DefAoKCivRes.Add("Attack Warning Sound ID");
-        DefAoKCivRes.Add("Enable Monk Conversion");
-        DefAoKCivRes.Add("Enable Building Conversion");
-        DefAoKCivRes.Add("Unused");
-        DefAoKCivRes.Add("Unused (Building Limit)");
-        DefAoKCivRes.Add("Unused (Food Limit)");
-        DefAoKCivRes.Add("Bonus Population Cap");
-        DefAoKCivRes.Add("Food Maintenance");
-        DefAoKCivRes.Add("Faith");
-        DefAoKCivRes.Add("Faith Recharging Rate");
-        DefAoKCivRes.Add("Farm Food Amount");
-        DefAoKCivRes.Add("Civilian Population");
-        DefAoKCivRes.Add("Unused");
-        DefAoKCivRes.Add("All Techs Achieved");
-        DefAoKCivRes.Add("Military Population");
-        DefAoKCivRes.Add("Conversions");
-        DefAoKCivRes.Add("Standing Wonders");
-        DefAoKCivRes.Add("Razings");
-        DefAoKCivRes.Add("Kill Ratio");
-        DefAoKCivRes.Add("Survival to Finish");
-        DefAoKCivRes.Add("Tribute Inefficiency");
-        DefAoKCivRes.Add("Gold Mining Productivity");
-        DefAoKCivRes.Add("Town Center Unavailable");
-        DefAoKCivRes.Add("Gold Counter");
-        DefAoKCivRes.Add("Reveal Ally");
-        DefAoKCivRes.Add("Unused (Houses)");
-        DefAoKCivRes.Add("Monasteries");
-        DefAoKCivRes.Add("Tribute Sent");
-        DefAoKCivRes.Add("All Monuments Captured");
-        DefAoKCivRes.Add("All Relics Captured");
-        DefAoKCivRes.Add("Ore Storage");
-        DefAoKCivRes.Add("Kidnap Storage");
-        DefAoKCivRes.Add("Dark Age Tech ID");
-        DefAoKCivRes.Add("Unused (Trade Good Quality)");
-        DefAoKCivRes.Add("Unused (Trade Market Level)");
-        DefAoKCivRes.Add("Unused (Formations)");
-        DefAoKCivRes.Add("Building Housing Rate");
-        DefAoKCivRes.Add("Tax Gather Rate");
-        DefAoKCivRes.Add("Gather Accumulator");
-        DefAoKCivRes.Add("Salvage Decay Rate");
-        DefAoKCivRes.Add("Unused (Allow Formations)");
-        DefAoKCivRes.Add("Can Convert");
-        DefAoKCivRes.Add("Hit Points Killed");
-        DefAoKCivRes.Add("Killed P1");
-        DefAoKCivRes.Add("Killed P2");
-        DefAoKCivRes.Add("Killed P3");
-        DefAoKCivRes.Add("Killed P4");
-        DefAoKCivRes.Add("Killed P5");
-        DefAoKCivRes.Add("Killed P6");
-        DefAoKCivRes.Add("Killed P7");
-        DefAoKCivRes.Add("Killed P8");
-        DefAoKCivRes.Add("Conversion Resistance");
-        DefAoKCivRes.Add("Trade Vig Rate");
-        DefAoKCivRes.Add("Stone Mining Productivity");
-        DefAoKCivRes.Add("Queued Units");
-        DefAoKCivRes.Add("Training Count");
-        DefAoKCivRes.Add("Start with Unit 444 (PTWC)");
-        DefAoKCivRes.Add("Boarding Recharge Rate");
-        DefAoKCivRes.Add("Starting Villagers");
-        DefAoKCivRes.Add("Research Cost Modifier");
-        DefAoKCivRes.Add("Research Time Modifier");
-        DefAoKCivRes.Add("Convert Boats");
-        DefAoKCivRes.Add("Fish Trap Food Amount");
-        DefAoKCivRes.Add("Heal Rate Modifier");
-        DefAoKCivRes.Add("Healing Range"); // 90 alpha ends here
-        DefAoKCivRes.Add("Starting Food");
-        DefAoKCivRes.Add("Starting Wood");
-        DefAoKCivRes.Add("Starting Stone");
-        DefAoKCivRes.Add("Starting Gold");
-        DefAoKCivRes.Add("Enable PTWC / Kidnap / Loot");
-        DefAoKCivRes.Add("Berserker Heal Timer");
-        DefAoKCivRes.Add("Dominant Sheep Control");
-        DefAoKCivRes.Add("Building Cost Sum");
-        DefAoKCivRes.Add("Tech Cost Sum");
-        DefAoKCivRes.Add("Relic Income Sum");
-        DefAoKCivRes.Add("Trade Income Sum");
-        DefAoKCivRes.Add("P1 Tribute");
-        DefAoKCivRes.Add("P2 Tribute");
-        DefAoKCivRes.Add("P3 Tribute");
-        DefAoKCivRes.Add("P4 Tribute");
-        DefAoKCivRes.Add("P5 Tribute");
-        DefAoKCivRes.Add("P6 Tribute");
-        DefAoKCivRes.Add("P7 Tribute");
-        DefAoKCivRes.Add("P8 Tribute");
-        DefAoKCivRes.Add("P1 Kill Value");
-        DefAoKCivRes.Add("P2 Kill Value");
-        DefAoKCivRes.Add("P3 Kill Value");
-        DefAoKCivRes.Add("P4 Kill Value");
-        DefAoKCivRes.Add("P5 Kill Value");
-        DefAoKCivRes.Add("P6 Kill Value");
-        DefAoKCivRes.Add("P7 Kill Value");
-        DefAoKCivRes.Add("P8 Kill Value");
-        DefAoKCivRes.Add("P1 Razings");
-        DefAoKCivRes.Add("P2 Razings");
-        DefAoKCivRes.Add("P3 Razings");
-        DefAoKCivRes.Add("P4 Razings");
-        DefAoKCivRes.Add("P5 Razings");
-        DefAoKCivRes.Add("P6 Razings");
-        DefAoKCivRes.Add("P7 Razings");
-        DefAoKCivRes.Add("P8 Razings");
-        DefAoKCivRes.Add("P1 Razing Value");
-        DefAoKCivRes.Add("P2 Razing Value");
-        DefAoKCivRes.Add("P3 Razing Value");
-        DefAoKCivRes.Add("P4 Razing Value");
-        DefAoKCivRes.Add("P5 Razing Value");
-        DefAoKCivRes.Add("P6 Razing Value");
-        DefAoKCivRes.Add("P7 Razing Value");
-        DefAoKCivRes.Add("P8 Razing Value");
-        DefAoKCivRes.Add("Standing Castles");
-        DefAoKCivRes.Add("Hit Points Razed");
-        DefAoKCivRes.Add("Kills by P1");
-        DefAoKCivRes.Add("Kills by P2");
-        DefAoKCivRes.Add("Kills by P3");
-        DefAoKCivRes.Add("Kills by P4");
-        DefAoKCivRes.Add("Kills by P5");
-        DefAoKCivRes.Add("Kills by P6");
-        DefAoKCivRes.Add("Kills by P7");
-        DefAoKCivRes.Add("Kills by P8");
-        DefAoKCivRes.Add("Razings by P1");
-        DefAoKCivRes.Add("Razings by P2");
-        DefAoKCivRes.Add("Razings by P3");
-        DefAoKCivRes.Add("Razings by P4");
-        DefAoKCivRes.Add("Razings by P5");
-        DefAoKCivRes.Add("Razings by P6");
-        DefAoKCivRes.Add("Razings by P7");
-        DefAoKCivRes.Add("Razings by P8");
-        DefAoKCivRes.Add("Value Killed by Others");
-        DefAoKCivRes.Add("Value Razed by Others");
-        DefAoKCivRes.Add("Killed by Others");
-        DefAoKCivRes.Add("Razed by Others");
-        DefAoKCivRes.Add("Tribute from P1");
-        DefAoKCivRes.Add("Tribute from P2");
-        DefAoKCivRes.Add("Tribute from P3");
-        DefAoKCivRes.Add("Tribute from P4");
-        DefAoKCivRes.Add("Tribute from P5");
-        DefAoKCivRes.Add("Tribute from P6");
-        DefAoKCivRes.Add("Tribute from P7");
-        DefAoKCivRes.Add("Tribute from P8");
-        DefAoKCivRes.Add("Value Current Units");
-        DefAoKCivRes.Add("Value Current Buildings");
-        DefAoKCivRes.Add("Food Total");
-        DefAoKCivRes.Add("Wood Total");
-        DefAoKCivRes.Add("Stone Total");
-        DefAoKCivRes.Add("Gold Total");
-        DefAoKCivRes.Add("Total Value of Kills");
-        DefAoKCivRes.Add("Total Tribute Received");
-        DefAoKCivRes.Add("Total Value of Razings");
-        DefAoKCivRes.Add("Total Castles Built");
-        DefAoKCivRes.Add("Total Wonders Built");
-        DefAoKCivRes.Add("Tribute Score");
-        DefAoKCivRes.Add("Convert Min Adjustment");
-        DefAoKCivRes.Add("Convert Max Adjustment");
-        DefAoKCivRes.Add("Convert Resist Min Adjustment");
-        DefAoKCivRes.Add("Convert Resist Max Adjustment");
-        DefAoKCivRes.Add("Convert Building Min");
-        DefAoKCivRes.Add("Convert Building Max");
-        DefAoKCivRes.Add("Convert Building Chance");
-        DefAoKCivRes.Add("Reveal Enemy");
-        DefAoKCivRes.Add("Value Wonders Castles"); // 184 beta ends here
-        DefAoKCivRes.Add("Food Score");
-        DefAoKCivRes.Add("Wood Score");
-        DefAoKCivRes.Add("Stone Score");
-        DefAoKCivRes.Add("Gold Score");
-        DefAoKCivRes.Add("TC: Chopping Productivity");
-        DefAoKCivRes.Add("TC: Food-gathering Productivity");
-        DefAoKCivRes.Add("TC: Relic Gold Production Rate");
-        DefAoKCivRes.Add("TC: Converted Units Die");
-        DefAoKCivRes.Add("TC: Theocracy");
-        DefAoKCivRes.Add("TC: Crenellations");
-        DefAoKCivRes.Add("TC: Construction Rate Modifier");
-        DefAoKCivRes.Add("TC: Hun Wonder Bonus");
-        DefAoKCivRes.Add("TC: Spies Discount"); // 197 The Conquerors ends here
-        DefAoKCivRes.Add("AK: Unused");
-        DefAoKCivRes.Add("AK: Unused");
-        DefAoKCivRes.Add("AK: Unused");
-        DefAoKCivRes.Add("AK: Unused");
-        DefAoKCivRes.Add("AK: Unused");
-        DefAoKCivRes.Add("AK: Unused");
-        DefAoKCivRes.Add("AK: Unused");
-        DefAoKCivRes.Add("AK: Feitoria Food Productivity");
-        DefAoKCivRes.Add("AK: Feitoria Wood Productivity");
-        DefAoKCivRes.Add("AK: Feitoria Stone Productivity");
-        DefAoKCivRes.Add("AK: Feitoria Gold Productivity");
-        DefAoKCivRes.Add("RR: Reveal Enemy Town Centers");
-        DefAoKCivRes.Add("RR: Relics Visible on Map");
-
-        // SWGB & CC
-        DefSWGBArmors.Add("0 - Aircraft");  // Selection 1
-        // Airspeeder
-        // AIR SHIPS!!!
-        // Geonosian Warrior
-        // Wild Gungan Flyer
-        DefSWGBArmors.Add("1 - Heavy Assault Machines");    // Selection 2
-        // Assault Mech
-        // AT-AT
-        // Blizzards
-        DefSWGBArmors.Add("2 - Heavy Weapons");
-        // Undeployed Cannon
-        // Artillery
-        // A-A Mobiles
-        // Pummels
-        // Strike Mechs
-        // Mech Destroyers
-        // Cannon
-        // Decimator
-        // AT-AT
-        // Echo Base Ion Cannon
-        // Blizzards
-        // Evok Catapult
-        DefSWGBArmors.Add("3 - Base Ranged/DuraArmor");
-        DefSWGBArmors.Add("4 - Base Melee/Armor");
-        DefSWGBArmors.Add("5 - Jedis & Bounty Hunters");
-        // Jedi
-        // Jedi with Holocron
-        // Bounty Hunter
-        DefSWGBArmors.Add("6 - Assault Machines");
-        // Destroyer Droids
-        // Strike Mechs
-        // Mech Destroyers
-        // Assault Mechs
-        // Scouts
-        // Jabba's Sail Barge
-        // Desert Skiff
-        // Decimator
-        // AT-AT
-        // Blizzards
-        DefSWGBArmors.Add("7 - Decimators");
-        // Assault Mechs
-        // Decimator
-        // AT-AT
-        // Blizzards
-        DefSWGBArmors.Add("8 - Shield & Power Units");
-        // Power Cores
-        // Shield Wall
-        // Shield Generators
-        // Droid Storage Facility
-        // Power Droids
-        // Echo Base Power Generator
-        DefSWGBArmors.Add("9 - Ships");
-        // Utility Trawler
-        // Frigates
-        // Cruisers
-        // Destroyers
-        // A-A Destroyers
-        // Transport Ships
-        DefSWGBArmors.Add("10 - Submarines");
-        // Frigates
-        // Underwater Prefab Shelters
-        // Gungan Buildings
-        DefSWGBArmors.Add("11 - All Buildings");
-        // BUILDINGS!!!
-        DefSWGBArmors.Add("12 - Unused");
-        DefSWGBArmors.Add("13 - Defense Buildings");
-        // Gate
-        // Turrets
-        // A-A Turrets
-        // Echo Base Ion Cannon
-        // Fortress
-        // Theed Arch
-        DefSWGBArmors.Add("14 - Troopers");
-        // Royal Crusaders
-        // Berserker
-        // Chewbacca
-        // Bounty Hunter
-        // Troopers
-        // Mounted Troopers
-        // Grenade Trooper
-        // A-A Troopers
-        // Acklay
-        // Nexu
-        // Klaatu
-        // Nikito
-        // Reek
-        // Rancor
-        DefSWGBArmors.Add("15 - Mounted Troopers");
-        // Berserker
-        // Scouts
-        // Mounted Troopers
-        // Anakin's Podracer
-        // Landspeeder
-        // Sebulba's Podracer
-        // Skyhopper
-        DefSWGBArmors.Add("16 - Cruisers");
-        // Cruisers
-        DefSWGBArmors.Add("17 - Pummels & Cannons");
-        // Undeployed Cannon
-        // Pummels
-        // Cannon
-        DefSWGBArmors.Add("18 - Unused");
-        DefSWGBArmors.Add("19 - Workers");
-        // B'omarr Temple
-        // Underwater Prefab Shelters
-        // Asteroid Supply Depot
-        // Boorka's Palace
-        // Adv A-A Turret
-        // Reytha Soldier
-        // Mara Jade
-        // R2-D2
-        // Battleship Cores
-        // Landed Freighter
-        // Han Solo on Tauntaun
-        DefSWGBArmors.Add("20 - Destroyers");
-        // Destroyers
-        DefSWGBArmors.Add("21 - Standard Buildings");
-        // BUILDINGS!!!
-        DefSWGBArmors.Add("22 - Walls & Gates");
-        // GATES
-        // WALLS
-        // Theed Arch
-        DefSWGBArmors.Add("23 - Air Cruisers");
-        // Air Cruisers
-        // Blockade Runner
-        // Star Destroyer
-        // Deathstar
-        DefSWGBArmors.Add("24 - Wild Animals");
-        // Wild Fambaa
-        // Acklay
-        // Falumpaset
-        // Nexu
-        // Reek
-        // Dewback
-        // Ronto
-        // Fambaa
-        // Massif
-        // Orray
-        // Shaak
-        // Rancor
-        DefSWGBArmors.Add("25 - Unused");
-        DefSWGBArmors.Add("26 - Fortress");
-        // Fortress
-        DefSWGBArmors.Add("27 - Unused");
-        DefSWGBArmors.Add("28 - Unused");
-        DefSWGBArmors.Add("29 - Unused");
-        DefSWGBArmors.Add("30 - Tame Animals"); // Selection 31
-        // Fambaa Shield Generators
-        // Wild Fambaa
-        // Kaadu
-        // Tauntaun
-        // Cu-pa
-        // Womp Rat
-        DefSWGBTerrainRests.Add("All");
-        DefSWGBTerrainRests.Add("Land + unbuildable");
-        DefSWGBTerrainRests.Add("Shore");
-        DefSWGBTerrainRests.Add("Water");
-        DefSWGBTerrainRests.Add("Land");
-        DefSWGBTerrainRests.Add("Land + shore, impassable water");
-        DefSWGBTerrainRests.Add("Water + ice2 - swamp");
-        DefSWGBTerrainRests.Add("Land - water, lava");
-        DefSWGBTerrainRests.Add("Land - water, lava, farm");
-        DefSWGBTerrainRests.Add("Only water");
-        DefSWGBTerrainRests.Add("Land - shore");
-        DefSWGBTerrainRests.Add("Land - water, lava, farm");
-        DefSWGBTerrainRests.Add("All - lava");
-        DefSWGBTerrainRests.Add("Water");
-        DefSWGBTerrainRests.Add("All - lava");
-        DefSWGBTerrainRests.Add("Land + shore, impassable water");
-        DefSWGBTerrainRests.Add("Grass + shore");
-        DefSWGBTerrainRests.Add("Water - shore + impassable water");
-        DefSWGBTerrainRests.Add("All - impassable water, lava");
-        DefSWGBTerrainRests.Add("Land + shore, impassable water");
-        DefSWGBTerrainRests.Add("Land + shore, impassable water");
-        DefSWGBTerrainRests.Add("Water - deep water");
-        DefSWGBTerrainRests.Add("All - impassable water, lava");
-        DefSWGBTerrainRests.Add("No restriction");
-        DefSWGBTerrainRests.Add("Only water");
-        DefSWGBTerrainRests.Add("Land + shore, impassable water");
-        DefSWGBTerrainRests.Add("Land + shore, impassable water");
-        DefSWGBTerrainRests.Add("Deep water");
-        DefSWGBTerrainRests.Add("Wasteland");
-        DefSWGBTerrainRests.Add("Ice");
-        DefSWGBTerrainRests.Add("Lava");
-        DefSWGBTerrainRests.Add("Water2");
-        DefSWGBTerrainRests.Add("Rock4");
-        DefSWGBCivRes.Add("Food Storage");
-        DefSWGBCivRes.Add("Carbon Storage");
-        DefSWGBCivRes.Add("Ore Storage");
-        DefSWGBCivRes.Add("Nova Storage");
-        DefSWGBCivRes.Add("Population Headroom");
-        DefSWGBCivRes.Add("Conversion Range");
-        DefSWGBCivRes.Add("Current Tech Level");
-        DefSWGBCivRes.Add("Holocrons Captured");
-        DefSWGBCivRes.Add("Unused (Trade Bonus)");
-        DefSWGBCivRes.Add("Trade Goods");
-        DefSWGBCivRes.Add("Recharge Rate of Shields");
-        DefSWGBCivRes.Add("Current Population");
-        DefSWGBCivRes.Add("Corpse Decay Time");
-        DefSWGBCivRes.Add("Remarkable Discovery");
-        DefSWGBCivRes.Add("Monuments Captured");
-        DefSWGBCivRes.Add("Meat Storage");
-        DefSWGBCivRes.Add("Berry Storage");
-        DefSWGBCivRes.Add("Fish Storage");
-        DefSWGBCivRes.Add("Power Core Range");
-        DefSWGBCivRes.Add("Total Units Owned");
-        DefSWGBCivRes.Add("Units Killed");
-        DefSWGBCivRes.Add("Technology Count");
-        DefSWGBCivRes.Add("% Map Explored");
-        DefSWGBCivRes.Add("Submarine Detection");
-        DefSWGBCivRes.Add("Shield Generator Range");
-        DefSWGBCivRes.Add("Unknown");
-        DefSWGBCivRes.Add("Drop-off Time of Shields");
-        DefSWGBCivRes.Add("Enable Jedi Conversion");
-        DefSWGBCivRes.Add("Enable Building Conversion");
-        DefSWGBCivRes.Add("Unknown");
-        DefSWGBCivRes.Add("Unused (Building Limit)");
-        DefSWGBCivRes.Add("Enable A-A Attack for AT-AT");
-        DefSWGBCivRes.Add("Bonus Population Cap");
-        DefSWGBCivRes.Add("Power Core Shielding");
-        DefSWGBCivRes.Add("Force");
-        DefSWGBCivRes.Add("Force Recharging Rate");
-        DefSWGBCivRes.Add("Farm Food Amount");
-        DefSWGBCivRes.Add("Civilian Population");
-        DefSWGBCivRes.Add("Shields On for Bombers/Fighters");
-        DefSWGBCivRes.Add("All Techs Achieved");
-        DefSWGBCivRes.Add("Military Population");
-        DefSWGBCivRes.Add("Conversions");
-        DefSWGBCivRes.Add("Standing Monuments");
-        DefSWGBCivRes.Add("Razings");
-        DefSWGBCivRes.Add("Kill Ratio");
-        DefSWGBCivRes.Add("Survival to Finish");
-        DefSWGBCivRes.Add("Tribute Inefficiency");
-        DefSWGBCivRes.Add("Nova Mining Productivity");
-        DefSWGBCivRes.Add("Town Center Unavailable");
-        DefSWGBCivRes.Add("Gold Counter");
-        DefSWGBCivRes.Add("Reveal Ally");
-        DefSWGBCivRes.Add("Shielding");
-        DefSWGBCivRes.Add("Monasteries");
-        DefSWGBCivRes.Add("Tribute Sent");
-        DefSWGBCivRes.Add("All Ruins Captured");
-        DefSWGBCivRes.Add("All Relics Captured");
-        DefSWGBCivRes.Add("Enable Stealth for Masters");
-        DefSWGBCivRes.Add("Kidnap Storage");
-        DefSWGBCivRes.Add("Masters Can See Hidden Units");
-        DefSWGBCivRes.Add("Trade Good Quality");
-        DefSWGBCivRes.Add("Trade Market Level");
-        DefSWGBCivRes.Add("Unused (Formations)");
-        DefSWGBCivRes.Add("Building Housing Rate");
-        DefSWGBCivRes.Add("Tax Gather Rate");
-        DefSWGBCivRes.Add("Gather Accumulator");
-        DefSWGBCivRes.Add("Salvage Decay Rate");
-        DefSWGBCivRes.Add("Unused (Allow Formations)");
-        DefSWGBCivRes.Add("Can Convert");
-        DefSWGBCivRes.Add("Hit Points Killed");
-        DefSWGBCivRes.Add("Killed P1");
-        DefSWGBCivRes.Add("Killed P2");
-        DefSWGBCivRes.Add("Killed P3");
-        DefSWGBCivRes.Add("Killed P4");
-        DefSWGBCivRes.Add("Killed P5");
-        DefSWGBCivRes.Add("Killed P6");
-        DefSWGBCivRes.Add("Killed P7");
-        DefSWGBCivRes.Add("Killed P8");
-        DefSWGBCivRes.Add("Conversion Resistance");
-        DefSWGBCivRes.Add("Trade Vig Rate");
-        DefSWGBCivRes.Add("Ore Mining Productivity");
-        DefSWGBCivRes.Add("Queued Units");
-        DefSWGBCivRes.Add("Training Count");
-        DefSWGBCivRes.Add("Start with Packed Town Center");
-        DefSWGBCivRes.Add("Boarding Recharge Rate");
-        DefSWGBCivRes.Add("Starting Villagers");
-        DefSWGBCivRes.Add("Tech Cost Modifier");
-        DefSWGBCivRes.Add("Tech Time Modifier");
-        DefSWGBCivRes.Add("Concentration");
-        DefSWGBCivRes.Add("Fish Trap Food Amount");
-        DefSWGBCivRes.Add("Medic Healing Rate");
-        DefSWGBCivRes.Add("Healing Range");
-        DefSWGBCivRes.Add("Starting Food");
-        DefSWGBCivRes.Add("Starting Carbon");
-        DefSWGBCivRes.Add("Starting Ore");
-        DefSWGBCivRes.Add("Starting Nova");
-        DefSWGBCivRes.Add("Enable PTWC / Kidnap / Loot");
-        DefSWGBCivRes.Add("Berserker Heal Timer");
-        DefSWGBCivRes.Add("Dominant Sheep Control");
-        DefSWGBCivRes.Add("Object Cost Sum");
-        DefSWGBCivRes.Add("Tech Cost Sum");
-        DefSWGBCivRes.Add("Holocron Nova Sum");
-        DefSWGBCivRes.Add("Trade Income Sum");
-        DefSWGBCivRes.Add("P1 Tribute");
-        DefSWGBCivRes.Add("P2 Tribute");
-        DefSWGBCivRes.Add("P3 Tribute");
-        DefSWGBCivRes.Add("P4 Tribute");
-        DefSWGBCivRes.Add("P5 Tribute");
-        DefSWGBCivRes.Add("P6 Tribute");
-        DefSWGBCivRes.Add("P7 Tribute");
-        DefSWGBCivRes.Add("P8 Tribute");
-        DefSWGBCivRes.Add("P1 Kill Value");
-        DefSWGBCivRes.Add("P2 Kill Value");
-        DefSWGBCivRes.Add("P3 Kill Value");
-        DefSWGBCivRes.Add("P4 Kill Value");
-        DefSWGBCivRes.Add("P5 Kill Value");
-        DefSWGBCivRes.Add("P6 Kill Value");
-        DefSWGBCivRes.Add("P7 Kill Value");
-        DefSWGBCivRes.Add("P8 Kill Value");
-        DefSWGBCivRes.Add("P1 Razings");
-        DefSWGBCivRes.Add("P2 Razings");
-        DefSWGBCivRes.Add("P3 Razings");
-        DefSWGBCivRes.Add("P4 Razings");
-        DefSWGBCivRes.Add("P5 Razings");
-        DefSWGBCivRes.Add("P6 Razings");
-        DefSWGBCivRes.Add("P7 Razings");
-        DefSWGBCivRes.Add("P8 Razings");
-        DefSWGBCivRes.Add("P1 Razing Value");
-        DefSWGBCivRes.Add("P2 Razing Value");
-        DefSWGBCivRes.Add("P3 Razing Value");
-        DefSWGBCivRes.Add("P4 Razing Value");
-        DefSWGBCivRes.Add("P5 Razing Value");
-        DefSWGBCivRes.Add("P6 Razing Value");
-        DefSWGBCivRes.Add("P7 Razing Value");
-        DefSWGBCivRes.Add("P8 Razing Value");
-        DefSWGBCivRes.Add("Standing Fortresses");
-        DefSWGBCivRes.Add("Hit Points Razed");
-        DefSWGBCivRes.Add("Kills by P1");
-        DefSWGBCivRes.Add("Kills by P2");
-        DefSWGBCivRes.Add("Kills by P3");
-        DefSWGBCivRes.Add("Kills by P4");
-        DefSWGBCivRes.Add("Kills by P5");
-        DefSWGBCivRes.Add("Kills by P6");
-        DefSWGBCivRes.Add("Kills by P7");
-        DefSWGBCivRes.Add("Kills by P8");
-        DefSWGBCivRes.Add("Razings by P1");
-        DefSWGBCivRes.Add("Razings by P2");
-        DefSWGBCivRes.Add("Razings by P3");
-        DefSWGBCivRes.Add("Razings by P4");
-        DefSWGBCivRes.Add("Razings by P5");
-        DefSWGBCivRes.Add("Razings by P6");
-        DefSWGBCivRes.Add("Razings by P7");
-        DefSWGBCivRes.Add("Razings by P8");
-        DefSWGBCivRes.Add("Value Killed by Others");
-        DefSWGBCivRes.Add("Value Razed by Others");
-        DefSWGBCivRes.Add("Killed by Others");
-        DefSWGBCivRes.Add("Razed by Others");
-        DefSWGBCivRes.Add("Tribute from P1");
-        DefSWGBCivRes.Add("Tribute from P2");
-        DefSWGBCivRes.Add("Tribute from P3");
-        DefSWGBCivRes.Add("Tribute from P4");
-        DefSWGBCivRes.Add("Tribute from P5");
-        DefSWGBCivRes.Add("Tribute from P6");
-        DefSWGBCivRes.Add("Tribute from P7");
-        DefSWGBCivRes.Add("Tribute from P8");
-        DefSWGBCivRes.Add("Value Current Units");
-        DefSWGBCivRes.Add("Value Current Buildings");
-        DefSWGBCivRes.Add("Food Total");
-        DefSWGBCivRes.Add("Carbon Total");
-        DefSWGBCivRes.Add("Ore Total");
-        DefSWGBCivRes.Add("Nova Total");
-        DefSWGBCivRes.Add("Total Value of Kills");
-        DefSWGBCivRes.Add("Total Tribute Received");
-        DefSWGBCivRes.Add("Total Value of Razings");
-        DefSWGBCivRes.Add("Total Fortresses Built");
-        DefSWGBCivRes.Add("Total Monuments Built");
-        DefSWGBCivRes.Add("Tribute Score");
-        DefSWGBCivRes.Add("Convert Min Adjustment");
-        DefSWGBCivRes.Add("Convert Max Adjustment");
-        DefSWGBCivRes.Add("Convert Resist Min Adjustment");
-        DefSWGBCivRes.Add("Convert Resist Max Adjustment");
-        DefSWGBCivRes.Add("Convert Building Min");
-        DefSWGBCivRes.Add("Convert Building Max");
-        DefSWGBCivRes.Add("Convert Building Chance");
-        DefSWGBCivRes.Add("Reveal Enemy");
-        DefSWGBCivRes.Add("Value Wonders Castles");
-        DefSWGBCivRes.Add("Food Score");
-        DefSWGBCivRes.Add("Carbon Score");
-        DefSWGBCivRes.Add("Ore Score");
-        DefSWGBCivRes.Add("Nova Score");
-        DefSWGBCivRes.Add("Carbon Gathering Productivity");
-        DefSWGBCivRes.Add("Food-gathering Productivity");
-        DefSWGBCivRes.Add("Holocron Nova Production Rate");
-        DefSWGBCivRes.Add("Converted Units Die");
-        DefSWGBCivRes.Add("Meditation");
-        DefSWGBCivRes.Add("Crenellations");
-        DefSWGBCivRes.Add("Construction Rate Modifier");
-        DefSWGBCivRes.Add("Biological Self Regeneration");
-        DefSWGBCivRes.Add("Spies Discount");
-        DefSWGBCivRes.Add("Unknown");
-        DefSWGBCivRes.Add("Unknown");
-        DefSWGBCivRes.Add("Misc Counter 1");
-        DefSWGBCivRes.Add("Misc Counter 2");
-        DefSWGBCivRes.Add("Misc Counter 3");
-        DefSWGBCivRes.Add("Misc Counter 4");
-        DefSWGBCivRes.Add("Misc Counter 5");
-        DefSWGBCivRes.Add("Unknown");
-        DefSWGBCivRes.Add("Unknown");
-        DefSWGBCivRes.Add("Unknown");
-        DefSWGBCivRes.Add("Unknown");
-        DefSWGBCivRes.Add("Unknown");
-        DefSWGBCivRes.Add("CC: Unknown");
-
-        wxFileConfig Customs("", "", "AGE3NamesV0004.ini", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-        long AoE1Count, AoE2Count, SWGBCount, AoE1CountTR, AoE2CountTR, SWGBCountTR, RoRCountCR, AoKCountCR, SWGBCountCR;
-        if(!Customs.Read("Count/AoE1Count", &AoE1Count, DefAoE1Armors.GetCount()))
-            Customs.Write("Count/AoE1Count", (int)DefAoE1Armors.GetCount());
-        if(!Customs.Read("Count/AoE2Count", &AoE2Count, DefAoE2Armors.GetCount()))
-            Customs.Write("Count/AoE2Count", (int)DefAoE2Armors.GetCount());
-        if(!Customs.Read("Count/SWGBCount", &SWGBCount, DefSWGBArmors.GetCount()))
-            Customs.Write("Count/SWGBCount", (int)DefSWGBArmors.GetCount());
-        if(!Customs.Read("Count/AoE1TerrainRestrictionCount", &AoE1CountTR, DefAoE1TerrainRests.GetCount()))
-            Customs.Write("Count/AoE1TerrainRestrictionCount", (int)DefAoE1TerrainRests.GetCount());
-        if(!Customs.Read("Count/AoE2TerrainRestrictionCount", &AoE2CountTR, DefAoE2TerrainRests.GetCount()))
-            Customs.Write("Count/AoE2TerrainRestrictionCount", (int)DefAoE2TerrainRests.GetCount());
-        if(!Customs.Read("Count/SWGBTerrainRestrictionCount", &SWGBCountTR, DefSWGBTerrainRests.GetCount()))
-            Customs.Write("Count/SWGBTerrainRestrictionCount", (int)DefSWGBTerrainRests.GetCount());
-        if(!Customs.Read("Count/RoRCivResCount", &RoRCountCR, DefRoRCivRes.GetCount()))
-            Customs.Write("Count/RoRCivResCount", (int)DefRoRCivRes.GetCount());
-        if(!Customs.Read("Count/AoKCivResCount", &AoKCountCR, DefAoKCivRes.GetCount()))
-            Customs.Write("Count/AoKCivResCount", (int)DefAoKCivRes.GetCount());
-        if(!Customs.Read("Count/SWGBCivResCount", &SWGBCountCR, DefSWGBCivRes.GetCount()))
-            Customs.Write("Count/SWGBCivResCount", (int)DefSWGBCivRes.GetCount());
-        wxString read_buf;
-
-        armor_names.Clear();
-        armor_names.Add("Unused Type/No Type");
-        if(GenieVersion < genie::GV_AoKA) // AoE and RoR
-        for(size_t loop = 0; loop < AoE1Count; ++loop)
-        {
-            if(!Customs.Read("AoE1Names/"+lexical_cast<std::string>(loop), &read_buf, DefAoE1Armors[loop]))
-                Customs.Write("AoE1Names/"+lexical_cast<std::string>(loop), DefAoE1Armors[loop]);
-            armor_names.Add(read_buf);
-        }
-        else if(GenieVersion < genie::GV_SWGB) // AoK and TC
-        for(size_t loop = 0; loop < AoE2Count; ++loop)
-        {
-            if(!Customs.Read("AoE2Names/"+lexical_cast<std::string>(loop), &read_buf, DefAoE2Armors[loop]))
-                Customs.Write("AoE2Names/"+lexical_cast<std::string>(loop), DefAoE2Armors[loop]);
-            armor_names.Add(read_buf);
-        }
-        else // SWGB and CC
-        for(size_t loop = 0; loop < SWGBCount; ++loop)
-        {
-            if(!Customs.Read("SWGBNames/"+lexical_cast<std::string>(loop), &read_buf, DefSWGBArmors[loop]))
-                Customs.Write("SWGBNames/"+lexical_cast<std::string>(loop), DefSWGBArmors[loop]);
-            armor_names.Add(read_buf);
-        }
-        Effects_89_Type_CB1->Flash();
-        for(size_t loop = 0; loop < 2; ++loop)
-        {
-            Attacks_Class_ComboBox[loop]->Flash();
-        }
-
-        for(size_t loop = 0; loop < AoE1CountTR; ++loop)
-        {
-            if(!Customs.Read("AoE1TerrainRestrictionNames/"+lexical_cast<std::string>(loop), &read_buf, DefAoE1TerrainRests[loop]))
-                Customs.Write("AoE1TerrainRestrictionNames/"+lexical_cast<std::string>(loop), DefAoE1TerrainRests[loop]);
-            AoE1TerrainRestrictions.Add(read_buf);
-        }
-        for(size_t loop = 0; loop < AoE2CountTR; ++loop)
-        {
-            if(!Customs.Read("AoE2TerrainRestrictionNames/"+lexical_cast<std::string>(loop), &read_buf, DefAoE2TerrainRests[loop]))
-                Customs.Write("AoE2TerrainRestrictionNames/"+lexical_cast<std::string>(loop), DefAoE2TerrainRests[loop]);
-            AoE2TerrainRestrictions.Add(read_buf);
-        }
-        for(size_t loop = 0; loop < SWGBCountTR; ++loop)
-        {
-            if(!Customs.Read("SWGBTerrainRestrictionNames/"+lexical_cast<std::string>(loop), &read_buf, DefSWGBTerrainRests[loop]))
-                Customs.Write("SWGBTerrainRestrictionNames/"+lexical_cast<std::string>(loop), DefSWGBTerrainRests[loop]);
-            SWGBTerrainRestrictions.Add(read_buf);
-        }
-        for(size_t loop = 0; loop < RoRCountCR; ++loop)
-        {
-            if(!Customs.Read("RoRCivResNames/"+lexical_cast<std::string>(loop), &read_buf, DefRoRCivRes[loop]))
-                Customs.Write("RoRCivResNames/"+lexical_cast<std::string>(loop), DefRoRCivRes[loop]);
-            RoRCivResources.Add(read_buf);
-        }
-        for(size_t loop = 0; loop < AoKCountCR; ++loop)
-        {
-            if(!Customs.Read("AoKCivResNames/"+lexical_cast<std::string>(loop), &read_buf, DefAoKCivRes[loop]))
-                Customs.Write("AoKCivResNames/"+lexical_cast<std::string>(loop), DefAoKCivRes[loop]);
-            AoKCivResources.Add(read_buf);
-        }
-        for(size_t loop = 0; loop < SWGBCountCR; ++loop)
-        {
-            if(!Customs.Read("SWGBCivResNames/"+lexical_cast<std::string>(loop), &read_buf, DefSWGBCivRes[loop]))
-                Customs.Write("SWGBCivResNames/"+lexical_cast<std::string>(loop), DefSWGBCivRes[loop]);
-            SWGBCivResources.Add(read_buf);
-        }
-
-        class_names.Clear();
-        class_names.Add("No Class/Invalid Class");   // Selection 0
-        if(GenieVersion < genie::GV_SWGB)
-        {
-            class_names.Add("0 - Archer");
-            class_names.Add("1 - Artifact");
-            class_names.Add("2 - Trade Boat");
-            class_names.Add("3 - Building");
-            class_names.Add("4 - Civilian");
-            class_names.Add("5 - Ocean Fish");
-            class_names.Add("6 - Infantry");
-            class_names.Add("7 - Berry Bush");
-            class_names.Add("8 - Stone Mine");
-            class_names.Add("9 - Prey Animal");
-            class_names.Add("10 - Predator Animal");
-            class_names.Add("11 - Miscellaneous");
-            class_names.Add("12 - Cavalry");
-            class_names.Add("13 - Siege Weapon");
-            class_names.Add("14 - Terrain");
-            class_names.Add("15 - Tree");
-            class_names.Add("16 - Tree Stump");
-            class_names.Add("17 - Healer");
-            class_names.Add(GenieVersion < genie::GV_AoKA ? "18 - Priest" : "18 - Monk");
-            class_names.Add("19 - Trade Cart");
-            class_names.Add("20 - Transport Boat");
-            class_names.Add("21 - Fishing Boat");
-            class_names.Add("22 - Warship");
-            class_names.Add(GenieVersion < genie::GV_AoKA ? "23 - Chariot Archer" : "23 - Conquistador");
-            class_names.Add("24 - War Elephant");
-            class_names.Add("25 - Hero");
-            class_names.Add("26 - Elephant Archer");
-            class_names.Add("27 - Wall");
-            class_names.Add("28 - Phalanx");
-            class_names.Add("29 - Domestic Animal");
-            class_names.Add("30 - Flag");
-            class_names.Add("31 - Deep Sea Fish");
-            class_names.Add("32 - Gold Mine");
-            class_names.Add("33 - Shore Fish");
-            class_names.Add("34 - Cliff");
-            class_names.Add(GenieVersion < genie::GV_AoKA ? "35 - Chariot" : "35 - Petard");
-            class_names.Add("36 - Cavalry Archer");
-            class_names.Add("37 - Doppelganger");
-            class_names.Add("38 - Bird");
-            if(GenieVersion < genie::GV_AoKA)
-            {
-                class_names.Add("39 - Slinger");
-            }
-            // Above class names are checked for AoE 1
-            else
-            {
-                class_names.Add("39 - Gate");
-                class_names.Add("40 - Salvage Pile");
-                class_names.Add("41 - Resource Pile");
-                class_names.Add("42 - Relic");
-                class_names.Add("43 - Monk with Relic");
-                class_names.Add("44 - Hand Cannoneer");
-                class_names.Add("45 - Two Handed Swordsman");
-                class_names.Add("46 - Pikeman");
-                class_names.Add("47 - Scout");
-                class_names.Add("48 - Ore Mine");
-                class_names.Add("49 - Farm");
-                class_names.Add("50 - Spearman");
-                class_names.Add("51 - Packed Unit");
-                class_names.Add("52 - Tower");
-                class_names.Add("53 - Boarding Boat");
-                class_names.Add("54 - Unpacked Siege Unit");
-                class_names.Add("55 - Ballista");
-                class_names.Add("56 - Raider");
-                class_names.Add("57 - Cavalry Raider");
-                class_names.Add("58 - Livestock");
-                class_names.Add("59 - King");
-                class_names.Add("60 - Misc Building");
-                class_names.Add("61 - Controlled Animal");
-            }
-            // Above class names are checked for AoE 2
-        }
-        else
-        {
-            class_names.Add("0 - Unused");   // Selection 1
-            class_names.Add("1 - Nerf/Bantha");
-            class_names.Add("2 - Fambaa");
-            class_names.Add("3 - Unused");
-            class_names.Add("4 - Wild Animal");
-            class_names.Add("5 - Monster/Trouble");
-            class_names.Add("6 - Wall");
-            class_names.Add("7 - Farm");
-            class_names.Add("8 - Gate");
-            class_names.Add("9 - Fortress/A-A Turret");
-            class_names.Add("10 - Turret");
-            class_names.Add("11 - Cruiser");
-            class_names.Add("12 - Unused");
-            class_names.Add("13 - Destroyer");
-            class_names.Add("14 - Utility Trawler");
-            class_names.Add("15 - Frigate 1");
-            class_names.Add("16 - A-A Destroyer 1");
-            class_names.Add("17 - Transport Ship");
-            class_names.Add("18 - Building");
-            class_names.Add("19 - Doppelganger");
-            class_names.Add("20 - Other/Dead/Projectile");
-            class_names.Add("21 - Command Base");
-            class_names.Add("22 - Cliff");
-            class_names.Add("23 - Fish");
-            class_names.Add("24 - Unused");
-            class_names.Add("25 - Shore Fish");
-            class_names.Add("26 - Game Engine Stuff");
-            class_names.Add("27 - Fruit Bush");
-            class_names.Add("28 - Holocron");
-            class_names.Add("29 - Nova");
-            class_names.Add("30 - Ore");
-            class_names.Add("31 - Tree/Carbon");
-            class_names.Add("32 - Artillery");
-            class_names.Add("33 - A-A Mobile");
-            class_names.Add("34 - Undeployed Cannon");
-            class_names.Add("35 - Pummel");
-            class_names.Add("36 - Cannon");
-            class_names.Add("37 - Unused");
-            class_names.Add("38 - Unused");
-            class_names.Add("39 - Frigate 2");
-            class_names.Add("40 - A-A Destroyer 2");
-            class_names.Add("41 - Unused");
-            class_names.Add("42 - Bridge/Eye Candy");
-            class_names.Add("43 - Bomber");
-            class_names.Add("44 - Bounty Hunter");
-            class_names.Add("45 - Cargo Trader");
-            class_names.Add("46 - Mixed 1");
-            class_names.Add("47 - Scout");
-            class_names.Add("48 - Fighter");
-            class_names.Add("49 - Grenade Trooper");
-            class_names.Add("50 - Jedi");
-            class_names.Add("51 - Jedi with Holocron");
-            class_names.Add("52 - Trooper");
-            class_names.Add("53 - War Machine");
-            class_names.Add("54 - Medic");
-            class_names.Add("55 - A-A Trooper");
-            class_names.Add("56 - Mounted Trooper");
-            class_names.Add("57 - Fambaa Shield Generator");
-            class_names.Add("58 - Workers");
-            class_names.Add("59 - Air Transport");
-            class_names.Add("60 - Domestic Animal");
-            class_names.Add("61 - Power Droid");
-            class_names.Add("62 - Air Cruiser");
-            class_names.Add("63 - Geonosian Warrior");
-            class_names.Add("64 - Jedi Starfighter");
-        }
-        Effects_B_ComboBox->Flash();
-
-        // This is here in case filters will be made game version dependent.
-        unit_filters.Clear();
-        unit_filters.Add("*Choose*");
-        for(wxString &filter: Type20) unit_filters.Add(filter);
-        for(wxString &filter: Type30) unit_filters.Add(filter);
-        for(wxString &filter: Type40) unit_filters.Add(filter);
-        for(wxString &filter: Type50) unit_filters.Add(filter);
-        for(wxString &filter: Type60) unit_filters.Add(filter);
-        for(wxString &filter: Type70) unit_filters.Add(filter);
-        for(wxString &filter: Type80) unit_filters.Add(filter);
-        unit_filters.Sort();
-
-        research_filters.Clear();
-        research_filters.Add("Lang File Name"); // 0
-        research_filters.Add("Internal Name");
-        research_filters.Add("Required Techs");
-        research_filters.Add("Min. Req. Techs");
-        research_filters.Add("Research Location");
-        research_filters.Add("Research Time");
-        research_filters.Add("Effect");
-        research_filters.Add("Type");
-        research_filters.Add("Icon");
-        research_filters.Add("Button");
-        research_filters.Add("Lang Help");
-        research_filters.Add("Lang Tech Tree");
-        research_filters.Add("Hotkey");
-        research_filters.Add("Cost Types");
-        research_filters.Add("Cost Amounts");
-        research_filters.Add("Cost Uses");
-        if(GenieVersion >= genie::GV_AoK)
-        {
-            research_filters.Add("Civilization");
-            research_filters.Add("Full Tech Mode");
-            if(GenieVersion >= genie::GV_SWGB)
-            research_filters.Add("Internal Name 2");
-            if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
-            research_filters.Add("Repeatable");
-        }
-
-        soundfile_filters.Clear();
-        soundfile_filters.Add("Filename");   // 0
-        soundfile_filters.Add("DRS");
-        soundfile_filters.Add("Probability");
-        if(GenieVersion >= genie::GV_AoKE3)
-        {
-            soundfile_filters.Add("Civilization");
-            soundfile_filters.Add("Unknown");
-        }
-
-        for(size_t loop = 0; loop < 2; ++loop)
-        {
-            Units_Class_ComboBox[loop]->Flash();
-            Units_SearchFilters[loop]->Flash();
-            Research_SearchFilters[loop]->Flash();
-            Sounds_Items_SearchFilters[loop]->Flash();
-        }
-
+        FillListsBasedOnGameVersion();
         SetStatusText(lexical_cast<std::string>(dataset->FileVersion), 4);
-
-        effect_attribute_names.Clear();
-        effect_attribute_names.Add("No Attribute/Invalid Attribute");     // Selection 0
-        effect_attribute_names.Add("0 - Hit Points");     // Selection 1
-        effect_attribute_names.Add("1 - Line of Sight");
-        effect_attribute_names.Add("2 - Garrison Capacity");
-        effect_attribute_names.Add("3 - Unit Size X");
-        effect_attribute_names.Add("4 - Unit Size Y");
-        effect_attribute_names.Add("5 - Movement Speed (types 20-80)");
-        effect_attribute_names.Add("6 - Rotation Speed (types 30-80)");
-        effect_attribute_names.Add("7 - Unused");
-        if(GenieVersion < genie::GV_AoKA)
-        {
-            effect_attribute_names.Add("8 - Armor (no multiply, types 50-80)");
-            effect_attribute_names.Add("9 - Attack (no multiply, types 50-80)");
-        }
-        else
-        {
-            effect_attribute_names.Add("8 - Armor (types 50-80)");
-            effect_attribute_names.Add("9 - Attack (types 50-80)");
-        }
-        effect_attribute_names.Add("10 - Attack Reload Time (types 50-80)");
-        effect_attribute_names.Add("11 - Accuracy Percent (types 50-80)");
-        effect_attribute_names.Add("12 - Max Range (types 50-80)");
-        effect_attribute_names.Add("13 - Work Rate (types 30-80)");
-        effect_attribute_names.Add("14 - Carry Capacity");
-        effect_attribute_names.Add("15 - Base Armor (types 50-80)");
-        effect_attribute_names.Add("16 - Projectile Unit (types 50-80)");
-        effect_attribute_names.Add("17 - Icon/Graphics Angle (type 80)");
-        effect_attribute_names.Add("18 - Terrain Defense Bonus (always sets, types 50-80)");
-        if(GenieVersion < genie::GV_AoEB)
-        {
-            effect_attribute_names.Add("19 - Unused");
-        }
-        else
-        {
-            effect_attribute_names.Add("19 - Enable Smart Projectiles (type 60)");
-        }
-        if(GenieVersion < genie::GV_AoKA)
-        {
-            effect_attribute_names.Add("20 - Unused");
-            effect_attribute_names.Add("21 - Unused");
-            effect_attribute_names.Add("22 - Unused");
-            effect_attribute_names.Add("23 - Unused");
-            effect_attribute_names.Add("100 - Resource Costs (types 70-80)");
-            if(GenieVersion >= genie::GV_RoR)
-            effect_attribute_names.Add("101 - Population (set only)");
-        }
-        else
-        {
-            effect_attribute_names.Add("20 - Min Range (types 50-80)");
-            effect_attribute_names.Add("21 - Amount of 1st resource storage");
-            effect_attribute_names.Add("22 - Blast Width (types 50-80)");
-            effect_attribute_names.Add("23 - Search Radius (types 40-80)");
-            effect_attribute_names.Add("100 - Resource Costs (types 70-80)");
-            effect_attribute_names.Add("101 - Train Time (types 70-80)");
-            effect_attribute_names.Add("102 - Total Missiles (types 70-80)");
-            effect_attribute_names.Add("103 - Food Costs (types 70-80)");
-            if(GenieVersion < genie::GV_SWGB)
-            {
-                effect_attribute_names.Add("104 - Wood Costs (types 70-80)");
-                effect_attribute_names.Add("105 - Gold Costs (types 70-80)");
-                effect_attribute_names.Add("106 - Stone Costs (types 70-80)");
-            }
-            else
-            {
-                effect_attribute_names.Add("104 - Carbon Costs (types 70-80)");
-                effect_attribute_names.Add("105 - Nova Costs (types 70-80)");
-                effect_attribute_names.Add("106 - Ore Costs (types 70-80)");
-            }
-            effect_attribute_names.Add("107 - Max Total Missiles (types 70-80)");
-            if(GenieVersion >= genie::GV_AoKB)
-            effect_attribute_names.Add("108 - Garrison Heal Rate (type 80)");
-            if(GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2)
-            effect_attribute_names.Add("109 - Regeneration Rate (types 40-80)");
-        }
-        Effects_C_ComboBox->Flash();
-
-        modify_research_names.Clear();
-        if(GameVersion == EV_UP)
-        {
-            modify_research_names.Add("-1 - Set Time");
-            modify_research_names.Add("-2 - Add Time");
-            modify_research_names.Add("0 - Set Food Cost");
-            modify_research_names.Add("1 - Set Wood Cost");
-            modify_research_names.Add("2 - Set Stone Cost");
-            modify_research_names.Add("3 - Set Gold Cost");
-            modify_research_names.Add("16384 - Add Food Cost");
-            modify_research_names.Add("16385 - Add Wood Cost");
-            modify_research_names.Add("16386 - Add Stone Cost");
-            modify_research_names.Add("16387 - Add Gold Cost");
-        }
-
-        graphicset_names.Clear();
-        if(GenieVersion < genie::GV_AoKA)
-        {
-            // AoE
-            graphicset_names.Add("0 West Middle Easterns");
-            graphicset_names.Add("1 Greeks");
-            graphicset_names.Add("2 East Middle Easterns");
-            graphicset_names.Add("3 Asians");
-            // + RoR
-            graphicset_names.Add("4 Romans");
-        }
-        else if(GenieVersion < genie::GV_SWGB)
-        {
-            graphicset_names.Add("0 Unused");
-            // AoK
-            graphicset_names.Add("1 Central Europeans");
-            graphicset_names.Add("2 West Europeans");
-            graphicset_names.Add("3 East Asians");
-            graphicset_names.Add("4 Arabs");
-            // + TC
-            graphicset_names.Add("5 Americans");
-            // + FE
-            if(GenieVersion >= genie::GV_Cysion)
-            {
-                graphicset_names.Add("6 South Europeans");
-                graphicset_names.Add("7 Indians");
-                graphicset_names.Add("8 East Europeans");
-                graphicset_names.Add("9 Africans");
-                graphicset_names.Add("10 South East Asians");
-                graphicset_names.Add("11 Central Asians");
-            }
-        }
-        else
-        {
-            // SWGB
-            graphicset_names.Add("0 Unused");
-            graphicset_names.Add("1 Galactic Empire");
-            graphicset_names.Add("2 Gungans");
-            graphicset_names.Add("3 Rebels");
-            graphicset_names.Add("4 Royal Naboo");
-            graphicset_names.Add("5 Trade Federation");
-            graphicset_names.Add("6 Wookiees");
-            graphicset_names.Add("7 Republic");
-            graphicset_names.Add("8 Confederacy");
-            graphicset_names.Add("9 Ask Tapsa for more!");
-        }
-        Units_GraphicSet->Flash();
-
-        effect_type_names.Clear();
-        effect_type_names.Add("No Type/Invalid Type");  // Selection 0
-        effect_type_names.Add("0 - Attribute Modifier (Set)");  // Selection 1
-        effect_type_names.Add("1 - Resource Modifier (Set/+/-)");
-        effect_type_names.Add("2 - Enable/Disable Unit");
-        effect_type_names.Add("3 - Upgrade Unit");
-        effect_type_names.Add("4 - Attribute Modifier (+/-)");
-        effect_type_names.Add("5 - Attribute Modifier (Multiply)");
-        if(GenieVersion < genie::GV_AoKA)
-        {
-            effect_type_names.Add("6 - Resource Modifier (Multiply), needs exe mod!");
-        }
-        else
-        {
-            effect_type_names.Add("6 - Resource Modifier (Multiply)");
-        }
-        if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
-        {
-            effect_type_names.Add("7 - Spawn Unit");
-        }
-        else if (GameVersion == EV_UP)
-        {
-            effect_type_names.Add("7 - Enable/Disable/Force Multiuse Tech");
-        }
-        else
-        {
-            effect_type_names.Add("7 - AoK UP and DE only");
-        }
-        if(GameVersion == EV_UP)
-        {
-            effect_type_names.Add("8 - Modify Tech");
-            effect_type_names.Add("9 - Set Player Civ Name");
-        }
-        else
-        {
-            effect_type_names.Add("8 - UP 1.5 only");
-            effect_type_names.Add("9 - UP 1.5 only");
-        }
-        if(GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
-        {
-            effect_type_names.Add("10 - Team Attribute Modifier (Set)");
-            effect_type_names.Add("11 - Team Resource Modifier (Set/+/-)");
-            effect_type_names.Add("12 - Team Enable/Disable Unit");
-            effect_type_names.Add("13 - Team Upgrade Unit");
-            effect_type_names.Add("14 - Team Attribute Modifier (+/-)");
-            effect_type_names.Add("15 - Team Attribute Modifier (Multiply)");
-            effect_type_names.Add("16 - Team Resource Modifier (Multiply)");
-        }
-        else
-        {
-            for(size_t loop = 10; loop < 17; ++loop)
-            effect_type_names.Add(lexical_cast<std::string>(loop) + " - AoK UP, HD and DE only");
-        }
-        if(GameVersion == EV_UP)
-        {
-            effect_type_names.Add("17 - Team Enable/Disable/Force Multiuse Tech");
-            effect_type_names.Add("18 - Team Modify Tech");
-            effect_type_names.Add("19 - Team Set Player Civ Name");
-            effect_type_names.Add("20 - Enemy Attribute Modifier (Set)");
-            effect_type_names.Add("21 - Enemy Resource Modifier (Set/+/-)");
-            effect_type_names.Add("22 - Enemy Enable/Disable Unit");
-            effect_type_names.Add("23 - Enemy Upgrade Unit");
-            effect_type_names.Add("24 - Enemy Attribute Modifier (+/-)");
-            effect_type_names.Add("25 - Enemy Attribute Modifier (Multiply)");
-            effect_type_names.Add("26 - Enemy Resource Modifier (Multiply)");
-            effect_type_names.Add("27 - Enemy Enable/Disable/Force Multiuse Tech");
-            effect_type_names.Add("28 - Enemy Modify Tech");
-            effect_type_names.Add("29 - Enemy Set Player Civ Name");
-            effect_type_names.Add("30 - Neutral Attribute Modifier (Set)");
-            effect_type_names.Add("31 - Neutral Resource Modifier (Set/+/-)");
-            effect_type_names.Add("32 - Neutral Enable/Disable Unit");
-            effect_type_names.Add("33 - Neutral Upgrade Unit");
-            effect_type_names.Add("34 - Neutral Attribute Modifier (+/-)");
-            effect_type_names.Add("35 - Neutral Attribute Modifier (Multiply)");
-            effect_type_names.Add("36 - Neutral Resource Modifier (Multiply)");
-            effect_type_names.Add("37 - Neutral Enable/Disable/Force Multiuse Tech");
-            effect_type_names.Add("38 - Neutral Modify Tech");
-            effect_type_names.Add("39 - Neutral Set Player Civ Name");
-        }
-        else
-        {
-            for(size_t loop = 17; loop < 40; ++loop)
-                effect_type_names.Add(lexical_cast<std::string>(loop) + " - UP 1.5 only");
-        }
-        if(GenieVersion < genie::GV_AoKA && (GenieVersion < genie::GV_Tapsa || GenieVersion > genie::GV_LatestTap))
-        {
-            effect_type_names.Add("101 - DE & AoK+ only");
-        }
-        else
-        {
-            effect_type_names.Add("101 - Tech Cost Modifier (Set/+/-)");
-        }
-        effect_type_names.Add("102 - Disable Tech");
-        if(GenieVersion < genie::GV_AoKA && (GenieVersion < genie::GV_Tapsa || GenieVersion > genie::GV_LatestTap))
-        {
-            effect_type_names.Add("103 - DE & AoK+ only");
-        }
-        else
-        {
-            effect_type_names.Add("103 - Tech Time Modifier (Set/+/-)");   // Selection 17
-        }
-        Effects_Type_ComboBox->Flash();
-
         DataOpened = true;
         TabBar_Main->Freeze();
         //OnGameVersionChange();
@@ -1933,84 +642,6 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
 
     SkipOpenDialog = false;
     if(AutoBackups) SaveBackup();
-}
-
-void AGE_Frame::LoadLists()
-{
-    OnCivCountChange();
-    ListTerrainRestrictions(true);
-    InitPlayerColors();
-    InitSounds(true);
-    InitGraphics(true);
-    ListTerrainNumbers();
-    InitTerrains1(true);
-    InitTerrainBorders(true);
-    ListMapData();
-    InitRandomMaps();
-    InitTechs(true);
-    if(GenieVersion >= genie::GV_SWGB)
-    {
-        InitUnitLines();
-    }
-    else
-    {
-        UnitLines_UnitLines_ListV->Clear();
-        UnitLines_UnitLineUnits_ListV->Clear();
-    }
-    //InitCivs(true);
-    InitUnits(GenieVersion < genie::GV_AoKE3, true);
-    InitResearches(true);
-    if(GenieVersion >= genie::GV_AoKA)
-    {
-        InitTTAges();
-        InitTTBuildings();
-        InitTTUnits();
-        InitTTResearches();
-    }
-    else
-    {
-        TechTrees_MainList_Ages_ListV->Clear();
-        TechTrees_Ages_Buildings.List->Clear();
-        TechTrees_Ages_Units.List->Clear();
-        TechTrees_Ages_Researches.List->Clear();
-        TechTrees_MainList_Buildings_ListV->Clear();
-        TechTrees_Buildings_Buildings.List->Clear();
-        TechTrees_Buildings_Units.List->Clear();
-        TechTrees_Buildings_Researches.List->Clear();
-        TechTrees_MainList_Units_ListV->Clear();
-        TechTrees_Units_Units.List->Clear();
-        TechTrees_MainList_Researches_ListV->Clear();
-        TechTrees_Researches_Buildings.List->Clear();
-        TechTrees_Researches_Units.List->Clear();
-        TechTrees_Researches_Researches.List->Clear();
-    }
-    if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
-    {
-        InitTerrainBlends();
-    }
-
-    wxCommandEvent e;
-    OnCivSelect(e);
-    OnUnitSelect(e);
-    OnResearchSelect(e);
-    OnEffectSelect(e);
-    OnGraphicSelect(e);
-    OnSoundSelect(e);
-    OnTerrainSelect(e);
-    OnTerrainRestrictionsTerrainSelect(e);
-    OnPlayerColorSelect(e);
-    if (GenieVersion != genie::GV_TCV && GenieVersion != genie::GV_CCV)
-        OnTerrainBorderSelect(e);
-    OnRandomMapSelect(e);
-    if(GenieVersion >= genie::GV_AoKA)
-    {
-        OnTTAgeSelect(e);
-        OnTTBuildingSelect(e);
-        OnTTUnitSelect(e);
-        OnTTResearchSelect(e);
-        if(GenieVersion >= genie::GV_SWGB)
-        OnUnitLineSelect(e);
-    }
 }
 
 void AGE_Frame::OnGameVersionChange()
@@ -2426,11 +1057,17 @@ void AGE_Frame::OnSave(wxCommandEvent&)
             RecentSave.Read(entry + "/LangX1P1", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
         }
     }
-    if(SaveBox.RecentValues.size())
-    for(int i=0; i < RecentItems; ++i)
-    SaveBox.CheckBox_Recent->Append(SaveBox.RecentValues[i][1]);
+    if (SaveBox.RecentValues.size())
+    {
+        for (int i = 0; i < RecentItems; ++i)
+        {
+            SaveBox.CheckBox_Recent->Append(FixEditorVersion(SaveBox.RecentValues[i][0]) + SaveBox.RecentValues[i][1]);
+        }
+    }
     else
-    SaveBox.CheckBox_Recent->Append("Happy Modding!");
+    {
+        SaveBox.CheckBox_Recent->Append("Happy Modding!");
+    }
     SaveBox.CheckBox_Recent->SetSelection(0);
 
     SaveBox.Path_DatFileLocation->SetFocus();
@@ -2534,7 +1171,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
         genie::Terrain::setTerrainCount(ResizeTerrains ? CustomTerrains : 0);
 
         // Can save as different game version
-        genie::GameVersion SaveGenieVersion = version(SaveGameVersion);
+        genie::GameVersion SaveGenieVersion = EditorVersionAsGameVersion(SaveGameVersion);
         if(GenieVersion != SaveGenieVersion || genie::GV_Tapsa == GenieVersion || genie::GV_C2 == GenieVersion)
         {
             if(GenieVersion <= genie::GV_LatestDE2 && genie::GV_C2 <= GenieVersion)
@@ -2687,7 +1324,6 @@ bool AGE_Frame::SaveLangX1P1()
     return true;
 }
 
-bool slp_tool_on; // !IsShown()
 void AGE_Frame::OnMenuOption(wxCommandEvent &event)
 {
     switch(event.GetId())
@@ -2749,196 +1385,11 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             if(slp_window) slp_view->Refresh();
             break;
         }
-        case eShowSLP:
-        {
-            ShowSLP = event.IsChecked();
-            setbearing = 0u;
-            bearing = 0.f;
-
-            Units_Main->Layout();
-            Research_Main->Layout();
-            Refresh();
-
-            if(ShowSLP)
-            {
-                wxPoint parentPos = GetPosition();
-                parentPos.x += MinWindowWidth;
-                slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, ASize(512, 600), KeepViewOnTop ? (wxSTAY_ON_TOP | wxDEFAULT_FRAME_STYLE) : wxDEFAULT_FRAME_STYLE);
-                //slp_window->SetBackgroundStyle(wxBG_STYLE_SYSTEM);
-                slp_window->SetBackgroundColour(wxColour(240, 240, 240));
-                slp_window->SetIcon(wxIcon(Villager32_xpm));
-                slp_window->SetFont(font);
-                APanel *panel = new APanel(slp_window);
-                slp_view = new APanel(panel);//, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE);
-                slp_next = new wxButton(panel, eNextFrame, "Show -> frame");
-                slp_prev = new wxButton(panel, ePrevFrame, "Show <- frame");
-                slp_first = new wxButton(panel, eFirstFrame, "Show first frame");
-                wxColour back(ViewBackR, ViewBackG, ViewBackB);
-                slp_background = new wxColourPickerCtrl(panel, ePickBgColor, back, wxDefaultPosition, wxDefaultSize, wxCLRP_SHOW_LABEL);
-                slp_frame_export = new wxButton(panel, eExportFrame, "Export frame to PNGs");
-                slp_frame_import = new wxButton(panel, eImportFrame, "Import PNGs to frame");
-                slp_save = new wxButton(panel, eSaveSLP, "Save SLP");
-                slp_tool = new wxButton(panel, eSLPTool, "SLP Tool");
-                slp_zoom_btn = new wxButton(panel, eZoom, "Zoom: " + lexical_cast<std::string>(int(slp_zoom * 100)) + " %");
-                slp_merge_shadow = new wxButton(panel, eSLPMergeShadow, "Merge shadow from 2 to 1");
-                slp_tool_layout = new wxFlexGridSizer(2, 2, 2);
-                SolidText *text_source1 = new SolidText(panel, " Source SLP 1");
-                SolidText *text_source2 = new SolidText(panel, " Source SLP 2");
-                SolidText *text_target1 = new SolidText(panel, " Target SLP");
-                slp_source1 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-                slp_source2 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
-                slp_target1 = new wxFilePickerCtrl(panel, wxID_ANY, "", "Select a file", "SLP|*.slp", wxDefaultPosition, wxDefaultSize, wxFLP_SAVE | wxFLP_USE_TEXTCTRL | wxFLP_OVERWRITE_PROMPT);
-                slp_hotspot = new wxCheckBox(panel, eShowHotspot, "Hotspot");
-                slp_show_angles = new wxCheckBox(panel, eShowAngles, "Show angles");
-                slp_show_angles->SetValue(DrawAngles);
-                slp_animate = new wxCheckBox(panel, eAnimSLP, "Animate");
-                slp_animate->SetValue(AnimSLP);
-                slp_shadow = new wxCheckBox(panel, eShowShadows, "Shadow");
-                slp_shadow->SetValue(ShowShadows);
-                slp_outline = new wxCheckBox(panel, eShowOutline, "Outline");
-                slp_outline->SetValue(ShowOutline);
-                slp_delta = new wxCheckBox(panel, eShowDeltas, "Delta");
-                slp_delta->SetValue(ShowDeltas);
-                slp_stack = new wxCheckBox(panel, eShowStack, "Stack");
-                slp_stack->SetValue(ShowStack);
-                slp_annex = new wxCheckBox(panel, eShowAnnexes, "Annex");
-                slp_annex->SetValue(ShowAnnexes);
-                slp_terrain = new wxCheckBox(panel, eShowTerrain, "Terrain");
-                slp_terrain->SetValue(DrawTerrain);
-                slp_angles = new wxCheckBox(panel, eRotateAngles, "Rotate angles *");
-                slp_angles->SetValue(RotateAngles);
-                slp_collision = new wxCheckBox(panel, eCollisionShape, "Collision Shape");
-                slp_collision->SetValue(DrawCollisionShape);
-                slp_clearance = new wxCheckBox(panel, eClearanceShape, "Clearance Shape");
-                slp_clearance->SetValue(DrawClearanceShape);
-                slp_selection = new wxCheckBox(panel, eOutline, "Selection Shape");
-                slp_selection->SetValue(DrawOutline);
-                slp_sounds = new wxCheckBox(panel, ePlaySounds, "Play Sounds");
-                slp_sounds->SetValue(PlaySounds);
-                slp_angles->SetToolTip("Right click image to manually set angle");
-                slp_sizer = new wxBoxSizer(wxVERTICAL);
-                wxSizer *sizer2 = new wxBoxSizer(wxHORIZONTAL);
-                wxSizer *sizer3 = new wxBoxSizer(wxHORIZONTAL);
-                wxSizer *sizer4 = new wxBoxSizer(wxHORIZONTAL);
-                wxSizer *sizer5 = new wxBoxSizer(wxHORIZONTAL);
-
-                slp_sizer->Add(slp_view, 1, wxEXPAND);
-                sizer5->Add(slp_show_angles, 0, wxALL, 2);
-                sizer5->Add(slp_sounds, 0, wxALL, 2);
-                sizer5->Add(slp_collision, 0, wxALL, 2);
-                sizer5->Add(slp_clearance, 0, wxALL, 2);
-                sizer5->Add(slp_selection, 0, wxALL, 2);
-                sizer3->Add(slp_animate, 0, wxALL, 2);
-                sizer3->Add(slp_shadow, 0, wxALL, 2);
-                sizer3->Add(slp_outline, 0, wxALL, 2);
-                sizer3->Add(slp_delta, 0, wxALL, 2);
-                sizer3->Add(slp_stack, 0, wxALL, 2);
-                sizer3->Add(slp_annex, 0, wxALL, 2);
-                sizer3->Add(slp_terrain, 0, wxALL, 2);
-                sizer2->Add(slp_angles, 0, wxALL, 2);
-                sizer2->Add(slp_first);
-                sizer2->Add(slp_prev);
-                sizer2->Add(slp_next);
-                sizer2->Add(slp_background);
-                sizer4->Add(slp_frame_export);
-                sizer4->Add(slp_frame_import);
-                sizer4->Add(slp_save);
-                sizer4->Add(slp_tool);
-                sizer4->Add(slp_zoom_btn);
-                sizer3->Add(slp_hotspot, 0, wxALL, 2);
-                slp_tool_layout->Add(text_source1, 1, wxEXPAND);
-                slp_tool_layout->Add(slp_source1, 1, wxEXPAND);
-                slp_tool_layout->Add(text_source2, 1, wxEXPAND);
-                slp_tool_layout->Add(slp_source2, 1, wxEXPAND);
-                slp_tool_layout->Add(text_target1, 1, wxEXPAND);
-                slp_tool_layout->Add(slp_target1, 1, wxEXPAND);
-                slp_tool_layout->AddSpacer(1);
-                slp_tool_layout->Add(slp_merge_shadow);
-                slp_sizer->Add(slp_tool_layout, 0, wxEXPAND);
-                slp_sizer->Add(sizer3, 0, wxEXPAND);
-                slp_sizer->Add(sizer5, 0, wxEXPAND);
-                slp_sizer->Add(sizer2, 0, wxEXPAND);
-                slp_sizer->Add(sizer4, 0, wxEXPAND);
-                slp_tool_layout->AddGrowableCol(1, 1);
-                slp_tool_layout->Show(slp_tool_on);
-                panel->SetSizer(slp_sizer);
-
-                slp_view->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawGraphicSLP, this);
-                slp_view->Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});
-                slp_view->Bind(wxEVT_RIGHT_DOWN, &AGE_Frame::OnFrameMouse, this);
-                slp_view->Bind(wxEVT_KEY_DOWN, &AGE_Frame::OnFrameKey, this);
-                slp_window->Bind(wxEVT_CLOSE_WINDOW, &AGE_Frame::OnExitSLP, this);
-                slp_first->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
-                slp_next->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
-                slp_prev->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
-                slp_frame_export->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
-                slp_frame_import->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
-                slp_save->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
-                slp_tool->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
-                slp_zoom_btn->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
-                slp_merge_shadow->Bind(wxEVT_BUTTON, &AGE_Frame::OnFrameButton, this);
-                slp_hotspot->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_animate->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_shadow->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_outline->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_delta->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_stack->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_annex->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_angles->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_sounds->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_terrain->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_collision->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_clearance->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_selection->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_background->Bind(wxEVT_COLOURPICKER_CHANGED, &AGE_Frame::OnFrameButton, this);
-                slp_show_angles->Bind(wxEVT_CHECKBOX, &AGE_Frame::OnFrameButton, this);
-                slp_window->Show();
-            }
-            else
-            {
-                if(slp_window) // What if users manage to close this?
-                {
-                    slp_window->Destroy();
-                    slp_window = 0;
-                }
-            }
-            break;
-        }
-        case eShowIcons:
-        {
-            ShowIcons = event.IsChecked();
-
-            Units_IconID_SLP->Show(ShowIcons);
-            Research_IconID_SLP->Show(ShowIcons);
-            break;
-        }
         case eVasili:
         {
 #ifdef WIN32
             EmptyWorkingSet(GetCurrentProcess());
 #endif
-            break;
-        }
-        case eSlpPals:
-        {
-            wxFileDialog pd(this, "Open palette configuration file", "", "palettes.conf",
-                "Configuration files (*.conf)|*.conf", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-            if(pd.ShowModal() == wxID_OK)
-            {
-                PathPalettes = pd.GetPath();
-                GG::LoadPalettes(palettes, PathPalettes);
-            }
-            break;
-        }
-        case eSlpPCPal:
-        {
-            wxFileDialog pd(this, "Open palette file", "", "playercolor_blue.pal",
-                "Palette files (*.pal)|*.pal", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-            if(pd.ShowModal() == wxID_OK)
-            {
-                PathPlayerColorPalette = pd.GetPath();
-                GG::LoadPalettes(pc_palettes, PathPlayerColorPalette);
-            }
             break;
         }
         case eDRS:
@@ -3231,12 +1682,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             StayOnTop = event.IsChecked();
             break;
         }
-        case eStayOnTopSLP:
-        {
-            if(slp_window) slp_window->ToggleWindowStyle(wxSTAY_ON_TOP);
-            KeepViewOnTop = event.IsChecked();
-            break;
-        }
         case hotWin1:
         {
             if (openEditors[0])
@@ -3414,28 +1859,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             wxMessageBox(results);
             break;
         }
-        case eCacheDepth:
-        {
-            wxTextEntryDialog ted(this, "Enter new cache size in megabytes",
-                "Set Cache Size", lexical_cast<std::string>(GG::cache_size / 1000000u));
-            ted.SetTextValidator(wxFILTER_DIGITS);
-            if(ted.ShowModal() == wxID_OK)
-            {
-                int temp = lexical_cast<int>(ted.GetValue());
-                GG::cache_size = std::min(std::max(temp, 100), 3000) * 1000000u;
-            }
-            break;
-        }
-        case eSlpZoom:
-        {
-            wxTextEntryDialog ted(this, "Replace <x#> with", "Set Zoom Level", AlexZoom);
-            ted.SetTextValidator(wxFILTER_ALPHANUMERIC);
-            if(ted.ShowModal() == wxID_OK)
-            {
-                AlexZoom = ted.GetValue();
-            }
-            break;
-        }
         case eBoxWidth:
         {
             wxTextEntryDialog ted(this, "Enter new multiplier for data box widths",
@@ -3491,21 +1914,6 @@ int AGE_Frame::produceRecentValues(wxArrayString &latest, std::vector<wxArrayStr
     return RecentItems;
 }
 
-bool AGE_Frame::loadPalette(const wxString &folder)
-{
-    if(!wxDir::Exists(folder)) return false;
-    genie::PalFile pal;
-    wxString name = folder + "\\interface\\50500.bina";
-    try
-    {
-        pal.load(name.c_str());
-        palettes.push_back(pal.getColors());
-        return true;
-    }
-    catch(const std::ios_base::failure&){}
-    return false;
-}
-
 void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString &folder)
 {
     if(folder.empty() || !wxDir::Exists(folder)) return;
@@ -3526,572 +1934,32 @@ void AGE_Frame::addFilesToRead(const wxArrayString &files, const wxString &folde
     }
 }
 
-void AGE_Frame::addSLPFolders4SLPs(wxArrayString &folders, wxString folder)
-{
-    if(folder.empty()) return;
-    folder.Replace("drs", "slp", false);
-    if(!wxDir::Exists(folder)) return;
-    folders.Add(folder + "\\");
-}
-
-void AGE_Frame::addDRSFolders4SLPs(wxArrayString &folders, const wxString &folder)
-{
-    if(folder.empty()) return;
-    if(wxDir::Exists(folder + "\\gamedata_x2"))
-    folders.Add(folder + "\\gamedata_x2\\");
-    if(wxDir::Exists(folder + "\\gamedata_x1"))
-    folders.Add(folder + "\\gamedata_x1\\");
-    if(wxDir::Exists(folder + "\\interface"))
-    folders.Add(folder + "\\interface\\");
-    if(wxDir::Exists(folder + "\\graphics"))
-    folders.Add(folder + "\\graphics\\");
-    if(wxDir::Exists(folder + "\\terrain"))
-    folders.Add(folder + "\\terrain\\");
-}
-
-bool AGE_Frame::LoadSLP(AGE_SLP *graphic)
-{
-    if(graphic->slpID == graphic->lastSlpID)
-    {
-        return true;
-    }
-    graphic->lastSlpID = graphic->slpID;
-
-    if(UseLooseSLP)
-    {
-        if(!graphic->filename.empty())
-        {
-            if(GameVersion == EV_Tapsa)
-            {
-                graphic->filename.Replace("<x#>", AlexZoom, false);
-            }
-            if(GameVersion == EV_DE2)
-            {
-                size_t nameLength = graphic->filename.length();
-                if (nameLength >= 3 &&
-                    graphic->filename[nameLength - 2] == 'x' &&
-                    graphic->filename[nameLength - 1] == '1')
-                {
-                    graphic->filename[nameLength - 1] = AlexZoom[1];
-                }
-            }
-            wxString plainName = PathSLP + "\\" + graphic->filename;
-            if(wxFileName(plainName + ".smx").FileExists())
-            {
-               graphic->slp = GG::LoadSMX(plainName + ".smx");
-               if(graphic->slp) return true;
-            }
-            if(wxFileName(plainName + ".smp").FileExists())
-            {
-               graphic->slp = GG::LoadSMP(plainName + ".smp");
-               if(graphic->slp) return true;
-            }
-            if(wxFileName(plainName + ".slp").FileExists())
-            {
-               graphic->slp = GG::LoadSLP(plainName + ".slp");
-               if(graphic->slp) return true;
-            }
-        }
-    }
-    if(LooseHD)
-    {
-        wxArrayString folders;
-        if(!graphic->filename.empty())
-        {
-            if(UseMod) addSLPFolders4SLPs(folders, FolderDRS2);
-            addSLPFolders4SLPs(folders, FolderDRS);
-            for(int i=0; i < folders.size(); ++i)
-            {
-                graphic->slp = GG::LoadSLP(folders[i] + graphic->filename + ".slp");
-                if(graphic->slp) return true;
-            }
-            folders.clear();
-        }
-        if(UseMod) addDRSFolders4SLPs(folders, FolderDRS2);
-        addDRSFolders4SLPs(folders, FolderDRS);
-        for(int i=0; i < folders.size(); ++i)
-        {
-            // HD uses slp ID instead
-            graphic->slp = GG::LoadSLP(folders[i] + lexical_cast<std::string>(graphic->slpID) + ".slp");
-            if(graphic->slp) return true;
-        }
-    }
-    else
-    {
-        for (genie::DrsFile *file : datafiles)
-        {
-            graphic->slp = GG::LoadSLP(*file, graphic->slpID);
-            if(graphic->slp) return true;
-        }
-    }
-    graphic->slp.reset();
-    graphic->bitmap = wxNullBitmap;
-    return false;
-}
-
-void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
-{
-    if (graphic->slp == nullptr)
-    {
-        graphic->bitmap = wxNullBitmap; SetStatusText("No sprite to load", 1); return;
-    }
-    uint32_t numFrames = graphic->slp->getFrameCount();
-    if (graphic->frameID < 0 || graphic->frameID >= numFrames)
-    {
-        graphic->bitmap = wxNullBitmap;
-        SetStatusText(wxString::Format("No frame %d within %u frames to load", graphic->frameID, numFrames), 1);
-        return;
-    }
-    if (palettes.empty())
-    {
-        graphic->bitmap = wxNullBitmap; SetStatusText("No palettes loaded", 1); return;
-    }
-    SetStatusText(wxString::Format("Looking for frame %d", graphic->frameID), 1);
-    if (graphic->slp->isSMX())
-    {
-        genie::SmxFramePtr frame;
-        try
-        {
-            genie::SmxFile *smx = static_cast<genie::SmxFile *>(graphic->slp.get());
-            frame = smx->getFrame(graphic->frameID);
-        }
-        catch (const std::out_of_range &) {}
-
-        const int width = frame->getWidth();
-        const int height = frame->getHeight();
-        graphic->xpos = -frame->getHotspotX();
-        graphic->ypos = -frame->getHotspotY();
-        const int area = width * height;
-        std::vector<uint8_t> rgbdata(area * 4, 0);
-        const genie::SmxFrameData* imgdata = &frame->img_data;
-        const std::vector<genie::Color>* pal = &palettes.front();
-        size_t pal_chooser = frame->palette_id;
-        if (pal_chooser < palettes.size())
-        {
-            pal = &palettes[pal_chooser];
-        }
-        if (!pal->empty())
-        {
-            int32_t mainOffX = frame->getMainLayerOffsetX();
-            int32_t mainOffY = frame->getMainLayerOffsetY();
-            size_t mainWidth = frame->getMainLayerWidth();
-            for (size_t i = 0; i < imgdata->pixel_indexes.size(); ++i)
-            {
-                int flat = (i / mainWidth + mainOffY) * width + i % mainWidth + mainOffX;
-                int loc = 3 * flat;
-                int locA = 3 * area + flat;
-                uint16_t colorId = 0x3FF & imgdata->pixel_indexes[i];
-                genie::Color rgba = colorId < pal->size() ? (*pal)[colorId] : ColorNotFound;
-                rgbdata[loc] = rgba.r;
-                rgbdata[loc + 1] = rgba.g;
-                rgbdata[loc + 2] = rgba.b;
-                rgbdata[locA] = imgdata->alpha_channel[i];
-            }
-            // In case of using separate player color palette
-            bool sep_pcp = pc_palettes.size();
-            if (sep_pcp)
-            {
-                pal = &pc_palettes.front();
-            }
-            // Apply shadows
-            if (ShowShadows)
-            {
-                int32_t offX = frame->getShadowLayerOffsetX();
-                int32_t offY = frame->getShadowLayerOffsetY();
-                for (size_t i = 0; i < imgdata->shadow_mask.size(); ++i)
-                {
-                    int flat = (imgdata->shadow_mask[i].y + offY) * width + imgdata->shadow_mask[i].x + offX;
-                    int loc = 3 * flat;
-                    int locA = 3 * area + flat;
-                    rgbdata[loc] = 0;
-                    rgbdata[loc + 1] = 0;
-                    rgbdata[loc + 2] = 0;
-                    rgbdata[locA] = static_cast<uint8_t>(imgdata->shadow_mask[i].index);
-                }
-            }
-            // Apply player color
-            for (size_t i = 0; i < imgdata->player_color_mask.size(); ++i)
-            {
-                int flat = (imgdata->player_color_mask[i].y + mainOffY) * width + imgdata->player_color_mask[i].x + mainOffX;
-                int loc = 3 * flat;
-                int locA = 3 * area + flat;
-                uint16_t colorId = 0x3FF & imgdata->player_color_mask[i].index;
-                genie::Color rgba = colorId < pal->size() ? (*pal)[colorId] : ColorNotFound;
-                rgbdata[loc] = rgba.r;
-                rgbdata[loc + 1] = rgba.g;
-                rgbdata[loc + 2] = rgba.b;
-                rgbdata[locA] = 255;
-            }
-            // Apply outlines
-            if (ShowOutline)
-            {
-                int32_t offX = frame->getOutlineLayerOffsetX();
-                int32_t offY = frame->getOutlineLayerOffsetY();
-                // Player color
-                for (size_t i = 0; i < imgdata->outline_pc_mask.size(); ++i)
-                {
-                    int flat = (imgdata->outline_pc_mask[i].y + offY) * width + imgdata->outline_pc_mask[i].x + offX;
-                    int loc = 3 * flat;
-                    int locA = 3 * area + flat;
-                    genie::Color rgba = sep_pcp ? pal->front() : (*pal)[playerColorID];
-                    rgbdata[loc] = rgba.r;
-                    rgbdata[loc + 1] = rgba.g;
-                    rgbdata[loc + 2] = rgba.b;
-                    rgbdata[locA] = exportFrame ? 200 : 255;
-                }
-            }
-        }
-        unsigned char* pic = (unsigned char*)rgbdata.data();
-        unsigned char* trans = pic + area * 3;
-        wxImage img(width, height, pic, trans, true);
-        if (centralize)
-        {
-            int left = frame->getHotspotX(), right = width - left,
-                top = frame->getHotspotY(), bottom = height - top;
-            int half_width = left > right ? left : right;
-            int half_height = top > bottom ? top : bottom;
-            img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(std::min(half_width, half_width - left), std::min(half_height, half_height - top)));
-        }
-        graphic->bitmap = wxBitmap(img, 24);
-        return;
-    }
-    if (graphic->slp->isSMP())
-    {
-        genie::SmpFramePtr frame;
-        try
-        {
-            genie::SmpFile *smp = static_cast<genie::SmpFile *>(graphic->slp.get());
-            frame = smp->getFrame(graphic->frameID);
-        }
-        catch (const std::out_of_range &) {}
-
-        const int width = frame->getWidth();
-        const int height = frame->getHeight();
-        graphic->xpos = -frame->getHotspotX();
-        graphic->ypos = -frame->getHotspotY();
-        const int area = width * height;
-        std::vector<uint8_t> rgbdata(area * 4, 0);
-        uint8_t *val = rgbdata.data();
-        uint8_t *alpha = val + area * 3;
-        const genie::SmpFrameData *imgdata = &frame->img_data;
-        const std::vector<genie::Color> *pal = &palettes.front();
-        if(!pal->empty())
-        {
-            for(int i=0; i < area; ++i)
-            {
-                size_t pal_chooser = 0x3F & imgdata->pixel_indexes[i] >> 10;
-                if(pal_chooser < palettes.size())
-                {
-                    pal = &palettes[pal_chooser];
-                }
-                genie::Color rgba = (*pal)[0x3FF & imgdata->pixel_indexes[i]];
-                *val++ = rgba.r;
-                *val++ = rgba.g;
-                *val++ = rgba.b;
-                *alpha++ = imgdata->alpha_channel[i];
-            }
-            // In case of using separate player color palette
-            bool sep_pcp = pc_palettes.size();
-            if(sep_pcp)
-            {
-                pal = &pc_palettes.front();
-            }
-            // Apply player color
-            for(int i=0; i < imgdata->player_color_mask.size(); ++i)
-            {
-                int flat = imgdata->player_color_mask[i].y * width + imgdata->player_color_mask[i].x;
-                int loc = 3 * flat;
-                int locA = 3 * area + flat;
-                genie::Color rgba = (*pal)[0x3FF & imgdata->player_color_mask[i].index];
-                rgbdata[loc] = rgba.r;
-                rgbdata[loc + 1] = rgba.g;
-                rgbdata[loc + 2] = rgba.b;
-                rgbdata[locA] = 255;
-            }
-        }
-        unsigned char *pic = (unsigned char*)rgbdata.data();
-        unsigned char *trans = pic + area * 3;
-        wxImage img(width, height, pic, trans, true);
-        if(centralize)
-        {
-            int left = frame->getHotspotX(), right = width - left,
-                top = frame->getHotspotY(), bottom = height - top;
-            int half_width = left > right ? left : right;
-            int half_height = top > bottom ? top : bottom;
-            img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(std::min(half_width, half_width - left), std::min(half_height, half_height - top)));
-        }
-        graphic->bitmap = wxBitmap(img, 24);
-        return;
-    }
-    if (!graphic->slp->isSLP())
-    {
-        graphic->bitmap = wxNullBitmap;
-        SetStatusText("Impossible", 1);
-        return;
-    }
-    genie::SlpFramePtr frame;
-    try
-    {
-        genie::SlpFile *slp = static_cast<genie::SlpFile *>(graphic->slp.get());
-        frame = slp->getFrame(graphic->frameID);
-    }
-    catch (const std::out_of_range &) {}
-
-    const int width = frame->getWidth();
-    const int height = frame->getHeight();
-    const short pal_chooser = frame->getProperties() >> 16 & 255;
-    graphic->xpos = graphic->flip ? frame->getHotspotX() - width : -frame->getHotspotX();
-    graphic->ypos = -frame->getHotspotY();
-    const int area = width * height;
-    std::vector<uint8_t> rgbdata(area * 4, 0);
-    const genie::SlpFrameData *imgdata = &frame->img_data;
-    graphic->is32 = frame->is32bit();
-    if(graphic->is32)
-    {
-        uint8_t *val = rgbdata.data();
-        uint8_t *alpha = val + area * 3;
-        for(int i=0; i < area; ++i)
-        {
-            uint32_t bgra = imgdata->bgra_channels[i];
-            *val++ = uint8_t(bgra >> 16);
-            *val++ = uint8_t(bgra >> 8);
-            *val++ = uint8_t(bgra);
-            *alpha++ = uint8_t(bgra >> 24);
-        }
-        // Apply transparency
-        for (int i = 0; i < imgdata->transparency_mask.size(); ++i)
-        {
-            int flat = imgdata->transparency_mask[i].y * width + imgdata->transparency_mask[i].x;
-            int locA = 3 * area + flat;
-            rgbdata[locA] = 255 - rgbdata[locA];
-        }
-        // Hack for interface files
-        if (!graphic->xpos && !graphic->ypos)
-        {
-            graphic->xpos = -width / 2;
-            graphic->ypos = -height / 3 * 2;
-        }
-    }
-    else
-    {
-        bool simpleShadows = imgdata->special_shadow_mask.empty();
-        const std::vector<genie::Color> *pal = &palettes.front();
-        if(imgdata->palette.size())
-        {
-            pal = &imgdata->palette;
-        }
-        else if(pal_chooser != 0 && pal_chooser < palettes.size())
-        {
-            pal = &palettes[pal_chooser];
-        }
-        if(!pal->empty())
-        {
-            int32_t mainOffX = frame->getMainLayerOffsetX();
-            int32_t mainOffY = frame->getMainLayerOffsetY();
-            size_t mainWidth = frame->getMainLayerWidth();
-            for (size_t i = 0; i < imgdata->pixel_indexes.size(); ++i)
-            {
-                int flat = (i / mainWidth + mainOffY) * width + i % mainWidth + mainOffX;
-                int loc = 3 * flat;
-                int locA = 3 * area + flat;
-                uint16_t colorId = imgdata->pixel_indexes[i];
-                genie::Color rgba = colorId < pal->size() ? (*pal)[colorId] : ColorNotFound;
-                rgbdata[loc] = rgba.r;
-                rgbdata[loc + 1] = rgba.g;
-                rgbdata[loc + 2] = rgba.b;
-                rgbdata[locA] = imgdata->alpha_channel[i];
-            }
-            // In case of using separate player color palette
-            bool sep_pcp = pc_palettes.size();
-            if(sep_pcp)
-            {
-                pal = &pc_palettes.front();
-            }
-            // Apply shadows
-            if (ShowShadows)
-            {
-                if (simpleShadows)
-                {
-                    for (int i = 0; i < imgdata->shadow_mask.size(); ++i)
-                    {
-                        int flat = (imgdata->shadow_mask[i].y + mainOffY) * width + imgdata->shadow_mask[i].x + mainOffX;
-                        int loc = 3 * flat;
-                        int locA = 3 * area + flat;
-                        rgbdata[loc] = 0;
-                        rgbdata[loc + 1] = 0;
-                        rgbdata[loc + 2] = 0;
-                        rgbdata[locA] = 127;
-                    }
-                }
-                else
-                {
-                    int32_t offX = frame->getShadowLayerOffsetX();
-                    int32_t offY = frame->getShadowLayerOffsetY();
-                    for (size_t i = 0; i < imgdata->special_shadow_mask.size(); ++i)
-                    {
-                        int flat = (imgdata->special_shadow_mask[i].y + offY) * width + imgdata->special_shadow_mask[i].x + offX;
-                        int loc = 3 * flat;
-                        int locA = 3 * area + flat;
-                        rgbdata[loc] = 0;
-                        rgbdata[loc + 1] = 0;
-                        rgbdata[loc + 2] = 0;
-                        rgbdata[locA] = static_cast<uint8_t>(imgdata->special_shadow_mask[i].index);
-                    }
-                }
-            }
-            // Apply player color
-            for(int i=0; i < imgdata->player_color_mask.size(); ++i)
-            {
-                int flat = (imgdata->player_color_mask[i].y + mainOffY) * width + imgdata->player_color_mask[i].x + mainOffX;
-                int loc = 3 * flat;
-                int locA = 3 * area + flat;
-                genie::Color rgba = (*pal)[imgdata->player_color_mask[i].index + (sep_pcp ? 0 : playerColorStart)];
-                rgbdata[loc] = rgba.r;
-                rgbdata[loc + 1] = rgba.g;
-                rgbdata[loc + 2] = rgba.b;
-                if(exportFrame)
-                {
-                    rgbdata[locA] = 230 + imgdata->player_color_mask[i].index;
-                }
-                else
-                {
-                    rgbdata[locA] = 255;
-                }
-            }
-            // Apply outlines
-            if(ShowOutline)
-            {
-                // Shield
-                for(int i=0; i < imgdata->shield_mask.size(); ++i)
-                {
-                    int flat = imgdata->shield_mask[i].y * width + imgdata->shield_mask[i].x;
-                    int loc = 3 * flat;
-                    int locA = 3 * area + flat;
-                    rgbdata[loc] = 0;
-                    rgbdata[loc + 1] = 255;
-                    rgbdata[loc + 2] = 0;
-                    rgbdata[locA] = exportFrame ? 201: 255;
-                }
-                // Player color
-                for(int i=0; i < imgdata->outline_pc_mask.size(); ++i)
-                {
-                    int flat = (imgdata->outline_pc_mask[i].y + mainOffY) * width + imgdata->outline_pc_mask[i].x + mainOffX;
-                    int loc = 3 * flat;
-                    int locA = 3 * area + flat;
-                    genie::Color rgba = sep_pcp ? pal->front() : (*pal)[playerColorID];
-                    rgbdata[loc] = rgba.r;
-                    rgbdata[loc + 1] = rgba.g;
-                    rgbdata[loc + 2] = rgba.b;
-                    rgbdata[locA] = exportFrame ? 200: 255;
-                }
-            }
-        }
-    }
-    unsigned char *pic = (unsigned char*)rgbdata.data();
-    unsigned char *trans = pic + area * 3;
-    wxImage img(width, height, pic, trans, true);
-    if(graphic->flip) img = img.Mirror();
-    if(centralize)
-    {
-        int left = frame->getHotspotX(), right = width - left,
-            top = frame->getHotspotY(), bottom = height - top;
-        int half_width = left > right ? left : right;
-        int half_height = top > bottom ? top : bottom;
-        img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(std::min(half_width, half_width - left), std::min(half_height, half_height - top)));
-    }
-    graphic->bitmap = wxBitmap(img, 24);
-}
-
-void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
-{
-    wxImage img("Testi.png", wxBITMAP_TYPE_PNG);
-    unsigned char *pic = img.GetData();
-    if(!img.HasAlpha()) img.InitAlpha();
-    if(!img.HasAlpha())
-    {
-        wxMessageBox("Alpha channel missing", "Aborting...");
-        return;
-    }
-    unsigned char *trans = img.GetAlpha();
-    if (!graphic->slp || !graphic->slp->isSLP())
-    {
-        wxMessageBox("Congrats seeing this message", "No SLP");
-        return;
-    }
-    genie::SlpFramePtr frame;
-    try
-    {
-        genie::SlpFile *slp = static_cast<genie::SlpFile *>(graphic->slp.get());
-        frame = slp->getFrame(graphic->frameID);
-    }
-    catch (const std::out_of_range &) {}
-    if(!frame)
-    {
-        wxMessageBox("Congrats seeing this message", "No SLP frame " + lexical_cast<std::string>(graphic->frameID));
-        return;
-    }
-    genie::SlpFrameData *imgdata = &frame->img_data;
-    if(frame->is32bit())
-    {
-        frame->setSize(img.GetWidth(), img.GetHeight());
-        uint32_t *val = imgdata->bgra_channels.data();
-        for(int y=0; y < img.GetHeight(); ++y)
-        for(int x=0; x < img.GetWidth(); ++x)
-        {
-            unsigned char red = *pic++;
-            unsigned char green = *pic++;
-            unsigned char blue = *pic++;
-            unsigned char alpha = *trans++;
-            *val++ = (red << 16) + (green << 8) + blue + (alpha << 24);
-        }
-        wxMessageBox("Frame image filled from PNG", "SLP");
-    }
-    else
-    {
-        wxMessageBox("No 8-bit frame support yet", "SLP");
-    }
-}
-
-/* Check if File Exists
-
-bool AGE_Frame::FileExists(const char * value)
-{
-    FILE * handle;
-    handle = fopen(value, "rb");
-    if(handle)
-    {
-        fclose(handle);
-        return true;
-    }
-    return false;
-}*/
-
 void AGE_Frame::LoadTXT(const wxString &filename)
 {
     std::string line(filename);
     std::ifstream infile(line);
-    while(getline(infile, line))
+    while (getline(infile, line))
     {
         size_t num = 0;
-        while(isdigit(static_cast<uint8_t>(line[num])))
+        while (isdigit(static_cast<uint8_t>(line[num])))
         {
             ++num;
         }
-        if(num)
+        if (num)
         {
             size_t ID = lexical_cast<size_t>(line.substr(0, num));
             size_t beg = line.find('"', num) + 1;
             size_t len = line.find('"', beg) - beg;
-            if(len) LangTxt[ID] = line.substr(beg, len);
+            if (len) LangTxt[ID] = line.substr(beg, len);
         }
     }
 }
 
 wxString AGE_Frame::TranslatedText(int ID, int letters)
 {
-    if(ID < 0) return "";
+    if (ID < 0) return "";
     wxString result = "";
-    if(UseTXT)
+    if (UseTXT)
     {
         result = LangTxt[ID];
         result.Replace("\\n", "\r\n");
@@ -4100,18 +1968,18 @@ wxString AGE_Frame::TranslatedText(int ID, int letters)
     }
     else
     {
-        if(sizeof(size_t) > 4 || WriteLangs)
+        if (sizeof(size_t) > 4 || WriteLangs)
         {
-            if(LangsUsed & 4 && !(result = LangXP->getString(ID)).empty()){}
-            else if(LangsUsed & 2 && !(result = LangX->getString(ID)).empty()){}
-            else if(LangsUsed & 1 && !(result = Lang->getString(ID)).empty()){}
+            if (LangsUsed & 4 && !(result = LangXP->getString(ID)).empty()) {}
+            else if (LangsUsed & 2 && !(result = LangX->getString(ID)).empty()) {}
+            else if (LangsUsed & 1 && !(result = Lang->getString(ID)).empty()) {}
         }
         else // Does not work when building as 64-bit
         {
             char *buffer = new char[letters];
-            if(LangsUsed & 4 && LoadStringA(LanguageDLL[2], ID, buffer, letters)) result = buffer;
-            else if(LangsUsed & 2 && LoadStringA(LanguageDLL[1], ID, buffer, letters)) result = buffer;
-            else if(LangsUsed & 1 && LoadStringA(LanguageDLL[0], ID, buffer, letters)) result = buffer;
+            if (LangsUsed & 4 && LoadStringA(LanguageDLL[2], ID, buffer, letters)) result = buffer;
+            else if (LangsUsed & 2 && LoadStringA(LanguageDLL[1], ID, buffer, letters)) result = buffer;
+            else if (LangsUsed & 1 && LoadStringA(LanguageDLL[0], ID, buffer, letters)) result = buffer;
             delete[] buffer;
         }
         result.Replace("\n", "\r\n");
@@ -4122,12 +1990,12 @@ wxString AGE_Frame::TranslatedText(int ID, int letters)
 void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &event)
 {
     event.Skip();
-    TextIndexControl *control = static_cast<TextIndexControl*>(event.GetEventObject());
-    if(control->IsModified())
+    TextIndexControl *control = static_cast<TextIndexControl *>(event.GetEventObject());
+    if (control->IsModified())
     {
         control->DiscardEdits();
-        if(control->index < 0) return;
-        if(!WriteLangs)
+        if (control->index < 0) return;
+        if (!WriteLangs)
         {
             wxString message = "In order to edit language entries, check write language files in the open files dialog and reopen them.";
             popUp.post(message, "Warning");
@@ -4138,390 +2006,21 @@ void AGE_Frame::OnKillFocus_LangDLL(wxFocusEvent &event)
         wxString text(control->GetValue());
         text.Replace("\r\n", "\n");
         std::string Name = std::string(text);
-        if(LangWriteToLatest)
+        if (LangWriteToLatest)
         {
-            if(LangsUsed & 4) LangXP->setString(ID, Name);
-            else if(LangsUsed & 2) LangX->setString(ID, Name);
-            else if(LangsUsed & 1) Lang->setString(ID, Name);
+            if (LangsUsed & 4) LangXP->setString(ID, Name);
+            else if (LangsUsed & 2) LangX->setString(ID, Name);
+            else if (LangsUsed & 1) Lang->setString(ID, Name);
         }
         else
         {
-            if(LangsUsed & 4 && !LangXP->getString(ID).empty()) LangXP->setString(ID, "");
-            if(LangsUsed & 2 && !LangX->getString(ID).empty()) LangX->setString(ID, "");
-            if(LangsUsed & 1) Lang->setString(ID, Name);
+            if (LangsUsed & 4 && !LangXP->getString(ID).empty()) LangXP->setString(ID, "");
+            if (LangsUsed & 2 && !LangX->getString(ID).empty()) LangX->setString(ID, "");
+            if (LangsUsed & 1) Lang->setString(ID, Name);
         }
-        SetStatusText("Wrote \""+Name+"\" to "+lexical_cast<std::string>(ID), 0);
+        SetStatusText("Wrote \"" + Name + "\" to " + lexical_cast<std::string>(ID), 0);
     }
 }
-
-void AGE_Frame::InitSearch(const wxString &yes, const wxString &no)
-{
-    SearchYes = wxStringTokenize(yes, "|");
-    SearchNo = wxStringTokenize(no, "|");
-}
-
-bool AGE_Frame::SearchMatches(const wxString &hay)
-{
-    bool matches = false;
-
-    // If there is no search text, list normally.
-    if(SearchYes.empty())
-    {
-        matches = true;
-    }
-    else // If search text has a match.
-    {
-        if(SearchAnd) // All search parts must match.
-        {
-            matches = true;
-            for(const wxString &pin: SearchYes)
-            if(wxNOT_FOUND == hay.Find(pin))
-            {
-                matches = false;
-                break;
-            }
-        }
-        else // Only one match needed.
-        {
-            for(const wxString &pin: SearchYes)
-            if(wxNOT_FOUND != hay.Find(pin))
-            {
-                matches = true;
-                break;
-            }
-        }
-    }
-
-    // We don't need to check for excluding if it's not going to be listed.
-    // If there is no exclude text, list normally.
-    if(!matches || SearchNo.empty())
-    {
-        return matches;
-    }
-    else // If exclude text has a match.
-    {
-        if(ExcludeAnd) // All search parts must match.
-        {
-            matches = false;
-            for(const wxString &pin: SearchNo)
-            if(wxNOT_FOUND == hay.Find(pin))
-            {
-                matches = true;
-                break;
-            }
-        }
-        else // Only one match needed.
-        {
-            for(const wxString &pin: SearchNo)
-            if(wxNOT_FOUND != hay.Find(pin))
-            {
-                matches = false;
-                break;
-            }
-        }
-    }
-
-    return matches;
-}
-
-//  Following kill focuses are used to update lists in user interface
-
-void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
-{
-    for(size_t loop = 0; loop < 2; ++loop) // Custom search filters
-    {
-        if(event.GetId() == Graphics_SearchFilters[loop]->GetId())
-        {
-            ListGraphics(false);
-            Graphics_Graphics_Search->SetFocus();
-        }
-        else if(event.GetId() == Terrains_SearchFilters[loop]->GetId())
-        {
-            ListTerrains1(false);
-            Terrains_Terrains_Search->SetFocus();
-        }
-        else if(event.GetId() == TechTrees_MainList_Units_SearchFilters[loop]->GetId())
-        {
-            ListTTUnits();
-            TechTrees_MainList_Units_Search->SetFocus();
-        }
-        else if(event.GetId() == TechTrees_MainList_Buildings_SearchFilters[loop]->GetId())
-        {
-            ListTTBuildings();
-            TechTrees_MainList_Buildings_Search->SetFocus();
-        }
-        else if(event.GetId() == TechTrees_MainList_Researches_SearchFilters[loop]->GetId())
-        {
-            ListTTResearches();
-            TechTrees_MainList_Researches_Search->SetFocus();
-        }
-        else if(event.GetId() == Research_SearchFilters[loop]->GetId())
-        {
-            ListResearches(false);
-            Research_Research_Search->SetFocus();
-        }
-        else if(event.GetId() == Sounds_Items_SearchFilters[loop]->GetId())
-        {
-            ListSoundItems();
-            Sounds_Items_Search->SetFocus();
-        }
-    }
-}
-
-/*void AGE_Frame::Listing(wxListBox *List, wxArrayString &names, list<void*> &data)
-{
-    int selections = List->GetSelections(Items);
-    int listsize = List->GetCount(); // Size before
-    chrono::time_point<chrono::system_clock> startTime = chrono::system_clock::now();
-    if(How2List == ADD)
-    {
-        if(names.size() > listsize)
-        {
-            List->Append(names.Last());
-            SetStatusText("Added 1 visible", 2);
-        }
-        else
-        {
-            SetStatusText("Added 1 hidden", 2);
-        }
-        SetStatusText("Edits: "+lexical_cast<std::string>(popUp.unSaved)+" + 1", 3);
-        ++popUp.unSaved;
-    }
-    else if(How2List == DEL)
-    {
-        if(20 * selections < listsize)
-        {
-            for(int sel = Items.size(); sel--> 0;)
-            List->Delete(Items.Item(sel));
-            SetStatusText("Deleted 1 by 1", 2);
-        }
-        else
-        {
-            List->Set(names);
-            SetStatusText("Listed all again", 2);
-        }
-        SetStatusText("Edits: "+lexical_cast<std::string>(popUp.unSaved)+" + "+lexical_cast<std::string>(selections), 3);
-        popUp.unSaved += selections;
-    }
-    else if(How2List == PASTE && Paste11)
-    {
-        for(int sel = 0; sel < selections; ++sel)
-        {
-            List->SetString(Items.Item(sel), names[Items.Item(sel)]);
-        }
-        SetStatusText("Pasted 1 to 1", 2);
-        SetStatusText("Edits: "+lexical_cast<std::string>(popUp.unSaved)+" + "+lexical_cast<std::string>(selections), 3);
-        popUp.unSaved += selections;
-    }
-    else
-    {
-        List->Set(names);
-        if(How2List != SEARCH)
-        {
-            SetStatusText("Listed all again", 2);
-            if(How2List == ENABLE)
-            {
-                SetStatusText("Edits: "+lexical_cast<std::string>(popUp.unSaved)+" + "+lexical_cast<std::string>(selections), 3);
-                popUp.unSaved += selections;
-            }
-            else // Need more input to calculate edits for paste and inserts.
-            {
-                SetStatusText("Edits: "+lexical_cast<std::string>(popUp.unSaved)+" + 1", 3);
-                ++popUp.unSaved;
-            }
-        }
-    }
-    bool showTime = ((chrono::duration_cast<chrono::milliseconds>(startTime - endTime)).count() > 1000) ? true : false;
-    endTime = chrono::system_clock::now();
-    listsize = List->GetCount(); // Size after
-    if(listsize == 0) return;
-
-    // Data pointers need to be reassigned always.
-    auto it = data.begin();
-    for(size_t loop = 0; loop < listsize; ++loop)
-    {
-        List->SetClientData(loop, *it++);
-    }
-    if(showTime)
-    SetStatusText("Re-listing time: "+lexical_cast<std::string>((chrono::duration_cast<chrono::milliseconds>(endTime - startTime)).count())+" ms", 1);
-
-    // Set selections and first visible item.
-    if(How2List != SEARCH)
-        List->SetFocus();
-    if(selections == 0)
-    {
-        List->SetSelection(0);
-        How2List = SEARCH;
-        return;
-    }
-    if(How2List == ADD || Items.Item(0) >= listsize)
-    {
-        if(How2List == ADD)
-        for(int sel = 0; sel < Items.size(); ++sel)
-        List->Deselect(Items.Item(sel));
-        //List->SetFirstItem(listsize - 1);
-        List->SetSelection(listsize - 1);
-        How2List = SEARCH;
-        return;
-    }
-    if(FirstVisible != -1)
-    {
-        List->SetFirstItem(FirstVisible);
-        FirstVisible = -1;
-    }
-    else
-    {
-        int first = Items.Item(0) - 3;
-        if(first >= 0) List->SetFirstItem(first);
-    }
-    List->SetSelection(Items.Item(0));
-    How2List = SEARCH;
-}*/
-
-void AGE_Frame::RefreshList(ProperList *list, std::vector<int> *oldies)
-{
-    unsigned long cookie;
-    size_t first_visible = list->GetVisibleRowsBegin();
-    int first_selected = list->GetFirstSelected(cookie);
-    //auto last_item_count = list->GetItemCount();
-    size_t name_count = list->names.size();
-
-    //list->SetItemCount(0); // Clears selections and makes all calls to SetItemPosition be ignored.
-    list->SetItemCount(name_count);
-    if(name_count)
-    {
-        // Set selections and first visible item.
-        if(first_selected == wxNOT_FOUND)
-        {
-            first_selected = 0;
-        }
-        list->DeselectAll();
-        if(How2List == ADD || first_selected >= name_count)
-        {
-            first_selected = name_count - 1;
-        }
-        list->ScrollToRow(first_visible);
-        if(Reselection && How2List != ADD && How2List != DEL && oldies)
-        {
-            // Select old indexes again.
-            auto old = oldies->crbegin();
-            auto it = list->indexes.crbegin();
-            first_selected = 0;
-            while(old != oldies->crend() && it != list->indexes.crend())
-            {
-                if(*it == *old)
-                {
-                    first_selected = list->indexes.crend() - 1 - it;
-                    list->Select(first_selected, true);
-                    ++it;
-                    ++old;
-                }
-                else if(*it > *old)
-                {
-                    ++it;
-                }
-                else
-                {
-                    ++old;
-                }
-            }
-        }
-        if(!list->GetSelectedCount())
-        {
-            list->Select(first_selected, true);
-        }
-        list->EnsureVisible(first_selected);
-        if(How2List != SEARCH)
-        {
-            list->SetFocus();
-        }
-    }
-
-    How2List = SEARCH;
-    list->Refresh();
-}
-
-bool AGE_Frame::Paste11Check(size_t numPastes, size_t numCopies)
-{
-    bool result = numCopies == numPastes;
-    if(!result)
-    wxMessageBox(wxString::Format("%u copies, %u selections.\nClick paste tool to switch to sequential paste.", numCopies, numPastes), "Selections Mismatch");
-    return result;
-}
-
-void AGE_Frame::SearchAllSubVectors(ProperList *list, wxTextCtrl *topSearch, wxTextCtrl *subSearch)
-{
-    size_t selections = list->GetSelectedCount();
-    wxBusyCursor WaitCursor;
-    if (selections == 0) return;
-
-    unsigned long cookie;
-    std::set<uint32_t> topNums, subNums;
-    int last = list->GetFirstSelected(cookie);
-    for (size_t loop = 0; loop < selections; ++loop)
-    {
-        std::string line(list->names[last]);
-        last = list->GetNextSelected(cookie);
-        size_t found = line.find(" ", 3);
-        topNums.insert(lexical_cast<uint32_t>(line.substr(2, found - 2)));
-        subNums.insert(lexical_cast<uint32_t>(line.substr(2 + found, line.find(" ", found + 3) - found - 2)));
-    }
-    wxString topText;
-    for (unsigned num : topNums)
-    {
-        topText += " " + lexical_cast<std::string>(num) + " -|";
-    }
-    topSearch->SetValue(topText.Truncate(topText.size() - 1));
-    if (FilterAllSubs)
-    {
-        wxString subText;
-        for (unsigned num : subNums)
-        {
-            subText += " " + lexical_cast<std::string>(num) + " -|";
-        }
-        subSearch->SetValue(subText.Truncate(subText.size() - 1));
-    }
-}
-
-/*int AGE_Frame::FindItem(wxArrayInt &selections, int find, int min, int max)
-{
-    while(max >= min)
-    {
-        int mid = min + ((max - min) / 2);
-        if(find == selections.Item(mid)) return mid;
-        if(find > selections.Item(mid)) min = mid + 1;
-        else max = mid - 1;
-    }
-    return -1;
-}*/
-
-void AGE_Frame::getSelectedItems(const size_t selections, const ProperList *list, std::vector<int> &indexes)
-{
-    unsigned long cookie;
-    indexes.resize(selections);
-    int last = list->GetFirstSelected(cookie);
-    for(size_t sel = 0; sel < selections; ++sel)
-    {
-        indexes[sel] = list->indexes[last];
-        last = list->GetNextSelected(cookie);
-    }
-    SetStatusText("Times listed: "+lexical_cast<std::string>(++times_listed), 2);
-}
-
-// To show contents of last selected item instead of first selection.
-/*void AGE_Frame::SwapSelection(int last, wxArrayInt &selections)
-{
-    // This breaks erasing items :(
-    // Look if selections include the last selection.
-    int found = FindItem(selections, last, 0, selections.GetCount() - 1);
-    // Swap last selection with the first one.
-    if(found > 0)
-    {
-        int swap = selections.Item(found);
-        selections.RemoveAt(found);
-        selections.Insert(swap, 0);
-    }
-}*/
 
 wxString AGE_Frame::FormatFloat(float value)
 {
@@ -4586,365 +2085,6 @@ wxString AGE_Frame::CurrentTime()
     os << std::setw(2) << parts->tm_min;
     os << std::setw(2) << parts->tm_sec;
     return buffer.str();
-}
-
-AGE_SLPs* AGE_Frame::getCurrentGraphics()
-{
-    AGE_SLPs *graphic = 0;
-    if(currentDisplay == SHOW::GRAPHIC)
-    {
-        graphic = &gallery;
-    }
-    else if(currentDisplay == SHOW::UNIT)
-    {
-        graphic = &museum;
-    }
-    return graphic;
-}
-
-void AGE_Frame::OnFrameButton(wxCommandEvent &event)
-{
-    switch(event.GetId())
-    {
-        case eNextFrame:
-        {
-            AGE_SLPs *graphic = getCurrentGraphics();
-            if(graphic)
-            {
-                bool framesleft = false;
-                if(graphic->slp)
-                {
-                    ChooseNextFrame(*graphic, framesleft);
-                }
-                for(auto &delta: graphic->deltas)
-                {
-                    if(!delta.second.slp) continue;
-                    ChooseNextFrame(delta.second, framesleft);
-                }
-                HandleLastFrame(graphic->angles, framesleft, 1u);
-            }
-            break;
-        }
-        case ePrevFrame:
-        {
-            AGE_SLPs *graphic = getCurrentGraphics();
-            if(graphic)
-            {
-                bool framesleft = false;
-                if(graphic->slp)
-                {
-                    ChoosePreviousFrame(*graphic, framesleft);
-                }
-                for(auto &delta: graphic->deltas)
-                {
-                    if(!delta.second.slp) continue;
-                    ChoosePreviousFrame(delta.second, framesleft);
-                }
-                HandleLastFrame(graphic->angles, framesleft, 2u);
-            }
-            break;
-        }
-        case eFirstFrame:
-        {
-            bearing = 0.f;
-            setbearing = 1u;
-            break;
-        }
-        case eExportFrame:
-        {
-            exportFrame = true;
-            if(currentDisplay == SHOW::GRAPHIC)
-            {
-                if(LoadSLP(&gallery)) FrameToBitmap(&gallery, true);
-                if(gallery.bitmap.IsOk())
-                if(!gallery.bitmap.SaveFile(gallery.filename + ".png", wxBITMAP_TYPE_PNG))
-                    wxMessageBox("Saving frame as PNG failed", "SLP");
-            }
-            else wxMessageBox("Choose a graphic from graphics tab", "SLP");
-            exportFrame = false;
-            return;
-        }
-        case eImportFrame:
-        {
-            if(currentDisplay == SHOW::GRAPHIC)
-            {
-                BitmapToSLP(&gallery);
-            }
-            animater.Start(100);
-            return;
-        }
-        case eSaveSLP:
-        {
-            if(currentDisplay == SHOW::GRAPHIC)
-            {
-                if (!gallery.slp || !gallery.slp->isSLP())
-                {
-                    wxMessageBox("No SLP to save", "SLP");
-                    return;
-                }
-                if(gallery.filename.empty())
-                {
-                    wxMessageBox("No SLP filename", "SLP");
-                    return;
-                }
-                wxString name = gallery.filename + ".slp";
-                try
-                {
-                    genie::SlpFile *slp = static_cast<genie::SlpFile *>(gallery.slp.get());
-                    slp->saveAs(name.c_str());
-                    wxMessageBox("Saved SLP " + name, "SLP");
-                }
-                catch (const std::ios_base::failure &)
-                {
-                    wxMessageBox("Saving SLP failed", "SLP");
-                }
-            }
-            else wxMessageBox("Look at some graphic", "SLP");
-            return;
-        }
-        case eSLPTool:
-        {
-            slp_tool_on = !slp_tool_on;
-            slp_tool_layout->Show(slp_tool_on);
-            slp_sizer->Layout();
-            slp_window->Fit();
-            return;
-        }
-        case eZoom:
-        {
-            wxTextEntryDialog ted(this, "Enter new zooming %", "Set Scale Factor", lexical_cast<std::string>(int(slp_zoom * 100)));
-            ted.SetTextValidator(wxFILTER_DIGITS);
-            if(ted.ShowModal() == wxID_OK)
-            {
-                int zoom_percent = std::min(800, lexical_cast<int>(ted.GetValue()));
-                slp_zoom = zoom_percent / 100.f;
-                slp_zoom_btn->SetLabel("Zoom: " + lexical_cast<std::string>(zoom_percent) + " %");
-            }
-            break;
-        }
-        case eSLPMergeShadow:
-        {
-            genie::SlpFilePtr slp_src1(new genie::SlpFile());
-            genie::SlpFilePtr slp_src2(new genie::SlpFile());
-            try
-            {
-                slp_src1->load(slp_source1->GetPath().c_str());
-                slp_src1->freelock();
-                slp_src2->load(slp_source2->GetPath().c_str());
-                slp_src2->freelock();
-            }
-            catch(const std::ios_base::failure&)
-            {
-                wxMessageBox("Error reading SLP files", "SLP");
-                return;
-            }
-            for(uint32_t frame = 0; frame < slp_src1->getFrameCount(); ++frame)
-            {
-                genie::SlpFramePtr frame1, frame2;
-                try
-                {
-                    frame1 = slp_src1->getFrame(frame);
-                    frame2 = slp_src2->getFrame(frame);
-                }
-                catch(const std::out_of_range&)
-                {
-                    wxMessageBox("Frame count mismatch", "SLP");
-                    break;
-                }
-
-                int32_t offset_x, offset_y;
-                // Resize frame if the other frame is bigger in some dimension.
-                frame1->enlargeForMerge(*frame2, offset_x, offset_y);
-                uint32_t width = frame1->getWidth(), height = frame1->getHeight();
-
-                genie::SlpFrameData *imgdata = &frame1->img_data;
-                imgdata->shadow_mask.clear();
-                for (genie::XY16 const &shadow_pixel : frame2->img_data.shadow_mask)
-                {
-                    const uint32_t x = shadow_pixel.x + offset_x,
-                        y = shadow_pixel.y + offset_y,
-                        slot = y * width + x;
-                    if(x < width && y < height)
-                    {
-                        if(imgdata->alpha_channel[slot] == 0)
-                        {
-                            imgdata->shadow_mask.emplace_back(x, y);
-                        }
-                    }
-                }
-            }
-            try
-            {
-                slp_src1->saveAs(slp_target1->GetPath().c_str());
-                wxMessageBox("Merged SLP files", "SLP");
-            }
-            catch(const std::ios_base::failure&)
-            {
-                wxMessageBox("Saving SLP failed", "SLP");
-            }
-            return;
-        }
-        case eShowHotspot:
-        {
-            DrawHot = event.IsChecked();
-            break;
-        }
-        case eShowAngles:
-        {
-            DrawAngles = event.IsChecked();
-            break;
-        }
-        case eAnimSLP:
-        {
-            AnimSLP = event.IsChecked();
-            break;
-        }
-        case eShowShadows:
-        {
-            ShowShadows = event.IsChecked();
-            break;
-        }
-        case eShowOutline:
-        {
-            ShowOutline = event.IsChecked();
-            break;
-        }
-        case eShowDeltas:
-        {
-            ShowDeltas = event.IsChecked();
-            gallery.reload();
-            museum.reload();
-            break;
-        }
-        case eShowStack:
-        {
-            ShowStack = event.IsChecked();
-            gallery.reload();
-            museum.reload();
-            break;
-        }
-        case eShowAnnexes:
-        {
-            ShowAnnexes = event.IsChecked();
-            gallery.reload();
-            museum.reload();
-            break;
-        }
-        case eRotateAngles:
-        {
-            RotateAngles = event.IsChecked();
-            break;
-        }
-        case eShowTerrain:
-        {
-            DrawTerrain = event.IsChecked();
-            break;
-        }
-        case ePickBgColor:
-        {
-            wxColour back(slp_background->GetColour());
-            ViewBackR = back.Red();
-            ViewBackG = back.Green();
-            ViewBackB = back.Blue();
-            slp_background_brush = wxBrush(back);
-            break;
-        }
-        case eCollisionShape:
-        {
-            DrawCollisionShape = event.IsChecked();
-            break;
-        }
-        case eClearanceShape:
-        {
-            DrawClearanceShape = event.IsChecked();
-            break;
-        }
-        case eOutline:
-        {
-            DrawOutline = event.IsChecked();
-            break;
-        }
-        case ePlaySounds:
-        {
-            PlaySounds = event.IsChecked();
-            break;
-        }
-    }
-    slp_view->Refresh();
-}
-
-void AGE_Frame::OnFrameMouse(wxMouseEvent &event)
-{
-    int centerX, centerY;
-    CalcDrawCenter(slp_view, centerX, centerY);
-    wxPoint coords(slp_view->ScreenToClient(wxGetMousePosition()));
-    coords.x -= centerX;
-    coords.y -= centerY;
-    float anchor = FillMissingFrames ? 3.1416f : 4.7124f;
-    bearing = atan2(coords.x, -coords.y << 1) + anchor;
-    if (bearing >= PI2A)
-    {
-        assert(!FillMissingFrames);
-        bearing -= PI2A;
-    }
-    assert(bearing >= 0.f && PI2 > bearing);
-    setbearing = 1u;
-    slp_view->Refresh();
-}
-
-void AGE_Frame::OnFrameKey(wxKeyEvent &event)
-{
-    if(!dataset) return;
-    std::vector<int16_t*> dx(DeltaIDs.size()), dy(DeltaIDs.size());
-    if(GraphicIDs.size())
-    {
-        for(size_t i = 0; i < DeltaIDs.size(); ++i)
-        {
-            dx[i] = &dataset->Graphics[GraphicIDs.front()].Deltas[DeltaIDs[i]].OffsetX;
-            dy[i] = &dataset->Graphics[GraphicIDs.front()].Deltas[DeltaIDs[i]].OffsetY;
-        }
-    }
-    switch(event.GetKeyCode())
-    {
-        case 'A':
-        {
-            slp_extra_info = "X - 1";
-            for(size_t i = 0; i < dx.size(); ++i) --*dx[i];
-            break;
-        }
-        case 'D':
-        {
-            slp_extra_info = "X + 1";
-            for(size_t i = 0; i < dx.size(); ++i) ++*dx[i];
-            break;
-        }
-        case 'S':
-        {
-            slp_extra_info = "Y + 1";
-            for(size_t i = 0; i < dy.size(); ++i) ++*dy[i];
-            break;
-        }
-        case 'W':
-        {
-            slp_extra_info = "Y - 1";
-            for(size_t i = 0; i < dy.size(); ++i) --*dy[i];
-            break;
-        }
-        default: return;
-    }
-    popUp.unSaved += DeltaIDs.size();
-    wxCommandEvent e;
-    OnGraphicDeltaSelect(e);
-    gallery.reload();
-    slp_view->Refresh();
-}
-
-void AGE_Frame::OnExitSLP(wxCloseEvent &event)
-{
-    SubMenu_SLP->Check(eShowSLP, false);
-    wxCommandEvent closeSLP(wxEVT_MENU, eShowSLP);
-    closeSLP.SetInt(false);
-    OnMenuOption(closeSLP);
 }
 
 void AGE_Frame::OnExit(wxCloseEvent &event)
