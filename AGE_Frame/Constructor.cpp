@@ -85,8 +85,9 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
         Config.Read("Interface/KeepViewOnTop", &KeepViewOnTop, false);
         Config.Read("Interface/Paste11", &Paste11, false);
         Config.Read("Interface/Reselection", &Reselection, true);
-        Config.Read("Interface/MaxWindowWidthV2", &MaxWindowWidthV2, 0x4000);
-        Move(Config.ReadLong("Interface/WindowPosX", -1), Config.ReadLong("Interface/WindowPosY", -1));
+        Config.Read("Interface/MaxWindowWidthV2", &maxWindowWidthV2, 0x4000);
+        Config.Read("Interface/WindowPosX", &lastWindowPosX, 0);
+        Config.Read("Interface/WindowPosY", &lastWindowPosY, 0);
         Config.Read("Interface/Zooming", &slp_zoom, 1);
         Config.Read("Interface/ViewBackgroundR", &ViewBackR, 255);
         Config.Read("Interface/ViewBackgroundG", &ViewBackG, 255);
@@ -428,24 +429,34 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
 // Fancy scaling :)
 void AGE_Frame::FixSize(float scale)
 {
-    wxRect maxSize(wxDisplay(wxDisplay::GetFromWindow(this)).GetClientArea());
+    wxRect maxSize(wxDisplay(this).GetClientArea());
     float minScrollerWidth = 630 * scale;
     int ScrollerWidth = Units_ScrollSpace->GetMinSize().GetWidth();
     if (ScrollerWidth > minScrollerWidth)
     {
         int NewWidth = 270 * scale * (ScrollerWidth / minScrollerWidth) + ScrollerWidth;
-        MinWindowWidth = std::min<int>(NewWidth, maxSize.width);
+        minWindowWidth = std::min<int>(NewWidth, maxSize.width);
     }
     else
     {
-        MinWindowWidth = std::min<int>(900 * scale, maxSize.width);
+        minWindowWidth = std::min<int>(900 * scale, maxSize.width);
     }
-    SetSize(MinWindowWidth, std::min<int>(870 * scale, maxSize.height));
-    SetMinSize(wxSize(MinWindowWidth, std::min<int>(480 * scale, maxSize.height)));
-    if (MaxWindowWidthV2 < GetMinSize().GetWidth())
+    int windowHeight = std::min<int>(870 * scale, maxSize.height);
+    SetSize(minWindowWidth, windowHeight);
+    SetMinSize(wxSize(minWindowWidth, std::min<int>(480 * scale, maxSize.height)));
+    if (maxWindowWidthV2 < GetMinSize().GetWidth())
     {
-        MaxWindowWidthV2 = GetMinSize().GetWidth();
+        maxWindowWidthV2 = GetMinSize().GetWidth();
     }
-    SetMaxSize(wxSize(MaxWindowWidthV2, 0x4000));
+    SetMaxSize(wxSize(maxWindowWidthV2, 0x4000));
+    if (maxSize.width - minWindowWidth < lastWindowPosX)
+    {
+        lastWindowPosX = maxSize.width - minWindowWidth;
+    }
+    if (maxSize.height - windowHeight < lastWindowPosY)
+    {
+        lastWindowPosY = maxSize.height - windowHeight;
+    }
+    Move(std::max<int>(0, lastWindowPosX), std::max<int>(0, lastWindowPosY));
     Show(true);
 }

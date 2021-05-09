@@ -902,7 +902,8 @@ private:
         UseTXT = false, UseDRS, UseMod, UseExtra, FilterAllSubs, UseLooseSLP, UseLooseModSLP, LooseHD;
     enum ListMode {SEARCH, ADD, DEL, PASTE, INSNEW, INSPASTE, ENABLE};
     short How2List, techAttributeNameId, techResearchNameId;
-    int TimesOpened, GameVersion, DatUsed, SaveGameVersion, MaxWindowWidthV2, MinWindowWidth;
+    int TimesOpened, GameVersion, DatUsed, SaveGameVersion;
+    int maxWindowWidthV2, minWindowWidth, lastWindowPosX, lastWindowPosY;
     std::chrono::time_point<std::chrono::system_clock> endTime;
     genie::GameVersion GenieVersion = genie::GV_None;
     wxString DriveLetter, Language, CustomFolder;

@@ -23,7 +23,7 @@ void AGE_Frame::OnAnimationMenuOption(wxCommandEvent &event)
             if (ShowSLP)
             {
                 wxPoint parentPos = GetPosition();
-                parentPos.x += MinWindowWidth;
+                parentPos.x += minWindowWidth;
                 slp_window = new wxFrame(this, wxID_ANY, "SLP", parentPos, ASize(512, 600), KeepViewOnTop ? (wxSTAY_ON_TOP | wxDEFAULT_FRAME_STYLE) : wxDEFAULT_FRAME_STYLE);
                 //slp_window->SetBackgroundStyle(wxBG_STYLE_SYSTEM);
                 slp_window->SetBackgroundColour(wxColour(240, 240, 240));
@@ -1139,5 +1139,5 @@ void AGE_Frame::OnExitSLP(wxCloseEvent &event)
     SubMenu_SLP->Check(eShowSLP, false);
     wxCommandEvent closeSLP(wxEVT_MENU, eShowSLP);
     closeSLP.SetInt(false);
-    OnMenuOption(closeSLP);
+    OnAnimationMenuOption(closeSLP);
 }
