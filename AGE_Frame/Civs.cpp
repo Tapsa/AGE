@@ -339,10 +339,8 @@ void AGE_Frame::OnResourcesDelete(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     for(size_t loop2 = 0; loop2 < dataset->Civs.size(); ++loop2)
     {
-        for(size_t loop = selections; loop--> 0;)
-        dataset->Civs[loop2].Resources.erase(dataset->Civs[loop2].Resources.begin() + ResourceIDs[loop]);
+        DeleteFromList(dataset->Civs[loop2].Resources, ResourceIDs);
     }
-    How2List = DEL;
     ListResources();
 }
 

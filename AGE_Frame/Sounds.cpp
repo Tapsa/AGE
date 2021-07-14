@@ -733,10 +733,7 @@ void AGE_Frame::copySoundsFromCivToCiv(wxCommandEvent &event)
         }
         else
         {
-            for(size_t file = targets.size(); file--> 0;)
-            {
-                sound.Items.erase(sound.Items.begin() + targets[file]);
-            }
+            DeleteFromList(sound.Items, targets);
             sound.Items.insert(sound.Items.end(), soundCopies.begin(), soundCopies.end());
         }
     }
