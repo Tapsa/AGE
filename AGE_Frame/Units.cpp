@@ -1555,11 +1555,16 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
     if (selections > 0)
     {
         // Don't count disabled units anymore.
-        for (size_t loop = SelectedCivs.size(); loop-- > 0;)
+        std::vector<size_t> deSelectCivs;
+        deSelectCivs.reserve(SelectedCivs.size());
+        for (size_t loop = 0; loop < SelectedCivs.size(); ++loop)
         {
             if (dataset->Civs[SelectedCivs[loop]].UnitPointers[UnitIDs.front()] == 0)
-                SelectedCivs.erase(SelectedCivs.begin() + loop);
+            {
+                deSelectCivs.emplace_back(loop);
+            }
         }
+        DeleteFromList(SelectedCivs, deSelectCivs);
     }
     else
     {
@@ -2049,10 +2054,8 @@ void AGE_Frame::OnUnitDamageGraphicsDelete(wxCommandEvent &event)
     {
         if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
         if(dataset->Civs[civ].Units[UnitIDs.front()].DamageGraphics.size())
-        for(size_t loop = selections; loop--> 0;)
-        dataset->Civs[civ].Units[UnitIDs.front()].DamageGraphics.erase(dataset->Civs[civ].Units[UnitIDs.front()].DamageGraphics.begin() + DamageGraphicIDs[loop]);
+        DeleteFromList(dataset->Civs[civ].Units[UnitIDs.front()].DamageGraphics, DamageGraphicIDs);
     }
-    How2List = DEL;
     ListUnitDamageGraphics();
 }
 
@@ -2296,10 +2299,8 @@ void AGE_Frame::OnUnitAttacksDelete(wxCommandEvent &event)
     {
         if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
         if(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks.size())
-        for(size_t loop = selections; loop--> 0;)
-        dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks.erase(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks.begin() + AttackIDs[loop]);
+        DeleteFromList(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Attacks, AttackIDs);
     }
-    How2List = DEL;
     ListUnitAttacks();
 }
 
@@ -2542,10 +2543,8 @@ void AGE_Frame::OnUnitArmorsDelete(wxCommandEvent &event)
     {
         if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
         if(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours.size())
-        for(size_t loop = selections; loop--> 0;)
-        dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours.erase(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours.begin() + ArmorIDs[loop]);
+        DeleteFromList(dataset->Civs[civ].Units[UnitIDs.front()].Type50.Armours, ArmorIDs);
     }
-    How2List = DEL;
     ListUnitArmors();
 }
 
@@ -2970,10 +2969,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
-        for(size_t loop = selections; loop--> 0;)
-        dataset->UnitHeaders[UnitIDs.front()].TaskList.erase(dataset->UnitHeaders[UnitIDs.front()].TaskList.begin() + CommandIDs[loop]);
-        for(size_t loop2 = CommandIDs.front();loop2 < dataset->UnitHeaders[UnitIDs.front()].TaskList.size(); ++loop2) // ID Fix
-        dataset->UnitHeaders[UnitIDs.front()].TaskList[loop2].ID = loop2;
+        DeleteFromListIDFix(dataset->UnitHeaders[UnitIDs.front()].TaskList, CommandIDs);
     }
     else
     {
@@ -2982,14 +2978,10 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &event)
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
             if(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList.size())
             {
-                for(size_t loop = selections; loop--> 0;)
-                dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList.erase(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList.begin() + CommandIDs[loop]);
-                for(size_t loop2 = CommandIDs.front();loop2 < dataset->Civs.front().Units[UnitIDs.front()].Bird.TaskList.size(); ++loop2) // ID Fix
-                dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList[loop2].ID = loop2;
+                DeleteFromListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs);
             }
         }
     }
-    How2List = DEL;
     ListUnitCommands();
 }
 
@@ -5733,24 +5725,37 @@ void AGE_Frame::CreateUnitControls()
         wxBusyCursor WaitCursor;
         if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
         {
-            for(size_t loop = selections; loop--> 0;)
-            dataset->UnitHeaders.erase(dataset->UnitHeaders.begin() + UnitIDs[loop]);
+            DeleteFromList(dataset->UnitHeaders, UnitIDs);
         }
 
-        for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
+        for (size_t civ = 0; civ < dataset->Civs.size(); ++civ)
         {
-            for(size_t loop = selections; loop--> 0;)
+            size_t baseId = 0;
+            for (size_t copyId = 0, rightId = 0, endId = dataset->Civs[civ].Units.size(), lastId = UnitIDs.size(); copyId < endId; ++copyId)
             {
-                dataset->Civs[civ].Units.erase(dataset->Civs[civ].Units.begin() + UnitIDs[loop]);
-                dataset->Civs[civ].UnitPointers.erase(dataset->Civs[civ].UnitPointers.begin() + UnitIDs[loop]);
+                if (baseId != static_cast<size_t>(UnitIDs[rightId]))
+                {
+                    if (baseId != copyId)
+                    {
+                        dataset->Civs[civ].UnitPointers[baseId] = std::move(dataset->Civs[civ].UnitPointers[copyId]);
+                        dataset->Civs[civ].Units[baseId] = std::move(dataset->Civs[civ].Units[copyId]);
+                        dataset->Civs[civ].Units[baseId].ID = baseId;
+                        dataset->Civs[civ].Units[baseId].CopyID = baseId;
+                        dataset->Civs[civ].Units[baseId].BaseID = baseId;
+                    }
+                    ++baseId;
+                }
+                else
+                {
+                    if (rightId < lastId)
+                    {
+                        ++rightId;
+                    }
+                }
             }
-            for(size_t loop = UnitIDs.front(); loop < dataset->Civs.front().Units.size(); ++loop) // ID Fix
-            {
-                dataset->Civs[civ].Units[loop].ID = loop;
-                dataset->Civs[civ].Units[loop].CopyID = loop;
-                if(GenieVersion >= genie::GV_AoK)
-                dataset->Civs[civ].Units[loop].BaseID = loop;
-            }
+            dataset->Civs[civ].UnitPointers.resize(baseId);
+            dataset->Civs[civ].Units.resize(baseId);
+            How2List = DEL;
         }
         How2List = DEL;
         ListUnits(UnitCivID);
