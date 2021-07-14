@@ -1939,8 +1939,10 @@ private:
     AGETextCtrl *Units_DisplayedPierceArmour;
     AGETextCtrl *Units_SpawningGraphic;
     AGETextCtrl *Units_UpgradeGraphic;
+    AGETextCtrl *Units_HeroGlowGraphic;
     LinkedComboBox *Units_SpawningGraphic_ComboBox;
     LinkedComboBox *Units_UpgradeGraphic_ComboBox;
+    LinkedComboBox *Units_HeroGlowGraphic_ComboBox;
     AGETextCtrl *Units_MaxCharge;
     AGETextCtrl *Units_RechargeRate;
     AGETextCtrl *Units_ChargeEvent;
@@ -2140,6 +2142,7 @@ private:
     SolidText *Units_DisplayedPierceArmour_Text;
     SolidText *Units_SpawningGraphic_Text;
     SolidText *Units_UpgradeGraphic_Text;
+    SolidText *Units_HeroGlowGraphic_Text;
     SolidText *Units_MaxCharge_Text;
     SolidText *Units_RechargeRate_Text;
     SolidText *Units_ChargeEvent_Text;
@@ -2332,6 +2335,7 @@ private:
     wxBoxSizer *Units_DisplayedPierceArmour_Holder;
     wxBoxSizer *Units_SpawningGraphic_Holder;
     wxBoxSizer *Units_UpgradeGraphic_Holder;
+    wxBoxSizer *Units_HeroGlowGraphic_Holder;
 
 //  Type 80
 

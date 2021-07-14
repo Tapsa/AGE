@@ -821,6 +821,11 @@ void AGE_Frame::PrepUnitSearch()
         {
             return UF70 "CT" + FormatInt(unit_ptr->Creatable.ChargeType);
         });
+        else if(label.compare(Type70[22]) == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "HGG" + FormatInt(unit_ptr->Creatable.HeroGlowGraphic);
+        });
 
         else if(label.compare(Type80[0]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -1191,6 +1196,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                                 {
                                     Units_SpawningGraphic->prepend(&UnitPointer->Creatable.SpawningGraphic);
                                     Units_UpgradeGraphic->prepend(&UnitPointer->Creatable.UpgradeGraphic);
+                                    Units_HeroGlowGraphic->prepend(&UnitPointer->Creatable.HeroGlowGraphic);
                                     Units_MaxCharge->prepend(&UnitPointer->Creatable.MaxCharge);
                                     Units_RechargeRate->prepend(&UnitPointer->Creatable.RechargeRate);
                                     Units_ChargeEvent->prepend(&UnitPointer->Creatable.ChargeEvent);
@@ -1564,7 +1570,10 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                 deSelectCivs.emplace_back(loop);
             }
         }
-        DeleteFromList(SelectedCivs, deSelectCivs);
+        if (!deSelectCivs.empty())
+        {
+            DeleteFromList(SelectedCivs, deSelectCivs);
+        }
     }
     else
     {
@@ -1793,6 +1802,7 @@ void AGE_Frame::UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit)
         store.SpecialGraphic = dataset->Civs[civ].Units[unit].Creatable.SpecialGraphic;
         store.SpawningGraphic = dataset->Civs[civ].Units[unit].Creatable.SpawningGraphic;
         store.UpgradeGraphic = dataset->Civs[civ].Units[unit].Creatable.UpgradeGraphic;
+        store.HeroGlowGraphic = dataset->Civs[civ].Units[unit].Creatable.HeroGlowGraphic;
         case 60:
         case 50:
         store.AttackGraphic = dataset->Civs[civ].Units[unit].Type50.AttackGraphic;
@@ -1915,6 +1925,7 @@ void AGE_Frame::UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit)
         dataset->Civs[civ].Units[unit].Creatable.SpecialGraphic = store.SpecialGraphic;
         dataset->Civs[civ].Units[unit].Creatable.SpawningGraphic = store.SpawningGraphic;
         dataset->Civs[civ].Units[unit].Creatable.UpgradeGraphic = store.UpgradeGraphic;
+        dataset->Civs[civ].Units[unit].Creatable.HeroGlowGraphic = store.HeroGlowGraphic;
         case 60:
         case 50:
         dataset->Civs[civ].Units[unit].Type50.AttackGraphic = store.AttackGraphic;
@@ -2670,53 +2681,62 @@ wxString AGE_Frame::GetUnitCommandName(int index)
     short CommandType = (GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
         ? dataset->UnitHeaders[UnitIDs.front()].TaskList[index].ActionType
         : dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList[index].ActionType;
+    size_t taskNameId;
     switch(CommandType)
     {
-        case 0: return task_names[1];
-        case 1: return task_names[2];
-        case 2: return task_names[3];
-        case 3: return task_names[4];
-        case 4: return task_names[5];
-        case 5: return task_names[6];
-        case 6: return task_names[7];
-        case 7: return task_names[8];
-        case 8: return task_names[9];
-        case 9: return task_names[10];
-        case 10: return task_names[11];
-        case 11: return task_names[12];
-        case 12: return task_names[13];
-        case 13: return task_names[14];
-        case 14: return task_names[15];
-        case 20: return task_names[16];
-        case 21: return task_names[17];
-        case 101: return task_names[18];
-        case 102: return task_names[19];
-        case 103: return task_names[20];
-        case 104: return task_names[21];
-        case 105: return task_names[22];
-        case 106: return task_names[23];
-        case 107: return task_names[24];
-        case 108: return task_names[25];
-        case 109: return task_names[26];
-        case 110: return task_names[27];
-        case 111: return task_names[28];
-        case 120: return task_names[29];
-        case 121: return task_names[30];
-        case 122: return task_names[31];
-        case 123: return task_names[32];
-        case 124: return task_names[33];
-        case 125: return task_names[34];
-        case 130: return task_names[35];
-        case 131: return task_names[36];
-        case 132: return task_names[37];
-        case 133: return task_names[38];
-        case 134: return task_names[39];
-        case 135: return task_names[40];
-        case 136: return task_names[41];
-        case 149: return task_names[42];
-        case 150: return task_names[43];
-        case 151: return task_names[44];
-        default: return "Unk. Type "+lexical_cast<std::string>(CommandType);
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14: taskNameId = CommandType + 1; break;
+        case 20:
+        case 21: taskNameId = CommandType - 4; break;
+        case 101:
+        case 102:
+        case 103:
+        case 104:
+        case 105:
+        case 106:
+        case 107:
+        case 108:
+        case 109:
+        case 110:
+        case 111: taskNameId = CommandType - 83; break;
+        case 120:
+        case 121:
+        case 122:
+        case 123:
+        case 124:
+        case 125: taskNameId = CommandType - 91; break;
+        case 130:
+        case 131:
+        case 132:
+        case 133:
+        case 134:
+        case 135:
+        case 136: taskNameId = CommandType - 95; break;
+        case 149:
+        case 150:
+        case 151: taskNameId = CommandType - 107; break;
+        default: taskNameId = task_names.size();
+    }
+    if (taskNameId < task_names.size())
+    {
+        return task_names[taskNameId];
+    }
+    else
+    {
+        return "Unk. Type " + lexical_cast<std::string>(CommandType);
     }
 }
 
@@ -3452,6 +3472,7 @@ void AGE_Frame::CreateUnitControls()
     Units_DisplayedPierceArmour_Holder = new wxBoxSizer(wxVERTICAL);
     Units_SpawningGraphic_Holder = new wxBoxSizer(wxVERTICAL);
     Units_UpgradeGraphic_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_HeroGlowGraphic_Holder = new wxBoxSizer(wxVERTICAL);
 
 //  Type 80
 
@@ -3631,6 +3652,7 @@ void AGE_Frame::CreateUnitControls()
     Units_DisplayedPierceArmour_Text = new SolidText(Units_Scroller, " Shown Pierce Armor");
     Units_SpawningGraphic_Text = new SolidText(Units_Scroller, " Spawning Graphic");
     Units_UpgradeGraphic_Text = new SolidText(Units_Scroller, " Upgrade Graphic");
+    Units_HeroGlowGraphic_Text = new SolidText(Units_Scroller, " Hero Glow Graphic");
     Units_MaxCharge_Text = new SolidText(Units_Scroller, " Max Charge");
     Units_RechargeRate_Text = new SolidText(Units_Scroller, " Recharge Rate");
     Units_ChargeEvent_Text = new SolidText(Units_Scroller, " Charge Event *");
@@ -3786,6 +3808,9 @@ void AGE_Frame::CreateUnitControls()
     Units_UpgradeGraphic = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false);
     Units_UpgradeGraphic_ComboBox = new LinkedComboBox(Units_Scroller, Units_UpgradeGraphic, &graphic_names, false);
     GraphicComboBoxList.push_back(Units_UpgradeGraphic_ComboBox);
+    Units_HeroGlowGraphic = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false);
+    Units_HeroGlowGraphic_ComboBox = new LinkedComboBox(Units_Scroller, Units_HeroGlowGraphic, &graphic_names, false);
+    GraphicComboBoxList.push_back(Units_HeroGlowGraphic_ComboBox);
     Units_ResearchingGraphic = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false);
     Units_ResearchingGraphic_ComboBox = new LinkedComboBox(Units_Scroller, Units_ResearchingGraphic, &graphic_names, false);
     GraphicComboBoxList.push_back(Units_ResearchingGraphic_ComboBox);
@@ -4601,6 +4626,7 @@ void AGE_Frame::CreateUnitControls()
     Type70.Add("Recharge Rate");
     Type70.Add("Charge Event");
     Type70.Add("Charge Type");
+    Type70.Add("Hero Glow Graphic");
 
     Type80.Add("Construction Graphic");
     Type80.Add("Snow Graphic");
@@ -4789,6 +4815,7 @@ void AGE_Frame::CreateUnitControls()
     Units_DisplayedPierceArmour_Holder->Add(Units_DisplayedPierceArmour_Text);
     Units_SpawningGraphic_Holder->Add(Units_SpawningGraphic_Text);
     Units_UpgradeGraphic_Holder->Add(Units_UpgradeGraphic_Text);
+    Units_HeroGlowGraphic_Holder->Add(Units_HeroGlowGraphic_Text);
 
 //  Type 80
 
@@ -5013,6 +5040,8 @@ void AGE_Frame::CreateUnitControls()
     Units_SpawningGraphic_Holder->Add(Units_SpawningGraphic_ComboBox);
     Units_UpgradeGraphic_Holder->Add(Units_UpgradeGraphic, 0, wxEXPAND);
     Units_UpgradeGraphic_Holder->Add(Units_UpgradeGraphic_ComboBox);
+    Units_HeroGlowGraphic_Holder->Add(Units_HeroGlowGraphic, 0, wxEXPAND);
+    Units_HeroGlowGraphic_Holder->Add(Units_HeroGlowGraphic_ComboBox);
 
 //  Type 80
 
@@ -5253,6 +5282,7 @@ void AGE_Frame::CreateUnitControls()
     Units_GraphicsArea5_Holder->Add(Units_UpgradeGraphic_Holder);
     Units_GraphicsArea5_Holder->Add(Units_ResearchingGraphic_Holder);
     Units_GraphicsArea5_Holder->Add(Units_ResearchCompletedGraphic_Holder);
+    Units_GraphicsArea5_Holder->Add(Units_HeroGlowGraphic_Holder);
 
     DamageGraphics_GraphicID_Holder->Add(DamageGraphics_GraphicID_Text);
     DamageGraphics_GraphicID_Holder->Add(DamageGraphics_GraphicID, 0, wxEXPAND);
@@ -6437,6 +6467,8 @@ void AGE_Frame::CreateUnitControls()
     Units_SpawningGraphic->Bind(wxEVT_TEXT_ENTER, SaveThenRenderUnit);
     Units_UpgradeGraphic->Bind(wxEVT_KILL_FOCUS, TrySaveThenRenderUnit);
     Units_UpgradeGraphic->Bind(wxEVT_TEXT_ENTER, SaveThenRenderUnit);
+    Units_HeroGlowGraphic->Bind(wxEVT_KILL_FOCUS, TrySaveThenRenderUnit);
+    Units_HeroGlowGraphic->Bind(wxEVT_TEXT_ENTER, SaveThenRenderUnit);
     Units_ResearchingGraphic->Bind(wxEVT_KILL_FOCUS, TrySaveThenRenderUnit);
     Units_ResearchingGraphic->Bind(wxEVT_TEXT_ENTER, SaveThenRenderUnit);
     Units_ResearchCompletedGraphic->Bind(wxEVT_KILL_FOCUS, TrySaveThenRenderUnit);
@@ -6473,6 +6505,7 @@ void AGE_Frame::CreateUnitControls()
     Units_DestructionRubbleGraphicID_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_SpawningGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_UpgradeGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_HeroGlowGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_ResearchingGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_ResearchCompletedGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_GarrisonGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
