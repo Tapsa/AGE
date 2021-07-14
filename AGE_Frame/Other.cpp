@@ -957,6 +957,7 @@ void AGE_Frame::OnGameVersionChange()
         Units_DestructionRubbleGraphicID_Holder->Show(emerge);
         Units_SpawningGraphic_Holder->Show(emerge);
         Units_UpgradeGraphic_Holder->Show(emerge);
+        Units_HeroGlowGraphic_Holder->Show(emerge);
         Units_ResearchingGraphic_Holder->Show(emerge);
         Units_ResearchCompletedGraphic_Holder->Show(emerge);
         Units_MinCollisionSizeMultiplier_Holder->Show(emerge);
@@ -1192,7 +1193,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
                 }
                 GenieVersion = genie::GV_LatestDE2;
                 // Remember to update this version number!
-                dataset->FileVersion = "VER 7.3";
+                dataset->FileVersion = "VER 7.4";
             }
             else if(GenieVersion <= genie::GV_LatestTap && genie::GV_Tapsa <= GenieVersion)
             {
