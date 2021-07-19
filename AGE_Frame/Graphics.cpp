@@ -539,7 +539,7 @@ void AGE_Frame::SetDisplayBearings(AGE_SLP &graphic, const genie::GraphicDelta &
     {
         float quarter = FillMissingFrames ? 1.5708f : 0.f;
         float anglesize = PI2A / graphic.angles,
-            properangle = anglesize * delta.DisplayAngle - quarter - anglesize / 2;
+            properangle = anglesize * delta.DisplayAngle - quarter;// -anglesize / 2;
         graphic.beginbearing = properangle < 0.f ? properangle + PI2A : properangle;
             properangle += anglesize;
         graphic.endbearing = properangle < 0.f ? properangle + PI2A : properangle;
@@ -635,8 +635,14 @@ void AGE_Frame::DrawGraphics(wxBufferedPaintDC &dc, AGE_SLPs &spritemap, int cen
             }
             if(delta.second.bitmap.IsOk())
             {
-                // if x2, double the offsets.
-                dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + delta.second.xdelta, centerY + delta.second.ypos + delta.second.ydelta, true);
+                int xdelta = delta.second.xdelta;
+                int ydelta = delta.second.ydelta;
+                if (AlexZoom[1] == '2')
+                {
+                    xdelta *= 2;
+                    ydelta *= 2;
+                }
+                dc.DrawBitmap(delta.second.bitmap, centerX + delta.second.xpos + xdelta, centerY + delta.second.ypos + ydelta, true);
                 if(PlaySounds)
                 {
                     Listen(delta.second);

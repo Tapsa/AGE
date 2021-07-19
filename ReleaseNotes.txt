@@ -15,7 +15,7 @@ Guide makers et cetera, please include the version into which your guide was wri
 
 Version [b]2021.7.19[/b]:
 -Added hero glow sprite for units.
--Display angle is less broken in SLP view with DEs.
+-Fixed display angle in SLP view.
 -Faster erasure of multiple items from lists.
 
 Version [b]2021.5.9[/b]:
