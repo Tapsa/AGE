@@ -904,6 +904,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     DefAoE2Armors.Add("34 - Fishing Ships");
     DefAoE2Armors.Add("35 - Mamelukes");
     DefAoE2Armors.Add("36 - Heroes (unused concept)");
+    DefAoE2Armors.Add("37 - Hussite Wagons");
     DefAoE2TerrainRests.Add("All");
     DefAoE2TerrainRests.Add("Land + shallows");
     DefAoE2TerrainRests.Add("Beach");
@@ -1163,7 +1164,13 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     DefAoKCivRes.Add("Spawn Limit (number of buildings allowed to spawn)");
     DefAoKCivRes.Add("Flemish Militia Population");
     DefAoKCivRes.Add("Farmer Gold Generation Productivity");
-
+    DefAoKCivRes.Add("Folwark Collection Amount");
+    DefAoKCivRes.Add("Folwark Attribute Type");
+    DefAoKCivRes.Add("Folwark Building Type (links Folwark to Mill)");
+    DefAoKCivRes.Add("Units Converted");
+    DefAoKCivRes.Add("Stone Miner Gold Generation Productivity");
+    DefAoKCivRes.Add("Free Transport Ships");
+    
     // SWGB & CC
     DefSWGBArmors.Add("0 - Aircraft");  // Selection 1
     // Airspeeder
