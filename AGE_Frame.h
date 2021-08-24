@@ -1939,8 +1939,10 @@ private:
     AGETextCtrl *Units_DisplayedPierceArmour;
     AGETextCtrl *Units_SpawningGraphic;
     AGETextCtrl *Units_UpgradeGraphic;
+    AGETextCtrl *Units_HeroGlowGraphic;
     LinkedComboBox *Units_SpawningGraphic_ComboBox;
     LinkedComboBox *Units_UpgradeGraphic_ComboBox;
+    LinkedComboBox *Units_HeroGlowGraphic_ComboBox;
     AGETextCtrl *Units_MaxCharge;
     AGETextCtrl *Units_RechargeRate;
     AGETextCtrl *Units_ChargeEvent;
@@ -2140,6 +2142,7 @@ private:
     SolidText *Units_DisplayedPierceArmour_Text;
     SolidText *Units_SpawningGraphic_Text;
     SolidText *Units_UpgradeGraphic_Text;
+    SolidText *Units_HeroGlowGraphic_Text;
     SolidText *Units_MaxCharge_Text;
     SolidText *Units_RechargeRate_Text;
     SolidText *Units_ChargeEvent_Text;
@@ -2332,6 +2335,7 @@ private:
     wxBoxSizer *Units_DisplayedPierceArmour_Holder;
     wxBoxSizer *Units_SpawningGraphic_Holder;
     wxBoxSizer *Units_UpgradeGraphic_Holder;
+    wxBoxSizer *Units_HeroGlowGraphic_Holder;
 
 //  Type 80
 
@@ -3415,20 +3419,55 @@ private:
         How2List = INSNEW;
     }
 
-    template <class P>
-    inline void DeleteFromList(P &path, std::vector<int> &places)
+    template <class P, class T = int>
+    inline void DeleteFromList(P &path, std::vector<T> &places)
     {
-        for(size_t loop = places.size(); loop--> 0;)
-        path.erase(path.begin() + places[loop]);
+        size_t baseId = 0;
+        for (size_t copyId = 0, rightId = 0, endId = path.size(), lastId = places.size(); copyId < endId; ++copyId)
+        {
+            if (baseId != static_cast<size_t>(places[rightId]))
+            {
+                if (baseId != copyId)
+                {
+                    path[baseId] = std::move(path[copyId]);
+                }
+                ++baseId;
+            }
+            else
+            {
+                if (rightId < lastId)
+                {
+                    ++rightId;
+                }
+            }
+        }
+        path.resize(baseId);
         How2List = DEL;
     }
-    template <class P>
-    inline void DeleteFromListIDFix(P &path, std::vector<int> &places)
+    template <class P, class T = int>
+    inline void DeleteFromListIDFix(P &path, std::vector<T> &places)
     {
-        for(size_t loop = places.size(); loop--> 0;)
-        path.erase(path.begin() + places[loop]);
-        for(size_t loop = path.size(); loop--> places.front();) // ID Fix
-        path[loop].ID = loop;
+        size_t baseId = 0;
+        for (size_t copyId = 0, rightId = 0, endId = path.size(), lastId = places.size(); copyId < endId; ++copyId)
+        {
+            if (baseId != static_cast<size_t>(places[rightId]))
+            {
+                if (baseId != copyId)
+                {
+                    path[baseId] = std::move(path[copyId]);
+                    path[baseId].ID = baseId;
+                }
+                ++baseId;
+            }
+            else
+            {
+                if (rightId < lastId)
+                {
+                    ++rightId;
+                }
+            }
+        }
+        path.resize(baseId);
         How2List = DEL;
     }
 

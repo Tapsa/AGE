@@ -576,29 +576,49 @@ int StringControl::SaveEdits(bool forced) // This may crash the program.
     std::string value = std::string(GetValue().mb_str());
     if (*(std::string *)container.back() != value || forced) // Has been changed
     {
-        // Broken, strings like "C-Bonus" are interpret as batch mode 2.
-        /*if(value.size() > 2)
+        if (value.length() >= 1 && (char)value[0] == '/')
         {
-            short batchMode = 0;
-            BatchCheck(value, batchMode);
-            if(batchMode > 0)
+            char mode = value.length() >= 3 ? (char)value[1] : 0;
+            switch (mode)
             {
-                for (void *pointer : container)
+                case '+':
                 {
-                    ++numEdits;
-                    std::string vasili = *(std::string*)pointer;
-                    switch(batchMode)
+                    for (void *pointer : container)
                     {
-                        case 1: vasili += value; vasili = vasili.substr(0, maxSize); break;
-                        case 2: vasili = vasili.substr(0, vasili.size() - lexical_cast<int>(value)); break;
+                        ++numEdits;
+                        *(std::string *)pointer += value.substr(2, maxSize - (*(std::string *)pointer).length());
                     }
-                    *(std::string*)pointer = vasili;
+                    break;
                 }
-                ChangeValue(*(std::string*)container.back());
-                HandleResults(0);
-                return 0;
+                case '-':
+                {
+                    int cut = 0;
+                    try
+                    {
+                        cut = lexical_cast<int>(value.substr(2));
+                    }
+                    catch (const bad_lexical_cast &)
+                    {
+                        frame->popUp.post("Please enter a number from 0 to " + lexical_cast<std::string>(maxSize), BWTITLE, this);
+                        return 2;
+                    }
+                    for (void *pointer : container)
+                    {
+                        ++numEdits;
+                        *(std::string *)pointer = (*(std::string *)pointer).substr(0, (*(std::string *)pointer).length() - cut);
+                    }
+                    break;
+                }
+                default:
+                {
+                    frame->popUp.post("Supported batch modifiers for strings are /+[text] and /-[integer]", BWTITLE, this);
+                    return 1;
+                }
             }
-        }*/
+            ChangeValue(*(std::string *)container.back());
+            HandleResults(0);
+            return 0;
+        }
         if (value.size() <= maxSize)
         {
             for (void *pointer : container)

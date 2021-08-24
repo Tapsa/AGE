@@ -219,7 +219,8 @@ void AGE_Frame::OnAnimationMenuOption(wxCommandEvent &event)
             ted.SetTextValidator(wxFILTER_ALPHANUMERIC);
             if (ted.ShowModal() == wxID_OK)
             {
-                AlexZoom = ted.GetValue();
+                wxString input = ted.GetValue();
+                AlexZoom = input.length() >= 2 ? input : "x1";
             }
             break;
         }
