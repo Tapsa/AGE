@@ -3422,52 +3422,23 @@ private:
     template <class P, class T = int>
     inline void DeleteFromList(P &path, std::vector<T> &places)
     {
-        size_t baseId = 0;
-        for (size_t copyId = 0, rightId = 0, endId = path.size(), lastId = places.size(); copyId < endId; ++copyId)
+        for (size_t loop = places.size(); loop-- > 0;)
         {
-            if (baseId != static_cast<size_t>(places[rightId]))
-            {
-                if (baseId != copyId)
-                {
-                    path[baseId] = std::move(path[copyId]);
-                }
-                ++baseId;
-            }
-            else
-            {
-                if (rightId < lastId)
-                {
-                    ++rightId;
-                }
-            }
+            path.erase(path.begin() + places[loop]);
         }
-        path.resize(baseId);
         How2List = DEL;
     }
     template <class P, class T = int>
     inline void DeleteFromListIDFix(P &path, std::vector<T> &places)
     {
-        size_t baseId = 0;
-        for (size_t copyId = 0, rightId = 0, endId = path.size(), lastId = places.size(); copyId < endId; ++copyId)
+        for (size_t loop = places.size(); loop-- > 0;)
         {
-            if (baseId != static_cast<size_t>(places[rightId]))
-            {
-                if (baseId != copyId)
-                {
-                    path[baseId] = std::move(path[copyId]);
-                    path[baseId].ID = baseId;
-                }
-                ++baseId;
-            }
-            else
-            {
-                if (rightId < lastId)
-                {
-                    ++rightId;
-                }
-            }
+            path.erase(path.begin() + places[loop]);
         }
-        path.resize(baseId);
+        for (size_t loop = path.size(); loop-- > places.front();) // ID Fix
+        {
+            path[loop].ID = loop;
+        }
         How2List = DEL;
     }
 
