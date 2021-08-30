@@ -21,6 +21,7 @@ enum EditableVersion
     EV_SWGB,
     EV_CC,
     EV_EF,
+    EV_EF2,
     EV_Tapsa,
     EV_DE2
 };

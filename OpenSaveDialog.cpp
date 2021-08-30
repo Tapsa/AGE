@@ -48,7 +48,7 @@ OpenSaveDialog::OpenSaveDialog(wxWindow *parent, const wxString &title, wxDialog
     Defaults_StarWars->Add(Button_DefaultDE2, 0, wxEXPAND);
 
     SolidText *Text_GenieVer = new SolidText(slave, "      Genie version:");
-    ComboBox_GenieVer = new wxOwnerDrawnComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxSize(256, -1), 0, 0, wxCB_READONLY);
+    ComboBox_GenieVer = new wxOwnerDrawnComboBox(slave, wxID_ANY, "", wxDefaultPosition, wxSize(350, -1), 0, 0, wxCB_READONLY);
     ComboBox_GenieVer->Append("TEST");
     ComboBox_GenieVer->Append("TEST.DAT");
     ComboBox_GenieVer->Append("MICKEY.DAT");
@@ -67,7 +67,8 @@ OpenSaveDialog::OpenSaveDialog(wxWindow *parent, const wxString &title, wxDialog
     ComboBox_GenieVer->Append("Forgotten + African Kingdoms + Rajas > 12");
     ComboBox_GenieVer->Append("Star Wars: Galactic Battlegrounds (1.0)");
     ComboBox_GenieVer->Append("Clone Campaigns (1.1)");
-    ComboBox_GenieVer->Append("Mod: Expanding Fronts (>= 1.3) / Terrain patch");
+    ComboBox_GenieVer->Append("Mod: Expanding Fronts (1.3 - 1.4) / Terrain patch");
+    ComboBox_GenieVer->Append("Mod: Expanding Fronts (>= 1.4.1) / Terrain + tech tree patch");
     ComboBox_GenieVer->Append("Age of Empires: Definitive Edition");
     ComboBox_GenieVer->Append("Age of Empires II: Definitive Edition");
     ComboBox_GenieVer->SetSelection(EV_TC);
@@ -429,6 +430,7 @@ void OpenSaveDialog::OnPathFromRegistry(wxCommandEvent &event)
             break;
         }
         case EV_EF:
+        case EV_EF2:
         {
             wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Clone Campaigns\\1.0");
             if (key.Exists())
