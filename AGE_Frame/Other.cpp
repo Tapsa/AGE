@@ -39,6 +39,7 @@ genie::GameVersion EditorVersionAsGameVersion(int ver)
         case EV_SWGB: return genie::GV_SWGB;
         case EV_CC: return genie::GV_CC;
         case EV_EF: return genie::GV_CCV;
+        case EV_EF2: return genie::GV_CCV2;
         case EV_Tapsa: return genie::GV_Tapsa;
 
         default: wxMessageBox("Wrong version", "Oops!");
@@ -89,6 +90,8 @@ wxString FixEditorVersion(wxString ver)
         case EV_CC:
             return "CC        ";
         case EV_EF:
+            return "EF old    ";
+        case EV_EF2:
             return "EF        ";
         default:
             return "None      ";
@@ -1208,7 +1211,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
             dataset->setGameVersion(GenieVersion);
         }
 
-        if (GenieVersion != genie::GV_TCV && GenieVersion != genie::GV_CCV)
+        if (GenieVersion != genie::GV_TCV && GenieVersion != genie::GV_CCV && GenieVersion != genie::GV_CCV2)
         {
             // A fix that should never be needed
             int TerrainsInData = dataset->TerrainBlock.Terrains.size();
@@ -1419,9 +1422,9 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                             FilesToRead.Add("\\gamedata_x1.drs");
                             FilesToRead.Add("\\gamedata_x1_p1.drs");
                         }
-                        else if(GenieVersion == genie::GV_CC || GenieVersion == genie::GV_CCV)
+                        else if(GenieVersion == genie::GV_CC || GenieVersion == genie::GV_CCV || GenieVersion == genie::GV_CCV2)
                         {
-                            if(GameVersion == EV_EF)
+                            if(GameVersion == EV_EF || GameVersion == EV_EF2)
                             {
                                 FilesToRead.Add("\\sounds_x2.drs");
                                 FilesToRead.Add("\\graphics_x2.drs");
@@ -1430,14 +1433,23 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                                 FilesToRead.Add("\\gamedata_x2.drs");
                             }
                             FilesToRead.Add("\\sounds_x1.drs");
-                            FilesToRead.Add("\\graphics_x1.drs");
-                            FilesToRead.Add("\\terrain_x1.drs");
-                            FilesToRead.Add("\\interfac_x1.drs");
+                            if (GameVersion == EV_EF || GameVersion == EV_EF2)
+                            {
+                                FilesToRead.Add("\\graphics_x1_p1.drs");
+                                FilesToRead.Add("\\terrain_x1_p1.drs");
+                                FilesToRead.Add("\\interfac_x1_p1.drs");
+                            }
+                            else
+                            {
+                                FilesToRead.Add("\\graphics_x1.drs");
+                                FilesToRead.Add("\\terrain_x1.drs");
+                                FilesToRead.Add("\\interfac_x1.drs");
+                            }
                             FilesToRead.Add("\\gamedata_x1.drs");
                         }
                     }
                     FilesToRead.Add("\\sounds.drs");
-                    if (GameVersion == EV_EF)
+                    if (GameVersion == EV_EF || GameVersion == EV_EF2)
                     {
                         FilesToRead.Add("\\graphics_p1.drs");
                         FilesToRead.Add("\\terrain_p1.drs");
@@ -1451,7 +1463,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                     {
                         FilesToRead.Add("\\border.drs");
                     }
-                    if (GameVersion == EV_EF)
+                    if (GameVersion == EV_EF || GameVersion == EV_EF2)
                     {
                         FilesToRead.Add("\\interfac_p1.drs");
                     }

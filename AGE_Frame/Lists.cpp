@@ -1753,7 +1753,7 @@ void AGE_Frame::LoadLists()
     OnTerrainSelect(e);
     OnTerrainRestrictionsTerrainSelect(e);
     OnPlayerColorSelect(e);
-    if (GenieVersion != genie::GV_TCV && GenieVersion != genie::GV_CCV)
+    if (GenieVersion != genie::GV_TCV && GenieVersion != genie::GV_CCV && GenieVersion != genie::GV_CCV2)
     {
         OnTerrainBorderSelect(e);
     }

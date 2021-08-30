@@ -492,7 +492,7 @@ void AGE_Frame::OnTerrainsBorderSearch(wxCommandEvent &event)
 
 void AGE_Frame::ListTerrainsBorders()
 {
-    if (GenieVersion == genie::GV_TCV || GenieVersion == genie::GV_CCV)
+    if (GenieVersion == genie::GV_TCV || GenieVersion == genie::GV_CCV || GenieVersion == genie::GV_CCV2)
         return;
 
     InitSearch(Terrains_Borders_Search->GetValue().MakeLower(), Terrains_Borders_Search_R->GetValue().MakeLower());
