@@ -9,7 +9,7 @@
 #include "Licenses/SFML.h"
 #include "Licenses/wxWidgets.h"
 
-const wxString AboutDialog::AGE_VER = "2021.8.23";
+const wxString AboutDialog::AGE_VER = "2021.8.31";
 
 AboutDialog::AboutDialog(wxWindow *parent, const wxFont &font)
     : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)
