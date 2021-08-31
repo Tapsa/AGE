@@ -130,6 +130,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             wxConfig RecentOpen("", "", "AGE2\\RecentOpen", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
             RecentOpen.Read("Recent/Items", &RecentItems, 0);
             RecentOpen.Read("Recent/Version", &RecentVersion, 1);
+            RecentItems = std::min(30, RecentItems);
             OpenBox.RecentValues.resize(RecentItems);
             for(int i=0; i < RecentItems; ++i)
             {
@@ -139,6 +140,15 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 if (RecentVersion < 2 && lexical_cast<int>(temp) > EV_TC)
                 {
                     temp = "-1";
+                }
+                if (RecentVersion < 4)
+                {
+                    int version = lexical_cast<int>(temp);
+                    if (version > EV_EF)
+                    {
+                        ++version;
+                        temp = lexical_cast<std::string>(version);
+                    }
                 }
                 OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/DatPath", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
@@ -310,7 +320,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         int items = produceRecentValues(latest, OpenBox.RecentValues);
         wxConfig RecentOpen("", "", "AGE2\\RecentOpen", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentOpen.Write("Recent/Items", items);
-        RecentOpen.Write("Recent/Version", 3);
+        RecentOpen.Write("Recent/Version", 4);
         for(int i=0; i < items; ++i)
         {
             wxString entry = "Recent" + wxString::Format("%04d", i + 1);
@@ -1044,6 +1054,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
         wxConfig RecentSave("", "", "AGE2\\RecentSave", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentSave.Read("Recent/Items", &RecentItems, 0);
         RecentSave.Read("Recent/Version", &RecentVersion, 1);
+        RecentItems = std::min(30, RecentItems);
         SaveBox.RecentValues.resize(RecentItems);
         for(int i=0; i < RecentItems; ++i)
         {
@@ -1053,6 +1064,15 @@ void AGE_Frame::OnSave(wxCommandEvent&)
             if (RecentVersion < 2 && lexical_cast<int>(temp) > EV_TC)
             {
                 temp = "-1";
+            }
+            if (RecentVersion < 4)
+            {
+                int version = lexical_cast<int>(temp);
+                if (version > EV_EF)
+                {
+                    ++version;
+                    temp = lexical_cast<std::string>(version);
+                }
             }
             SaveBox.RecentValues[i].Add(temp);
             RecentSave.Read(entry + "/DatPath", &temp, wxEmptyString); SaveBox.RecentValues[i].Add(temp);
@@ -1155,7 +1175,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
         RecentItems = produceRecentValues(latest, SaveBox.RecentValues);
         wxConfig RecentSave("", "", "AGE2\\RecentSave", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentSave.Write("Recent/Items", RecentItems);
-        RecentSave.Write("Recent/Version", 2);
+        RecentSave.Write("Recent/Version", 4);
         for(int i=0; i < RecentItems; ++i)
         {
             wxString entry = "Recent" + wxString::Format("%04d", i + 1);
