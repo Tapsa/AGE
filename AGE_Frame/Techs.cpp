@@ -351,7 +351,7 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
         SpawnUnit:
             if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
             {
-                Name = "Spawn unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                Name += "Spawn unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
                 +" from "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B)
                 +", "+FormatInt(dataset->Effects[tech].EffectCommands[effect].C)+" times";
             }
@@ -426,34 +426,29 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             {
                 Name = "Set tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
                 +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B)
-                +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D)
-                +" at gamestart";
+                +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             }
             else
             {
                 Name = "Change tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
                 +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B)
-                +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D)
-                +" at gamestart";
+                +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             }
             break;
         case 102:
-            Name = "Disable tech "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D)
-            +" at gamestart";
+            Name = "Disable tech "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             break;
         case 103:
             //Name = "Tech Time Modifier (Set/+/-)";
             if(dataset->Effects[tech].EffectCommands[effect].C == 0)
             {
                 Name = "Set tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                +" time to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D)
-                +" at gamestart";
+                +" time to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             }
             else
             {
                 Name = "Change tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                +" time by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D)
-                +" at gamestart";
+                +" time by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             }
             break;
         default:
@@ -1328,7 +1323,7 @@ void AGE_Frame::CreateTechControls()
     Effects_Type_Text = new SolidText(Tab_Techs, " Command Type *");
     Effects_Type = new NumberControl(CUByte, Tab_Techs, this, &uiGroupTechEffect, false);
     Effects_Type->SetToolTip("101 and 103 are only for\ntech tree and team bonus"
-        "\n101-103 only work at gamestart\n7-39 are only available with UserPatch 1.5"
+        "\n101-103 only work at start of a game\n7-39 are only available with UserPatch 1.5"
         "\n10-16 are also available with AoK HD");
     Effects_Type_ComboBox = new LinkedComboBox(Tab_Techs, Effects_Type, &effect_type_names, false, AGETextCtrl::GIANT);
     Effects_Data_Holder = new wxStaticBoxSizer(wxVERTICAL, Tab_Techs, "Effect Attributes");

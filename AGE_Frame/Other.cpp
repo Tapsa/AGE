@@ -1775,7 +1775,7 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
             slp_csv.Clear();
             obj_csv.Clear();
 
-            slp_csv.AddLine("SLP,PicFilename,Name,NumFrames,NumFacets");
+            slp_csv.AddLine("SLP,PicFilename,Name,NumFrames,NumFacets,AnimDuration,ReplayDelay");
             for(size_t sprite = 0; sprite < dataset->Graphics.size(); ++sprite)
             if(dataset->GraphicPointers[sprite])
             {
@@ -1783,7 +1783,9 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
                             +','+dataset->Graphics[sprite].FileName
                             +','+dataset->Graphics[sprite].Name
                             +','+lexical_cast<std::string>(dataset->Graphics[sprite].FrameCount)
-                            +','+lexical_cast<std::string>(dataset->Graphics[sprite].AngleCount));
+                            +','+lexical_cast<std::string>(dataset->Graphics[sprite].AngleCount)
+                            +','+lexical_cast<std::string>(dataset->Graphics[sprite].AnimationDuration)
+                            +','+lexical_cast<std::string>(dataset->Graphics[sprite].ReplayDelay));
             }
 
             size_t unit, civ, depth = 0;

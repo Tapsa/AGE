@@ -547,11 +547,18 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         effect_type_names.Add("15 - Team Attribute Modifier (Multiply)");
         effect_type_names.Add("16 - Team Resource Modifier (Multiply)");
     }
+    if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+    {
+        effect_type_names.Add("17 - Team Spawn Unit");
+    }
     if (GameVersion == EV_UP)
     {
         effect_type_names.Add("17 - Team Enable/Disable/Force Multiuse Tech");
         effect_type_names.Add("18 - Team Modify Tech");
         effect_type_names.Add("19 - Team Set Player Civ Name");
+    }
+    if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+    {
         effect_type_names.Add("20 - Enemy Attribute Modifier (Set)");
         effect_type_names.Add("21 - Enemy Resource Modifier (Set/+/-)");
         effect_type_names.Add("22 - Enemy Enable/Disable Unit");
@@ -559,6 +566,13 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         effect_type_names.Add("24 - Enemy Attribute Modifier (+/-)");
         effect_type_names.Add("25 - Enemy Attribute Modifier (Multiply)");
         effect_type_names.Add("26 - Enemy Resource Modifier (Multiply)");
+    }
+    if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+    {
+        effect_type_names.Add("27 - Enemy Spawn Unit");
+    }
+    if (GameVersion == EV_UP)
+    {
         effect_type_names.Add("27 - Enemy Enable/Disable/Force Multiuse Tech");
         effect_type_names.Add("28 - Enemy Modify Tech");
         effect_type_names.Add("29 - Enemy Set Player Civ Name");
@@ -591,20 +605,24 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         {
             if (GenieVersion >= genie::GV_C2)
             {
-                // Types 0 to 7, 10 to 16 and 101 to 103 only.
+                // Types 0 to 7, 10 to 17, 20 to 27 and 101 to 103 only.
                 SetEffectTypeChoice = [](LinkedComboBox *linkedComboBox, short value)
                 {
                     if (value >= 0 && value <= 7)
                     {
                         linkedComboBox->SetChoice(value);
                     }
-                    else if (value >= 10 && value <= 16)
+                    else if (value >= 10 && value <= 17)
                     {
                         linkedComboBox->SetChoice(value - 2);
                     }
+                    else if (value >= 20 && value <= 27)
+                    {
+                        linkedComboBox->SetChoice(value - 4);
+                    }
                     else if (value >= 101 && value <= 103)
                     {
-                        linkedComboBox->SetChoice(value - 86);
+                        linkedComboBox->SetChoice(value - 77);
                     }
                     else
                     {
@@ -617,13 +635,17 @@ void AGE_Frame::FillListsBasedOnGameVersion()
                     {
                         linkedTextBox->SetAsText(selection);
                     }
-                    else if (selection < 15)
+                    else if (selection < 16)
                     {
                         linkedTextBox->SetAsText(selection + 2);
                     }
-                    else if (selection < 18)
+                    else if (selection < 24)
                     {
-                        linkedTextBox->SetAsText(selection + 86);
+                        linkedTextBox->SetAsText(selection + 4);
+                    }
+                    else if (selection < 27)
+                    {
+                        linkedTextBox->SetAsText(selection + 77);
                     }
                     else
                     {
