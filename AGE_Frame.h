@@ -908,7 +908,7 @@ private:
     genie::GameVersion GenieVersion = genie::GV_None;
     wxString DriveLetter, Language, CustomFolder;
     wxString DatFileName, SaveDatFileName, FolderDRS, FolderDRS2, Path1stDRS, PathSLP, PathModSLP;
-    wxString PathPalettes, PathPlayerColorPalette;
+    wxString PathPalettes, PathPlayerColorPalette, PathCustomNames;
     int LangsUsed; // 0x01 Lang.dll, 0x02, LangX1.dll, 0x04 LangX1P1.dll
     wxString LangCharset, AlexZoom;
     wxString LangFileName, LangX1FileName, LangX1P1FileName;

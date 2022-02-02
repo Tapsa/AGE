@@ -800,7 +800,8 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         };
     }
 
-    wxFileConfig Customs("", "", "AGE3NamesV0005.ini", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+    const wxString localFilename = PathCustomNames.empty() ? "AGE3NamesV0005.ini" : PathCustomNames;
+    wxFileConfig Customs("", "", localFilename, "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
     wxString KeyArmors, KeyTerrainTables, KeyCivResources;
 
     // The conditions below that compile the default lists for these should match the comparisons here.

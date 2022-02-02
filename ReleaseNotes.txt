@@ -16,6 +16,7 @@ Guide makers et cetera, please include the version into which your guide was wri
 Version [b]2022.2.2[/b]:
 -Prevent focusing on sub-lists unintentionally.
 -Updated default civilization resource names for AoE II DE.
+-Allow choosing a file for editable lists.
 
 Version [b]2021.10.24[/b]:
 -Added support for updated Expanding Fronts.

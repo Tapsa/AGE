@@ -24,7 +24,8 @@ public:
 
     wxCheckBox *CheckBox_LangWriteToLatest;
     wxButton *Button_RawDecompress;
-    wxFilePickerCtrl *Path_RawDecompress, *Path_DRS3, *Path_Palettes, *Path_PlayerColorPalette;
+    wxFilePickerCtrl *Path_RawDecompress, *Path_DRS3, *Path_Palettes,
+        *Path_PlayerColorPalette, *Path_CustomNames;
     wxTextCtrl *TerrainsBox;
     PairedCheckBox *CheckBox_DRSPath, *CheckBox_DRSPath2, *CheckBox_DRSPath3,
        *CheckBox_SlpPath, *CheckBox_ModSlpPath;

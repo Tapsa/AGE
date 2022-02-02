@@ -134,7 +134,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             OpenBox.RecentValues.resize(RecentItems);
             for(int i=0; i < RecentItems; ++i)
             {
-                OpenBox.RecentValues[i].Alloc(12);
+                OpenBox.RecentValues[i].Alloc(13);
                 wxString temp, entry = "Recent" + wxString::Format("%04d", i + 1);
                 RecentOpen.Read(entry + "/DatVersion", &temp, "-1");
                 if (RecentVersion < 2 && lexical_cast<int>(temp) > EV_TC)
@@ -169,6 +169,14 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
                 }
                 RecentOpen.Read(entry + "/PathPalettes", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
                 RecentOpen.Read(entry + "/PathPlayerPalette", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                if (RecentVersion >= 5)
+                {
+                    RecentOpen.Read(entry + "/PathCustomNames", &temp, wxEmptyString); OpenBox.RecentValues[i].Add(temp);
+                }
+                else
+                {
+                    OpenBox.RecentValues[i].Add("");
+                }
             }
         }
         if (OpenBox.RecentValues.size())
@@ -205,6 +213,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         OpenBox.Path_ModSLP->SetPath(PathModSLP);
         OpenBox.Path_Palettes->SetPath(PathPalettes);
         OpenBox.Path_PlayerColorPalette->SetPath(PathPlayerColorPalette);
+        OpenBox.Path_CustomNames->SetPath(PathCustomNames);
         OpenBox.CheckBox_DRSPath->SetValue(UseDRS);
         OpenBox.CheckBox_DRSPath2->SetValue(UseMod);
         OpenBox.CheckBox_DRSPath3->SetValue(UseExtra);
@@ -257,6 +266,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         PathModSLP = OpenBox.Path_ModSLP->GetPath();
         PathPalettes = OpenBox.Path_Palettes->GetPath();
         PathPlayerColorPalette = OpenBox.Path_PlayerColorPalette->GetPath();
+        PathCustomNames = OpenBox.Path_CustomNames->GetPath();
         UseDRS = OpenBox.CheckBox_DRSPath->GetValue();
         UseMod = OpenBox.CheckBox_DRSPath2->GetValue();
         UseExtra = OpenBox.CheckBox_DRSPath3->GetValue();
@@ -304,7 +314,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         if(!OpenBox.CheckBox_LangX1P1FileLocation->IsChecked()) LangX1P1FileName = "";
 
         wxArrayString latest;
-        latest.Alloc(12);
+        latest.Alloc(13);
         latest.Add(lexical_cast<std::string>(GameVersion));
         latest.Add(DatFileName);
         latest.Add(LangFileName);
@@ -317,10 +327,11 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         latest.Add(PathModSLP);
         latest.Add(PathPalettes);
         latest.Add(PathPlayerColorPalette);
+        latest.Add(PathCustomNames);
         int items = produceRecentValues(latest, OpenBox.RecentValues);
         wxConfig RecentOpen("", "", "AGE2\\RecentOpen", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         RecentOpen.Write("Recent/Items", items);
-        RecentOpen.Write("Recent/Version", 4);
+        RecentOpen.Write("Recent/Version", 5);
         for(int i=0; i < items; ++i)
         {
             wxString entry = "Recent" + wxString::Format("%04d", i + 1);
@@ -336,6 +347,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             RecentOpen.Write(entry + "/LooseModSLP", OpenBox.RecentValues[i][9]);
             RecentOpen.Write(entry + "/PathPalettes", OpenBox.RecentValues[i][10]);
             RecentOpen.Write(entry + "/PathPlayerPalette", OpenBox.RecentValues[i][11]);
+            RecentOpen.Write(entry + "/PathCustomNames", OpenBox.RecentValues[i][12]);
         }
     }
 
