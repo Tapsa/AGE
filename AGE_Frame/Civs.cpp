@@ -3,7 +3,7 @@
 
 void AGE_Frame::OnCivsSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListCivs(false);
 }
 
@@ -111,7 +111,7 @@ void AGE_Frame::OnCivsAdd(wxCommandEvent &event)
         Temp.Units = dataset->Civs[FillingCiv].Units;
     }
     dataset->Civs.push_back(Temp);
-    How2List = ADD;
+    How2List = ListMode::ADD;
     OnCivCountChange();
     ListUnits(UnitCivID, false);
 }
@@ -133,7 +133,7 @@ void AGE_Frame::OnCivsInsert(wxCommandEvent &event)
     }
     dataset->Civs.insert(dataset->Civs.begin() + CivIDs.front(), Temp);
     OnCivCountChange();
-    How2List = INSNEW;
+    How2List = ListMode::INSNEW;
     ListUnits(UnitCivID, false);
 }
 
@@ -226,29 +226,14 @@ void AGE_Frame::OnCivCountChange()
 
 wxString AGE_Frame::GetResourceName(size_t index)
 {
-    if(GenieVersion < genie::GV_AoKE3)
-    {
-        if(index < RoRCivResources.size())
-            return RoRCivResources[index];
-        else return "Resource";
-    }
-    else if(GenieVersion < genie::GV_SWGB)
-    {
-        if(index < AoKCivResources.size())
-            return AoKCivResources[index];
-        else return "Resource";
-    }
-    else
-    {
-        if(index < SWGBCivResources.size())
-            return SWGBCivResources[index];
-        else return "Resource";
-    }
+    if (index < CivilizationResourceNames.size())
+        return CivilizationResourceNames[index];
+    else return "Resource";
 }
 
 void AGE_Frame::OnResourcesSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListResources(false);
 }
 
@@ -315,7 +300,7 @@ void AGE_Frame::OnResourcesAdd(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
     dataset->Civs[loop].Resources.push_back(0);
-    How2List = ADD;
+    How2List = ListMode::ADD;
     ListResources();
 }
 
@@ -327,7 +312,7 @@ void AGE_Frame::OnResourcesInsert(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     for(size_t loop = 0; loop < dataset->Civs.size(); ++loop)
     dataset->Civs[loop].Resources.insert(dataset->Civs[loop].Resources.begin() + ResourceIDs.front(), 0);
-    How2List = INSNEW;
+    How2List = ListMode::INSNEW;
     ListResources();
 }
 

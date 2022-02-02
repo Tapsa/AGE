@@ -97,7 +97,7 @@ InternalName:
 
 void AGE_Frame::OnTerrainsSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTerrains1(false);
 }
 
@@ -486,7 +486,7 @@ void AGE_Frame::OnTerrainsPaste(wxCommandEvent &event)
 
 void AGE_Frame::OnTerrainsBorderSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTerrainsBorders();
 }
 

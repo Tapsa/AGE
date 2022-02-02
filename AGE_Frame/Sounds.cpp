@@ -13,7 +13,7 @@ wxString AGE_Frame::GetSoundName(int sound)
 
 void AGE_Frame::OnSoundsSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListSounds(false);
 }
 
@@ -197,7 +197,7 @@ wxString AGE_Frame::GetSoundItemName(int item, int set)
 
 void AGE_Frame::OnSoundItemsSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListSoundItems();
 }
 

@@ -634,7 +634,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             dataset->TerrainPassGraphicPointers[loop] = 1;
         }
 
-        How2List = SEARCH;
+        How2List = ListMode::SEARCH;
         FillListsBasedOnGameVersion();
         SetStatusText(lexical_cast<std::string>(dataset->FileVersion), 4);
         DataOpened = true;

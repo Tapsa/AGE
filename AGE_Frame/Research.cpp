@@ -127,7 +127,7 @@ InternalName:
 
 void AGE_Frame::OnResearchSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListResearches(false);
 }
 

@@ -3,29 +3,14 @@
 
 wxString AGE_Frame::GetTerrainRestrictionName(int index)
 {
-    if(GenieVersion < genie::GV_AoKA)
-    {
-        if(index < AoE1TerrainRestrictions.size())
-            return AoE1TerrainRestrictions[index];
-        else return "Table";
-    }
-    else if(GenieVersion < genie::GV_SWGB)
-    {
-        if(index < AoE2TerrainRestrictions.size())
-            return AoE2TerrainRestrictions[index];
-        else return "Table";
-    }
-    else
-    {
-        if(index < SWGBTerrainRestrictions.size())
-            return SWGBTerrainRestrictions[index];
-        else return "Table";
-    }
+    if (index < TerrainRestrictionNames.size())
+        return TerrainRestrictionNames[index];
+    else return "Table";
 }
 
 void AGE_Frame::OnTerrainRestrictionsSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTerrainRestrictions(false);
 }
 

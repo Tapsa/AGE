@@ -117,7 +117,7 @@ InternalName:
 
 void AGE_Frame::OnGraphicsSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListGraphics(false);
 }
 
@@ -879,7 +879,7 @@ void AGE_Frame::OnGraphicsEnable(wxCommandEvent &event)
         dataset->GraphicPointers[GraphicIDs[loop]] = 1;
         dataset->Graphics[GraphicIDs[loop]].ID = GraphicIDs[loop]; // ID Fix
     }
-    How2List = ENABLE;
+    How2List = ListMode::ENABLE;
     ListGraphics();
 }
 
@@ -891,7 +891,7 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     for(size_t loop = 0; loop < selections; ++loop)
     dataset->GraphicPointers[GraphicIDs[loop]] = 0;
-    How2List = ENABLE;
+    How2List = ListMode::ENABLE;
     ListGraphics();
 }
 
@@ -905,7 +905,7 @@ std::string AGE_Frame::GetGraphicDeltaName(int index)
 
 void AGE_Frame::OnGraphicDeltasSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListGraphicDeltas();
 }
 
@@ -1045,7 +1045,7 @@ wxString AGE_Frame::GetGraphicAngleSoundName(int index)
 
 void AGE_Frame::OnGraphicAngleSoundsSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListGraphicAngleSounds();
 }
 
