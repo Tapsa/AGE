@@ -8,7 +8,7 @@ std::string AGE_Frame::GetTTAgesName(int index)
 
 void AGE_Frame::OnTTAgesSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTAges();
 }
 
@@ -152,7 +152,7 @@ wxString AGE_Frame::GetBuildingName(int Building)
 
 void AGE_Frame::OnTTAgesBuildingSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTAgeBuildings();
 }
 
@@ -266,7 +266,7 @@ void AGE_Frame::OnTTAgesBuildingCopyToAges(wxCommandEvent &event)
 
 void AGE_Frame::OnTTAgesUnitSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTAgeUnits();
 }
 
@@ -395,7 +395,7 @@ wxString AGE_Frame::GetSimpleResearchName(int tech)
 
 void AGE_Frame::OnTTAgesResearchSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTAgeResearches();
 }
 
@@ -509,7 +509,7 @@ void AGE_Frame::OnTTAgesResearchCopyToAges(wxCommandEvent &event)
 
 void AGE_Frame::OnTTAgeItemSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTAgeItems();
 }
 
@@ -605,7 +605,7 @@ void AGE_Frame::OnTTAgeItemCopyToAges(wxCommandEvent &event)
 
 void AGE_Frame::OnTTAgeUnknownItemSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTAgeUnknownItems();
 }
 
@@ -751,7 +751,7 @@ wxString AGE_Frame::GetTTBuildingName(int index)
 
 void AGE_Frame::OnTTBuildingSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTBuildings();
 }
 
@@ -887,7 +887,7 @@ void AGE_Frame::OnTTBuildingPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTBuildingBuildingSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTBuildingBuildings();
 }
 
@@ -1001,7 +1001,7 @@ void AGE_Frame::OnTTBuildingBuildingCopyToBuildings(wxCommandEvent &event)
 
 void AGE_Frame::OnTTBuildingUnitSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTBuildingUnits();
 }
 
@@ -1115,7 +1115,7 @@ void AGE_Frame::OnTTBuildingUnitCopyToBuildings(wxCommandEvent &event)
 
 void AGE_Frame::OnTTBuildingResearchSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTBuildingResearches();
 }
 
@@ -1229,7 +1229,7 @@ void AGE_Frame::OnTTBuildingResearchCopyToBuildings(wxCommandEvent &event)
 
 void AGE_Frame::OnTTBuildingItemSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTBuildingItems();
 }
 
@@ -1344,7 +1344,7 @@ wxString AGE_Frame::GetTTUnitName(int index)
 
 void AGE_Frame::OnTTUnitSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTUnits();
 }
 
@@ -1476,7 +1476,7 @@ void AGE_Frame::OnTTUnitPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTUnitUnitSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTUnitUnits();
 }
 
@@ -1626,7 +1626,7 @@ void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common *t
 
 void AGE_Frame::OnTTUnitItemSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTUnitItems();
 }
 
@@ -1735,7 +1735,7 @@ wxString AGE_Frame::GetTTResearchName(int index)
 
 void AGE_Frame::OnTTResearchSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTResearches();
 }
 
@@ -1867,7 +1867,7 @@ void AGE_Frame::OnTTResearchPasteInsert(wxCommandEvent &event)
 
 void AGE_Frame::OnTTResearchBuildingSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTResearchBuildings();
 }
 
@@ -1981,7 +1981,7 @@ void AGE_Frame::OnTTResearchBuildingCopyToResearches(wxCommandEvent &event)
 
 void AGE_Frame::OnTTResearchUnitSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTResearchUnits();
 }
 
@@ -2095,7 +2095,7 @@ void AGE_Frame::OnTTResearchUnitCopyToResearches(wxCommandEvent &event)
 
 void AGE_Frame::OnTTResearchResearchSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTResearchResearches();
 }
 
@@ -2209,7 +2209,7 @@ void AGE_Frame::OnTTResearchResearchCopyToResearches(wxCommandEvent &event)
 
 void AGE_Frame::OnTTResearchItemSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTTResearchItems();
 }
 

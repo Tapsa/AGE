@@ -294,9 +294,9 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             effect_attribute_names.Add("51 - Unit Short Description String");
             effect_attribute_names.Add("52 - Unused");
             effect_attribute_names.Add("53 - Terrain Restriction");
-            effect_attribute_names.Add("54 - Unused");
-            effect_attribute_names.Add("55 - Unused");
-            effect_attribute_names.Add("56 - Unused");
+            effect_attribute_names.Add("54 - Unit Trait");
+            effect_attribute_names.Add("55 - Unit Civilization");
+            effect_attribute_names.Add("56 - Unit Trait Piece");
             effect_attribute_names.Add("57 - Dead Unit");
             effect_attribute_names.Add("58 - Hotkey");
         }
@@ -800,815 +800,411 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         };
     }
 
-    wxArrayString DefAoE1Armors, DefAoE2Armors, DefSWGBArmors,
-        DefAoE1TerrainRests, DefAoE2TerrainRests, DefSWGBTerrainRests,
-        DefRoRCivRes, DefAoKCivRes, DefSWGBCivRes;
+    wxFileConfig Customs("", "", "AGE3NamesV0005.ini", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+    wxString KeyArmors, KeyTerrainTables, KeyCivResources;
 
-    // AoE & RoR
-    DefAoE1Armors.Add("0 - Stone Defense & Fire Galley");
-    DefAoE1Armors.Add("1 - Stone Defense & Archers");
-    DefAoE1Armors.Add("2 - Unused");
-    DefAoE1Armors.Add("3 - Base Pierce");
-    DefAoE1Armors.Add("4 - Base Melee");
-    DefAoE1Armors.Add("5 - Unused");
-    DefAoE1Armors.Add("6 - Buildings");
-    DefAoE1Armors.Add("7 - Priests");
-    DefAoE1Armors.Add("8 - Cavalry");
-    DefAoE1Armors.Add("9 - Infantry");
-    DefAoE1Armors.Add("10 - Stone Defense");
-    DefAoE1Armors.Add("11 - Unused");
-    DefAoE1Armors.Add("12 - Villagers & Gazelles & Medusa");
-    DefAoE1TerrainRests.Add("Land + water");
-    DefAoE1TerrainRests.Add("Land");
-    DefAoE1TerrainRests.Add("Beach");
-    DefAoE1TerrainRests.Add("Water");
-    DefAoE1TerrainRests.Add("Land");
-    DefAoE1TerrainRests.Add("Nothing");
-    DefAoE1TerrainRests.Add("Water + beach");
-    DefAoE1TerrainRests.Add("Land + shallows");
-    DefAoE1TerrainRests.Add("Plain");
-    DefAoE1TerrainRests.Add("Land - dirt");
-    DefAoE1TerrainRests.Add("Land + beach");
-    DefRoRCivRes.Add("Food Storage");
-    DefRoRCivRes.Add("Wood Storage");
-    DefRoRCivRes.Add("Stone Storage");
-    DefRoRCivRes.Add("Gold Storage");
-    DefRoRCivRes.Add("Population Headroom");// MAX_POP
-    DefRoRCivRes.Add("Conversion Range");
-    DefRoRCivRes.Add("Current Age");
-    DefRoRCivRes.Add("Artifacts Captured");
-    DefRoRCivRes.Add("Unused (Trade Bonus)");
-    DefRoRCivRes.Add("Trade Goods");
-    DefRoRCivRes.Add("Trade Production");
-    DefRoRCivRes.Add("Current Population");// POPULATION
-    DefRoRCivRes.Add("Corpse Decay Time");
-    DefRoRCivRes.Add("Remarkable Discovery");
-    DefRoRCivRes.Add("Ruins Captured");
-    DefRoRCivRes.Add("Meat Storage");
-    DefRoRCivRes.Add("Berry Storage");
-    DefRoRCivRes.Add("Fish Storage");
-    DefRoRCivRes.Add("Unused (Trade Tax)");
-    DefRoRCivRes.Add("Total Units Owned");// TOTAL_UNITS / TOTAL_POP
-    DefRoRCivRes.Add("Units Killed");
-    DefRoRCivRes.Add("Technology Count");
-    DefRoRCivRes.Add("% Map Explored");
-    DefRoRCivRes.Add("Bronze Age Tech ID");
-    DefRoRCivRes.Add("Iron Age Tech ID");
-    DefRoRCivRes.Add("Tool Age Tech ID");
-    DefRoRCivRes.Add("Attack Warning Sound ID");
-    DefRoRCivRes.Add("Enable Priest Conversion");
-    DefRoRCivRes.Add("Enable Building Conversion");
-    DefRoRCivRes.Add("Bribery (Gold Replace)");// Allows paying missing cost with gold.
-    DefRoRCivRes.Add("Unused (Building Limit)");
-    DefRoRCivRes.Add("Unused (Food Limit)");
-    DefRoRCivRes.Add("Unit Limit");
-    DefRoRCivRes.Add("Food Maintenance");
-    DefRoRCivRes.Add("Faith");
-    DefRoRCivRes.Add("Faith Recharging Rate");
-    DefRoRCivRes.Add("Farm Food Amount");
-    DefRoRCivRes.Add("Civilian Population");
-    DefRoRCivRes.Add("Unused");
-    DefRoRCivRes.Add("All Techs Achieved");
-    DefRoRCivRes.Add("Military Population");
-    DefRoRCivRes.Add("Conversions");
-    DefRoRCivRes.Add("Standing Wonders");
-    DefRoRCivRes.Add("Razings");
-    DefRoRCivRes.Add("Kill Ratio");
-    DefRoRCivRes.Add("Survival to Finish");
-    DefRoRCivRes.Add("Tribute Inefficiency");
-    DefRoRCivRes.Add("Gold Mining Productivity");
-    DefRoRCivRes.Add("Town Center Unavailable");
-    DefRoRCivRes.Add("Gold Counter");
-    DefRoRCivRes.Add("Reveal Ally");
-    DefRoRCivRes.Add("Unused (Houses)");
-    DefRoRCivRes.Add("Temples");
-    DefRoRCivRes.Add("Tribute Sent");
-    DefRoRCivRes.Add("All Ruins Captured");
-    DefRoRCivRes.Add("All Artifacts Captured");
-    DefRoRCivRes.Add("RoR: Heal Bonus");
-    DefRoRCivRes.Add("RoR: Martyrdom");
+    // The conditions below that compile the default lists for these should match the comparisons here.
+    if (GenieVersion < genie::GV_RoR)
+    {
+        KeyArmors = "AoE";
+        KeyTerrainTables = "AoE";
+        KeyCivResources = "AoE";
+    }
+    else if (GenieVersion < genie::GV_AoKE3)
+    {
+        KeyArmors = "RoR";
+        KeyTerrainTables = "AoE";
+        KeyCivResources = "RoR";
+    }
+    else if (GenieVersion < genie::GV_TC)
+    {
+        KeyArmors = "AoK";
+        KeyTerrainTables = "AoK";
+        KeyCivResources = "AoK";
+    }
+    else if (GenieVersion < genie::GV_Cysion)
+    {
+        KeyArmors = "AoE2TC";
+        KeyTerrainTables = "AoE2TC";
+        KeyCivResources = "AoE2TC";
+    }
+    else if (GenieVersion < genie::GV_C2)
+    {
+        KeyArmors = "AoE2HD";
+        KeyTerrainTables = "AoE2HD";
+        KeyCivResources = "AoE2HD";
+    }
+    else if (GenieVersion < genie::GV_SWGB)
+    {
+        KeyArmors = "AoE2DE";
+        KeyTerrainTables = "AoE2DE";
+        KeyCivResources = "AoE2DE";
+    }
+    else if (GenieVersion < genie::GV_CC)
+    {
+        KeyArmors = "SWGB";
+        KeyTerrainTables = "SWGB";
+        KeyCivResources = "SWGB";
+    }
+    else
+    {
+        KeyArmors = "SWGB";
+        KeyTerrainTables = "SWGB";
+        KeyCivResources = "SWCC";
+    }
 
-    // AoK & TC
-    DefAoE2Armors.Add("0 - Unused");
-    DefAoE2Armors.Add("1 - Infantry");  // Selection 2
-    DefAoE2Armors.Add("2 - Turtle Ships");
-    DefAoE2Armors.Add("3 - Base Pierce");
-    DefAoE2Armors.Add("4 - Base Melee");
-    DefAoE2Armors.Add("5 - War Elephants");
-    DefAoE2Armors.Add("6 - Unused");
-    DefAoE2Armors.Add("7 - Unused");
-    DefAoE2Armors.Add("8 - Cavalry");
-    DefAoE2Armors.Add("9 - Unused");
-    DefAoE2Armors.Add("10 - Unused");
-    DefAoE2Armors.Add("11 - All Buildings (except Port)");
-    DefAoE2Armors.Add("12 - Unused");
-    DefAoE2Armors.Add("13 - Stone Defense");
-    DefAoE2Armors.Add("14 - Predator Animals (since HD)");
-    DefAoE2Armors.Add("15 - Archers");
-    DefAoE2Armors.Add("16 - Ships & Saboteur + Camels (until TC)");
-    DefAoE2Armors.Add("17 - Rams & Trebuchet + Siege Towers (since HD)");
-    DefAoE2Armors.Add("18 - Trees");
-    DefAoE2Armors.Add("19 - Unique Units (except Turtle Ship)");
-    DefAoE2Armors.Add("20 - Siege Weapons");
-    DefAoE2Armors.Add("21 - Standard Buildings");
-    DefAoE2Armors.Add("22 - Walls & Gates");
-    DefAoE2Armors.Add("23 - Gunpowder Units (since HD)");
-    DefAoE2Armors.Add("24 - Hunted Predator Animals");
-    DefAoE2Armors.Add("25 - Monks");
-    DefAoE2Armors.Add("26 - Castle");
-    DefAoE2Armors.Add("27 - Spearmen");
-    DefAoE2Armors.Add("28 - Cavalry Archers");
-    DefAoE2Armors.Add("29 - Eagle Warriors");
-    DefAoE2Armors.Add("30 - Camels (since HD)");
-    DefAoE2Armors.Add("31 - Leitis Defense (DE2)");
-    DefAoE2Armors.Add("32 - Condottiero (since HD)");
-    DefAoE2Armors.Add("33 - Unused");
-    DefAoE2Armors.Add("34 - Fishing Ship (since HD)");
-    DefAoE2Armors.Add("35 - Mamelukes (since HD)");
-    DefAoE2Armors.Add("36 - Heroes (DE2)");
-    DefAoE2TerrainRests.Add("All");
-    DefAoE2TerrainRests.Add("Land + shallows");
-    DefAoE2TerrainRests.Add("Beach");
-    DefAoE2TerrainRests.Add("Water");
-    DefAoE2TerrainRests.Add("Land");
-    DefAoE2TerrainRests.Add("Nothing");
-    DefAoE2TerrainRests.Add("Water");
-    DefAoE2TerrainRests.Add("All - water");
-    DefAoE2TerrainRests.Add("Land - farm");
-    DefAoE2TerrainRests.Add("Nothing");
-    DefAoE2TerrainRests.Add("Land + beach");
-    DefAoE2TerrainRests.Add("Land - farm");
-    DefAoE2TerrainRests.Add("All - water bridge");
-    DefAoE2TerrainRests.Add("Water");
-    DefAoE2TerrainRests.Add("All - water bridge");
-    DefAoE2TerrainRests.Add("Water");
-    DefAoE2TerrainRests.Add("Grass + beach");
-    DefAoE2TerrainRests.Add("Water (+bridge) - beach");
-    DefAoE2TerrainRests.Add("All - water bridge");
-    DefAoE2TerrainRests.Add("Only water + ice");
-    DefAoE2TerrainRests.Add("All - water");
-    DefAoE2TerrainRests.Add("Shallow water");
-    DefAoKCivRes.Add("Food Storage");
-    DefAoKCivRes.Add("Wood Storage");
-    DefAoKCivRes.Add("Stone Storage");
-    DefAoKCivRes.Add("Gold Storage");
-    DefAoKCivRes.Add("Population Headroom");
-    DefAoKCivRes.Add("Conversion Range");
-    DefAoKCivRes.Add("Current Age");
-    DefAoKCivRes.Add("Relics Captured");
-    DefAoKCivRes.Add("Unused (Trade Bonus)");
-    DefAoKCivRes.Add("Trade Goods");
-    DefAoKCivRes.Add("Unused (Trade Production)");
-    DefAoKCivRes.Add("Current Population");
-    DefAoKCivRes.Add("Corpse Decay Time");
-    DefAoKCivRes.Add("Remarkable Discovery");
-    DefAoKCivRes.Add("Monuments Captured");
-    DefAoKCivRes.Add("Meat Storage");
-    DefAoKCivRes.Add("Berry Storage");
-    DefAoKCivRes.Add("Fish Storage");
-    DefAoKCivRes.Add("Unused");
-    DefAoKCivRes.Add("Total Units Owned");
-    DefAoKCivRes.Add("Units Killed");
-    DefAoKCivRes.Add("Technology Count");
-    DefAoKCivRes.Add("% Map Explored");
-    DefAoKCivRes.Add("Castle Age Tech ID");
-    DefAoKCivRes.Add("Imperial Age Tech ID");
-    DefAoKCivRes.Add("Feudal Age Tech ID");
-    DefAoKCivRes.Add("Attack Warning Sound ID");
-    DefAoKCivRes.Add("Enable Monk Conversion");
-    DefAoKCivRes.Add("Enable Building Conversion");
-    DefAoKCivRes.Add("Unused");
-    DefAoKCivRes.Add("Unused (Building Limit)");
-    DefAoKCivRes.Add("Unused (Food Limit)");
-    DefAoKCivRes.Add("Bonus Population Cap");
-    DefAoKCivRes.Add("Food Maintenance");
-    DefAoKCivRes.Add("Faith");
-    DefAoKCivRes.Add("Faith Recharging Rate");
-    DefAoKCivRes.Add("Farm Food Amount");
-    DefAoKCivRes.Add("Civilian Population");
-    DefAoKCivRes.Add("Unused");
-    DefAoKCivRes.Add("All Techs Achieved");
-    DefAoKCivRes.Add("Military Population");
-    DefAoKCivRes.Add("Conversions");
-    DefAoKCivRes.Add("Standing Wonders");
-    DefAoKCivRes.Add("Razings");
-    DefAoKCivRes.Add("Kill Ratio");
-    DefAoKCivRes.Add("Survival to Finish");
-    DefAoKCivRes.Add("Tribute Inefficiency");
-    DefAoKCivRes.Add("Gold Mining Productivity");
-    DefAoKCivRes.Add("Town Center Unavailable");
-    DefAoKCivRes.Add("Gold Counter");
-    DefAoKCivRes.Add("Reveal Ally");
-    DefAoKCivRes.Add("Unused (Houses)");
-    DefAoKCivRes.Add("Monasteries");
-    DefAoKCivRes.Add("Tribute Sent");
-    DefAoKCivRes.Add("All Monuments Captured");
-    DefAoKCivRes.Add("All Relics Captured");
-    DefAoKCivRes.Add("Ore Storage");
-    DefAoKCivRes.Add("Kidnap Storage");
-    DefAoKCivRes.Add("Dark Age Tech ID");
-    DefAoKCivRes.Add("Unused (Trade Good Quality)");
-    DefAoKCivRes.Add("Unused (Trade Market Level)");
-    DefAoKCivRes.Add("Unused (Formations)");
-    DefAoKCivRes.Add("Building Housing Rate");
-    DefAoKCivRes.Add("Tax Gather Rate");
-    DefAoKCivRes.Add("Gather Accumulator");
-    DefAoKCivRes.Add("Salvage Decay Rate");
-    DefAoKCivRes.Add("Unused (Allow Formations)");
-    DefAoKCivRes.Add("Can Convert");
-    DefAoKCivRes.Add("Hit Points Killed");
-    DefAoKCivRes.Add("Killed P1");
-    DefAoKCivRes.Add("Killed P2");
-    DefAoKCivRes.Add("Killed P3");
-    DefAoKCivRes.Add("Killed P4");
-    DefAoKCivRes.Add("Killed P5");
-    DefAoKCivRes.Add("Killed P6");
-    DefAoKCivRes.Add("Killed P7");
-    DefAoKCivRes.Add("Killed P8");
-    DefAoKCivRes.Add("Conversion Resistance");
-    DefAoKCivRes.Add("Trade Vig Rate");
-    DefAoKCivRes.Add("Stone Mining Productivity");
-    DefAoKCivRes.Add("Queued Units");
-    DefAoKCivRes.Add("Training Count");
-    DefAoKCivRes.Add("Start with Unit 444 (PTWC)");
-    DefAoKCivRes.Add("Boarding Recharge Rate");
-    DefAoKCivRes.Add("Starting Villagers");
-    DefAoKCivRes.Add("Research Cost Modifier");
-    DefAoKCivRes.Add("Research Time Modifier");
-    DefAoKCivRes.Add("Convert Boats");
-    DefAoKCivRes.Add("Fish Trap Food Amount");
-    DefAoKCivRes.Add("Heal Rate Modifier");
-    DefAoKCivRes.Add("Healing Range"); // 90 alpha ends here
-    DefAoKCivRes.Add("Starting Food");
-    DefAoKCivRes.Add("Starting Wood");
-    DefAoKCivRes.Add("Starting Stone");
-    DefAoKCivRes.Add("Starting Gold");
-    DefAoKCivRes.Add("Enable PTWC / Kidnap / Loot");
-    DefAoKCivRes.Add("Berserker Heal Timer");
-    DefAoKCivRes.Add("Dominant Sheep Control");
-    DefAoKCivRes.Add("Building Cost Sum");
-    DefAoKCivRes.Add("Tech Cost Sum");
-    DefAoKCivRes.Add("Relic Income Sum");
-    DefAoKCivRes.Add("Trade Income Sum");
-    DefAoKCivRes.Add("P1 Tribute");
-    DefAoKCivRes.Add("P2 Tribute");
-    DefAoKCivRes.Add("P3 Tribute");
-    DefAoKCivRes.Add("P4 Tribute");
-    DefAoKCivRes.Add("P5 Tribute");
-    DefAoKCivRes.Add("P6 Tribute");
-    DefAoKCivRes.Add("P7 Tribute");
-    DefAoKCivRes.Add("P8 Tribute");
-    DefAoKCivRes.Add("P1 Kill Value");
-    DefAoKCivRes.Add("P2 Kill Value");
-    DefAoKCivRes.Add("P3 Kill Value");
-    DefAoKCivRes.Add("P4 Kill Value");
-    DefAoKCivRes.Add("P5 Kill Value");
-    DefAoKCivRes.Add("P6 Kill Value");
-    DefAoKCivRes.Add("P7 Kill Value");
-    DefAoKCivRes.Add("P8 Kill Value");
-    DefAoKCivRes.Add("P1 Razings");
-    DefAoKCivRes.Add("P2 Razings");
-    DefAoKCivRes.Add("P3 Razings");
-    DefAoKCivRes.Add("P4 Razings");
-    DefAoKCivRes.Add("P5 Razings");
-    DefAoKCivRes.Add("P6 Razings");
-    DefAoKCivRes.Add("P7 Razings");
-    DefAoKCivRes.Add("P8 Razings");
-    DefAoKCivRes.Add("P1 Razing Value");
-    DefAoKCivRes.Add("P2 Razing Value");
-    DefAoKCivRes.Add("P3 Razing Value");
-    DefAoKCivRes.Add("P4 Razing Value");
-    DefAoKCivRes.Add("P5 Razing Value");
-    DefAoKCivRes.Add("P6 Razing Value");
-    DefAoKCivRes.Add("P7 Razing Value");
-    DefAoKCivRes.Add("P8 Razing Value");
-    DefAoKCivRes.Add("Standing Castles");
-    DefAoKCivRes.Add("Hit Points Razed");
-    DefAoKCivRes.Add("Kills by P1");
-    DefAoKCivRes.Add("Kills by P2");
-    DefAoKCivRes.Add("Kills by P3");
-    DefAoKCivRes.Add("Kills by P4");
-    DefAoKCivRes.Add("Kills by P5");
-    DefAoKCivRes.Add("Kills by P6");
-    DefAoKCivRes.Add("Kills by P7");
-    DefAoKCivRes.Add("Kills by P8");
-    DefAoKCivRes.Add("Razings by P1");
-    DefAoKCivRes.Add("Razings by P2");
-    DefAoKCivRes.Add("Razings by P3");
-    DefAoKCivRes.Add("Razings by P4");
-    DefAoKCivRes.Add("Razings by P5");
-    DefAoKCivRes.Add("Razings by P6");
-    DefAoKCivRes.Add("Razings by P7");
-    DefAoKCivRes.Add("Razings by P8");
-    DefAoKCivRes.Add("Value Killed by Others");
-    DefAoKCivRes.Add("Value Razed by Others");
-    DefAoKCivRes.Add("Killed by Others");
-    DefAoKCivRes.Add("Razed by Others");
-    DefAoKCivRes.Add("Tribute from P1");
-    DefAoKCivRes.Add("Tribute from P2");
-    DefAoKCivRes.Add("Tribute from P3");
-    DefAoKCivRes.Add("Tribute from P4");
-    DefAoKCivRes.Add("Tribute from P5");
-    DefAoKCivRes.Add("Tribute from P6");
-    DefAoKCivRes.Add("Tribute from P7");
-    DefAoKCivRes.Add("Tribute from P8");
-    DefAoKCivRes.Add("Value Current Units");
-    DefAoKCivRes.Add("Value Current Buildings");
-    DefAoKCivRes.Add("Food Total");
-    DefAoKCivRes.Add("Wood Total");
-    DefAoKCivRes.Add("Stone Total");
-    DefAoKCivRes.Add("Gold Total");
-    DefAoKCivRes.Add("Total Value of Kills");
-    DefAoKCivRes.Add("Total Tribute Received");
-    DefAoKCivRes.Add("Total Value of Razings");
-    DefAoKCivRes.Add("Total Castles Built");
-    DefAoKCivRes.Add("Total Wonders Built");
-    DefAoKCivRes.Add("Tribute Score");
-    DefAoKCivRes.Add("Convert Min Adjustment");
-    DefAoKCivRes.Add("Convert Max Adjustment");
-    DefAoKCivRes.Add("Convert Resist Min Adjustment");
-    DefAoKCivRes.Add("Convert Resist Max Adjustment");
-    DefAoKCivRes.Add("Convert Building Min");
-    DefAoKCivRes.Add("Convert Building Max");
-    DefAoKCivRes.Add("Convert Building Chance");
-    DefAoKCivRes.Add("Reveal Enemy");
-    DefAoKCivRes.Add("Value Wonders Castles"); // 184 beta ends here
-    DefAoKCivRes.Add("Food Score");
-    DefAoKCivRes.Add("Wood Score");
-    DefAoKCivRes.Add("Stone Score");
-    DefAoKCivRes.Add("Gold Score");
-    DefAoKCivRes.Add("TC: Chopping Productivity");
-    DefAoKCivRes.Add("TC: Food-gathering Productivity");
-    DefAoKCivRes.Add("TC: Relic Gold Production Rate");
-    DefAoKCivRes.Add("TC: Converted Units Die");
-    DefAoKCivRes.Add("TC: Theocracy");
-    DefAoKCivRes.Add("TC: Crenellations");
-    DefAoKCivRes.Add("TC: Construction Rate Modifier");
-    DefAoKCivRes.Add("TC: Hun Wonder Bonus");
-    DefAoKCivRes.Add("TC: Spies Discount"); // 197 The Conquerors ends here
-    DefAoKCivRes.Add("AK: Unused");
-    DefAoKCivRes.Add("AK: Unused");
-    DefAoKCivRes.Add("AK: Unused");
-    DefAoKCivRes.Add("AK: Unused");
-    DefAoKCivRes.Add("AK: Unused");
-    DefAoKCivRes.Add("AK: Unused");
-    DefAoKCivRes.Add("AK: Unused");
-    DefAoKCivRes.Add("AK: Feitoria Food Productivity");
-    DefAoKCivRes.Add("AK: Feitoria Wood Productivity");
-    DefAoKCivRes.Add("AK: Feitoria Stone Productivity");
-    DefAoKCivRes.Add("AK: Feitoria Gold Productivity");
-    DefAoKCivRes.Add("RR: Reveal Enemy Town Centers");
-    DefAoKCivRes.Add("RR: Relics Visible on Map");
-
-    // SWGB & CC
-    DefSWGBArmors.Add("0 - Aircraft");  // Selection 1
-    // Airspeeder
-    // AIR SHIPS!!!
-    // Geonosian Warrior
-    // Wild Gungan Flyer
-    DefSWGBArmors.Add("1 - Heavy Assault Machines");    // Selection 2
-    // Assault Mech
-    // AT-AT
-    // Blizzards
-    DefSWGBArmors.Add("2 - Heavy Weapons");
-    // Undeployed Cannon
-    // Artillery
-    // A-A Mobiles
-    // Pummels
-    // Strike Mechs
-    // Mech Destroyers
-    // Cannon
-    // Decimator
-    // AT-AT
-    // Echo Base Ion Cannon
-    // Blizzards
-    // Evok Catapult
-    DefSWGBArmors.Add("3 - Base Ranged/DuraArmor");
-    DefSWGBArmors.Add("4 - Base Melee/Armor");
-    DefSWGBArmors.Add("5 - Jedis & Bounty Hunters");
-    // Jedi
-    // Jedi with Holocron
-    // Bounty Hunter
-    DefSWGBArmors.Add("6 - Assault Machines");
-    // Destroyer Droids
-    // Strike Mechs
-    // Mech Destroyers
-    // Assault Mechs
-    // Scouts
-    // Jabba's Sail Barge
-    // Desert Skiff
-    // Decimator
-    // AT-AT
-    // Blizzards
-    DefSWGBArmors.Add("7 - Decimators");
-    // Assault Mechs
-    // Decimator
-    // AT-AT
-    // Blizzards
-    DefSWGBArmors.Add("8 - Shield & Power Units");
-    // Power Cores
-    // Shield Wall
-    // Shield Generators
-    // Droid Storage Facility
-    // Power Droids
-    // Echo Base Power Generator
-    DefSWGBArmors.Add("9 - Ships");
-    // Utility Trawler
-    // Frigates
-    // Cruisers
-    // Destroyers
-    // A-A Destroyers
-    // Transport Ships
-    DefSWGBArmors.Add("10 - Submarines");
-    // Frigates
-    // Underwater Prefab Shelters
-    // Gungan Buildings
-    DefSWGBArmors.Add("11 - All Buildings");
-    // BUILDINGS!!!
-    DefSWGBArmors.Add("12 - Unused");
-    DefSWGBArmors.Add("13 - Defense Buildings");
-    // Gate
-    // Turrets
-    // A-A Turrets
-    // Echo Base Ion Cannon
-    // Fortress
-    // Theed Arch
-    DefSWGBArmors.Add("14 - Troopers");
-    // Royal Crusaders
-    // Berserker
-    // Chewbacca
-    // Bounty Hunter
-    // Troopers
-    // Mounted Troopers
-    // Grenade Trooper
-    // A-A Troopers
-    // Acklay
-    // Nexu
-    // Klaatu
-    // Nikito
-    // Reek
-    // Rancor
-    DefSWGBArmors.Add("15 - Mounted Troopers");
-    // Berserker
-    // Scouts
-    // Mounted Troopers
-    // Anakin's Podracer
-    // Landspeeder
-    // Sebulba's Podracer
-    // Skyhopper
-    DefSWGBArmors.Add("16 - Cruisers");
-    // Cruisers
-    DefSWGBArmors.Add("17 - Pummels & Cannons");
-    // Undeployed Cannon
-    // Pummels
-    // Cannon
-    DefSWGBArmors.Add("18 - Unused");
-    DefSWGBArmors.Add("19 - Workers");
-    // B'omarr Temple
-    // Underwater Prefab Shelters
-    // Asteroid Supply Depot
-    // Boorka's Palace
-    // Adv A-A Turret
-    // Reytha Soldier
-    // Mara Jade
-    // R2-D2
-    // Battleship Cores
-    // Landed Freighter
-    // Han Solo on Tauntaun
-    DefSWGBArmors.Add("20 - Destroyers");
-    // Destroyers
-    DefSWGBArmors.Add("21 - Standard Buildings");
-    // BUILDINGS!!!
-    DefSWGBArmors.Add("22 - Walls & Gates");
-    // GATES
-    // WALLS
-    // Theed Arch
-    DefSWGBArmors.Add("23 - Air Cruisers");
-    // Air Cruisers
-    // Blockade Runner
-    // Star Destroyer
-    // Deathstar
-    DefSWGBArmors.Add("24 - Wild Animals");
-    // Wild Fambaa
-    // Acklay
-    // Falumpaset
-    // Nexu
-    // Reek
-    // Dewback
-    // Ronto
-    // Fambaa
-    // Massif
-    // Orray
-    // Shaak
-    // Rancor
-    DefSWGBArmors.Add("25 - Unused");
-    DefSWGBArmors.Add("26 - Fortress");
-    // Fortress
-    DefSWGBArmors.Add("27 - Unused");
-    DefSWGBArmors.Add("28 - Unused");
-    DefSWGBArmors.Add("29 - Unused");
-    DefSWGBArmors.Add("30 - Tame Animals"); // Selection 31
-    // Fambaa Shield Generators
-    // Wild Fambaa
-    // Kaadu
-    // Tauntaun
-    // Cu-pa
-    // Womp Rat
-    DefSWGBTerrainRests.Add("All");
-    DefSWGBTerrainRests.Add("Land + unbuildable");
-    DefSWGBTerrainRests.Add("Shore");
-    DefSWGBTerrainRests.Add("Water");
-    DefSWGBTerrainRests.Add("Land");
-    DefSWGBTerrainRests.Add("Land + shore, impassable water");
-    DefSWGBTerrainRests.Add("Water + ice2 - swamp");
-    DefSWGBTerrainRests.Add("Land - water, lava");
-    DefSWGBTerrainRests.Add("Land - water, lava, farm");
-    DefSWGBTerrainRests.Add("Only water");
-    DefSWGBTerrainRests.Add("Land - shore");
-    DefSWGBTerrainRests.Add("Land - water, lava, farm");
-    DefSWGBTerrainRests.Add("All - lava");
-    DefSWGBTerrainRests.Add("Water");
-    DefSWGBTerrainRests.Add("All - lava");
-    DefSWGBTerrainRests.Add("Land + shore, impassable water");
-    DefSWGBTerrainRests.Add("Grass + shore");
-    DefSWGBTerrainRests.Add("Water - shore + impassable water");
-    DefSWGBTerrainRests.Add("All - impassable water, lava");
-    DefSWGBTerrainRests.Add("Land + shore, impassable water");
-    DefSWGBTerrainRests.Add("Land + shore, impassable water");
-    DefSWGBTerrainRests.Add("Water - deep water");
-    DefSWGBTerrainRests.Add("All - impassable water, lava");
-    DefSWGBTerrainRests.Add("No restriction");
-    DefSWGBTerrainRests.Add("Only water");
-    DefSWGBTerrainRests.Add("Land + shore, impassable water");
-    DefSWGBTerrainRests.Add("Land + shore, impassable water");
-    DefSWGBTerrainRests.Add("Deep water");
-    DefSWGBTerrainRests.Add("Wasteland");
-    DefSWGBTerrainRests.Add("Ice");
-    DefSWGBTerrainRests.Add("Lava");
-    DefSWGBTerrainRests.Add("Water2");
-    DefSWGBTerrainRests.Add("Rock4");
-    DefSWGBCivRes.Add("Food Storage");
-    DefSWGBCivRes.Add("Carbon Storage");
-    DefSWGBCivRes.Add("Ore Storage");
-    DefSWGBCivRes.Add("Nova Storage");
-    DefSWGBCivRes.Add("Population Headroom");
-    DefSWGBCivRes.Add("Conversion Range");
-    DefSWGBCivRes.Add("Current Tech Level");
-    DefSWGBCivRes.Add("Holocrons Captured");
-    DefSWGBCivRes.Add("Unused (Trade Bonus)");
-    DefSWGBCivRes.Add("Trade Goods");
-    DefSWGBCivRes.Add("Recharge Rate of Shields");
-    DefSWGBCivRes.Add("Current Population");
-    DefSWGBCivRes.Add("Corpse Decay Time");
-    DefSWGBCivRes.Add("Remarkable Discovery");
-    DefSWGBCivRes.Add("Monuments Captured");
-    DefSWGBCivRes.Add("Meat Storage");
-    DefSWGBCivRes.Add("Berry Storage");
-    DefSWGBCivRes.Add("Fish Storage");
-    DefSWGBCivRes.Add("Power Core Range");
-    DefSWGBCivRes.Add("Total Units Owned");
-    DefSWGBCivRes.Add("Units Killed");
-    DefSWGBCivRes.Add("Technology Count");
-    DefSWGBCivRes.Add("% Map Explored");
-    DefSWGBCivRes.Add("Submarine Detection");
-    DefSWGBCivRes.Add("Shield Generator Range");
-    DefSWGBCivRes.Add("Unknown");
-    DefSWGBCivRes.Add("Drop-off Time of Shields");
-    DefSWGBCivRes.Add("Enable Jedi Conversion");
-    DefSWGBCivRes.Add("Enable Building Conversion");
-    DefSWGBCivRes.Add("Unknown");
-    DefSWGBCivRes.Add("Unused (Building Limit)");
-    DefSWGBCivRes.Add("Enable A-A Attack for AT-AT");
-    DefSWGBCivRes.Add("Bonus Population Cap");
-    DefSWGBCivRes.Add("Power Core Shielding");
-    DefSWGBCivRes.Add("Force");
-    DefSWGBCivRes.Add("Force Recharging Rate");
-    DefSWGBCivRes.Add("Farm Food Amount");
-    DefSWGBCivRes.Add("Civilian Population");
-    DefSWGBCivRes.Add("Shields On for Bombers/Fighters");
-    DefSWGBCivRes.Add("All Techs Achieved");
-    DefSWGBCivRes.Add("Military Population");
-    DefSWGBCivRes.Add("Conversions");
-    DefSWGBCivRes.Add("Standing Monuments");
-    DefSWGBCivRes.Add("Razings");
-    DefSWGBCivRes.Add("Kill Ratio");
-    DefSWGBCivRes.Add("Survival to Finish");
-    DefSWGBCivRes.Add("Tribute Inefficiency");
-    DefSWGBCivRes.Add("Nova Mining Productivity");
-    DefSWGBCivRes.Add("Town Center Unavailable");
-    DefSWGBCivRes.Add("Gold Counter");
-    DefSWGBCivRes.Add("Reveal Ally");
-    DefSWGBCivRes.Add("Shielding");
-    DefSWGBCivRes.Add("Monasteries");
-    DefSWGBCivRes.Add("Tribute Sent");
-    DefSWGBCivRes.Add("All Ruins Captured");
-    DefSWGBCivRes.Add("All Relics Captured");
-    DefSWGBCivRes.Add("Enable Stealth for Masters");
-    DefSWGBCivRes.Add("Kidnap Storage");
-    DefSWGBCivRes.Add("Masters Can See Hidden Units");
-    DefSWGBCivRes.Add("Trade Good Quality");
-    DefSWGBCivRes.Add("Trade Market Level");
-    DefSWGBCivRes.Add("Unused (Formations)");
-    DefSWGBCivRes.Add("Building Housing Rate");
-    DefSWGBCivRes.Add("Tax Gather Rate");
-    DefSWGBCivRes.Add("Gather Accumulator");
-    DefSWGBCivRes.Add("Salvage Decay Rate");
-    DefSWGBCivRes.Add("Unused (Allow Formations)");
-    DefSWGBCivRes.Add("Can Convert");
-    DefSWGBCivRes.Add("Hit Points Killed");
-    DefSWGBCivRes.Add("Killed P1");
-    DefSWGBCivRes.Add("Killed P2");
-    DefSWGBCivRes.Add("Killed P3");
-    DefSWGBCivRes.Add("Killed P4");
-    DefSWGBCivRes.Add("Killed P5");
-    DefSWGBCivRes.Add("Killed P6");
-    DefSWGBCivRes.Add("Killed P7");
-    DefSWGBCivRes.Add("Killed P8");
-    DefSWGBCivRes.Add("Conversion Resistance");
-    DefSWGBCivRes.Add("Trade Vig Rate");
-    DefSWGBCivRes.Add("Ore Mining Productivity");
-    DefSWGBCivRes.Add("Queued Units");
-    DefSWGBCivRes.Add("Training Count");
-    DefSWGBCivRes.Add("Start with Packed Town Center");
-    DefSWGBCivRes.Add("Boarding Recharge Rate");
-    DefSWGBCivRes.Add("Starting Villagers");
-    DefSWGBCivRes.Add("Tech Cost Modifier");
-    DefSWGBCivRes.Add("Tech Time Modifier");
-    DefSWGBCivRes.Add("Concentration");
-    DefSWGBCivRes.Add("Fish Trap Food Amount");
-    DefSWGBCivRes.Add("Medic Healing Rate");
-    DefSWGBCivRes.Add("Healing Range");
-    DefSWGBCivRes.Add("Starting Food");
-    DefSWGBCivRes.Add("Starting Carbon");
-    DefSWGBCivRes.Add("Starting Ore");
-    DefSWGBCivRes.Add("Starting Nova");
-    DefSWGBCivRes.Add("Enable PTWC / Kidnap / Loot");
-    DefSWGBCivRes.Add("Berserker Heal Timer");
-    DefSWGBCivRes.Add("Dominant Sheep Control");
-    DefSWGBCivRes.Add("Object Cost Sum");
-    DefSWGBCivRes.Add("Tech Cost Sum");
-    DefSWGBCivRes.Add("Holocron Nova Sum");
-    DefSWGBCivRes.Add("Trade Income Sum");
-    DefSWGBCivRes.Add("P1 Tribute");
-    DefSWGBCivRes.Add("P2 Tribute");
-    DefSWGBCivRes.Add("P3 Tribute");
-    DefSWGBCivRes.Add("P4 Tribute");
-    DefSWGBCivRes.Add("P5 Tribute");
-    DefSWGBCivRes.Add("P6 Tribute");
-    DefSWGBCivRes.Add("P7 Tribute");
-    DefSWGBCivRes.Add("P8 Tribute");
-    DefSWGBCivRes.Add("P1 Kill Value");
-    DefSWGBCivRes.Add("P2 Kill Value");
-    DefSWGBCivRes.Add("P3 Kill Value");
-    DefSWGBCivRes.Add("P4 Kill Value");
-    DefSWGBCivRes.Add("P5 Kill Value");
-    DefSWGBCivRes.Add("P6 Kill Value");
-    DefSWGBCivRes.Add("P7 Kill Value");
-    DefSWGBCivRes.Add("P8 Kill Value");
-    DefSWGBCivRes.Add("P1 Razings");
-    DefSWGBCivRes.Add("P2 Razings");
-    DefSWGBCivRes.Add("P3 Razings");
-    DefSWGBCivRes.Add("P4 Razings");
-    DefSWGBCivRes.Add("P5 Razings");
-    DefSWGBCivRes.Add("P6 Razings");
-    DefSWGBCivRes.Add("P7 Razings");
-    DefSWGBCivRes.Add("P8 Razings");
-    DefSWGBCivRes.Add("P1 Razing Value");
-    DefSWGBCivRes.Add("P2 Razing Value");
-    DefSWGBCivRes.Add("P3 Razing Value");
-    DefSWGBCivRes.Add("P4 Razing Value");
-    DefSWGBCivRes.Add("P5 Razing Value");
-    DefSWGBCivRes.Add("P6 Razing Value");
-    DefSWGBCivRes.Add("P7 Razing Value");
-    DefSWGBCivRes.Add("P8 Razing Value");
-    DefSWGBCivRes.Add("Standing Fortresses");
-    DefSWGBCivRes.Add("Hit Points Razed");
-    DefSWGBCivRes.Add("Kills by P1");
-    DefSWGBCivRes.Add("Kills by P2");
-    DefSWGBCivRes.Add("Kills by P3");
-    DefSWGBCivRes.Add("Kills by P4");
-    DefSWGBCivRes.Add("Kills by P5");
-    DefSWGBCivRes.Add("Kills by P6");
-    DefSWGBCivRes.Add("Kills by P7");
-    DefSWGBCivRes.Add("Kills by P8");
-    DefSWGBCivRes.Add("Razings by P1");
-    DefSWGBCivRes.Add("Razings by P2");
-    DefSWGBCivRes.Add("Razings by P3");
-    DefSWGBCivRes.Add("Razings by P4");
-    DefSWGBCivRes.Add("Razings by P5");
-    DefSWGBCivRes.Add("Razings by P6");
-    DefSWGBCivRes.Add("Razings by P7");
-    DefSWGBCivRes.Add("Razings by P8");
-    DefSWGBCivRes.Add("Value Killed by Others");
-    DefSWGBCivRes.Add("Value Razed by Others");
-    DefSWGBCivRes.Add("Killed by Others");
-    DefSWGBCivRes.Add("Razed by Others");
-    DefSWGBCivRes.Add("Tribute from P1");
-    DefSWGBCivRes.Add("Tribute from P2");
-    DefSWGBCivRes.Add("Tribute from P3");
-    DefSWGBCivRes.Add("Tribute from P4");
-    DefSWGBCivRes.Add("Tribute from P5");
-    DefSWGBCivRes.Add("Tribute from P6");
-    DefSWGBCivRes.Add("Tribute from P7");
-    DefSWGBCivRes.Add("Tribute from P8");
-    DefSWGBCivRes.Add("Value Current Units");
-    DefSWGBCivRes.Add("Value Current Buildings");
-    DefSWGBCivRes.Add("Food Total");
-    DefSWGBCivRes.Add("Carbon Total");
-    DefSWGBCivRes.Add("Ore Total");
-    DefSWGBCivRes.Add("Nova Total");
-    DefSWGBCivRes.Add("Total Value of Kills");
-    DefSWGBCivRes.Add("Total Tribute Received");
-    DefSWGBCivRes.Add("Total Value of Razings");
-    DefSWGBCivRes.Add("Total Fortresses Built");
-    DefSWGBCivRes.Add("Total Monuments Built");
-    DefSWGBCivRes.Add("Tribute Score");
-    DefSWGBCivRes.Add("Convert Min Adjustment");
-    DefSWGBCivRes.Add("Convert Max Adjustment");
-    DefSWGBCivRes.Add("Convert Resist Min Adjustment");
-    DefSWGBCivRes.Add("Convert Resist Max Adjustment");
-    DefSWGBCivRes.Add("Convert Building Min");
-    DefSWGBCivRes.Add("Convert Building Max");
-    DefSWGBCivRes.Add("Convert Building Chance");
-    DefSWGBCivRes.Add("Reveal Enemy");
-    DefSWGBCivRes.Add("Value Wonders Castles");
-    DefSWGBCivRes.Add("Food Score");
-    DefSWGBCivRes.Add("Carbon Score");
-    DefSWGBCivRes.Add("Ore Score");
-    DefSWGBCivRes.Add("Nova Score");
-    DefSWGBCivRes.Add("Carbon Gathering Productivity");
-    DefSWGBCivRes.Add("Food-gathering Productivity");
-    DefSWGBCivRes.Add("Holocron Nova Production Rate");
-    DefSWGBCivRes.Add("Converted Units Die");
-    DefSWGBCivRes.Add("Meditation");
-    DefSWGBCivRes.Add("Crenellations");
-    DefSWGBCivRes.Add("Construction Rate Modifier");
-    DefSWGBCivRes.Add("Biological Self Regeneration");
-    DefSWGBCivRes.Add("Spies Discount");
-    DefSWGBCivRes.Add("Unknown");
-    DefSWGBCivRes.Add("Unknown");
-    DefSWGBCivRes.Add("Misc Counter 1");
-    DefSWGBCivRes.Add("Misc Counter 2");
-    DefSWGBCivRes.Add("Misc Counter 3");
-    DefSWGBCivRes.Add("Misc Counter 4");
-    DefSWGBCivRes.Add("Misc Counter 5");
-    DefSWGBCivRes.Add("Unknown");
-    DefSWGBCivRes.Add("Unknown");
-    DefSWGBCivRes.Add("Unknown");
-    DefSWGBCivRes.Add("Unknown");
-    DefSWGBCivRes.Add("Unknown");
-    DefSWGBCivRes.Add("CC: Unknown");
-
-    wxFileConfig Customs("", "", "AGE3NamesV0004.ini", "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-    long AoE1Count, AoE2Count, SWGBCount, AoE1CountTR, AoE2CountTR, SWGBCountTR, RoRCountCR, AoKCountCR, SWGBCountCR;
-    if (!Customs.Read("Count/AoE1Count", &AoE1Count, DefAoE1Armors.GetCount()))
-        Customs.Write("Count/AoE1Count", (int)DefAoE1Armors.GetCount());
-    if (!Customs.Read("Count/AoE2Count", &AoE2Count, DefAoE2Armors.GetCount()))
-        Customs.Write("Count/AoE2Count", (int)DefAoE2Armors.GetCount());
-    if (!Customs.Read("Count/SWGBCount", &SWGBCount, DefSWGBArmors.GetCount()))
-        Customs.Write("Count/SWGBCount", (int)DefSWGBArmors.GetCount());
-    if (!Customs.Read("Count/AoE1TerrainRestrictionCount", &AoE1CountTR, DefAoE1TerrainRests.GetCount()))
-        Customs.Write("Count/AoE1TerrainRestrictionCount", (int)DefAoE1TerrainRests.GetCount());
-    if (!Customs.Read("Count/AoE2TerrainRestrictionCount", &AoE2CountTR, DefAoE2TerrainRests.GetCount()))
-        Customs.Write("Count/AoE2TerrainRestrictionCount", (int)DefAoE2TerrainRests.GetCount());
-    if (!Customs.Read("Count/SWGBTerrainRestrictionCount", &SWGBCountTR, DefSWGBTerrainRests.GetCount()))
-        Customs.Write("Count/SWGBTerrainRestrictionCount", (int)DefSWGBTerrainRests.GetCount());
-    if (!Customs.Read("Count/RoRCivResCount", &RoRCountCR, DefRoRCivRes.GetCount()))
-        Customs.Write("Count/RoRCivResCount", (int)DefRoRCivRes.GetCount());
-    if (!Customs.Read("Count/AoKCivResCount", &AoKCountCR, DefAoKCivRes.GetCount()))
-        Customs.Write("Count/AoKCivResCount", (int)DefAoKCivRes.GetCount());
-    if (!Customs.Read("Count/SWGBCivResCount", &SWGBCountCR, DefSWGBCivRes.GetCount()))
-        Customs.Write("Count/SWGBCivResCount", (int)DefSWGBCivRes.GetCount());
+    wxString KeyNumArmors = "Counts/Num" + KeyArmors + "Armors";
+    wxString KeyNumTerrainTables = "Counts/Num" + KeyTerrainTables + "TerrainTables";
+    wxString KeyNumCivResources = "Counts/Num" + KeyCivResources + "CivResources";
+    wxString KeyArmorNames = KeyArmors + "ArmorNames/";
+    wxString KeyTerrainTableNames = KeyTerrainTables + "TerrainTableNames/";
+    wxString KeyCivResourceNames = KeyCivResources + "CivResourceNames/";
     wxString read_buf;
+    long NumNames;
 
-    armor_names.Clear();
+    armor_names.clear();
     armor_names.Add("Unused Type/No Type");
-    if (GenieVersion < genie::GV_AoKA) // AoE and RoR
+    if (Customs.Read(KeyNumArmors, &NumNames, 0))
     {
-        for (size_t loop = 0; loop < AoE1Count; ++loop)
+        for (size_t loop = 0; loop < NumNames; ++loop)
         {
-            if (!Customs.Read("AoE1Names/" + lexical_cast<std::string>(loop), &read_buf, DefAoE1Armors[loop]))
-                Customs.Write("AoE1Names/" + lexical_cast<std::string>(loop), DefAoE1Armors[loop]);
-            armor_names.Add(read_buf);
+            wxString indexAsText = lexical_cast<std::string>(loop);
+            Customs.Read(KeyArmorNames + indexAsText, &read_buf, "Unused");
+            armor_names.Add(indexAsText + " - " + read_buf);
         }
     }
-    else if (GenieVersion < genie::GV_SWGB) // AoK and TC
+    else
     {
-        for (size_t loop = 0; loop < AoE2Count; ++loop)
+        class ArmorWriter
         {
-            if (!Customs.Read("AoE2Names/" + lexical_cast<std::string>(loop), &read_buf, DefAoE2Armors[loop]))
-                Customs.Write("AoE2Names/" + lexical_cast<std::string>(loop), DefAoE2Armors[loop]);
-            armor_names.Add(read_buf);
-        }
-    }
-    else // SWGB and CC
-    {
-        for (size_t loop = 0; loop < SWGBCount; ++loop)
+        public:
+            ArmorWriter(wxFileConfig &file, wxString &key, wxArrayString &list) :
+                index(0), key(key), file(file), list(list) {}
+            void Add(wxString name)
+            {
+                wxString indexAsText = lexical_cast<std::string>(index++);
+                file.Write(key + indexAsText, name);
+                list.Add(indexAsText + " - " + name);
+            }
+            long NumNames(void) const { return index; }
+        private:
+            long index;
+            wxString &key;
+            wxFileConfig &file;
+            wxArrayString &list;
+        };
+
+        ArmorWriter names(Customs, KeyArmorNames, armor_names);
+
+        if (GenieVersion < genie::GV_SWGB)
         {
-            if (!Customs.Read("SWGBNames/" + lexical_cast<std::string>(loop), &read_buf, DefSWGBArmors[loop]))
-                Customs.Write("SWGBNames/" + lexical_cast<std::string>(loop), DefSWGBArmors[loop]);
-            armor_names.Add(read_buf);
+            if (GenieVersion >= genie::GV_AoKE3)
+            {
+                names.Add("Unused");
+                names.Add("Infantry");
+                if (GenieVersion >= genie::GV_TC)
+                {
+                    names.Add("Turtle Ships");
+                }
+                else
+                {
+                    names.Add("Unused");
+                }
+            }
+            else
+            {
+                if (GenieVersion >= genie::GV_RoR)
+                {
+                    names.Add("Towers & Walls & Fire Galley");
+                    names.Add("Towers & Walls & Archers");
+                }
+                else
+                {
+                    names.Add("Towers & Walls, Pierce");
+                    names.Add("Unused");
+                }
+                names.Add("Explosion");
+            }
+            names.Add("Base Pierce");
+            names.Add("Base Melee");
+            if (GenieVersion >= genie::GV_AoKE3)
+            {
+                names.Add("War Elephants");
+                names.Add("Unused");
+                names.Add("Unused");
+            }
+            else
+            {
+                names.Add("Unused");
+                names.Add("Buildings");
+                names.Add("Priests");
+            }
+            if (GenieVersion >= genie::GV_RoR)
+            {
+                names.Add("Cavalry");
+            }
+            else
+            {
+                names.Add("Unused");
+            }
+            if (GenieVersion >= genie::GV_AoKE3)
+            {
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("All Buildings (except Port)");
+                names.Add("Unused");
+                names.Add("Stone Walls & Gates & Towers");
+                if (GenieVersion >= genie::GV_Cysion)
+                {
+                    names.Add("Predator Animals");
+                }
+                else
+                {
+                    names.Add("Unused");
+                }
+                names.Add("Archers");
+                if (GenieVersion >= genie::GV_Cysion || GenieVersion < genie::GV_TC)
+                {
+                    names.Add("Ships & Saboteur");
+                }
+                else
+                {
+                    names.Add("Ships & Saboteur & Camels");
+                }
+                if (GenieVersion >= genie::GV_Cysion)
+                {
+                    names.Add("Rams & Trebuchet & Siege Towers");
+                }
+                else
+                {
+                    names.Add("Rams & Trebuchet");
+                }
+                if (GenieVersion >= genie::GV_TC)
+                {
+                    names.Add("Trees");
+                    names.Add("Unique Units (except Turtle Ship)");
+                    names.Add("Siege Weapons");
+                }
+                else
+                {
+                    names.Add("Unused");
+                    names.Add("Unique Units");
+                    names.Add("Siege Weapons & Boar");
+                }
+                names.Add("Standard Buildings");
+                if (GenieVersion >= genie::GV_TC)
+                {
+                    names.Add("Walls & Gates");
+                    if (GenieVersion >= genie::GV_Cysion)
+                    {
+                        names.Add("Gunpowder Units");
+                    }
+                    else
+                    {
+                        names.Add("Unused");
+                    }
+                    names.Add("Hunted Predator Animals");
+                    names.Add("Monks");
+                    names.Add("Castle");
+                    names.Add("Spearmen");
+                    names.Add("Cavalry Archers");
+                    names.Add("Eagle Warriors");
+                    if (GenieVersion >= genie::GV_Cysion)
+                    {
+                        names.Add("Camels");
+                        if (GenieVersion >= genie::GV_C2)
+                        {
+                            names.Add("Leitis Attack");
+                        }
+                        else
+                        {
+                            names.Add("Unused");
+                        }
+                        names.Add("Condottiero");
+                        names.Add("Unused");
+                        names.Add("Fishing Ship");
+                        names.Add("Mamelukes");
+                        if (GenieVersion >= genie::GV_C2)
+                        {
+                            names.Add("Heroes");
+                        }
+                    }
+                }
+            }
+            else
+            {
+                names.Add("Infantry");
+                if (GenieVersion >= genie::GV_RoR)
+                {
+                    names.Add("Towers & Walls");
+                    names.Add("Unused");
+                    names.Add("Villagers & Gazelles & Medusa");
+                }
+                else
+                {
+                    names.Add("Towers & Walls, Melee");
+                }
+            }
         }
+        else // SWGB and CC
+        {
+            // SWGB & CC
+            names.Add("Aircraft");  // Selection 1
+            // Airspeeder
+            // AIR SHIPS!!!
+            // Geonosian Warrior
+            // Wild Gungan Flyer
+            names.Add("Heavy Assault Machines");    // Selection 2
+            // Assault Mech
+            // AT-AT
+            // Blizzards
+            names.Add("Heavy Weapons");
+            // Undeployed Cannon
+            // Artillery
+            // A-A Mobiles
+            // Pummels
+            // Strike Mechs
+            // Mech Destroyers
+            // Cannon
+            // Decimator
+            // AT-AT
+            // Echo Base Ion Cannon
+            // Blizzards
+            // Evok Catapult
+            names.Add("Base Ranged/DuraArmor");
+            names.Add("Base Melee/Armor");
+            names.Add("Jedis & Bounty Hunters");
+            // Jedi
+            // Jedi with Holocron
+            // Bounty Hunter
+            names.Add("Assault Machines");
+            // Destroyer Droids
+            // Strike Mechs
+            // Mech Destroyers
+            // Assault Mechs
+            // Scouts
+            // Jabba's Sail Barge
+            // Desert Skiff
+            // Decimator
+            // AT-AT
+            // Blizzards
+            names.Add("Decimators");
+            // Assault Mechs
+            // Decimator
+            // AT-AT
+            // Blizzards
+            names.Add("Shield & Power Units");
+            // Power Cores
+            // Shield Wall
+            // Shield Generators
+            // Droid Storage Facility
+            // Power Droids
+            // Echo Base Power Generator
+            names.Add("Ships");
+            // Utility Trawler
+            // Frigates
+            // Cruisers
+            // Destroyers
+            // A-A Destroyers
+            // Transport Ships
+            names.Add("Submarines");
+            // Frigates
+            // Underwater Prefab Shelters
+            // Gungan Buildings
+            names.Add("All Buildings");
+            // BUILDINGS!!!
+            names.Add("Unused");
+            names.Add("Defense Buildings");
+            // Gate
+            // Turrets
+            // A-A Turrets
+            // Echo Base Ion Cannon
+            // Fortress
+            // Theed Arch
+            names.Add("Troopers");
+            // Royal Crusaders
+            // Berserker
+            // Chewbacca
+            // Bounty Hunter
+            // Troopers
+            // Mounted Troopers
+            // Grenade Trooper
+            // A-A Troopers
+            // Acklay
+            // Nexu
+            // Klaatu
+            // Nikito
+            // Reek
+            // Rancor
+            names.Add("Mounted Troopers");
+            // Berserker
+            // Scouts
+            // Mounted Troopers
+            // Anakin's Podracer
+            // Landspeeder
+            // Sebulba's Podracer
+            // Skyhopper
+            names.Add("Cruisers");
+            // Cruisers
+            names.Add("Pummels & Cannons");
+            // Undeployed Cannon
+            // Pummels
+            // Cannon
+            names.Add("Unused");
+            names.Add("Workers");
+            // B'omarr Temple
+            // Underwater Prefab Shelters
+            // Asteroid Supply Depot
+            // Boorka's Palace
+            // Adv A-A Turret
+            // Reytha Soldier
+            // Mara Jade
+            // R2-D2
+            // Battleship Cores
+            // Landed Freighter
+            // Han Solo on Tauntaun
+            names.Add("Destroyers");
+            // Destroyers
+            names.Add("Standard Buildings");
+            // BUILDINGS!!!
+            names.Add("Walls & Gates");
+            // GATES
+            // WALLS
+            // Theed Arch
+            names.Add("Air Cruisers");
+            // Air Cruisers
+            // Blockade Runner
+            // Star Destroyer
+            // Deathstar
+            names.Add("Wild Animals");
+            // Wild Fambaa
+            // Acklay
+            // Falumpaset
+            // Nexu
+            // Reek
+            // Dewback
+            // Ronto
+            // Fambaa
+            // Massif
+            // Orray
+            // Shaak
+            // Rancor
+            names.Add("Unused");
+            names.Add("Fortress");
+            // Fortress
+            names.Add("Unused");
+            names.Add("Unused");
+            names.Add("Unused");
+            names.Add("Tame Animals"); // Selection 31
+            // Fambaa Shield Generators
+            // Wild Fambaa
+            // Kaadu
+            // Tauntaun
+            // Cu-pa
+            // Womp Rat
+        }
+
+        Customs.Write(KeyNumArmors, names.NumNames());
     }
     Effects_89_Type_CB1->Flash();
     for (size_t loop = 0; loop < 2; ++loop)
@@ -1616,41 +1212,697 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         Attacks_Class_ComboBox[loop]->Flash();
     }
 
-    for (size_t loop = 0; loop < AoE1CountTR; ++loop)
+    class NameWriter
     {
-        if (!Customs.Read("AoE1TerrainRestrictionNames/" + lexical_cast<std::string>(loop), &read_buf, DefAoE1TerrainRests[loop]))
-            Customs.Write("AoE1TerrainRestrictionNames/" + lexical_cast<std::string>(loop), DefAoE1TerrainRests[loop]);
-        AoE1TerrainRestrictions.Add(read_buf);
+    public:
+        NameWriter(wxFileConfig &file, wxString &key, wxArrayString &list) :
+            index(0), key(key), file(file), list(list) {}
+        void Add(wxString name)
+        {
+            wxString line = key + lexical_cast<std::string>(index++);
+            file.Write(line, name);
+            list.Add(name);
+        }
+        long NumNames(void) const { return index; }
+    private:
+        long index;
+        wxString &key;
+        wxFileConfig &file;
+        wxArrayString &list;
+    };
+
+    TerrainRestrictionNames.clear();
+    if (Customs.Read(KeyNumTerrainTables, &NumNames, 0))
+    {
+        for (size_t loop = 0; loop < NumNames; ++loop)
+        {
+            wxString line = KeyTerrainTableNames + lexical_cast<std::string>(loop);
+            Customs.Read(line, &read_buf, "Unused");
+            TerrainRestrictionNames.Add(read_buf);
+        }
     }
-    for (size_t loop = 0; loop < AoE2CountTR; ++loop)
+    else
     {
-        if (!Customs.Read("AoE2TerrainRestrictionNames/" + lexical_cast<std::string>(loop), &read_buf, DefAoE2TerrainRests[loop]))
-            Customs.Write("AoE2TerrainRestrictionNames/" + lexical_cast<std::string>(loop), DefAoE2TerrainRests[loop]);
-        AoE2TerrainRestrictions.Add(read_buf);
+        NameWriter names(Customs, KeyTerrainTableNames, TerrainRestrictionNames);
+
+        if (GenieVersion < genie::GV_AoKE3)
+        {
+            names.Add("Land + water");
+            names.Add("Land");
+            names.Add("Beach");
+            names.Add("Water");
+            names.Add("Land, damage 20 %");
+            names.Add("Nothing");
+            names.Add("Water + beach");
+            names.Add("Land + shallows");
+            names.Add("Plain");
+            names.Add("Land - dirt");
+            names.Add("Land + beach");
+        }
+        else if (GenieVersion < genie::GV_SWGB)
+        {
+            names.Add("All");
+            names.Add("Land + shallows");
+            names.Add("Beach");
+            names.Add("Water, large wave");
+            names.Add("Land");
+            names.Add("Nothing");
+            names.Add("Water");
+            names.Add("All - water, foot dust");
+            names.Add("Land - farm");
+            names.Add("Nothing");
+            names.Add("Land + beach");
+            names.Add("Land - farm");
+            names.Add("All - bridge, ground impact");
+            names.Add("Water, small wave");
+            names.Add("All - bridge, arrow decay");
+            names.Add("Water, large wave");
+            names.Add("Grass + beach");
+            names.Add("Water + bridge - beach");
+            names.Add("All - bridge, spear decay");
+            names.Add("Only water + ice");
+            if (GenieVersion >= genie::GV_TC)
+            {
+                names.Add("All - water, wheel track");
+                names.Add("Shallow water");
+                if (GenieVersion >= genie::GV_Cysion)
+                {
+                    names.Add("All - bridge, dart decay");
+                    if (GenieVersion >= genie::GV_C2)
+                    {
+                        names.Add("All - bridge, arrow decay");
+                        names.Add("All - bridge, ground impact");
+                        names.Add("All - bridge, spear decay");
+                        names.Add("All - bridge, dart decay");
+                        names.Add("All - bridge, laser impact");
+                        names.Add("All - water, cavalry dust");
+                        names.Add("All - water, wheel track");
+                        names.Add("Water, medium wave");
+                        names.Add("All - water, wheel track");
+                    }
+                }
+            }
+        }
+        else
+        {
+            names.Add("All");
+            names.Add("Land + unbuildable");
+            names.Add("Shore");
+            names.Add("Water + shore + swamp, large wave");
+            names.Add("Land");
+            names.Add("Land + shore, bridge, AT-AT steps");
+            names.Add("Water + shore + ice2");
+            names.Add("Land - water, lava");
+            names.Add("Land - water, lava, farm");
+            names.Add("Only water");
+            names.Add("Land - shore");
+            names.Add("Land - water, lava, farm, path");
+            names.Add("All - lava, medium impact");
+            names.Add("Water, small wave");
+            names.Add("All - lava, blowup");
+            names.Add("Land + shore, bridge, AT-ST steps");
+            names.Add("Grass + shore");
+            names.Add("Water - shore + bridge");
+            names.Add("All - bridge, lava, arrow/spear");
+            names.Add("Land + shore, bridge, big steps");
+            names.Add("Land + shore, bridge, wheel marks");
+            names.Add("Water - deep water");
+            names.Add("All - bridge, lava");
+            names.Add("No restriction");
+            names.Add("Only water");
+            names.Add("Land + shore, bridge, no steps");
+            names.Add("Land + shore, bridge, medium steps");
+            names.Add("Deep water");
+            names.Add("Wasteland");
+            names.Add("Only Ice1");
+            names.Add("Only Lava");
+            names.Add("Only Water2");
+            names.Add("Only Rock4");
+        }
+
+        Customs.Write(KeyNumTerrainTables, names.NumNames());
     }
-    for (size_t loop = 0; loop < SWGBCountTR; ++loop)
+
+    CivilizationResourceNames.clear();
+    if (Customs.Read(KeyNumCivResources, &NumNames, 0))
     {
-        if (!Customs.Read("SWGBTerrainRestrictionNames/" + lexical_cast<std::string>(loop), &read_buf, DefSWGBTerrainRests[loop]))
-            Customs.Write("SWGBTerrainRestrictionNames/" + lexical_cast<std::string>(loop), DefSWGBTerrainRests[loop]);
-        SWGBTerrainRestrictions.Add(read_buf);
+        for (size_t loop = 0; loop < NumNames; ++loop)
+        {
+            wxString line = KeyCivResourceNames + lexical_cast<std::string>(loop);
+            Customs.Read(line, &read_buf, "Unused");
+            CivilizationResourceNames.Add(read_buf);
+        }
     }
-    for (size_t loop = 0; loop < RoRCountCR; ++loop)
+    else
     {
-        if (!Customs.Read("RoRCivResNames/" + lexical_cast<std::string>(loop), &read_buf, DefRoRCivRes[loop]))
-            Customs.Write("RoRCivResNames/" + lexical_cast<std::string>(loop), DefRoRCivRes[loop]);
-        RoRCivResources.Add(read_buf);
-    }
-    for (size_t loop = 0; loop < AoKCountCR; ++loop)
-    {
-        if (!Customs.Read("AoKCivResNames/" + lexical_cast<std::string>(loop), &read_buf, DefAoKCivRes[loop]))
-            Customs.Write("AoKCivResNames/" + lexical_cast<std::string>(loop), DefAoKCivRes[loop]);
-        AoKCivResources.Add(read_buf);
-    }
-    for (size_t loop = 0; loop < SWGBCountCR; ++loop)
-    {
-        if (!Customs.Read("SWGBCivResNames/" + lexical_cast<std::string>(loop), &read_buf, DefSWGBCivRes[loop]))
-            Customs.Write("SWGBCivResNames/" + lexical_cast<std::string>(loop), DefSWGBCivRes[loop]);
-        SWGBCivResources.Add(read_buf);
+        NameWriter names(Customs, KeyCivResourceNames, CivilizationResourceNames);
+
+        if (GenieVersion < genie::GV_AoKE3)
+        {
+            names.Add("Food Storage");
+            names.Add("Wood Storage");
+            names.Add("Stone Storage");
+            names.Add("Gold Storage");
+            names.Add("Population Headroom");
+            names.Add("Conversion Range");
+            names.Add("Current Age");
+            names.Add("Artifacts Captured");
+            names.Add("Unused (Trade Bonus)");
+            names.Add("Trade Goods");
+            names.Add("Trade Production");
+            names.Add("Current Population");
+            names.Add("Corpse Decay Time");
+            names.Add("Remarkable Discovery");
+            names.Add("Ruins Captured");
+            names.Add("Meat Storage");
+            names.Add("Berry Storage");
+            names.Add("Fish Storage");
+            names.Add("Unused (Trade Tax)");
+            names.Add("Total Units Owned");
+            names.Add("Units Killed");
+            names.Add("Technology Count");
+            names.Add("% Map Explored");
+            names.Add("Bronze Age Tech ID");
+            names.Add("Iron Age Tech ID");
+            names.Add("Tool Age Tech ID");
+            names.Add("Attack Warning Sound ID");
+            names.Add("Enable Priest Conversion");
+            names.Add("Enable Building Conversion");
+            names.Add("Bribery (Gold Cost Replace)");
+            names.Add("Unused (Building Limit)");
+            names.Add("Unused (Food Limit)");
+            names.Add("Unit Limit");
+            names.Add("Food Maintenance");
+            names.Add("Faith");
+            names.Add("Faith Recharging Rate");
+            names.Add("Farm Food Amount");
+            names.Add("Civilian Population");
+            names.Add("Unused");
+            names.Add("All Techs Achieved");
+            names.Add("Military Population");
+            names.Add("Conversions");
+            names.Add("Standing Wonders");
+            names.Add("Razings");
+            names.Add("Kill Ratio");
+            names.Add("Survival to Finish");
+            names.Add("Tribute Inefficiency");
+            names.Add("Gold Mining Productivity");
+            names.Add("Town Center Unavailable");
+            names.Add("Gold Counter");
+            names.Add("Reveal Ally");
+            names.Add("Unused (Houses)");
+            names.Add("Temples");
+            names.Add("Tribute Sent");
+            names.Add("All Ruins Captured");
+            names.Add("All Artifacts Captured");
+            if (GenieVersion >= genie::GV_RoR)
+            {
+                names.Add("Heal Bonus");
+                names.Add("Martyrdom");
+            }
+        }
+        else if (GenieVersion < genie::GV_SWGB)
+        {
+            names.Add("Food Storage");
+            names.Add("Wood Storage");
+            names.Add("Stone Storage");
+            names.Add("Gold Storage");
+            names.Add("Population Headroom");
+            names.Add("Conversion Range");
+            names.Add("Current Age");
+            names.Add("Relics Captured");
+            names.Add("Unused (Trade Bonus)");
+            names.Add("Trade Goods");
+            names.Add("Unused (Trade Production)");
+            names.Add("Current Population");
+            names.Add("Corpse Decay Time");
+            names.Add("Remarkable Discovery");
+            names.Add("Monuments Captured");
+            names.Add("Meat Storage");
+            names.Add("Berry Storage");
+            names.Add("Fish Storage");
+            names.Add("Unused");
+            names.Add("Total Units Owned");
+            names.Add("Units Killed");
+            names.Add("Technology Count");
+            names.Add("% Map Explored");
+            names.Add("Castle Age Tech ID");
+            names.Add("Imperial Age Tech ID");
+            names.Add("Feudal Age Tech ID");
+            names.Add("Attack Warning Sound ID");
+            names.Add("Enable Monk Conversion");
+            names.Add("Enable Building Conversion");
+            names.Add("Unused");
+            names.Add("Unused (Building Limit)");
+            names.Add("Unused (Food Limit)");
+            names.Add("Bonus Population Cap");
+            names.Add("Food Maintenance");
+            names.Add("Faith");
+            names.Add("Faith Recharging Rate");
+            names.Add("Farm Food Amount");
+            names.Add("Civilian Population");
+            names.Add("Unused");
+            names.Add("All Techs Achieved");
+            names.Add("Military Population");
+            names.Add("Conversions");
+            names.Add("Standing Wonders");
+            names.Add("Razings");
+            names.Add("Kill Ratio");
+            names.Add("Survival to Finish");
+            names.Add("Tribute Inefficiency");
+            names.Add("Gold Mining Productivity");
+            names.Add("Town Center Unavailable");
+            names.Add("Gold Counter");
+            names.Add("Reveal Ally");
+            names.Add("Unused (Houses)");
+            names.Add("Monasteries");
+            names.Add("Tribute Sent");
+            names.Add("All Monuments Captured");
+            names.Add("All Relics Captured");
+            names.Add("Ore Storage");
+            names.Add("Kidnap Storage");
+            names.Add("Dark Age Tech ID");
+            names.Add("Unused (Trade Good Quality)");
+            names.Add("Unused (Trade Market Level)");
+            names.Add("Unused (Formations)");
+            names.Add("Building Housing Rate");
+            names.Add("Tax Gather Rate");
+            names.Add("Gather Accumulator");
+            names.Add("Salvage Decay Rate");
+            names.Add("Unused (Allow Formations)");
+            names.Add("Can Convert");
+            names.Add("Hit Points Killed");
+            names.Add("Killed P1");
+            names.Add("Killed P2");
+            names.Add("Killed P3");
+            names.Add("Killed P4");
+            names.Add("Killed P5");
+            names.Add("Killed P6");
+            names.Add("Killed P7");
+            names.Add("Killed P8");
+            names.Add("Conversion Resistance");
+            names.Add("Trade Vig Rate");
+            names.Add("Stone Mining Productivity");
+            names.Add("Queued Units");
+            names.Add("Training Count");
+            names.Add("Start with Unit 444 (PTWC)");
+            names.Add("Boarding Recharge Rate");
+            names.Add("Starting Villagers");
+            names.Add("Research Cost Modifier");
+            names.Add("Research Time Modifier");
+            names.Add("Convert Boats");
+            names.Add("Fish Trap Food Amount");
+            names.Add("Heal Rate Modifier");
+            names.Add("Healing Range");
+            names.Add("Starting Food");
+            names.Add("Starting Wood");
+            names.Add("Starting Stone");
+            names.Add("Starting Gold");
+            names.Add("Enable PTWC / Kidnap / Loot");
+            names.Add("Berserker Heal Timer");
+            names.Add("Dominant Sheep Control");
+            names.Add("Building Cost Sum");
+            names.Add("Tech Cost Sum");
+            names.Add("Relic Income Sum");
+            names.Add("Trade Income Sum");
+            names.Add("P1 Tribute");
+            names.Add("P2 Tribute");
+            names.Add("P3 Tribute");
+            names.Add("P4 Tribute");
+            names.Add("P5 Tribute");
+            names.Add("P6 Tribute");
+            names.Add("P7 Tribute");
+            names.Add("P8 Tribute");
+            names.Add("P1 Kill Value");
+            names.Add("P2 Kill Value");
+            names.Add("P3 Kill Value");
+            names.Add("P4 Kill Value");
+            names.Add("P5 Kill Value");
+            names.Add("P6 Kill Value");
+            names.Add("P7 Kill Value");
+            names.Add("P8 Kill Value");
+            names.Add("P1 Razings");
+            names.Add("P2 Razings");
+            names.Add("P3 Razings");
+            names.Add("P4 Razings");
+            names.Add("P5 Razings");
+            names.Add("P6 Razings");
+            names.Add("P7 Razings");
+            names.Add("P8 Razings");
+            names.Add("P1 Razing Value");
+            names.Add("P2 Razing Value");
+            names.Add("P3 Razing Value");
+            names.Add("P4 Razing Value");
+            names.Add("P5 Razing Value");
+            names.Add("P6 Razing Value");
+            names.Add("P7 Razing Value");
+            names.Add("P8 Razing Value");
+            names.Add("Standing Castles");
+            names.Add("Hit Points Razed");
+            names.Add("Kills by P1");
+            names.Add("Kills by P2");
+            names.Add("Kills by P3");
+            names.Add("Kills by P4");
+            names.Add("Kills by P5");
+            names.Add("Kills by P6");
+            names.Add("Kills by P7");
+            names.Add("Kills by P8");
+            names.Add("Razings by P1");
+            names.Add("Razings by P2");
+            names.Add("Razings by P3");
+            names.Add("Razings by P4");
+            names.Add("Razings by P5");
+            names.Add("Razings by P6");
+            names.Add("Razings by P7");
+            names.Add("Razings by P8");
+            names.Add("Value Killed by Others");
+            names.Add("Value Razed by Others");
+            names.Add("Killed by Others");
+            names.Add("Razed by Others");
+            names.Add("Tribute from P1");
+            names.Add("Tribute from P2");
+            names.Add("Tribute from P3");
+            names.Add("Tribute from P4");
+            names.Add("Tribute from P5");
+            names.Add("Tribute from P6");
+            names.Add("Tribute from P7");
+            names.Add("Tribute from P8");
+            names.Add("Value Current Units");
+            names.Add("Value Current Buildings");
+            names.Add("Food Total");
+            names.Add("Wood Total");
+            names.Add("Stone Total");
+            names.Add("Gold Total");
+            names.Add("Total Value of Kills");
+            names.Add("Total Tribute Received");
+            names.Add("Total Value of Razings");
+            names.Add("Total Castles Built");
+            names.Add("Total Wonders Built");
+            names.Add("Tribute Score");
+            names.Add("Convert Min Adjustment");
+            names.Add("Convert Max Adjustment");
+            names.Add("Convert Resist Min Adjustment");
+            names.Add("Convert Resist Max Adjustment");
+            names.Add("Convert Building Min");
+            names.Add("Convert Building Max");
+            names.Add("Convert Building Chance");
+            names.Add("Reveal Enemy");
+            names.Add("Value Wonders Castles");
+            names.Add("Food Score");
+            names.Add("Wood Score");
+            names.Add("Stone Score");
+            names.Add("Gold Score"); // 188 Age of Kings ends here
+            if (GenieVersion >= genie::GV_TC)
+            {
+                names.Add("Chopping Productivity");
+                names.Add("Food-gathering Productivity");
+                names.Add("Relic Gold Production Rate");
+                names.Add("Converted Units Die");
+                names.Add("Theocracy");
+                names.Add("Crenellations");
+                names.Add("Construction Rate Modifier");
+                names.Add("Hun Wonder Bonus");
+                names.Add("Spies Discount"); // 197 Conquerors ends here
+                if (GenieVersion >= genie::GV_Cysion)
+                {
+                    names.Add("Unused");
+                    names.Add("Unused");
+                    names.Add("Unused");
+                    names.Add("Unused");
+                    names.Add("Unused");
+                    names.Add("Unused");
+                    names.Add("Unused");
+                    names.Add("Feitoria Food Productivity");
+                    names.Add("Feitoria Wood Productivity");
+                    names.Add("Feitoria Stone Productivity");
+                    names.Add("Feitoria Gold Productivity"); // 208 African Kingdoms ends here
+                    names.Add("Reveal Enemy Town Centers");
+                    names.Add("Relics Visible on Map"); // 210 Rise of the Rajas ends here
+                    if (GenieVersion >= genie::GV_C2)
+                    {
+                        names.Add("Higher Elevation Bonus");
+                        names.Add("Lower Elevation Bonus");
+                        names.Add("Raiding Productivity");
+                        names.Add("Mercenary Kipchak Count");
+                        names.Add("Mercenary Kipchak Limit");
+                        names.Add("Shepherd Productivity");
+                        names.Add("Trigger Shared Visibility");
+                        names.Add("Early Town Center Limit");
+                        names.Add("Fishing Productivity");
+                        names.Add("Unused");
+                        names.Add("Monument Food Productivity");
+                        names.Add("Monument Wood Productivity");
+                        names.Add("Monument Stone Productivity");
+                        names.Add("Monument Gold Productivity");
+                        names.Add("Relic Food Production Rate");
+                        names.Add("Villagers Killed By Gaia");
+                        names.Add("Villagers Killed By Animals");
+                        names.Add("Villagers Killed By AI Players");
+                        names.Add("Villagers Killed By Human Players");
+                        names.Add("Battle Royale Food Generation");
+                        names.Add("Battle Royale Wood Generation");
+                        names.Add("Battle Royale Stone Generation");
+                        names.Add("Battle Royale Gold Generation");
+                        names.Add("Spawn Cap");
+                        names.Add("Flemish Militia Population");
+                        names.Add("Farming Gold Productivity");
+                        names.Add("Folwark Collect Amount");
+                        names.Add("Folwark Collect Resource Type");
+                        names.Add("Folwark Building ID");
+                        names.Add("Units Converted");
+                        names.Add("Stone Mining Gold Productivity");
+                        names.Add("Workshop Food Generation");
+                        names.Add("Workshop Wood Generation");
+                        names.Add("Workshop Stone Generation");
+                        names.Add("Workshop Gold Generation");
+                        names.Add("Total Build Value Units");
+                        names.Add("Total Build Value Buildings");
+                        names.Add("Total Villagers Created");
+                        names.Add("Total Villager Idle Periods");
+                        names.Add("Total Villager Idle Seconds"); // 250 Dawn of the Dukes ends here
+                    }
+                }
+            }
+        }
+        else
+        {
+            names.Add("Food Storage");
+            names.Add("Carbon Storage");
+            names.Add("Ore Storage");
+            names.Add("Nova Storage");
+            names.Add("Population Headroom");
+            names.Add("Conversion Range");
+            names.Add("Current Tech Level");
+            names.Add("Holocrons Captured");
+            names.Add("Unused (Trade Bonus)");
+            names.Add("Trade Goods");
+            names.Add("Recharge Rate of Shields");
+            names.Add("Current Population");
+            names.Add("Corpse Decay Time");
+            names.Add("Remarkable Discovery");
+            names.Add("Monuments Captured");
+            names.Add("Meat Storage");
+            names.Add("Berry Storage");
+            names.Add("Fish Storage");
+            names.Add("Power Core Range");
+            names.Add("Total Units Owned");
+            names.Add("Units Killed");
+            names.Add("Technology Count");
+            names.Add("% Map Explored");
+            names.Add("Submarine Detection");
+            names.Add("Shield Generator Range");
+            names.Add("Unknown");
+            names.Add("Drop-off Time of Shields");
+            names.Add("Enable Jedi Conversion");
+            names.Add("Enable Building Conversion");
+            names.Add("Unknown");
+            names.Add("Unused (Building Limit)");
+            names.Add("Enable A-A Attack for AT-AT");
+            names.Add("Bonus Population Cap");
+            names.Add("Power Core Shielding");
+            names.Add("Force");
+            names.Add("Force Recharging Rate");
+            names.Add("Farm Food Amount");
+            names.Add("Civilian Population");
+            names.Add("Shields On for Bombers/Fighters");
+            names.Add("All Techs Achieved");
+            names.Add("Military Population");
+            names.Add("Conversions");
+            names.Add("Standing Monuments");
+            names.Add("Razings");
+            names.Add("Kill Ratio");
+            names.Add("Survival to Finish");
+            names.Add("Tribute Inefficiency");
+            names.Add("Nova Mining Productivity");
+            names.Add("Town Center Unavailable");
+            names.Add("Gold Counter");
+            names.Add("Reveal Ally");
+            names.Add("Shielding");
+            names.Add("Monasteries");
+            names.Add("Tribute Sent");
+            names.Add("All Ruins Captured");
+            names.Add("All Relics Captured");
+            names.Add("Enable Stealth for Masters");
+            names.Add("Kidnap Storage");
+            names.Add("Masters Can See Hidden Units");
+            names.Add("Trade Good Quality");
+            names.Add("Trade Market Level");
+            names.Add("Unused (Formations)");
+            names.Add("Building Housing Rate");
+            names.Add("Tax Gather Rate");
+            names.Add("Gather Accumulator");
+            names.Add("Salvage Decay Rate");
+            names.Add("Unused (Allow Formations)");
+            names.Add("Can Convert");
+            names.Add("Hit Points Killed");
+            names.Add("Killed P1");
+            names.Add("Killed P2");
+            names.Add("Killed P3");
+            names.Add("Killed P4");
+            names.Add("Killed P5");
+            names.Add("Killed P6");
+            names.Add("Killed P7");
+            names.Add("Killed P8");
+            names.Add("Conversion Resistance");
+            names.Add("Trade Vig Rate");
+            names.Add("Ore Mining Productivity");
+            names.Add("Queued Units");
+            names.Add("Training Count");
+            names.Add("Start with Packed Town Center");
+            names.Add("Boarding Recharge Rate");
+            names.Add("Starting Villagers");
+            names.Add("Tech Cost Modifier");
+            names.Add("Tech Time Modifier");
+            names.Add("Concentration");
+            names.Add("Fish Trap Food Amount");
+            names.Add("Medic Healing Rate");
+            names.Add("Healing Range");
+            names.Add("Starting Food");
+            names.Add("Starting Carbon");
+            names.Add("Starting Ore");
+            names.Add("Starting Nova");
+            names.Add("Enable PTWC / Kidnap / Loot");
+            names.Add("Berserker Heal Timer");
+            names.Add("Dominant Sheep Control");
+            names.Add("Object Cost Sum");
+            names.Add("Tech Cost Sum");
+            names.Add("Holocron Nova Sum");
+            names.Add("Trade Income Sum");
+            names.Add("P1 Tribute");
+            names.Add("P2 Tribute");
+            names.Add("P3 Tribute");
+            names.Add("P4 Tribute");
+            names.Add("P5 Tribute");
+            names.Add("P6 Tribute");
+            names.Add("P7 Tribute");
+            names.Add("P8 Tribute");
+            names.Add("P1 Kill Value");
+            names.Add("P2 Kill Value");
+            names.Add("P3 Kill Value");
+            names.Add("P4 Kill Value");
+            names.Add("P5 Kill Value");
+            names.Add("P6 Kill Value");
+            names.Add("P7 Kill Value");
+            names.Add("P8 Kill Value");
+            names.Add("P1 Razings");
+            names.Add("P2 Razings");
+            names.Add("P3 Razings");
+            names.Add("P4 Razings");
+            names.Add("P5 Razings");
+            names.Add("P6 Razings");
+            names.Add("P7 Razings");
+            names.Add("P8 Razings");
+            names.Add("P1 Razing Value");
+            names.Add("P2 Razing Value");
+            names.Add("P3 Razing Value");
+            names.Add("P4 Razing Value");
+            names.Add("P5 Razing Value");
+            names.Add("P6 Razing Value");
+            names.Add("P7 Razing Value");
+            names.Add("P8 Razing Value");
+            names.Add("Standing Fortresses");
+            names.Add("Hit Points Razed");
+            names.Add("Kills by P1");
+            names.Add("Kills by P2");
+            names.Add("Kills by P3");
+            names.Add("Kills by P4");
+            names.Add("Kills by P5");
+            names.Add("Kills by P6");
+            names.Add("Kills by P7");
+            names.Add("Kills by P8");
+            names.Add("Razings by P1");
+            names.Add("Razings by P2");
+            names.Add("Razings by P3");
+            names.Add("Razings by P4");
+            names.Add("Razings by P5");
+            names.Add("Razings by P6");
+            names.Add("Razings by P7");
+            names.Add("Razings by P8");
+            names.Add("Value Killed by Others");
+            names.Add("Value Razed by Others");
+            names.Add("Killed by Others");
+            names.Add("Razed by Others");
+            names.Add("Tribute from P1");
+            names.Add("Tribute from P2");
+            names.Add("Tribute from P3");
+            names.Add("Tribute from P4");
+            names.Add("Tribute from P5");
+            names.Add("Tribute from P6");
+            names.Add("Tribute from P7");
+            names.Add("Tribute from P8");
+            names.Add("Value Current Units");
+            names.Add("Value Current Buildings");
+            names.Add("Food Total");
+            names.Add("Carbon Total");
+            names.Add("Ore Total");
+            names.Add("Nova Total");
+            names.Add("Total Value of Kills");
+            names.Add("Total Tribute Received");
+            names.Add("Total Value of Razings");
+            names.Add("Total Fortresses Built");
+            names.Add("Total Monuments Built");
+            names.Add("Tribute Score");
+            names.Add("Convert Min Adjustment");
+            names.Add("Convert Max Adjustment");
+            names.Add("Convert Resist Min Adjustment");
+            names.Add("Convert Resist Max Adjustment");
+            names.Add("Convert Building Min");
+            names.Add("Convert Building Max");
+            names.Add("Convert Building Chance");
+            names.Add("Reveal Enemy");
+            names.Add("Value Wonders Castles");
+            names.Add("Food Score");
+            names.Add("Carbon Score");
+            names.Add("Ore Score");
+            names.Add("Nova Score");
+            names.Add("Carbon Gathering Productivity");
+            names.Add("Food-gathering Productivity");
+            names.Add("Holocron Nova Production Rate");
+            names.Add("Converted Units Die");
+            names.Add("Meditation");
+            names.Add("Crenellations");
+            names.Add("Construction Rate Modifier");
+            names.Add("Biological Self Regeneration");
+            names.Add("Spies Discount");
+            names.Add("Unknown");
+            names.Add("Unknown");
+            names.Add("Misc Counter 1");
+            names.Add("Misc Counter 2");
+            names.Add("Misc Counter 3");
+            names.Add("Misc Counter 4");
+            names.Add("Misc Counter 5");
+            names.Add("Unknown");
+            names.Add("Unknown");
+            names.Add("Unknown");
+            names.Add("Unknown");
+            names.Add("Unknown");
+            if (GenieVersion >= genie::GV_CC)
+            {
+                names.Add("Unknown");
+            }
+        }
+
+        Customs.Write(KeyNumCivResources, names.NumNames());
     }
 
     // This is here in case filters will be made game version dependent.
@@ -1988,7 +2240,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
     if(selections == 0)
     {
         List->SetSelection(0);
-        How2List = SEARCH;
+        How2List = ListMode::SEARCH;
         return;
     }
     if(How2List == ADD || Items.Item(0) >= listsize)
@@ -1998,7 +2250,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
         List->Deselect(Items.Item(sel));
         //List->SetFirstItem(listsize - 1);
         List->SetSelection(listsize - 1);
-        How2List = SEARCH;
+        How2List = ListMode::SEARCH;
         return;
     }
     if(FirstVisible != -1)
@@ -2012,7 +2264,7 @@ void AGE_Frame::OnSelection_SearchFilters(wxCommandEvent &event)
         if(first >= 0) List->SetFirstItem(first);
     }
     List->SetSelection(Items.Item(0));
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
 }*/
 
 void AGE_Frame::RefreshList(ProperList *list, std::vector<int> *oldies)
@@ -2033,12 +2285,12 @@ void AGE_Frame::RefreshList(ProperList *list, std::vector<int> *oldies)
             first_selected = 0;
         }
         list->DeselectAll();
-        if (How2List == ADD || first_selected >= name_count)
+        if (How2List == ListMode::ADD || first_selected >= name_count)
         {
             first_selected = name_count - 1;
         }
         list->ScrollToRow(first_visible);
-        if (Reselection && How2List != ADD && How2List != DEL && oldies)
+        if (Reselection && How2List != ListMode::ADD && How2List != ListMode::DEL && oldies)
         {
             // Select old indexes again.
             auto old = oldies->crbegin();
@@ -2068,13 +2320,13 @@ void AGE_Frame::RefreshList(ProperList *list, std::vector<int> *oldies)
             list->Select(first_selected, true);
         }
         list->EnsureVisible(first_selected);
-        if (How2List != SEARCH)
+        if (How2List != ListMode::SEARCH)
         {
             list->SetFocus();
         }
     }
 
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     list->Refresh();
 }
 

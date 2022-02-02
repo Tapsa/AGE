@@ -4,7 +4,7 @@
 
 void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListPlayerColors();
 }
 

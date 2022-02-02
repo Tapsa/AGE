@@ -11,7 +11,7 @@ std::string AGE_Frame::GetTerrainBorderName(int index)
 
 void AGE_Frame::OnTerrainBordersSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTerrainBorders(false);
 }
 
@@ -99,13 +99,13 @@ void AGE_Frame::InitTerrainBlends()
             Borders_ListV->Select(first_selected, true);
         }
         Borders_ListV->EnsureVisible(first_selected);
-        if(How2List != SEARCH)
+        if(How2List != ListMode::SEARCH)
         {
             Borders_ListV->SetFocus();
         }
     }
 
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     Borders_ListV->Refresh();
 }
 
@@ -310,7 +310,7 @@ std::string AGE_Frame::GetTerrainBorderTileTypeName(int index)
 
 void AGE_Frame::OnTerrainBorderTileTypeSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTerrainBorderTileTypes();
 }
 
@@ -381,7 +381,7 @@ std::string AGE_Frame::GetTerrainBorderBorderShapeName(int index)
 
 void AGE_Frame::OnTerrainBorderBorderShapeSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListTerrainBorderBorderShapes();
 }
 

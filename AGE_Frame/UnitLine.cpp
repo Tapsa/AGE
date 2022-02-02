@@ -10,7 +10,7 @@ std::string AGE_Frame::GetUnitLineName(int index)
 
 void AGE_Frame::OnUnitLinesSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListUnitLines();
 }
 
@@ -146,7 +146,7 @@ wxString AGE_Frame::GetUnitLineUnitName(int Unit)
 
 void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent &event)
 {
-    How2List = SEARCH;
+    How2List = ListMode::SEARCH;
     ListUnitLineUnits();
 }
 
