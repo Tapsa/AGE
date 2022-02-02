@@ -30,6 +30,8 @@ OpenDialog::OpenDialog(wxWindow *parent, const wxFont &font)
     Text_PalettesPath->SetToolTip("Used by Age of Empires DE and II DE");
     SolidText *Text_PlayerColorPalettePath = new SolidText(this, "Path for player color palette *");
     Text_PlayerColorPalettePath->SetToolTip("Used by Age of Empires DE and II DE");
+    SolidText *Text_CustomNamesPath = new SolidText(this, "Path for custom names *");
+    Text_CustomNamesPath->SetToolTip("Used to populate lists for attacks, armors, civilization resources, and terrain tables");
     Path_DRS = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     Path_DRS2 = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     Path_DRS3 = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "DRS (*.drs)|*.drs", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
@@ -37,6 +39,7 @@ OpenDialog::OpenDialog(wxWindow *parent, const wxFont &font)
     Path_ModSLP = new wxDirPickerCtrl(this, wxID_ANY, "", "Select a folder", wxDefaultPosition, wxDefaultSize, wxDIRP_USE_TEXTCTRL | wxDIRP_DIR_MUST_EXIST);
     Path_Palettes = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Configuration (*.conf)|*.conf", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
     Path_PlayerColorPalette = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Palette (*.pal)|*.pal", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
+    Path_CustomNames = new wxFilePickerCtrl(this, wxID_ANY, "", "Select a file", "Names (*.ini)|*.ini", wxDefaultPosition, wxDefaultSize, wxFLP_OPEN | wxFLP_USE_TEXTCTRL | wxFLP_FILE_MUST_EXIST);
 
     Extras->Add(TerrainsText);
     Extras->Add(TerrainsBox);
@@ -69,11 +72,13 @@ OpenDialog::OpenDialog(wxWindow *parent, const wxFont &font)
     Layout->Add(Path_Palettes, 1, wxEXPAND);
     Layout->Add(Text_PlayerColorPalettePath, 1, wxEXPAND);
     Layout->Add(Path_PlayerColorPalette, 1, wxEXPAND);
+    Layout->Add(Text_CustomNamesPath, 1, wxEXPAND);
+    Layout->Add(Path_CustomNames, 1, wxEXPAND);
     Layout->AddSpacer(15);
     Layout->AddSpacer(15);
 
     Layout->AddGrowableCol(1, 1);
-    Layout->AddGrowableRow(19, 1);
+    Layout->AddGrowableRow(21, 1);
 
     Main->Add(Defaults, 0, wxALIGN_LEFT | wxTOP | wxLEFT | wxRIGHT, 5);
     Main->Add(Defaults_StarWars, 0, wxALIGN_LEFT | wxBOTTOM | wxLEFT | wxRIGHT, 5);
@@ -220,4 +225,5 @@ void OpenDialog::OnRecent(wxCommandEvent &event)
     Path_ModSLP->SetPath(RecentValues[sel][9]);
     Path_Palettes->SetPath(RecentValues[sel][10]);
     Path_PlayerColorPalette->SetPath(RecentValues[sel][11]);
+    Path_CustomNames->SetPath(RecentValues[sel][12]);
 }
