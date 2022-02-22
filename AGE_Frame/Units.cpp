@@ -177,14 +177,16 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type20[24]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "PBT " + FormatInt(unit_ptr->PlacementSideTerrain.first) + " "
-                    + FormatInt(unit_ptr->PlacementSideTerrain.second);
+            wxString name = "PBT " + FormatInt(unit_ptr->PlacementSideTerrain.first) +
+                " PBT " + FormatInt(unit_ptr->PlacementSideTerrain.second) + " ";
+            return name;
         });
         else if(label.compare(Type20[25]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "PT " + FormatInt(unit_ptr->PlacementTerrain.first) + " "
-                    + FormatInt(unit_ptr->PlacementTerrain.second);
+            wxString name = "PT " + FormatInt(unit_ptr->PlacementTerrain.first) +
+                " PT " + FormatInt(unit_ptr->PlacementTerrain.second) + " ";
+            return name;
         });
         else if(label.compare(Type20[26]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -335,7 +337,7 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type20[55]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "SS " + FormatFloat(unit_ptr->OutlineSize.x) + " "
+            return "OS " + FormatFloat(unit_ptr->OutlineSize.x) + " "
                     + FormatFloat(unit_ptr->OutlineSize.y);
         });
         else if(label.compare(Type20[56]) == 0)
@@ -346,7 +348,14 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type20[57]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "Ask Tapsa";
+            wxString name = "";
+            for (size_t i = 0; i < unit_ptr->ResourceStorages.size(); ++i)
+            {
+                name += "RSD " + FormatInt(unit_ptr->ResourceStorages[i].Type) + " " +
+                    FormatInt(unit_ptr->ResourceStorages[i].Amount) + " " +
+                    FormatInt(unit_ptr->ResourceStorages[i].Flag) + " ";
+            }
+            return name;
         });
         else if(label.compare(Type20[58]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -356,12 +365,19 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type20[59]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "Ask Tapsa";
+            wxString name = "";
+            for (size_t i = 0; i < unit_ptr->DamageGraphics.size(); ++i)
+            {
+                name += "DGD " + FormatInt(unit_ptr->DamageGraphics[i].GraphicID) + " " +
+                    FormatInt(unit_ptr->DamageGraphics[i].DamagePercent) + " " +
+                    FormatInt(unit_ptr->DamageGraphics[i].ApplyMode) + " ";
+            }
+            return name;
         });
         else if(label.compare(Type20[60]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "SSo " + FormatInt(unit_ptr->SelectionSound);
+            return "SS " + FormatInt(unit_ptr->SelectionSound);
         });
         else if(label.compare(Type20[61]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -541,7 +557,12 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type40[9]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF40 "Ask Tapsa";
+            wxString name = "";
+            for (size_t i = 0; i < unit_ptr->Bird.TaskList.size(); ++i)
+            {
+                name += "TD " + FormatInt(unit_ptr->Bird.TaskList[i].ActionType) + " ";
+            }
+            return UF40 name;
         });
         else if(label.compare(Type40[10]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -712,7 +733,14 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type70[0]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "Ask Tapsa";
+            wxString name = "";
+            for (size_t i = 0; i < unit_ptr->Creatable.ResourceCosts.size(); ++i)
+            {
+                name += "RCD " + FormatInt(unit_ptr->Creatable.ResourceCosts[i].Type) + " " +
+                    FormatInt(unit_ptr->Creatable.ResourceCosts[i].Amount) + " " +
+                    FormatInt(unit_ptr->Creatable.ResourceCosts[i].Flag) + " ";
+            }
+            return UF70 name;
         });
         else if(label.compare(Type70[1]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -880,7 +908,12 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type80[10]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF80 "Ask Tapsa";
+            wxString name = "";
+            for (size_t i = 0; i < unit_ptr->Building.Annexes.size(); ++i)
+            {
+                name += "AU " + FormatInt(unit_ptr->Building.Annexes[i].UnitID) + " ";
+            }
+            return UF80 name;
         });
         else if(label.compare(Type80[11]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -925,7 +958,10 @@ void AGE_Frame::PrepUnitSearch()
         else if(label.compare(Type80[19]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF80 "Ask Tapsa";
+            wxString name = "";
+            for (size_t i = 0; i < unit_ptr->Building.LootingTable.size(); ++i)
+                name += "LTD " + FormatInt(unit_ptr->Building.LootingTable[i]) + " ";
+            return UF80 name;
         });
         else if(label.compare(Type80[20]) == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)

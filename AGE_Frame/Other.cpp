@@ -963,11 +963,15 @@ void AGE_Frame::OnGameVersionChange()
         {
             Units_LanguageDLLName->SetCastType(CLong);
             Units_LanguageDLLCreation->SetCastType(CLong);
+            Research_LangDLLName->SetCastType(CLong);
+            Research_LangDLLDescription->SetCastType(CLong);
         }
         else
         {
             Units_LanguageDLLName->SetCastType(CShort);
             Units_LanguageDLLCreation->SetCastType(CShort);
+            Research_LangDLLName->SetCastType(CShort);
+            Research_LangDLLDescription->SetCastType(CShort);
         }
         Graphics_FirstFrame_Holder->Show(appear);
         Units_TelemetryID_Holder->Show(appear);
@@ -1228,7 +1232,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
                 }
                 GenieVersion = genie::GV_LatestDE2;
                 // Remember to update this version number!
-                dataset->FileVersion = "VER 7.4";
+                dataset->FileVersion = "VER 7.5";
             }
             else if(GenieVersion <= genie::GV_LatestTap && genie::GV_Tapsa <= GenieVersion)
             {

@@ -426,7 +426,7 @@ wxThread::ExitCode Loader::Entry()
             tileSLP.ypos = wheight / 2;
             unsigned char *pic = (unsigned char*)wrgbdata.data();
             unsigned char *trans = pic + warea * 3;
-            tileSLP.bitmap = wxBitmap(wxImage(wwidth, wheight, pic, trans, true), 24);
+            tileSLP.bitmap = wxBitmap(wxImage(wwidth, wheight, pic, trans, true), 32);
             break;
         }
     }
