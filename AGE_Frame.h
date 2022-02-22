@@ -1515,12 +1515,12 @@ private:
 
     wxBoxSizer *Research_LangDLLName_Holder;
     SolidText *Research_LangDLLName_Text;
-    AGETextCtrl *Research_LangDLLName;
+    NumberControl *Research_LangDLLName;
     TextIndexControl *Research_DLL_LangDLLName;
 
     wxBoxSizer *Research_LangDLLDescription_Holder;
     SolidText *Research_LangDLLDescription_Text;
-    AGETextCtrl *Research_LangDLLDescription;
+    NumberControl *Research_LangDLLDescription;
     TextIndexControl *Research_DLL_LangDLLDescription;
 
     wxBoxSizer *Research_ResearchTime_Holder;

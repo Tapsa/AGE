@@ -480,7 +480,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
             int half_height = top > bottom ? top : bottom;
             img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(std::min(half_width, half_width - left), std::min(half_height, half_height - top)));
         }
-        graphic->bitmap = wxBitmap(img, 24);
+        graphic->bitmap = wxBitmap(img, 32);
         return;
     }
     if (graphic->slp->isSMP())
@@ -548,7 +548,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
             int half_height = top > bottom ? top : bottom;
             img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(std::min(half_width, half_width - left), std::min(half_height, half_height - top)));
         }
-        graphic->bitmap = wxBitmap(img, 24);
+        graphic->bitmap = wxBitmap(img, 32);
         return;
     }
     if (!graphic->slp->isSLP())
@@ -727,7 +727,7 @@ void AGE_Frame::FrameToBitmap(AGE_SLP *graphic, bool centralize)
         int half_height = top > bottom ? top : bottom;
         img.Resize(wxSize(half_width * 2, half_height * 2), wxPoint(std::min(half_width, half_width - left), std::min(half_height, half_height - top)));
     }
-    graphic->bitmap = wxBitmap(img, 24);
+    graphic->bitmap = wxBitmap(img, 32);
 }
 
 void AGE_Frame::BitmapToSLP(AGE_SLP *graphic)
