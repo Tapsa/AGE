@@ -52,8 +52,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
 
         wxConfig Config("", "", "AGE2\\ConfigWindow" + windowNumText, "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Read("/EditorVersion", &EditorVersionString, AboutDialog::AGE_VER);
-        (void)sscanf(EditorVersionString, "%f", &EditorVersion);
-        if (EditorVersionString == AboutDialog::AGE_VER)
+        if (EditorVersionString >= AboutDialog::AGE_VER)
         {
             Config.Read("/TimesOpened", &TimesOpened, 0);
         }
@@ -177,7 +176,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     GetToolBar()->AddTool(eFloat, "0001", wxBitmap(float_xpm), "Toggle float display mode", wxITEM_CHECK);
     GetToolBar()->AddTool(eReselection, "List", wxBitmap(Reselection_xpm), "Toggle reselection when relisting", wxITEM_CHECK);
     GetToolBar()->AddTool(ePaste, "Paste", wxBitmap(Paste_xpm), "Toggle pasting between 1:1 and sequentially", wxITEM_CHECK);
-    GetToolBar()->AddTool(eDRS, "SLP", wxBitmap(DRS_unlock_xpm), "Unload DRS files", wxITEM_CHECK);
+    GetToolBar()->AddTool(eDRS, "Sprite", wxBitmap(DRS_unlock_xpm), "Unload DRS files", wxITEM_CHECK);
     GetToolBar()->AddTool(eHelp, "Help", wxBitmap(Question_xpm), "Show help");
     GetToolBar()->ToggleTool(eBackup, AutoBackups);
     GetToolBar()->ToggleTool(eUnknown, ShowUnknowns);

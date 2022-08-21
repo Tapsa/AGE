@@ -4,6 +4,9 @@
 
 void AGE_Frame::FillListsBasedOnGameVersion()
 {
+    bool isAoE1DE = GenieVersion >= genie::GV_Tapsa && GenieVersion < genie::GV_LatestTap;
+    bool isAoE2DE = GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2;
+
     task_names.Clear();
     // When changing this, edit all 4 other places too
     task_names.Add("Unused Ability/Invalid Ability");   // Selection 0
@@ -276,7 +279,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         effect_attribute_names.Add("21 - Amount of 1st resource storage");
         effect_attribute_names.Add("22 - Blast Width (types 50-80)");
         effect_attribute_names.Add("23 - Search Radius (types 40-80)");
-        if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+        if (isAoE2DE)
         {
             effect_attribute_names.Add("24 - Hidden Damage Resistance (types 50-80)");
             effect_attribute_names.Add("25 - Icon");
@@ -340,7 +343,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     // Excess items automatically convert into zero within the list.
     if (GenieVersion >= genie::GV_AoKA)
     {
-        if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+        if (isAoE2DE)
         {
             // Attributes 0 to 25, 40 to 58 and 100 to 109 only.
             SetEffectAttributeChoice = [](LinkedComboBox *linkedComboBox, short value)
@@ -527,7 +530,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     {
         effect_type_names.Add("6 - Resource Modifier (Multiply)");
     }
-    if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+    if (isAoE2DE)
     {
         effect_type_names.Add("7 - Spawn Unit");
     }
@@ -547,7 +550,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         effect_type_names.Add("15 - Team Attribute Modifier (Multiply)");
         effect_type_names.Add("16 - Team Resource Modifier (Multiply)");
     }
-    if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+    if (isAoE2DE)
     {
         effect_type_names.Add("17 - Team Spawn Unit");
     }
@@ -557,7 +560,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         effect_type_names.Add("18 - Team Modify Tech");
         effect_type_names.Add("19 - Team Set Player Civ Name");
     }
-    if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+    if (isAoE2DE || GameVersion == EV_UP)
     {
         effect_type_names.Add("20 - Enemy Attribute Modifier (Set)");
         effect_type_names.Add("21 - Enemy Resource Modifier (Set/+/-)");
@@ -567,7 +570,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         effect_type_names.Add("25 - Enemy Attribute Modifier (Multiply)");
         effect_type_names.Add("26 - Enemy Resource Modifier (Multiply)");
     }
-    if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+    if (isAoE2DE)
     {
         effect_type_names.Add("27 - Enemy Spawn Unit");
     }
@@ -1906,20 +1909,243 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         Customs.Write(KeyNumCivResources, names.NumNames());
     }
 
-    // This is here in case filters will be made game version dependent.
     unit_filters.Clear();
     unit_filters.Add("*Choose*");
-    for (wxString &filter : Type20) unit_filters.Add(filter);
-    for (wxString &filter : Type30) unit_filters.Add(filter);
-    for (wxString &filter : Type40) unit_filters.Add(filter);
-    for (wxString &filter : Type50) unit_filters.Add(filter);
-    for (wxString &filter : Type60) unit_filters.Add(filter);
-    for (wxString &filter : Type70) unit_filters.Add(filter);
-    for (wxString &filter : Type80) unit_filters.Add(filter);
+    unit_filters.Add("Type");
+    unit_filters.Add("ID");
+    unit_filters.Add("Language File Name");
+    unit_filters.Add("Language File Creation");
+    unit_filters.Add("Class");
+    unit_filters.Add("Standing Graphics");
+    unit_filters.Add("Dying Graphics");
+    unit_filters.Add("Undead Mode");
+    unit_filters.Add("Hit Points");
+    unit_filters.Add("Line of Sight");
+    unit_filters.Add("Garrison Capacity");
+    unit_filters.Add("Collision Size XY");
+    unit_filters.Add("Collision Size Z");
+    unit_filters.Add("Train Sound");
+    unit_filters.Add("Dead Unit");
+    unit_filters.Add("Sort Number");
+    unit_filters.Add("Can be Built on");
+    unit_filters.Add("Icon");
+    unit_filters.Add("Hide in Editor");
+    unit_filters.Add("Portrait Picture");
+    unit_filters.Add("Available");
+    unit_filters.Add("Placement Side Terrain x2");
+    unit_filters.Add("Placement Terrain x2");
+    unit_filters.Add("Clearance Size XY");
+    unit_filters.Add("Hill Mode");
+    unit_filters.Add("Fog Visibility");
+    unit_filters.Add("Terrain Table");
+    unit_filters.Add("Fly Mode");
+    unit_filters.Add("Resource Capacity");
+    unit_filters.Add("Resource Decay");
+    unit_filters.Add("Blast Defense Level");
+    unit_filters.Add("Combat Level");
+    unit_filters.Add("Interaction Mode");
+    unit_filters.Add("Minimap Mode");
+    unit_filters.Add("Interface Kind");
+    unit_filters.Add("Multiple Attribute Mode");
+    unit_filters.Add("Minimap Color");
+    unit_filters.Add("Resource Storages");
+    unit_filters.Add("Damage Graphic Count");
+    unit_filters.Add("Damage Graphics");
+    unit_filters.Add("Selection Sound");
+    unit_filters.Add("Dying Sound");
+    unit_filters.Add("Attack Reaction");
+    unit_filters.Add("Convert Terrain");
+    unit_filters.Add("Internal Name");
+    unit_filters.Add("Internal Name 2");
+    if (GenieVersion >= genie::GV_AoEB)
+    {
+        unit_filters.Add("Language File Help");
+        unit_filters.Add("Language File Hot Key Text");
+        unit_filters.Add("Hot Key");
+        unit_filters.Add("Recyclable");
+        unit_filters.Add("Gatherable");
+        unit_filters.Add("Doppelganger on Death");
+        unit_filters.Add("Gather Group");
+        unit_filters.Add("Selection Effect");
+        unit_filters.Add("Editor Selection Color");
+        unit_filters.Add("Selection Size XY");
+        unit_filters.Add("Selection Size Z");
+        unit_filters.Add("Copy ID");
+        if (GenieVersion >= genie::GV_AoKE3)
+        {
+            unit_filters.Add("Damage Sound");
+            unit_filters.Add("Occlusion Mode");
+            if (GenieVersion >= genie::GV_AoKA)
+            {
+                unit_filters.Add("Base ID");
+                if (GenieVersion >= genie::GV_AoK)
+                {
+                    unit_filters.Add("Disabled");
+                    if (GenieVersion >= genie::GV_TC)
+                    {
+                        unit_filters.Add("Trait");
+                        unit_filters.Add("Civilization");
+                        unit_filters.Add("Nothing");
+                        if (GenieVersion >= genie::GV_SWGB)
+                        {
+                            unit_filters.Add("Unitline");
+                            unit_filters.Add("Min Tech Level");
+                        }
+                    }
+                }
+            }
+        }
+        if (GenieVersion >= genie::GV_AoKA || isAoE1DE)
+        {
+            unit_filters.Add("Obstruction Type");
+            unit_filters.Add("Obstruction Class");
+        }
+        if (isAoE2DE || isAoE1DE)
+        {
+            unit_filters.Add("Blood Unit");
+        }
+    }
+
+    unit_filters.Add("Speed");
+    unit_filters.Add("Tracking ID");
+    unit_filters.Add("Walking Graphics");
+    unit_filters.Add("Rotation Speed");
+    unit_filters.Add("Size Class");
+    unit_filters.Add("Trailing Unit");
+    unit_filters.Add("Trailing Unit Mode");
+    unit_filters.Add("Trailing Unit Density");
+    unit_filters.Add("Move Algorithm");
+    unit_filters.Add("Default Task");
+    unit_filters.Add("Search Radius");
+    unit_filters.Add("Work Rate");
+    unit_filters.Add("Drop Sites");
+    unit_filters.Add("Task Swap Group");
+    unit_filters.Add("Attack Sound");
+    unit_filters.Add("Move Sound");
+    unit_filters.Add("Run Pattern");
+    unit_filters.Add("Task Count");
+    unit_filters.Add("Tasks");
+    unit_filters.Add("Base Armor");
+    unit_filters.Add("Attack Count");
+    unit_filters.Add("Attacks");
+    unit_filters.Add("Armor Count");
+    unit_filters.Add("Armors");
+    unit_filters.Add("Terrain Defense Bonus");
+    unit_filters.Add("Max Range");
+    unit_filters.Add("Blast Width");
+    unit_filters.Add("Reload Time");
+    unit_filters.Add("Projectile Unit");
+    unit_filters.Add("Accuracy Percent");
+    unit_filters.Add("Break off Combat");
+    unit_filters.Add("Frame Delay");
+    unit_filters.Add("Graphic Displacement");
+    unit_filters.Add("Blast Attack Level");
+    unit_filters.Add("Min Range");
+    unit_filters.Add("Attack Graphic");
+    unit_filters.Add("Displayed Melee Armor");
+    unit_filters.Add("Displayed Attack");
+    unit_filters.Add("Displayed Range");
+    unit_filters.Add("Displayed Reload Time");
+    if (GenieVersion >= genie::GV_AoKB)
+    {
+        unit_filters.Add("Rotation Angles");
+        unit_filters.Add("Attack Dispersion");
+        if (isAoE2DE)
+        {
+            unit_filters.Add("Train Wave Works Sound");
+            unit_filters.Add("Damage Wave Works Sound");
+            unit_filters.Add("Selection Wave Works Sound");
+            unit_filters.Add("Dying Wave Works Sound");
+            unit_filters.Add("Min Collision Size Multiplier");
+            unit_filters.Add("Attack Wave Works Sound");
+            unit_filters.Add("Move Wave Works Sound");
+            unit_filters.Add("Bonus Damage Resistance");
+        }
+    }
+
+    unit_filters.Add("Projectile Type");
+    unit_filters.Add("Smart Mode");
+    unit_filters.Add("Hit Mode");
+    unit_filters.Add("Vanish Mode");
+    unit_filters.Add("Area Effect Specials");
+    unit_filters.Add("Projectile Arc");
+
+    unit_filters.Add("Resource Costs");
+    unit_filters.Add("Train Time");
+    unit_filters.Add("Train Location");
+    unit_filters.Add("Train Button");
+    unit_filters.Add("Displayed Pierce Armor");
+    if (GenieVersion >= genie::GV_AoKE3)
+    {
+        unit_filters.Add("Rear Attack Modifier");
+        unit_filters.Add("Flank Attack Modifier");
+        unit_filters.Add("Creatable Type");
+        unit_filters.Add("Total Projectiles");
+        unit_filters.Add("Max Total Projectiles");
+        unit_filters.Add("Projectile Spawning Area");
+        unit_filters.Add("Secondary Projectile Unit");
+        unit_filters.Add("Special Graphic");
+        unit_filters.Add("Special Ability");
+        if (GenieVersion >= genie::GV_AoKB)
+        {
+            unit_filters.Add("Hero Mode");
+            unit_filters.Add("Garrison Graphic");
+            if (isAoE2DE)
+            {
+                unit_filters.Add("Spawning Graphic");
+                unit_filters.Add("Upgrade Graphic");
+                unit_filters.Add("Max Charge");
+                unit_filters.Add("Recharge Rate");
+                unit_filters.Add("Charge Event");
+                unit_filters.Add("Charge Type");
+                unit_filters.Add("Hero Glow Graphic");
+            }
+        }
+    }
+
+    unit_filters.Add("Construction Graphic");
+    unit_filters.Add("Adjacent Mode");
+    unit_filters.Add("Graphics Angle");
+    unit_filters.Add("Disappears After Built");
+    unit_filters.Add("Stack Unit");
+    unit_filters.Add("Foundation Terrain");
+    unit_filters.Add("Old Overlay");
+    unit_filters.Add("Tech");
+    unit_filters.Add("Construction Sound");
+    if (GenieVersion >= genie::GV_AoKE3)
+    {
+        unit_filters.Add("Can Burn");
+        unit_filters.Add("Annexes");
+        unit_filters.Add("Transform Unit");
+        unit_filters.Add("Transform Sound");
+        unit_filters.Add("Garrison Type");
+        unit_filters.Add("Garrison Heal Rate");
+        unit_filters.Add("Garrison Repair Rate");
+        unit_filters.Add("Pile Unit");
+        unit_filters.Add("Looting Table");
+        if (GenieVersion >= genie::GV_AoKA)
+        {
+            unit_filters.Add("Head Unit");
+            if (GenieVersion >= genie::GV_TC)
+            {
+                unit_filters.Add("Snow Graphic");
+                if (isAoE2DE)
+                {
+                    unit_filters.Add("Foundation Destruction Graphic");
+                    unit_filters.Add("Foundation Rubble Graphic");
+                    unit_filters.Add("Researching Graphic");
+                    unit_filters.Add("Research Completed Graphic");
+                    unit_filters.Add("Transform Wave Works Sound");
+                    unit_filters.Add("Construction Wave Works Sound");
+                }
+            }
+        }
+    }
     unit_filters.Sort();
 
     research_filters.Clear();
-    research_filters.Add("Lang File Name"); // 0
+    research_filters.Add("*Choose*");
+    research_filters.Add("Lang File Name");
     research_filters.Add("Internal Name");
     research_filters.Add("Required Techs");
     research_filters.Add("Min. Req. Techs");
@@ -1940,26 +2166,115 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         research_filters.Add("Civilization");
         research_filters.Add("Full Tech Mode");
         if (GenieVersion >= genie::GV_SWGB)
+        {
             research_filters.Add("Internal Name 2");
-        if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+        }
+        if (isAoE2DE)
+        {
             research_filters.Add("Repeatable");
+        }
     }
+    research_filters.Sort();
+
+    terrain_filters.Clear();
+    terrain_filters.Add("*Choose*");
+    terrain_filters.Add("Internal Name");
+    terrain_filters.Add("Sprite Name");
+    terrain_filters.Add("Sprite");
+    terrain_filters.Add("Enabled");
+    terrain_filters.Add("Random");
+    terrain_filters.Add("Shape Pointer");
+    terrain_filters.Add("Sound");
+    terrain_filters.Add("Colors");
+    terrain_filters.Add("Cliff Colors");
+    terrain_filters.Add("Passable Terrain");
+    terrain_filters.Add("Impassable Terrain");
+    terrain_filters.Add("Frame Count");
+    terrain_filters.Add("Angle Count");
+    terrain_filters.Add("Terrain to Draw");
+    terrain_filters.Add("Terrain Dimensions");
+    terrain_filters.Add("Terrain Units Used");
+    if (GenieVersion >= genie::GV_AoKB || isAoE1DE)
+    {
+        terrain_filters.Add("Blend Priority");
+        terrain_filters.Add("Blend Type");
+    }
+    if (isAoE2DE || isAoE1DE)
+    {
+        terrain_filters.Add("Water");
+        terrain_filters.Add("Hide in Editor");
+        terrain_filters.Add("Name String");
+    }
+    if (isAoE2DE)
+    {
+        terrain_filters.Add("Overlay Mask");
+        terrain_filters.Add("Wave Works Stop Sound");
+        terrain_filters.Add("Wave Works Sound");
+    }
+    if (GenieVersion < genie::GV_SWGB)
+    {
+        terrain_filters.Add("Phantom Variable");
+    }
+    terrain_filters.Sort();
+
+    graphic_filters.Clear();
+    graphic_filters.Add("*Choose*");
+    graphic_filters.Add("Internal Name");
+    graphic_filters.Add("Sprite Name");
+    graphic_filters.Add("Sprite");
+    graphic_filters.Add("Disabler");
+    graphic_filters.Add("Old Color Flag");
+    graphic_filters.Add("Layer");
+    graphic_filters.Add("Player Color Forcer");
+    graphic_filters.Add("Transparent Picking");
+    graphic_filters.Add("Sound");
+    graphic_filters.Add("Coordinates");
+    graphic_filters.Add("Delta Count");
+    graphic_filters.Add("Angle Sounds Used");
+    graphic_filters.Add("Angle Sounds");
+    graphic_filters.Add("Frames per Angle");
+    graphic_filters.Add("Angle Count");
+    graphic_filters.Add("New Speed");
+    graphic_filters.Add("Animation Duration");
+    graphic_filters.Add("Replay Delay");
+    graphic_filters.Add("Sequence Type");
+    graphic_filters.Add("Mirroring Mode");
+    if (isAoE1DE)
+    {
+        graphic_filters.Add("First Frame");
+    }
+    if (GenieVersion >= genie::GV_AoKB)
+    {
+        graphic_filters.Add("Old Editor Flag");
+        if (isAoE2DE)
+        {
+            graphic_filters.Add("Wave Works Sound");
+            graphic_filters.Add("Angle Wave Works Sounds");
+            graphic_filters.Add("Particle Effect Name");
+        }
+    }
+    graphic_filters.Add("Pointer");
+    graphic_filters.Sort();
 
     soundfile_filters.Clear();
-    soundfile_filters.Add("Filename");   // 0
+    soundfile_filters.Add("*Choose*");
+    soundfile_filters.Add("Filename");
     soundfile_filters.Add("DRS");
     soundfile_filters.Add("Probability");
     if (GenieVersion >= genie::GV_AoKE3)
     {
         soundfile_filters.Add("Civilization");
-        soundfile_filters.Add("Unknown");
+        soundfile_filters.Add("Icon Set");
     }
+    soundfile_filters.Sort();
 
     for (size_t loop = 0; loop < 2; ++loop)
     {
         Units_Class_ComboBox[loop]->Flash();
         Units_SearchFilters[loop]->Flash();
         Research_SearchFilters[loop]->Flash();
+        Terrains_SearchFilters[loop]->Flash();
+        Graphics_SearchFilters[loop]->Flash();
         Sounds_Items_SearchFilters[loop]->Flash();
     }
 }

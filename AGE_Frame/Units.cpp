@@ -2,48 +2,48 @@
 #include "../AGE_Frame.h"
 #include "genie/resource/Color.h"
 
-wxString AGE_Frame::GetUnitName(int index, short civ, bool Filter)
-{
-    wxString Name;
+std::vector<std::function<wxString(genie::Unit*)>> UnitFilterFunctions;
+bool UseDynamicUnitName;
 
-    if(dataset->Civs[civ].UnitPointers[index] == 0)
+wxString AGE_Frame::GetUnitName(int index, short civ, bool filter)
+{
+    if (dataset->Civs[civ].UnitPointers[index] == 0)
     {
         return "Nonexistent";
     }
-    if(Filter)
+    wxString name;
+    if (filter)
     {
-        genie::Unit *unit_ptr = &dataset->Civs[civ].Units[index];
-        for(auto &f: UnitFilterFunctions)
+        for (auto &f : UnitFilterFunctions)
         {
-            short NameSize = Name.size(), NameSize0 = NameSize;
-            Name += f(unit_ptr);
-            Name += NameSize0 == Name.size() ? "NA, " : ", ";
+            name += f(&dataset->Civs[civ].Units[index]) + ", ";
         }
     }
-
-//Names:
-    if(useDynamicName && !TranslatedText(dataset->Civs[civ].Units[index].LanguageDLLName, 2).empty())
+    if (UseDynamicUnitName)
     {
-        return Name + TranslatedText(dataset->Civs[civ].Units[index].LanguageDLLName, 64);
+        wxString DynamicName = TranslatedText(dataset->Civs[civ].Units[index].LanguageDLLName, 64);
+        if (!DynamicName.empty())
+        {
+            return name + DynamicName;
+        }
     }
-//InternalName:
-    if(!dataset->Civs[civ].Units[index].Name.empty())
+    if (!dataset->Civs[civ].Units[index].Name.empty())
     {
-        return Name + wxString(dataset->Civs[civ].Units[index].Name);
+        return name + dataset->Civs[civ].Units[index].Name;
     }
-    return Name + "New Unit";
+    return name + "New Unit";
 }
 
-#define UF30 unit_ptr->Type < 30 || unit_ptr->Type > 80 ? "" :
-#define UF40 unit_ptr->Type < 40 || unit_ptr->Type > 80 ? "" :
-#define UF50 unit_ptr->Type < 50 || unit_ptr->Type > 80 ? "" :
-#define UF60 unit_ptr->Type != 60 ? "" :
-#define UF70 unit_ptr->Type != 70 && unit_ptr->Type != 80 ? "" :
-#define UF80 unit_ptr->Type != 80 ? "" :
+#define UF30 unit_ptr->Type < 30 || unit_ptr->Type > 80 ? "NA" :
+#define UF40 unit_ptr->Type < 40 || unit_ptr->Type > 80 ? "NA" :
+#define UF50 unit_ptr->Type < 50 || unit_ptr->Type > 80 ? "NA" :
+#define UF60 unit_ptr->Type != 60 ? "NA" :
+#define UF70 unit_ptr->Type != 70 && unit_ptr->Type != 80 ? "NA" :
+#define UF80 unit_ptr->Type != 80 ? "NA" :
 
 void AGE_Frame::PrepUnitSearch()
 {
-    useDynamicName = true;
+    UseDynamicUnitName = true;
     UnitFilterFunctions.clear();
     for(size_t loop = 0; loop < 2; ++loop)
     {
@@ -51,301 +51,301 @@ void AGE_Frame::PrepUnitSearch()
         if(selection < 1) continue;
         wxString label = unit_filters[selection];
 
-        if(label.compare(Type20[0]) == 0)
+        if (label.compare("Type") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "T " + FormatInt(unit_ptr->Type);
         });
-        else if(label.compare(Type20[1]) == 0)
+        else if (label.compare("ID") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "I1 " + FormatInt(unit_ptr->ID);
         });
-        else if(label.compare(Type20[2]) == 0)
+        else if (label.compare("Language File Name") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "LN " + FormatInt(unit_ptr->LanguageDLLName);
         });
-        else if(label.compare(Type20[3]) == 0)
+        else if (label.compare("Language File Creation") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "LC " + FormatInt(unit_ptr->LanguageDLLCreation);
         });
-        else if(label.compare(Type20[4]) == 0)
+        else if (label.compare("Class") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "C " + FormatInt(unit_ptr->Class);
         });
-        else if(label.compare(Type20[5]) == 0)
+        else if (label.compare("Standing Graphics") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "SG " + FormatInt(unit_ptr->StandingGraphic.first) + " "
                     + FormatInt(unit_ptr->StandingGraphic.second);
         });
-        else if(label.compare(Type20[6]) == 0)
+        else if (label.compare("Dying Graphics") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "DG " + FormatInt(unit_ptr->DyingGraphic) + " "
                     + FormatInt(unit_ptr->UndeadGraphic);
         });
-        else if(label.compare(Type20[7]) == 0)
+        else if (label.compare("Undead Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "DM " + FormatInt(unit_ptr->UndeadMode);
         });
-        else if(label.compare(Type20[8]) == 0)
+        else if (label.compare("Hit Points") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "HP " + FormatInt(unit_ptr->HitPoints);
         });
-        else if(label.compare(Type20[9]) == 0)
+        else if (label.compare("Line of Sight") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "LS " + FormatFloat(unit_ptr->LineOfSight);
         });
-        else if(label.compare(Type20[10]) == 0)
+        else if (label.compare("Garrison Capacity") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "GC " + FormatInt(unit_ptr->GarrisonCapacity);
         });
-        else if(label.compare(Type20[11]) == 0)
+        else if (label.compare("Collision Size XY") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "SR " + FormatFloat(unit_ptr->CollisionSize.x) + " "
                     + FormatFloat(unit_ptr->CollisionSize.y);
         });
-        else if(label.compare(Type20[12]) == 0)
+        else if (label.compare("Collision Size Z") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "B1 " + FormatFloat(unit_ptr->CollisionSize.z);
         });
-        else if(label.compare(Type20[13]) == 0)
+        else if (label.compare("Train Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "TS " + FormatInt(unit_ptr->TrainSound);
         });
-        else if(label.compare(Type20[14]) == 0)
+        else if (label.compare("Damage Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "VS " + FormatInt(unit_ptr->DamageSound);
         });
-        else if(label.compare(Type20[15]) == 0)
+        else if (label.compare("Dead Unit") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "DU " + FormatInt(unit_ptr->DeadUnitID);
         });
-        else if(label.compare(Type20[16]) == 0)
+        else if (label.compare("Blood Unit") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "BU " + FormatInt(unit_ptr->BloodUnitID);
         });
-        else if(label.compare(Type20[17]) == 0)
+        else if (label.compare("Sort Number") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "PM " + FormatInt(unit_ptr->SortNumber);
         });
-        else if(label.compare(Type20[18]) == 0)
+        else if (label.compare("Can be Built on") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "AM " + FormatInt(unit_ptr->CanBeBuiltOn);
         });
-        else if(label.compare(Type20[19]) == 0)
+        else if (label.compare("Icon") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "I " + FormatInt(unit_ptr->IconID);
         });
-        else if(label.compare(Type20[20]) == 0)
+        else if (label.compare("Hide in Editor") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "HE " + FormatInt(unit_ptr->HideInEditor);
         });
-        else if(label.compare(Type20[21]) == 0)
+        else if (label.compare("Portrait Picture") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "U1 " + FormatInt(unit_ptr->OldPortraitPict);
         });
-        else if(label.compare(Type20[22]) == 0)
+        else if (label.compare("Available") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "E " + FormatInt(unit_ptr->Enabled);
         });
-        else if(label.compare(Type20[23]) == 0)
+        else if (label.compare("Disabled") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "D " + FormatInt(unit_ptr->Disabled);
         });
-        else if(label.compare(Type20[24]) == 0)
+        else if (label.compare("Placement Side Terrain x2") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "PBT " + FormatInt(unit_ptr->PlacementSideTerrain.first) +
                 " PBT " + FormatInt(unit_ptr->PlacementSideTerrain.second) + " ";
             return name;
         });
-        else if(label.compare(Type20[25]) == 0)
+        else if (label.compare("Placement Terrain x2") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "PT " + FormatInt(unit_ptr->PlacementTerrain.first) +
                 " PT " + FormatInt(unit_ptr->PlacementTerrain.second) + " ";
             return name;
         });
-        else if(label.compare(Type20[26]) == 0)
+        else if (label.compare("Clearance Size XY") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "ER " + FormatFloat(unit_ptr->ClearanceSize.first) + " "
                     + FormatFloat(unit_ptr->ClearanceSize.second);
         });
-        else if(label.compare(Type20[27]) == 0)
+        else if (label.compare("Hill Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "HM " + FormatInt(unit_ptr->HillMode);
         });
-        else if(label.compare(Type20[28]) == 0)
+        else if (label.compare("Fog Visibility") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "VF " + FormatInt(unit_ptr->FogVisibility);
         });
-        else if(label.compare(Type20[29]) == 0)
+        else if (label.compare("Terrain Table") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "TR " + FormatInt(unit_ptr->TerrainRestriction);
         });
-        else if(label.compare(Type20[30]) == 0)
+        else if (label.compare("Fly Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "FM " + FormatInt(unit_ptr->FlyMode);
         });
-        else if(label.compare(Type20[31]) == 0)
+        else if (label.compare("Resource Capacity") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "RC " + FormatInt(unit_ptr->ResourceCapacity);
         });
-        else if(label.compare(Type20[32]) == 0)
+        else if (label.compare("Resource Decay") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "RD " + FormatFloat(unit_ptr->ResourceDecay);
         });
-        else if(label.compare(Type20[33]) == 0)
+        else if (label.compare("Blast Defense Level") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "BA " + FormatInt(unit_ptr->BlastDefenseLevel);
         });
-        else if(label.compare(Type20[34]) == 0)
+        else if (label.compare("Combat Level") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "U2 " + FormatInt(unit_ptr->CombatLevel);
         });
-        else if(label.compare(Type20[35]) == 0)
+        else if (label.compare("Interaction Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "IM " + FormatInt(unit_ptr->InteractionMode);
         });
-        else if(label.compare(Type20[36]) == 0)
+        else if (label.compare("Minimap Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "MM " + FormatInt(unit_ptr->MinimapMode);
         });
-        else if(label.compare(Type20[37]) == 0)
+        else if (label.compare("Interface Kind") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "CA " + FormatInt(unit_ptr->InterfaceKind);
         });
-        else if(label.compare(Type20[38]) == 0)
+        else if (label.compare("Multiple Attribute Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "U3A " + FormatFloat(unit_ptr->MultipleAttributeMode);
         });
-        else if(label.compare(Type20[39]) == 0)
+        else if (label.compare("Minimap Color") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "MC " + FormatInt(unit_ptr->MinimapColor);
         });
-        else if(label.compare(Type20[40]) == 0)
+        else if (label.compare("Language File Help") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "LH " + FormatInt(unit_ptr->LanguageDLLHelp);
         });
-        else if(label.compare(Type20[41]) == 0)
+        else if (label.compare("Language File Hot Key Text") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "LT " + FormatInt(unit_ptr->LanguageDLLHotKeyText);
         });
-        else if(label.compare(Type20[42]) == 0)
+        else if (label.compare("Hot Key") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "HK " + FormatInt(unit_ptr->HotKey);
         });
-        else if(label.compare(Type20[43]) == 0)
+        else if (label.compare("Recyclable") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "US " + FormatInt(unit_ptr->Recyclable);
         });
-        else if(label.compare(Type20[44]) == 0)
+        else if (label.compare("Gatherable") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "IG " + FormatInt(unit_ptr->EnableAutoGather);
         });
-        else if(label.compare(Type20[45]) == 0)
+        else if (label.compare("Doppelganger on Death") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "DD " + FormatInt(unit_ptr->CreateDoppelgangerOnDeath);
         });
-        else if(label.compare(Type20[46]) == 0)
+        else if (label.compare("Gather Group") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "GG " + FormatInt(unit_ptr->ResourceGatherGroup);
         });
-        else if(label.compare(Type20[47]) == 0)
+        else if (label.compare("Occlusion Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "OM " + FormatInt(unit_ptr->OcclusionMode);
         });
-        else if(label.compare(Type20[48]) == 0)
+        else if (label.compare("Obstruction Type") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "OT " + FormatInt(unit_ptr->ObstructionType);
         });
-        else if(label.compare(Type20[49]) == 0)
+        else if (label.compare("Obstruction Class") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "OC " + FormatInt(unit_ptr->ObstructionClass);
         });
-        else if(label.compare(Type20[50]) == 0)
+        else if (label.compare("Trait") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "A " + FormatInt(unit_ptr->Trait);
         });
-        else if(label.compare(Type20[51]) == 0)
+        else if (label.compare("Civilization") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "Ci " + FormatInt(unit_ptr->Civilization);
+            return "Civ " + FormatInt(unit_ptr->Civilization);
         });
-        else if(label.compare(Type20[52]) == 0)
+        else if (label.compare("Nothing") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "No " + FormatInt(unit_ptr->Nothing);
         });
-        else if(label.compare(Type20[53]) == 0)
+        else if (label.compare("Selection Effect") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "SE " + FormatInt(unit_ptr->SelectionEffect);
         });
-        else if(label.compare(Type20[54]) == 0)
+        else if (label.compare("Editor Selection Color") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "EC " + FormatInt(unit_ptr->EditorSelectionColour);
         });
-        else if(label.compare(Type20[55]) == 0)
+        else if (label.compare("Selection Size XY") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "OS " + FormatFloat(unit_ptr->OutlineSize.x) + " "
                     + FormatFloat(unit_ptr->OutlineSize.y);
         });
-        else if(label.compare(Type20[56]) == 0)
+        else if (label.compare("Selection Size Z") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "B2 " + FormatFloat(unit_ptr->OutlineSize.z);
         });
-        else if(label.compare(Type20[57]) == 0)
+        else if (label.compare("Resource Storages") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "";
@@ -357,12 +357,12 @@ void AGE_Frame::PrepUnitSearch()
             }
             return name;
         });
-        else if(label.compare(Type20[58]) == 0)
+        else if (label.compare("Damage Graphic Count") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "DC " + FormatInt(unit_ptr->DamageGraphics.size());
         });
-        else if(label.compare(Type20[59]) == 0)
+        else if (label.compare("Damage Graphics") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "";
@@ -372,126 +372,126 @@ void AGE_Frame::PrepUnitSearch()
                     FormatInt(unit_ptr->DamageGraphics[i].DamagePercent) + " " +
                     FormatInt(unit_ptr->DamageGraphics[i].ApplyMode) + " ";
             }
-            return name;
+            return name.empty() ? "No DGD" : name;
         });
-        else if(label.compare(Type20[60]) == 0)
+        else if (label.compare("Selection Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "SS " + FormatInt(unit_ptr->SelectionSound);
         });
-        else if(label.compare(Type20[61]) == 0)
+        else if (label.compare("Dying Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "DS " + FormatInt(unit_ptr->DyingSound);
         });
-        else if(label.compare(Type20[62]) == 0)
+        else if (label.compare("Attack Reaction") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "AtM " + FormatInt(unit_ptr->OldAttackReaction);
         });
-        else if(label.compare(Type20[63]) == 0)
+        else if (label.compare("Convert Terrain") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "EM " + FormatInt(unit_ptr->ConvertTerrain);
         });
-        else if(label.compare(Type20[64]) == 0)
+        else if (label.compare("Internal Name") == 0)
         {
-            useDynamicName = false;
+            UseDynamicUnitName = false;
             continue;
         }
-        else if(label.compare(Type20[65]) == 0)
+        else if (label.compare("Internal Name 2") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return wxString(unit_ptr->Name2);
         });
-        else if(label.compare(Type20[66]) == 0)
+        else if (label.compare("Unitline") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "UL " + FormatInt(unit_ptr->Unitline);
         });
-        else if(label.compare(Type20[67]) == 0)
+        else if (label.compare("Min Tech Level") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "MT " + FormatInt(unit_ptr->MinTechLevel);
         });
-        else if(label.compare(Type20[68]) == 0)
+        else if (label.compare("Copy ID") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "I2 " + FormatInt(unit_ptr->CopyID);
         });
-        else if(label.compare(Type20[69]) == 0)
+        else if (label.compare("Base ID") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "I3 " + FormatInt(unit_ptr->BaseID);
         });
-        else if(label.compare(Type20[70]) == 0)
+        else if (label.compare("Speed") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "S " + FormatFloat(unit_ptr->Speed);
         });
-        else if(label.compare(Type20[71]) == 0)
+        else if (label.compare("Tracking ID") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "TI " + FormatInt(unit_ptr->TelemetryID);
         });
-        else if(label.compare(Type20[72]) == 0)
+        else if (label.compare("Train Wwise Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "TW " + FormatUnsigned(unit_ptr->WwiseTrainSoundID);
         });
-        else if(label.compare(Type20[73]) == 0)
+        else if (label.compare("Damage Wwise Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "VW " + FormatUnsigned(unit_ptr->WwiseDamageSoundID);
         });
-        else if(label.compare(Type20[74]) == 0)
+        else if (label.compare("Selection Wwise Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "SW " + FormatUnsigned(unit_ptr->WwiseSelectionSoundID);
         });
-        else if(label.compare(Type20[75]) == 0)
+        else if (label.compare("Dying Wwise Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return "DW " + FormatUnsigned(unit_ptr->WwiseDyingSoundID);
         });
 
-        else if(label.compare(Type30[0]) == 0)
+        else if (label.compare("Walking Graphics") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF30 "WG " + FormatInt(unit_ptr->DeadFish.WalkingGraphic) + " "
                     + FormatInt(unit_ptr->DeadFish.RunningGraphic);
         });
-        else if(label.compare(Type30[1]) == 0)
+        else if (label.compare("Rotation Speed") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF30 "RS " + FormatFloat(unit_ptr->DeadFish.RotationSpeed);
         });
-        else if(label.compare(Type30[2]) == 0)
+        else if (label.compare("Size Class") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF30 "U11 " + FormatInt(unit_ptr->DeadFish.OldSizeClass);
         });
-        else if(label.compare(Type30[3]) == 0)
+        else if (label.compare("Trailing Unit") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF30 "TU " + FormatInt(unit_ptr->DeadFish.TrackingUnit);
         });
-        else if(label.compare(Type30[4]) == 0)
+        else if (label.compare("Trailing Unit Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF30 "UU " + FormatInt(unit_ptr->DeadFish.TrackingUnitMode);
         });
-        else if(label.compare(Type30[5]) == 0)
+        else if (label.compare("Trailing Unit Density") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF30 "UD " + FormatFloat(unit_ptr->DeadFish.TrackingUnitDensity);
         });
-        else if(label.compare(Type30[6]) == 0)
+        else if (label.compare("Move Algorithm") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF30 "U16 " + FormatInt(unit_ptr->DeadFish.OldMoveAlgorithm);
         });
-        else if(label.compare(Type30[7]) == 0)
+        else if (label.compare("Rotation Angles") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF30 "r" + FormatFloat(unit_ptr->DeadFish.TurnRadius)
@@ -500,28 +500,28 @@ void AGE_Frame::PrepUnitSearch()
                     + " t" + FormatFloat(unit_ptr->DeadFish.StationaryYawRevolutionTime)
                     + " y" + FormatFloat(unit_ptr->DeadFish.MaxYawPerSecondStationary);
         });
-        else if(label.compare(Type30[8]) == 0)
+        else if (label.compare("Min Collision Size Multiplier") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF30 "MK " + FormatFloat(unit_ptr->DeadFish.MinCollisionSizeMultiplier);
         });
 
-        else if(label.compare(Type40[0]) == 0)
+        else if (label.compare("Default Task") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF40 "SC " + FormatInt(unit_ptr->Bird.DefaultTaskID);
         });
-        else if(label.compare(Type40[1]) == 0)
+        else if (label.compare("Search Radius") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF40 "SR " + FormatFloat(unit_ptr->Bird.SearchRadius);
         });
-        else if(label.compare(Type40[2]) == 0)
+        else if (label.compare("Work Rate") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF40 "WR " + FormatFloat(unit_ptr->Bird.WorkRate);
         });
-        else if(label.compare(Type40[3]) == 0)
+        else if (label.compare("Drop Sites") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "";
@@ -529,32 +529,32 @@ void AGE_Frame::PrepUnitSearch()
             name += "DS" + FormatInt(unit_ptr->Bird.DropSites[i]) + " ";
             return UF40 name;
         });
-        else if(label.compare(Type40[4]) == 0)
+        else if (label.compare("Task Swap Group") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF40 "VM " + FormatInt(unit_ptr->Bird.TaskSwapGroup);
         });
-        else if(label.compare(Type40[5]) == 0)
+        else if (label.compare("Attack Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF40 "AS " + FormatInt(unit_ptr->Bird.AttackSound);
         });
-        else if(label.compare(Type40[6]) == 0)
+        else if (label.compare("Move Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF40 "MS " + FormatInt(unit_ptr->Bird.MoveSound);
         });
-        else if(label.compare(Type40[7]) == 0)
+        else if (label.compare("Run Pattern") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF40 "AM " + FormatInt(unit_ptr->Bird.RunPattern);
         });
-        else if(label.compare(Type40[8]) == 0)
+        else if (label.compare("Task Count") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF40 "CC " + FormatInt(unit_ptr->Bird.TaskList.size());
         });
-        else if(label.compare(Type40[9]) == 0)
+        else if (label.compare("Tasks") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "";
@@ -562,175 +562,175 @@ void AGE_Frame::PrepUnitSearch()
             {
                 name += "TD " + FormatInt(unit_ptr->Bird.TaskList[i].ActionType) + " ";
             }
-            return UF40 name;
+            return UF40 name.empty() ? "No TD" : name;
         });
-        else if(label.compare(Type40[10]) == 0)
+        else if (label.compare("Attack Wave Works Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF40 "AW " + FormatUnsigned(unit_ptr->Bird.WwiseAttackSoundID);
         });
-        else if(label.compare(Type40[11]) == 0)
+        else if (label.compare("Move Wave Works Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF40 "MW " + FormatUnsigned(unit_ptr->Bird.WwiseMoveSoundID);
         });
 
-        if(label.compare(Type50[0]) == 0)
+        if (label.compare("Base Armor") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "DA " + FormatInt(unit_ptr->Type50.BaseArmor);
         });
-        else if(label.compare(Type50[1]) == 0)
+        else if (label.compare("Attack Count") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "AtC " + FormatInt(unit_ptr->Type50.Attacks.size());
         });
-        else if(label.compare(Type50[2]) == 0)
+        else if (label.compare("Attacks") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "";
             for(size_t i = 0; i < unit_ptr->Type50.Attacks.size(); ++i)
             name += "C" + FormatInt(unit_ptr->Type50.Attacks[i].Class) + " ";
-            return UF50 name;
+            return UF50 name.empty() ? "No AtC" : name;
         });
-        else if(label.compare(Type50[3]) == 0)
+        else if (label.compare("Armor Count") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "ArC " + FormatInt(unit_ptr->Type50.Armours.size());
         });
-        else if(label.compare(Type50[4]) == 0)
+        else if (label.compare("Armors") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "";
             for(size_t i = 0; i < unit_ptr->Type50.Armours.size(); ++i)
             name += "C" + FormatInt(unit_ptr->Type50.Armours[i].Class) + " ";
-            return UF50 name;
+            return UF50 name.empty() ? "No ArC" : name;
         });
-        else if(label.compare(Type50[5]) == 0)
+        else if (label.compare("Terrain Defense Bonus") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "TR " + FormatInt(unit_ptr->Type50.DefenseTerrainBonus);
         });
-        else if(label.compare(Type50[6]) == 0)
+        else if (label.compare("Max Range") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "MaR " + FormatFloat(unit_ptr->Type50.MaxRange);
+            return UF50 "MaxR " + FormatFloat(unit_ptr->Type50.MaxRange);
         });
-        else if(label.compare(Type50[7]) == 0)
+        else if (label.compare("Blast Width") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "BW " + FormatFloat(unit_ptr->Type50.BlastWidth);
         });
-        else if(label.compare(Type50[8]) == 0)
+        else if (label.compare("Reload Time") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "RT " + FormatFloat(unit_ptr->Type50.ReloadTime);
         });
-        else if(label.compare(Type50[9]) == 0)
+        else if (label.compare("Projectile Unit") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "PU " + FormatInt(unit_ptr->Type50.ProjectileUnitID);
         });
-        else if(label.compare(Type50[10]) == 0)
+        else if (label.compare("Accuracy Percent") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "AP " + FormatInt(unit_ptr->Type50.AccuracyPercent);
         });
-        else if(label.compare(Type50[11]) == 0)
+        else if (label.compare("Break off Combat") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "TM " + FormatInt(unit_ptr->Type50.BreakOffCombat);
         });
-        else if(label.compare(Type50[12]) == 0)
+        else if (label.compare("Frame Delay") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "D " + FormatInt(unit_ptr->Type50.FrameDelay);
         });
-        else if(label.compare(Type50[13]) == 0)
+        else if (label.compare("Graphic Displacement") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "x" + FormatFloat(unit_ptr->Type50.GraphicDisplacement[0])
                     + " y" + FormatFloat(unit_ptr->Type50.GraphicDisplacement[1])
                     + " z" + FormatFloat(unit_ptr->Type50.GraphicDisplacement[2]);
         });
-        else if(label.compare(Type50[14]) == 0)
+        else if (label.compare("Blast Attack Level") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "BL " + FormatInt(unit_ptr->Type50.BlastAttackLevel);
         });
-        else if(label.compare(Type50[15]) == 0)
+        else if (label.compare("Min Range") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF50 "MiR " + FormatFloat(unit_ptr->Type50.MinRange);
+            return UF50 "MinR " + FormatFloat(unit_ptr->Type50.MinRange);
         });
-        else if(label.compare(Type50[16]) == 0)
+        else if (label.compare("Attack Dispersion") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "AE " + FormatFloat(unit_ptr->Type50.AccuracyDispersion);
         });
-        else if(label.compare(Type50[17]) == 0)
+        else if (label.compare("Attack Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "AG " + FormatInt(unit_ptr->Type50.AttackGraphic);
         });
-        else if(label.compare(Type50[18]) == 0)
+        else if (label.compare("Displayed Melee Armor") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "DM " + FormatInt(unit_ptr->Type50.DisplayedMeleeArmour);
         });
-        else if(label.compare(Type50[19]) == 0)
+        else if (label.compare("Displayed Attack") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "DP " + FormatInt(unit_ptr->Type50.DisplayedAttack);
         });
-        else if(label.compare(Type50[20]) == 0)
+        else if (label.compare("Displayed Range") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "DR " + FormatFloat(unit_ptr->Type50.DisplayedRange);
         });
-        else if(label.compare(Type50[21]) == 0)
+        else if (label.compare("Displayed Reload Time") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "DT " + FormatFloat(unit_ptr->Type50.DisplayedReloadTime);
         });
-        else if(label.compare(Type50[22]) == 0)
+        else if (label.compare("Bonus Damage Resistance") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "BR " + FormatFloat(unit_ptr->Type50.BonusDamageResistance);
         });
 
-        else if(label.compare(Type60[0]) == 0)
+        else if (label.compare("Projectile Type") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF60 "SM " + FormatInt(unit_ptr->Projectile.ProjectileType);
         });
-        else if(label.compare(Type60[1]) == 0)
+        else if (label.compare("Smart Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF60 "CM " + FormatInt(unit_ptr->Projectile.SmartMode);
         });
-        else if(label.compare(Type60[2]) == 0)
+        else if (label.compare("Hit Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF60 "DA " + FormatInt(unit_ptr->Projectile.HitMode);
         });
-        else if(label.compare(Type60[3]) == 0)
+        else if (label.compare("Vanish Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF60 "PM " + FormatInt(unit_ptr->Projectile.VanishMode);
         });
-        else if(label.compare(Type60[4]) == 0)
+        else if (label.compare("Area Effect Specials") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF60 "U24 " + FormatInt(unit_ptr->Projectile.AreaEffectSpecials);
         });
-        else if(label.compare(Type60[5]) == 0)
+        else if (label.compare("Projectile Arc") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF60 "PA " + FormatFloat(unit_ptr->Projectile.ProjectileArc);
         });
 
-        else if(label.compare(Type70[0]) == 0)
+        else if (label.compare("Resource Costs") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "";
@@ -742,170 +742,170 @@ void AGE_Frame::PrepUnitSearch()
             }
             return UF70 name;
         });
-        else if(label.compare(Type70[1]) == 0)
+        else if (label.compare("Train Time") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "TT " + FormatInt(unit_ptr->Creatable.TrainTime);
         });
-        else if(label.compare(Type70[2]) == 0)
+        else if (label.compare("Train Location") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "TL " + FormatInt(unit_ptr->Creatable.TrainLocationID);
         });
-        else if(label.compare(Type70[3]) == 0)
+        else if (label.compare("Train Button") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "B " + FormatInt(unit_ptr->Creatable.ButtonID);
         });
-        else if(label.compare(Type70[4]) == 0)
+        else if (label.compare("Rear Attack Modifier") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "U26 " + FormatFloat(unit_ptr->Creatable.RearAttackModifier);
+            return UF70 "RAM " + FormatFloat(unit_ptr->Creatable.RearAttackModifier);
         });
-        else if(label.compare(Type70[5]) == 0)
+        else if (label.compare("Flank Attack Modifier") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "U27 " + FormatFloat(unit_ptr->Creatable.FlankAttackModifier);
+            return UF70 "FAM " + FormatFloat(unit_ptr->Creatable.FlankAttackModifier);
         });
-        else if(label.compare(Type70[6]) == 0)
+        else if (label.compare("Creatable Type") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "U28 " + FormatInt(unit_ptr->Creatable.CreatableType);
         });
-        else if(label.compare(Type70[7]) == 0)
+        else if (label.compare("Hero Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "HM " + FormatInt(unit_ptr->Creatable.HeroMode);
         });
-        else if(label.compare(Type70[8]) == 0)
+        else if (label.compare("Garrison Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "GG " + FormatInt(unit_ptr->Creatable.GarrisonGraphic);
         });
-        else if(label.compare(Type70[9]) == 0)
+        else if (label.compare("Total Projectiles") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "Di " + FormatFloat(unit_ptr->Creatable.TotalProjectiles);
+            return UF70 "TP " + FormatFloat(unit_ptr->Creatable.TotalProjectiles);
         });
-        else if(label.compare(Type70[10]) == 0)
+        else if (label.compare("Max Total Projectiles") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "Da " + FormatInt(unit_ptr->Creatable.MaxTotalProjectiles);
+            return UF70 "MTP " + FormatInt(unit_ptr->Creatable.MaxTotalProjectiles);
         });
-        else if(label.compare(Type70[11]) == 0)
+        else if (label.compare("Projectile Spawning Area") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "x" + FormatFloat(unit_ptr->Creatable.ProjectileSpawningArea[0])
                     + " y" + FormatFloat(unit_ptr->Creatable.ProjectileSpawningArea[1])
                     + " z" + FormatFloat(unit_ptr->Creatable.ProjectileSpawningArea[2]);
         });
-        else if(label.compare(Type70[12]) == 0)
+        else if (label.compare("Secondary Projectile Unit") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "AP " + FormatInt(unit_ptr->Creatable.SecondaryProjectileUnit);
         });
-        else if(label.compare(Type70[13]) == 0)
+        else if (label.compare("Special Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "CG " + FormatInt(unit_ptr->Creatable.SpecialGraphic);
         });
-        else if(label.compare(Type70[14]) == 0)
+        else if (label.compare("Special Ability") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "CM " + FormatInt(unit_ptr->Creatable.SpecialAbility);
         });
-        else if(label.compare(Type70[15]) == 0)
+        else if (label.compare("Displayed Pierce Armor") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "DP " + FormatInt(unit_ptr->Creatable.DisplayedPierceArmour);
         });
-        else if(label.compare(Type70[16]) == 0)
+        else if (label.compare("Spawning Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "SPG " + FormatInt(unit_ptr->Creatable.SpawningGraphic);
+            return UF70 "SpG " + FormatInt(unit_ptr->Creatable.SpawningGraphic);
         });
-        else if(label.compare(Type70[17]) == 0)
+        else if (label.compare("Upgrade Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "UPG " + FormatInt(unit_ptr->Creatable.UpgradeGraphic);
+            return UF70 "UpG " + FormatInt(unit_ptr->Creatable.UpgradeGraphic);
         });
-        else if(label.compare(Type70[18]) == 0)
+        else if (label.compare("Max Charge") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "TC" + FormatInt(unit_ptr->Creatable.MaxCharge);
         });
-        else if(label.compare(Type70[19]) == 0)
+        else if (label.compare("Recharge Rate") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "RR" + FormatInt(unit_ptr->Creatable.RechargeRate);
         });
-        else if(label.compare(Type70[20]) == 0)
+        else if (label.compare("Charge Event") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "CE" + FormatInt(unit_ptr->Creatable.ChargeEvent);
         });
-        else if(label.compare(Type70[21]) == 0)
+        else if (label.compare("Charge Type") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "CT" + FormatInt(unit_ptr->Creatable.ChargeType);
         });
-        else if(label.compare(Type70[22]) == 0)
+        else if (label.compare("Hero Glow Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "HGG" + FormatInt(unit_ptr->Creatable.HeroGlowGraphic);
         });
 
-        else if(label.compare(Type80[0]) == 0)
+        else if (label.compare("Construction Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "CG " + FormatInt(unit_ptr->Building.ConstructionGraphicID);
         });
-        else if(label.compare(Type80[1]) == 0)
+        else if (label.compare("Snow Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "SG " + FormatInt(unit_ptr->Building.SnowGraphicID);
         });
-        else if(label.compare(Type80[2]) == 0)
+        else if (label.compare("Adjacent Mode") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "AM " + FormatInt(unit_ptr->Building.AdjacentMode);
         });
-        else if(label.compare(Type80[3]) == 0)
+        else if (label.compare("Graphics Angle") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "GA " + FormatInt(unit_ptr->Building.GraphicsAngle);
         });
-        else if(label.compare(Type80[4]) == 0)
+        else if (label.compare("Disappears After Built") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "DB " + FormatInt(unit_ptr->Building.DisappearsWhenBuilt);
         });
-        else if(label.compare(Type80[5]) == 0)
+        else if (label.compare("Stack Unit") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "SU " + FormatInt(unit_ptr->Building.StackUnitID);
         });
-        else if(label.compare(Type80[6]) == 0)
+        else if (label.compare("Foundation Terrain") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "FT " + FormatInt(unit_ptr->Building.FoundationTerrainID);
         });
-        else if(label.compare(Type80[7]) == 0)
+        else if (label.compare("Old Overlay") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "OT " + FormatInt(unit_ptr->Building.OldOverlayID);
         });
-        else if(label.compare(Type80[8]) == 0)
+        else if (label.compare("Tech") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "R " + FormatInt(unit_ptr->Building.TechID);
         });
-        else if(label.compare(Type80[9]) == 0)
+        else if (label.compare("Can Burn") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "U33 " + FormatInt(unit_ptr->Building.CanBurn);
         });
-        else if(label.compare(Type80[10]) == 0)
+        else if (label.compare("Annexes") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "";
@@ -915,47 +915,47 @@ void AGE_Frame::PrepUnitSearch()
             }
             return UF80 name;
         });
-        else if(label.compare(Type80[11]) == 0)
+        else if (label.compare("Head Unit") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "HU " + FormatInt(unit_ptr->Building.HeadUnit);
         });
-        else if(label.compare(Type80[12]) == 0)
+        else if (label.compare("Transform Unit") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "TU " + FormatInt(unit_ptr->Building.TransformUnit);
         });
-        else if(label.compare(Type80[13]) == 0)
+        else if (label.compare("Transform Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "US " + FormatInt(unit_ptr->Building.TransformSound);
         });
-        else if(label.compare(Type80[14]) == 0)
+        else if (label.compare("Construction Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "CS " + FormatInt(unit_ptr->Building.ConstructionSound);
         });
-        else if(label.compare(Type80[15]) == 0)
+        else if (label.compare("Garrison Type") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "GT " + FormatInt(unit_ptr->Building.GarrisonType);
         });
-        else if(label.compare(Type80[16]) == 0)
+        else if (label.compare("Garrison Heal Rate") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "GH " + FormatFloat(unit_ptr->Building.GarrisonHealRate);
         });
-        else if(label.compare(Type80[17]) == 0)
+        else if (label.compare("Garrison Repair Rate") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "U35 " + FormatFloat(unit_ptr->Building.GarrisonRepairRate);
         });
-        else if(label.compare(Type80[18]) == 0)
+        else if (label.compare("Pile Unit") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "PU " + FormatInt(unit_ptr->Building.PileUnit);
         });
-        else if(label.compare(Type80[19]) == 0)
+        else if (label.compare("Looting Table") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             wxString name = "";
@@ -963,32 +963,32 @@ void AGE_Frame::PrepUnitSearch()
                 name += "LTD " + FormatInt(unit_ptr->Building.LootingTable[i]) + " ";
             return UF80 name;
         });
-        else if(label.compare(Type80[20]) == 0)
+        else if (label.compare("Transform Wave Works Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "UW " + FormatUnsigned(unit_ptr->Building.WwiseTransformSoundID);
         });
-        else if(label.compare(Type80[21]) == 0)
+        else if (label.compare("Construction Wave Works Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "CW " + FormatUnsigned(unit_ptr->Building.WwiseConstructionSoundID);
         });
-        else if(label.compare(Type80[22]) == 0)
+        else if (label.compare("Foundation Destruction Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "FG " + FormatInt(unit_ptr->Building.DestructionGraphicID);
         });
-        else if(label.compare(Type80[23]) == 0)
+        else if (label.compare("Foundation Rubble Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "RG " + FormatInt(unit_ptr->Building.DestructionRubbleGraphicID);
         });
-        else if(label.compare(Type80[24]) == 0)
+        else if (label.compare("Researching Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "RPG " + FormatInt(unit_ptr->Building.ResearchingGraphic);
         });
-        else if(label.compare(Type80[25]) == 0)
+        else if (label.compare("Research Completed Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF80 "RCG " + FormatInt(unit_ptr->Building.ResearchCompletedGraphic);
@@ -1046,7 +1046,7 @@ void AGE_Frame::InitUnits(short civ, bool all)
         {
             short cult = 0;
             wxString name = GetUnitName(loop, 0);
-            while("Nonexistent" == name && ++cult < dataset->Civs.size())
+            while("Nonexistent" == name && ++cult < dataset->Civs.size() && loop < dataset->Civs[cult].Units.size())
             {
                 name = GetUnitName(loop, cult);
             }
@@ -1059,10 +1059,10 @@ void AGE_Frame::InitUnits(short civ, bool all)
             if(dataset->Civs[civ].Units[loop].Type < matcher) continue;
             if(dataset->Civs[civ].Units[loop].Type == genie::UT_AoeTrees) continue;
         }
-        wxString Name = FormatInt(loop)+" - "+GetUnitName(loop, civ, true);
-        if(SearchMatches(" " + Name.Lower() + " "))
+        wxString name = FormatInt(loop)+" - "+GetUnitName(loop, civ, true);
+        if(SearchMatches(" " + name.Lower() + " "))
         {
-            Units_ListV->names.Add(Name);
+            Units_ListV->names.Add(name);
             Units_ListV->indexes.push_back(loop);
         }
     }
@@ -1130,7 +1130,11 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
         // This makes auto-copy automatic.
         for(short vecCiv = SelectedCivs.size(); vecCiv--> 0;)
         {
-            if(dataset->Civs[SelectedCivs[vecCiv]].UnitPointers[UnitIDs[sel]] == 0) continue;
+            if (dataset->Civs[SelectedCivs[vecCiv]].Units.size() <= UnitIDs[sel] ||
+                dataset->Civs[SelectedCivs[vecCiv]].UnitPointers[UnitIDs[sel]] == 0)
+            {
+                continue;
+            }
             UnitCivID = SelectedCivs[vecCiv];
             UnitPointer = &dataset->Civs[UnitCivID].Units[UnitIDs[sel]];
             unitType = (short)UnitPointer->Type;
@@ -1599,7 +1603,8 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
         // Don't count disabled units anymore.
         for (size_t loop = SelectedCivs.size(); loop-- > 0;)
         {
-            if (dataset->Civs[SelectedCivs[loop]].UnitPointers[UnitIDs.front()] == 0)
+            if (dataset->Civs[SelectedCivs[loop]].Units.size() <= UnitIDs.front() ||
+                dataset->Civs[SelectedCivs[loop]].UnitPointers[UnitIDs.front()] == 0)
             {
                 SelectedCivs.erase(SelectedCivs.begin() + loop);
             }
@@ -1968,7 +1973,7 @@ void AGE_Frame::UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit)
 
 //  SubVectors
 
-std::string AGE_Frame::GetUnitDamageGraphicName(int index)
+wxString AGE_Frame::GetUnitDamageGraphicName(int index)
 {
     return lexical_cast<std::string>((short)dataset->Civs[UnitCivID].Units[UnitIDs.front()].DamageGraphics[index].DamagePercent)
     +" % - ID: "+lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].DamageGraphics[index].GraphicID);
@@ -2216,7 +2221,7 @@ void AGE_Frame::OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &event)
     }
 }
 
-std::string AGE_Frame::GetUnitAttackName(int index)
+wxString AGE_Frame::GetUnitAttackName(int index)
 {
     return "Amount: "+lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks[index].Amount)
     +" - Class "+lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Attacks[index].Class);
@@ -2460,7 +2465,7 @@ void AGE_Frame::OnUnitAttacksCopyToUnits(wxCommandEvent &event)
     }
 }
 
-std::string AGE_Frame::GetUnitArmorName(int index)
+wxString AGE_Frame::GetUnitArmorName(int index)
 {
     return "Amount: "+lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours[index].Amount)
     +" - Class "+lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type50.Armours[index].Class);
@@ -3752,7 +3757,7 @@ void AGE_Frame::CreateUnitControls()
     choices.Add("Run");
     choices.Add("Build");
     choices.Add("Attack");
-    slp_radio = new wxRadioBox(Units_Scroller, wxID_ANY, "SLP view", wxDefaultPosition, wxDefaultSize, choices);
+    slp_radio = new wxRadioBox(Units_Scroller, wxID_ANY, "Sprite view", wxDefaultPosition, wxDefaultSize, choices);
     slp_snow = new wxCheckBox(Units_Scroller, wxID_ANY, "Snow");
     slp_garrison = new wxCheckBox(Units_Scroller, wxID_ANY, "Housed");
     wxSizer *sizer_slp = new wxBoxSizer(wxHORIZONTAL);
@@ -4354,7 +4359,7 @@ void AGE_Frame::CreateUnitControls()
     action_choices.Add("Proceed");
     action_choices.Add("Work");
     action_choices.Add("Carry");
-    slp_unit_actions = new wxRadioBox(Units_Scroller, wxID_ANY, "SLP view", wxDefaultPosition, wxDefaultSize, action_choices, 0, wxVERTICAL);
+    slp_unit_actions = new wxRadioBox(Units_Scroller, wxID_ANY, "Sprite view", wxDefaultPosition, wxDefaultSize, action_choices, 0, wxVERTICAL);
 
     Tasks_Type_Holder = new wxBoxSizer(wxVERTICAL);
     Tasks_Type_Text = new SolidText(Units_Scroller, " Task Type");
@@ -4500,190 +4505,6 @@ void AGE_Frame::CreateUnitControls()
     unit_type_names.Add("80 - Building");
     unit_type_names.Add("90 - Tree (AoE)");
     Units_Type_ComboBox->Flash();
-
-    Type20.Add("Type");
-    Type20.Add("ID");
-    Type20.Add("Language File Name");
-    Type20.Add("Language File Creation");
-    Type20.Add("Class");
-    Type20.Add("Standing Graphic x2");
-    Type20.Add("Dying Graphic x2");
-    Type20.Add("Undead Mode");
-    Type20.Add("Hit Points");
-    Type20.Add("Line of Sight");
-    Type20.Add("Garrison Capacity");
-    Type20.Add("Collision Size XY");
-    Type20.Add("Collision Size Z");
-    Type20.Add("Train Sound");
-    Type20.Add("Damage Sound");
-    Type20.Add("Dead Unit");
-    Type20.Add("Blood Unit");
-    Type20.Add("Sort Number");
-    Type20.Add("Can be Built on");
-    Type20.Add("Icon");
-    Type20.Add("Hide In Editor");
-    Type20.Add("Portrait Picture");
-    Type20.Add("Available");
-    Type20.Add("Disabled");
-    Type20.Add("Placement Side Terrain x2");
-    Type20.Add("Placement Terrain x2");
-    Type20.Add("Clearance Size XY");
-    Type20.Add("Hill Mode");
-    Type20.Add("Fog Visibility");
-    Type20.Add("Terrain Table");
-    Type20.Add("Fly Mode");
-    Type20.Add("Resource Capacity");
-    Type20.Add("Resource Decay");
-    Type20.Add("Blast Defense Level");
-    Type20.Add("Combat Level");
-    Type20.Add("Interaction Mode");
-    Type20.Add("Minimap Mode");
-    Type20.Add("Interface Kind");
-    Type20.Add("Multiple Attribute Mode");
-    Type20.Add("Minimap Color");
-    Type20.Add("Language File Help");
-    Type20.Add("Language File Hot Key Text");
-    Type20.Add("Hot Key");
-    Type20.Add("Recyclable");
-    Type20.Add("Gatherable");
-    Type20.Add("Doppelganger on Death");
-    Type20.Add("Gather Group");
-    Type20.Add("Occlusion Mode");
-    Type20.Add("Obstruction Type");
-    Type20.Add("Obstruction Class");
-    Type20.Add("Trait");
-    Type20.Add("Civilization");
-    Type20.Add("Nothing");
-    Type20.Add("Selection Effect");
-    Type20.Add("Editor Selection Colour");
-    Type20.Add("Selection Size XY");
-    Type20.Add("Selection Size Z");
-    Type20.Add("Resource Storages 21 bytes");
-    Type20.Add("Damage Graphic Count");
-    Type20.Add("Damage Graphics");
-    Type20.Add("Selection Sound");
-    Type20.Add("Dying Sound");
-    Type20.Add("Attack Reaction");
-    Type20.Add("Convert Terrain");
-    Type20.Add("Internal Name");
-    Type20.Add("Internal Name 2");
-    Type20.Add("Unitline");
-    Type20.Add("Min Tech Level");
-    Type20.Add("Copy ID");
-    Type20.Add("Base ID");
-
-    Type20.Add("Speed");
-    // Too lazy to change the indexes.
-    Type20.Add("Tracking ID");
-    Type20.Add("Train Wwise Sound");
-    Type20.Add("Damage Wwise Sound");
-    Type20.Add("Selection Wwise Sound");
-    Type20.Add("Dying Wwise Sound");
-
-    Type30.Add("Walking Graphic x2");
-    Type30.Add("Rotation Speed");
-    Type30.Add("Size Class");
-    Type30.Add("Trailing Unit");
-    Type30.Add("Trailing Unit Mode");
-    Type30.Add("Trailing Unit Density");
-    Type30.Add("Move Algorithm");
-    Type30.Add("Rotation Angles 5 floats");
-    Type30.Add("Min Collision Size Multiplier");
-
-    Type40.Add("Default Task");
-    Type40.Add("Search Radius");
-    Type40.Add("Work Rate");
-    Type40.Add("Drop Site x2");
-    Type40.Add("Task Swap Group");
-    Type40.Add("Attack Sound");
-    Type40.Add("Move Sound");
-    Type40.Add("Run Pattern");
-    Type40.Add("Task Count");
-    Type40.Add("Tasks");
-    Type40.Add("Attack Wwise Sound");
-    Type40.Add("Move Wwise Sound");
-
-    Type50.Add("Base Armor");
-    Type50.Add("Attack Count");
-    Type50.Add("Attacks");
-    Type50.Add("Armor Count");
-    Type50.Add("Armors");
-    Type50.Add("Terrain Defense Bonus");
-    Type50.Add("Max Range");
-    Type50.Add("Blast Width");
-    Type50.Add("Reload Time");
-    Type50.Add("Projectile Unit");
-    Type50.Add("Accuracy Percent");
-    Type50.Add("Break off Combat");
-    Type50.Add("Frame Delay");
-    Type50.Add("Graphic Displacement 3 floats");
-    Type50.Add("Blast Attack Level");
-    Type50.Add("Min Range");
-    Type50.Add("Attack Dispersion");
-    Type50.Add("Attack Graphic");
-    Type50.Add("Displayed Melee Armor");
-    Type50.Add("Displayed Attack");
-    Type50.Add("Displayed Range");
-    Type50.Add("Displayed Reload Time");
-    Type50.Add("Bonus Damage Resistance");
-
-    Type60.Add("Projectile Type");
-    Type60.Add("Smart Mode");
-    Type60.Add("Hit Mode");
-    Type60.Add("Vanish Mode");
-    Type60.Add("Area Effect Specials");
-    Type60.Add("Projectile Arc");
-
-    Type70.Add("Resource Costs 18 bytes");
-    Type70.Add("Train Time");
-    Type70.Add("Train Location");
-    Type70.Add("Train Button");
-    Type70.Add("Rear Attack Modifier");
-    Type70.Add("Flank Attack Modifier");
-    Type70.Add("Creatable Type");
-    Type70.Add("Hero Mode");
-    Type70.Add("Garrison Graphic");
-    Type70.Add("Total Projectiles");
-    Type70.Add("Max Total Projectiles");
-    Type70.Add("Projectile Spawning Area 3 floats");
-    Type70.Add("Secondary Projectile Unit");
-    Type70.Add("Special Graphic");
-    Type70.Add("Special Ability");
-    Type70.Add("Displayed Pierce Armor");
-    Type70.Add("Spawning Graphic");
-    Type70.Add("Upgrade Graphic");
-    Type70.Add("Max Charge");
-    Type70.Add("Recharge Rate");
-    Type70.Add("Charge Event");
-    Type70.Add("Charge Type");
-    Type70.Add("Hero Glow Graphic");
-
-    Type80.Add("Construction Graphic");
-    Type80.Add("Snow Graphic");
-    Type80.Add("Adjacent Mode");
-    Type80.Add("Graphics Angle");
-    Type80.Add("Disappears After Built");
-    Type80.Add("Stack Unit");
-    Type80.Add("Foundation Terrain");
-    Type80.Add("Old Overlay");
-    Type80.Add("Tech");
-    Type80.Add("Can Burn");
-    Type80.Add("Annexes 40 bytes");
-    Type80.Add("Head Unit");
-    Type80.Add("Transform Unit");
-    Type80.Add("Transform Sound");
-    Type80.Add("Construction Sound");
-    Type80.Add("Garrison Type");
-    Type80.Add("Garrison Heal Rate");
-    Type80.Add("Garrison Repair Rate");
-    Type80.Add("Pile Unit");
-    Type80.Add("Looting Table 6 bytes");
-    Type80.Add("Transform Wwise Sound");
-    Type80.Add("Construction Wwise Sound");
-    Type80.Add("Foundation Destruction Graphic");
-    Type80.Add("Foundation Rubble Graphic");
-    Type80.Add("Researching Graphic");
-    Type80.Add("Research Completed Graphic");
 
     specialcopy_names.Add("Special: graphics only");
     Units_SpecialCopy_Options->Flash();

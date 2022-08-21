@@ -1,7 +1,7 @@
 #include "Common.h"
 #include "../AGE_Frame.h"
 
-std::string AGE_Frame::GetUnitLineName(int index)
+wxString AGE_Frame::GetUnitLineName(int index)
 {
     if(!dataset->UnitLines[index].Name.empty())
         return dataset->UnitLines[index].Name;
@@ -131,17 +131,21 @@ void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &event)
 
 wxString AGE_Frame::GetUnitLineUnitName(int Unit)
 {
-    wxString Name = FormatInt(Unit) + " ";
-    if(dataset->Civs.front().Units.size() <= Unit) return Name + "Nonexistent Unit";
-    if(!TranslatedText(dataset->Civs.front().Units[Unit].LanguageDLLName, 2).empty())
+    wxString name = FormatInt(Unit) + " ";
+    if (dataset->Civs.front().Units.size() <= Unit)
     {
-        return Name + TranslatedText(dataset->Civs.front().Units[Unit].LanguageDLLName, 64);
+        return name + "Nonexistent Unit";
     }
-    if(!dataset->Civs.front().Units[Unit].Name.empty())
+    wxString DynamicName = TranslatedText(dataset->Civs.front().Units[Unit].LanguageDLLName, 64);
+    if (!DynamicName.empty())
     {
-        return Name + dataset->Civs.front().Units[Unit].Name;
+        return name + DynamicName;
     }
-    return Name + "New Unit";
+    if (!dataset->Civs.front().Units[Unit].Name.empty())
+    {
+        return name + dataset->Civs.front().Units[Unit].Name;
+    }
+    return name + "New Unit";
 }
 
 void AGE_Frame::OnUnitLineUnitsSearch(wxCommandEvent &event)

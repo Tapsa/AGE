@@ -1,128 +1,206 @@
 #include "Common.h"
 #include "../AGE_Frame.h"
 
-wxString AGE_Frame::GetResearchName(int index, bool Filter)
+std::vector<std::function<wxString(genie::Tech*)>> TechFilterFunctions;
+bool UseTechName;
+
+wxString AGE_Frame::GetResearchName(int index, bool filter)
 {
-    wxString Name;
-    if(Filter)
+    wxString name;
+    if (filter)
     {
-        short Selection[2];
-        for(size_t loop = 0; loop < 2; ++loop)
-        Selection[loop] = Research_SearchFilters[loop]->GetSelection();
-
-        if(Selection[0] > 1)
-        for(size_t loop = 0; loop < 2; ++loop)
+        for (auto &f : TechFilterFunctions)
         {
-            switch(Selection[loop])
-            {
-                case 2: // Required Techs
-                {
-                    bool HasFore = false;
-                    for(size_t l2 = 0; l2 < dataset->Techs[index].getRequiredTechsSize(); ++l2)
-                    if(dataset->Techs[index].RequiredTechs[l2] != -1)
-                    {
-                        if(HasFore) Name += ", R"; else {Name += "R"; HasFore = true;}
-                        Name += lexical_cast<std::string>(dataset->Techs[index].RequiredTechs[l2]);
-                    }
-                    break;
-                }
-                case 3: // Min. Req. Techs
-                    Name += "MR "+lexical_cast<std::string>(dataset->Techs[index].RequiredTechCount);
-                    break;
-                case 4: // Research Location
-                    Name += "RL "+lexical_cast<std::string>(dataset->Techs[index].ResearchLocation);
-                    break;
-                case 5: // Research Time
-                    Name += "RT "+lexical_cast<std::string>(dataset->Techs[index].ResearchTime);
-                    break;
-                case 6: // Effect
-                    Name += "E "+lexical_cast<std::string>(dataset->Techs[index].EffectID);
-                    break;
-                case 7: // Type
-                    Name += "T "+lexical_cast<std::string>(dataset->Techs[index].Type);
-                    break;
-                case 8: // Icon
-                    Name += "I "+lexical_cast<std::string>(dataset->Techs[index].IconID);
-                    break;
-                case 9: // Button
-                    Name += "B "+lexical_cast<std::string>((short)dataset->Techs[index].ButtonID);
-                    break;
-                case 10: // Lang File Pointer
-                    Name += "LH "+lexical_cast<std::string>(dataset->Techs[index].LanguageDLLHelp);
-                    break;
-                case 11: // Pointer 2
-                    Name += "LT "+lexical_cast<std::string>(dataset->Techs[index].LanguageDLLTechTree);
-                    break;
-                case 12: // Hot Key
-                    Name += "HK "+lexical_cast<std::string>(dataset->Techs[index].HotKey);
-                    break;
-                case 13: // Cost Types
-                {
-                    bool HasFore = false;
-                    for(size_t l2 = 0; l2 < 3; ++l2)
-                    if(dataset->Techs[index].ResourceCosts[l2].Type != -1)
-                    {
-                        if(HasFore) Name += ", CT"; else {Name += "CT"; HasFore = true;}
-                        Name += lexical_cast<std::string>(dataset->Techs[index].ResourceCosts[l2].Type);
-                    }
-                    break;
-                }
-                case 14: // Cost Amounts
-                {
-                    bool HasFore = false;
-                    for(size_t l2 = 0; l2 < 3; ++l2)
-                    {
-                        if(HasFore) Name += ", CA"; else {Name += "CA"; HasFore = true;}
-                        Name += lexical_cast<std::string>(dataset->Techs[index].ResourceCosts[l2].Amount);
-                    }
-                    break;
-                }
-                case 15: // Cost Uses
-                {
-                    bool HasFore = false;
-                    for(size_t l2 = 0; l2 < 3; ++l2)
-                    {
-                        if(HasFore) Name += ", CU"; else {Name += "CU"; HasFore = true;}
-                        Name += lexical_cast<std::string>((short)dataset->Techs[index].ResourceCosts[l2].Flag);
-                    }
-                    break;
-                }
-                case 16: // Civilization
-                    if(GenieVersion >= genie::GV_AoKB)
-                    Name += "C "+lexical_cast<std::string>(dataset->Techs[index].Civ);
-                    break;
-                case 17: // Full Tech Mode
-                    if(GenieVersion >= genie::GV_AoKB)
-                    Name += "F "+lexical_cast<std::string>(dataset->Techs[index].FullTechMode);
-                    break;
-                case 18: // Internal Name 2
-                    if(GenieVersion >= genie::GV_SWGB)
-                    {
-                        if(!dataset->Techs[index].Name2.empty())
-                        return Name + dataset->Techs[index].Name2;
-                        else goto InternalName;
-                    }
-                    // Repeatable
-                    if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
-                    Name += "L "+lexical_cast<std::string>((short)dataset->Techs[index].Repeatable);
-                    break;
-            }
-            Name += ", ";
-            if(Selection[1] < 2) break;
+            name += f(&dataset->Techs[index]) + ", ";
         }
-        if(Selection[0] == 1) goto InternalName;
     }
+    if (UseTechName)
+    {
+        wxString DynamicName = TranslatedText(dataset->Techs[index].LanguageDLLName, 64);
+        if (!DynamicName.empty())
+        {
+            return name + DynamicName;
+        }
+    }
+    if (!dataset->Techs[index].Name.empty())
+    {
+        return name + dataset->Techs[index].Name;
+    }
+    return name + "New Tech";
+}
 
-    if(!TranslatedText(dataset->Techs[index].LanguageDLLName, 2).empty())
+void AGE_Frame::PrepTechSearch()
+{
+    UseTechName = true;
+    TechFilterFunctions.clear();
+    for (size_t loop = 0; loop < 2; ++loop)
     {
-        return Name + TranslatedText(dataset->Techs[index].LanguageDLLName, 64);
+        int selection = Research_SearchFilters[loop]->GetSelection();
+        if (selection < 1) continue;
+        wxString label = research_filters[selection];
+
+        if (label.compare("Internal Name") == 0)
+        {
+            UseTechName = false;
+            continue;
+        }
+        else if (label.compare("Required Techs") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            wxString name;
+            bool hasFore = false;
+            for (size_t l2 = 0; l2 < tech_ptr->getRequiredTechsSize(); ++l2)
+            {
+                if (tech_ptr->RequiredTechs[l2] != -1)
+                {
+                    if (hasFore)
+                    {
+                        name += ", R";
+                    }
+                    else
+                    {
+                        name += "R";
+                        hasFore = true;
+                    }
+                    name += FormatInt(tech_ptr->RequiredTechs[l2]);
+                }
+            }
+            return name.empty() ? "No R" : name;
+        });
+        else if (label.compare("Min. Req. Techs") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "MR " + FormatInt(tech_ptr->RequiredTechCount);
+        });
+        else if (label.compare("Research Location") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "RL " + FormatInt(tech_ptr->ResearchLocation);
+        });
+        else if (label.compare("Research Time") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "RT " + FormatInt(tech_ptr->ResearchTime);
+        });
+        else if (label.compare("Effect") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "E " + FormatInt(tech_ptr->EffectID);
+        });
+        else if (label.compare("Type") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "T " + FormatInt(tech_ptr->Type);
+        });
+        else if (label.compare("Icon") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "I " + FormatInt(tech_ptr->IconID);
+        });
+        else if (label.compare("Button") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "B " + FormatInt(tech_ptr->ButtonID);
+        });
+        else if (label.compare("Lang Help") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "LH " + FormatInt(tech_ptr->LanguageDLLHelp);
+        });
+        else if (label.compare("Lang Tech Tree") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "LT " + FormatInt(tech_ptr->LanguageDLLTechTree);
+        });
+        else if (label.compare("Hotkey") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "HK " + FormatInt(tech_ptr->HotKey);
+        });
+        else if (label.compare("Cost Types") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            wxString name;
+            bool hasFore = false;
+            for (size_t l2 = 0; l2 < 3; ++l2)
+            {
+                if (tech_ptr->ResourceCosts[l2].Type != -1)
+                {
+                    if (hasFore)
+                    {
+                        name += ", CT";
+                    }
+                    else
+                    {
+                        name += "CT";
+                        hasFore = true;
+                    }
+                    name += FormatInt(tech_ptr->ResourceCosts[l2].Type);
+                }
+            }
+            return name.empty() ? "No CT" : name;
+        });
+        else if (label.compare("Cost Amounts") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            wxString name;
+            bool hasFore = false;
+            for (size_t l2 = 0; l2 < 3; ++l2)
+            {
+                if (hasFore)
+                {
+                    name += ", CA";
+                }
+                else
+                {
+                    name += "CA";
+                    hasFore = true;
+                }
+                name += FormatInt(tech_ptr->ResourceCosts[l2].Amount);
+            }
+            return name;
+        });
+        else if (label.compare("Cost Uses") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            wxString name;
+            bool hasFore = false;
+            for (size_t l2 = 0; l2 < 3; ++l2)
+            {
+                if (hasFore)
+                {
+                    name += ", CU";
+                }
+                else
+                {
+                    name += "CU";
+                    hasFore = true;
+                }
+                name += FormatInt(tech_ptr->ResourceCosts[l2].Flag);
+            }
+            return name;
+        });
+        else if (label.compare("Civilization") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "C " + FormatInt(tech_ptr->Civ);
+        });
+        else if (label.compare("Full Tech Mode") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "F " + FormatInt(tech_ptr->FullTechMode);
+        });
+        else if (label.compare("Internal Name 2") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return tech_ptr->Name2;
+        });
+        else if (label.compare("Repeatable") == 0)
+            TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
+        {
+            return "L " + FormatInt(tech_ptr->Repeatable);
+        });
     }
-InternalName:
-    if(!dataset->Techs[index].Name.empty())
-    {
-        return Name + dataset->Techs[index].Name;
-    }
-    return Name + "New Tech";
 }
 
 void AGE_Frame::OnResearchSearch(wxCommandEvent &event)
@@ -143,6 +221,7 @@ void AGE_Frame::InitResearches(bool all)
     InitSearch(Research_Research_Search->GetValue().MakeLower(), Research_Research_Search_R->GetValue().MakeLower());
     SearchAnd = Research_Research_UseAnd[0]->GetValue();
     ExcludeAnd = Research_Research_UseAnd[1]->GetValue();
+    PrepTechSearch();
 
     Research_Research_ListV->Sweep();
     if(all)

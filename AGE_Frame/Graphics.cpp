@@ -6,113 +6,185 @@ const wxString MirrorHelp = "Angle count clockwise from east after mirroring sta
     "Angles before south are mirrored too.\nFrom the graphics scanner, if the graphic mirror is > 0,\n"
     "mirror = (angle_count >> 1) + (angle_count >> 2)";
 
-std::string AGE_Frame::GetGraphicName(int index, bool Filter)
+std::vector<std::function<wxString(genie::Graphic*)>> GraphicFilterFunctions;
+bool UseGraphicName;
+
+wxString AGE_Frame::GetGraphicName(int index, bool filter)
 {
-    std::string Name;
-    if(GenieVersion >= genie::GV_AoE && dataset->GraphicPointers[index] == 0)
+    if (GenieVersion >= genie::GV_AoE && dataset->GraphicPointers[index] == 0)
     {
         return "Nonexistent";
     }
-    if(Filter)
+    wxString name;
+    if (filter)
     {
-        short Selection[2];
-        for(size_t loop = 0; loop < 2; ++loop)
-        Selection[loop] = Graphics_SearchFilters[loop]->GetSelection();
-
-        if(Selection[0]) // Internal name prevents
-        for(size_t loop = 0; loop < 2; ++loop)
+        for (auto &f : GraphicFilterFunctions)
         {
-            switch(Selection[loop])
-            {
-                case 2: // SLP
-                    Name += "SLP "+FormatInt(dataset->Graphics[index].SLP);
-                    break;
-                case 3: // Unknown 1
-                    Name += "IL "+FormatInt(dataset->Graphics[index].IsLoaded);
-                    break;
-                case 4: // Unknown 2
-                    Name += "CF "+FormatInt(dataset->Graphics[index].OldColorFlag);
-                    break;
-                case 5: // Layer
-                    Name += "L "+FormatInt(dataset->Graphics[index].Layer);
-                    break;
-                case 6: // Player Color Forcer
-                    Name += "PC "+FormatInt(dataset->Graphics[index].PlayerColor);
-                    break;
-                case 7: // Transparent Picking
-                    Name += "TP "+FormatInt(dataset->Graphics[index].TransparentSelection);
-                    break;
-                case 8: // Sound
-                    Name += "S "+FormatInt(dataset->Graphics[index].SoundID);
-                    break;
-                case 9: // Coordinates
-                    Name += "xy "+FormatInt(dataset->Graphics[index].Coordinates[0]);
-                    Name += " "+FormatInt(dataset->Graphics[index].Coordinates[1]);
-                    Name += " "+FormatInt(dataset->Graphics[index].Coordinates[2]);
-                    Name += " "+FormatInt(dataset->Graphics[index].Coordinates[3]);
-                    break;
-                case 10: // Deltas
-                    Name += "DC "+FormatInt(dataset->Graphics[index].Deltas.size());
-                    break;
-                case 11: // Angle Sounds Used
-                    Name += "U "+FormatInt(dataset->Graphics[index].AngleSoundsUsed);
-                    break;
-                case 12: // Angle Sounds
-                    if(dataset->Graphics[index].AngleSoundsUsed)
-                    {
-                        Name += "AS "+FormatInt(dataset->Graphics[index].AngleSounds[0].SoundID);
-                        Name += ", AS "+FormatInt(dataset->Graphics[index].AngleSounds[0].SoundID2);
-                        Name += ", AS "+FormatInt(dataset->Graphics[index].AngleSounds[0].SoundID3);
-                    }
-                    else
-                    {
-                        Name += "None";
-                    }
-                    break;
-                case 13: // Frames
-                    Name += "FC "+FormatInt(dataset->Graphics[index].FrameCount);
-                    break;
-                case 14: // Angles
-                    Name += "AC "+FormatInt(dataset->Graphics[index].AngleCount);
-                    break;
-                case 15: // Speed
-                    Name += "SM "+FormatFloat(dataset->Graphics[index].SpeedMultiplier);
-                    break;
-                case 16: // Animation Duration
-                    Name += "AD "+FormatFloat(dataset->Graphics[index].AnimationDuration);
-                    break;
-                case 17: // Replay Delay
-                    Name += "RD "+FormatFloat(dataset->Graphics[index].ReplayDelay);
-                    break;
-                case 18: // Sequence Type
-                    Name += "ST "+FormatInt(dataset->Graphics[index].SequenceType);
-                    break;
-                case 19: // Mirroring Mode
-                    Name += "M "+FormatInt(dataset->Graphics[index].MirroringMode);
-                    break;
-                case 20: // Unknown 3
-                    Name += "EF "+FormatInt(dataset->Graphics[index].EditorFlag);
-                    break;
-                case 21: // Pointer
-                    Name = FormatInt(dataset->GraphicPointers[index]);
-                    break;
-            }
-            Name += ", ";
-            if(Selection[1] < 1) break; // Internal name breaks
+            name += f(&dataset->Graphics[index]) + ", ";
         }
-        if(Selection[0] == 1) goto InternalName;
     }
+    if (UseGraphicName && !dataset->Graphics[index].Name.empty())
+    {
+        return name + dataset->Graphics[index].Name;
+    }
+    if (!dataset->Graphics[index].FileName.empty())
+    {
+        return name + dataset->Graphics[index].FileName;
+    }
+    return name + "New Graphic";
+}
 
-    if(!dataset->Graphics[index].Name.empty())
+void AGE_Frame::PrepGraphicSearch()
+{
+    UseGraphicName = true;
+    GraphicFilterFunctions.clear();
+    for (size_t loop = 0; loop < 2; ++loop)
     {
-        return Name + dataset->Graphics[index].Name;
+        int selection = Graphics_SearchFilters[loop]->GetSelection();
+        if (selection < 1) continue;
+        wxString label = graphic_filters[selection];
+
+        if (label.compare("Sprite Name") == 0)
+        {
+            UseGraphicName = false;
+            continue;
+        }
+        else if (label.compare("Particle Effect Name") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "PE " + graphic_ptr->ParticleEffectName;
+        });
+        else if (label.compare("Sprite") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "SLP " + FormatInt(graphic_ptr->SLP);
+        });
+        else if (label.compare("Disabler") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "IL " + FormatInt(graphic_ptr->IsLoaded);
+        });
+        else if (label.compare("Old Color Flag") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "CF " + FormatInt(graphic_ptr->OldColorFlag);
+        });
+        else if (label.compare("Layer") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "L " + FormatInt(graphic_ptr->Layer);
+        });
+        else if (label.compare("Player Color Forcer") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "PC " + FormatInt(graphic_ptr->PlayerColor);
+        });
+        else if (label.compare("Transparent Picking") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "TP " + FormatInt(graphic_ptr->TransparentSelection);
+        });
+        else if (label.compare("Sound") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "S " + FormatInt(graphic_ptr->SoundID);
+        });
+        else if (label.compare("Wave Works Sound") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "WS " + FormatInt(graphic_ptr->WwiseSoundID);
+        });
+        else if (label.compare("Coordinates") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "xy " + FormatInt(graphic_ptr->Coordinates[0])
+                + " " + FormatInt(graphic_ptr->Coordinates[1])
+                + " " + FormatInt(graphic_ptr->Coordinates[2])
+                + " " + FormatInt(graphic_ptr->Coordinates[3]);
+        });
+        else if (label.compare("Delta Count") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "DC " + FormatInt(graphic_ptr->Deltas.size());
+        });
+        else if (label.compare("Angle Sounds Used") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "U " + FormatInt(graphic_ptr->AngleSoundsUsed);
+        });
+        else if (label.compare("Angle Sounds") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            wxString name;
+            if (graphic_ptr->AngleSoundsUsed)
+            {
+                name = "AS " + FormatInt(graphic_ptr->AngleSounds[0].SoundID)
+                    + ", AS " + FormatInt(graphic_ptr->AngleSounds[0].SoundID2)
+                    + ", AS " + FormatInt(graphic_ptr->AngleSounds[0].SoundID3);
+            }
+            else
+            {
+                name = "None";
+            }
+            return name;
+        });
+        else if (label.compare("Angle Wave Works Sounds") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            wxString name;
+            if (graphic_ptr->AngleSoundsUsed)
+            {
+                name = "AWS " + FormatInt(graphic_ptr->AngleSounds[0].WwiseSoundID)
+                    + ", AWS " + FormatInt(graphic_ptr->AngleSounds[0].WwiseSoundID2)
+                    + ", AWS " + FormatInt(graphic_ptr->AngleSounds[0].WwiseSoundID3);
+            }
+            else
+            {
+                name = "None";
+            }
+            return name;
+        });
+        else if (label.compare("Frames per Angle") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "FC " + FormatInt(graphic_ptr->FrameCount);
+        });
+        else if (label.compare("Angle Count") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "AC " + FormatInt(graphic_ptr->AngleCount);
+        });
+        else if (label.compare("New Speed") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "SM " + FormatFloat(graphic_ptr->SpeedMultiplier);
+        });
+        else if (label.compare("Animation Duration") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "AD " + FormatFloat(graphic_ptr->AnimationDuration);
+        });
+        else if (label.compare("Replay Delay") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "RD " + FormatFloat(graphic_ptr->ReplayDelay);
+        });
+        else if (label.compare("Sequence Type") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "ST " + FormatInt(graphic_ptr->SequenceType);
+        });
+        else if (label.compare("Mirroring Mode") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "M " + FormatInt(graphic_ptr->MirroringMode);
+        });
+        else if (label.compare("Old Editor Flag") == 0)
+            GraphicFilterFunctions.push_back([this](genie::Graphic *graphic_ptr)
+        {
+            return "EF " + FormatInt(graphic_ptr->EditorFlag);
+        });
     }
-InternalName:
-    if(!dataset->Graphics[index].FileName.empty())
-    {
-        return Name + dataset->Graphics[index].FileName;
-    }
-    return Name + "New Graphic";
 }
 
 void AGE_Frame::OnGraphicsSearch(wxCommandEvent &event)
@@ -133,6 +205,7 @@ void AGE_Frame::InitGraphics(bool all)
     InitSearch(Graphics_Graphics_Search->GetValue().MakeLower(), Graphics_Graphics_Search_R->GetValue().MakeLower());
     SearchAnd = Graphics_Graphics_UseAnd[0]->GetValue();
     ExcludeAnd = Graphics_Graphics_UseAnd[1]->GetValue();
+    PrepGraphicSearch();
 
     Graphics_Graphics_ListV->Sweep();
     if(all)
@@ -895,7 +968,7 @@ void AGE_Frame::OnGraphicsDisable(wxCommandEvent &event)
     ListGraphics();
 }
 
-std::string AGE_Frame::GetGraphicDeltaName(int index)
+wxString AGE_Frame::GetGraphicDeltaName(int index)
 {
     int deltaID = dataset->Graphics[GraphicIDs.front()].Deltas[index].GraphicID;
     if(deltaID < dataset->Graphics.size())
@@ -1178,7 +1251,7 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_Name_Text = new SolidText(Graphics_Scroller, " Internal Name");
     Graphics_Name = new StringControl(Graphics_Scroller, this, &uiGroupGraphic, false);
     Graphics_FileName_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_FileName_Text = new SolidText(Graphics_Scroller, " SLP Name");
+    Graphics_FileName_Text = new SolidText(Graphics_Scroller, " Sprite Name");
     Graphics_FileName = new StringControl(Graphics_Scroller,  this, &uiGroupGraphic, false);
     Graphics_ParticleEffectName_Holder = new wxBoxSizer(wxHORIZONTAL);
     Graphics_ParticleEffectName_Text = new SolidText(Graphics_Scroller, " Particle Effect Name");
@@ -1189,7 +1262,7 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_ID = new NumberControl(CShort, Graphics_Scroller, this, nullptr);
 
     Graphics_SLP_Holder = new wxBoxSizer(wxVERTICAL);
-    Graphics_SLP_Text = new SolidText(Graphics_Scroller, " SLP");
+    Graphics_SLP_Text = new SolidText(Graphics_Scroller, " Sprite");
     Graphics_SLP = new NumberControl(CLong, Graphics_Scroller, this, &uiGroupGraphic, false);
     Graphics_DrawLevel_Holder = new wxBoxSizer(wxVERTICAL);
     Graphics_DrawLevel_Text = new SolidText(Graphics_Scroller, " Layer *");
@@ -1343,33 +1416,6 @@ void AGE_Frame::CreateGraphicsControls()
     Deltas_Holder = new wxBoxSizer(wxHORIZONTAL);
     Deltas_Unknowns_Holder = new wxBoxSizer(wxHORIZONTAL);
     Graphics_AngleSoundArea_Holder = new wxStaticBoxSizer(wxHORIZONTAL, Graphics_Scroller, "Angle Sounds");
-
-    graphic_filters.Add("Internal Name");  // 0
-    graphic_filters.Add("SLP Name");
-    graphic_filters.Add("SLP");
-    graphic_filters.Add("Disabler");
-    graphic_filters.Add("Old Color Flag");
-    graphic_filters.Add("Layer");
-    graphic_filters.Add("Player Color Forcer");
-    graphic_filters.Add("Transparent Picking");
-    graphic_filters.Add("Sound");
-    graphic_filters.Add("Coordinates");
-    graphic_filters.Add("Delta Count");
-    graphic_filters.Add("Angle Sounds Used");
-    graphic_filters.Add("Angle Sounds");
-    graphic_filters.Add("Frames per Angle");
-    graphic_filters.Add("Angle Count");
-    graphic_filters.Add("New Speed");
-    graphic_filters.Add("Animation Duration");
-    graphic_filters.Add("Replay Delay");
-    graphic_filters.Add("Sequence Type");
-    graphic_filters.Add("Mirroring Mode");
-    graphic_filters.Add("Old Editor Flag");
-    graphic_filters.Add("Pointer");
-    for(size_t loop = 0; loop < 2; ++loop)
-    {
-        Graphics_SearchFilters[loop]->Flash();
-    }
 
     Graphics_Graphics_Buttons->Add(Graphics_Add, 1, wxEXPAND);
     Graphics_Graphics_Buttons->Add(Graphics_Delete, 1, wxEXPAND);
