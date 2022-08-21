@@ -224,7 +224,6 @@ private:
     wxString FormatInt(int);
     wxString FormatUnsigned(unsigned);
     wxString CurrentTime();
-    wxArrayString Type20, Type30, Type40, Type50, Type60, Type70, Type80;
     wxArrayString TerrainRestrictionNames;
     wxArrayString CivilizationResourceNames;
     void SaveBackup();
@@ -369,6 +368,7 @@ private:
     void OnResearchPaste(wxCommandEvent &event);
     void OnResearchPasteInsert(wxCommandEvent &event);
     wxString GetResearchName(int, bool = false);
+    void PrepTechSearch();
 
 //  Tech Events
 
@@ -414,7 +414,7 @@ private:
     void OnTTAgesCopy(wxCommandEvent &event);
     void OnTTAgesPaste(wxCommandEvent &event);
     void OnTTAgesPasteInsert(wxCommandEvent &event);
-    std::string GetTTAgesName(int);
+    wxString GetTTAgesName(int);
 
     void ListTTAgeBuildings();
     void OnTTAgesBuildingSearch(wxCommandEvent &event);
@@ -474,7 +474,8 @@ private:
     void OnTTBuildingCopy(wxCommandEvent &event);
     void OnTTBuildingPaste(wxCommandEvent &event);
     void OnTTBuildingPasteInsert(wxCommandEvent &event);
-    wxString GetTTBuildingName(int);
+    wxString GetTTBuildingName(int, bool = false);
+    void PrepTTBuildingSearch();
 
     void ListTTBuildingBuildings();
     void OnTTBuildingBuildingSearch(wxCommandEvent &event);
@@ -525,7 +526,8 @@ private:
     void OnTTUnitCopy(wxCommandEvent &event);
     void OnTTUnitPaste(wxCommandEvent &event);
     void OnTTUnitPasteInsert(wxCommandEvent &event);
-    wxString GetTTUnitName(int);
+    wxString GetTTUnitName(int, bool = false);
+    void PrepTTUnitSearch();
 
     void ListTTUnitUnits();
     void OnTTUnitUnitSearch(wxCommandEvent &event);
@@ -556,7 +558,8 @@ private:
     void OnTTResearchCopy(wxCommandEvent &event);
     void OnTTResearchPaste(wxCommandEvent &event);
     void OnTTResearchPasteInsert(wxCommandEvent &event);
-    wxString GetTTResearchName(int);
+    wxString GetTTResearchName(int, bool = false);
+    void PrepTTResearchSearch();
 
     void ListTTResearchBuildings();
     void OnTTResearchBuildingSearch(wxCommandEvent &event);
@@ -609,7 +612,7 @@ private:
     void OnCivsCopy(wxCommandEvent &event);
     void OnCivsPaste(wxCommandEvent &event);
     void OnCivsPasteInsert(wxCommandEvent &event);
-    std::string GetCivName(int);
+    wxString GetCivName(int);
     void OnCivCountChange();
 
     void ListResources(bool all = true);
@@ -633,7 +636,6 @@ private:
     void UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit);
     wxString GetUnitName(int, short, bool = false);
     void PrepUnitSearch();
-    std::vector<std::function<wxString(genie::Unit*)>> UnitFilterFunctions;
 
     void ListUnitDamageGraphics();
     void OnUnitDamageGraphicsSearch(wxCommandEvent &event);
@@ -645,7 +647,7 @@ private:
     void OnUnitDamageGraphicsPaste(wxCommandEvent &event);
     void OnUnitDamageGraphicsPasteInsert(wxCommandEvent &event);
     void OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &event);
-    std::string GetUnitDamageGraphicName(int);
+    wxString GetUnitDamageGraphicName(int);
 
     void ListUnitAttacks();
     void OnUnitAttacksSearch(wxCommandEvent &event);
@@ -657,7 +659,7 @@ private:
     void OnUnitAttacksPaste(wxCommandEvent &event);
     void OnUnitAttacksPasteInsert(wxCommandEvent &event);
     void OnUnitAttacksCopyToUnits(wxCommandEvent &event);
-    std::string GetUnitAttackName(int);
+    wxString GetUnitAttackName(int);
 
     void ListUnitArmors();
     void OnUnitArmorsSearch(wxCommandEvent &event);
@@ -669,7 +671,7 @@ private:
     void OnUnitArmorsPaste(wxCommandEvent &event);
     void OnUnitArmorsPasteInsert(wxCommandEvent &event);
     void OnUnitArmorsCopyToUnits(wxCommandEvent &event);
-    std::string GetUnitArmorName(int);
+    wxString GetUnitArmorName(int);
 
 //  Unit Events
 
@@ -696,7 +698,7 @@ private:
     void OnUnitLinesCopy(wxCommandEvent &event);
     void OnUnitLinesPaste(wxCommandEvent &event);
     void OnUnitLinesPasteInsert(wxCommandEvent &event);
-    std::string GetUnitLineName(int);
+    wxString GetUnitLineName(int);
 
     void ListUnitLineUnits();
     void OnUnitLineUnitsSearch(wxCommandEvent &event);
@@ -723,7 +725,8 @@ private:
     void OnGraphicsPasteInsert(wxCommandEvent &event);
     void OnGraphicsEnable(wxCommandEvent &event);
     void OnGraphicsDisable(wxCommandEvent &event);
-    std::string GetGraphicName(int, bool = false);
+    wxString GetGraphicName(int, bool = false);
+    void PrepGraphicSearch();
 
     void ListGraphicDeltas();
     void OnGraphicDeltasSearch(wxCommandEvent &event);
@@ -735,7 +738,7 @@ private:
     void OnGraphicDeltasPaste(wxCommandEvent &event);
     void OnGraphicDeltasPasteInsert(wxCommandEvent &event);
     void OnGraphicDeltasCopyToGraphics(wxCommandEvent &event);
-    std::string GetGraphicDeltaName(int);
+    wxString GetGraphicDeltaName(int);
 
     void ListGraphicAngleSounds();
     void OnGraphicAngleSoundsSearch(wxCommandEvent &event);
@@ -757,7 +760,8 @@ private:
     void OnTerrainsDelete(wxCommandEvent &event);
     void OnTerrainsCopy(wxCommandEvent &event);
     void OnTerrainsPaste(wxCommandEvent &event);
-    std::string GetTerrainName(int, bool = false);
+    wxString GetTerrainName(int, bool = false);
+    void PrepTerrainSearch();
 
     void OnTerrainsBorderSearch(wxCommandEvent &event);
     void ListTerrainsBorders();
@@ -775,7 +779,7 @@ private:
     void OnTerrainBordersPaste(wxCommandEvent &event);
     void OnTerrainBordersMoveUp(wxCommandEvent &event);
     void OnTerrainBordersMoveDown(wxCommandEvent &event);
-    std::string GetTerrainBorderName(int);
+    wxString GetTerrainBorderName(int);
 
     void ListTerrainBorderTileTypes();
     void OnTerrainBorderTileTypeSearch(wxCommandEvent &event);
@@ -783,7 +787,7 @@ private:
     void OnTerrainBorderTileTypeCopy(wxCommandEvent &event);
     void OnTerrainBorderTileTypePaste(wxCommandEvent &event);
     void OnTerrainBorderTileTypeCopyToBorders(wxCommandEvent &event);
-    std::string GetTerrainBorderTileTypeName(int);
+    wxString GetTerrainBorderTileTypeName(int);
 
     void ListTerrainBorderBorderShapes();
     void OnTerrainBorderBorderShapeSearch(wxCommandEvent &event);
@@ -791,7 +795,7 @@ private:
     void OnTerrainBorderBorderShapeCopy(wxCommandEvent &event);
     void OnTerrainBorderBorderShapePaste(wxCommandEvent &event);
     void OnTerrainBorderBorderShapeCopyToBorders(wxCommandEvent &event);
-    std::string GetTerrainBorderBorderShapeName(int);
+    wxString GetTerrainBorderBorderShapeName(int);
 
 //  Terrain Restriction Events
 
@@ -832,7 +836,8 @@ private:
     void OnSoundItemsPaste(wxCommandEvent &event);
     void OnSoundItemsPasteInsert(wxCommandEvent &event);
     void OnSoundItemsCopyToSounds(wxCommandEvent &event);
-    wxString GetSoundItemName(int, int);
+    wxString GetSoundItemName(int, int, bool = false);
+    void PrepSoundItemSearch();
 
 //  Player Color Events
 
@@ -845,14 +850,14 @@ private:
     void OnPlayerColorsCopy(wxCommandEvent &event);
     void OnPlayerColorsPaste(wxCommandEvent &event);
     void OnPlayerColorsPasteInsert(wxCommandEvent &event);
-    std::string GetPlayerColorName(int);
+    wxString GetPlayerColorName(int);
 
 //  Application Variables
 
-    float EditorVersion, slp_zoom = 1, boxWidthMultiplier, displayScaling;
+    float slp_zoom = 1, boxWidthMultiplier, displayScaling;
     wxString EditorVersionString, slp_extra_info;
     bool PromptForFilesOnOpen, AutoCopy, CopyGraphics, AllCivs, AutoBackups, StayOnTop, KeepViewOnTop,
-        useDynamicName, NeverHideAttributes;
+        NeverHideAttributes;
     std::vector<short> SelectedCivs;
     bool SearchAnd = false, ExcludeAnd = false, ShowUnknowns, ResizeTerrains, SkipOpenDialog, Paste11, Reselection;
     bool ShowSLP, AnimSLP, ShowShadows, ShowOutline, ShowDeltas, ShowStack, ShowAnnexes, ShowIcons, DrawHot = false;

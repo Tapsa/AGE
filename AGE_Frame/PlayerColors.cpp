@@ -8,7 +8,7 @@ void AGE_Frame::OnPlayerColorsSearch(wxCommandEvent &event)
     ListPlayerColors();
 }
 
-std::string AGE_Frame::GetPlayerColorName(int index)
+wxString AGE_Frame::GetPlayerColorName(int index)
 {
     if(GenieVersion < genie::GV_AoKE3)
         return dataset->PlayerColours[index].Name;

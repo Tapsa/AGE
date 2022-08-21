@@ -2,6 +2,8 @@
 #include "../AGE_Frame.h"
 #include "../Loaders.h"
 
+std::vector<std::function<wxString(genie::SoundItem*)>> SoundItemFilterFunctions;
+
 wxString AGE_Frame::GetSoundName(int sound)
 {
     if(dataset->Sounds[sound].Items.empty()) return "Empty";
@@ -153,46 +155,53 @@ void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &event)
     ListSounds();
 }
 
-wxString AGE_Frame::GetSoundItemName(int item, int set)
+wxString AGE_Frame::GetSoundItemName(int item, int set, bool filter)
 {
-    wxString Name;
-    short Selection[2];
-    for(size_t loop = 0; loop < 2; ++loop)
-    Selection[loop] = Sounds_Items_SearchFilters[loop]->GetSelection();
-
-    if(Selection[0] > 0)
-    for(size_t loop = 0; loop < 2; ++loop)
+    wxString name;
+    if (filter)
     {
-        switch(Selection[loop])
+        for (auto &f : SoundItemFilterFunctions)
         {
-            case 1: // DRS
-                Name += "DRS "+FormatInt(dataset->Sounds[set].Items[item].ResourceID);
-                break;
-            case 2: // Probability
-                Name += "P% "+FormatInt(dataset->Sounds[set].Items[item].Probability);
-                break;
-            case 3: // Civilization
-                if (GenieVersion >= genie::GV_AoKE3)
-                Name += "C "+FormatInt(dataset->Sounds[set].Items[item].Civilization);
-                break;
-            case 4: // Unknown
-                if (GenieVersion >= genie::GV_AoKE3)
-                Name += "PI "+FormatInt(dataset->Sounds[set].Items[item].IconSet);
-                break;
+            name += f(&dataset->Sounds[set].Items[item]) + ", ";
         }
-        Name += ", ";
-        if(Selection[1] < 1) break;
     }
+    if (!dataset->Sounds[set].Items[item].FileName.empty())
+    {
+        return name + dataset->Sounds[set].Items[item].FileName;
+    }
+    return name + "NewFile.wav";
+}
 
-    if(!dataset->Sounds[set].Items[item].FileName.empty())
+void AGE_Frame::PrepSoundItemSearch()
+{
+    SoundItemFilterFunctions.clear();
+    for (size_t loop = 0; loop < 2; ++loop)
     {
-        Name += dataset->Sounds[set].Items[item].FileName;
+        int selection = Sounds_Items_SearchFilters[loop]->GetSelection();
+        if (selection < 1) continue;
+        wxString label = soundfile_filters[selection];
+
+        if (label.compare("DRS") == 0)
+            SoundItemFilterFunctions.push_back([this](genie::SoundItem *item_ptr)
+        {
+            return "DRS " + FormatInt(item_ptr->ResourceID);
+        });
+        else if (label.compare("Probability") == 0)
+            SoundItemFilterFunctions.push_back([this](genie::SoundItem *item_ptr)
+        {
+            return "P " + FormatInt(item_ptr->Probability);
+        });
+        else if (label.compare("Civilization") == 0)
+            SoundItemFilterFunctions.push_back([this](genie::SoundItem *item_ptr)
+        {
+            return "C " + FormatInt(item_ptr->Civilization);
+        });
+        else if (label.compare("Icon Set") == 0)
+            SoundItemFilterFunctions.push_back([this](genie::SoundItem *item_ptr)
+        {
+            return "IS " + FormatInt(item_ptr->IconSet);
+        });
     }
-    else
-    {
-        Name += "NewFile.wav";
-    }
-    return Name;
 }
 
 void AGE_Frame::OnSoundItemsSearch(wxCommandEvent &event)
@@ -206,13 +215,14 @@ void AGE_Frame::ListSoundItems()
     InitSearch(Sounds_Items_Search->GetValue().MakeLower(), Sounds_Items_Search_R->GetValue().MakeLower());
     SearchAnd = Sounds_Items_UseAnd[0]->GetValue();
     ExcludeAnd = Sounds_Items_UseAnd[1]->GetValue();
+    PrepSoundItemSearch();
 
     Sounds_Items_ListV->Sweep();
 
     if(SoundIDs.size())
     for(size_t loop = 0; loop < dataset->Sounds[SoundIDs.front()].Items.size(); ++loop)
     {
-        wxString Name = FormatInt(loop)+" - "+GetSoundItemName(loop, SoundIDs.front());
+        wxString Name = FormatInt(loop)+" - "+GetSoundItemName(loop, SoundIDs.front(), true);
         if(SearchMatches(" " + Name.Lower() + " "))
         {
             Sounds_Items_ListV->names.Add(Name);

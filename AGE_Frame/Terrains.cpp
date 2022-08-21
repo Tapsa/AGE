@@ -2,97 +2,165 @@
 #include "../AGE_Frame.h"
 #include "../Loaders.h"
 
-std::string AGE_Frame::GetTerrainName(int index, bool Filter)
+std::vector<std::function<wxString(genie::Terrain*)>> TerrainFilterFunctions;
+bool UseTerrainName;
+
+wxString AGE_Frame::GetTerrainName(int index, bool filter)
 {
-    if(dataset->TerrainBlock.Terrains.size() <= index) return "Nonexistent Terrain";
-    std::string Name;
-    if(Filter)
+    wxString name;
+    if (filter)
     {
-        short Selection[2];
-        for(size_t loop = 0; loop < 2; ++loop)
-        Selection[loop] = Terrains_SearchFilters[loop]->GetSelection();
-
-        if(Selection[0] > 1) // Internal name prevents
-        for(size_t loop = 0; loop < 2; ++loop)
+        for (auto &f : TerrainFilterFunctions)
         {
-            switch(Selection[loop])
-            {
-                case 2: // SLP
-                    Name += "SLP "+FormatInt(dataset->TerrainBlock.Terrains[index].SLP);
-                    break;
-                case 3: // Enabled
-                    Name += "E "+FormatInt(dataset->TerrainBlock.Terrains[index].Enabled);
-                    break;
-                case 4: // Random
-                    Name += "R "+FormatInt(dataset->TerrainBlock.Terrains[index].Random);
-                    break;
-                case 5: // ShapePtr
-                    Name += "SP "+FormatInt(dataset->TerrainBlock.Terrains[index].ShapePtr);
-                    break;
-                case 6: // SoundID
-                    Name += "S "+FormatInt(dataset->TerrainBlock.Terrains[index].SoundID);
-                    break;
-                case 7: // BlendPriority
-                    Name += "BP "+FormatInt(dataset->TerrainBlock.Terrains[index].BlendPriority);
-                    break;
-                case 8: // BlendType
-                    Name += "BT "+FormatInt(dataset->TerrainBlock.Terrains[index].BlendType);
-                    break;
-                case 9: // Colors
-                    {
-                        Name += "H"+FormatInt(dataset->TerrainBlock.Terrains[index].Colors[0]);
-                        Name += " M"+FormatInt(dataset->TerrainBlock.Terrains[index].Colors[1]);
-                        Name += " L"+FormatInt(dataset->TerrainBlock.Terrains[index].Colors[2]);
-                    }
-                    break;
-                case 10: // CliffColors
-                    {
-                        Name += "LT"+FormatInt(dataset->TerrainBlock.Terrains[index].CliffColors.first);
-                        Name += " RT"+FormatInt(dataset->TerrainBlock.Terrains[index].CliffColors.second);
-                    }
-                    break;
-                case 11: // PassableTerrain
-                    Name += "PT "+FormatInt(dataset->TerrainBlock.Terrains[index].PassableTerrain);
-                    break;
-                case 12: // ImpassableTerrain
-                    Name += "IT "+FormatInt(dataset->TerrainBlock.Terrains[index].ImpassableTerrain);
-                    break;
-                case 13: // Frame Count
-                    Name += "FC "+FormatInt(dataset->TerrainBlock.Terrains[index].ElevationGraphics.front().FrameCount);
-                    break;
-                case 14: // Angle Count
-                    Name += "AC "+FormatInt(dataset->TerrainBlock.Terrains[index].ElevationGraphics.front().AngleCount);
-                    break;
-                case 15: // TerrainToDraw
-                    Name += "TD "+FormatInt(dataset->TerrainBlock.Terrains[index].TerrainToDraw);
-                    break;
-                case 16: // TerrainDimensions
-                    Name += "R"+FormatInt(dataset->TerrainBlock.Terrains[index].TerrainDimensions.first);
-                    Name += " C"+FormatInt(dataset->TerrainBlock.Terrains[index].TerrainDimensions.second);
-                    break;
-                case 17: // NumberOfTerrainUnitsUsed
-                    Name += "TU "+FormatInt(dataset->TerrainBlock.Terrains[index].NumberOfTerrainUnitsUsed);
-                    break;
-                case 18: // Phantom
-                    Name += "U1 "+FormatInt(dataset->TerrainBlock.Terrains[index].Phantom);
-                    break;
-            }
-            Name += ", ";
-            if(Selection[1] < 1) break; // Internal name breaks
+            name += f(&dataset->TerrainBlock.Terrains[index]) + ", ";
         }
-        if(Selection[0] == 1) goto InternalName;
     }
+    if (UseTerrainName && !dataset->TerrainBlock.Terrains[index].Name.empty())
+    {
+        return name + dataset->TerrainBlock.Terrains[index].Name;
+    }
+    if (!dataset->TerrainBlock.Terrains[index].Name2.empty())
+    {
+        return name + dataset->TerrainBlock.Terrains[index].Name2;
+    }
+    return name + "New Terrain";
+}
 
-    if(!dataset->TerrainBlock.Terrains[index].Name.empty())
+void AGE_Frame::PrepTerrainSearch()
+{
+    UseTerrainName = true;
+    TerrainFilterFunctions.clear();
+    for (size_t loop = 0; loop < 2; ++loop)
     {
-        return Name + dataset->TerrainBlock.Terrains[index].Name;
+        int selection = Terrains_SearchFilters[loop]->GetSelection();
+        if (selection < 1) continue;
+        wxString label = terrain_filters[selection];
+
+        if (label.compare("Sprite Name") == 0)
+        {
+            UseTerrainName = false;
+            continue;
+        }
+        else if (label.compare("Sprite") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "SLP " + FormatInt(terrain_ptr->SLP);
+        });
+        else if (label.compare("Enabled") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "E " + FormatInt(terrain_ptr->Enabled);
+        });
+        else if (label.compare("Random") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "R " + FormatInt(terrain_ptr->Random);
+        });
+        else if (label.compare("Shape Pointer") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "SP " + FormatInt(terrain_ptr->ShapePtr);
+        });
+        else if (label.compare("Sound") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "S " + FormatInt(terrain_ptr->SoundID);
+        });
+        else if (label.compare("Blend Priority") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "BP " + FormatInt(terrain_ptr->BlendPriority);
+        });
+        else if (label.compare("Blend Type") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "BT " + FormatInt(terrain_ptr->BlendType);
+        });
+        else if (label.compare("Colors") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "H" + FormatInt(terrain_ptr->Colors[0])
+                + " M" + FormatInt(terrain_ptr->Colors[1])
+                + " L" + FormatInt(terrain_ptr->Colors[2]);
+        });
+        else if (label.compare("Cliff Colors") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "LT" + FormatInt(terrain_ptr->CliffColors.first)
+                + " RT" + FormatInt(terrain_ptr->CliffColors.second);
+        });
+        else if (label.compare("Passable Terrain") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "PT " + FormatInt(terrain_ptr->PassableTerrain);
+        });
+        else if (label.compare("Impassable Terrain") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "IT " + FormatInt(terrain_ptr->ImpassableTerrain);
+        });
+        else if (label.compare("Frame Count") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "FC " + FormatInt(terrain_ptr->ElevationGraphics.front().FrameCount);
+        });
+        else if (label.compare("Angle Count") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "AC " + FormatInt(terrain_ptr->ElevationGraphics.front().AngleCount);
+        });
+        else if (label.compare("Terrain to Draw") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "TD " + FormatInt(terrain_ptr->TerrainToDraw);
+        });
+        else if (label.compare("Terrain Dimensions") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "R" + FormatInt(terrain_ptr->TerrainDimensions.first)
+                + " C" + FormatInt(terrain_ptr->TerrainDimensions.second);
+        });
+        else if (label.compare("Terrain Units Used") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "TU " + FormatInt(terrain_ptr->NumberOfTerrainUnitsUsed);
+        });
+        else if (label.compare("Phantom Variable") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "U1 " + FormatInt(terrain_ptr->Phantom);
+        });
+        else if (label.compare("Water") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "IW " + FormatInt(terrain_ptr->IsWater);
+        });
+        else if (label.compare("Hide in Editor") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "HE " + FormatInt(terrain_ptr->HideInEditor);
+        });
+        else if (label.compare("Name String") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "NS " + FormatInt(terrain_ptr->StringID);
+        });
+        else if (label.compare("Overlay Mask") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "OM " + terrain_ptr->OverlayMaskName;
+        });
+        else if (label.compare("Wave Works Stop Sound") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "WSS " + FormatInt(terrain_ptr->WwiseSoundStopID);
+        });
+        else if (label.compare("Wave Works Sound") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "WS " + FormatInt(terrain_ptr->WwiseSoundID);
+        });
     }
-InternalName:
-    if(!dataset->TerrainBlock.Terrains[index].Name2.empty())
-    {
-        return Name + dataset->TerrainBlock.Terrains[index].Name2;
-    }
-    return Name + "New Terrain";
 }
 
 void AGE_Frame::OnTerrainsSearch(wxCommandEvent &event)
@@ -149,6 +217,7 @@ void AGE_Frame::InitTerrains1(bool all)
     InitSearch(Terrains_Terrains_Search->GetValue().MakeLower(), Terrains_Terrains_Search_R->GetValue().MakeLower());
     SearchAnd = Terrains_Terrains_UseAnd[0]->GetValue();
     ExcludeAnd = Terrains_Terrains_UseAnd[1]->GetValue();
+    PrepTerrainSearch();
 
     Terrains_Terrains_ListV->Sweep();
     if(all)
@@ -765,30 +834,6 @@ void AGE_Frame::CreateTerrainControls()
     Terrains_Drawn_Holder = new wxBoxSizer(wxVERTICAL);
     Terrains_Drawn_Text = new SolidText(Terrains_Scroller, " Drawn");
     Terrains_Drawn = new NumberControl(CUByte, Terrains_Scroller, this, &uiGroupTerrain);
-
-    terrain_filters.Add("Internal Name");  // 0
-    terrain_filters.Add("SLP Name");
-    terrain_filters.Add("SLP");
-    terrain_filters.Add("Enabled");
-    terrain_filters.Add("Random");
-    terrain_filters.Add("Shape Pointer");
-    terrain_filters.Add("Sound");
-    terrain_filters.Add("Blend Priority");
-    terrain_filters.Add("Blend Type");
-    terrain_filters.Add("Colors");
-    terrain_filters.Add("Cliff Colors");
-    terrain_filters.Add("Passable Terrain");
-    terrain_filters.Add("Impassable Terrain");
-    terrain_filters.Add("Frame Count");
-    terrain_filters.Add("Angle Count");
-    terrain_filters.Add("Terrain to Draw");
-    terrain_filters.Add("Terrain Dimensions");
-    terrain_filters.Add("Terrain Units Used");
-    terrain_filters.Add("Phantom Variable");
-    for(size_t loop = 0; loop < 2; ++loop)
-    {
-        Terrains_SearchFilters[loop]->Flash();
-    }
 
     Terrains_UsedCountHolder->Add(Terrains_UsedCountText);
     Terrains_UsedCountHolder->Add(Terrains_UsedCount, 1, wxEXPAND | wxLEFT, 2);

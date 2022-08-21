@@ -1,7 +1,12 @@
 #include "Common.h"
 #include "../AGE_Frame.h"
 
-std::string AGE_Frame::GetTTAgesName(int index)
+std::vector<std::function<wxString(genie::BuildingConnection*)>> TechTreeBuildingFilterFunctions;
+std::vector<std::function<wxString(genie::UnitConnection*)>> TechTreeUnitFilterFunctions;
+std::vector<std::function<wxString(genie::ResearchConnection*)>> TechTreeTechFilterFunctions;
+bool UseTechTreeBuildingName, UseTechTreeUnitName, UseTechTreeTechName;
+
+wxString AGE_Frame::GetTTAgesName(int index)
 {
     return "Age "+lexical_cast<std::string>(dataset->TechTree.TechTreeAges[index].ID);
 }
@@ -137,17 +142,21 @@ void AGE_Frame::OnTTAgesPasteInsert(wxCommandEvent &event)
 
 wxString AGE_Frame::GetBuildingName(int Building)
 {
-    wxString Name = FormatInt(Building) + " ";
-    if(dataset->Civs.front().Units.size() <= Building) return Name + "Nonexistent Building";
-    if(!TranslatedText(dataset->Civs.front().Units[Building].LanguageDLLName, 2).empty())
+    wxString name = FormatInt(Building) + " ";
+    if (dataset->Civs.front().Units.size() <= Building)
     {
-        return Name + TranslatedText(dataset->Civs.front().Units[Building].LanguageDLLName, 64);
+        return name + "Nonexistent Building";
     }
-    if(!dataset->Civs.front().Units[Building].Name.empty())
+    wxString DynamicName = TranslatedText(dataset->Civs.front().Units[Building].LanguageDLLName, 64);
+    if (!DynamicName.empty())
     {
-        return Name + dataset->Civs.front().Units[Building].Name;
+        return name + DynamicName;
     }
-    return Name + "New Building";
+    if (!dataset->Civs.front().Units[Building].Name.empty())
+    {
+        return name + dataset->Civs.front().Units[Building].Name;
+    }
+    return name + "New Building";
 }
 
 void AGE_Frame::OnTTAgesBuildingSearch(wxCommandEvent &event)
@@ -380,17 +389,21 @@ void AGE_Frame::OnTTAgesUnitCopyToAges(wxCommandEvent &event)
 
 wxString AGE_Frame::GetSimpleResearchName(int tech)
 {
-    wxString Name = FormatInt(tech) + " ";
-    if(dataset->Techs.size() <= tech) return Name + "Nonexistent Technology";
-    if(!TranslatedText(dataset->Techs[tech].LanguageDLLName, 2).empty())
+    wxString name = FormatInt(tech) + " ";
+    if (dataset->Techs.size() <= tech)
     {
-        return Name + TranslatedText(dataset->Techs[tech].LanguageDLLName, 64);
+        return name + "Nonexistent Technology";
     }
-    if(!dataset->Techs[tech].Name.empty())
+    wxString DynamicName = TranslatedText(dataset->Techs[tech].LanguageDLLName, 64);
+    if (!DynamicName.empty())
     {
-        return Name + dataset->Techs[tech].Name;
+        return name + DynamicName;
     }
-    return Name + "New Technology";
+    if (!dataset->Techs[tech].Name.empty())
+    {
+        return name + dataset->Techs[tech].Name;
+    }
+    return name + "New Technology";
 }
 
 void AGE_Frame::OnTTAgesResearchSearch(wxCommandEvent &event)
@@ -683,70 +696,103 @@ void AGE_Frame::OnTTAgeUnknownItemCopyToAges(wxCommandEvent &event)
     }
 }
 
-wxString AGE_Frame::GetTTBuildingName(int index)
+wxString AGE_Frame::GetTTBuildingName(int index, bool filter)
 {
-    wxString Name;
-
-    short Selection[2];
-    for(size_t loop = 0; loop < 2; ++loop)
-    Selection[loop] = TechTrees_MainList_Buildings_SearchFilters[loop]->GetSelection();
-
-    if(Selection[0] == 0)   // Normal Name
+    wxString name;
+    if (filter)
     {
-        // Do nothing!
-    }
-    else for(size_t loop = 0; loop < 2; ++loop)
-    {
-        switch(Selection[loop])
+        for (auto &f : TechTreeBuildingFilterFunctions)
         {
-            case 1: // Status
-                Name += "S "+lexical_cast<std::string>((short)dataset->TechTree.BuildingConnections[index].Status);
-                break;
-            case 2: // Required Items
-                Name += "I "+lexical_cast<std::string>(dataset->TechTree.BuildingConnections[index].Common.SlotsUsed);
-                break;
-            case 3: // Age
-                Name += "A "+lexical_cast<std::string>(dataset->TechTree.BuildingConnections[index].Common.UnitResearch[0]);
-                break;
-            case 4: // Location in Age
-                Name += "LA "+lexical_cast<std::string>((short)dataset->TechTree.BuildingConnections[index].LocationInAge);
-                break;
-            case 5: // Units & Techs by Age
-                Name += "UT";
-                for(short age = 0; age < 5; ++age)
-                Name += " "+lexical_cast<std::string>((short)dataset->TechTree.BuildingConnections[index].UnitsTechsTotal[age]);
-                break;
-            case 6: // Units & Techs @ 1st by Age
-                Name += "UT1";
-                for(short age = 0; age < 5; ++age)
-                Name += " "+lexical_cast<std::string>((short)dataset->TechTree.BuildingConnections[index].UnitsTechsFirst[age]);
-                break;
-            case 7: // Line Mode
-                Name += "LM "+lexical_cast<std::string>(dataset->TechTree.BuildingConnections[index].LineMode);
-                break;
-            case 8: // Enabling Tech
-                Name += "E "+lexical_cast<std::string>(dataset->TechTree.BuildingConnections[index].EnablingResearch);
-                break;
+            name += f(&dataset->TechTree.BuildingConnections[index]) + ", ";
         }
-        Name += ", ";
-        if(Selection[1] < 1) break;
     }
+    int buildingId = dataset->TechTree.BuildingConnections[index].ID;
+    name += FormatInt(buildingId) + " ";
+    if (dataset->Civs.front().Units.size() <= buildingId)
+    {
+        return name;
+    }
+    if (UseTechTreeBuildingName)
+    {
+        wxString DynamicName = TranslatedText(dataset->Civs.front().Units[buildingId].LanguageDLLName, 64);
+        if (!DynamicName.empty())
+        {
+            return name + DynamicName;
+        }
+    }
+    if (!dataset->Civs.front().Units[buildingId].Name.empty())
+    {
+        return name + dataset->Civs.front().Units[buildingId].Name;
+    }
+    return name + "New Unit";
+}
 
-    Name += FormatInt(dataset->TechTree.BuildingConnections[index].ID) + " ";
-    if(dataset->Civs.front().Units.size() <= dataset->TechTree.BuildingConnections[index].ID) return Name;
-    if(!TranslatedText(dataset->Civs.front().Units[dataset->TechTree.BuildingConnections[index].ID].LanguageDLLName, 2).empty())
+void AGE_Frame::PrepTTBuildingSearch()
+{
+    UseTechTreeBuildingName = true;
+    TechTreeBuildingFilterFunctions.clear();
+    for (size_t loop = 0; loop < 2; ++loop)
     {
-        Name += TranslatedText(dataset->Civs.front().Units[dataset->TechTree.BuildingConnections[index].ID].LanguageDLLName, 64);
+        int selection = TechTrees_MainList_Buildings_SearchFilters[loop]->GetSelection();
+        if (selection < 1) continue;
+        wxString label = tt_building_filters[selection];
+
+        if (label.compare("Internal Name") == 0)
+        {
+            UseTechTreeBuildingName = false;
+            continue;
+        }
+        else if (label.compare("Status") == 0)
+            TechTreeBuildingFilterFunctions.push_back([this](genie::BuildingConnection *unit_ptr)
+        {
+            return "S " + FormatInt(unit_ptr->Status);
+        });
+        else if (label.compare("Required Items") == 0)
+            TechTreeBuildingFilterFunctions.push_back([this](genie::BuildingConnection *unit_ptr)
+        {
+            return "I " + FormatInt(unit_ptr->Common.SlotsUsed);
+        });
+        else if (label.compare("Age (1st Item)") == 0)
+            TechTreeBuildingFilterFunctions.push_back([this](genie::BuildingConnection *unit_ptr)
+        {
+            return "A " + FormatInt(unit_ptr->Common.UnitResearch[0]);
+        });
+        else if (label.compare("Location in Age") == 0)
+            TechTreeBuildingFilterFunctions.push_back([this](genie::BuildingConnection *unit_ptr)
+        {
+            return "LA " + FormatInt(unit_ptr->LocationInAge);
+        });
+        else if (label.compare("Units & Techs by Age") == 0)
+            TechTreeBuildingFilterFunctions.push_back([this](genie::BuildingConnection *unit_ptr)
+        {
+            wxString name = "UT";
+            for (short age = 0; age < 5; ++age)
+            {
+                name += " " + FormatInt(unit_ptr->UnitsTechsTotal[age]);
+            }
+            return name;
+        });
+        else if (label.compare("Units & Techs @ 1st by Age") == 0)
+            TechTreeBuildingFilterFunctions.push_back([this](genie::BuildingConnection *unit_ptr)
+        {
+            wxString name = "UT1";
+            for (short age = 0; age < 5; ++age)
+            {
+                name += " " + FormatInt(unit_ptr->UnitsTechsFirst[age]);
+            }
+            return name;
+        });
+        else if (label.compare("Line Mode") == 0)
+            TechTreeBuildingFilterFunctions.push_back([this](genie::BuildingConnection *unit_ptr)
+        {
+            return "LM " + FormatInt(unit_ptr->LineMode);
+        });
+        else if (label.compare("Enabling Tech") == 0)
+            TechTreeBuildingFilterFunctions.push_back([this](genie::BuildingConnection *unit_ptr)
+        {
+            return "E " + FormatInt(unit_ptr->EnablingResearch);
+        });
     }
-    else if(!dataset->Civs.front().Units[dataset->TechTree.BuildingConnections[index].ID].Name.empty())
-    {
-        Name += dataset->Civs.front().Units[dataset->TechTree.BuildingConnections[index].ID].Name;
-    }
-    else
-    {
-        Name += "New Unit";
-    }
-    return Name;
 }
 
 void AGE_Frame::OnTTBuildingSearch(wxCommandEvent &event)
@@ -767,12 +813,13 @@ void AGE_Frame::InitTTBuildings()
     InitSearch(TechTrees_MainList_Buildings_Search->GetValue().MakeLower(), TechTrees_MainList_Buildings_Search_R->GetValue().MakeLower());
     SearchAnd = TechTrees_MainList_Buildings_UseAnd[0]->GetValue();
     ExcludeAnd = TechTrees_MainList_Buildings_UseAnd[1]->GetValue();
+    PrepTTBuildingSearch();
 
     TechTrees_MainList_Buildings_ListV->Sweep();
 
     for(size_t loop = 0; loop < dataset->TechTree.BuildingConnections.size(); ++loop)
     {
-        wxString Name = FormatInt(loop)+" - "+GetTTBuildingName(loop);
+        wxString Name = FormatInt(loop)+" - "+GetTTBuildingName(loop, true);
         if(SearchMatches(" " + Name.Lower() + " "))
         {
             TechTrees_MainList_Buildings_ListV->names.Add(Name);
@@ -1277,69 +1324,98 @@ void AGE_Frame::OnTTBuildingItemCopyToBuildings(wxCommandEvent &event)
     }
 }
 
-wxString AGE_Frame::GetTTUnitName(int index)
+wxString AGE_Frame::GetTTUnitName(int index, bool filter)
 {
-    wxString Name;
-
-    short Selection[2];
-    for(size_t loop = 0; loop < 2; ++loop)
-    Selection[loop] = TechTrees_MainList_Units_SearchFilters[loop]->GetSelection();
-
-    if(Selection[0] == 0)   // Normal Name
+    wxString name;
+    if (filter)
     {
-        // Do nothing!
-    }
-    else for(size_t loop = 0; loop < 2; ++loop)
-    {
-        switch(Selection[loop])
+        for (auto &f : TechTreeUnitFilterFunctions)
         {
-            case 1: // Status
-                Name += "S "+lexical_cast<std::string>((short)dataset->TechTree.UnitConnections[index].Status);
-                break;
-            case 2: // Upper Building
-                Name += "U "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].UpperBuilding);
-                break;
-            case 3: // Required Items
-                Name += "I "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].Common.SlotsUsed);
-                break;
-            case 4: // Age
-                Name += "A "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].Common.UnitResearch[0]);
-                break;
-            case 5: // Vertical Line Number
-                Name += "V "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].VerticalLine);
-                break;
-            case 6: // Space Sharing
-                Name += "LA "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].LocationInAge);
-                break;
-            case 7: // Required Tech
-                Name += "R "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].RequiredResearch);
-                break;
-            case 8: // Placement
-                Name += "LM "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].LineMode);
-                break;
-            case 9: // Enabling Tech
-                Name += "E "+lexical_cast<std::string>(dataset->TechTree.UnitConnections[index].EnablingResearch);
-                break;
+            name += f(&dataset->TechTree.UnitConnections[index]) + ", ";
         }
-        Name += ", ";
-        if(Selection[1] < 1) break;
     }
+    int unitId = dataset->TechTree.UnitConnections[index].ID;
+    name += FormatInt(unitId) + " ";
+    if (dataset->Civs.front().Units.size() <= unitId)
+    {
+        return name;
+    }
+    if (UseTechTreeUnitName)
+    {
+        wxString DynamicName = TranslatedText(dataset->Civs.front().Units[unitId].LanguageDLLName, 64);
+        if (!DynamicName.empty())
+        {
+            return name + DynamicName;
+        }
+    }
+    if (!dataset->Civs.front().Units[unitId].Name.empty())
+    {
+        return name + dataset->Civs.front().Units[unitId].Name;
+    }
+    return name + "New Unit";
+}
 
-    Name += FormatInt(dataset->TechTree.UnitConnections[index].ID) + " ";
-    if(dataset->Civs.front().Units.size() <= dataset->TechTree.UnitConnections[index].ID) return Name;
-    if(!TranslatedText(dataset->Civs.front().Units[dataset->TechTree.UnitConnections[index].ID].LanguageDLLName, 2).empty())
+void AGE_Frame::PrepTTUnitSearch()
+{
+    UseTechTreeUnitName = true;
+    TechTreeUnitFilterFunctions.clear();
+    for (size_t loop = 0; loop < 2; ++loop)
     {
-        Name += TranslatedText(dataset->Civs.front().Units[dataset->TechTree.UnitConnections[index].ID].LanguageDLLName, 64);
+        int selection = TechTrees_MainList_Units_SearchFilters[loop]->GetSelection();
+        if (selection < 1) continue;
+        wxString label = tt_unit_filters[selection];
+
+        if (label.compare("Internal Name") == 0)
+        {
+            UseTechTreeUnitName = false;
+            continue;
+        }
+        else if (label.compare("Status") == 0)
+            TechTreeUnitFilterFunctions.push_back([this](genie::UnitConnection *unit_ptr)
+        {
+            return "S " + FormatInt(unit_ptr->Status);
+        });
+        else if (label.compare("Upper Building") == 0)
+            TechTreeUnitFilterFunctions.push_back([this](genie::UnitConnection *unit_ptr)
+        {
+            return "U " + FormatInt(unit_ptr->UpperBuilding);
+        });
+        else if (label.compare("Required Items") == 0)
+            TechTreeUnitFilterFunctions.push_back([this](genie::UnitConnection *unit_ptr)
+        {
+            return "I " + FormatInt(unit_ptr->Common.SlotsUsed);
+        });
+        else if (label.compare("Age (1st Item)") == 0)
+            TechTreeUnitFilterFunctions.push_back([this](genie::UnitConnection *unit_ptr)
+        {
+            return "A " + FormatInt(unit_ptr->Common.UnitResearch[0]);
+        });
+        else if (label.compare("Vertical Line Number") == 0)
+            TechTreeUnitFilterFunctions.push_back([this](genie::UnitConnection *unit_ptr)
+        {
+            return "V " + FormatInt(unit_ptr->VerticalLine);
+        });
+        else if (label.compare("Location in Age") == 0)
+            TechTreeUnitFilterFunctions.push_back([this](genie::UnitConnection *unit_ptr)
+        {
+            return "LA " + FormatInt(unit_ptr->LocationInAge);
+        });
+        else if (label.compare("Required Tech") == 0)
+            TechTreeUnitFilterFunctions.push_back([this](genie::UnitConnection *unit_ptr)
+        {
+            return "R " + FormatInt(unit_ptr->RequiredResearch);
+        });
+        else if (label.compare("Line Mode") == 0)
+            TechTreeUnitFilterFunctions.push_back([this](genie::UnitConnection *unit_ptr)
+        {
+            return "LM " + FormatInt(unit_ptr->LineMode);
+        });
+        else if (label.compare("Enabling Tech") == 0)
+            TechTreeUnitFilterFunctions.push_back([this](genie::UnitConnection *unit_ptr)
+        {
+            return "E " + FormatInt(unit_ptr->EnablingResearch);
+        });
     }
-    else if(!dataset->Civs.front().Units[dataset->TechTree.UnitConnections[index].ID].Name.empty())
-    {
-        Name += dataset->Civs.front().Units[dataset->TechTree.UnitConnections[index].ID].Name;
-    }
-    else
-    {
-        Name += "New Unit";
-    }
-    return Name;
 }
 
 void AGE_Frame::OnTTUnitSearch(wxCommandEvent &event)
@@ -1360,12 +1436,13 @@ void AGE_Frame::InitTTUnits()
     InitSearch(TechTrees_MainList_Units_Search->GetValue().MakeLower(), TechTrees_MainList_Units_Search_R->GetValue().MakeLower());
     SearchAnd = TechTrees_MainList_Units_UseAnd[0]->GetValue();
     ExcludeAnd = TechTrees_MainList_Units_UseAnd[1]->GetValue();
+    PrepTTUnitSearch();
 
     TechTrees_MainList_Units_ListV->Sweep();
 
     for(size_t loop = 0; loop < dataset->TechTree.UnitConnections.size(); ++loop)
     {
-        wxString Name = FormatInt(loop)+" - "+GetTTUnitName(loop);
+        wxString Name = FormatInt(loop)+" - "+GetTTUnitName(loop, true);
         if(SearchMatches(" " + Name.Lower() + " "))
         {
             TechTrees_MainList_Units_ListV->names.Add(Name);
@@ -1601,7 +1678,7 @@ void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common *t
         switch(tt_cmn_ptr->Mode[loop])
         {
             case 0:
-                Name = "Age: "+lexical_cast<std::string>(tt_cmn_ptr->UnitResearch[loop]);
+                Name = "Age: "+FormatInt(tt_cmn_ptr->UnitResearch[loop]);
                 break;
             case 1:
                 Name = "Building: "+GetBuildingName(tt_cmn_ptr->UnitResearch[loop]);
@@ -1613,7 +1690,7 @@ void AGE_Frame::ListTTCommonItems(AGE_AreaTT84 &area, genie::techtree::Common *t
                 Name = "Technology: "+GetSimpleResearchName(tt_cmn_ptr->UnitResearch[loop]);
                 break;
             default:
-                Name = lexical_cast<std::string>(tt_cmn_ptr->Mode[loop])+" None: "+lexical_cast<std::string>(tt_cmn_ptr->UnitResearch[loop]);
+                Name = FormatInt(tt_cmn_ptr->Mode[loop])+" None: "+FormatInt(tt_cmn_ptr->UnitResearch[loop]);
         }
         if(SearchMatches(" " + Name.Lower() + " "))
         {
@@ -1674,63 +1751,88 @@ void AGE_Frame::OnTTUnitItemCopyToUnits(wxCommandEvent &event)
     }
 }
 
-wxString AGE_Frame::GetTTResearchName(int index)
+wxString AGE_Frame::GetTTResearchName(int index, bool filter)
 {
-    wxString Name;
-
-    short Selection[2];
-    for(size_t loop = 0; loop < 2; ++loop)
-    Selection[loop] = TechTrees_MainList_Researches_SearchFilters[loop]->GetSelection();
-
-    if(Selection[0] == 0)   // Normal Name
+    wxString name;
+    if (filter)
     {
-        // Do nothing!
-    }
-    else for(size_t loop = 0; loop < 2; ++loop)
-    {
-        switch(Selection[loop])
+        for (auto &f : TechTreeTechFilterFunctions)
         {
-            case 1: // Status
-                Name += "S "+lexical_cast<std::string>((short)dataset->TechTree.ResearchConnections[index].Status);
-                break;
-            case 2: // Upper Building
-                Name += "U "+lexical_cast<std::string>(dataset->TechTree.ResearchConnections[index].UpperBuilding);
-                break;
-            case 3: // Required Items
-                Name += "I "+lexical_cast<std::string>(dataset->TechTree.ResearchConnections[index].Common.SlotsUsed);
-                break;
-            case 4: // Age
-                Name += "A "+lexical_cast<std::string>(dataset->TechTree.ResearchConnections[index].Common.UnitResearch[0]);
-                break;
-            case 5: // Vertical Line Number
-                Name += "V "+lexical_cast<std::string>(dataset->TechTree.ResearchConnections[index].VerticalLine);
-                break;
-            case 6: // Location in Age
-                Name += "LA "+lexical_cast<std::string>(dataset->TechTree.ResearchConnections[index].LocationInAge);
-                break;
-            case 7: // First Age Mode
-                Name += "LM "+lexical_cast<std::string>(dataset->TechTree.ResearchConnections[index].LineMode);
-                break;
+            name += f(&dataset->TechTree.ResearchConnections[index]) + ", ";
         }
-        Name += ", ";
-        if(Selection[1] < 1) break;
     }
+    int techId = dataset->TechTree.ResearchConnections[index].ID;
+    name += FormatInt(techId) + " ";
+    if (dataset->Techs.size() <= techId)
+    {
+        return name;
+    }
+    if (UseTechTreeTechName)
+    {
+        wxString DynamicName = TranslatedText(dataset->Techs[techId].LanguageDLLName, 64);
+        if (!DynamicName.empty())
+        {
+            return name + DynamicName;
+        }
+    }
+    if (!dataset->Techs[techId].Name.empty())
+    {
+        return name + dataset->Techs[techId].Name;
+    }
+    return name + "New Unit";
+}
 
-    Name += FormatInt(dataset->TechTree.ResearchConnections[index].ID) + " ";
-    if(dataset->Techs.size() <= dataset->TechTree.ResearchConnections[index].ID) return Name;
-    if(!TranslatedText(dataset->Techs[dataset->TechTree.ResearchConnections[index].ID].LanguageDLLName, 2).empty())
+void AGE_Frame::PrepTTResearchSearch()
+{
+    UseTechTreeTechName = true;
+    TechTreeTechFilterFunctions.clear();
+    for (size_t loop = 0; loop < 2; ++loop)
     {
-        Name += TranslatedText(dataset->Techs[dataset->TechTree.ResearchConnections[index].ID].LanguageDLLName, 64);
+        int selection = TechTrees_MainList_Researches_SearchFilters[loop]->GetSelection();
+        if (selection < 1) continue;
+        wxString label = tt_research_filters[selection];
+
+        if (label.compare("Internal Name") == 0)
+        {
+            UseTechTreeTechName = false;
+            continue;
+        }
+        else if (label.compare("Status") == 0)
+            TechTreeTechFilterFunctions.push_back([this](genie::ResearchConnection *tech_ptr)
+        {
+            return "S " + FormatInt(tech_ptr->Status);
+        });
+        else if (label.compare("Upper Building") == 0)
+            TechTreeTechFilterFunctions.push_back([this](genie::ResearchConnection *tech_ptr)
+        {
+            return "U " + FormatInt(tech_ptr->UpperBuilding);
+        });
+        else if (label.compare("Required Items") == 0)
+            TechTreeTechFilterFunctions.push_back([this](genie::ResearchConnection *tech_ptr)
+        {
+            return "I " + FormatInt(tech_ptr->Common.SlotsUsed);
+        });
+        else if (label.compare("Age (1st Item)") == 0)
+            TechTreeTechFilterFunctions.push_back([this](genie::ResearchConnection *tech_ptr)
+        {
+            return "A " + FormatInt(tech_ptr->Common.UnitResearch[0]);
+        });
+        else if (label.compare("Vertical Line Number") == 0)
+            TechTreeTechFilterFunctions.push_back([this](genie::ResearchConnection *tech_ptr)
+        {
+            return "V " + FormatInt(tech_ptr->VerticalLine);
+        });
+        else if (label.compare("Location in Age") == 0)
+            TechTreeTechFilterFunctions.push_back([this](genie::ResearchConnection *tech_ptr)
+        {
+            return "LA " + FormatInt(tech_ptr->LocationInAge);
+        });
+        else if (label.compare("Line Mode") == 0)
+            TechTreeTechFilterFunctions.push_back([this](genie::ResearchConnection *tech_ptr)
+        {
+            return "LM " + FormatInt(tech_ptr->LineMode);
+        });
     }
-    else if(!dataset->Techs[dataset->TechTree.ResearchConnections[index].ID].Name.empty())
-    {
-        Name += dataset->Techs[dataset->TechTree.ResearchConnections[index].ID].Name;
-    }
-    else
-    {
-        Name += "New Technology";
-    }
-    return Name;
 }
 
 void AGE_Frame::OnTTResearchSearch(wxCommandEvent &event)
@@ -1751,12 +1853,13 @@ void AGE_Frame::InitTTResearches()
     InitSearch(TechTrees_MainList_Researches_Search->GetValue().MakeLower(), TechTrees_MainList_Researches_Search_R->GetValue().MakeLower());
     SearchAnd = TechTrees_MainList_Researches_UseAnd[0]->GetValue();
     ExcludeAnd = TechTrees_MainList_Researches_UseAnd[1]->GetValue();
+    PrepTTResearchSearch();
 
     TechTrees_MainList_Researches_ListV->Sweep();
 
     for(size_t loop = 0; loop < dataset->TechTree.ResearchConnections.size(); ++loop)
     {
-        wxString Name = FormatInt(loop)+" - "+GetTTResearchName(loop);
+        wxString Name = FormatInt(loop)+" - "+GetTTResearchName(loop, true);
         if(SearchMatches(" " + Name.Lower() + " "))
         {
             TechTrees_MainList_Researches_ListV->names.Add(Name);
@@ -2539,8 +2642,8 @@ void AGE_Frame::CreateTechTreeControls()
     TechTrees_Buildings_TotalUnitsTechs[loop] = new NumberControl(CUByte, TechTrees_ScrollerBuildings, this, &uiGroupTTBuilding, true, AGETextCtrl::SMALL);
     for(size_t loop = 0; loop < 5; ++loop)
     {
-        TechTrees_Buildings_TotalUnitsTechs[loop]->SetToolTip("Age "+lexical_cast<std::string>(loop+1));
-        TechTrees_Buildings_TotalUnitsTechs[loop+5]->SetToolTip("Age "+lexical_cast<std::string>(loop+1));
+        TechTrees_Buildings_TotalUnitsTechs[loop]->SetToolTip("Age "+FormatInt(loop+1));
+        TechTrees_Buildings_TotalUnitsTechs[loop+5]->SetToolTip("Age "+FormatInt(loop+1));
     }
 
     TechTrees_MainList_Units_Search = new wxTextCtrl(Tab_TechTreeUnits, wxID_ANY);
@@ -2672,7 +2775,8 @@ void AGE_Frame::CreateTechTreeControls()
     TabBar_TechTree->AddPage(Tab_TechTreeResearches, "Techs");
     TabBar_TechTree->ChangeSelection(0);
 
-    tt_unit_filters.Add("Normal Name");    // 0
+    tt_unit_filters.Add("*Choose*");
+    tt_unit_filters.Add("Internal Name");
     tt_unit_filters.Add("Status");
     tt_unit_filters.Add("Upper Building");
     tt_unit_filters.Add("Required Items");
@@ -2682,7 +2786,9 @@ void AGE_Frame::CreateTechTreeControls()
     tt_unit_filters.Add("Required Tech");
     tt_unit_filters.Add("Line Mode");
     tt_unit_filters.Add("Enabling Tech");
-    tt_building_filters.Add("Normal Name");    // 0
+    tt_unit_filters.Sort();
+    tt_building_filters.Add("*Choose*");
+    tt_building_filters.Add("Internal Name");
     tt_building_filters.Add("Status");
     tt_building_filters.Add("Required Items");
     tt_building_filters.Add("Age (1st Item)");
@@ -2691,7 +2797,9 @@ void AGE_Frame::CreateTechTreeControls()
     tt_building_filters.Add("Units & Techs @ 1st by Age");
     tt_building_filters.Add("Line Mode");
     tt_building_filters.Add("Enabling Tech");
-    tt_research_filters.Add("Normal Name");   // 0
+    tt_building_filters.Sort();
+    tt_research_filters.Add("*Choose*");
+    tt_research_filters.Add("Internal Name");
     tt_research_filters.Add("Status");
     tt_research_filters.Add("Upper Building");
     tt_research_filters.Add("Required Items");
@@ -2699,6 +2807,7 @@ void AGE_Frame::CreateTechTreeControls()
     tt_research_filters.Add("Vertical Line Number");
     tt_research_filters.Add("Location in Age");
     tt_research_filters.Add("Line Mode");
+    tt_research_filters.Sort();
     for(size_t loop = 0; loop < 2; ++loop)
     {
         TechTrees_MainList_Units_SearchFilters[loop]->Flash();

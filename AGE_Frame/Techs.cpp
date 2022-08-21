@@ -41,9 +41,10 @@ void AGE_Frame::OnEffectRename(wxCommandEvent &event)
         ResearchTechID = dataset->Techs[loop].EffectID;
         if(ResearchTechID >= 0) // Only researches which have techs.
         {
-            if(!TranslatedText(dataset->Techs[loop].LanguageDLLName, 2).empty()) // has a lang dll name
+            wxString DynamicName = TranslatedText(dataset->Techs[loop].LanguageDLLName, 31);
+            if (!DynamicName.empty())
             {
-                dataset->Effects[ResearchTechID].Name = TranslatedText(dataset->Techs[loop].LanguageDLLName, 31);
+                dataset->Effects[ResearchTechID].Name = DynamicName;
             }
             else // Use internal name instead.
             {
