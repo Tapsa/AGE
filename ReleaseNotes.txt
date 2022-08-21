@@ -15,6 +15,7 @@ Guide makers et cetera, please include the version into which your guide was wri
 
 Version [b]2022.8.21[/b]:
 -Improved search filters.
+-Terrains can use localized name, if available.
 
 Version [b]2022.2.2[/b]:
 -Prevent focusing on sub-lists unintentionally.

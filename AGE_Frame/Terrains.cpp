@@ -15,13 +15,17 @@ wxString AGE_Frame::GetTerrainName(int index, bool filter)
             name += f(&dataset->TerrainBlock.Terrains[index]) + ", ";
         }
     }
-    if (UseTerrainName && !dataset->TerrainBlock.Terrains[index].Name.empty())
+    if (UseTerrainName)
+    {
+        wxString DynamicName = TranslatedText(dataset->TerrainBlock.Terrains[index].StringID, 64);
+        if (!DynamicName.empty())
+        {
+            return name + DynamicName;
+        }
+    }
+    if (!dataset->TerrainBlock.Terrains[index].Name.empty())
     {
         return name + dataset->TerrainBlock.Terrains[index].Name;
-    }
-    if (!dataset->TerrainBlock.Terrains[index].Name2.empty())
-    {
-        return name + dataset->TerrainBlock.Terrains[index].Name2;
     }
     return name + "New Terrain";
 }
@@ -36,11 +40,16 @@ void AGE_Frame::PrepTerrainSearch()
         if (selection < 1) continue;
         wxString label = terrain_filters[selection];
 
-        if (label.compare("Sprite Name") == 0)
+        if (label.compare("Internal Name") == 0)
         {
             UseTerrainName = false;
             continue;
         }
+        else if (label.compare("Sprite Name") == 0)
+            TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
+        {
+            return "FN " + terrain_ptr->Name2;
+        });
         else if (label.compare("Sprite") == 0)
             TerrainFilterFunctions.push_back([this](genie::Terrain *terrain_ptr)
         {
