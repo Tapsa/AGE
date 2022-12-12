@@ -2,22 +2,6 @@
 
 A program for editing data files of Age of Empires, Age of Empires II, Star Wars: Galactic Battlegrounds, their expansions, upgrades, and mods.
 
-## Installation
-
-__Disclaimer:__ The repository owner is not collaborating with Scoop and updates can be manually downloaded from [aok.heavengames' Blacksmith](https://aok.heavengames.com/blacksmith/showfile.php?fileid=11002).
-
-You can install and keep **Advanced Genie Editor** up-to-date with [scoop](https://scoop.sh/). If you have scoop installed add the `games` bucket with:
-
-```sh
-scoop bucket add games
-```
-
-and install AGE with
-
-```sh
-scoop install advanced-genie-editor
-```
-
 ## Building
 
 To compile with MinGW you need to download `wxWidgets`, `Boost`, and `CMake`.
@@ -30,13 +14,13 @@ Hopefully it will support MP3 in some year.
 
 For Visual Studio, you also need to download and build a compatible version of `libiconv`.
 
-### CMake 3.15.5
+### CMake 3.25.1
 
 Install normally and select it to update PATH automatically.
 You may need to edit version numbers in
 
 ```sh
-\CMake\share\cmake-3.15\Modules\Find*.cmake
+\CMake\share\cmake-3.25\Modules\Find*.cmake
 ```
 
 files to find `wxWidgets` and `Boost`.
@@ -54,7 +38,7 @@ Choose `posix threads with dwarf exception handling`.
 
 After installing MinGW add its `bin` folder to the system path.
 
-### wxWidgets 3.1.4
+### wxWidgets 3.2.1
 
 - Unpack the zip file.
 
@@ -78,17 +62,17 @@ After installing MinGW add its `bin` folder to the system path.
 
 For Visual Studio, open the solution for your Visual Studio version or nearest one in `\wxWidgets\build\msw` and build all of it using all configurations you're planning to build **Advanced Genie Editor** with.
 
-### Boost 1.75.0
+### Boost 1.80.0
 
 - Unpack the zip file.
 
-- Open the commandline and change the working directory to `\boost_1_75_0\tools\build`
+- Open the commandline and change the working directory to `\boost_1_80_0\tools\build`
 
-- Run `bootstrap.bat gcc`
+- Run `bootstrap.bat`
 
-- Copy `b2.exe` to `\boost_1_75_0`
+- Copy `b2.exe` to `\boost_1_80_0`
 
-- Run from `\boost_1_75_0`:
+- Run from `\boost_1_80_0`:
 
     ```sh
     b2 toolset=gcc link=shared runtime-link=shared threading=multi --with-iostreams
@@ -98,7 +82,7 @@ For Visual Studio, open the solution for your Visual Studio version or nearest o
     b2 toolset=msvc link=static runtime-link=shared threading=multi --with-iostreams -s ZLIB_SOURCE=".\tools\boost_install\test\iostreams\zlib-1.2.11" -s ZLIB_INCLUDE=".\tools\boost_install\test\iostreams\zlib-1.2.11"
     ```
 
-You can safely delete the `boost_1_75_0` folder after build completes.
+You can safely delete the `boost_1_80_0` folder after build completes.
 
 Visual Studio may require appending `lib` to name of some generated libraries.
 
@@ -108,7 +92,7 @@ Visual Studio may require appending `lib` to name of some generated libraries.
 
 - Use the `cmake-gui` and browse the `SFML` source folder.
 
-- Configure and then generate both `Release` and `Debug` builds.
+- Configure and ensure both `Debug` and `MinSizeRel` CMAKE_CONFIGURATION_TYPES are present.
 
 - Run from `\SFML`
 

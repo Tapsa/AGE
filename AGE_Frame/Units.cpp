@@ -832,27 +832,27 @@ void AGE_Frame::PrepUnitSearch()
         else if (label.compare("Max Charge") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "TC" + FormatInt(unit_ptr->Creatable.MaxCharge);
+            return UF70 "TC " + FormatInt(unit_ptr->Creatable.MaxCharge);
         });
         else if (label.compare("Recharge Rate") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "RR" + FormatInt(unit_ptr->Creatable.RechargeRate);
+            return UF70 "RR " + FormatInt(unit_ptr->Creatable.RechargeRate);
         });
         else if (label.compare("Charge Event") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "CE" + FormatInt(unit_ptr->Creatable.ChargeEvent);
+            return UF70 "CE " + FormatInt(unit_ptr->Creatable.ChargeEvent);
         });
         else if (label.compare("Charge Type") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "CT" + FormatInt(unit_ptr->Creatable.ChargeType);
+            return UF70 "CT " + FormatInt(unit_ptr->Creatable.ChargeType);
         });
         else if (label.compare("Hero Glow Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "HGG" + FormatInt(unit_ptr->Creatable.HeroGlowGraphic);
+            return UF70 "HGG " + FormatInt(unit_ptr->Creatable.HeroGlowGraphic);
         });
 
         else if (label.compare("Construction Graphic") == 0)
@@ -1237,11 +1237,14 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                                     Units_SpawningGraphic->prepend(&UnitPointer->Creatable.SpawningGraphic);
                                     Units_UpgradeGraphic->prepend(&UnitPointer->Creatable.UpgradeGraphic);
                                     Units_HeroGlowGraphic->prepend(&UnitPointer->Creatable.HeroGlowGraphic);
-                                    Units_MaxCharge->prepend(&UnitPointer->Creatable.MaxCharge);
-                                    Units_RechargeRate->prepend(&UnitPointer->Creatable.RechargeRate);
-                                    Units_ChargeEvent->prepend(&UnitPointer->Creatable.ChargeEvent);
-                                    Units_ChargeType->prepend(&UnitPointer->Creatable.ChargeType);
                                 }
+                            }
+                            if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                            {
+                                Units_MaxCharge->prepend(&UnitPointer->Creatable.MaxCharge);
+                                Units_RechargeRate->prepend(&UnitPointer->Creatable.RechargeRate);
+                                Units_ChargeEvent->prepend(&UnitPointer->Creatable.ChargeEvent);
+                                Units_ChargeType->prepend(&UnitPointer->Creatable.ChargeType);
                             }
                         }
                     }

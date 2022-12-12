@@ -2180,7 +2180,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/DrawCollisionShape", DrawCollisionShape);
         Config.Write("Interface/DrawClearanceShape", DrawClearanceShape);
         Config.Write("Interface/DrawSelectionShape", DrawOutline);
-        Config.Write("Interface/CacheSizeMB", GG::cache_size / 1000000u);
+        Config.Write("Interface/CacheSizeMB", static_cast<int>(GG::cache_size / 1000000u));
         Config.Write("Interface/ViewPosX", ViewPosX);
         Config.Write("Interface/ViewPosY", ViewPosY);
         Config.Write("Interface/BoxWidthMultiplier", boxWidthMultiplier);
