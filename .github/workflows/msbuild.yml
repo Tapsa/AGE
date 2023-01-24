@@ -50,7 +50,7 @@ jobs:
 
     - name: Update vcpkg
       working-directory: "C:\\vcpkg"
-      run: git pull
+      run: git pull && .\bootstrap-vcpkg.bat
       
     - name: 'Setup NuGet Credentials'
       run: |
@@ -61,9 +61,13 @@ jobs:
           -name "GitHub" `
           -username "captureage" `
           -password "${{ secrets.GITHUB_TOKEN }}"
+
           &(vcpkg fetch nuget | Select-Object -Last 1) `
           setapikey "${{ secrets.GITHUB_TOKEN }}" `
           -source "https://nuget.pkg.github.com/captureage/index.json"
+
+    - name: Debug
+      run: vcpkg install lz4:x64-windows
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
