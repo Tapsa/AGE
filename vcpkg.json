@@ -1,0 +1,31 @@
+{
+    "name": "age",
+    "version": "1.0.0",
+    "builtin-baseline": "136ad069fd2a7e61eeca5e4c48608c1fd3921a70",
+    "dependencies": [
+        {
+            "name": "libiconv",
+            "version>=": "1.17"
+        },
+        {
+            "name": "boost-convert",
+            "version>=": "1.80.0"
+        },
+        {
+            "name": "wxwidgets",
+            "version>=": "3.2.1"
+        },
+        {
+            "name": "sfml",
+            "version>=": "2.5.1#14"
+        },
+        {
+            "name": "lz4",
+            "version>=": "1.9.4"
+        },
+        {
+            "name": "boost-iostreams",
+            "version>=": "1.80.0"
+        }
+    ]
+}

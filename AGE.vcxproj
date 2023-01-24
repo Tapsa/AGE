@@ -86,6 +86,12 @@
     <LinkIncremental>false</LinkIncremental>
     <TargetName>AdvancedGenieEditor3</TargetName>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnableManifest>true</VcpkgEnableManifest>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgUseStatic>false</VcpkgUseStatic>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -152,7 +158,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>%Cpp libs%\wxWidgets\lib\vc_x64_lib;%Cpp libs%\Boost\lib;%Cpp libs%\Iconv\lib\x64\Debug;%Cpp libs%\SFML\lib\x64\Debug;%Cpp libs%\SFML\extlibs\libs-msvc-universal\x64;%Cpp libs%\lz4\x64\Debug;.\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>wxmsw32ud_core.lib;wxbase32ud.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexud.lib;wxexpatd.lib;kernel32.lib;user32.lib;gdi32.lib;comdlg32.lib;winspool.lib;winmm.lib;shell32.lib;shlwapi.lib;comctl32.lib;ole32.lib;oleaut32.lib;uuid.lib;rpcrt4.lib;advapi32.lib;version.lib;wsock32.lib;wininet.lib;libiconv-static.lib;pcrio.lib;genieutils.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;freetype.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;liblz4_static.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies);genieutils.lib;pcrio.lib</AdditionalDependencies>
       <OutputFile>$(OutDir)AdvancedGenieEditor3$(TargetExt)</OutputFile>
     </Link>
     <Manifest>
@@ -252,6 +258,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="AppIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="vcpkg.json" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
