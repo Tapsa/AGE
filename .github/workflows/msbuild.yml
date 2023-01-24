@@ -15,6 +15,9 @@ env:
   # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
   BUILD_CONFIGURATION: Release
 
+  # Allow vcpkg to cache using a GitHub nuget package repo
+  VCPKG_BINARY_SOURCES: 'clear;nuget,GitHub,readwrite'
+
 permissions:
   contents: read
 
@@ -48,6 +51,19 @@ jobs:
     - name: Update vcpkg
       working-directory: "C:\\vcpkg"
       run: git pull
+      
+    - name: 'Setup NuGet Credentials'
+      run: |
+          &(vcpkg fetch nuget | Select-Object -Last 1) `
+          sources add `
+          -source "https://nuget.pkg.github.com/captureage/index.json" `
+          -storepasswordincleartext `
+          -name "GitHub" `
+          -username "captureage" `
+          -password "${{ secrets.GITHUB_TOKEN }}"
+          &(vcpkg fetch nuget | Select-Object -Last 1) `
+          setapikey "${{ secrets.GITHUB_TOKEN }}" `
+          -source "https://nuget.pkg.github.com/captureage/index.json"
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
