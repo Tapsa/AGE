@@ -6,3 +6,4 @@ enc_temp_folder/
 *.ini
 *.user
 gulog.txt
+vcpkg_installed/
