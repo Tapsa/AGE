@@ -47,7 +47,7 @@ jobs:
 
     - name: Update vcpkg
       working-directory: "C:\\vcpkg"
-      run: git fetch
+      run: git pull
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
