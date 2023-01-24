@@ -67,7 +67,7 @@ jobs:
           -source "https://nuget.pkg.github.com/captureage/index.json"
 
     - name: Debug
-      run: vcpkg install lz4:x64-windows
+      run: vcpkg install lz4:x64-windows --debug
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
