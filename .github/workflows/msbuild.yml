@@ -52,7 +52,9 @@ jobs:
 
     - name: Update vcpkg
       working-directory: "C:\\vcpkg"
-      run: git pull && .\bootstrap-vcpkg.bat
+      run: |
+        git remote -v
+        git pull && .\bootstrap-vcpkg.bat
       
     - name: 'Setup NuGet Credentials'
       run: |
