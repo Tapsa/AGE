@@ -68,9 +68,6 @@ jobs:
           setapikey "${{ secrets.GITHUB_TOKEN }}" `
           -source "https://nuget.pkg.github.com/captureage/index.json"
 
-    - name: Debug
-      run: vcpkg install lz4:x64-windows --debug
-
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
