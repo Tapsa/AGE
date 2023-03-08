@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;_UNICODE;_WINDOWS;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\Precompile;.\..\genieutils\include;%Cpp libs%\wxWidgets\lib\vc_lib\mswud;%Cpp libs%\wxWidgets\include;%Cpp libs%\Boost\include\boost-1_80;%Cpp libs%\Iconv\include;%Cpp libs%\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Precompile;.\..\genieutils\include;%Cpp libs%\wxWidgets\lib\vc_lib\mswud;%Cpp libs%\wxWidgets\include;%Cpp libs%\Boost\include;%Cpp libs%\Iconv\include;%Cpp libs%\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4018;4100;4244;4267;4389;4701;26812;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -117,7 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;NDEBUG;_UNICODE;_WINDOWS;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\Precompile;.\..\genieutils\include;%Cpp libs%\wxWidgets\lib\vc_lib\mswu;%Cpp libs%\wxWidgets\include;%Cpp libs%\Boost\include\boost-1_80;%Cpp libs%\Iconv\include;%Cpp libs%\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Precompile;.\..\genieutils\include;%Cpp libs%\wxWidgets\lib\vc_lib\mswu;%Cpp libs%\wxWidgets\include;%Cpp libs%\Boost\include;%Cpp libs%\Iconv\include;%Cpp libs%\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4018;4100;4244;4267;4389;4701;26812;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -142,7 +142,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;_UNICODE;_WINDOWS;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\Precompile;.\..\genieutils\include;%Cpp libs%\wxWidgets\lib\vc_x64_lib\mswud;%Cpp libs%\wxWidgets\include;%Cpp libs%\Boost\include\boost-1_80;%Cpp libs%\Iconv\include;%Cpp libs%\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Precompile;.\..\genieutils\include;%Cpp libs%\wxWidgets\lib\vc_x64_lib\mswud;%Cpp libs%\wxWidgets\include;%Cpp libs%\Boost\include;%Cpp libs%\Iconv\include;%Cpp libs%\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4018;4100;4244;4267;4389;4701;26812;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -167,7 +167,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;NDEBUG;_UNICODE;_WINDOWS;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\Precompile;.\..\genieutils\include;%Cpp libs%\wxWidgets\lib\vc_x64_lib\mswu;%Cpp libs%\wxWidgets\include;%Cpp libs%\Boost\include\boost-1_80;%Cpp libs%\Iconv\include;%Cpp libs%\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\Precompile;.\..\genieutils\include;%Cpp libs%\wxWidgets\lib\vc_x64_lib\mswu;%Cpp libs%\wxWidgets\include;%Cpp libs%\Boost\include;%Cpp libs%\Iconv\include;%Cpp libs%\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWarningAsError>true</TreatWarningAsError>
       <DisableSpecificWarnings>4018;4100;4244;4267;4389;4701;26812;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <PrecompiledHeader>Use</PrecompiledHeader>
