@@ -13,6 +13,9 @@ I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2023.5.17[/b]:
+-Added support for Return of Rome.
+
 Version [b]2023.3.7[/b]:
 -Fixed heap corruption when using a language DLL file.
 

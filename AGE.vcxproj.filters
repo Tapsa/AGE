@@ -181,4 +181,8 @@
   <ItemGroup>
     <Image Include="AppIcon.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReleaseNotes.txt" />
+    <Text Include="ReleaseNotesOld.txt" />
+  </ItemGroup>
 </Project>

@@ -2099,6 +2099,10 @@ void AGE_Frame::FillListsBasedOnGameVersion()
                 unit_filters.Add("Charge Event");
                 unit_filters.Add("Charge Type");
                 unit_filters.Add("Hero Glow Graphic");
+                unit_filters.Add("Min Conversion Time Mod");
+                unit_filters.Add("Max Conversion Time Mod");
+                unit_filters.Add("Conversion Chance Mod");
+                unit_filters.Add("Blast Damage");
             }
         }
     }

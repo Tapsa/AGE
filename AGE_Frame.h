@@ -1897,6 +1897,7 @@ private:
     AGETextCtrl *Units_Delay;
     AGETextCtrl *Units_GraphicDisplacement[3];
     AGETextCtrl *Units_BlastAttackLevel;
+    AGETextCtrl *Units_BlastDamage;
     AGETextCtrl *Units_MinRange;
     AGETextCtrl *Units_AccuracyDispersion;
     AGETextCtrl *Units_AttackGraphic;
@@ -1952,6 +1953,9 @@ private:
     AGETextCtrl *Units_RechargeRate;
     AGETextCtrl *Units_ChargeEvent;
     AGETextCtrl *Units_ChargeType;
+    AGETextCtrl *Units_MinConversionTimeMod;
+    AGETextCtrl *Units_MaxConversionTimeMod;
+    AGETextCtrl *Units_ConversionChanceMod;
 
 //  Type 80
 
@@ -2109,6 +2113,7 @@ private:
     SolidText *Units_Delay_Text;
     SolidText *Units_GraphicDisplacement_Text;
     SolidText *Units_BlastAttackLevel_Text;
+    SolidText *Units_BlastDamage_Text;
     SolidText *Units_MinRange_Text;
     SolidText *Units_AccuracyDispersion_Text;
     SolidText *Units_AttackGraphic_Text;
@@ -2152,6 +2157,9 @@ private:
     SolidText *Units_RechargeRate_Text;
     SolidText *Units_ChargeEvent_Text;
     SolidText *Units_ChargeType_Text;
+    SolidText *Units_MinConversionTimeMod_Text;
+    SolidText *Units_MaxConversionTimeMod_Text;
+    SolidText *Units_ConversionChanceMod_Text;
 
 //  Type 80
 
@@ -2300,6 +2308,7 @@ private:
     wxBoxSizer *Units_GraphicDisplacement_Holder;
     wxBoxSizer *Units_GraphicDisplacement_Grid;
     wxBoxSizer *Units_BlastAttackLevel_Holder;
+    wxBoxSizer *Units_BlastDamage_Holder;
     wxBoxSizer *Units_MinRange_Holder;
     wxBoxSizer *Units_AccuracyDispersion_Holder;
     wxBoxSizer *Units_AttackGraphic_Holder;

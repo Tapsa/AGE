@@ -1002,6 +1002,14 @@ void AGE_Frame::OnGameVersionChange()
         Units_DropSite_ComboBox[2]->Show(emerge);
         Units_BonusDamageResistance_Holder->Show(emerge);
         Units_Charge_Grid->Show(emerge);
+        Units_ConversionChanceMod->Show(emerge);
+        Units_ConversionChanceMod_Text->Show(emerge);
+        Units_MaxConversionTimeMod->Show(emerge);
+        Units_MaxConversionTimeMod_Text->Show(emerge);
+        Units_MinConversionTimeMod->Show(emerge);
+        Units_MinConversionTimeMod_Text->Show(emerge);
+        Units_BlastDamage->Show(emerge);
+        Units_BlastDamage_Text->Show(emerge);
         Tasks_WwiseResourceGatheringSound->Show(emerge);
         Tasks_WwiseResourceDepositSound->Show(emerge);
         Graphics_ParticleEffectName_Text->Show(emerge);
@@ -1232,7 +1240,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
                 }
                 GenieVersion = genie::GV_LatestDE2;
                 // Remember to update this version number!
-                dataset->FileVersion = "VER 7.5";
+                dataset->FileVersion = "VER 7.7";
             }
             else if(GenieVersion <= genie::GV_LatestTap && genie::GV_Tapsa <= GenieVersion)
             {
