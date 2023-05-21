@@ -312,7 +312,7 @@ void OpenSaveDialog::OnDefaultCC(wxCommandEvent &event)
 
     if (path_src == 2)
     {
-        ComboBox_GenieVer->SetSelection(EV_EF);
+        ComboBox_GenieVer->SetSelection(EV_EF2);
         if (!ForceDat) Path_DatFileLocation->SetPath(game_path + "\\Data\\genie_x2.dat");
         Path_LangX1P1FileLocation->SetPath(game_path + "\\language_x2.dll");
         CheckBox_LangX1P1FileLocation->SetValue(true);
