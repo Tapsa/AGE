@@ -13,6 +13,9 @@ I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2024.4.18[/b]:
+-Added warning when saving into steamapps.
+
 Version [b]2023.5.21[/b]:
 -Restored functionality for Star Wars.
 

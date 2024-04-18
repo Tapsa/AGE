@@ -1164,6 +1164,15 @@ void AGE_Frame::OnSave(wxCommandEvent&)
 
     bool save = SaveBox.ShowModal() == wxID_OK;
     SaveGameVersion = SaveBox.ComboBox_GenieVer->GetSelection();
+    if (SaveGameVersion >= EV_Tapsa && SaveDatFileName.Contains("steamapps"))
+    {
+        int answer = wxMessageBox("Saving into steamapps folder may not work in the game.\nYou should create a mod folder tree and save into it.",
+            "Warning", wxICON_WARNING | wxCANCEL | wxCANCEL_DEFAULT | wxOK);
+        if (answer == wxCANCEL)
+        {
+            return;
+        }
+    }
     SaveDat = SaveBox.Radio_DatFileLocation->IsChecked();
     SaveLangs = SaveBox.CheckBox_LangWrite->IsChecked();
     SaveDatFileName = SaveBox.Path_DatFileLocation->GetPath();

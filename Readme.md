@@ -6,21 +6,19 @@ A program for editing data files of Age of Empires, Age of Empires II, Star Wars
 
 To compile with MinGW you need to download `wxWidgets`, `Boost`, and `CMake`.
 
-`SFML` is used for simultaneous audio playback.
+For Visual Studio, you also need to download and build a compatible version of `libiconv`.
 
-Hopefully it will support MP3 in some year.
+`SFML` is used for simultaneous audio playback.
 
 `lz4` is used for decompressing some sprites.
 
-For Visual Studio, you also need to download and build a compatible version of `libiconv`.
-
-### CMake 3.25.1
+### CMake 3.29.2
 
 Install normally and select it to update PATH automatically.
 You may need to edit version numbers in
 
 ```sh
-\CMake\share\cmake-3.25\Modules\Find*.cmake
+\CMake\share\cmake-3.29\Modules\Find*.cmake
 ```
 
 files to find `wxWidgets` and `Boost`.
@@ -32,17 +30,17 @@ where you'll put all required headers and built libraries.
 
 ### Mingw-builds 8.1.0
 
-It includes `gdb`, `libiconf`, `zlib`.
+Includes `gdb`, `libiconf`, `zlib`.
 
 Choose `posix threads with dwarf exception handling`.
 
 After installing MinGW add its `bin` folder to the system path.
 
-### wxWidgets 3.2.1
+### wxWidgets 3.2.4
 
 - Unpack the zip file.
 
-- Open the commandline and change the working directory `\wxWidgets\build\msw`
+- Open the commandline and change the working directory to `\wxWidgets\build\msw`
 
 - Execute:
 
@@ -62,17 +60,17 @@ After installing MinGW add its `bin` folder to the system path.
 
 For Visual Studio, open the solution for your Visual Studio version or nearest one in `\wxWidgets\build\msw` and build all of it using all configurations you're planning to build **Advanced Genie Editor** with.
 
-### Boost 1.80.0
+### Boost 1.85.0
 
 - Unpack the zip file.
 
-- Open the commandline and change the working directory to `\boost_1_80_0\tools\build`
+- Open the commandline and change the working directory to `\boost_1_85_0\tools\build`
 
 - Run `bootstrap.bat`
 
-- Copy `b2.exe` to `\boost_1_80_0`
+- Copy `b2.exe` to `\boost_1_85_0`
 
-- Run from `\boost_1_80_0`:
+- Run from `\boost_1_85_0`:
 
     ```sh
     b2 toolset=gcc link=shared runtime-link=shared threading=multi --with-iostreams
@@ -82,11 +80,11 @@ For Visual Studio, open the solution for your Visual Studio version or nearest o
     b2 toolset=msvc link=static runtime-link=shared threading=multi --with-iostreams -s ZLIB_SOURCE=".\tools\boost_install\test\iostreams\zlib-1.2.11" -s ZLIB_INCLUDE=".\tools\boost_install\test\iostreams\zlib-1.2.11"
     ```
 
-You can safely delete the `boost_1_80_0` folder after build completes.
+You can safely delete the `boost_1_85_0` folder after build completes.
 
 Visual Studio may require appending `lib` to name of some generated libraries.
 
-### SFML 2.5.1
+### SFML 2.6.1
 
 - Unpack the zip file.
 
