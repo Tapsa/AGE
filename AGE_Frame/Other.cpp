@@ -689,8 +689,6 @@ void AGE_Frame::OnGameVersionChange()
         // Test ->
         bool show = (GenieVersion >= genie::GV_TEST) ? true : false;
         Sounds_CacheTime_Holder->Show(show);
-        Units_DropSite[1]->Show(show);
-        Units_DropSite_ComboBox[1]->Show(show);
         if(show)
         {
             SoundItems_Resource->SetCastType(CLong);
@@ -998,8 +996,8 @@ void AGE_Frame::OnGameVersionChange()
         Units_WwiseMoveSound->Show(emerge);
         Units_WwiseTransformSound->Show(emerge);
         Units_WwiseConstructionSound->Show(emerge);
-        Units_DropSite[2]->Show(emerge);
-        Units_DropSite_ComboBox[2]->Show(emerge);
+        Units_DropSites_Buttons_Upper->Show(emerge);
+        Units_DropSites_PasteInsert->Show(emerge);
         Units_BonusDamageResistance_Holder->Show(emerge);
         Units_Charge_Grid->Show(emerge);
         Units_ConversionChanceMod->Show(emerge);
@@ -1249,7 +1247,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
                 }
                 GenieVersion = genie::GV_LatestDE2;
                 // Remember to update this version number!
-                dataset->FileVersion = "VER 7.7";
+                dataset->FileVersion = "VER 7.8";
             }
             else if(GenieVersion <= genie::GV_LatestTap && genie::GV_Tapsa <= GenieVersion)
             {

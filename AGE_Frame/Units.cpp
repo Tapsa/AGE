@@ -521,6 +521,11 @@ void AGE_Frame::PrepUnitSearch()
         {
             return UF40 "WR " + FormatFloat(unit_ptr->Bird.WorkRate);
         });
+        else if (label.compare("Drop Site Count") == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF40 "DSC " + FormatInt(unit_ptr->Bird.DropSites.size());
+        });
         else if (label.compare("Drop Sites") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
@@ -1315,10 +1320,6 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                     Units_DefaultTaskID->prepend(&UnitPointer->Bird.DefaultTaskID);
                     Units_SearchRadius->prepend(&UnitPointer->Bird.SearchRadius);
                     Units_WorkRate->prepend(&UnitPointer->Bird.WorkRate);
-                    for(size_t i = 0; i < UnitPointer->Bird.DropSites.size(); ++i)
-                    {
-                        Units_DropSite[i]->prepend(&UnitPointer->Bird.DropSites[i]);
-                    }
                     Units_TaskSwapGroup->prepend(&UnitPointer->Bird.TaskSwapGroup);
                     Units_AttackSound->prepend(&UnitPointer->Bird.AttackSound);
                     Units_MoveSound->prepend(&UnitPointer->Bird.MoveSound);
@@ -1665,6 +1666,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
         Units_UnitHeads_Name->SetLabel("");
     }
     ListUnitCommands();
+    ListUnitDropSites();
 
     setbearing = 1u;
     for (AGETextCtrl *box : uiGroupUnit) box->update();
@@ -2248,6 +2250,78 @@ void AGE_Frame::OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &event)
     {
         dataset->Civs[civ].Units[UnitIDs[loop]].DamageGraphics = dataset->Civs[civ].Units[UnitIDs.front()].DamageGraphics;
     }
+}
+
+void AGE_Frame::OnUnitDropSitesSearch(wxCommandEvent &event)
+{
+    How2List = ListMode::SEARCH;
+    ListUnitDropSites();
+}
+
+void AGE_Frame::ListUnitDropSites()
+{
+    InitSearch(Units_DropSites_Search->GetValue().MakeLower(), Units_DropSites_Search_R->GetValue().MakeLower());
+
+    Units_DropSites_ListV->Sweep();
+
+    if (Units_ListV->GetSelectedCount()
+        && dataset->Civs[UnitCivID].UnitPointers[UnitIDs.front()] != 0
+        && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type >= 40
+        && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type <= 80)
+    {
+        Units_DropSites_Add->Enable(true);
+        for (size_t loop = 0; loop < dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.DropSites.size(); ++loop)
+        {
+            wxString Name = FormatInt(loop) + " - " + GetUnitLineUnitName(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.DropSites[loop]);
+            if (SearchMatches(" " + Name.Lower() + " "))
+            {
+                Units_DropSites_ListV->names.Add(Name);
+                Units_DropSites_ListV->indexes.push_back(loop);
+            }
+        }
+    }
+    else
+    {
+        Units_DropSites_Add->Enable(false);
+    }
+    RefreshList(Units_DropSites_ListV, &DropSiteIDs);
+
+    wxCommandEvent e;
+    OnUnitDropSiteSelect(e);
+}
+
+void AGE_Frame::OnUnitDropSiteSelect(wxCommandEvent &event)
+{
+    size_t selections = Units_DropSites_ListV->GetSelectedCount();
+    wxBusyCursor WaitCursor;
+    DropSites_UnitID->clear();
+    if (selections > 0)
+    {
+        getSelectedItems(selections, Units_DropSites_ListV, DropSiteIDs);
+
+        bool showWarning = false;
+        wxString warning = "Drop site count of civs\n";
+        short * DropSitePointer;
+        for (size_t sel = selections; sel-- > 0;)
+        {
+            for (short vecCiv = SelectedCivs.size(); vecCiv-- > 0;)
+            {
+                if (sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Bird.DropSites.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.DropSites.size())
+                {
+                    warning.Append(lexical_cast<std::string>(SelectedCivs[vecCiv]) + " ");
+                    showWarning = true;
+                }
+                DropSitePointer = &dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Bird.DropSites[DropSiteIDs[sel]];
+                DropSites_UnitID->prepend(DropSitePointer);
+            }
+        }
+        if (showWarning)
+        {
+            warning.Append("\ndiffers from civ " + lexical_cast<std::string>(UnitCivID));
+            wxMessageBox(warning);
+        }
+    }
+    DropSites_UnitID->update();
 }
 
 wxString AGE_Frame::GetUnitAttackName(int index)
@@ -3356,9 +3430,7 @@ void AGE_Frame::CreateUnitControls()
     Units_A3_Grid = new wxBoxSizer(wxHORIZONTAL);
     Units_A4_Grid = new wxBoxSizer(wxHORIZONTAL);
     Units_A5_Grid = new wxGridSizer(4, 0, 5);
-    Units_A6_Grid = new wxBoxSizer(wxHORIZONTAL);
     Units_AM1_Grid = new wxFlexGridSizer(5, 5, 5);
-    wxBoxSizer *Units_DropSite_Holder = new wxBoxSizer(wxVERTICAL);
     Units_AS_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_AS2_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_AS1_Grid = new wxBoxSizer(wxHORIZONTAL);
@@ -3473,7 +3545,6 @@ void AGE_Frame::CreateUnitControls()
 
     Units_DefaultTaskID_Holder = new wxBoxSizer(wxVERTICAL);
     Units_SearchRadius_Holder = new wxBoxSizer(wxVERTICAL);
-    Units_DropSite_Grid = new wxGridSizer(3, 0, 5);
     Units_TaskSwapGroup_Holder = new wxBoxSizer(wxVERTICAL);
     Units_AttackSound_Holder = new wxBoxSizer(wxVERTICAL);
     Units_MoveSound_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3660,7 +3731,6 @@ void AGE_Frame::CreateUnitControls()
 
     Units_SearchRadius_Text = new SolidText(Units_Scroller, " Search Radius");
     Units_WorkRate_Text = new SolidText(Units_Scroller, " Work Rate");
-    Units_DropSite_Text = new SolidText(Units_Scroller, " Drop Sites *");
     Units_TaskSwapGroup_Text = new SolidText(Units_Scroller, " Task Swap Group *");
     Units_AttackSound_Text = new SolidText(Units_Scroller, " Attack Sound");
     Units_MoveSound_Text = new SolidText(Units_Scroller, " Move Sound");
@@ -4192,13 +4262,28 @@ void AGE_Frame::CreateUnitControls()
     Units_DefaultTaskID = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit);
     Units_DefaultTaskID->SetToolTip("Unit task ID executed when idle.\nTo get the unit auto-converted to enemy,\nuse unit command 107, which sheep and monument have.");
     Units_DefaultTaskID_ComboBox = new LinkedComboBox(Units_Scroller, Units_DefaultTaskID, &action_names);
-    for(size_t loop = 0; loop < 3; ++loop)
-    {
-        Units_DropSite[loop] = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit);
-        Units_DropSite[loop]->SetToolTip("Giving to a villager drop site to cart-like unit\ncan allow you to have mobile resource-gatherers,\nsimilar to those in Age of Mythology.");
-        Units_DropSite_ComboBox[loop] = new LinkedComboBox(Units_Scroller, Units_DropSite[loop], &unit_names);
-        UnitComboBoxList.push_back(Units_DropSite_ComboBox[loop]);
-    }
+
+    Units_DropSites = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Drop Sites");
+    Units_DropSites_ListArea = new wxBoxSizer(wxVERTICAL);
+    Units_DropSites_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
+    Units_DropSites_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
+    Units_DropSites_ListV = new ProperList(Units_Scroller, ASize(140, 100));
+    Units_DropSites_Buttons_Upper = new wxBoxSizer(wxHORIZONTAL);
+    Units_DropSites_Buttons_Lower = new wxBoxSizer(wxHORIZONTAL);
+    Units_DropSites_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+    Units_DropSites_Insert = new wxButton(Units_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
+    Units_DropSites_Delete = new wxButton(Units_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+    Units_DropSites_Copy = new wxButton(Units_Scroller, wxID_ANY, "Copy *", wxDefaultPosition, wxSize(10, -1));
+    Units_DropSites_Copy->SetToolTip("When \"All civs\" is not selected,\nthis and pasting works only for current civilization");
+    Units_DropSites_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+    Units_DropSites_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
+    Units_DropSites_CopyToUnits = new wxButton(Units_Scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(10, -1));
+    DropSites_UnitID_Holder = new wxBoxSizer(wxVERTICAL);
+    DropSites_UnitID_Text = new SolidText(Units_Scroller, " Unit *");
+    DropSites_UnitID = new NumberControl(CShort, Units_Scroller, this, nullptr, false);
+    DropSites_UnitID->SetToolTip("Giving to a villager drop site to cart-like unit\ncan allow you to have mobile resource-gatherers,\nsimilar to those in Age of Mythology.");
+    DropSites_UnitID_ComboBox = new LinkedComboBox(Units_Scroller, DropSites_UnitID, &unit_names, false);
+    UnitComboBoxList.push_back(DropSites_UnitID_ComboBox);
 
     for (size_t loop = 0; loop < 3; ++loop)
     Units_SizeRadius[loop] = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit, loop == 2);
@@ -4653,7 +4738,6 @@ void AGE_Frame::CreateUnitControls()
 //  Type 40+
 
     Units_SearchRadius_Holder->Add(Units_SearchRadius_Text);
-    Units_DropSite_Holder->Add(Units_DropSite_Text);
     Units_TaskSwapGroup_Holder->Add(Units_TaskSwapGroup_Text);
     Units_AttackSound_Holder->Add(Units_AttackSound_Text);
     Units_MoveSound_Holder->Add(Units_MoveSound_Text);
@@ -4852,10 +4936,6 @@ void AGE_Frame::CreateUnitControls()
     Units_DefaultTaskID_Holder->Add(Units_DefaultTaskID, 0, wxEXPAND);
     Units_DefaultTaskID_Holder->Add(Units_DefaultTaskID_ComboBox);
     Units_SearchRadius_Holder->Add(Units_SearchRadius);
-    for(size_t loop = 0; loop < 3; ++loop)
-    Units_DropSite_Grid->Add(Units_DropSite[loop], 0, wxEXPAND);
-    for(size_t loop = 0; loop < 3; ++loop)
-    Units_DropSite_Grid->Add(Units_DropSite_ComboBox[loop]);
     Units_TaskSwapGroup_Holder->Add(Units_TaskSwapGroup);
     Units_AttackSound_Holder->Add(Units_WwiseAttackSound, 0, wxEXPAND);
     Units_AttackSound_Holder->Add(Units_AttackSound, 0, wxEXPAND);
@@ -5350,8 +5430,28 @@ void AGE_Frame::CreateUnitControls()
     Units_AM1_Grid->Add(Units_TaskSwapGroup_Holder);
     Units_AM1_Grid->Add(Units_ChargingMode_Holder);
 
+    DropSites_UnitID_Holder->Add(DropSites_UnitID_Text);
+    DropSites_UnitID_Holder->Add(DropSites_UnitID, 0, wxEXPAND);
+    DropSites_UnitID_Holder->Add(DropSites_UnitID_ComboBox);
+
+    Units_DropSites_Buttons_Upper->Add(Units_DropSites_Add, 1, wxEXPAND);
+    Units_DropSites_Buttons_Upper->Add(Units_DropSites_Delete, 1, wxEXPAND);
+    Units_DropSites_Buttons_Upper->Add(Units_DropSites_Insert, 1, wxEXPAND);
+    Units_DropSites_Buttons_Lower->Add(Units_DropSites_Copy, 1, wxEXPAND);
+    Units_DropSites_Buttons_Lower->Add(Units_DropSites_Paste, 1, wxEXPAND);
+    Units_DropSites_Buttons_Lower->Add(Units_DropSites_PasteInsert, 1, wxEXPAND);
+
+    Units_DropSites_ListArea->Add(Units_DropSites_Search, 0, wxEXPAND);
+    Units_DropSites_ListArea->Add(Units_DropSites_Search_R, 0, wxEXPAND);
+    Units_DropSites_ListArea->Add(Units_DropSites_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+    Units_DropSites_ListArea->Add(Units_DropSites_Buttons_Upper, 0, wxEXPAND);
+    Units_DropSites_ListArea->Add(Units_DropSites_Buttons_Lower, 0, wxEXPAND);
+    Units_DropSites_ListArea->Add(Units_DropSites_CopyToUnits, 0, wxEXPAND | wxTOP, 2);
+
+    Units_DropSites->Add(Units_DropSites_ListArea, 1, wxEXPAND);
+    Units_DropSites->Add(DropSites_UnitID_Holder, 0, wxLEFT, 5);
+
     Units_A2_Grid->Add(Units_Trait_Holder);
-    Units_DropSite_Holder->Add(Units_DropSite_Grid);
     Units_AS_Holder->Add(Units_SizeRadius_Holder);
     Units_AS_Holder->Add(Units_MinCollisionSizeMultiplier_Holder, 0, wxLEFT, 5);
     Units_AS1_Grid->Add(Units_OcclusionMode_Holder, 0, wxRIGHT, 5);
@@ -5383,8 +5483,7 @@ void AGE_Frame::CreateUnitControls()
     Units_A3_Grid->Add(Units_StackUnitID_Holder);
     Units_A5_Grid->Add(Units_TerrainID_Holder);
     Units_A5_Grid->Add(Units_ResearchID_Holder);
-    Units_A6_Grid->Add(Units_DefaultTaskID_Holder);
-    Units_A6_Grid->Add(Units_DropSite_Holder, 0, wxLEFT, 5);
+    Units_A5_Grid->Add(Units_DefaultTaskID_Holder);
     Units_A3_Grid->Add(Units_HeadUnit_Holder, 0, wxLEFT, 5);
     Units_A3_Grid->Add(Units_TransformUnit_Holder, 0, wxLEFT, 5);
     Units_A3_Grid->Add(Units_PileUnit_Holder, 0, wxLEFT, 5);
@@ -5398,7 +5497,7 @@ void AGE_Frame::CreateUnitControls()
     Units_Attributes_Holder->Add(Units_A1_Grid, 0, wxTOP, 5);
     Units_Attributes_Holder->Add(Units_A4_Grid, 0, wxTOP, 5);
     Units_Attributes_Holder->Add(Units_A5_Grid, 0, wxTOP, 5);
-    Units_Attributes_Holder->Add(Units_A6_Grid, 0, wxTOP, 5);
+    Units_Attributes_Holder->Add(Units_DropSites, 0, wxTOP, 5);
     Units_Attributes_Holder->Add(Units_AS_Holder, 0, wxTOP, 5);
     Units_Attributes_Holder->Add(Units_AS2_Holder, 0, wxTOP, 5);
     Units_Attributes_Holder->Add(Units_AS1_Grid, 0, wxTOP, 5);
@@ -5970,7 +6069,7 @@ void AGE_Frame::CreateUnitControls()
         for(size_t sel = 0; sel < selections; ++sel)
         {
             // Find the correct sizes for subvectors.
-            short UnitType = 10, DamageGraphics = 0, Attacks = 0, Armors = 0, Commands = 0;
+            short UnitType = 10, DamageGraphics = 0, DropSites = 0, Attacks = 0, Armors = 0, Commands = 0;
             for(size_t civ = 0; civ < dataset->Civs.size(); ++civ)
             {
                 if(dataset->Civs[civ].UnitPointers[UnitIDs[sel]] != 0)
@@ -5980,6 +6079,7 @@ void AGE_Frame::CreateUnitControls()
                     Attacks = dataset->Civs[civ].Units[UnitIDs[sel]].Type50.Attacks.size();
                     Armors = dataset->Civs[civ].Units[UnitIDs[sel]].Type50.Armours.size();
                     Commands = dataset->Civs[civ].Units[UnitIDs[sel]].Bird.TaskList.size();
+                    DropSites = dataset->Civs[civ].Units[UnitIDs[sel]].Bird.DropSites.size();
                     break;
                 }
             }
@@ -5995,6 +6095,7 @@ void AGE_Frame::CreateUnitControls()
                     dataset->Civs[civ].Units[UnitIDs[sel]].Type50.Attacks.resize(Attacks);
                     dataset->Civs[civ].Units[UnitIDs[sel]].Type50.Armours.resize(Armors);
                     dataset->Civs[civ].Units[UnitIDs[sel]].Bird.TaskList.resize(Commands);
+                    dataset->Civs[civ].Units[UnitIDs[sel]].Bird.DropSites.resize(DropSites);
                     dataset->Civs[civ].Units[UnitIDs[sel]].ID = UnitIDs[sel]; // ID Fix
                     dataset->Civs[civ].Units[UnitIDs[sel]].CopyID = UnitIDs[sel];
                     if(GenieVersion >= genie::GV_AoKA)
@@ -6011,6 +6112,7 @@ void AGE_Frame::CreateUnitControls()
                     dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Type50.Attacks.resize(Attacks);
                     dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Type50.Armours.resize(Armors);
                     dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Bird.TaskList.resize(Commands);
+                    dataset->Civs[UnitCivID].Units[UnitIDs[sel]].Bird.DropSites.resize(DropSites);
                     dataset->Civs[UnitCivID].Units[UnitIDs[sel]].ID = UnitIDs[sel]; // ID Fix
                     dataset->Civs[UnitCivID].Units[UnitIDs[sel]].CopyID = UnitIDs[sel];
                     if(GenieVersion >= genie::GV_AoKA)
@@ -6061,6 +6163,160 @@ void AGE_Frame::CreateUnitControls()
     Units_DamageGraphics_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitDamageGraphicsPaste, this);
     Units_DamageGraphics_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitDamageGraphicsPasteInsert, this);
     Units_DamageGraphics_CopyToUnits->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitDamageGraphicsCopyToUnits, this);
+    Units_DropSites_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitDropSitesSearch, this);
+    Units_DropSites_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitDropSitesSearch, this);
+    Units_DropSites_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitDropSiteSelect, this);
+    Units_DropSites_Add->Bind(wxEVT_BUTTON, [this](wxCommandEvent &event)
+    {
+        if (!Units_ListV->GetSelectedCount()) return;
+
+        wxBusyCursor WaitCursor;
+        for (size_t loop = 0; loop < dataset->Civs.size(); ++loop)
+        {
+            if (dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
+            dataset->Civs[loop].Units[UnitIDs.front()].Bird.DropSites.push_back(-1);
+        }
+        How2List = ListMode::ADD;
+        ListUnitDropSites();
+    });
+    Units_DropSites_Insert->Bind(wxEVT_BUTTON, [this](wxCommandEvent &event)
+    {
+        if (!Units_DropSites_ListV->GetSelectedCount()) return;
+
+        wxBusyCursor WaitCursor;
+        for (size_t loop = 0; loop < dataset->Civs.size(); ++loop)
+        {
+            if (dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
+            dataset->Civs[loop].Units[UnitIDs.front()].Bird.DropSites.insert(dataset->Civs[loop].Units[UnitIDs.front()].Bird.DropSites.begin() + DropSiteIDs.front(), -1);
+        }
+        How2List = ListMode::INSNEW;
+        ListUnitDropSites();
+    });
+    Units_DropSites_Delete->Bind(wxEVT_BUTTON, [this](wxCommandEvent &event)
+    {
+        size_t selections = Units_DropSites_ListV->GetSelectedCount();
+        if (!selections) return;
+
+        wxBusyCursor WaitCursor;
+        for (short civ = 0; civ < dataset->Civs.size(); ++civ)
+        {
+            if (dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
+            if (dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites.size())
+            DeleteFromList(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs);
+        }
+        ListUnitDropSites();
+    });
+    Units_DropSites_Copy->Bind(wxEVT_BUTTON, [this](wxCommandEvent &event)
+    {
+        if (!Units_DropSites_ListV->GetSelectedCount()) return;
+
+        wxBusyCursor WaitCursor;
+        if (Units_SpecialCopy_Civs->GetValue())
+        {
+            copies.Dat.AllCivs |= 0x100;
+        }
+        else copies.Dat.AllCivs &= ~0x100;
+        if (copies.Dat.AllCivs & 0x100)
+        {
+            short CivCount = dataset->Civs.size();
+            copies.Dat.UnitDropSiteExists.resize(CivCount);
+            copies.Dat.UnitDropSites.resize(CivCount);
+            for (short civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+            {
+                if (dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
+                {
+                    // Graphic set info not usefull.
+                    copies.Dat.UnitDropSiteExists[civ] = 255;
+                    CivCount--;
+                }
+                else
+                {
+                    // Save info of graphic set to intelligently fill possible gaps when pasting.
+                    copies.Dat.UnitDropSiteExists[civ] = 256 + dataset->Civs[civ].IconSet;
+                    // Only copy drop sites from civs which have this unit enabled.
+                    CopyFromList(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs, copies.Dat.UnitDropSites[copy]); copy++;
+                }
+            }
+            copies.Dat.UnitDropSites.resize(CivCount);
+        }
+        else
+        {
+            CopyFromList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs, copies.Dat.UnitDropSites.front());
+        }
+        Units_DropSites_ListV->SetFocus();
+    });
+    Units_DropSites_Paste->Bind(wxEVT_BUTTON, [this](wxCommandEvent &event)
+    {
+        if (!Units_DropSites_ListV->GetSelectedCount()) return;
+
+        wxBusyCursor WaitCursor;
+        if (copies.Dat.AllCivs & 0x100)
+        {
+            for (size_t civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+            {
+                if (dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
+                {
+                    // Consume copies.
+                    if (copies.Dat.UnitDropSiteExists[civ] > 255) ++copy;
+                    continue;
+                }
+                // If the target unit exists then choose from following.
+                if (copies.Dat.UnitDropSiteExists[civ] > 255 && copy < copies.Dat.UnitDropSites.size())
+                {
+                    PasteToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs, copies.Dat.UnitDropSites[copy]); ++copy;
+                }
+                else
+                {
+                    PasteToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs, copies.Dat.UnitDropSites.front());
+                }
+            }
+        }
+        else
+        {
+            PasteToListNoGV(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs, copies.Dat.UnitDropSites.front());
+        }
+        ListUnitDropSites();
+    });
+    Units_DropSites_PasteInsert->Bind(wxEVT_BUTTON, [this](wxCommandEvent &event)
+    {
+        if (!Units_DropSites_ListV->GetSelectedCount()) return;
+
+        wxBusyCursor WaitCursor;
+        if (copies.Dat.AllCivs & 0x100)
+        {
+            for (short civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+            {
+                if (dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
+                {
+                    // Consume copies.
+                    if (copies.Dat.UnitDropSiteExists[civ] > 255) ++copy;
+                    continue;
+                }
+                // If the target unit exists then choose from following.
+                if (copies.Dat.UnitDropSiteExists[civ] > 255 && copy < copies.Dat.UnitDropSites.size())
+                {
+                    PasteInsertToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs.front(), copies.Dat.UnitDropSites[copy]); copy++;
+                }
+                else
+                {
+                    PasteInsertToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs.front(), copies.Dat.UnitDropSites.front());
+                }
+            }
+        }
+        else
+        {
+            PasteInsertToListNoGV(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs.front(), copies.Dat.UnitDropSites.front());
+        }
+        ListUnitDropSites();
+    });
+    Units_DropSites_CopyToUnits->Bind(wxEVT_BUTTON, [this](wxCommandEvent &event)
+    {
+        for (short civ = 0; civ < dataset->Civs.size(); ++civ)
+        for (size_t loop = 1; loop < UnitIDs.size(); ++loop)
+        {
+            dataset->Civs[civ].Units[UnitIDs[loop]].Bird.DropSites = dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites;
+        }
+    });
     Units_Attacks_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitAttacksSearch, this);
     Units_Attacks_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitAttacksSearch, this);
     Units_Attacks_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitAttackSelect, this);
@@ -6204,6 +6460,24 @@ void AGE_Frame::CreateUnitControls()
             OnChooseGraphic(E);
         }
     };
+    DropSites_UnitID->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent& event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListUnitDropSites();
+        }
+    });
+    DropSites_UnitID->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent& event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListUnitDropSites();
+    });
+    DropSites_UnitID_ComboBox->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent& event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListUnitDropSites();
+    });
     auto SaveThenListAttacks = [this](wxCommandEvent& event)
     {
         static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);

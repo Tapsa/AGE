@@ -649,6 +649,10 @@ private:
     void OnUnitDamageGraphicsCopyToUnits(wxCommandEvent &event);
     wxString GetUnitDamageGraphicName(int);
 
+    void ListUnitDropSites();
+    void OnUnitDropSitesSearch(wxCommandEvent &event);
+    void OnUnitDropSiteSelect(wxCommandEvent &event);
+
     void ListUnitAttacks();
     void OnUnitAttacksSearch(wxCommandEvent &event);
     void OnUnitAttackSelect(wxCommandEvent &event);
@@ -895,7 +899,7 @@ private:
         TTUnitConIDs, TTUnitUnitIDs,
         TTResConIDs, TTResBuildIDs, TTResUnitIDs, TTResResIDs,
         CivIDs, ResourceIDs,
-        UnitIDs, DamageGraphicIDs, AttackIDs, ArmorIDs, CommandIDs,
+        UnitIDs, DamageGraphicIDs, DropSiteIDs, AttackIDs, ArmorIDs, CommandIDs,
         UnitLineIDs, UnitLineUnitIDs,
         GraphicIDs, DeltaIDs, AttackSoundIDs,
         TerrainIDs, TerBorderIDs, TerRestrictIDs, TerRestrictTerIDs,
@@ -1867,8 +1871,6 @@ private:
     LinkedComboBox *Units_DefaultTaskID_ComboBox;
     AGETextCtrl *Units_SearchRadius;
     AGETextCtrl *Units_WorkRate;
-    AGETextCtrl *Units_DropSite[3];
-    LinkedComboBox *Units_DropSite_ComboBox[3];
     AGETextCtrl *Units_TaskSwapGroup;
     AGETextCtrl *Units_AttackSound;
     AGETextCtrl *Units_WwiseAttackSound;
@@ -2094,7 +2096,6 @@ private:
 
     SolidText *Units_SearchRadius_Text;
     SolidText *Units_WorkRate_Text;
-    SolidText *Units_DropSite_Text;
     SolidText *Units_TaskSwapGroup_Text;
     SolidText *Units_AttackSound_Text;
     SolidText *Units_MoveSound_Text;
@@ -2286,7 +2287,6 @@ private:
 
     wxBoxSizer *Units_DefaultTaskID_Holder;
     wxBoxSizer *Units_SearchRadius_Holder;
-    wxGridSizer *Units_DropSite_Grid;
     wxBoxSizer *Units_TaskSwapGroup_Holder;
     wxBoxSizer *Units_AttackSound_Holder;
     wxBoxSizer *Units_MoveSound_Holder;
@@ -2408,6 +2408,25 @@ private:
     wxButton *Units_DamageGraphics_PasteInsert;
     wxButton *Units_DamageGraphics_CopyToUnits;
 
+    AGETextCtrl *DropSites_UnitID;
+    LinkedComboBox *DropSites_UnitID_ComboBox;
+    SolidText *DropSites_UnitID_Text;
+    wxBoxSizer *DropSites_UnitID_Holder;
+    wxStaticBoxSizer *Units_DropSites;
+    wxBoxSizer *Units_DropSites_ListArea;
+    wxTextCtrl *Units_DropSites_Search;
+    wxTextCtrl *Units_DropSites_Search_R;
+    ProperList *Units_DropSites_ListV;
+    wxBoxSizer *Units_DropSites_Buttons_Upper;
+    wxBoxSizer *Units_DropSites_Buttons_Lower;
+    wxButton *Units_DropSites_Add;
+    wxButton *Units_DropSites_Insert;
+    wxButton *Units_DropSites_Delete;
+    wxButton *Units_DropSites_Copy;
+    wxButton *Units_DropSites_Paste;
+    wxButton *Units_DropSites_PasteInsert;
+    wxButton *Units_DropSites_CopyToUnits;
+
     wxBoxSizer *Units_Attacks_Holder;
     wxGridSizer *Units_Attacks_Holder_Data;
     AGETextCtrl *Attacks_Class;
@@ -2509,7 +2528,7 @@ private:
     wxStaticBoxSizer *Units_ProjectileArea_Holder;
     wxBoxSizer *Units_P1, *Units_P2, *Units_P3, *Units_AS2_Holder;
     wxStaticBoxSizer *Units_Attributes_Holder;
-    wxBoxSizer *Units_A1_Grid, *Units_A2_Grid, *Units_A3_Grid, *Units_A4_Grid, *Units_A6_Grid, *Units_AS_Holder, *Units_AS1_Grid;
+    wxBoxSizer *Units_A1_Grid, *Units_A2_Grid, *Units_A3_Grid, *Units_A4_Grid, *Units_AS_Holder, *Units_AS1_Grid;
     wxGridSizer *Units_A5_Grid, *Units_AM1_Grid, *Units_AB1_Grid;
     wxBoxSizer *Units_LangRegular_Holder;
     wxBoxSizer *Units_LangHotKey_Holder;

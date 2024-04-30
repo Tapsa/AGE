@@ -2018,6 +2018,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     unit_filters.Add("Default Task");
     unit_filters.Add("Search Radius");
     unit_filters.Add("Work Rate");
+    unit_filters.Add("Drop Site Count");
     unit_filters.Add("Drop Sites");
     unit_filters.Add("Task Swap Group");
     unit_filters.Add("Attack Sound");

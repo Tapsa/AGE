@@ -47,12 +47,15 @@ public:
     // 0x20 = attacks
     // 0x40 = armors
     // 0x80 = commands
-    int8_t AllCivs;
+    // 0x100 = drop sites
+    int16_t AllCivs;
     std::vector<std::vector<bool>> UnitExists;
     std::vector<std::vector<genie::Unit>> UnitCopies;
     std::vector<std::vector<GraphicCopies>> UnitGraphics;
     std::vector<short> UnitDamageGraphicExists;
     std::vector<std::vector<genie::unit::DamageGraphic>> UnitDamageGraphics;
+    std::vector<short> UnitDropSiteExists;
+    std::vector<std::vector<int16_t>> UnitDropSites;
     std::vector<short> UnitAttackExists;
     std::vector<std::vector<genie::unit::AttackOrArmor>> UnitAttacks;
     std::vector<short> UnitArmorExists;
@@ -65,6 +68,7 @@ public:
         UnitCopies.resize(1); // Civs
         UnitGraphics.resize(1); // Civs
         UnitDamageGraphics.resize(1); // Civs
+        UnitDropSites.resize(1); // Civs
         UnitAttacks.resize(1); // Civs
         UnitArmors.resize(1); // Civs
         UnitCommands.resize(1); // Civs
