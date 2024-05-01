@@ -605,14 +605,37 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
             {
                 dataset->Civs[loop].UnitPointers[loop2] = 1;
                 dataset->Civs[loop].Units[loop2].ID = loop2;
-                if(GenieVersion >= genie::GV_AoE)
-                dataset->Civs[loop].Units[loop2].CopyID = loop2;
-                if(GenieVersion >= genie::GV_AoK)
-                dataset->Civs[loop].Units[loop2].BaseID = loop2;
-                else
-                if(dataset->Civs[loop].Units[loop2].Type >= 40 && dataset->Civs[loop].Units[loop2].Type <= 80)
-                for(size_t loop3 = dataset->Civs[loop].Units[loop2].Bird.TaskList.size(); loop3--> 0;)
-                dataset->Civs[loop].Units[loop2].Bird.TaskList[loop3].ID = loop3;
+                if (GenieVersion >= genie::GV_AoE)
+                {
+                    dataset->Civs[loop].Units[loop2].CopyID = loop2;
+                }
+                if (GenieVersion >= genie::GV_AoK)
+                {
+                    dataset->Civs[loop].Units[loop2].BaseID = loop2;
+                }
+                if (dataset->Civs[loop].Units[loop2].Type >= 40 && dataset->Civs[loop].Units[loop2].Type <= 80)
+                {
+                    if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                    {
+                        auto it = std::find_if(dataset->Civs[loop].Units[loop2].Bird.DropSites.rbegin(), dataset->Civs[loop].Units[loop2].Bird.DropSites.rend(), [](int i) { return i != -1; });
+                        if (it != dataset->Civs[loop].Units[loop2].Bird.DropSites.rend())
+                        {
+                            size_t size = dataset->Civs[loop].Units[loop2].Bird.DropSites.size() - (it - dataset->Civs[loop].Units[loop2].Bird.DropSites.rbegin());
+                            dataset->Civs[loop].Units[loop2].Bird.DropSites.resize(size);
+                        }
+                        else
+                        {
+                            dataset->Civs[loop].Units[loop2].Bird.DropSites.clear();
+                        }
+                    }
+                    else if (GenieVersion < genie::GV_AoK)
+                    {
+                        for (size_t loop3 = dataset->Civs[loop].Units[loop2].Bird.TaskList.size(); loop3-- > 0;)
+                        {
+                            dataset->Civs[loop].Units[loop2].Bird.TaskList[loop3].ID = loop3;
+                        }
+                    }
+                }
             }
         }
         for(size_t loop = dataset->PlayerColours.size(); loop--> 0;)
