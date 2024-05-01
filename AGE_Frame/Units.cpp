@@ -4138,8 +4138,8 @@ void AGE_Frame::CreateUnitControls()
     Units_CanBeBuiltOn->SetToolTip("0   Default\n1   Graphic stays at highest elevation until destination is reached\n2+ Graphic is not affected by elevation");
     Units_CanBeBuiltOn_CheckBox = new LinkedCheckBox(Units_Scroller, "Can be Built on *", Units_CanBeBuiltOn);
     Units_HideInEditor = new NumberControl(CUByte, Units_Scroller, this, &uiGroupUnit, true, AGETextCtrl::SMALL);
-    Units_HideInEditor->SetToolTip("Possible values: 0, 1 and as boolean");
-    Units_HideInEditor_CheckBox = new LinkedCheckBox(Units_Scroller, "Hide in Editor", Units_HideInEditor);
+    Units_HideInEditor->SetToolTip("Possible values: 0, 1 and as boolean\nAoE2DE: 2 Show in others tab in scenario editor");
+    Units_HideInEditor_CheckBox = new LinkedCheckBox(Units_Scroller, "Hide in Editor *", Units_HideInEditor);
     Units_FlyMode = new NumberControl(CUByte, Units_Scroller, this, &uiGroupUnit, true, AGETextCtrl::SMALL);
     Units_FlyMode->SetToolTip("Controls graphic altitude when teleporting\n0   Stay on ground\n1   Graphics appear higher than the shadow");
     Units_FlyMode_CheckBox = new LinkedCheckBox(Units_Scroller, "Fly Mode *", Units_FlyMode);
@@ -4346,7 +4346,8 @@ void AGE_Frame::CreateUnitControls()
         ResourceStorage_Mode[loop] = new NumberControl(CUByte, Units_Scroller, this, &uiGroupUnit);
         ResourceStorage_Mode[loop]->SetToolTip("Attribute Flag\n0   Keep. Decayable resource.\n"
         "1   Give. Stored after death also.\n2   Give and take. Resets on dying, enables instantly.\n"
-        "4   Building. Resets on dying, enables on completion.\nUP: 8   Stored on completion and stays after death");
+        "4   Building. Resets on dying, enables on completion.\nUP: 8   Stored on completion and stays after death.\n"
+        "AoE2DE: 32   Stored throughout dying animation.");
     }
     for(size_t loop = 0; loop < 3; ++loop)
     {

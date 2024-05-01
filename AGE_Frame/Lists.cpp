@@ -283,6 +283,15 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         {
             effect_attribute_names.Add("24 - Hidden Damage Resistance (types 50-80)");
             effect_attribute_names.Add("25 - Icon");
+            effect_attribute_names.Add("26 - Amount of 2nd resource storage");
+            effect_attribute_names.Add("27 - Amount of 3rd resource storage");
+            effect_attribute_names.Add("28 - Fog Visibility");
+            effect_attribute_names.Add("29 - Occlusion Mode");
+            effect_attribute_names.Add("30 - Garrison Type (type 80)");
+            effect_attribute_names.Add("31 - Unknown");
+            effect_attribute_names.Add("32 - Unit Size Z");
+            effect_attribute_names.Add("33 - Can Be Built On");
+            effect_attribute_names.Add("34 - Foundation Terrain (type 80)");
             effect_attribute_names.Add("40 - Hero Status (types 70-80)");
             effect_attribute_names.Add("41 - Frame Delay (types 50-80)");
             effect_attribute_names.Add("42 - Train Location (types 70-80)");
@@ -302,6 +311,25 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             effect_attribute_names.Add("56 - Unit Trait Piece");
             effect_attribute_names.Add("57 - Dead Unit");
             effect_attribute_names.Add("58 - Hotkey");
+            effect_attribute_names.Add("59 - Maximum Charge (types 70-80)");
+            effect_attribute_names.Add("60 - Recharge Rate (types 70-80)");
+            effect_attribute_names.Add("61 - Charge Event (types 70-80)");
+            effect_attribute_names.Add("62 - Charge Type (types 70-80)");
+            effect_attribute_names.Add("63 - Combat Ability (types 50-80)");
+            effect_attribute_names.Add("64 - Attack Dispersion (types 50-80)");
+            effect_attribute_names.Add("65 - Secondary Projectile Unit (types 70-80)");
+            effect_attribute_names.Add("66 - Blood Unit");
+            effect_attribute_names.Add("67 - Projectile Hit Mode (type 60)");
+            effect_attribute_names.Add("68 - Projectile Vanish Mode (type 60)");
+            effect_attribute_names.Add("69 - Projectile Arc (type 60)");
+            effect_attribute_names.Add("70 - Attack Graphic (types 50-80)");
+            effect_attribute_names.Add("71 - Standing Graphic");
+            effect_attribute_names.Add("72 - Second Standing Graphic");
+            effect_attribute_names.Add("73 - Dying Graphic");
+            effect_attribute_names.Add("74 - Undead Graphic");
+            effect_attribute_names.Add("75 - Walking Graphic (types 30-80)");
+            effect_attribute_names.Add("76 - Running Graphic (types 30-80)");
+            effect_attribute_names.Add("77 - Special Graphic (types 70-80)");
         }
         effect_attribute_names.Add("100 - Resource Costs (types 70-80)");
         effect_attribute_names.Add("101 - Train Time (types 70-80)");
@@ -328,6 +356,15 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         {
             effect_attribute_names.Add("109 - Regeneration Rate (types 40-80)");
         }
+        if (isAoE2DE)
+        {
+            effect_attribute_names.Add("110 - Population (types 70-80)");
+            effect_attribute_names.Add("111 - Minimum Conversion Time Modifier (types 70-80)");
+            effect_attribute_names.Add("112 - Maximum Conversion Time Modifier (types 70-80)");
+            effect_attribute_names.Add("113 - Conversion Chance Modifier (types 70-80)");
+            effect_attribute_names.Add("114 - Formation Category (types 70-80)");
+            effect_attribute_names.Add("115 - Area Damage (types 50-80)");
+        }
     }
     else
     {
@@ -345,20 +382,20 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     {
         if (isAoE2DE)
         {
-            // Attributes 0 to 25, 40 to 58 and 100 to 109 only.
+            // Attributes 0 to 34, 40 to 77 and 100 to 115 only.
             SetEffectAttributeChoice = [](LinkedComboBox *linkedComboBox, short value)
             {
-                if (value >= 0 && value <= 25)
+                if (value >= 0 && value <= 34)
                 {
                     linkedComboBox->SetChoice(value);
                 }
-                else if (value >= 40 && value <= 58)
+                else if (value >= 40 && value <= 77)
                 {
-                    linkedComboBox->SetChoice(value - 14);
+                    linkedComboBox->SetChoice(value - 5);
                 }
-                else if (value >= 100 && value <= 109)
+                else if (value >= 100 && value <= 115)
                 {
-                    linkedComboBox->SetChoice(value - 55);
+                    linkedComboBox->SetChoice(value - 27);
                 }
                 else
                 {
@@ -367,17 +404,17 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             };
             OnChooseEffectAttribute = [](AGETextCtrl *linkedTextBox, unsigned selection)
             {
-                if (selection < 26)
+                if (selection < 35)
                 {
                     linkedTextBox->SetAsText(selection);
                 }
-                else if (selection < 45)
+                else if (selection < 73)
                 {
-                    linkedTextBox->SetAsText(selection + 14);
+                    linkedTextBox->SetAsText(selection + 5);
                 }
-                else if (selection < 55)
+                else if (selection < 89)
                 {
-                    linkedTextBox->SetAsText(selection + 55);
+                    linkedTextBox->SetAsText(selection + 27);
                 }
                 else
                 {
@@ -803,7 +840,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         };
     }
 
-    const wxString localFilename = PathCustomNames.empty() ? "AGE3NamesV0005.ini" : PathCustomNames;
+    const wxString localFilename = PathCustomNames.empty() ? "AGE3NamesV0006.ini" : PathCustomNames;
     wxFileConfig Customs("", "", localFilename, "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
     wxString KeyArmors, KeyTerrainTables, KeyCivResources;
 
@@ -1496,14 +1533,28 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             names.Add("Unused (Allow Formations)");
             names.Add("Can Convert");
             names.Add("Hit Points Killed");
-            names.Add("Killed P1");
-            names.Add("Killed P2");
-            names.Add("Killed P3");
-            names.Add("Killed P4");
-            names.Add("Killed P5");
-            names.Add("Killed P6");
-            names.Add("Killed P7");
-            names.Add("Killed P8");
+            if (GenieVersion >= genie::GV_C2)
+            {
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+            }
+            else
+            {
+                names.Add("Killed P1");
+                names.Add("Killed P2");
+                names.Add("Killed P3");
+                names.Add("Killed P4");
+                names.Add("Killed P5");
+                names.Add("Killed P6");
+                names.Add("Killed P7");
+                names.Add("Killed P8");
+            }
             names.Add("Conversion Resistance");
             names.Add("Trade Vig Rate");
             names.Add("Stone Mining Productivity");
@@ -1529,68 +1580,142 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             names.Add("Tech Cost Sum");
             names.Add("Relic Income Sum");
             names.Add("Trade Income Sum");
-            names.Add("P1 Tribute");
-            names.Add("P2 Tribute");
-            names.Add("P3 Tribute");
-            names.Add("P4 Tribute");
-            names.Add("P5 Tribute");
-            names.Add("P6 Tribute");
-            names.Add("P7 Tribute");
-            names.Add("P8 Tribute");
-            names.Add("P1 Kill Value");
-            names.Add("P2 Kill Value");
-            names.Add("P3 Kill Value");
-            names.Add("P4 Kill Value");
-            names.Add("P5 Kill Value");
-            names.Add("P6 Kill Value");
-            names.Add("P7 Kill Value");
-            names.Add("P8 Kill Value");
-            names.Add("P1 Razings");
-            names.Add("P2 Razings");
-            names.Add("P3 Razings");
-            names.Add("P4 Razings");
-            names.Add("P5 Razings");
-            names.Add("P6 Razings");
-            names.Add("P7 Razings");
-            names.Add("P8 Razings");
-            names.Add("P1 Razing Value");
-            names.Add("P2 Razing Value");
-            names.Add("P3 Razing Value");
-            names.Add("P4 Razing Value");
-            names.Add("P5 Razing Value");
-            names.Add("P6 Razing Value");
-            names.Add("P7 Razing Value");
-            names.Add("P8 Razing Value");
+            if (GenieVersion >= genie::GV_C2)
+            {
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+            }
+            else
+            {
+                names.Add("P1 Tribute");
+                names.Add("P2 Tribute");
+                names.Add("P3 Tribute");
+                names.Add("P4 Tribute");
+                names.Add("P5 Tribute");
+                names.Add("P6 Tribute");
+                names.Add("P7 Tribute");
+                names.Add("P8 Tribute");
+                names.Add("P1 Kill Value");
+                names.Add("P2 Kill Value");
+                names.Add("P3 Kill Value");
+                names.Add("P4 Kill Value");
+                names.Add("P5 Kill Value");
+                names.Add("P6 Kill Value");
+                names.Add("P7 Kill Value");
+                names.Add("P8 Kill Value");
+                names.Add("P1 Razings");
+                names.Add("P2 Razings");
+                names.Add("P3 Razings");
+                names.Add("P4 Razings");
+                names.Add("P5 Razings");
+                names.Add("P6 Razings");
+                names.Add("P7 Razings");
+                names.Add("P8 Razings");
+                names.Add("P1 Razing Value");
+                names.Add("P2 Razing Value");
+                names.Add("P3 Razing Value");
+                names.Add("P4 Razing Value");
+                names.Add("P5 Razing Value");
+                names.Add("P6 Razing Value");
+                names.Add("P7 Razing Value");
+                names.Add("P8 Razing Value");
+            }
             names.Add("Standing Castles");
             names.Add("Hit Points Razed");
-            names.Add("Kills by P1");
-            names.Add("Kills by P2");
-            names.Add("Kills by P3");
-            names.Add("Kills by P4");
-            names.Add("Kills by P5");
-            names.Add("Kills by P6");
-            names.Add("Kills by P7");
-            names.Add("Kills by P8");
-            names.Add("Razings by P1");
-            names.Add("Razings by P2");
-            names.Add("Razings by P3");
-            names.Add("Razings by P4");
-            names.Add("Razings by P5");
-            names.Add("Razings by P6");
-            names.Add("Razings by P7");
-            names.Add("Razings by P8");
+            if (GenieVersion >= genie::GV_C2)
+            {
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+            }
+            else
+            {
+                names.Add("Kills by P1");
+                names.Add("Kills by P2");
+                names.Add("Kills by P3");
+                names.Add("Kills by P4");
+                names.Add("Kills by P5");
+                names.Add("Kills by P6");
+                names.Add("Kills by P7");
+                names.Add("Kills by P8");
+                names.Add("Razings by P1");
+                names.Add("Razings by P2");
+                names.Add("Razings by P3");
+                names.Add("Razings by P4");
+                names.Add("Razings by P5");
+                names.Add("Razings by P6");
+                names.Add("Razings by P7");
+                names.Add("Razings by P8");
+            }
             names.Add("Value Killed by Others");
             names.Add("Value Razed by Others");
             names.Add("Killed by Others");
             names.Add("Razed by Others");
-            names.Add("Tribute from P1");
-            names.Add("Tribute from P2");
-            names.Add("Tribute from P3");
-            names.Add("Tribute from P4");
-            names.Add("Tribute from P5");
-            names.Add("Tribute from P6");
-            names.Add("Tribute from P7");
-            names.Add("Tribute from P8");
+            if (GenieVersion >= genie::GV_C2)
+            {
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("Unused");
+            }
+            else
+            {
+                names.Add("Tribute from P1");
+                names.Add("Tribute from P2");
+                names.Add("Tribute from P3");
+                names.Add("Tribute from P4");
+                names.Add("Tribute from P5");
+                names.Add("Tribute from P6");
+                names.Add("Tribute from P7");
+                names.Add("Tribute from P8");
+            }
             names.Add("Value Current Units");
             names.Add("Value Current Buildings");
             names.Add("Food Total");
@@ -1684,6 +1809,255 @@ void AGE_Frame::FillListsBasedOnGameVersion()
                         names.Add("Total Villagers Created");
                         names.Add("Total Villager Idle Periods");
                         names.Add("Total Villager Idle Seconds"); // 250 Dawn of the Dukes ends here
+                        names.Add("Trade Food Percent");
+                        names.Add("Trade Wood Percent");
+                        names.Add("Trade Stone Percent");
+                        names.Add("Livestock Food Productivity");
+                        names.Add("Speedup Building Type");
+                        names.Add("Speedup Building Range");
+                        names.Add("Speedup Percentage");
+                        names.Add("Speedup Object Type");
+                        names.Add("Speedup Effect Type");
+                        names.Add("Speedup Secondary Effect Type");
+                        names.Add("Speedup Secondary Percentage");
+                        names.Add("Civilization Name Override");
+                        names.Add("Starting Scout ID");
+                        names.Add("Relic Wood Production Rate");
+                        names.Add("Relic Stone Production Rate");
+                        names.Add("Chopping Gold Productivity");
+                        names.Add("Foraging Wood Productivity");
+                        names.Add("Hunter Productivity");
+                        names.Add("Technology Reward Effect");
+                        names.Add("Unit Repair Cost");
+                        names.Add("Building Repair Cost");
+                        names.Add("Elevation Higher Damage");
+                        names.Add("Elevation Lower Damage");
+                        names.Add("Infantry Kill Reward");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Military Can Convert");
+                        names.Add("Military Conversion Range");
+                        names.Add("Military Conversion Chance");
+                        names.Add("Military Conversion Recharge Rate");
+                        names.Add("Spawn Inside");
+                        names.Add("Cavalry Kill Reward"); // 284
+                        names.Add("Shared Visibility");
+                        names.Add("Shared Exploration");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Killed Gaia");
+                        names.Add("Killed P1");
+                        names.Add("Killed P2");
+                        names.Add("Killed P3");
+                        names.Add("Killed P4");
+                        names.Add("Killed P5");
+                        names.Add("Killed P6");
+                        names.Add("Killed P7");
+                        names.Add("Killed P8");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Kills by Gaia");
+                        names.Add("Kills by P1");
+                        names.Add("Kills by P2");
+                        names.Add("Kills by P3");
+                        names.Add("Kills by P4");
+                        names.Add("Kills by P5");
+                        names.Add("Kills by P6");
+                        names.Add("Kills by P7");
+                        names.Add("Kills by P8");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Gaia Razings");
+                        names.Add("P1 Razings");
+                        names.Add("P2 Razings");
+                        names.Add("P3 Razings");
+                        names.Add("P4 Razings");
+                        names.Add("P5 Razings");
+                        names.Add("P6 Razings");
+                        names.Add("P7 Razings");
+                        names.Add("P8 Razings");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Razings by Gaia");
+                        names.Add("Razings by P1");
+                        names.Add("Razings by P2");
+                        names.Add("Razings by P3");
+                        names.Add("Razings by P4");
+                        names.Add("Razings by P5");
+                        names.Add("Razings by P6");
+                        names.Add("Razings by P7");
+                        names.Add("Razings by P8");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Gaia Kill Value");
+                        names.Add("P1 Kill Value");
+                        names.Add("P2 Kill Value");
+                        names.Add("P3 Kill Value");
+                        names.Add("P4 Kill Value");
+                        names.Add("P5 Kill Value");
+                        names.Add("P6 Kill Value");
+                        names.Add("P7 Kill Value");
+                        names.Add("P8 Kill Value");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Gaia Razing Value");
+                        names.Add("P1 Razing Value");
+                        names.Add("P2 Razing Value");
+                        names.Add("P3 Razing Value");
+                        names.Add("P4 Razing Value");
+                        names.Add("P5 Razing Value");
+                        names.Add("P6 Razing Value");
+                        names.Add("P7 Razing Value");
+                        names.Add("P8 Razing Value");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Gaia Tribute");
+                        names.Add("P1 Tribute");
+                        names.Add("P2 Tribute");
+                        names.Add("P3 Tribute");
+                        names.Add("P4 Tribute");
+                        names.Add("P5 Tribute");
+                        names.Add("P6 Tribute");
+                        names.Add("P7 Tribute");
+                        names.Add("P8 Tribute");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Tribute from Gaia");
+                        names.Add("Tribute from P1");
+                        names.Add("Tribute from P2");
+                        names.Add("Tribute from P3");
+                        names.Add("Tribute from P4");
+                        names.Add("Tribute from P5");
+                        names.Add("Tribute from P6");
+                        names.Add("Tribute from P7");
+                        names.Add("Tribute from P8");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused");
+                        names.Add("Unused"); // 499
                     }
                 }
             }
