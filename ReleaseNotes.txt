@@ -13,6 +13,19 @@ I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2024.5.2[/b]:
+-Registry defaults also work in the 64-bit version.
+AoE II DE:
+-Added support for more drop sites.
+-Named more effect unit attributes.
+-Named more player resources.
+-Improved resource store mode and hide in editor tooltips.
+
+Known Issues:
+AoE II DE:
+-Missing some effect command types.
+-Missing some unit task action types.
+
 Version [b]2024.4.18[/b]:
 -Added warning when saving into steamapps.
 
@@ -106,55 +119,6 @@ Version [b]2020.6.12[/b]:
 Version [b]2020.3.30[/b]:
 -Support for new AoE II DE game features.
 
-Version [b]2019.11.28[/b]:
--Added more unit search filters.
-
-Version [b]2019.11.22[/b]:
--Fixed default paths for AoE II DE.
-
-Version [b]2019.7.2[/b]:
--Negative armor types can be changed via effects.
--Supports newer game versions.
-
-Version [b]2018.1.29[/b]:
--Marked resource multiplier as not available in AoE 1.
-
-Version [b]2017.11.7[/b]:
--Internal unit name filter works the way it used to.
--Graphics can be filtered by rainbow.
--Images are saved centered on hotspot.
-
-Version [b]2017.10.6[/b]:
--Saving an SLP handles player color properly.
--Deleting terrain tables uses correct indexes.
--Unit terrain table defaults to 0.
--Small improvements here and there.
-
-Version [b]2017.5.17[/b]:
--Fixed loading order of DRS files.
--Fixed a problem with angle sound count.
--Editing box widths are customizable.
--New icon by gagman.
-
-Version [b]2017.3.14[/b]:
--Scrolling lag fixed.
--Graphic sounds can be heard.
--Many unknowns named.
--Able to show loose SLP files along with DRS.
--Fixed bugs in saving data with enter.
--Can save as different game version.
--Fixed bugs in relisting.
--Improved tooltips all over.
--Fixed switching between building and unit icons.
--Pause between animations visible.
--SLP cache improved.
-
-Version [b]2017.1.10[/b]:
--Fixed pasting terrains.
--Fixed buttons on terrain tables and borders.
--Mirrored graphics with two angles display properly.
--Added some helpful buttons to graphics tab.
-
 [b]Notes[/b]
 
 [color=BA0000]Make your own backups or use the auto-backup feature![/color]
@@ -172,8 +136,9 @@ Use the check boxes to toggle matching between all and any entries.
 [b]Developers[/b]
 
 Mikko "Tapsa" P, since 2.0b
-Apre - genieutils, 2.1a to 3.1
-Estien Nifo aka StSB77, 1.0a to 2.0a
+Manuel Winocur, since 2023
+Apre - genieutils, from 2011 to 2013
+Estien Nifo aka StSB77, from 1.0a to 2.0a
 
 [b]Credits[/b]
 

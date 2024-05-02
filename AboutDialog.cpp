@@ -9,7 +9,7 @@
 #include "Licenses/SFML.h"
 #include "Licenses/wxWidgets.h"
 
-const wxString AboutDialog::AGE_VER = "2024.4.18";
+const wxString AboutDialog::AGE_VER = "2024.5.2";
 
 AboutDialog::AboutDialog(wxWindow *parent, const wxFont &font)
     : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)
@@ -18,9 +18,9 @@ AboutDialog::AboutDialog(wxWindow *parent, const wxFont &font)
     SolidText *Title = new SolidText(this, "Advanced Genie Editor\nVersion " + AGE_VER +
         "\nGPLv3 2011 - 2024\n\nDevelopers:"
         "\nMikko Tapio Partonen (Tapsa), since 2.0b (2011)"
-        "\nManuel Winocur, 2023"
-        "\nArmin Preiml (Apre) - genieutils, 2011 - 2013"
-        "\nEstien Nifo (StSB77), 1.0a to 2.0a");
+        "\nManuel Winocur, since 2023"
+        "\nArmin Preiml (Apre) - genieutils, from 2011 to 2013"
+        "\nEstien Nifo (StSB77), from 1.0a to 2.0a");
     wxStaticBitmap *Image = new wxStaticBitmap(this, wxID_ANY, wxBitmap(AppIcon64_xpm));
     SolidText *Credits = new SolidText(this, "Credits:\nYkkrosh - GeniEd 1 source code"
         "\nScenario_t_c - GeniEd 2 source code\nAlexandra \"Taichi San\", DarkRain654 - data file research"

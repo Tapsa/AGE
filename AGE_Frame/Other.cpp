@@ -241,7 +241,7 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         OpenBox.CheckBox_LangWrite->SetValue(WriteLangs);
         OpenBox.CheckBox_LangWriteToLatest->SetValue(LangWriteToLatest);
 
-        bool load = OpenBox.ShowModal() == wxID_OK; // What this does?
+        bool load = OpenBox.ShowModal() == wxID_OK;
 
         GameVersion = OpenBox.ComboBox_GenieVer->GetSelection();
         DatUsed = OpenBox.Radio_DatFileLocation->GetValue() ? 0 : 3;
@@ -282,32 +282,34 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         popUp.unSaved = 0;
         ++popUp.loadedFileId;
 
-        wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<std::string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
-        Config.Write("DefaultFiles/DriveLetter", DriveLetter);
-        Config.Write("DefaultFiles/CustomFolder", CustomFolder);
-        Config.Write("DefaultFiles/Version", GameVersion);
-        Config.Write("DefaultFiles/DatUsed", DatUsed);
-        Config.Write("DefaultFiles/DatFilename", DatFileName);
-        Config.Write("DefaultFiles/FolderDRS", FolderDRS);
-        Config.Write("DefaultFiles/FolderDRS2", FolderDRS2);
-        Config.Write("DefaultFiles/Path1stDRS", Path1stDRS);
-        Config.Write("DefaultFiles/PathLooseSprites", PathSLP);
-        Config.Write("DefaultFiles/PathLooseModSprites", PathModSLP);
-        Config.Write("DefaultFiles/PathPalettes", PathPalettes);
-        Config.Write("DefaultFiles/PathPlayerPalette", PathPlayerColorPalette);
-        Config.Write("DefaultFiles/UseDRS", UseDRS);
-        Config.Write("DefaultFiles/UseMod", UseMod);
-        Config.Write("DefaultFiles/UseExtra", UseExtra);
-        Config.Write("DefaultFiles/UseLooseSprites", UseLooseSLP);
-        Config.Write("DefaultFiles/UseLooseModSprites", UseLooseModSLP);
-        Config.Write("DefaultFiles/LangsUsed", LangsUsed);
-        Config.Write("DefaultFiles/WriteLangs", WriteLangs);
-        Config.Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
-        Config.Write("DefaultFiles/Language", Language);
-        Config.Write("DefaultFiles/LangFilename", LangFileName);
-        Config.Write("DefaultFiles/LangX1Filename", LangX1FileName);
-        Config.Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
-        Config.Write("Misc/CustomTerrains", CustomTerrains);
+        {
+            wxConfig Config("", "", "AGE2\\ConfigWindow" + lexical_cast<std::string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+            Config.Write("DefaultFiles/DriveLetter", DriveLetter);
+            Config.Write("DefaultFiles/CustomFolder", CustomFolder);
+            Config.Write("DefaultFiles/Version", GameVersion);
+            Config.Write("DefaultFiles/DatUsed", DatUsed);
+            Config.Write("DefaultFiles/DatFilename", DatFileName);
+            Config.Write("DefaultFiles/FolderDRS", FolderDRS);
+            Config.Write("DefaultFiles/FolderDRS2", FolderDRS2);
+            Config.Write("DefaultFiles/Path1stDRS", Path1stDRS);
+            Config.Write("DefaultFiles/PathLooseSprites", PathSLP);
+            Config.Write("DefaultFiles/PathLooseModSprites", PathModSLP);
+            Config.Write("DefaultFiles/PathPalettes", PathPalettes);
+            Config.Write("DefaultFiles/PathPlayerPalette", PathPlayerColorPalette);
+            Config.Write("DefaultFiles/UseDRS", UseDRS);
+            Config.Write("DefaultFiles/UseMod", UseMod);
+            Config.Write("DefaultFiles/UseExtra", UseExtra);
+            Config.Write("DefaultFiles/UseLooseSprites", UseLooseSLP);
+            Config.Write("DefaultFiles/UseLooseModSprites", UseLooseModSLP);
+            Config.Write("DefaultFiles/LangsUsed", LangsUsed);
+            Config.Write("DefaultFiles/WriteLangs", WriteLangs);
+            Config.Write("DefaultFiles/LangWriteToLatest", LangWriteToLatest);
+            Config.Write("DefaultFiles/Language", Language);
+            Config.Write("DefaultFiles/LangFilename", LangFileName);
+            Config.Write("DefaultFiles/LangX1Filename", LangX1FileName);
+            Config.Write("DefaultFiles/LangX1P1Filename", LangX1P1FileName);
+            Config.Write("Misc/CustomTerrains", CustomTerrains);
+        }
 
         if(!OpenBox.CheckBox_LangFileLocation->IsChecked()) LangFileName = "";
         if(!OpenBox.CheckBox_LangX1FileLocation->IsChecked()) LangX1FileName = "";
@@ -1184,7 +1186,16 @@ void AGE_Frame::OnSave(wxCommandEvent&)
     }
 
     bool save = SaveBox.ShowModal() == wxID_OK;
+
     SaveGameVersion = SaveBox.ComboBox_GenieVer->GetSelection();
+    SaveDat = SaveBox.Radio_DatFileLocation->IsChecked();
+    SaveLangs = SaveBox.CheckBox_LangWrite->IsChecked();
+    SaveDatFileName = SaveBox.Path_DatFileLocation->GetPath();
+    SaveLangFileName = SaveBox.Path_LangFileLocation->GetPath();
+    SaveLangX1FileName = SaveBox.Path_LangX1FileLocation->GetPath();
+    SaveLangX1P1FileName = SaveBox.Path_LangX1P1FileLocation->GetPath();
+    SyncSaveWithOpen = DatFileName == SaveDatFileName && LangFileName == SaveLangFileName && LangX1FileName == SaveLangX1FileName && LangX1P1FileName == SaveLangX1P1FileName;
+
     if (SaveGameVersion >= EV_Tapsa && SaveDatFileName.Contains("steamapps"))
     {
         int answer = wxMessageBox("Saving into steamapps folder may not work in the game.\nYou should create a mod folder tree and save into it.",
@@ -1194,15 +1205,12 @@ void AGE_Frame::OnSave(wxCommandEvent&)
             return;
         }
     }
-    SaveDat = SaveBox.Radio_DatFileLocation->IsChecked();
-    SaveLangs = SaveBox.CheckBox_LangWrite->IsChecked();
-    SaveDatFileName = SaveBox.Path_DatFileLocation->GetPath();
-    SaveLangFileName = SaveBox.Path_LangFileLocation->GetPath();
-    SaveLangX1FileName = SaveBox.Path_LangX1FileLocation->GetPath();
-    SaveLangX1P1FileName = SaveBox.Path_LangX1P1FileLocation->GetPath();
-    SyncSaveWithOpen = DatFileName == SaveDatFileName && LangFileName == SaveLangFileName && LangX1FileName == SaveLangX1FileName && LangX1P1FileName == SaveLangX1P1FileName;
 
-    if(!save) return;
+    if (!save)
+    {
+        return;
+    }
+
     {
         wxConfig Config("", "", "AGE2\\ConfigWindow"+lexical_cast<std::string>(window_num + 1), "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
         Config.Write("DefaultFiles/SyncSaveWithOpen", SyncSaveWithOpen);
@@ -1214,11 +1222,22 @@ void AGE_Frame::OnSave(wxCommandEvent&)
         Config.Write("DefaultFiles/SaveLangX1P1Filename", SaveLangX1P1FileName);
         Config.Write("DefaultFiles/SaveDat", SaveDat);
         Config.Write("Misc/CustomTerrains", CustomTerrains);
+    }
 
-        if(!SaveBox.CheckBox_LangFileLocation->IsChecked()) SaveLangFileName = "";
-        if(!SaveBox.CheckBox_LangX1FileLocation->IsChecked()) SaveLangX1FileName = "";
-        if(!SaveBox.CheckBox_LangX1P1FileLocation->IsChecked()) SaveLangX1P1FileName = "";
+    if (!SaveBox.CheckBox_LangFileLocation->IsChecked())
+    {
+        SaveLangFileName = "";
+    }
+    if (!SaveBox.CheckBox_LangX1FileLocation->IsChecked())
+    {
+        SaveLangX1FileName = "";
+    }
+    if (!SaveBox.CheckBox_LangX1P1FileLocation->IsChecked())
+    {
+        SaveLangX1P1FileName = "";
+    }
 
+    {
         wxArrayString latest;
         latest.Alloc(5);
         latest.Add(lexical_cast<std::string>(SaveGameVersion));
@@ -1320,38 +1339,44 @@ void AGE_Frame::OnSave(wxCommandEvent&)
     {
         //   Not Implemented Yet = Nothing Happens
     }*/
-    if(SaveLangs)
+    if (SaveLangs)
     {
         SetStatusText("Saving language files...", 0);
         wxBusyCursor WaitCursor;
-        if(LangWriteToLatest)
+        if (LangWriteToLatest)
         {
-            if(LangsUsed & 4)
+            if (LangsUsed & 4)
             {
-                if(!SaveLangX1P1()) return;
+                if (!SaveLangX1P1())
+                    return;
             }
-            else if(LangsUsed & 2)
+            else if (LangsUsed & 2)
             {
-                if(!SaveLangX1()) return;
+                if (!SaveLangX1())
+                    return;
             }
             else
             {
-                if(!SaveLang()) return;
+                if (!SaveLang())
+                    return;
             }
         }
         else
         {
-            if(LangsUsed & 1)
+            if (LangsUsed & 1)
             {
-                if(!SaveLang()) return;
+                if (!SaveLang())
+                    return;
             }
-            if(LangsUsed & 2)
+            if (LangsUsed & 2)
             {
-                if(!SaveLangX1()) return;
+                if (!SaveLangX1())
+                    return;
             }
-            if(LangsUsed & 4)
+            if (LangsUsed & 4)
             {
-                if(!SaveLangX1P1()) return;
+                if (!SaveLangX1P1())
+                    return;
             }
         }
     }

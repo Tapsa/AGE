@@ -343,7 +343,7 @@ void OpenSaveDialog::OnPathFromRegistry(wxCommandEvent &event)
     {
         case EV_AoE:
         {
-            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires\\1.0");
+            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires\\1.0", wxRegKey::WOW64ViewMode_32);
             if (key.Exists())
             {
                 if (key.QueryValue("EXE Path", path))
@@ -357,7 +357,7 @@ void OpenSaveDialog::OnPathFromRegistry(wxCommandEvent &event)
         }
         case EV_RoR:
         {
-            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires Expansion\\1.0");
+            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires Expansion\\1.0", wxRegKey::WOW64ViewMode_32);
             if (key.Exists())
             {
                 if (key.QueryValue("EXE Path", path))
@@ -371,7 +371,7 @@ void OpenSaveDialog::OnPathFromRegistry(wxCommandEvent &event)
         }
         case EV_AoK:
         {
-            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires\\2.0");
+            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires\\2.0", wxRegKey::WOW64ViewMode_32);
             if (key.Exists())
             {
                 if (key.QueryValue("EXE Path", path))
@@ -387,7 +387,7 @@ void OpenSaveDialog::OnPathFromRegistry(wxCommandEvent &event)
         case EV_UP:
         case EV_TCV:
         {
-            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires II: The Conquerors Expansion\\1.0");
+            wxRegKey key(wxRegKey::HKLM, "Software\\Microsoft\\Microsoft Games\\Age of Empires II: The Conquerors Expansion\\1.0", wxRegKey::WOW64ViewMode_32);
             if (key.Exists())
             {
                 if (key.QueryValue("EXE Path", path))
@@ -401,7 +401,7 @@ void OpenSaveDialog::OnPathFromRegistry(wxCommandEvent &event)
         }
         case EV_SWGB:
         {
-            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds\\1.0");
+            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds\\1.0", wxRegKey::WOW64ViewMode_32);
             if (key.Exists())
             {
                 if (key.QueryValue("Game Path", path))
@@ -416,7 +416,7 @@ void OpenSaveDialog::OnPathFromRegistry(wxCommandEvent &event)
         }
         case EV_CC:
         {
-            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Clone Campaigns\\1.0");
+            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Clone Campaigns\\1.0", wxRegKey::WOW64ViewMode_32);
             if (key.Exists())
             {
                 if (key.QueryValue("Game Path", path))
@@ -432,7 +432,7 @@ void OpenSaveDialog::OnPathFromRegistry(wxCommandEvent &event)
         case EV_EF:
         case EV_EF2:
         {
-            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Clone Campaigns\\1.0");
+            wxRegKey key(wxRegKey::HKLM, "Software\\LucasArts Entertainment Company LLC\\Star Wars Galactic Battlegrounds: Clone Campaigns\\1.0", wxRegKey::WOW64ViewMode_32);
             if (key.Exists())
             {
                 path_src = 2;

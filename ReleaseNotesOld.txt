@@ -1,4 +1,53 @@
 
+Version [b]2019.11.28[/b]:
+-Added more unit search filters.
+
+Version [b]2019.11.22[/b]:
+-Fixed default paths for AoE II DE.
+
+Version [b]2019.7.2[/b]:
+-Negative armor types can be changed via effects.
+-Supports newer game versions.
+
+Version [b]2018.1.29[/b]:
+-Marked resource multiplier as not available in AoE 1.
+
+Version [b]2017.11.7[/b]:
+-Internal unit name filter works the way it used to.
+-Graphics can be filtered by rainbow.
+-Images are saved centered on hotspot.
+
+Version [b]2017.10.6[/b]:
+-Saving an SLP handles player color properly.
+-Deleting terrain tables uses correct indexes.
+-Unit terrain table defaults to 0.
+-Small improvements here and there.
+
+Version [b]2017.5.17[/b]:
+-Fixed loading order of DRS files.
+-Fixed a problem with angle sound count.
+-Editing box widths are customizable.
+-New icon by gagman.
+
+Version [b]2017.3.14[/b]:
+-Scrolling lag fixed.
+-Graphic sounds can be heard.
+-Many unknowns named.
+-Able to show loose SLP files along with DRS.
+-Fixed bugs in saving data with enter.
+-Can save as different game version.
+-Fixed bugs in relisting.
+-Improved tooltips all over.
+-Fixed switching between building and unit icons.
+-Pause between animations visible.
+-SLP cache improved.
+
+Version [b]2017.1.10[/b]:
+-Fixed pasting terrains.
+-Fixed buttons on terrain tables and borders.
+-Mirrored graphics with two angles display properly.
+-Added some helpful buttons to graphics tab.
+
 Version [b]2016.12.30[/b]:
 -Deltas with display angle should show properly.
 -The actual terrain that is drawn is shown when selecting terrains.
