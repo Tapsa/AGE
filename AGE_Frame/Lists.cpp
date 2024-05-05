@@ -16,18 +16,17 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     task_names.Add("3: Garrison");
     task_names.Add("4: Explore");
     task_names.Add("5: Gather/Rebuild");
-    task_names.Add("6: Graze, deleted?");
+    task_names.Add("6: Deleted (Graze)");
     task_names.Add("7: Combat");
     task_names.Add("8: Shoot");
     task_names.Add("9: Attack");
     task_names.Add("10: Fly");
-    task_names.Add("11: Scare/Hunt, deleted?");
+    task_names.Add("11: Deleted (Scare/Hunt)");
     task_names.Add("12: Unload (Boat-Like)");
     task_names.Add(GenieVersion < genie::GV_AoKA ? "13: None" : "13: Guard");
-    task_names.Add(GenieVersion < genie::GV_Cysion || GenieVersion > genie::GV_LatestDE2 ? "14: None" : "14: Siege Tower Ability");
-    task_names.Add("20: Escape, deleted?");
+    task_names.Add(GenieVersion < genie::GV_Cysion || GenieVersion > genie::GV_LatestDE2 ? "14: None" : "14: Unload Over Wall");
+    task_names.Add("20: Deleted (Escape)");
     task_names.Add("21: Make");
-    //task_names.Add("100: Num"); // Useless
     task_names.Add("101: Build");
     task_names.Add("102: Make a Unit");
     task_names.Add("103: Make a Tech");
@@ -36,7 +35,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     task_names.Add("106: Repair");
     task_names.Add("107: Get Auto-converted");
     task_names.Add("108: Discovery Artifact");
-    task_names.Add("109: Unknown, nothing?");
+    task_names.Add("109: Deleted");
     task_names.Add("110: Hunt");
     task_names.Add("111: Trade");
     task_names.Add("120: Generate Wonder Victory");
@@ -47,7 +46,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         task_names.Add("123: Housing");
         task_names.Add("124: Pack");
         task_names.Add("125: Unpack & Attack");
-        task_names.Add("130: Unknown, nothing?");
+        task_names.Add("130: Deleted");
         task_names.Add("131: Off-Map Trade");
         task_names.Add("132: Pickup Unit");
         task_names.Add("133: Charge Attack");
@@ -55,10 +54,22 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         task_names.Add("135: Kidnap Unit");
         task_names.Add("136: Deposit Unit");
         task_names.Add("149: Shear");
-        if (GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2)
+        if (GenieVersion <= genie::GV_LatestDE2)
         {
-            task_names.Add("150: Regeneration");
-            task_names.Add("151: Feitoria Ability");
+            if (GenieVersion == genie::GV_Cysion)
+            {
+                task_names.Add("150: Regeneration");
+                task_names.Add("151: Feitoria Ability");
+            }
+            else
+            {
+                task_names.Add("150: Deleted");
+                task_names.Add("151: Generate Resources");
+                task_names.Add("152: Movement Damage");
+                task_names.Add("153: Movable Drop Site");
+                task_names.Add("154: Loot");
+                task_names.Add("155: Aura");
+            }
         }
     }
     Tasks_ActionType_ComboBox->Flash();

@@ -2865,7 +2865,11 @@ wxString AGE_Frame::GetUnitCommandName(int index)
         case 136: taskNameId = CommandType - 95; break;
         case 149:
         case 150:
-        case 151: taskNameId = CommandType - 107; break;
+        case 151:
+        case 152:
+        case 153:
+        case 154:
+        case 155: taskNameId = CommandType - 107; break;
         default: taskNameId = task_names.size();
     }
     if (taskNameId < task_names.size())
@@ -3050,7 +3054,7 @@ void AGE_Frame::OnUnitCommandSelect(wxCommandEvent &event)
         {
             Tasks_ActionType_ComboBox->SetChoice(task_ptr->ActionType - 96);
         }
-        else if (task_ptr->ActionType >= 149 && task_ptr->ActionType <= 151)
+        else if (task_ptr->ActionType >= 149 && task_ptr->ActionType <= 155)
         {
             Tasks_ActionType_ComboBox->SetChoice(task_ptr->ActionType - 108);
         }
@@ -6564,7 +6568,7 @@ void AGE_Frame::CreateUnitControls()
         {
             Tasks_ActionType->SetAsText(selection + 96);
         }
-        else if (selection < 44)
+        else if (selection < 48)
         {
             Tasks_ActionType->SetAsText(selection + 108);
         }
