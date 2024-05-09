@@ -504,7 +504,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     }
 
     modify_research_names.Clear();
-    if (GameVersion == EV_UP)
+    if (isAoE2DE || GameVersion == EV_UP)
     {
         modify_research_names.Add("-1 - Set Time");
         modify_research_names.Add("-2 - Add Time");
@@ -512,6 +512,21 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         modify_research_names.Add("1 - Set Wood Cost");
         modify_research_names.Add("2 - Set Stone Cost");
         modify_research_names.Add("3 - Set Gold Cost");
+    }
+    if (isAoE2DE)
+    {
+        modify_research_names.Add("4 - Set Research Location");
+        modify_research_names.Add("5 - Set Research Button");
+        modify_research_names.Add("6 - Set Icon");
+        modify_research_names.Add("7 - Set Name");
+        modify_research_names.Add("8 - Set Description");
+        modify_research_names.Add("9 - Set Stacking");
+        modify_research_names.Add("10 - Set Stacking Research Cap");
+        modify_research_names.Add("11 - Set Hotkey");
+        modify_research_names.Add("12 - Set Enabled");
+    }
+    if (isAoE2DE || GameVersion == EV_UP)
+    {
         modify_research_names.Add("16384 - Add Food Cost");
         modify_research_names.Add("16385 - Add Wood Cost");
         modify_research_names.Add("16386 - Add Stone Cost");
@@ -574,15 +589,16 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     effect_type_names.Add("3 - Upgrade Unit");
     effect_type_names.Add("4 - Attribute Modifier (+/-)");
     effect_type_names.Add("5 - Attribute Modifier (Multiply)");
-    if (GenieVersion >= genie::GV_AoKA || GenieVersion < genie::GV_Tapsa && GenieVersion > genie::GV_LatestTap)
+    if (GenieVersion >= genie::GV_AoKA || GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
     {
         effect_type_names.Add("6 - Resource Modifier (Multiply)");
     }
     if (isAoE2DE)
     {
         effect_type_names.Add("7 - Spawn Unit");
+        effect_type_names.Add("8 - Modify Tech");
     }
-    if (GameVersion == EV_UP)
+    else if (GameVersion == EV_UP)
     {
         effect_type_names.Add("7 - Enable/Disable/Force Multiuse Tech");
         effect_type_names.Add("8 - Modify Tech");
@@ -601,8 +617,9 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     if (isAoE2DE)
     {
         effect_type_names.Add("17 - Team Spawn Unit");
+        effect_type_names.Add("18 - Team Modify Tech");
     }
-    if (GameVersion == EV_UP)
+    else if (GameVersion == EV_UP)
     {
         effect_type_names.Add("17 - Team Enable/Disable/Force Multiuse Tech");
         effect_type_names.Add("18 - Team Modify Tech");
@@ -621,12 +638,16 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     if (isAoE2DE)
     {
         effect_type_names.Add("27 - Enemy Spawn Unit");
+        effect_type_names.Add("28 - Enemy Modify Tech");
     }
-    if (GameVersion == EV_UP)
+    else if (GameVersion == EV_UP)
     {
         effect_type_names.Add("27 - Enemy Enable/Disable/Force Multiuse Tech");
         effect_type_names.Add("28 - Enemy Modify Tech");
         effect_type_names.Add("29 - Enemy Set Player Civ Name");
+    }
+    if (isAoE2DE || GameVersion == EV_UP)
+    {
         effect_type_names.Add("30 - Neutral Attribute Modifier (Set)");
         effect_type_names.Add("31 - Neutral Resource Modifier (Set/+/-)");
         effect_type_names.Add("32 - Neutral Enable/Disable Unit");
@@ -634,46 +655,74 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         effect_type_names.Add("34 - Neutral Attribute Modifier (+/-)");
         effect_type_names.Add("35 - Neutral Attribute Modifier (Multiply)");
         effect_type_names.Add("36 - Neutral Resource Modifier (Multiply)");
+    }
+    if (isAoE2DE)
+    {
+        effect_type_names.Add("37 - Neutral Spawn Unit");
+        effect_type_names.Add("38 - Neutral Modify Tech");
+    }
+    else if (GameVersion == EV_UP)
+    {
         effect_type_names.Add("37 - Neutral Enable/Disable/Force Multiuse Tech");
         effect_type_names.Add("38 - Neutral Modify Tech");
         effect_type_names.Add("39 - Neutral Set Player Civ Name");
     }
-    if (GenieVersion >= genie::GV_AoKA || GenieVersion < genie::GV_Tapsa && GenieVersion > genie::GV_LatestTap)
+    if (isAoE2DE)
+    {
+        effect_type_names.Add("40 - Gaia Attribute Modifier (Set)");
+        effect_type_names.Add("41 - Gaia Resource Modifier (Set/+/-)");
+        effect_type_names.Add("42 - Gaia Enable/Disable Unit");
+        effect_type_names.Add("43 - Gaia Upgrade Unit");
+        effect_type_names.Add("44 - Gaia Attribute Modifier (+/-)");
+        effect_type_names.Add("45 - Gaia Attribute Modifier (Multiply)");
+        effect_type_names.Add("46 - Gaia Resource Modifier (Multiply)");
+        effect_type_names.Add("47 - Gaia Spawn Unit");
+        effect_type_names.Add("48 - Gaia Modify Tech");
+    }
+    if (GenieVersion >= genie::GV_AoKA || GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
     {
         effect_type_names.Add("101 - Tech Cost Modifier (Set/+/-)");
     }
     effect_type_names.Add("102 - Disable Tech");
-    if (GenieVersion >= genie::GV_AoKA || GenieVersion < genie::GV_Tapsa && GenieVersion > genie::GV_LatestTap)
+    if (GenieVersion >= genie::GV_AoKA || GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
     {
         effect_type_names.Add("103 - Tech Time Modifier (Set/+/-)");
     }
     Effects_Type_ComboBox->Flash();
 
     // Special selection logic that takes into account gaps in the list above.
-    if (GenieVersion >= genie::GV_AoKA || GenieVersion < genie::GV_Tapsa && GenieVersion > genie::GV_LatestTap)
+    if (GenieVersion >= genie::GV_AoKA || GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
     {
         if (GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2)
         {
             if (GenieVersion >= genie::GV_C2)
             {
-                // Types 0 to 7, 10 to 17, 20 to 27 and 101 to 103 only.
+                // Types 0 to 8, 10 to 18, 20 to 28, 30 to 38, 40 to 48 and 101 to 103 only.
                 SetEffectTypeChoice = [](LinkedComboBox *linkedComboBox, short value)
                 {
-                    if (value >= 0 && value <= 7)
+                    if (value >= 0 && value <= 8)
                     {
                         linkedComboBox->SetChoice(value);
                     }
-                    else if (value >= 10 && value <= 17)
+                    else if (value >= 10 && value <= 18)
+                    {
+                        linkedComboBox->SetChoice(value - 1);
+                    }
+                    else if (value >= 20 && value <= 28)
                     {
                         linkedComboBox->SetChoice(value - 2);
                     }
-                    else if (value >= 20 && value <= 27)
+                    else if (value >= 30 && value <= 38)
+                    {
+                        linkedComboBox->SetChoice(value - 3);
+                    }
+                    else if (value >= 40 && value <= 48)
                     {
                         linkedComboBox->SetChoice(value - 4);
                     }
                     else if (value >= 101 && value <= 103)
                     {
-                        linkedComboBox->SetChoice(value - 77);
+                        linkedComboBox->SetChoice(value - 56);
                     }
                     else
                     {
@@ -682,21 +731,29 @@ void AGE_Frame::FillListsBasedOnGameVersion()
                 };
                 OnChooseEffectType = [](AGETextCtrl *linkedTextBox, unsigned selection)
                 {
-                    if (selection < 8)
+                    if (selection < 9)
                     {
                         linkedTextBox->SetAsText(selection);
                     }
-                    else if (selection < 16)
+                    else if (selection < 18)
                     {
-                        linkedTextBox->SetAsText(selection + 2);
-                    }
-                    else if (selection < 24)
-                    {
-                        linkedTextBox->SetAsText(selection + 4);
+                        linkedTextBox->SetAsText(selection + 1);
                     }
                     else if (selection < 27)
                     {
-                        linkedTextBox->SetAsText(selection + 77);
+                        linkedTextBox->SetAsText(selection + 2);
+                    }
+                    else if (selection < 36)
+                    {
+                        linkedTextBox->SetAsText(selection + 3);
+                    }
+                    else if (selection < 45)
+                    {
+                        linkedTextBox->SetAsText(selection + 4);
+                    }
+                    else if (selection < 48)
+                    {
+                        linkedTextBox->SetAsText(selection + 56);
                     }
                     else
                     {

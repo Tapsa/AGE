@@ -13,6 +13,12 @@ I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2024.5.9[/b]:
+-Fixed display issues with some technology effect types.
+AoE II DE:
+-Added missing technology effect types.
+-Named more unit task action types.
+
 Version [b]2024.5.2[/b]:
 -Registry defaults also work in the 64-bit version.
 AoE II DE:
@@ -20,11 +26,6 @@ AoE II DE:
 -Named more effect unit attributes.
 -Named more player resources.
 -Improved resource store mode and hide in editor tooltips.
-
-Known Issues:
-AoE II DE:
--Missing some effect command types.
--Missing some unit task action types.
 
 Version [b]2024.4.18[/b]:
 -Added warning when saving into steamapps.

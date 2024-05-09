@@ -224,6 +224,9 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
     wxString Name;
     switch(dataset->Effects[tech].EffectCommands[effect].Type)
     {
+        case 40:
+            Name = "Gaia ";
+            goto AttributeModifierSet;
         case 30:
             Name = "Neutral ";
             goto AttributeModifierSet;
@@ -238,6 +241,9 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             Name += "Set " + Tester(dataset->Effects[tech].EffectCommands[effect], " to ");
             break;
         }
+        case 41:
+            Name = "Gaia ";
+            goto ResourceModifierSet;
         case 31:
             Name = "Neutral ";
             goto ResourceModifierSet;
@@ -266,6 +272,9 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
                 }
             }
             break;
+        case 42:
+            Name = "Gaia ";
+            goto DisableEnable;
         case 32:
             Name = "Neutral ";
             goto DisableEnable;
@@ -282,6 +291,9 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
                 Name += "Enable";
             Name += " unit "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A);
             break;
+        case 43:
+            Name = "Gaia ";
+            goto UpgradeUnit;
         case 33:
             Name = "Neutral ";
             goto UpgradeUnit;
@@ -299,6 +311,9 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
                 Name += dataset->Effects[tech].EffectCommands[effect].C == -1 ? ", all" : ", on map";
             }
             break;
+        case 44:
+            Name = "Gaia ";
+            goto AttributeModifier;
         case 34:
             Name = "Neutral ";
             goto AttributeModifier;
@@ -313,6 +328,9 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             Name += "Change " + Tester(dataset->Effects[tech].EffectCommands[effect], " by ");
             break;
         }
+        case 45:
+            Name = "Gaia ";
+            goto AttributeModifierMultiply;
         case 35:
             Name = "Neutral ";
             goto AttributeModifierMultiply;
@@ -327,6 +345,9 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             Name += "Multiply " + Tester(dataset->Effects[tech].EffectCommands[effect], " by ");
             break;
         }
+        case 46:
+            Name = "Gaia ";
+            goto ResourceModifierMultiply;
         case 36:
             Name = "Neutral ";
             goto ResourceModifierMultiply;
@@ -340,6 +361,9 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             Name += "Multiply resource "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
             +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             break;
+        case 47:
+            Name = "Gaia ";
+            goto SpawnUnit;
         case 37:
             Name = "Neutral ";
             goto SpawnUnit;
@@ -372,6 +396,9 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
                 }
             }
             break;
+        case 48:
+            Name = "Gaia ";
+            goto ModifyTech;
         case 38:
             Name = "Neutral ";
             goto ModifyTech;
@@ -382,33 +409,107 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             Name = "Team ";
         case 8:
         ModifyTech:
+        {
+            if (dataset->Effects[tech].EffectCommands[effect].B == -1)
             {
-                if(dataset->Effects[tech].EffectCommands[effect].B == -2)
+                Name += "Set tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    + " research time to " + FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            }
+            else if (dataset->Effects[tech].EffectCommands[effect].B == -2)
+            {
+                Name += "Modify tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    + " research time by " + FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            }
+            else if (dataset->Effects[tech].EffectCommands[effect].B >= 0 && dataset->Effects[tech].EffectCommands[effect].B <= 3)
+            {
+                Name += "Set tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    + " cost type " + FormatInt(dataset->Effects[tech].EffectCommands[effect].B)
+                    + " to " + FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            }
+            else if (dataset->Effects[tech].EffectCommands[effect].B >= 16384 && dataset->Effects[tech].EffectCommands[effect].B <= 16387)
+            {
+                Name += "Modify tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    + " cost type " + FormatInt(dataset->Effects[tech].EffectCommands[effect].B - 16384)
+                    + " by " + FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            }
+            else if (dataset->Effects[tech].EffectCommands[effect].B == 4)
+            {
+                Name += "Set tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    + " research location to " + FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            }
+            else if (dataset->Effects[tech].EffectCommands[effect].B == 5)
+            {
+                Name += "Set tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    + " research button to " + FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            }
+            else if (dataset->Effects[tech].EffectCommands[effect].B == 6)
+            {
+                Name += "Set tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    + " icon to " + FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            }
+            else if (dataset->Effects[tech].EffectCommands[effect].B == 7)
+            {
+                Name += "Set tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    + " name to " + FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            }
+            else if (dataset->Effects[tech].EffectCommands[effect].B == 8)
+            {
+                Name += "Set tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    + " description to " + FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            }
+            else if (dataset->Effects[tech].EffectCommands[effect].B == 9)
+            {
+                if (dataset->Effects[tech].EffectCommands[effect].D)
                 {
-                    Name += "Modify tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                    +" research time"
-                    +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
-                }
-                else if(dataset->Effects[tech].EffectCommands[effect].B >= 0 && dataset->Effects[tech].EffectCommands[effect].B <= 3)
-                {
-                    Name += "Modify tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                    +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B)
-                    +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
-                }
-                else if(dataset->Effects[tech].EffectCommands[effect].B >= 16384 && dataset->Effects[tech].EffectCommands[effect].B <= 16387)
-                {
-                    Name += "Modify tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                    +" cost type "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B - 16384)
-                    +" by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                    Name += "Enable tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A) + " stacking";
                 }
                 else
                 {
-                    Name += "Modify tech "+FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
-                    +" research time"
-                    +" to "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+                    Name += "Disable tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A) + " stacking";
+                }
+            }
+            else if (dataset->Effects[tech].EffectCommands[effect].B == 10)
+            {
+                Name += "Set tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    + " stacking cap to " + FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            }
+            else if (dataset->Effects[tech].EffectCommands[effect].B == 11)
+            {
+                Name += "Set tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A)
+                    + " hotkey to " + FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
+            }
+            else if (dataset->Effects[tech].EffectCommands[effect].B == 12)
+            {
+                switch (static_cast<int>(dataset->Effects[tech].EffectCommands[effect].D))
+                {
+                    case 0:
+                    {
+                        Name += "Disable tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A);
+                        break;
+                    }
+                    case 1:
+                    {
+                        Name += "Enable tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A);
+                        break;
+                    }
+                    case 2:
+                    {
+                        Name += "Force tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A);
+                        break;
+                    }
+                    case 3:
+                    {
+                        Name += "Research tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A);
+                        break;
+                    }
+                    default:
+                    {
+                        Name += "Tech " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A);
+                    }
                 }
             }
             break;
+        }
         case 39:
             Name = "Neutral ";
             goto SetPlayerCivName;
@@ -515,6 +616,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
     {
         getSelectedItems(selections, Techs_Effects_ListV, EffectIDs);
         Effects_Type_Holder->Show(true);
+        bool NeverHide = Effects_NeverHide->GetValue();
 
         for (size_t loop = selections; loop-- > 0;)
         {
@@ -544,563 +646,937 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
             Effects_89_Type_Text->SetLabel("Type ");
         };
 
-        bool NeverHide = Effects_NeverHide->GetValue();
-        switch (EffectPointer->Type)
+        auto ShowSetAttributeModifier = [&]()
         {
-            case 20:
-            case 30:
-                if (GenieVersion != genie::GV_TC)
-                {
-                    goto noup;
-                }
-            case 0:
-            case 10:
-            {
-                Effects_A_ComboBox->SwapList(&unit_names);
-                Effects_A_ComboBox->Show(true);
-                Effects_B_CheckBox->Show(false);
-                Effects_B_ComboBox->TakeControl();
-                Effects_B_ComboBox->SwapList(&class_names);
-                Effects_B_ComboBox->Show(true);
-                Effects_C_CheckBox->Show(false);
-                Effects_C_ComboBox->TakeControl();
-                Effects_C_ComboBox->SwapList(&effect_attribute_names);
-                Effects_C_ComboBox->Show(true);
-                techAttributeNameId = EffectPointer->C;
-                Effects_D_ComboBox->Show(false);
-                Effects_A->Show(true);
-                Effects_B->Show(true);
-                Effects_C->Show(true);
+            Effects_A_ComboBox->SwapList(&unit_names);
+            Effects_A_ComboBox->Show(true);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->TakeControl();
+            Effects_B_ComboBox->SwapList(&class_names);
+            Effects_B_ComboBox->Show(true);
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->TakeControl();
+            Effects_C_ComboBox->SwapList(&effect_attribute_names);
+            Effects_C_ComboBox->Show(true);
+            techAttributeNameId = EffectPointer->C;
+            Effects_D_ComboBox->Show(false);
+            Effects_A->Show(true);
+            Effects_B->Show(true);
+            Effects_C->Show(true);
 
-                Effects_A_Text->SetLabel("Unit ");
-                Effects_B_Text->SetLabel("Class ");
-                Effects_C_Text->SetLabel("Attribute ");
+            Effects_A_Text->SetLabel("Unit ");
+            Effects_B_Text->SetLabel("Class ");
+            Effects_C_Text->SetLabel("Attribute ");
+            Effects_D_Text->SetLabel("Amount [Set] ");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel("");
+
+            if (EffectPointer->C == 8 || EffectPointer->C == 9)
+            {
+                enableD = NeverHide;
+                Populate89(EffectPointer->D);
+            }
+            else
+            {
+                Effects_D->Show(true);
+                Effects_89_Amount->Show(false);
+                Effects_89_Type->Show(false);
+                Effects_89_Type_CB1->Show(false);
+                Effects_89_Type_Text->SetLabel("");
+            }
+        };
+
+        auto ShowSetOrChangeResourceModifier = [&]()
+        {
+            bool DE2 = GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2;
+            Effects_A_ComboBox->SwapList(&resource_names);
+            Effects_A_ComboBox->Show(true);
+            Effects_B_CheckBox->TakeControl();
+            Effects_B_CheckBox->Show(true);
+            Effects_B_ComboBox->Show(false);
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->SwapList(&resource_names);
+            Effects_C_ComboBox->Show(DE2);
+            Effects_D_ComboBox->Show(false);
+            Effects_89_Type_CB1->Show(false);
+            Effects_A->Show(true);
+            Effects_B->Show(true);
+            Effects_C->Show(NeverHide || DE2);
+            Effects_D->Show(true);
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+
+            Effects_A_Text->SetLabel("Resource ");
+            Effects_B_Text->SetLabel("Mode ");
+            Effects_C_Text->SetLabel("Resource [*] ");
+            if (EffectPointer->B == 0)
+            {
                 Effects_D_Text->SetLabel("Amount [Set] ");
-
-                Effects_Info_B->SetLabel("");
-                Effects_Info_C->SetLabel("");
-
-                if (EffectPointer->C == 8 || EffectPointer->C == 9)
-                {
-                    enableD = NeverHide;
-                    Populate89(EffectPointer->D);
-                }
-                else
-                {
-                    Effects_D->Show(true);
-                    Effects_89_Amount->Show(false);
-                    Effects_89_Type->Show(false);
-                    Effects_89_Type_CB1->Show(false);
-                    Effects_89_Type_Text->SetLabel("");
-                }
             }
-            break;
-            case 21:
-            case 31:
-                if (GenieVersion != genie::GV_TC)
-                {
-                    goto noup;
-                }
-            case 1:
-            case 11:
+            else
             {
-                bool DE2 = GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2;
-                Effects_A_ComboBox->SwapList(&resource_names);
-                Effects_A_ComboBox->Show(true);
-                Effects_B_CheckBox->TakeControl();
-                Effects_B_CheckBox->Show(true);
-                Effects_B_ComboBox->Show(false);
-                Effects_C_CheckBox->Show(false);
-                Effects_C_ComboBox->SwapList(&resource_names);
-                Effects_C_ComboBox->Show(DE2);
-                Effects_D_ComboBox->Show(false);
-                Effects_89_Type_CB1->Show(false);
-                Effects_A->Show(true);
-                Effects_B->Show(true);
-                Effects_C->Show(NeverHide || DE2);
+                Effects_D_Text->SetLabel("Amount [+/-] ");
+            }
+            Effects_89_Type_Text->SetLabel("");
+
+            Effects_Info_B->SetLabel(" [ ] = Set, [X] = +/-");
+            Effects_Info_C->SetLabel(DE2 ? " [>=0] = Multiply with" : "");
+        };
+
+        auto ShowEnableDisableUnit = [&]()
+        {
+            Effects_A_ComboBox->SwapList(&unit_names);
+            Effects_A_ComboBox->Show(true);
+            Effects_B_CheckBox->TakeControl();
+            Effects_B_CheckBox->Show(true);
+            Effects_B_ComboBox->Show(false);
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->Show(false);
+            Effects_D_ComboBox->Show(false);
+            Effects_89_Type_CB1->Show(false);
+            Effects_A->Show(true);
+            Effects_B->Show(true);
+            Effects_C->Show(NeverHide);
+            Effects_D->Show(NeverHide);
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+
+            Effects_A_Text->SetLabel("Unit ");
+            Effects_B_Text->SetLabel("Mode ");
+            Effects_C_Text->SetLabel("Unused ");
+            Effects_D_Text->SetLabel("Unused ");
+            Effects_89_Type_Text->SetLabel("");
+
+            Effects_Info_B->SetLabel(" [ ] = Disable, [X] = Enable");
+            Effects_Info_C->SetLabel("");
+        };
+
+        auto ShowUpgradeUnit = [&]()
+        {
+            bool DE2 = GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2;
+            Effects_A_ComboBox->SwapList(&unit_names);
+            Effects_A_ComboBox->Show(true);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->TakeControl();
+            Effects_B_ComboBox->SwapList(&unit_names);
+            Effects_B_ComboBox->Show(true);
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->Show(false);
+            Effects_D_ComboBox->Show(false);
+            Effects_89_Type_CB1->Show(false);
+            Effects_A->Show(true);
+            Effects_B->Show(true);
+            Effects_C->Show(NeverHide || DE2);
+            Effects_D->Show(NeverHide);
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+
+            Effects_A_Text->SetLabel("Unit ");
+            Effects_B_Text->SetLabel("To Unit ");
+            Effects_C_Text->SetLabel("Mode ");
+            Effects_D_Text->SetLabel("Unused ");
+            Effects_89_Type_Text->SetLabel("");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel(DE2 ? " [-1] = All, [!-1] = On map" : "");
+        };
+
+        auto ShowChangeAttributeModifier = [&]()
+        {
+            Effects_A_ComboBox->SwapList(&unit_names);
+            Effects_A_ComboBox->Show(true);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->TakeControl();
+            Effects_B_ComboBox->SwapList(&class_names);
+            Effects_B_ComboBox->Show(true);
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->TakeControl();
+            Effects_C_ComboBox->SwapList(&effect_attribute_names);
+            Effects_C_ComboBox->Show(true);
+            techAttributeNameId = EffectPointer->C;
+            Effects_D_ComboBox->Show(false);
+            Effects_A->Show(true);
+            Effects_B->Show(true);
+            Effects_C->Show(true);
+
+            Effects_A_Text->SetLabel("Unit ");
+            Effects_B_Text->SetLabel("Class ");
+            Effects_C_Text->SetLabel("Attribute ");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel("");
+
+            if (EffectPointer->C == 8 || EffectPointer->C == 9)
+            {
+                enableD = NeverHide;
+                Populate89(EffectPointer->D);
+                Effects_D_Text->SetLabel("Amount [+] ");
+            }
+            else
+            {
                 Effects_D->Show(true);
                 Effects_89_Amount->Show(false);
                 Effects_89_Type->Show(false);
-
-                Effects_A_Text->SetLabel("Resource ");
-                Effects_B_Text->SetLabel("Mode ");
-                Effects_C_Text->SetLabel("Resource [*] ");
-                if (EffectPointer->B == 0)
-                {
-                    Effects_D_Text->SetLabel("Amount [Set] ");
-                }
-                else
-                {
-                    Effects_D_Text->SetLabel("Amount [+/-] ");
-                }
-                Effects_89_Type_Text->SetLabel("");
-
-                Effects_Info_B->SetLabel(" [ ] = Set, [X] = +/-");
-                Effects_Info_C->SetLabel(DE2 ? " [>=0] = Multiply with" : "");
-            }
-            break;
-            case 22:
-            case 32:
-                if (GenieVersion != genie::GV_TC)
-                {
-                    goto noup;
-                }
-            case 2:
-            case 12:
-            {
-                Effects_A_ComboBox->SwapList(&unit_names);
-                Effects_A_ComboBox->Show(true);
-                Effects_B_CheckBox->TakeControl();
-                Effects_B_CheckBox->Show(true);
-                Effects_B_ComboBox->Show(false);
-                Effects_C_CheckBox->Show(false);
-                Effects_C_ComboBox->Show(false);
-                Effects_D_ComboBox->Show(false);
                 Effects_89_Type_CB1->Show(false);
-                Effects_A->Show(true);
-                Effects_B->Show(true);
-                Effects_C->Show(NeverHide);
-                Effects_D->Show(NeverHide);
-                Effects_89_Amount->Show(false);
-                Effects_89_Type->Show(false);
-
-                Effects_A_Text->SetLabel("Unit ");
-                Effects_B_Text->SetLabel("Mode ");
-                Effects_C_Text->SetLabel("Unused ");
-                Effects_D_Text->SetLabel("Unused ");
+                Effects_D_Text->SetLabel("Amount [+/-] ");
                 Effects_89_Type_Text->SetLabel("");
-
-                Effects_Info_B->SetLabel(" [ ] = Disable, [X] = Enable");
-                Effects_Info_C->SetLabel("");
             }
-            break;
-            case 23:
-            case 33:
-                if (GenieVersion != genie::GV_TC)
-                {
-                    goto noup;
-                }
-            case 3:
-            case 13:
+        };
+
+        auto ShowMultiplyAttributeModifier = [&]()
+        {
+            Effects_A_ComboBox->SwapList(&unit_names);
+            Effects_A_ComboBox->Show(true);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->TakeControl();
+            Effects_B_ComboBox->SwapList(&class_names);
+            Effects_B_ComboBox->Show(true);
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->TakeControl();
+            Effects_C_ComboBox->SwapList(&effect_attribute_names);
+            Effects_C_ComboBox->Show(true);
+            techAttributeNameId = EffectPointer->C;
+            Effects_D_ComboBox->Show(false);
+            Effects_A->Show(true);
+            Effects_B->Show(true);
+            Effects_C->Show(true);
+
+            Effects_A_Text->SetLabel("Unit ");
+            Effects_B_Text->SetLabel("Class ");
+            Effects_C_Text->SetLabel("Attribute ");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel("");
+
+            if (EffectPointer->C == 8 || EffectPointer->C == 9)
             {
-                bool DE2 = GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2;
-                Effects_A_ComboBox->SwapList(&unit_names);
-                Effects_A_ComboBox->Show(true);
-                Effects_B_CheckBox->Show(false);
-                Effects_B_ComboBox->TakeControl();
-                Effects_B_ComboBox->SwapList(&unit_names);
-                Effects_B_ComboBox->Show(true);
-                Effects_C_CheckBox->Show(false);
-                Effects_C_ComboBox->Show(false);
-                Effects_D_ComboBox->Show(false);
-                Effects_89_Type_CB1->Show(false);
-                Effects_A->Show(true);
-                Effects_B->Show(true);
-                Effects_C->Show(NeverHide || DE2);
-                Effects_D->Show(NeverHide);
-                Effects_89_Amount->Show(false);
-                Effects_89_Type->Show(false);
-
-                Effects_A_Text->SetLabel("Unit ");
-                Effects_B_Text->SetLabel("To Unit ");
-                Effects_C_Text->SetLabel("Mode ");
-                Effects_D_Text->SetLabel("Unused ");
-                Effects_89_Type_Text->SetLabel("");
-
-                Effects_Info_B->SetLabel("");
-                Effects_Info_C->SetLabel(DE2 ? " [-1] = All, [!-1] = On map" : "");
+                enableD = NeverHide;
+                Populate89(EffectPointer->D);
+                Effects_D_Text->SetLabel("Amount [%] ");
             }
-            break;
-            case 24:
-            case 34:
-                if (GenieVersion != genie::GV_TC)
-                {
-                    goto noup;
-                }
-            case 4:
-            case 14:
+            else
             {
-                Effects_A_ComboBox->SwapList(&unit_names);
-                Effects_A_ComboBox->Show(true);
-                Effects_B_CheckBox->Show(false);
-                Effects_B_ComboBox->TakeControl();
-                Effects_B_ComboBox->SwapList(&class_names);
-                Effects_B_ComboBox->Show(true);
-                Effects_C_CheckBox->Show(false);
-                Effects_C_ComboBox->TakeControl();
-                Effects_C_ComboBox->SwapList(&effect_attribute_names);
-                Effects_C_ComboBox->Show(true);
-                techAttributeNameId = EffectPointer->C;
-                Effects_D_ComboBox->Show(false);
-                Effects_A->Show(true);
-                Effects_B->Show(true);
-                Effects_C->Show(true);
-
-                Effects_A_Text->SetLabel("Unit ");
-                Effects_B_Text->SetLabel("Class ");
-                Effects_C_Text->SetLabel("Attribute ");
-
-                Effects_Info_B->SetLabel("");
-                Effects_Info_C->SetLabel("");
-
-                if (EffectPointer->C == 8 || EffectPointer->C == 9)
-                {
-                    enableD = NeverHide;
-                    Populate89(EffectPointer->D);
-                    Effects_D_Text->SetLabel("Amount [+] ");
-                }
-                else
-                {
-                    Effects_D->Show(true);
-                    Effects_89_Amount->Show(false);
-                    Effects_89_Type->Show(false);
-                    Effects_89_Type_CB1->Show(false);
-                    Effects_D_Text->SetLabel("Amount [+/-] ");
-                    Effects_89_Type_Text->SetLabel("");
-                }
-            }
-            break;
-            case 25:
-            case 35:
-                if (GenieVersion != genie::GV_TC)
-                {
-                    goto noup;
-                }
-            case 5:
-            case 15:
-            {
-                Effects_A_ComboBox->SwapList(&unit_names);
-                Effects_A_ComboBox->Show(true);
-                Effects_B_CheckBox->Show(false);
-                Effects_B_ComboBox->TakeControl();
-                Effects_B_ComboBox->SwapList(&class_names);
-                Effects_B_ComboBox->Show(true);
-                Effects_C_CheckBox->Show(false);
-                Effects_C_ComboBox->TakeControl();
-                Effects_C_ComboBox->SwapList(&effect_attribute_names);
-                Effects_C_ComboBox->Show(true);
-                techAttributeNameId = EffectPointer->C;
-                Effects_D_ComboBox->Show(false);
-                Effects_A->Show(true);
-                Effects_B->Show(true);
-                Effects_C->Show(true);
-
-                Effects_A_Text->SetLabel("Unit ");
-                Effects_B_Text->SetLabel("Class ");
-                Effects_C_Text->SetLabel("Attribute ");
-
-                Effects_Info_B->SetLabel("");
-                Effects_Info_C->SetLabel("");
-
-                if (EffectPointer->C == 8 || EffectPointer->C == 9)
-                {
-                    enableD = NeverHide;
-                    Populate89(EffectPointer->D);
-                    Effects_D_Text->SetLabel("Amount [%] ");
-                }
-                else
-                {
-                    Effects_D->Show(true);
-                    Effects_89_Amount->Show(false);
-                    Effects_89_Type->Show(false);
-                    Effects_89_Type_CB1->Show(false);
-                    Effects_D_Text->SetLabel("Amount [*] ");
-                    Effects_89_Type_Text->SetLabel("");
-                }
-            }
-            break;
-            case 26:
-            case 36:
-                if (GenieVersion != genie::GV_TC)
-                {
-                    goto noup;
-                }
-            case 6:
-            case 16:
-            {
-                Effects_A_ComboBox->SwapList(&resource_names);
-                Effects_A_ComboBox->Show(true);
-                Effects_B_CheckBox->Show(false);
-                Effects_B_ComboBox->Show(false);
-                Effects_C_CheckBox->Show(false);
-                Effects_C_ComboBox->Show(false);
-                Effects_D_ComboBox->Show(false);
-                Effects_89_Type_CB1->Show(false);
-                Effects_A->Show(true);
-                Effects_B->Show(NeverHide);
-                Effects_C->Show(NeverHide);
                 Effects_D->Show(true);
                 Effects_89_Amount->Show(false);
                 Effects_89_Type->Show(false);
-
-                Effects_A_Text->SetLabel("Resource ");
-                Effects_B_Text->SetLabel("Unused ");
-                Effects_C_Text->SetLabel("Unused ");
+                Effects_89_Type_CB1->Show(false);
                 Effects_D_Text->SetLabel("Amount [*] ");
                 Effects_89_Type_Text->SetLabel("");
-
-                Effects_Info_B->SetLabel("");
-                Effects_Info_C->SetLabel("");
             }
-            break;
-            case 27:
-            case 37:
-                if (GenieVersion != genie::GV_TC)
+        };
+
+        auto ShowMultiplyResourceModifier = [&]()
+        {
+            Effects_A_ComboBox->SwapList(&resource_names);
+            Effects_A_ComboBox->Show(true);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->Show(false);
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->Show(false);
+            Effects_D_ComboBox->Show(false);
+            Effects_89_Type_CB1->Show(false);
+            Effects_A->Show(true);
+            Effects_B->Show(NeverHide);
+            Effects_C->Show(NeverHide);
+            Effects_D->Show(true);
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+
+            Effects_A_Text->SetLabel("Resource ");
+            Effects_B_Text->SetLabel("Unused ");
+            Effects_C_Text->SetLabel("Unused ");
+            Effects_D_Text->SetLabel("Amount [*] ");
+            Effects_89_Type_Text->SetLabel("");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel("");
+        };
+
+        auto ShowEnableTech = [&]()
+        {
+            Effects_A_ComboBox->Show(false);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->Show(false);
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->Show(false);
+            Effects_D_ComboBox->Show(true);
+            Effects_89_Type_CB1->Show(false);
+            Effects_A->Show(NeverHide);
+            Effects_B->Show(true);
+            Effects_B->SetToolTip("0 Disable\n1 Enable\n2 Force enable");
+            Effects_C->Show(NeverHide);
+            Effects_D->Show(true);
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+
+            Effects_A_Text->SetLabel("Unused ");
+            Effects_B_Text->SetLabel("Action * ");
+            Effects_C_Text->SetLabel("Unused ");
+            Effects_D_Text->SetLabel("Tech ");
+            Effects_89_Type_Text->SetLabel("");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel("");
+        };
+
+        auto ShowSpawnUnit = [&]()
+        {
+            Effects_A_ComboBox->SwapList(&unit_names);
+            Effects_A_ComboBox->Show(true);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->TakeControl();
+            Effects_B_ComboBox->SwapList(&unit_names);
+            Effects_B_ComboBox->Show(true);
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->Show(false);
+            Effects_D_ComboBox->Show(false);
+            Effects_89_Type_CB1->Show(false);
+            Effects_A->Show(true);
+            Effects_B->Show(true);
+            Effects_C->Show(true);
+            Effects_D->Show(NeverHide);
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+
+            Effects_A_Text->SetLabel("Unit ");
+            Effects_B_Text->SetLabel("From Building ");
+            Effects_C_Text->SetLabel("Amount ");
+            Effects_D_Text->SetLabel("Unused ");
+            Effects_89_Type_Text->SetLabel("");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel("");
+        };
+
+        auto ShowModifyTech = [&]()
+        {
+            Effects_A_ComboBox->SwapList(&research_names);
+            Effects_A_ComboBox->Show(true);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->TakeControl();
+            Effects_B_ComboBox->SwapList(&modify_research_names);
+            Effects_B_ComboBox->Show(true);
+            techResearchNameId = EffectPointer->B;
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->Show(false);
+            Effects_D_ComboBox->Show(false);
+            Effects_A->Show(true);
+            Effects_B->Show(true);
+            Effects_B->SetToolTip("0-3 and 16384-16387 only work if the tech has the corresponding cost/storage set");
+            Effects_C->Show(false);
+
+            Effects_A_Text->SetLabel("Tech ");
+            Effects_B_Text->SetLabel("Action * ");
+            Effects_C_Text->SetLabel("Unused ");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel("");
+
+            Effects_D->Show(true);
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+            Effects_89_Type_CB1->Show(false);
+            Effects_D_Text->SetLabel("Amount ");
+            Effects_89_Type_Text->SetLabel("");
+        };
+
+        auto ShowSetPlayerCivName = [&]()
+        {
+            Effects_A_ComboBox->Show(false);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->Show(false);
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->Show(false);
+            Effects_D_ComboBox->Show(false);
+            Effects_89_Type_CB1->Show(false);
+            Effects_A->Show(true);
+            Effects_A->SetToolTip("Needs to be 0, do not touch");
+            Effects_B->Show(true);
+            Effects_B->SetToolTip("Needs to be 0, do not touch");
+            Effects_C->Show(NeverHide);
+            Effects_D->Show(true);
+            Effects_D->SetToolTip("An ID from the language file");
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+
+            Effects_A_Text->SetLabel("Data * ");
+            Effects_B_Text->SetLabel("Action * ");
+            Effects_C_Text->SetLabel("Unused ");
+            Effects_D_Text->SetLabel("Lang ID * ");
+            Effects_89_Type_Text->SetLabel("");
+
+            Effects_A->SetValue("0");
+            Effects_A->SaveEdits();
+            Effects_B->SetValue("0");
+            Effects_B->SaveEdits();
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel("");
+        };
+
+        auto ShowTechCostModifier = [&]()
+        {
+            Effects_A_ComboBox->SwapList(&research_names);
+            Effects_A_ComboBox->Show(true);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->TakeControl();
+            Effects_B_ComboBox->SwapList(&resource_names);
+            Effects_B_ComboBox->Show(true);
+            Effects_C_CheckBox->TakeControl();
+            Effects_C_CheckBox->Show(true);
+            Effects_C_ComboBox->Show(false);
+            Effects_D_ComboBox->Show(false);
+            Effects_89_Type_CB1->Show(false);
+            Effects_A->Show(true);
+            Effects_B->Show(true);
+            Effects_C->Show(true);
+            Effects_D->Show(true);
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+
+            Effects_A_Text->SetLabel("Tech ");
+            Effects_B_Text->SetLabel("Resource ");
+            Effects_C_Text->SetLabel("Mode ");
+            if (EffectPointer->C == 0)
+            {
+                Effects_D_Text->SetLabel("Amount [Set] ");
+            }
+            else
+            {
+                Effects_D_Text->SetLabel("Amount [+/-] ");
+            }
+            Effects_89_Type_Text->SetLabel("");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel(" [ ] = Set, [X] = +/-");
+        };
+
+        auto ShowDisableTech = [&]()
+        {
+            Effects_A_ComboBox->Show(false);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->Show(false);
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->Show(false);
+            Effects_D_ComboBox->Show(true);
+            Effects_89_Type_CB1->Show(false);
+            Effects_A->Show(NeverHide);
+            Effects_B->Show(NeverHide);
+            Effects_C->Show(NeverHide);
+            Effects_D->Show(true);
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+
+            Effects_A_Text->SetLabel("Unused ");
+            Effects_B_Text->SetLabel("Unused ");
+            Effects_C_Text->SetLabel("Unused ");
+            Effects_D_Text->SetLabel("Tech ");
+            Effects_89_Type_Text->SetLabel("");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel("");
+        };
+
+        auto ShowTechTimeModifier = [&]()
+        {
+            Effects_A_ComboBox->SwapList(&research_names);
+            Effects_A_ComboBox->Show(true);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->Show(false);
+            Effects_C_CheckBox->TakeControl();
+            Effects_C_CheckBox->Show(true);
+            Effects_C_ComboBox->Show(false);
+            Effects_D_ComboBox->Show(false);
+            Effects_89_Type_CB1->Show(false);
+            Effects_A->Show(true);
+            Effects_B->Show(NeverHide);
+            Effects_C->Show(true);
+            Effects_D->Show(true);
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+
+            Effects_A_Text->SetLabel("Tech ");
+            Effects_B_Text->SetLabel("Unused ");
+            Effects_C_Text->SetLabel("Mode ");
+            if (EffectPointer->C == 0)
+            {
+                Effects_D_Text->SetLabel("Amount [Set] ");
+            }
+            else
+            {
+                Effects_D_Text->SetLabel("Amount [+/-] ");
+            }
+            Effects_89_Type_Text->SetLabel("");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel(" [ ] = Set, [X] = +/-");
+        };
+
+        auto ShowNothing = [&]()
+        {
+            Effects_A_ComboBox->Show(false);
+            Effects_B_CheckBox->Show(false);
+            Effects_B_ComboBox->Show(false);
+            Effects_C_CheckBox->Show(false);
+            Effects_C_ComboBox->Show(false);
+            Effects_D_ComboBox->Show(false);
+            Effects_89_Type_CB1->Show(false);
+            Effects_A->Show(NeverHide);
+            Effects_B->Show(NeverHide);
+            Effects_C->Show(NeverHide);
+            Effects_D->Show(NeverHide);
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+
+            Effects_A_Text->SetLabel("Attribute A ");
+            Effects_B_Text->SetLabel("Attribute B ");
+            Effects_C_Text->SetLabel("Attribute C ");
+            Effects_D_Text->SetLabel("Attribute D ");
+            Effects_89_Type_Text->SetLabel("");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel("");
+        };
+
+        switch (EffectPointer->Type)
+        {
+            case 0:
+            {
+                ShowSetAttributeModifier();
+                break;
+            }
+            case 1:
+            {
+                ShowSetOrChangeResourceModifier();
+                break;
+            }
+            case 2:
+            {
+                ShowEnableDisableUnit();
+                break;
+            }
+            case 3:
+            {
+                ShowUpgradeUnit();
+                break;
+            }
+            case 4:
+            {
+                ShowChangeAttributeModifier();
+                break;
+            }
+            case 5:
+            {
+                ShowMultiplyAttributeModifier();
+                break;
+            }
+            case 6:
+            {
+                if (GenieVersion >= genie::GV_AoKA || GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
                 {
-                    goto noup;
+                    ShowMultiplyResourceModifier();
                 }
-            case 7:
-            case 17:
-                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                else
                 {
-                    Effects_A_ComboBox->SwapList(&unit_names);
-                    Effects_A_ComboBox->Show(true);
-                    Effects_B_CheckBox->Show(false);
-                    Effects_B_ComboBox->TakeControl();
-                    Effects_B_ComboBox->SwapList(&unit_names);
-                    Effects_B_ComboBox->Show(true);
-                    Effects_C_CheckBox->Show(false);
-                    Effects_C_ComboBox->Show(false);
-                    Effects_D_ComboBox->Show(false);
-                    Effects_89_Type_CB1->Show(false);
-                    Effects_A->Show(true);
-                    Effects_B->Show(true);
-                    Effects_C->Show(true);
-                    Effects_D->Show(NeverHide);
-                    Effects_89_Amount->Show(false);
-                    Effects_89_Type->Show(false);
-
-                    Effects_A_Text->SetLabel("Unit ");
-                    Effects_B_Text->SetLabel("From Building ");
-                    Effects_C_Text->SetLabel("Amount ");
-                    Effects_D_Text->SetLabel("Unused ");
-                    Effects_89_Type_Text->SetLabel("");
-
-                    Effects_Info_B->SetLabel("");
-                    Effects_Info_C->SetLabel("");
-                }
-                if (GameVersion == EV_UP)
-                {
-                    Effects_A_ComboBox->Show(false);
-                    Effects_B_CheckBox->Show(false);
-                    Effects_B_ComboBox->Show(false);
-                    Effects_C_CheckBox->Show(false);
-                    Effects_C_ComboBox->Show(false);
-                    Effects_D_ComboBox->Show(true);
-                    Effects_89_Type_CB1->Show(false);
-                    Effects_A->Show(NeverHide);
-                    Effects_B->Show(true);
-                    Effects_B->SetToolTip("0 Disable\n1 Enable\n2 Force enable");
-                    Effects_C->Show(NeverHide);
-                    Effects_D->Show(true);
-                    Effects_89_Amount->Show(false);
-                    Effects_89_Type->Show(false);
-
-                    Effects_A_Text->SetLabel("Unused ");
-                    Effects_B_Text->SetLabel("Action * ");
-                    Effects_C_Text->SetLabel("Unused ");
-                    Effects_D_Text->SetLabel("Tech ");
-                    Effects_89_Type_Text->SetLabel("");
-
-                    Effects_Info_B->SetLabel("");
-                    Effects_Info_C->SetLabel("");
+                    ShowNothing();
                 }
                 break;
+            }
+            case 7:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowSpawnUnit();
+                }
+                else if (GameVersion == EV_UP)
+                {
+                    ShowEnableTech();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
             case 8:
             case 18:
             case 28:
             case 38:
             {
-                Effects_A_ComboBox->SwapList(&research_names);
-                Effects_A_ComboBox->Show(true);
-                Effects_B_CheckBox->Show(false);
-                Effects_B_ComboBox->TakeControl();
-                Effects_B_ComboBox->SwapList(&modify_research_names);
-                Effects_B_ComboBox->Show(true);
-                techResearchNameId = EffectPointer->B;
-                Effects_C_CheckBox->Show(false);
-                Effects_C_ComboBox->Show(false);
-                Effects_D_ComboBox->Show(false);
-                Effects_A->Show(true);
-                Effects_B->Show(true);
-                Effects_B->SetToolTip("0-3 and 16384-16387 only work if the tech has the corresponding cost/storage set");
-                Effects_C->Show(false);
-
-                Effects_A_Text->SetLabel("Tech ");
-                Effects_B_Text->SetLabel("Action * ");
-                Effects_C_Text->SetLabel("Unused ");
-
-                Effects_Info_B->SetLabel("");
-                Effects_Info_C->SetLabel("");
-
-                Effects_D->Show(true);
-                Effects_89_Amount->Show(false);
-                Effects_89_Type->Show(false);
-                Effects_89_Type_CB1->Show(false);
-                Effects_D_Text->SetLabel("Amount ");
-                Effects_89_Type_Text->SetLabel("");
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowModifyTech();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
             }
-            break;
             case 9:
             case 19:
             case 29:
             case 39:
             {
-                Effects_A_ComboBox->Show(false);
-                Effects_B_CheckBox->Show(false);
-                Effects_B_ComboBox->Show(false);
-                Effects_C_CheckBox->Show(false);
-                Effects_C_ComboBox->Show(false);
-                Effects_D_ComboBox->Show(false);
-                Effects_89_Type_CB1->Show(false);
-                Effects_A->Show(true);
-                Effects_A->SetToolTip("Needs to be 0, do not touch");
-                Effects_B->Show(true);
-                Effects_B->SetToolTip("Needs to be 0, do not touch");
-                Effects_C->Show(NeverHide);
-                Effects_D->Show(true);
-                Effects_D->SetToolTip("An ID from the language file");
-                Effects_89_Amount->Show(false);
-                Effects_89_Type->Show(false);
-
-                Effects_A_Text->SetLabel("Data * ");
-                Effects_B_Text->SetLabel("Action * ");
-                Effects_C_Text->SetLabel("Unused ");
-                Effects_D_Text->SetLabel("Lang ID * ");
-                Effects_89_Type_Text->SetLabel("");
-
-                Effects_A->SetValue("0");
-                Effects_A->SaveEdits();
-                Effects_B->SetValue("0");
-                Effects_B->SaveEdits();
-
-                Effects_Info_B->SetLabel("");
-                Effects_Info_C->SetLabel("");
+                if (GameVersion == EV_UP)
+                {
+                    ShowSetPlayerCivName();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
             }
-            break;
+            case 10:
+            {
+                if (GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowSetAttributeModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 11:
+            {
+                if (GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowSetOrChangeResourceModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 12:
+            {
+                if (GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowEnableDisableUnit();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 13:
+            {
+                if (GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowUpgradeUnit();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 14:
+            {
+                if (GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowChangeAttributeModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 15:
+            {
+                if (GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowMultiplyAttributeModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 16:
+            {
+                if (GenieVersion >= genie::GV_Cysion && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowMultiplyResourceModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 17:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowSpawnUnit();
+                }
+                else if (GameVersion == EV_UP)
+                {
+                    ShowEnableTech();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 20:
+            case 30:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowSetAttributeModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 21:
+            case 31:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowSetOrChangeResourceModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 22:
+            case 32:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowEnableDisableUnit();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 23:
+            case 33:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowUpgradeUnit();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 24:
+            case 34:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowChangeAttributeModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 25:
+            case 35:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowMultiplyAttributeModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 26:
+            case 36:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2 || GameVersion == EV_UP)
+                {
+                    ShowMultiplyResourceModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 27:
+            case 37:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowSpawnUnit();
+                }
+                else if (GameVersion == EV_UP)
+                {
+                    ShowEnableTech();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 40:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowSetAttributeModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 41:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowSetOrChangeResourceModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 42:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowEnableDisableUnit();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 43:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowUpgradeUnit();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 44:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowChangeAttributeModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 45:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowMultiplyAttributeModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 46:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowMultiplyResourceModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 47:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowSpawnUnit();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 48:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowModifyTech();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
             case 101:
             {
-                Effects_A_ComboBox->SwapList(&research_names);
-                Effects_A_ComboBox->Show(true);
-                Effects_B_CheckBox->Show(false);
-                Effects_B_ComboBox->TakeControl();
-                Effects_B_ComboBox->SwapList(&resource_names);
-                Effects_B_ComboBox->Show(true);
-                Effects_C_CheckBox->TakeControl();
-                Effects_C_CheckBox->Show(true);
-                Effects_C_ComboBox->Show(false);
-                Effects_D_ComboBox->Show(false);
-                Effects_89_Type_CB1->Show(false);
-                Effects_A->Show(true);
-                Effects_B->Show(true);
-                Effects_C->Show(true);
-                Effects_D->Show(true);
-                Effects_89_Amount->Show(false);
-                Effects_89_Type->Show(false);
-
-                Effects_A_Text->SetLabel("Tech ");
-                Effects_B_Text->SetLabel("Resource ");
-                Effects_C_Text->SetLabel("Mode ");
-                if (EffectPointer->C == 0)
+                if (GenieVersion >= genie::GV_AoKA || GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
                 {
-                    Effects_D_Text->SetLabel("Amount [Set] ");
+                    ShowTechCostModifier();
                 }
                 else
                 {
-                    Effects_D_Text->SetLabel("Amount [+/-] ");
+                    ShowNothing();
                 }
-                Effects_89_Type_Text->SetLabel("");
-
-                Effects_Info_B->SetLabel("");
-                Effects_Info_C->SetLabel(" [ ] = Set, [X] = +/-");
+                break;
             }
-            break;
             case 102:
             {
-                Effects_A_ComboBox->Show(false);
-                Effects_B_CheckBox->Show(false);
-                Effects_B_ComboBox->Show(false);
-                Effects_C_CheckBox->Show(false);
-                Effects_C_ComboBox->Show(false);
-                Effects_D_ComboBox->Show(true);
-                Effects_89_Type_CB1->Show(false);
-                Effects_A->Show(NeverHide);
-                Effects_B->Show(NeverHide);
-                Effects_C->Show(NeverHide);
-                Effects_D->Show(true);
-                Effects_89_Amount->Show(false);
-                Effects_89_Type->Show(false);
-
-                Effects_A_Text->SetLabel("Unused ");
-                Effects_B_Text->SetLabel("Unused ");
-                Effects_C_Text->SetLabel("Unused ");
-                Effects_D_Text->SetLabel("Tech ");
-                Effects_89_Type_Text->SetLabel("");
-
-                Effects_Info_B->SetLabel("");
-                Effects_Info_C->SetLabel("");
+                ShowDisableTech();
+                break;
             }
-            break;
             case 103:
             {
-                Effects_A_ComboBox->SwapList(&research_names);
-                Effects_A_ComboBox->Show(true);
-                Effects_B_CheckBox->Show(false);
-                Effects_B_ComboBox->Show(false);
-                Effects_C_CheckBox->TakeControl();
-                Effects_C_CheckBox->Show(true);
-                Effects_C_ComboBox->Show(false);
-                Effects_D_ComboBox->Show(false);
-                Effects_89_Type_CB1->Show(false);
-                Effects_A->Show(true);
-                Effects_B->Show(NeverHide);
-                Effects_C->Show(true);
-                Effects_D->Show(true);
-                Effects_89_Amount->Show(false);
-                Effects_89_Type->Show(false);
-
-                Effects_A_Text->SetLabel("Tech ");
-                Effects_B_Text->SetLabel("Unused ");
-                Effects_C_Text->SetLabel("Mode ");
-                if (EffectPointer->C == 0)
+                if (GenieVersion >= genie::GV_AoKA || GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
                 {
-                    Effects_D_Text->SetLabel("Amount [Set] ");
+                    ShowTechTimeModifier();
                 }
                 else
                 {
-                    Effects_D_Text->SetLabel("Amount [+/-] ");
+                    ShowNothing();
                 }
-                Effects_89_Type_Text->SetLabel("");
-
-                Effects_Info_B->SetLabel("");
-                Effects_Info_C->SetLabel(" [ ] = Set, [X] = +/-");
+                break;
             }
-            break;
-        noup:
             default:
             {
-                Effects_A_ComboBox->Show(false);
-                Effects_B_CheckBox->Show(false);
-                Effects_B_ComboBox->Show(false);
-                Effects_C_CheckBox->Show(false);
-                Effects_C_ComboBox->Show(false);
-                Effects_D_ComboBox->Show(false);
-                Effects_89_Type_CB1->Show(false);
-                Effects_A->Show(NeverHide);
-                Effects_B->Show(NeverHide);
-                Effects_C->Show(NeverHide);
-                Effects_D->Show(NeverHide);
-                Effects_89_Amount->Show(false);
-                Effects_89_Type->Show(false);
-
-                Effects_A_Text->SetLabel("Attribute A ");
-                Effects_B_Text->SetLabel("Attribute B ");
-                Effects_C_Text->SetLabel("Attribute C ");
-                Effects_D_Text->SetLabel("Attribute D ");
-                Effects_89_Type_Text->SetLabel("");
-
-                Effects_Info_B->SetLabel("");
-                Effects_Info_C->SetLabel("");
+                ShowNothing();
             }
         }
     }
@@ -1145,21 +1621,43 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
     }
     if (techResearchNameId != plainId)
     {
-        if (techResearchNameId == -2)
+        if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
         {
-            Effects_B_ComboBox->SetSelection(1);
+            if (techResearchNameId == -2)
+            {
+                Effects_B_ComboBox->SetSelection(1);
+            }
+            else if (techResearchNameId >= 0 && techResearchNameId <= 12)
+            {
+                Effects_B_ComboBox->SetSelection(techResearchNameId + 2);
+            }
+            else if (techResearchNameId >= 16384 && techResearchNameId <= 16387)
+            {
+                Effects_B_ComboBox->SetSelection(techResearchNameId - 16369);
+            }
+            else
+            {
+                Effects_B_ComboBox->SetSelection(0);
+            }
         }
-        else if (techResearchNameId >= 0 && techResearchNameId <= 3)
+        else if (GameVersion == EV_UP)
         {
-            Effects_B_ComboBox->SetSelection(techResearchNameId + 2);
-        }
-        else if (techResearchNameId >= 16384 && techResearchNameId <= 16387)
-        {
-            Effects_B_ComboBox->SetSelection(techResearchNameId - 16378);
-        }
-        else
-        {
-            Effects_B_ComboBox->SetSelection(0);
+            if (techResearchNameId == -2)
+            {
+                Effects_B_ComboBox->SetSelection(1);
+            }
+            else if (techResearchNameId >= 0 && techResearchNameId <= 3)
+            {
+                Effects_B_ComboBox->SetSelection(techResearchNameId + 2);
+            }
+            else if (techResearchNameId >= 16384 && techResearchNameId <= 16387)
+            {
+                Effects_B_ComboBox->SetSelection(techResearchNameId - 16378);
+            }
+            else
+            {
+                Effects_B_ComboBox->SetSelection(0);
+            }
         }
     }
 //  Refresh(); // Too much lag.
@@ -1581,19 +2079,51 @@ void AGE_Frame::CreateTechControls()
     {
         if (techResearchNameId != plainId)
         {
-            switch (event.GetSelection())
+            if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
             {
-                case 0: Effects_B->ChangeValue("-1"); break;
-                case 1: Effects_B->ChangeValue("-2"); break;
-                case 2: Effects_B->ChangeValue("0"); break;
-                case 3: Effects_B->ChangeValue("1"); break;
-                case 4: Effects_B->ChangeValue("2"); break;
-                case 5: Effects_B->ChangeValue("3"); break;
-                case 6: Effects_B->ChangeValue("16384"); break;
-                case 7: Effects_B->ChangeValue("16385"); break;
-                case 8: Effects_B->ChangeValue("16386"); break;
-                case 9: Effects_B->ChangeValue("16387"); break;
-                default: Effects_B->ChangeValue("-1");
+                if (event.GetSelection() == 0)
+                {
+                    Effects_B->ChangeValue("-1");
+                }
+                else if (event.GetSelection() == 1)
+                {
+                    Effects_B->ChangeValue("-2");
+                }
+                else if (event.GetSelection() < 15)
+                {
+                    Effects_B->SetAsText(event.GetSelection() - 2);
+                }
+                else if (event.GetSelection() < 19)
+                {
+                    Effects_B->SetAsText(event.GetSelection() + 16369);
+                }
+                else
+                {
+                    Effects_B->ChangeValue("-1");
+                }
+            }
+            else if (GameVersion == EV_UP)
+            {
+                if (event.GetSelection() == 0)
+                {
+                    Effects_B->ChangeValue("-1");
+                }
+                else if (event.GetSelection() == 1)
+                {
+                    Effects_B->ChangeValue("-2");
+                }
+                else if (event.GetSelection() < 6)
+                {
+                    Effects_B->SetAsText(event.GetSelection() - 2);
+                }
+                else if (event.GetSelection() < 10)
+                {
+                    Effects_B->SetAsText(event.GetSelection() + 16378);
+                }
+                else
+                {
+                    Effects_B->ChangeValue("-1");
+                }
             }
             Effects_B->SaveEdits();
         }
