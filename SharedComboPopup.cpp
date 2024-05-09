@@ -478,48 +478,6 @@ void SharedComboPopup::OnChar(wxKeyEvent &event)
     event.Skip();
 }
 
-/*void SharedComboPopup::Insert(const wxString &item, int pos)
-{
-    // Need to change selection?
-    wxString strValue;
-    if(!(m_combo->GetWindowStyle() & wxCB_READONLY) &&
-         m_combo->GetValue() == item)
-    {
-        m_value = pos;
-    }
-
-    s_strings->Insert(item,pos);
-    m_widths.Insert(-1,pos);
-    m_widthsDirty = true;
-
-    if(IsCreated())
-        wxVListBox::SetItemCount(wxVListBox::GetItemCount()+1);
-}*/
-
-/*int SharedComboPopup::Append(const wxString &item)
-{
-    int pos = (int)s_strings->GetCount();
-
-    if(m_combo->GetWindowStyle() & wxCB_SORT)
-    {
-        // Find position
-        // TODO: Could be optimized with binary search
-
-        for(unsigned int i=0; i<s_strings->GetCount(); ++i)
-        {
-            if(item.CmpNoCase(s_strings->Item(i)) <= 0)
-            {
-                pos = (int)i;
-                break;
-            }
-        }
-    }
-
-    Insert(item,pos);
-
-    return pos;
-}*/
-
 void SharedComboPopup::Clear()
 {
     wxASSERT(m_combo);
@@ -535,26 +493,6 @@ void SharedComboPopup::Clear()
         wxVListBox::SetItemCount(0);
 }
 
-/*void SharedComboPopup::Delete(unsigned int item)
-{
-    s_strings->RemoveAt(item);
-    m_widths.RemoveAt(item);
-
-    if((int)item == m_widestItem)
-        m_findWidest = true;
-
-    int sel = GetSelection();
-
-    if(IsCreated())
-        wxVListBox::SetItemCount(wxVListBox::GetItemCount()-1);
-
-    // Fix selection
-    if((int)item < sel)
-        SetSelection(sel-1);
-    else if((int)item == sel)
-        SetSelection(wxNOT_FOUND);
-}*/
-
 bool SharedComboPopup::FindItem(const wxString &item, wxString *trueItem)
 {
     int idx = s_strings->Index(item, false);
@@ -564,12 +502,6 @@ bool SharedComboPopup::FindItem(const wxString &item, wxString *trueItem)
         *trueItem = (*s_strings)[idx];
     return true;
 }
-
-/*void SharedComboPopup::SetString(int item, const wxString &str)
-{
-    (*s_strings)[item] = str;
-    ItemWidthChanged(item);
-}*/
 
 void SharedComboPopup::SetSelection(int item)
 {
@@ -724,32 +656,6 @@ wxSize SharedComboPopup::GetAdjustedSize(int minWidth, int prefHeight, int maxHe
     int widestWidth = m_widestWidth + wxSystemSettings::GetMetric(wxSYS_VSCROLL_X);
     return wxSize(minWidth > widestWidth ? minWidth : widestWidth, height+2);
 }
-
-/*void SharedComboPopup::Populate(const wxArrayString &choices)
-{
-    int n = choices.GetCount();
-
-    for(int i=0; i<n; ++i)
-    {
-        const wxString &item = choices.Item(i);
-        s_strings->Add(item);
-    }
-
-    m_widths.SetCount(n,-1);
-    m_widthsDirty = true;
-
-    if(IsCreated())
-        wxVListBox::SetItemCount(n);
-
-    // Sort the initial choices
-    if(m_combo->GetWindowStyle() & wxCB_SORT)
-        s_strings->Sort();
-
-    // Find initial selection
-    wxString strValue = m_combo->GetValue();
-    if(!strValue.empty())
-        m_value = s_strings->Index(strValue);
-}*/
 
 void SharedComboPopup::Imbue(wxArrayString *choices)
 {
