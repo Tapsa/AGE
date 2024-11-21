@@ -1,6 +1,7 @@
 #include "Common.h"
 #include "BaseMainFrame.h"
 #include "Main.h"
+#include <wx/tooltip.h>
 
 IMPLEMENT_APP(AGE)
 

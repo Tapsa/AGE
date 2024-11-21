@@ -41,7 +41,7 @@ void LoadPalettes(std::vector<std::vector<genie::Color>> &palettes, const wxStri
                 try
                 {
                     genie::PalFile pal;
-                    size_t cut = path.rfind('\\');
+                    size_t cut = path.rfind('/');
                     pal.load((path(0U, ++cut) + line(++splitter, static_cast<size_t>(-1))).c_str());
                     palettes.push_back(pal.getColors());
                 }
@@ -172,8 +172,9 @@ void LoadNextBatch(void)
     slp_cache.AdvanceProductionBatch();
 }
 
-void LRU_SLP::put(const wxString &key, const genie::SpriteFilePtr &slp)
+void LRU_SLP::put(const wxString &wxkey, const genie::SpriteFilePtr &slp)
 {
+    std::string key = wxkey.ToStdString();
     // Put key as first item.
     memory_in_use += slp->getSizeInMemory();
     map_it it = slp_cache_map.find(key);
@@ -195,14 +196,15 @@ void LRU_SLP::put(const wxString &key, const genie::SpriteFilePtr &slp)
             memory_in_use -= last->slp->getSizeInMemory();
             // Remember to unload before popping.
             last->slp->unload();
-            slp_cache_map.erase(last->key);
+            slp_cache_map.erase((last->key).ToStdString());
             slp_cache_list.erase(list_it(last++));
         }
     }
 }
 
-genie::SpriteFilePtr LRU_SLP::use(const wxString &key)
+genie::SpriteFilePtr LRU_SLP::use(const wxString &wxkey)
 {
+    std::string key = wxkey.ToStdString();
     map_it it = slp_cache_map.find(key);
     if (it == slp_cache_map.end())
     {

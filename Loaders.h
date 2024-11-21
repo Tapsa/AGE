@@ -42,7 +42,7 @@ class LRU_SLP
 {
 public:
     typedef typename std::list<CachedSprite>::iterator list_it;
-    typedef typename std::unordered_map<wxString, list_it>::iterator map_it;
+    typedef typename std::unordered_map<std::string, list_it>::iterator map_it;
 
     // Handle least recently used cache here.
     void put(const wxString &key, const genie::SpriteFilePtr &slp);
@@ -55,7 +55,7 @@ private:
     size_t production_batch = 0;
     size_t memory_in_use = 0;
     std::list<CachedSprite> slp_cache_list;
-    std::unordered_map<wxString, list_it> slp_cache_map;
+    std::unordered_map<std::string, list_it> slp_cache_map;
 };
 
 }

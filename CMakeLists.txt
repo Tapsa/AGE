@@ -1,4 +1,6 @@
 cmake_minimum_required(VERSION 3.7)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "-Wall -Wno-sign-compare -Wno-parentheses")
 
 project(AdvancedGenieEditor3)
 
@@ -11,15 +13,16 @@ set(Boost_USE_MULTITHREADED  ON)
 
 find_package(Boost 1.55 REQUIRED iostreams)
 
-find_package(wxWidgets REQUIRED core base)
+find_package(wxWidgets REQUIRED)
 include("${wxWidgets_USE_FILE}")
 
-find_package(SFML 2.4 REQUIRED system audio)
+find_package(SFML 2.4 REQUIRED audio)
 
 set(GUTILS_TOOLS FALSE)
 set(GUTILS_TEST FALSE)
 
 include_directories(
+    Precompile
     ${EXTERN_DIR}/genieutils/include
     ${SFML_INCLUDE_DIR}
     ${Boost_INCLUDE_DIRS})
@@ -68,7 +71,16 @@ set(AGE_SRC Precompile/Common.cpp
     Resources.rc
     )
 
-find_library(PSAPI psapi)
+add_executable(AdvancedGenieEditor3 ${AGE_SRC})
 
-add_executable(AdvancedGenieEditor3 WIN32 ${AGE_SRC})
-target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils ${PSAPI} ${SFML_LIBRARIES})
+if(WIN32)
+    find_library(PSAPI psapi)
+    add_executable(AdvancedGenieEditor3 WIN32 ${AGE_SRC})
+    target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils ${PSAPI} ${SFML_LIBRARIES})
+else()
+    # Find shared libraries next to the executable
+    set_target_properties(AdvancedGenieEditor3 PROPERTIES
+            BUILD_WITH_INSTALL_RPATH FALSE
+            LINK_FLAGS "-Wl,-rpath,$ORIGIN/")
+    target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils sfml-audio )
+endif()

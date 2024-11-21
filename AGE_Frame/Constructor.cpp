@@ -43,7 +43,11 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     font.SetPointSize(8);
     SetIcon(wxIcon(AppIcon32_xpm));
     SetFont(font);
-    displayScaling = FromDIP(1000) / 1000.f;
+    #if wxCHECK_VERSION(3, 2, 0)
+        displayScaling = FromDIP(1000) / 1000.f;
+    #else
+        displayScaling = 1.0f;
+    #endif
     TabBar_Main = new wxNotebook(this, eTabBar);
     openEditors[window] = this;
     {
@@ -428,7 +432,12 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
 // Fancy scaling :)
 void AGE_Frame::FixSize(float scale)
 {
-    wxRect maxSize(wxDisplay(this).GetClientArea());
+    #if wxCHECK_VERSION(3, 2, 0)
+        wxRect maxSize(wxDisplay(this).GetClientArea());
+    #else
+        int display = wxDisplay::GetFromWindow(this);
+        wxRect maxSize(wxDisplay(display).GetClientArea());
+    #endif    
     float minScrollerWidth = 630 * scale;
     int ScrollerWidth = Units_ScrollSpace->GetMinSize().GetWidth();
     if (ScrollerWidth > minScrollerWidth)
