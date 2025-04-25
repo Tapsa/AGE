@@ -24,9 +24,11 @@ public:
     int16_t SpawningGraphic = -1;
     int16_t UpgradeGraphic = -1;
     int16_t HeroGlowGraphic = -1;
+    int16_t IdleAttackGraphic = -1;
     int32_t GarrisonGraphic = -1;
     int32_t SpecialGraphic = -1;
     int16_t AttackGraphic = -1;
+    int16_t AttackGraphic2 = -1;
     int16_t WalkingGraphic = -1;
     int16_t RunningGraphic = -1;
 

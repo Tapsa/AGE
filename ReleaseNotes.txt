@@ -13,6 +13,15 @@ I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819
 [b]Version History[/b]
 Guide makers et cetera, please include the version into which your guide was written.
 
+Version [b]2025.4.25[/b]:
+-Fixed crash on exit.
+
+Version [b]2024.7.2[/b]:
+-Added unit attribute fields: "Charge Projectile Unit", "Attack Priority", "Invulnerability Level".
+
+Version [b]2024.5.27[/b]:
+-Added unit attribute fields: "Button Icon ID", "Short Tooltip ID", "Extended Tooltip ID", "Hotkey Action ID".
+
 Version [b]2024.5.9[/b]:
 -Fixed display issues with some technology effect types.
 AoE II DE:
@@ -138,6 +147,8 @@ Use the check boxes to toggle matching between all and any entries.
 
 Mikko "Tapsa" P, since 2.0b
 Manuel Winocur, since 2023
+Charles Harbord, since 2024
+Igor Djordjevic aka BugA_the_Great, since 2024
 Apre - genieutils, from 2011 to 2013
 Estien Nifo aka StSB77, from 1.0a to 2.0a
 

@@ -185,4 +185,7 @@
     <Text Include="ReleaseNotes.txt" />
     <Text Include="ReleaseNotesOld.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Readme.md" />
+  </ItemGroup>
 </Project>

@@ -797,7 +797,8 @@ void AGE_Frame::OnGameVersionChange()
         Units_TransformUnit_Holder->Show(show);
         Units_TransformSound_Holder->Show(show);
         Units_GarrisonType_Text->Show(show);
-        Units_GarrisonType_Holder->Show(show);
+        Units_GarrisonType->Show(show);
+        Units_GarrisonType_Grid->Show(show);
         Units_GarrisonHealRate_Text->Show(show);
         Units_GarrisonHealRate->Show(show);
         Units_PileUnit_Holder->Show(show);
@@ -1012,6 +1013,8 @@ void AGE_Frame::OnGameVersionChange()
         Units_HeroGlowGraphic_Holder->Show(emerge);
         Units_ResearchingGraphic_Holder->Show(emerge);
         Units_ResearchCompletedGraphic_Holder->Show(emerge);
+        Units_AttackGraphic2_Holder->Show(emerge);
+        Units_IdleAttackGraphic_Holder->Show(emerge);
         Units_MinCollisionSizeMultiplier_Holder->Show(emerge);
         Units_WwiseTrainSound->Show(emerge);
         Units_WwiseDamageSound->Show(emerge);
@@ -1021,10 +1024,24 @@ void AGE_Frame::OnGameVersionChange()
         Units_WwiseMoveSound->Show(emerge);
         Units_WwiseTransformSound->Show(emerge);
         Units_WwiseConstructionSound->Show(emerge);
+        Units_FriendlyFire_Holder->Show(emerge);
+        Units_DamageReflection_Holder->Show(emerge);
+        Units_InterruptFrame_Holder->Show(emerge);
+        Units_BonusDamageResistance_Holder->Show(emerge);
+        Units_GarrisonFirepower->Show(emerge);
+        Units_GarrisonFirepower_Text->Show(emerge);
+        Units_Charge_Grid->Show(emerge);
+        Units_ChargeTarget_Text->Show(emerge);
+        Units_ChargeTarget_Holder->Show(emerge);
+        Units_ChargeProjectileUnit_Holder->Show(show);
+        Units_AttackPriority_Holder->Show(show);
+        Units_InvulnerabilityLevel_Holder->Show(show);
+        Units_ButtonIconID_Holder->Show(show);
+        Units_ButtonShortTooltipID_Holder->Show(show);
+        Units_ButtonExtendedTooltipID_Holder->Show(show);
+        Units_ButtonHotkeyAction_Holder->Show(show);
         Units_DropSites_Buttons_Upper->Show(emerge);
         Units_DropSites_PasteInsert->Show(emerge);
-        Units_BonusDamageResistance_Holder->Show(emerge);
-        Units_Charge_Grid->Show(emerge);
         Units_ConversionChanceMod->Show(emerge);
         Units_ConversionChanceMod_Text->Show(emerge);
         Units_MaxConversionTimeMod->Show(emerge);
@@ -1289,7 +1306,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
                 }
                 GenieVersion = genie::GV_LatestDE2;
                 // Remember to update this version number!
-                dataset->FileVersion = "VER 7.8";
+                dataset->FileVersion = "VER 8.4";
             }
             else if(GenieVersion <= genie::GV_LatestTap && genie::GV_Tapsa <= GenieVersion)
             {

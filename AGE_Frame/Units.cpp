@@ -664,11 +664,32 @@ void AGE_Frame::PrepUnitSearch()
             return UF50 "BL " + FormatInt(unit_ptr->Type50.BlastAttackLevel);
         });
         else if (label.compare("Blast Damage") == 0)
-        { 
+        {
             UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
-                {
-                    return UF50 "BLD " + FormatFloat(unit_ptr->Type50.BlastDamage);
-                });
+            {
+                return UF50 "BLD " + FormatFloat(unit_ptr->Type50.BlastDamage);
+            });
+        }
+        else if (label.compare("Friendly Fire") == 0)
+        {
+            UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
+            {
+                return UF50 "FF " + FormatFloat(unit_ptr->Type50.FriendlyFireDamage);
+            });
+        }
+        else if (label.compare("Instant Karma") == 0)
+        {
+            UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
+            {
+                return UF50 "DR " + FormatFloat(unit_ptr->Type50.DamageReflection);
+            });
+        }
+        else if (label.compare("Interrupt Frame") == 0)
+        {
+            UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
+            {
+                return UF50 "IFr " + FormatInt(unit_ptr->Type50.InterruptFrame);
+            });
         }
         else if (label.compare("Min Range") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -684,6 +705,11 @@ void AGE_Frame::PrepUnitSearch()
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF50 "AG " + FormatInt(unit_ptr->Type50.AttackGraphic);
+        });
+        else if (label.compare("Attack Graphic 2") == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
+        {
+           return UF50 "AG " + FormatInt(unit_ptr->Type50.AttackGraphic2);
         });
         else if (label.compare("Displayed Melee Armor") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -816,6 +842,21 @@ void AGE_Frame::PrepUnitSearch()
         {
             return UF70 "AP " + FormatInt(unit_ptr->Creatable.SecondaryProjectileUnit);
         });
+        else if (label.compare("Charge Projectile Unit") == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "CPU " + FormatInt(unit_ptr->Creatable.ChargeProjectileUnit);
+        });
+        else if (label.compare("Attack Priority") == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "AtP " + FormatInt(unit_ptr->Creatable.AttackPriority);
+        });
+        else if (label.compare("Invulnerability Level") == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
+        {
+            return UF70 "IL " + FormatInt(unit_ptr->Creatable.InvulnerabilityLevel);
+        });
         else if (label.compare("Special Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
@@ -825,6 +866,26 @@ void AGE_Frame::PrepUnitSearch()
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "CM " + FormatInt(unit_ptr->Creatable.SpecialAbility);
+        });
+        else if (label.compare("Button Icon") == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
+        {
+            return UF70 "BTIID " + FormatInt(unit_ptr->Creatable.ButtonIconID);
+        });
+        else if (label.compare("Short Tooltip") == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
+        {
+            return UF70 "BTSTID " + FormatInt(unit_ptr->Creatable.ButtonShortTooltipID);
+        });
+        else if (label.compare("Long Tooltip") == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
+        {
+            return UF70 "BTETID " + FormatInt(unit_ptr->Creatable.ButtonExtendedTooltipID);
+        });
+        else if (label.compare("Hotkey Action") == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
+        {
+            return UF70 "BTHKA " + FormatInt(unit_ptr->Creatable.ButtonHotkeyAction);
         });
         else if (label.compare("Displayed Pierce Armor") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -861,10 +922,20 @@ void AGE_Frame::PrepUnitSearch()
         {
             return UF70 "CT " + FormatInt(unit_ptr->Creatable.ChargeType);
         });
+        else if (label.compare("Charge Target") == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
+        {
+            return UF70 "CTRG " + FormatInt(unit_ptr->Creatable.ChargeTarget);
+        });
         else if (label.compare("Hero Glow Graphic") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "HGG " + FormatInt(unit_ptr->Creatable.HeroGlowGraphic);
+        });
+        else if (label.compare("Idle Attack Graphic") == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
+        {
+            return UF70 "IAG " + FormatInt(unit_ptr->Creatable.IdleAttackGraphic);
         });
         else if (label.compare("Min Conversion Time Mod") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -875,6 +946,11 @@ void AGE_Frame::PrepUnitSearch()
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
             return UF70 "MaxCT " + FormatInt(unit_ptr->Creatable.MaxConversionTimeMod);
+        });
+        else if (label.compare("Garrison Firepower") == 0)
+        UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
+        {
+            return UF70 "GF " + FormatInt(unit_ptr->Type50.GarrisonFirepower);
         });
         else if (label.compare("Conversion Chance Mod") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -1264,6 +1340,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                                     Units_SpawningGraphic->prepend(&UnitPointer->Creatable.SpawningGraphic);
                                     Units_UpgradeGraphic->prepend(&UnitPointer->Creatable.UpgradeGraphic);
                                     Units_HeroGlowGraphic->prepend(&UnitPointer->Creatable.HeroGlowGraphic);
+                                    Units_IdleAttackGraphic->prepend(&UnitPointer->Creatable.IdleAttackGraphic);
                                 }
                             }
                             if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
@@ -1272,6 +1349,14 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                                 Units_RechargeRate->prepend(&UnitPointer->Creatable.RechargeRate);
                                 Units_ChargeEvent->prepend(&UnitPointer->Creatable.ChargeEvent);
                                 Units_ChargeType->prepend(&UnitPointer->Creatable.ChargeType);
+                                Units_ChargeTarget->prepend(&UnitPointer->Creatable.ChargeTarget);
+                                Units_ChargeProjectileUnit->prepend(&UnitPointer->Creatable.ChargeProjectileUnit);
+                                Units_AttackPriority->prepend(&UnitPointer->Creatable.AttackPriority);
+                                Units_InvulnerabilityLevel->prepend(&UnitPointer->Creatable.InvulnerabilityLevel);
+                                Units_ButtonIconID->prepend(&UnitPointer->Creatable.ButtonIconID);
+                                Units_ButtonShortTooltipID->prepend(&UnitPointer->Creatable.ButtonShortTooltipID);
+                                Units_ButtonExtendedTooltipID->prepend(&UnitPointer->Creatable.ButtonExtendedTooltipID);
+                                Units_ButtonHotkeyAction->prepend(&UnitPointer->Creatable.ButtonHotkeyAction);
                                 Units_MinConversionTimeMod->prepend(&UnitPointer->Creatable.MinConversionTimeMod);
                                 Units_MaxConversionTimeMod->prepend(&UnitPointer->Creatable.MaxConversionTimeMod);
                                 Units_ConversionChanceMod->prepend(&UnitPointer->Creatable.ConversionChanceMod);
@@ -1312,6 +1397,11 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                         {
                             Units_BonusDamageResistance->prepend(&UnitPointer->Type50.BonusDamageResistance);
                             Units_BlastDamage->prepend(&UnitPointer->Type50.BlastDamage);
+                            Units_FriendlyFireDamage->prepend(&UnitPointer->Type50.FriendlyFireDamage);
+                            Units_DamageReflection->prepend(&UnitPointer->Type50.DamageReflection);
+                            Units_InterruptFrame->prepend(&UnitPointer->Type50.InterruptFrame);
+                            Units_GarrisonFirepower->prepend(&UnitPointer->Type50.GarrisonFirepower);
+                            Units_AttackGraphic2->prepend(&UnitPointer->Type50.AttackGraphic2);
                         }
                     }
                 }
@@ -1520,18 +1610,33 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
     Units_DLL_HotKey4->index = 16000;
     if(UnitPointer)
     {
-        if(80 == unitType)
+        if (70 >= unitType)
         {
-            if(GenieVersion >= genie::GV_AoKA)
+            if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
             {
-                Units_GarrisonType_CheckBox[0]->SetValue(UnitPointer->Building.GarrisonType & 0x01);
-                Units_GarrisonType_CheckBox[1]->SetValue(UnitPointer->Building.GarrisonType & 0x02);
-                Units_GarrisonType_CheckBox[2]->SetValue(UnitPointer->Building.GarrisonType & 0x04);
-                Units_GarrisonType_CheckBox[3]->SetValue(UnitPointer->Building.GarrisonType & 0x08);
-                Units_GarrisonType_CheckBox[4]->SetValue(UnitPointer->Building.GarrisonType & 0x10);
-                Units_GarrisonType_CheckBox[5]->SetValue(UnitPointer->Building.GarrisonType & 0x20);
-                Units_GarrisonType_CheckBox[6]->SetValue(UnitPointer->Building.GarrisonType & 0x40);
-                Units_GarrisonType_CheckBox[7]->SetValue(UnitPointer->Building.GarrisonType & 0x80);
+                Units_ChargeTarget_CheckBox[0]->SetValue(UnitPointer->Creatable.ChargeTarget & 0x01);
+                Units_ChargeTarget_CheckBox[1]->SetValue(UnitPointer->Creatable.ChargeTarget & 0x02);
+                Units_ChargeTarget_CheckBox[2]->SetValue(UnitPointer->Creatable.ChargeTarget & 0x04);
+                Units_ChargeTarget_CheckBox[3]->SetValue(UnitPointer->Creatable.ChargeTarget & 0x08);
+                Units_ChargeTarget_CheckBox[4]->SetValue(UnitPointer->Creatable.ChargeTarget & 0x10);
+                Units_ChargeTarget_CheckBox[5]->SetValue(UnitPointer->Creatable.ChargeTarget & 0x20);
+                Units_ChargeTarget_CheckBox[6]->SetValue(UnitPointer->Creatable.ChargeTarget & 0x40);
+                Units_ChargeTarget_CheckBox[7]->SetValue(UnitPointer->Creatable.ChargeTarget & 0x80);
+                Units_ChargeTarget_CheckBox[8]->SetValue(UnitPointer->Creatable.ChargeTarget & 0x100);
+            }
+            if (80 == unitType)
+            {
+                if (GenieVersion >= genie::GV_AoKA)
+                {
+                    Units_GarrisonType_CheckBox[0]->SetValue(UnitPointer->Building.GarrisonType & 0x01);
+                    Units_GarrisonType_CheckBox[1]->SetValue(UnitPointer->Building.GarrisonType & 0x02);
+                    Units_GarrisonType_CheckBox[2]->SetValue(UnitPointer->Building.GarrisonType & 0x04);
+                    Units_GarrisonType_CheckBox[3]->SetValue(UnitPointer->Building.GarrisonType & 0x08);
+                    Units_GarrisonType_CheckBox[4]->SetValue(UnitPointer->Building.GarrisonType & 0x10);
+                    Units_GarrisonType_CheckBox[5]->SetValue(UnitPointer->Building.GarrisonType & 0x20);
+                    Units_GarrisonType_CheckBox[6]->SetValue(UnitPointer->Building.GarrisonType & 0x40);
+                    Units_GarrisonType_CheckBox[7]->SetValue(UnitPointer->Building.GarrisonType & 0x80);
+                }
             }
         }
         Units_DLL_LanguageName->index = UnitPointer->LanguageDLLName;
@@ -1869,9 +1974,11 @@ void AGE_Frame::UnitsGraphicsCopy(GraphicCopies &store, short civ, short unit)
         store.SpawningGraphic = dataset->Civs[civ].Units[unit].Creatable.SpawningGraphic;
         store.UpgradeGraphic = dataset->Civs[civ].Units[unit].Creatable.UpgradeGraphic;
         store.HeroGlowGraphic = dataset->Civs[civ].Units[unit].Creatable.HeroGlowGraphic;
+        store.IdleAttackGraphic = dataset->Civs[civ].Units[unit].Creatable.IdleAttackGraphic;
         case 60:
         case 50:
         store.AttackGraphic = dataset->Civs[civ].Units[unit].Type50.AttackGraphic;
+        store.AttackGraphic2 = dataset->Civs[civ].Units[unit].Type50.AttackGraphic2;
         case 40:
         case 30:
         store.WalkingGraphic = dataset->Civs[civ].Units[unit].DeadFish.WalkingGraphic;
@@ -1992,9 +2099,11 @@ void AGE_Frame::UnitsGraphicsPaste(GraphicCopies &store, short civ, short unit)
         dataset->Civs[civ].Units[unit].Creatable.SpawningGraphic = store.SpawningGraphic;
         dataset->Civs[civ].Units[unit].Creatable.UpgradeGraphic = store.UpgradeGraphic;
         dataset->Civs[civ].Units[unit].Creatable.HeroGlowGraphic = store.HeroGlowGraphic;
+        dataset->Civs[civ].Units[unit].Creatable.IdleAttackGraphic = store.IdleAttackGraphic;
         case 60:
         case 50:
         dataset->Civs[civ].Units[unit].Type50.AttackGraphic = store.AttackGraphic;
+        dataset->Civs[civ].Units[unit].Type50.AttackGraphic2 = store.AttackGraphic2;
         case 40:
         case 30:
         dataset->Civs[civ].Units[unit].DeadFish.WalkingGraphic = store.WalkingGraphic;
@@ -3420,9 +3529,9 @@ void AGE_Frame::CreateUnitControls()
     Units_StatsArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Statistics");
     Units_StatsArea1A_Sizer = new wxBoxSizer(wxHORIZONTAL);
     Units_StatsArea1B_Sizer = new wxBoxSizer(wxHORIZONTAL);
-    Units_Garrison_Grid = new wxFlexGridSizer(3, 0, 5);
+    Units_Garrison_Grid = new wxFlexGridSizer(4, 0, 5);
     Units_Resource_Grid = new wxFlexGridSizer(6, 0, 5);
-    Units_Charge_Grid = new wxFlexGridSizer(4, 0, 5);
+    Units_Charge_Grid = new wxFlexGridSizer(5, 0, 5);
     Units_ProjectileArea_Holder = new wxStaticBoxSizer(wxVERTICAL, Units_Scroller, "Projectiles");
     Units_P1 = new wxBoxSizer(wxHORIZONTAL);
     Units_P2 = new wxBoxSizer(wxHORIZONTAL);
@@ -3434,7 +3543,7 @@ void AGE_Frame::CreateUnitControls()
     Units_A3_Grid = new wxBoxSizer(wxHORIZONTAL);
     Units_A4_Grid = new wxBoxSizer(wxHORIZONTAL);
     Units_A5_Grid = new wxGridSizer(4, 0, 5);
-    Units_AM1_Grid = new wxFlexGridSizer(5, 5, 5);
+    Units_AM1_Grid = new wxFlexGridSizer(6, 5, 5);
     Units_AS_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_AS2_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_AS1_Grid = new wxBoxSizer(wxHORIZONTAL);
@@ -3571,6 +3680,9 @@ void AGE_Frame::CreateUnitControls()
     Units_GraphicDisplacement_Grid = new wxBoxSizer(wxHORIZONTAL);
     Units_BlastAttackLevel_Holder = new wxBoxSizer(wxVERTICAL);
     Units_BlastDamage_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_FriendlyFire_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_DamageReflection_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_InterruptFrame_Holder = new wxBoxSizer(wxVERTICAL);
     Units_MinRange_Holder = new wxBoxSizer(wxVERTICAL);
     Units_AccuracyDispersion_Holder = new wxBoxSizer(wxVERTICAL);
     Units_AttackGraphic_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3578,6 +3690,7 @@ void AGE_Frame::CreateUnitControls()
     Units_DisplayedAttack_Holder = new wxBoxSizer(wxVERTICAL);
     Units_DisplayedRange_Holder = new wxBoxSizer(wxVERTICAL);
     Units_DisplayedReloadTime_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_AttackGraphic2_Holder = new wxBoxSizer(wxVERTICAL);
 
 //  Type 60 only
 
@@ -3607,12 +3720,21 @@ void AGE_Frame::CreateUnitControls()
     Units_AttackMissileDuplicationSpawning_Holder = new wxBoxSizer(wxVERTICAL);
     Units_AttackMissileDuplicationSpawning_Grid = new wxBoxSizer(wxHORIZONTAL);
     Units_AttackMissileDuplicationUnit_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_ChargeProjectileUnit_Holder = new wxBoxSizer(wxVERTICAL);
     Units_ChargingGraphic_Holder = new wxBoxSizer(wxVERTICAL);
     Units_ChargingMode_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_AttackPriority_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_InvulnerabilityLevel_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_ButtonIconID_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_ButtonShortTooltipID_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_ButtonExtendedTooltipID_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_ButtonHotkeyAction_Holder = new wxBoxSizer(wxVERTICAL);
     Units_DisplayedPierceArmour_Holder = new wxBoxSizer(wxVERTICAL);
     Units_SpawningGraphic_Holder = new wxBoxSizer(wxVERTICAL);
     Units_UpgradeGraphic_Holder = new wxBoxSizer(wxVERTICAL);
     Units_HeroGlowGraphic_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_IdleAttackGraphic_Holder = new wxBoxSizer(wxVERTICAL);
+    Units_ChargeTarget_Holder = new wxBoxSizer(wxVERTICAL);
 
 //  Type 80
 
@@ -3638,7 +3760,6 @@ void AGE_Frame::CreateUnitControls()
     Units_TransformUnit_Holder = new wxBoxSizer(wxVERTICAL);
     Units_TransformSound_Holder = new wxBoxSizer(wxVERTICAL);
     Units_ConstructionSound_Holder = new wxBoxSizer(wxVERTICAL);
-    Units_GarrisonType_Holder = new wxBoxSizer(wxVERTICAL);
     Units_GarrisonRepairRate_Holder = new wxBoxSizer(wxVERTICAL);
     Units_PileUnit_Holder = new wxBoxSizer(wxVERTICAL);
     Units_LootSwitch_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3754,13 +3875,17 @@ void AGE_Frame::CreateUnitControls()
     Units_GraphicDisplacement_Text = new SolidText(Units_Scroller, " Graphic Displacement XYZ *");
     Units_BlastAttackLevel_Text = new SolidText(Units_Scroller, " Blast Attack Level *");
     Units_BlastDamage_Text = new SolidText(Units_Scroller, " Blast Damage *");
+    Units_FriendlyFire_Text = new SolidText(Units_Scroller, " Friendly Fire Damage *");
+    Units_DamageReflection_Text = new SolidText(Units_Scroller, " Instant Karma *"); // Sorry, need a short name for the layout.
+    Units_InterruptFrame_Text = new SolidText(Units_Scroller, " Interrupt Frame *");
     Units_MinRange_Text = new SolidText(Units_Scroller, " Min Range");
     Units_AccuracyDispersion_Text = new SolidText(Units_Scroller, " Attack Dispersion *");
     Units_AttackGraphic_Text = new SolidText(Units_Scroller, " Attack Graphic");
-    Units_DisplayedMeleeArmour_Text = new SolidText(Units_Scroller, " Shown Melee Armor");
-    Units_DisplayedAttack_Text = new SolidText(Units_Scroller, " Shown Attack");
-    Units_DisplayedRange_Text = new SolidText(Units_Scroller, " Shown Range");
-    Units_DisplayedReloadTime_Text = new SolidText(Units_Scroller, " Shown Reload Time");
+    Units_AttackGraphic2_Text = new SolidText(Units_Scroller, " Attack Graphic 2");
+    Units_DisplayedMeleeArmour_Text = new SolidText(Units_Scroller, " Displayed Melee Armor");
+    Units_DisplayedAttack_Text = new SolidText(Units_Scroller, " Displayed Attack");
+    Units_DisplayedRange_Text = new SolidText(Units_Scroller, " Displayed Range");
+    Units_DisplayedReloadTime_Text = new SolidText(Units_Scroller, " Displayed Reload Time");
 
 //  Type 60 only
 
@@ -3787,18 +3912,28 @@ void AGE_Frame::CreateUnitControls()
     Units_MissileDuplicationCount_Text = new SolidText(Units_Scroller, " Max Total Projectiles *");
     Units_AttackMissileDuplicationSpawning_Text = new SolidText(Units_Scroller, " Projectile Spawning Area *");
     Units_AttackMissileDuplicationUnit_Text = new SolidText(Units_Scroller, " Secondary Projectile Unit *");
+    Units_ChargeProjectileUnit_Text = new SolidText(Units_Scroller, " Charge Projectile Unit *");
     Units_ChargingGraphic_Text = new SolidText(Units_Scroller, " Special Graphic *");
     Units_ChargingMode_Text = new SolidText(Units_Scroller, " Special Ability *");
-    Units_DisplayedPierceArmour_Text = new SolidText(Units_Scroller, " Shown Pierce Armor");
+    Units_AttackPriority_Text = new SolidText(Units_Scroller, " Attack Priority *");
+    Units_InvulnerabilityLevel_Text = new SolidText(Units_Scroller, " Invulnerability Level *");
+    Units_ButtonIconID_Text = new SolidText(Units_Scroller, " Button Icon *");
+    Units_ButtonShortTooltipID_Text = new SolidText(Units_Scroller, " Short Tooltip *");
+    Units_ButtonExtendedTooltipID_Text = new SolidText(Units_Scroller, " Long Tooltip *");
+    Units_ButtonHotkeyAction_Text = new SolidText(Units_Scroller, " Hotkey Action *");
+    Units_DisplayedPierceArmour_Text = new SolidText(Units_Scroller, " Displayed Pierce Armor");
     Units_SpawningGraphic_Text = new SolidText(Units_Scroller, " Spawning Graphic");
     Units_UpgradeGraphic_Text = new SolidText(Units_Scroller, " Upgrade Graphic");
     Units_HeroGlowGraphic_Text = new SolidText(Units_Scroller, " Hero Glow Graphic");
+    Units_IdleAttackGraphic_Text = new SolidText(Units_Scroller, " Idle Attack Graphic");
     Units_MaxCharge_Text = new SolidText(Units_Scroller, " Max Charge");
     Units_RechargeRate_Text = new SolidText(Units_Scroller, " Recharge Rate");
     Units_ChargeEvent_Text = new SolidText(Units_Scroller, " Charge Event *");
     Units_ChargeType_Text = new SolidText(Units_Scroller, " Charge Type *");
+    Units_ChargeTarget_Text = new SolidText(Units_Scroller, " Charge Target *");
     Units_MinConversionTimeMod_Text = new SolidText(Units_Scroller, " Min Conv Time *");
     Units_MaxConversionTimeMod_Text = new SolidText(Units_Scroller, " Max Conv Time *");
+    Units_GarrisonFirepower_Text = new SolidText(Units_Scroller, " Garrison Firepower *");
     Units_ConversionChanceMod_Text = new SolidText(Units_Scroller, " Conv Chance *");
 
 //  Type 80
@@ -3945,6 +4080,12 @@ void AGE_Frame::CreateUnitControls()
     Units_DestructionRubbleGraphicID = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false);
     Units_DestructionRubbleGraphicID_ComboBox = new LinkedComboBox(Units_Scroller, Units_DestructionRubbleGraphicID, &graphic_names, false);
     GraphicComboBoxList.push_back(Units_DestructionRubbleGraphicID_ComboBox);
+    Units_AttackGraphic2 = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false);
+    Units_AttackGraphic2_ComboBox = new LinkedComboBox(Units_Scroller, Units_AttackGraphic2, &graphic_names, false);
+    GraphicComboBoxList.push_back(Units_AttackGraphic2_ComboBox);
+    Units_IdleAttackGraphic = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false);
+    Units_IdleAttackGraphic_ComboBox = new LinkedComboBox(Units_Scroller, Units_IdleAttackGraphic, &graphic_names, false);
+    GraphicComboBoxList.push_back(Units_IdleAttackGraphic_ComboBox);
     Units_SpawningGraphic = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false);
     Units_SpawningGraphic_ComboBox = new LinkedComboBox(Units_Scroller, Units_SpawningGraphic, &graphic_names, false);
     GraphicComboBoxList.push_back(Units_SpawningGraphic_ComboBox);
@@ -4013,6 +4154,12 @@ void AGE_Frame::CreateUnitControls()
     Units_BlastAttackLevel->SetToolTip("Blasts damage units that have higher or same blast armor level\n0   Damages resources also\n1   Damages trees also\n2   Damages nearby units\n3   Damages only targeted unit");
     Units_BlastDamage = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit);
     Units_BlastDamage->SetToolTip("Area damage. If the value is above 0, it's a multiplier applied to the base attack. If the value is negative, it does a fixed amount of damage.");
+    Units_FriendlyFireDamage = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit);
+    Units_FriendlyFireDamage->SetToolTip("Friendly fire. Multiplier on the amount of friendly fire this unit receives from area attacks.");
+    Units_DamageReflection = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit);
+    Units_DamageReflection->SetToolTip("Damage reflection. Damage percentage the attacking unit takes when damaging this unit.");
+    Units_InterruptFrame = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit);
+    Units_InterruptFrame->SetToolTip("Interrupt Frame. Frame in the attack animation in which the unit is allowed to chase or reset during volley attacks.");
 
     Units_Armors = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Armors");
     Units_Armors_ListArea = new wxBoxSizer(wxVERTICAL);
@@ -4072,8 +4219,10 @@ void AGE_Frame::CreateUnitControls()
     Units_GarrisonType = new NumberControl(CUByte, Units_Scroller, this, &uiGroupUnit, false);
     Units_GarrisonType->SetToolTip("You can garrison any type,\nif you add the garrison action targeting this class/unit,\nbut you may need to hold the alt key while choosing to garrison.");
     Units_GarrisonType_Grid = new wxBoxSizer(wxHORIZONTAL);
-    for(size_t loop = 0; loop < 8; ++loop)
-    Units_GarrisonType_CheckBox[loop] = new wxCheckBox(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(15, -1));
+    for (wxCheckBox*& CheckBox : Units_GarrisonType_CheckBox)
+    {
+        CheckBox = new wxCheckBox(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(15, -1));
+    }
     Units_GarrisonType_CheckBox[0]->SetToolTip("Villager/Worker");
     Units_GarrisonType_CheckBox[1]->SetToolTip("Infantry");
     Units_GarrisonType_CheckBox[2]->SetToolTip("Cavalry/Mounted");
@@ -4081,12 +4230,30 @@ void AGE_Frame::CreateUnitControls()
     Units_GarrisonType_CheckBox[4]->SetToolTip("SW: Livestock");
     Units_GarrisonHealRate = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit);
     Units_GarrisonHealRate->SetToolTip("Healing speed factor of units garrisoned in building");
+    Units_GarrisonFirepower = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit);
+    Units_GarrisonFirepower->SetToolTip("Controls whether this unit garrisoned modifies the firepower of the building. Positive is a multiplier, negative is a flat value override. 0 does not modify");
     Units_MaxCharge = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit);
     Units_RechargeRate = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit);
     Units_ChargeEvent = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit);
     Units_ChargeEvent->SetToolTip("1   Deduct 1 from the charge when attack animation completes");
     Units_ChargeType = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit);
     Units_ChargeType->SetToolTip("1   Attack\n2   Hit Points");
+    Units_ChargeTarget = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit);
+    Units_ChargeTarget->SetToolTip("Set to -1 to use active ability");
+    Units_ChargeTarget_Grid = new wxBoxSizer(wxHORIZONTAL);
+    for (wxCheckBox*& CheckBox : Units_ChargeTarget_CheckBox)
+    {
+        CheckBox = new wxCheckBox(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(15, -1));
+    }
+    Units_ChargeTarget_CheckBox[0]->SetToolTip("Infantry");
+    Units_ChargeTarget_CheckBox[1]->SetToolTip("Cavalry");
+    Units_ChargeTarget_CheckBox[2]->SetToolTip("Archers");
+    Units_ChargeTarget_CheckBox[3]->SetToolTip("Cavalry Archers");
+    Units_ChargeTarget_CheckBox[4]->SetToolTip("Monks");
+    Units_ChargeTarget_CheckBox[5]->SetToolTip("Villagers/Trade Carts");
+    Units_ChargeTarget_CheckBox[6]->SetToolTip("Ships");
+    Units_ChargeTarget_CheckBox[7]->SetToolTip("Siege");
+    Units_ChargeTarget_CheckBox[8]->SetToolTip("Buildings");
 
     Units_ProjectileUnitID = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit);
     Units_ProjectileUnitID_ComboBox = new LinkedComboBox(Units_Scroller, Units_ProjectileUnitID, &unit_names);
@@ -4095,6 +4262,10 @@ void AGE_Frame::CreateUnitControls()
     Units_AttackMissileDuplicationUnit->SetToolTip("Uses its own attack values!");
     Units_AttackMissileDuplicationUnit_ComboBox = new LinkedComboBox(Units_Scroller, Units_AttackMissileDuplicationUnit, &unit_names);
     UnitComboBoxList.push_back(Units_AttackMissileDuplicationUnit_ComboBox);
+    Units_ChargeProjectileUnit = new NumberControl(CLong, Units_Scroller, this, &uiGroupUnit);
+    Units_ChargeProjectileUnit->SetToolTip("Uses its own attack values!");
+    Units_ChargeProjectileUnit_ComboBox = new LinkedComboBox(Units_Scroller, Units_ChargeProjectileUnit, &unit_names);
+    UnitComboBoxList.push_back(Units_ChargeProjectileUnit_ComboBox);
     Units_MissileCount = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit);
     Units_MissileCount->SetToolTip("Total missiles including both normal and duplicated projectiles");
     Units_MissileDuplicationCount = new NumberControl(CUByte, Units_Scroller, this, &uiGroupUnit);
@@ -4175,6 +4346,12 @@ void AGE_Frame::CreateUnitControls()
     Units_InteractionMode->SetToolTip("Select Level\n0   None. No interaction.\n"
         "1   Object. Can pick.\n2   Resource. Can select, unable to attack or move.\n"
         "3   Building. Can select and attack, unable to move.\n4   Unit. Can select, attack and move.");
+    Units_AttackPriority = new NumberControl(CUByte, Units_Scroller, this, &uiGroupUnit);
+    Units_AttackPriority->SetToolTip("Set Priority\n"
+        "0   Default\n"
+        "1   Units > Buildings\n"
+        "2   Buildings > Units\n"
+        "3   Buildings only");
     Units_MinimapMode = new NumberControl(CUByte, Units_Scroller, this, &uiGroupUnit);
     Units_MinimapMode->SetToolTip("Draw Level\n0   None. No dot on minimap.\n"
         "1   Unit. Square dot turning white when selected.\n"
@@ -4193,6 +4370,16 @@ void AGE_Frame::CreateUnitControls()
     Units_TaskSwapGroup->SetToolTip("When tasking the unit, it will transform into another unit,\n"
         "if the action is not found in this unit, but exists on another unit,\nthat uses the same task swap group.\n"
         "Changes according to task\n1   Male villager\n2   Female villager\n3+ Free slots");
+    Units_InvulnerabilityLevel = new NumberControl(CFloat, Units_Scroller, this, &uiGroupUnit);
+    Units_InvulnerabilityLevel->SetToolTip(
+        "The unit that has this attribute set\n"
+        "will never go below the determined HP.\n"
+        "If it receives additional damage\n"
+        "the HP is clamped at this value\n"
+        "and the unit is not allowed to die.\n"
+        "> 0   multiplier of base HP\n"
+        "< 0   set value of HP");
+    Units_InvulnerabilityLevel_Text = new SolidText(Units_Scroller, " Invulnerability Level *");
     Units_ChargingMode = new NumberControl(CUByte, Units_Scroller, this, &uiGroupUnit);
     Units_ChargingMode->SetToolTip("0   None\nThese work only when facing the hit angle.\n"
         "1   Block\n    Activates special graphic when receiving damage and\n    not pursuing the attacker.\n"
@@ -4207,12 +4394,23 @@ void AGE_Frame::CreateUnitControls()
         "4   Ram\n    Charge against another ship, losing some hit points yourself.\n"
         "5   Greek Fire\n    Fry units on ships passing through your sea of fire.\n"
         "6   Board\n    Attach to another ship, resulting in takeover or sinking.");
+    Units_ButtonIconID = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit);
+    Units_ButtonIconID->SetToolTip("Icon material ID used by the button\n"
+        "For example having this attribute set to 90 will make the button use the icon with IconAction090 material");
+    Units_ButtonShortTooltipID = new NumberControl(CLong, Units_Scroller, this, &uiGroupUnit);
+    Units_ButtonShortTooltipID->SetToolTip("String ID which is displayed as tooltip for the ability button when extended tooltips are off");
+    Units_ButtonExtendedTooltipID = new NumberControl(CLong, Units_Scroller, this, &uiGroupUnit);
+    Units_ButtonExtendedTooltipID->SetToolTip("String ID which is displayed as tooltip for the ability button when extended tooltips are enabled");
+    Units_ButtonHotkeyAction = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit);
+    Units_ButtonHotkeyAction->SetToolTip("button_action_list of the hotkey to use for the button");
 
     Units_Trait = new NumberControl(CUByte, Units_Scroller, this, &uiGroupUnit, false);
     Units_Trait->SetToolTip("This is a byte of eight booleans\nYou can combine these attributes");
     Units_Trait_Grid = new wxBoxSizer(wxHORIZONTAL);
-    for(size_t loop = 0; loop < 8; ++loop)
-    Units_Trait_CheckBox[loop] = new wxCheckBox(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(15, -1));
+    for (wxCheckBox*& CheckBox : Units_Trait_CheckBox)
+    {
+        CheckBox = new wxCheckBox(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(15, -1));
+    }
     Units_Trait_CheckBox[0]->SetToolTip("Garrison unit");
     Units_Trait_CheckBox[1]->SetToolTip("Ship unit");
     Units_Trait_CheckBox[2]->SetToolTip("SW: Stealth unit");
@@ -4761,9 +4959,13 @@ void AGE_Frame::CreateUnitControls()
     Units_GraphicDisplacement_Holder->Add(Units_GraphicDisplacement_Text);
     Units_BlastAttackLevel_Holder->Add(Units_BlastAttackLevel_Text);
     Units_BlastDamage_Holder->Add(Units_BlastDamage_Text);
+    Units_FriendlyFire_Holder->Add(Units_FriendlyFire_Text);
+    Units_DamageReflection_Holder->Add(Units_DamageReflection_Text);
+    Units_InterruptFrame_Holder->Add(Units_InterruptFrame_Text);
     Units_MinRange_Holder->Add(Units_MinRange_Text);
     Units_AccuracyDispersion_Holder->Add(Units_AccuracyDispersion_Text);
     Units_AttackGraphic_Holder->Add(Units_AttackGraphic_Text);
+    Units_AttackGraphic2_Holder->Add(Units_AttackGraphic2_Text);
     Units_DisplayedMeleeArmour_Holder->Add(Units_DisplayedMeleeArmour_Text);
     Units_DisplayedAttack_Holder->Add(Units_DisplayedAttack_Text);
     Units_DisplayedRange_Holder->Add(Units_DisplayedRange_Text);
@@ -4795,10 +4997,17 @@ void AGE_Frame::CreateUnitControls()
     Units_MissileDuplicationCount_Holder->Add(Units_MissileDuplicationCount_Text);
     Units_AttackMissileDuplicationSpawning_Holder->Add(Units_AttackMissileDuplicationSpawning_Text);
     Units_ChargingMode_Holder->Add(Units_ChargingMode_Text);
+    Units_AttackPriority_Holder->Add(Units_AttackPriority_Text);
+    Units_InvulnerabilityLevel_Holder->Add(Units_InvulnerabilityLevel_Text);
+    Units_ButtonIconID_Holder->Add(Units_ButtonIconID_Text);
+    Units_ButtonShortTooltipID_Holder->Add(Units_ButtonShortTooltipID_Text);
+    Units_ButtonExtendedTooltipID_Holder->Add(Units_ButtonExtendedTooltipID_Text);
+    Units_ButtonHotkeyAction_Holder->Add(Units_ButtonHotkeyAction_Text);
     Units_DisplayedPierceArmour_Holder->Add(Units_DisplayedPierceArmour_Text);
     Units_SpawningGraphic_Holder->Add(Units_SpawningGraphic_Text);
     Units_UpgradeGraphic_Holder->Add(Units_UpgradeGraphic_Text);
     Units_HeroGlowGraphic_Holder->Add(Units_HeroGlowGraphic_Text);
+    Units_IdleAttackGraphic_Holder->Add(Units_IdleAttackGraphic_Text);
 
 //  Type 80
 
@@ -4886,8 +5095,10 @@ void AGE_Frame::CreateUnitControls()
     Units_OcclusionMode_Holder->Add(Units_OcclusionMode);
     Units_ObstructionType_Holder->Add(Units_ObstructionType);
     Units_ObstructionClass_Holder->Add(Units_ObstructionClass);
-    for(size_t loop = 0; loop < 8; ++loop)
-    Units_Trait_Grid->Add(Units_Trait_CheckBox[loop]);
+    for (wxCheckBox* CheckBox : Units_Trait_CheckBox)
+    {
+        Units_Trait_Grid->Add(CheckBox);
+    }
     Units_Trait_Holder->Add(Units_Trait, 0, wxEXPAND);
     Units_Trait_Holder->Add(Units_Trait_Grid);
     Units_Civ_Holder->Add(Units_Civ, 0, wxEXPAND);
@@ -4970,6 +5181,9 @@ void AGE_Frame::CreateUnitControls()
     Units_GraphicDisplacement_Holder->Add(Units_GraphicDisplacement_Grid);
     Units_BlastAttackLevel_Holder->Add(Units_BlastAttackLevel);
     Units_BlastDamage_Holder->Add(Units_BlastDamage);
+    Units_FriendlyFire_Holder->Add(Units_FriendlyFireDamage);
+    Units_DamageReflection_Holder->Add(Units_DamageReflection);
+    Units_InterruptFrame_Holder->Add(Units_InterruptFrame);
     Units_MinRange_Holder->Add(Units_MinRange);
     Units_AccuracyDispersion_Holder->Add(Units_AccuracyDispersion);
     Units_AttackGraphic_Holder->Add(Units_AttackGraphic, 0, wxEXPAND);
@@ -4978,6 +5192,9 @@ void AGE_Frame::CreateUnitControls()
     Units_DisplayedAttack_Holder->Add(Units_DisplayedAttack);
     Units_DisplayedRange_Holder->Add(Units_DisplayedRange);
     Units_DisplayedReloadTime_Holder->Add(Units_DisplayedReloadTime);
+    Units_AttackGraphic2_Holder->Add(Units_AttackGraphic2, 0, wxEXPAND);
+    Units_AttackGraphic2_Holder->Add(Units_AttackGraphic2_ComboBox);
+
 
 //  Type 60 only
 
@@ -5015,6 +5232,12 @@ void AGE_Frame::CreateUnitControls()
     Units_AttackMissileDuplicationSpawning_Grid->Add(Units_AttackMissileDuplicationSpawning[loop]);
     Units_AttackMissileDuplicationSpawning_Holder->Add(Units_AttackMissileDuplicationSpawning_Grid);
     Units_ChargingMode_Holder->Add(Units_ChargingMode);
+    Units_AttackPriority_Holder->Add(Units_AttackPriority);
+    Units_InvulnerabilityLevel_Holder->Add(Units_InvulnerabilityLevel);
+    Units_ButtonIconID_Holder->Add(Units_ButtonIconID);
+    Units_ButtonShortTooltipID_Holder->Add(Units_ButtonShortTooltipID);
+    Units_ButtonExtendedTooltipID_Holder->Add(Units_ButtonExtendedTooltipID);
+    Units_ButtonHotkeyAction_Holder->Add(Units_ButtonHotkeyAction);
     Units_DisplayedPierceArmour_Holder->Add(Units_DisplayedPierceArmour);
     Units_SpawningGraphic_Holder->Add(Units_SpawningGraphic, 0, wxEXPAND);
     Units_SpawningGraphic_Holder->Add(Units_SpawningGraphic_ComboBox);
@@ -5022,6 +5245,8 @@ void AGE_Frame::CreateUnitControls()
     Units_UpgradeGraphic_Holder->Add(Units_UpgradeGraphic_ComboBox);
     Units_HeroGlowGraphic_Holder->Add(Units_HeroGlowGraphic, 0, wxEXPAND);
     Units_HeroGlowGraphic_Holder->Add(Units_HeroGlowGraphic_ComboBox);
+    Units_IdleAttackGraphic_Holder->Add(Units_IdleAttackGraphic, 0, wxEXPAND);
+    Units_IdleAttackGraphic_Holder->Add(Units_IdleAttackGraphic_ComboBox);
 
 //  Type 80
 
@@ -5258,11 +5483,14 @@ void AGE_Frame::CreateUnitControls()
     Units_GraphicsArea5_Holder->Add(Units_GarrisonGraphic_Holder);
     Units_GraphicsArea5_Holder->Add(Units_DestructionGraphicID_Holder);
     Units_GraphicsArea5_Holder->Add(Units_DestructionRubbleGraphicID_Holder);
+    Units_GraphicsArea5_Holder->Add(Units_AttackGraphic2_Holder, 0, wxALIGN_BOTTOM);
+    Units_GraphicsArea5_Holder->Add(Units_IdleAttackGraphic_Holder);
     Units_GraphicsArea5_Holder->Add(Units_SpawningGraphic_Holder);
     Units_GraphicsArea5_Holder->Add(Units_UpgradeGraphic_Holder);
+    Units_GraphicsArea5_Holder->Add(Units_HeroGlowGraphic_Holder);
+    Units_GraphicsArea5_Holder->AddStretchSpacer(1);
     Units_GraphicsArea5_Holder->Add(Units_ResearchingGraphic_Holder);
     Units_GraphicsArea5_Holder->Add(Units_ResearchCompletedGraphic_Holder);
-    Units_GraphicsArea5_Holder->Add(Units_HeroGlowGraphic_Holder);
 
     DamageGraphics_GraphicID_Holder->Add(DamageGraphics_GraphicID_Text);
     DamageGraphics_GraphicID_Holder->Add(DamageGraphics_GraphicID, 0, wxEXPAND);
@@ -5324,6 +5552,9 @@ void AGE_Frame::CreateUnitControls()
     Units_Attacks_Holder_Data->Add(Units_BlastWidth_Holder);
     Units_Attacks_Holder_Data->Add(Units_BlastAttackLevel_Holder);
     Units_Attacks_Holder_Data->Add(Units_BlastDamage_Holder);
+    Units_Attacks_Holder_Data->Add(Units_FriendlyFire_Holder);
+    Units_Attacks_Holder_Data->Add(Units_DamageReflection_Holder);
+    Units_Attacks_Holder_Data->Add(Units_InterruptFrame_Holder);
 
     Units_Armors_DataArea->Add(Armors_Amount_Holder);
     Units_Armors_DataArea->Add(Armors_Class_Holder, 0, wxTOP, 5);
@@ -5335,10 +5566,10 @@ void AGE_Frame::CreateUnitControls()
     Units_Armors_Holder_Data3->Add(Units_DisplayedMeleeArmour_Holder, 0, wxTOP, 5);
     Units_Armors_Holder_Data3->Add(Units_DisplayedPierceArmour_Holder, 0, wxTOP, 5);
 
-    for(size_t loop = 0; loop < 8; ++loop)
-    Units_GarrisonType_Grid->Add(Units_GarrisonType_CheckBox[loop]);
-    Units_GarrisonType_Holder->Add(Units_GarrisonType, 0, wxEXPAND);
-    Units_GarrisonType_Holder->Add(Units_GarrisonType_Grid);
+    for (wxCheckBox* CheckBox : Units_GarrisonType_CheckBox)
+    {
+        Units_GarrisonType_Grid->Add(CheckBox);
+    }
 
     Units_Attacks->Add(Units_Attacks_ListArea, 1, wxEXPAND);
     Units_Attacks->Add(Units_Attacks_DataArea, 0, wxLEFT, 5);
@@ -5351,9 +5582,14 @@ void AGE_Frame::CreateUnitControls()
     Units_Garrison_Grid->Add(Units_GarrisonCapacity_Text);
     Units_Garrison_Grid->Add(Units_GarrisonType_Text);
     Units_Garrison_Grid->Add(Units_GarrisonHealRate_Text);
+    Units_Garrison_Grid->Add(Units_GarrisonFirepower_Text);
     Units_Garrison_Grid->Add(Units_GarrisonCapacity);
-    Units_Garrison_Grid->Add(Units_GarrisonType_Holder);
-    Units_Garrison_Grid->Add(Units_GarrisonHealRate);
+    Units_Garrison_Grid->Add(Units_GarrisonType, 0, wxEXPAND);
+    Units_Garrison_Grid->Add(Units_GarrisonHealRate, 0, wxEXPAND);
+    Units_Garrison_Grid->Add(Units_GarrisonFirepower, 0, wxEXPAND);
+    Units_Garrison_Grid->AddStretchSpacer(1);
+    Units_Garrison_Grid->Add(Units_GarrisonType_Grid);
+
     Units_Resource_Grid->Add(Units_ResourceCapacity_Text);
     Units_Resource_Grid->Add(Units_ResourceDecay_Text);
     Units_Resource_Grid->Add(Units_WorkRate_Text);
@@ -5367,14 +5603,23 @@ void AGE_Frame::CreateUnitControls()
     Units_Resource_Grid->Add(Units_MaxConversionTimeMod);
     Units_Resource_Grid->Add(Units_ConversionChanceMod);
 
+    for (wxCheckBox* CheckBox : Units_ChargeTarget_CheckBox)
+    {
+        Units_ChargeTarget_Grid->Add(CheckBox);
+    }
+    Units_ChargeTarget_Holder->Add(Units_ChargeTarget, 0, wxEXPAND);
+    Units_ChargeTarget_Holder->Add(Units_ChargeTarget_Grid);
+
     Units_Charge_Grid->Add(Units_MaxCharge_Text);
     Units_Charge_Grid->Add(Units_RechargeRate_Text);
     Units_Charge_Grid->Add(Units_ChargeEvent_Text);
     Units_Charge_Grid->Add(Units_ChargeType_Text);
+    Units_Charge_Grid->Add(Units_ChargeTarget_Text);
     Units_Charge_Grid->Add(Units_MaxCharge);
     Units_Charge_Grid->Add(Units_RechargeRate);
     Units_Charge_Grid->Add(Units_ChargeEvent);
     Units_Charge_Grid->Add(Units_ChargeType);
+    Units_Charge_Grid->Add(Units_ChargeTarget_Holder);
 
     Units_StatsArea_Holder->Add(Units_StatsArea1A_Sizer);
     Units_StatsArea_Holder->Add(Units_StatsArea1B_Sizer, 0, wxTOP, 5);
@@ -5390,12 +5635,16 @@ void AGE_Frame::CreateUnitControls()
     Units_AttackMissileDuplicationUnit_Holder->Add(Units_AttackMissileDuplicationUnit_Text);
     Units_AttackMissileDuplicationUnit_Holder->Add(Units_AttackMissileDuplicationUnit, 0, wxEXPAND);
     Units_AttackMissileDuplicationUnit_Holder->Add(Units_AttackMissileDuplicationUnit_ComboBox);
+    Units_ChargeProjectileUnit_Holder->Add(Units_ChargeProjectileUnit_Text);
+    Units_ChargeProjectileUnit_Holder->Add(Units_ChargeProjectileUnit, 0, wxEXPAND);
+    Units_ChargeProjectileUnit_Holder->Add(Units_ChargeProjectileUnit_ComboBox);
     Units_ChargingGraphic_Holder->Add(Units_ChargingGraphic_Text);
     Units_ChargingGraphic_Holder->Add(Units_ChargingGraphic, 0, wxEXPAND);
     Units_ChargingGraphic_Holder->Add(Units_ChargingGraphic_ComboBox);
 
     Units_P1->Add(Units_ProjectileUnitID_Holder, 0, wxRIGHT, 5);
     Units_P1->Add(Units_AttackMissileDuplicationUnit_Holder, 0, wxRIGHT, 5);
+    Units_P1->Add(Units_ChargeProjectileUnit_Holder, 0, wxRIGHT, 5);
     Units_P1->Add(Units_MissileCount_Holder, 0, wxRIGHT, 5);
     Units_P1->Add(Units_MissileDuplicationCount_Holder);
     Units_P2->Add(Units_GraphicDisplacement_Holder, 0, wxRIGHT, 5);
@@ -5428,12 +5677,18 @@ void AGE_Frame::CreateUnitControls()
     Units_AM1_Grid->Add(Units_FogVisibility_Holder);
     Units_AM1_Grid->Add(Units_CombatLevel_Holder);
     Units_AM1_Grid->Add(Units_InteractionMode_Holder);
+    Units_AM1_Grid->Add(Units_AttackPriority_Holder);
     Units_AM1_Grid->Add(Units_MinimapMode_Holder);
     Units_AM1_Grid->Add(Units_MinimapColor_Holder);
     Units_AM1_Grid->Add(Units_CreateDoppelgangerOnDeath_Holder);
     Units_AM1_Grid->Add(Units_ResourceGroup_Holder);
     Units_AM1_Grid->Add(Units_TaskSwapGroup_Holder);
+    Units_AM1_Grid->Add(Units_InvulnerabilityLevel_Holder);
     Units_AM1_Grid->Add(Units_ChargingMode_Holder);
+    Units_AM1_Grid->Add(Units_ButtonIconID_Holder);
+    Units_AM1_Grid->Add(Units_ButtonShortTooltipID_Holder);
+    Units_AM1_Grid->Add(Units_ButtonExtendedTooltipID_Holder);
+    Units_AM1_Grid->Add(Units_ButtonHotkeyAction_Holder);
 
     DropSites_UnitID_Holder->Add(DropSites_UnitID_Text);
     DropSites_UnitID_Holder->Add(DropSites_UnitID, 0, wxEXPAND);
@@ -5678,8 +5933,11 @@ void AGE_Frame::CreateUnitControls()
     Units_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitsSearch, this);
     Units_FilterSelector->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent&)
     {
-        ListUnits(UnitCivID, false);
-        Units_Search->SetFocus();
+        if (dataset != nullptr)
+        {
+            ListUnits(UnitCivID, false);
+            Units_Search->SetFocus();
+        }
     });
     for(size_t loop = 0; loop < 2; ++loop)
     {
@@ -6579,9 +6837,10 @@ void AGE_Frame::CreateUnitControls()
         Tasks_ActionType->SaveEdits();
         ListUnitCommands();
     });
-    for(size_t loop = 0; loop < 8; ++loop)
+
+    for (wxCheckBox* CheckBox : Units_Trait_CheckBox)
     {
-        Units_Trait_CheckBox[loop]->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent& event)
+        CheckBox->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent& event)
         {
             if (Units_Trait->GetValue().empty()) return;
             try
@@ -6604,7 +6863,11 @@ void AGE_Frame::CreateUnitControls()
                 Units_Trait->ChangeValue("Error");
             }
         });
-        Units_GarrisonType_CheckBox[loop]->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent& event)
+    }
+
+    for (wxCheckBox* CheckBox : Units_GarrisonType_CheckBox)
+    {
+        CheckBox->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent& event)
         {
             if (Units_GarrisonType->GetValue().empty()) return;
             try
@@ -6628,6 +6891,35 @@ void AGE_Frame::CreateUnitControls()
             }
         });
     }
+
+    for (wxCheckBox* CheckBox : Units_ChargeTarget_CheckBox)
+    {
+        CheckBox->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent& event)
+        {
+            if (Units_ChargeTarget->GetValue().empty()) return;
+            try
+            {
+                uint16_t type = lexical_cast<short>(Units_ChargeTarget->GetValue());
+                Units_ChargeTarget_CheckBox[0]->GetValue() ? type |= 0x01 : type &= ~0x01;
+                Units_ChargeTarget_CheckBox[1]->GetValue() ? type |= 0x02 : type &= ~0x02;
+                Units_ChargeTarget_CheckBox[2]->GetValue() ? type |= 0x04 : type &= ~0x04;
+                Units_ChargeTarget_CheckBox[3]->GetValue() ? type |= 0x08 : type &= ~0x08;
+                Units_ChargeTarget_CheckBox[4]->GetValue() ? type |= 0x10 : type &= ~0x10;
+                Units_ChargeTarget_CheckBox[5]->GetValue() ? type |= 0x20 : type &= ~0x20;
+                Units_ChargeTarget_CheckBox[6]->GetValue() ? type |= 0x40 : type &= ~0x40;
+                Units_ChargeTarget_CheckBox[7]->GetValue() ? type |= 0x80 : type &= ~0x80;
+                Units_ChargeTarget_CheckBox[8]->GetValue() ? type |= 0x100 : type &= ~0x100;
+                Units_ChargeTarget->ChangeValue(FormatInt(type));
+                Units_ChargeTarget->SaveEdits();
+            }
+            catch (const bad_lexical_cast&)
+            {
+                Units_ChargeTarget->clear();
+                Units_ChargeTarget->ChangeValue("Error");
+            }
+        });
+    }
+
     Units_IconID->Bind(wxEVT_KILL_FOCUS, TrySaveThenSelectUnit);
     Units_IconID->Bind(wxEVT_TEXT_ENTER, SaveThenSelectUnit);
     Units_IconAngle->Bind(wxEVT_KILL_FOCUS, TrySaveThenSelectUnit);
@@ -6650,6 +6942,8 @@ void AGE_Frame::CreateUnitControls()
     Units_UpgradeGraphic->Bind(wxEVT_TEXT_ENTER, SaveThenRenderUnit);
     Units_HeroGlowGraphic->Bind(wxEVT_KILL_FOCUS, TrySaveThenRenderUnit);
     Units_HeroGlowGraphic->Bind(wxEVT_TEXT_ENTER, SaveThenRenderUnit);
+    Units_IdleAttackGraphic->Bind(wxEVT_KILL_FOCUS, TrySaveThenRenderUnit);
+    Units_IdleAttackGraphic->Bind(wxEVT_TEXT_ENTER, SaveThenRenderUnit);
     Units_ResearchingGraphic->Bind(wxEVT_KILL_FOCUS, TrySaveThenRenderUnit);
     Units_ResearchingGraphic->Bind(wxEVT_TEXT_ENTER, SaveThenRenderUnit);
     Units_ResearchCompletedGraphic->Bind(wxEVT_KILL_FOCUS, TrySaveThenRenderUnit);
@@ -6660,6 +6954,8 @@ void AGE_Frame::CreateUnitControls()
     Units_ChargingGraphic->Bind(wxEVT_TEXT_ENTER, SaveThenRenderUnit);
     Units_AttackGraphic->Bind(wxEVT_KILL_FOCUS, TrySaveThenRenderUnit);
     Units_AttackGraphic->Bind(wxEVT_TEXT_ENTER, SaveThenRenderUnit);
+    Units_AttackGraphic2->Bind(wxEVT_KILL_FOCUS, TrySaveThenRenderUnit);
+    Units_AttackGraphic2->Bind(wxEVT_TEXT_ENTER, SaveThenRenderUnit);
     Units_WalkingGraphic[0]->Bind(wxEVT_KILL_FOCUS, TrySaveThenRenderUnit);
     Units_WalkingGraphic[0]->Bind(wxEVT_TEXT_ENTER, SaveThenRenderUnit);
     Units_WalkingGraphic[1]->Bind(wxEVT_KILL_FOCUS, TrySaveThenRenderUnit);
@@ -6687,11 +6983,13 @@ void AGE_Frame::CreateUnitControls()
     Units_SpawningGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_UpgradeGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_HeroGlowGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_IdleAttackGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_ResearchingGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_ResearchCompletedGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_GarrisonGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_ChargingGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_AttackGraphic_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
+    Units_AttackGraphic2_ComboBox->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_WalkingGraphic_ComboBox[0]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_WalkingGraphic_ComboBox[1]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);
     Units_StandingGraphic_ComboBox[0]->Bind(wxEVT_COMBOBOX, &AGE_Frame::OnUpdateCombo_Units, this);

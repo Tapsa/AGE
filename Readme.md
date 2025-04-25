@@ -36,7 +36,7 @@ Choose `posix threads with dwarf exception handling`.
 
 After installing MinGW add its `bin` folder to the system path.
 
-### wxWidgets 3.2.4
+### wxWidgets 3.2.7
 
 - Unpack the zip file.
 
@@ -60,27 +60,27 @@ After installing MinGW add its `bin` folder to the system path.
 
 For Visual Studio, open the solution for your Visual Studio version or nearest one in `\wxWidgets\build\msw` and build all of it using all configurations you're planning to build **Advanced Genie Editor** with.
 
-### Boost 1.85.0
+### Boost 1.88.0
 
 - Unpack the zip file.
 
-- Open the commandline and change the working directory to `\boost_1_85_0\tools\build`
+- Open the commandline and change the working directory to `\boost_1_88_0\tools\build`
 
 - Run `bootstrap.bat`
 
-- Copy `b2.exe` to `\boost_1_85_0`
+- Copy `b2.exe` to `\boost_1_88_0`
 
-- Run from `\boost_1_85_0`:
+- Run from `\boost_1_88_0`:
 
     ```sh
     b2 toolset=gcc link=shared runtime-link=shared threading=multi --with-iostreams
-    
+
     # For Visual Studio, zlib needs to be built too.
-    
+
     b2 toolset=msvc link=static runtime-link=shared threading=multi --with-iostreams -s ZLIB_SOURCE=".\tools\boost_install\test\iostreams\zlib-1.2.11" -s ZLIB_INCLUDE=".\tools\boost_install\test\iostreams\zlib-1.2.11"
     ```
 
-You can safely delete the `boost_1_85_0` folder after build completes.
+You can safely delete the `boost_1_88_0` folder after build completes.
 
 Visual Studio may require appending `lib` to name of some generated libraries.
 
@@ -100,7 +100,7 @@ Visual Studio may require appending `lib` to name of some generated libraries.
 
 - Copy `FindSFML.cmake` to `\CMake\share\cmake-3.15\Modules`
 
-### lz4
+### lz4 1.10.0
 
 - Unpack the zip file.
 

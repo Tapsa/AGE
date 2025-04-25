@@ -309,10 +309,10 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             effect_attribute_names.Add("43 - Train Button (types 70-80)");
             effect_attribute_names.Add("44 - Blast Attack Level (types 50-80)");
             effect_attribute_names.Add("45 - Blast Defense Level");
-            effect_attribute_names.Add("46 - Shown Attack (types 50-80)");
-            effect_attribute_names.Add("47 - Shown Range (types 50-80)");
-            effect_attribute_names.Add("48 - Shown Melee Armor (types 50-80)");
-            effect_attribute_names.Add("49 - Shown Pierce Armor (types 70-80)");
+            effect_attribute_names.Add("46 - Displayed Attack (types 50-80)");
+            effect_attribute_names.Add("47 - Displayed Range (types 50-80)");
+            effect_attribute_names.Add("48 - Displayed Melee Armor (types 50-80)");
+            effect_attribute_names.Add("49 - Displayed Pierce Armor (types 70-80)");
             effect_attribute_names.Add("50 - Unit Name String");
             effect_attribute_names.Add("51 - Unit Short Description String");
             effect_attribute_names.Add("52 - Unused");
@@ -2503,6 +2503,12 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             unit_filters.Add("Attack Wave Works Sound");
             unit_filters.Add("Move Wave Works Sound");
             unit_filters.Add("Bonus Damage Resistance");
+            unit_filters.Add("Blast Damage");
+            unit_filters.Add("Instant Karma");
+            unit_filters.Add("Friendly Fire Damage");
+            unit_filters.Add("Interrupt Frame");
+            unit_filters.Add("Garrison Firepower");
+            unit_filters.Add("Attack Graphic 2");
         }
     }
 
@@ -2545,7 +2551,15 @@ void AGE_Frame::FillListsBasedOnGameVersion()
                 unit_filters.Add("Min Conversion Time Mod");
                 unit_filters.Add("Max Conversion Time Mod");
                 unit_filters.Add("Conversion Chance Mod");
-                unit_filters.Add("Blast Damage");
+                unit_filters.Add("Charge Target");
+                unit_filters.Add("Charge Projectile Unit");
+                unit_filters.Add("Attack Priority");
+                unit_filters.Add("Invulnerability Level");
+                unit_filters.Add("Button Icon");
+                unit_filters.Add("Short Tooltip");
+                unit_filters.Add("Long Tooltip");
+                unit_filters.Add("Button Action");
+                unit_filters.Add("Idle Attack Graphic");
             }
         }
     }

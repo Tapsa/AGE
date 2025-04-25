@@ -1817,7 +1817,7 @@ private:
     AGETextCtrl *Units_ObstructionClass;
     AGETextCtrl *Units_Trait;
     wxBoxSizer *Units_Trait_Grid;
-    wxCheckBox *Units_Trait_CheckBox[8];
+    std::array<wxCheckBox*, 8> Units_Trait_CheckBox;
     AGETextCtrl *Units_Civ;
     LinkedComboBox *Units_Civ_ComboBox;
     AGETextCtrl *Units_Nothing;
@@ -1900,6 +1900,8 @@ private:
     AGETextCtrl *Units_GraphicDisplacement[3];
     AGETextCtrl *Units_BlastAttackLevel;
     AGETextCtrl *Units_BlastDamage;
+    AGETextCtrl* Units_FriendlyFireDamage;
+    AGETextCtrl* Units_DamageReflection;
     AGETextCtrl *Units_MinRange;
     AGETextCtrl *Units_AccuracyDispersion;
     AGETextCtrl *Units_AttackGraphic;
@@ -1908,6 +1910,10 @@ private:
     AGETextCtrl *Units_DisplayedAttack;
     AGETextCtrl *Units_DisplayedRange;
     AGETextCtrl *Units_DisplayedReloadTime;
+    AGETextCtrl* Units_InterruptFrame;
+    AGETextCtrl* Units_GarrisonFirepower;
+    AGETextCtrl* Units_AttackGraphic2;
+    LinkedComboBox* Units_AttackGraphic2_ComboBox;
 
 //  Type 60 only
 
@@ -1941,20 +1947,33 @@ private:
     AGETextCtrl *Units_AttackMissileDuplicationSpawning[3];
     AGETextCtrl *Units_AttackMissileDuplicationUnit;
     LinkedComboBox *Units_AttackMissileDuplicationUnit_ComboBox;
+    AGETextCtrl* Units_ChargeProjectileUnit;
+    LinkedComboBox* Units_ChargeProjectileUnit_ComboBox;
     AGETextCtrl *Units_ChargingGraphic;
     LinkedComboBox *Units_ChargingGraphic_ComboBox;
     AGETextCtrl *Units_ChargingMode;
+    AGETextCtrl* Units_AttackPriority;
+    AGETextCtrl* Units_InvulnerabilityLevel;
+    AGETextCtrl *Units_ButtonIconID;
+    AGETextCtrl* Units_ButtonShortTooltipID;
+    AGETextCtrl* Units_ButtonExtendedTooltipID;
+    AGETextCtrl* Units_ButtonHotkeyAction;
     AGETextCtrl *Units_DisplayedPierceArmour;
     AGETextCtrl *Units_SpawningGraphic;
     AGETextCtrl *Units_UpgradeGraphic;
     AGETextCtrl *Units_HeroGlowGraphic;
+    AGETextCtrl* Units_IdleAttackGraphic;
     LinkedComboBox *Units_SpawningGraphic_ComboBox;
     LinkedComboBox *Units_UpgradeGraphic_ComboBox;
     LinkedComboBox *Units_HeroGlowGraphic_ComboBox;
+    LinkedComboBox* Units_IdleAttackGraphic_ComboBox;
     AGETextCtrl *Units_MaxCharge;
     AGETextCtrl *Units_RechargeRate;
     AGETextCtrl *Units_ChargeEvent;
     AGETextCtrl *Units_ChargeType;
+    AGETextCtrl *Units_ChargeTarget;
+    wxBoxSizer *Units_ChargeTarget_Grid;
+    std::array<wxCheckBox*, 9> Units_ChargeTarget_CheckBox;
     AGETextCtrl *Units_MinConversionTimeMod;
     AGETextCtrl *Units_MaxConversionTimeMod;
     AGETextCtrl *Units_ConversionChanceMod;
@@ -2001,7 +2020,7 @@ private:
     LinkedComboBox *Units_ConstructionSound_ComboBox;
     AGETextCtrl *Units_GarrisonType;
     wxBoxSizer *Units_GarrisonType_Grid;
-    wxCheckBox *Units_GarrisonType_CheckBox[8];
+    std::array<wxCheckBox*, 8> Units_GarrisonType_CheckBox;
     AGETextCtrl *Units_GarrisonHealRate;
     AGETextCtrl *Units_GarrisonRepairRate;
     AGETextCtrl *Units_PileUnit;
@@ -2115,9 +2134,13 @@ private:
     SolidText *Units_GraphicDisplacement_Text;
     SolidText *Units_BlastAttackLevel_Text;
     SolidText *Units_BlastDamage_Text;
+    SolidText* Units_FriendlyFire_Text;
+    SolidText* Units_DamageReflection_Text;
+    SolidText* Units_InterruptFrame_Text;
     SolidText *Units_MinRange_Text;
     SolidText *Units_AccuracyDispersion_Text;
     SolidText *Units_AttackGraphic_Text;
+    SolidText* Units_AttackGraphic2_Text;
     SolidText *Units_DisplayedMeleeArmour_Text;
     SolidText *Units_DisplayedAttack_Text;
     SolidText *Units_DisplayedRange_Text;
@@ -2148,18 +2171,28 @@ private:
     SolidText *Units_MissileDuplicationCount_Text;
     SolidText *Units_AttackMissileDuplicationSpawning_Text;
     SolidText *Units_AttackMissileDuplicationUnit_Text;
+    SolidText* Units_ChargeProjectileUnit_Text;
     SolidText *Units_ChargingGraphic_Text;
     SolidText *Units_ChargingMode_Text;
+    SolidText* Units_AttackPriority_Text;
+    SolidText* Units_InvulnerabilityLevel_Text;
+    SolidText *Units_ButtonIconID_Text;
+    SolidText* Units_ButtonShortTooltipID_Text;
+    SolidText* Units_ButtonExtendedTooltipID_Text;
+    SolidText* Units_ButtonHotkeyAction_Text;
     SolidText *Units_DisplayedPierceArmour_Text;
     SolidText *Units_SpawningGraphic_Text;
     SolidText *Units_UpgradeGraphic_Text;
     SolidText *Units_HeroGlowGraphic_Text;
+    SolidText* Units_IdleAttackGraphic_Text;
     SolidText *Units_MaxCharge_Text;
     SolidText *Units_RechargeRate_Text;
     SolidText *Units_ChargeEvent_Text;
     SolidText *Units_ChargeType_Text;
+    SolidText *Units_ChargeTarget_Text;
     SolidText *Units_MinConversionTimeMod_Text;
     SolidText *Units_MaxConversionTimeMod_Text;
+    SolidText *Units_GarrisonFirepower_Text;
     SolidText *Units_ConversionChanceMod_Text;
 
 //  Type 80
@@ -2309,9 +2342,13 @@ private:
     wxBoxSizer *Units_GraphicDisplacement_Grid;
     wxBoxSizer *Units_BlastAttackLevel_Holder;
     wxBoxSizer *Units_BlastDamage_Holder;
+    wxBoxSizer* Units_FriendlyFire_Holder;
+    wxBoxSizer* Units_DamageReflection_Holder;
+    wxBoxSizer* Units_InterruptFrame_Holder;
     wxBoxSizer *Units_MinRange_Holder;
     wxBoxSizer *Units_AccuracyDispersion_Holder;
     wxBoxSizer *Units_AttackGraphic_Holder;
+    wxBoxSizer* Units_AttackGraphic2_Holder;
     wxBoxSizer *Units_DisplayedMeleeArmour_Holder;
     wxBoxSizer *Units_DisplayedAttack_Holder;
     wxBoxSizer *Units_DisplayedRange_Holder;
@@ -2344,12 +2381,21 @@ private:
     wxBoxSizer *Units_AttackMissileDuplicationSpawning_Holder;
     wxBoxSizer *Units_AttackMissileDuplicationSpawning_Grid;
     wxBoxSizer *Units_AttackMissileDuplicationUnit_Holder;
+    wxBoxSizer* Units_ChargeProjectileUnit_Holder;
     wxBoxSizer *Units_ChargingGraphic_Holder;
     wxBoxSizer *Units_ChargingMode_Holder;
+    wxBoxSizer* Units_AttackPriority_Holder;
+    wxBoxSizer* Units_InvulnerabilityLevel_Holder;
+    wxBoxSizer *Units_ButtonIconID_Holder;
+    wxBoxSizer* Units_ButtonShortTooltipID_Holder;
+    wxBoxSizer* Units_ButtonExtendedTooltipID_Holder;
+    wxBoxSizer* Units_ButtonHotkeyAction_Holder;
     wxBoxSizer *Units_DisplayedPierceArmour_Holder;
     wxBoxSizer *Units_SpawningGraphic_Holder;
     wxBoxSizer *Units_UpgradeGraphic_Holder;
     wxBoxSizer *Units_HeroGlowGraphic_Holder;
+    wxBoxSizer* Units_IdleAttackGraphic_Holder;
+    wxBoxSizer* Units_ChargeTarget_Holder;
 
 //  Type 80
 
@@ -2375,7 +2421,6 @@ private:
     wxBoxSizer *Units_TransformUnit_Holder;
     wxBoxSizer *Units_TransformSound_Holder;
     wxBoxSizer *Units_ConstructionSound_Holder;
-    wxBoxSizer *Units_GarrisonType_Holder;
     wxBoxSizer *Units_GarrisonRepairRate_Holder;
     wxBoxSizer *Units_PileUnit_Holder;
     wxBoxSizer *Units_LootSwitch_Holder;
