@@ -871,8 +871,9 @@ private:
     std::vector<std::vector<genie::Color>> palettes, pc_palettes;
     genie::DatFile *dataset = 0;
     genie::LangFile *Lang = 0, *LangX = 0, *LangXP = 0;
-    int CustomTerrains, paletteView = 0, ViewBackR, ViewBackG, ViewBackB, ViewPosX, ViewPosY;
+    int CustomTerrains, paletteView = 0, ViewPosX, ViewPosY;
     bool slp_tool_on = false;
+    wxColour ViewBackgroundColor;
     wxBrush slp_background_brush;
     wxFrame *slp_window = nullptr;
     APanel *slp_view;

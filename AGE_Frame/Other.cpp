@@ -2253,9 +2253,7 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/WindowPosY", pos.y);
         Config.Write("Interface/Zooming", slp_zoom);
         Config.Write("Interface/AlexZoom", AlexZoom);
-        Config.Write("Interface/ViewBackgroundR", ViewBackR);
-        Config.Write("Interface/ViewBackgroundG", ViewBackG);
-        Config.Write("Interface/ViewBackgroundB", ViewBackB);
+        Config.Write("Interface/ViewBackgroundColor", ViewBackgroundColor);
         Config.Write("Interface/DrawAngles", DrawAngles);
         Config.Write("Interface/DrawCollisionShape", DrawCollisionShape);
         Config.Write("Interface/DrawClearanceShape", DrawClearanceShape);
@@ -2264,6 +2262,10 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interface/ViewPosX", ViewPosX);
         Config.Write("Interface/ViewPosY", ViewPosY);
         Config.Write("Interface/BoxWidthMultiplier", boxWidthMultiplier);
+        Config.Write("Interface/ByteColor", AGETextCtrl::ByteColor);
+        Config.Write("Interface/ShortColor", AGETextCtrl::ShortColor);
+        Config.Write("Interface/LongColor", AGETextCtrl::LongColor);
+        Config.Write("Interface/FloatColor", AGETextCtrl::FloatColor);
         // Global settings
         if (window_num == 0)
         {

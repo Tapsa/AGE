@@ -34,8 +34,7 @@ void AGE_Frame::OnAnimationMenuOption(wxCommandEvent &event)
                 slp_next = new wxButton(panel, eNextFrame, "Show -> frame");
                 slp_prev = new wxButton(panel, ePrevFrame, "Show <- frame");
                 slp_first = new wxButton(panel, eFirstFrame, "Show first frame");
-                wxColour back(ViewBackR, ViewBackG, ViewBackB);
-                slp_background = new wxColourPickerCtrl(panel, ePickBgColor, back, wxDefaultPosition, wxDefaultSize, wxCLRP_SHOW_LABEL);
+                slp_background = new wxColourPickerCtrl(panel, ePickBgColor, ViewBackgroundColor, wxDefaultPosition, wxDefaultSize, wxCLRP_SHOW_LABEL);
                 slp_frame_export = new wxButton(panel, eExportFrame, "Export frame to PNGs");
                 slp_frame_import = new wxButton(panel, eImportFrame, "Import PNGs to frame");
                 slp_save = new wxButton(panel, eSaveSLP, "Save SLP");
@@ -1038,11 +1037,8 @@ void AGE_Frame::OnFrameButton(wxCommandEvent &event)
         }
         case ePickBgColor:
         {
-            wxColour back(slp_background->GetColour());
-            ViewBackR = back.Red();
-            ViewBackG = back.Green();
-            ViewBackB = back.Blue();
-            slp_background_brush = wxBrush(back);
+            ViewBackgroundColor = wxColour(slp_background->GetColour());
+            slp_background_brush = wxBrush(ViewBackgroundColor);
             break;
         }
         case eCollisionShape:

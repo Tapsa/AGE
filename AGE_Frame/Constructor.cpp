@@ -88,9 +88,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
         Config.Read("Interface/WindowPosX", &lastWindowPosX, 0);
         Config.Read("Interface/WindowPosY", &lastWindowPosY, 0);
         Config.Read("Interface/Zooming", &slp_zoom, 1);
-        Config.Read("Interface/ViewBackgroundR", &ViewBackR, 255);
-        Config.Read("Interface/ViewBackgroundG", &ViewBackG, 255);
-        Config.Read("Interface/ViewBackgroundB", &ViewBackB, 255);
+        Config.Read("Interface/ViewBackgroundColor", &ViewBackgroundColor, wxColour(255, 255, 255));
         Config.Read("Interface/DrawAngles", &DrawAngles, false);
         Config.Read("Interface/DrawCollisionShape", &DrawCollisionShape, true);
         Config.Read("Interface/DrawClearanceShape", &DrawClearanceShape, true);
@@ -100,6 +98,10 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
         Config.Read("Interface/ViewPosX", &ViewPosX, -1);
         Config.Read("Interface/ViewPosY", &ViewPosY, -1);
         Config.Read("Interface/BoxWidthMultiplier", &boxWidthMultiplier, 1.f);
+        Config.Read("Interface/ByteColor", &AGETextCtrl::ByteColor, wxColour(255, 235, 215));
+        Config.Read("Interface/ShortColor", &AGETextCtrl::ShortColor, wxColour(210, 230, 255));
+        Config.Read("Interface/LongColor", &AGETextCtrl::LongColor, wxColour(215, 255, 255));
+        Config.Read("Interface/FloatColor", &AGETextCtrl::FloatColor, wxColour(255, 225, 255));
         // Global settings
         if (window == 0)
         {
@@ -159,8 +161,7 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
         AGETextCtrl::GIANT = 200 * boxWidthScaling;
     }
 
-    wxColour back(ViewBackR, ViewBackG, ViewBackB);
-    slp_background_brush = wxBrush(back);
+    slp_background_brush = wxBrush(ViewBackgroundColor);
     if (TimesOpened < 2) AnimSLP = ShowSLP = ShowIcons = true; // For people that had these initialized to false in previous release.
 
     CreateToolBar(wxTB_HORIZONTAL | wxTB_TEXT);

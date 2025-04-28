@@ -11,6 +11,10 @@ unsigned AGETextCtrl::MEDIUM = 70;
 unsigned AGETextCtrl::NORMAL = 100;
 unsigned AGETextCtrl::LARGE = 150;
 unsigned AGETextCtrl::GIANT = 200;
+wxColour AGETextCtrl::ByteColor(255, 235, 215);
+wxColour AGETextCtrl::ShortColor(210, 230, 255);
+wxColour AGETextCtrl::LongColor(215, 255, 255);
+wxColour AGETextCtrl::FloatColor(255, 225, 255);
 
 AGETextCtrl::AGETextCtrl(wxWindow *parent, int width) :
     wxTextCtrl(parent, wxID_ANY, "", wxDefaultPosition, wxSize(width, -1), wxTE_PROCESS_ENTER),
@@ -111,27 +115,27 @@ void NumberControl::SetCastType(const ContainerType type)
         case CUByte:
             ShowNumber = &NumberControl::ShowNumberAsUByte;
             SaveChanges = &NumberControl::SaveChangesAsUByte;
-            SetBackgroundColour(wxColour(255, 235, 215));
+            SetBackgroundColour(ByteColor);
             break;
         case CFloat:
             ShowNumber = &NumberControl::ShowNumberAsFloat;
             SaveChanges = &NumberControl::SaveChangesAsFloat;
-            SetBackgroundColour(wxColour(255, 225, 255));
+            SetBackgroundColour(FloatColor);
             break;
         case CLong:
             ShowNumber = &NumberControl::ShowNumberAsLong;
             SaveChanges = &NumberControl::SaveChangesAsLong;
-            SetBackgroundColour(wxColour(215, 255, 255));
+            SetBackgroundColour(LongColor);
             break;
         case CULong:
             ShowNumber = &NumberControl::ShowNumberAsULong;
             SaveChanges = &NumberControl::SaveChangesAsULong;
-            SetBackgroundColour(wxColour(215, 255, 255));
+            SetBackgroundColour(LongColor);
             break;
         case CShort:
             ShowNumber = &NumberControl::ShowNumberAsShort;
             SaveChanges = &NumberControl::SaveChangesAsShort;
-            SetBackgroundColour(wxColour(210, 230, 255));
+            SetBackgroundColour(ShortColor);
             break;
     }
 }

@@ -422,7 +422,7 @@ void AGE_Frame::OnDrawGraphicSLP(wxPaintEvent &event)
         Pixels collision, clearance, selection;
         if(UnitIDs.size())
         {
-            wxPen pen = wxPen(wxColour(255 - ViewBackR, 255 - ViewBackG, 255 - ViewBackB));
+            wxPen pen(wxColour(255 - ViewBackgroundColor.Red(), 255 - ViewBackgroundColor.Green(), 255 - ViewBackgroundColor.Blue()));
             dc.SetPen(pen);
             genie::Unit *unit = &dataset->Civs[UnitCivID].Units[UnitIDs.front()];
             if(DrawCollisionShape)

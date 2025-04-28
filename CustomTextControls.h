@@ -25,6 +25,7 @@ public:
     void refill();
 
     static unsigned SMALL, MEDIUM, NORMAL, LARGE, GIANT;
+    static wxColour ByteColor, ShortColor, LongColor, FloatColor;
 
 protected:
     inline void OnKillFocus(wxFocusEvent &event) { event.Skip(); SaveEdits(); }
