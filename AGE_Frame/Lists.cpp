@@ -908,7 +908,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         };
     }
 
-    const wxString localFilename = PathCustomNames.empty() ? "AGE3NamesV0006.ini" : PathCustomNames;
+    const wxString localFilename = PathCustomNames.empty() ? "AGE3NamesV0007.ini" : PathCustomNames;
     wxFileConfig Customs("", "", localFilename, "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
     wxString KeyArmors, KeyTerrainTables, KeyCivResources;
 
@@ -955,11 +955,17 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         KeyTerrainTables = "SWGB";
         KeyCivResources = "SWGB";
     }
-    else
+    else if (GenieVersion < genie::GV_CCV2)
     {
         KeyArmors = "SWGB";
         KeyTerrainTables = "SWGB";
         KeyCivResources = "SWCC";
+    }
+    else
+    {
+        KeyArmors = "SWGBEF";
+        KeyTerrainTables = "SWGBEF";
+        KeyCivResources = "SWGBEF";
     }
 
     wxString KeyNumArmors = "Counts/Num" + KeyArmors + "Armors";
@@ -1158,16 +1164,23 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         else // SWGB and CC
         {
             // SWGB & CC
-            names.Add("Aircraft");  // Selection 1
+            if (GenieVersion >= genie::GV_CCV2)
+            {
+                names.Add("Light Aircraft");
+            }
+            else
+            {
+                names.Add("Aircraft");  // Selection 1
+            }
             // Airspeeder
             // AIR SHIPS!!!
             // Geonosian Warrior
             // Wild Gungan Flyer
-            names.Add("Heavy Assault Machines");    // Selection 2
+            names.Add("Assault Walkers");    // Selection 2
             // Assault Mech
             // AT-AT
             // Blizzards
-            names.Add("Heavy Weapons");
+            names.Add("Heavy Weapons & Med. Mechs");
             // Undeployed Cannon
             // Artillery
             // A-A Mobiles
@@ -1182,11 +1195,11 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             // Evok Catapult
             names.Add("Base Ranged/DuraArmor");
             names.Add("Base Melee/Armor");
-            names.Add("Jedis & Bounty Hunters");
+            names.Add("Jedi & Bounty Hunters");
             // Jedi
             // Jedi with Holocron
             // Bounty Hunter
-            names.Add("Assault Machines");
+            names.Add("Mechs");
             // Destroyer Droids
             // Strike Mechs
             // Mech Destroyers
@@ -1197,7 +1210,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             // Decimator
             // AT-AT
             // Blizzards
-            names.Add("Decimators");
+            names.Add("Decimators (incl. Assault Mechs)");
             // Assault Mechs
             // Decimator
             // AT-AT
@@ -1222,8 +1235,15 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             // Gungan Buildings
             names.Add("All Buildings");
             // BUILDINGS!!!
-            names.Add("Unused");
-            names.Add("Defense Buildings");
+            if (GenieVersion >= genie::GV_CCV2)
+            {
+                names.Add("Unique Units");
+            }
+            else
+            {
+                names.Add("Unused");
+            }
+            names.Add("Turrets & Gates");
             // Gate
             // Turrets
             // A-A Turrets
@@ -1259,7 +1279,14 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             // Undeployed Cannon
             // Pummels
             // Cannon
-            names.Add("Unused");
+            if (GenieVersion >= genie::GV_CCV2)
+            {
+                names.Add("Heavy Aircraft");
+            }
+            else
+            {
+                names.Add("Unused");
+            }
             names.Add("Workers");
             // B'omarr Temple
             // Underwater Prefab Shelters
@@ -1285,7 +1312,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             // Blockade Runner
             // Star Destroyer
             // Deathstar
-            names.Add("Wild Animals");
+            names.Add("Controlled Animals & Wild Animals");
             // Wild Fambaa
             // Acklay
             // Falumpaset
@@ -1298,19 +1325,57 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             // Orray
             // Shaak
             // Rancor
-            names.Add("Unused");
+            if (GenieVersion >= genie::GV_CCV2)
+            {
+                names.Add("Siege Units");
+            }
+            else
+            {
+                names.Add("Unused");
+            }
             names.Add("Fortress");
             // Fortress
             names.Add("Unused");
-            names.Add("Unused");
-            names.Add("Unused");
-            names.Add("Tame Animals"); // Selection 31
+            if (GenieVersion >= genie::GV_CCV2)
+            {
+                names.Add("Jedi");
+                names.Add("Bounty Hunters");
+            }
+            else
+            {
+                names.Add("Unused");
+                names.Add("Unused");
+            }
+            names.Add("Fambaa Shields & Flight Animals"); // Selection 31
             // Fambaa Shield Generators
             // Wild Fambaa
             // Kaadu
             // Tauntaun
             // Cu-pa
             // Womp Rat
+            if (GenieVersion >= genie::GV_CCV2)
+            {
+                names.Add("Unknown"); //31
+                names.Add("Unknown"); //32
+                names.Add("Unknown"); //33
+                names.Add("Unknown"); //34
+                names.Add("Unknown"); //35
+                names.Add("Unknown"); //36
+                names.Add("Unknown"); //37
+                names.Add("Unknown"); //38
+                names.Add("Unknown"); //39
+                names.Add("Unknown"); //40
+                names.Add("Speed Reduction (value)");
+                names.Add("Speed Reduction (time)");
+                names.Add("Stealth Removal (value)");
+                names.Add("Stealth Removal (time)");
+                names.Add("Unused");
+                names.Add("Unused");
+                names.Add("HP Drain (const) (value)");
+                names.Add("HP Drain (const) (time)");
+                names.Add("HP Drain (%) (value)");
+                names.Add("HP Drain (%) (time)");
+            }
         }
 
         Customs.Write(KeyNumArmors, names.NumNames());
@@ -1415,38 +1480,50 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         else
         {
             names.Add("All");
-            names.Add("Land + unbuildable");
+            names.Add("Land + Unbuildable");
             names.Add("Shore");
-            names.Add("Water + shore + swamp, large wave");
+            names.Add("Water + Shore, Swamp, [Large Waves]");
             names.Add("Land");
-            names.Add("Land + shore, bridge, AT-AT steps");
-            names.Add("Water + shore + ice2");
-            names.Add("Land - water, lava");
-            names.Add("Land - water, lava, farm");
-            names.Add("Only water");
-            names.Add("Land - shore");
-            names.Add("Land - water, lava, farm, path");
-            names.Add("All - lava, medium impact");
-            names.Add("Water, small wave");
-            names.Add("All - lava, blowup");
-            names.Add("Land + shore, bridge, AT-ST steps");
-            names.Add("Grass + shore");
-            names.Add("Water - shore + bridge");
-            names.Add("All - bridge, lava, arrow/spear");
-            names.Add("Land + shore, bridge, big steps");
-            names.Add("Land + shore, bridge, wheel marks");
-            names.Add("Water - deep water");
-            names.Add("All - bridge, lava");
-            names.Add("No restriction");
-            names.Add("Only water");
-            names.Add("Land + shore, bridge, no steps");
-            names.Add("Land + shore, bridge, medium steps");
-            names.Add("Deep water");
+            names.Add("Land + Shore, Bridge, [AT-AT Steps]");
+            names.Add("Water + Shore, Ice");
+            names.Add("Land - Water, Lava");
+            names.Add("Land - Water, Lava, Farm");
+            names.Add("Only Water");
+            names.Add("Land - Shore");
+            names.Add("Land - Water, Lava, Farm, Path");
+            names.Add("All - Lava + [Medium Impact]");
+            names.Add("Water + [Small Wave]");
+            names.Add("All - Lava + [Small Energy Explosion]");
+            names.Add("Land + Shore, Bridge, [AT-ST Steps]");
+            names.Add("Grass + Shore");
+            names.Add("Water - Shore + Bridge");
+            names.Add("All - Bridge, Lava + [Arrow/Spear]");
+            names.Add("Land + Shore, Bridge, [Big Steps]");
+            names.Add("Land + Shore, Bridge, [2 Wheel Tracks]");
+            names.Add("Water - Deep Water");
+            names.Add("All - Bridge, Lava");
+            names.Add("No Restriction");
+            names.Add("Only Water");
+            names.Add("Land + Shore, Bridge, [No Steps]");
+            names.Add("Land + Shore, Bridge, [Medium Steps]");
+            names.Add("Deep Water");
             names.Add("Wasteland");
-            names.Add("Only Ice1");
-            names.Add("Only Lava");
-            names.Add("Only Water2");
-            names.Add("Only Rock4");
+            names.Add("Only Red Desert");
+            names.Add("Lava");
+            names.Add("Only Medium Water");
+            names.Add("Only Volcanic Rock");
+            if (GenieVersion >= genie::GV_CCV2)
+            {
+                names.Add("Water, Swamp, Sludge, Mud");
+                names.Add("All + Water, [Rain Puddles]");
+                names.Add("Shallow Water + Sludge");
+                names.Add("All (Sand Walk Rate 2)");
+                names.Add("All + [Rock Explode/Splash]");
+                names.Add("Land + [Ski Speeder Plumes]");
+                names.Add("Land + [1 Wheel Tracks]");
+                names.Add("Water (Shipyard Placement)");
+                names.Add("Land - Ice");
+            }
         }
 
         Customs.Write(KeyNumTerrainTables, names.NumNames());
@@ -2151,17 +2228,17 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             names.Add("Berry Storage");
             names.Add("Fish Storage");
             names.Add("Power Core Range");
-            names.Add("Total Units Owned");
+            names.Add("Unpowered Building Work Rate Multiplier");
             names.Add("Units Killed");
             names.Add("Technology Count");
             names.Add("% Map Explored");
             names.Add("Submarine Detection");
             names.Add("Shield Generator Range");
-            names.Add("Unknown");
+            names.Add("Shield Recharge Interval");
             names.Add("Drop-off Time of Shields");
             names.Add("Enable Jedi Conversion");
             names.Add("Enable Building Conversion");
-            names.Add("Unknown");
+            names.Add("Fambaa Shield Generator Range");
             names.Add("Unused (Building Limit)");
             names.Add("Enable A-A Attack for AT-AT");
             names.Add("Bonus Population Cap");
@@ -2179,7 +2256,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             names.Add("Kill Ratio");
             names.Add("Survival to Finish");
             names.Add("Tribute Inefficiency");
-            names.Add("Nova Mining Productivity");
+            names.Add("Building Self Regeneration Timer");
             names.Add("Town Center Unavailable");
             names.Add("Gold Counter");
             names.Add("Reveal Ally");
@@ -2191,11 +2268,11 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             names.Add("Enable Stealth for Masters");
             names.Add("Kidnap Storage");
             names.Add("Masters Can See Hidden Units");
-            names.Add("Trade Good Quality");
-            names.Add("Trade Market Level");
-            names.Add("Unused (Formations)");
+            names.Add("Tech Level 1 Tech ID");
+            names.Add("Tech Level 2 Tech ID");
+            names.Add("Tech Level 3 Tech ID");
             names.Add("Building Housing Rate");
-            names.Add("Tax Gather Rate");
+            names.Add("Tech Level 4 Tech ID");
             names.Add("Gather Accumulator");
             names.Add("Salvage Decay Rate");
             names.Add("Unused (Allow Formations)");
@@ -2328,7 +2405,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             names.Add("Meditation");
             names.Add("Crenellations");
             names.Add("Construction Rate Modifier");
-            names.Add("Biological Self Regeneration");
+            names.Add("Hun Wonder Bonus");
             names.Add("Spies Discount");
             names.Add("Unknown");
             names.Add("Unknown");
@@ -2345,6 +2422,17 @@ void AGE_Frame::FillListsBasedOnGameVersion()
             if (GenieVersion >= genie::GV_CC)
             {
                 names.Add("Unknown");
+                if (GenieVersion >= genie::GV_CCV2)
+                {
+                    names.Add("Buildings are self powered");
+                    names.Add("Aircraft Regenerates Hit Points");
+                    names.Add("Max Force After Conversion");
+                    names.Add("Nova Mining Productivity");
+                    names.Add("Nova generation rate (small)");
+                    names.Add("Nova generation rate (large)");
+                    names.Add("Ore generation rate");
+                    names.Add("Food generation rate");
+                }
             }
         }
 
