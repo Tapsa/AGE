@@ -14,6 +14,9 @@ I recommend [url=http://aok.heavengames.com/blacksmith/showfile.php?fileid=10819
 Guide makers et cetera, please include the version into which your guide was written.
 
 Version [b]2025.4.28[/b]:
+-Fixed display logic of some boxes for AoE II DE.
+
+Version [b]2025.4.28[/b]:
 -Save and read colors of data editing boxes.
 
 Version [b]2025.4.25[/b]:
