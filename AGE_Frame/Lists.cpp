@@ -974,6 +974,36 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     wxString KeyArmorNames = KeyArmors + "ArmorNames/";
     wxString KeyTerrainTableNames = KeyTerrainTables + "TerrainTableNames/";
     wxString KeyCivResourceNames = KeyCivResources + "CivResourceNames/";
+
+    // Various hardcoded offsets for SWGB
+    wxString KeyValueOffsets = KeyTerrainTables + "Offsets/";
+
+    auto setupValueOffset = [&](wxString paramName, int32_t& value, int32_t defaultValue)
+        {
+            if (!Customs.Read(paramName, &value, defaultValue))
+            {
+                Customs.Write(paramName, value);
+            }
+        };
+
+    if (GenieVersion >= genie::GV_SWGB)
+    {
+        setupValueOffset(KeyValueOffsets + "Worker", swgbOffsets.worker,
+            GenieVersion >= genie::GV_CCV2 ? 100136 : 100140);
+        setupValueOffset(KeyValueOffsets + "Commander", swgbOffsets.commander,
+            GenieVersion >= genie::GV_CCV2 ? 99937 : 100200);
+        setupValueOffset(KeyValueOffsets + "Temple", swgbOffsets.temple,
+            GenieVersion >= genie::GV_CCV2 ? 99917 : 100220);
+        setupValueOffset(KeyValueOffsets + "CargoTrader", swgbOffsets.cargo_trader,
+            GenieVersion >= genie::GV_CCV2 ? 99957 : 100210);
+        setupValueOffset(KeyValueOffsets + "BuildingIcons", swgbOffsets.icon_bldg,
+            GenieVersion >= genie::GV_CCV2 ? 53300 : 53240);
+        setupValueOffset(KeyValueOffsets + "UnitIcons", swgbOffsets.icon_unit,
+            GenieVersion >= genie::GV_CCV2 ? 53330 : 53250);
+        setupValueOffset(KeyValueOffsets + "TechIcons", swgbOffsets.icon_tech,
+            GenieVersion >= genie::GV_CCV2 ? 53360 : 53260);
+    }
+
     wxString read_buf;
     long NumNames;
 

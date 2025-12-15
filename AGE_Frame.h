@@ -940,6 +940,17 @@ private:
     unsigned setbearing;
     float bearing;
 
+    struct SWGB_Offsets
+    {
+        int32_t worker;
+        int32_t commander;
+        int32_t temple;
+        int32_t cargo_trader;
+        int32_t icon_bldg;
+        int32_t icon_unit;
+        int32_t icon_tech;
+    } swgbOffsets;
+
 public:
 //  Constants, remove unneeded entries.
 
@@ -1220,24 +1231,28 @@ private:
     wxBoxSizer *General_Variables2_Grid;
     wxStaticBoxSizer *General_Variables1_Holder;
     wxStaticBoxSizer *General_Variables2_Holder;
-    wxBoxSizer *General_SUnknown7_Holder;
-    SolidText *General_SUnknown7_Text;
-    AGETextCtrl *General_SUnknown7;
-    wxBoxSizer *General_SUnknown8_Holder;
-    SolidText *General_SUnknown8_Text;
-    AGETextCtrl *General_SUnknown8;
-    wxBoxSizer *General_SUnknown2_Holder;
-    SolidText *General_SUnknown2_Text;
-    AGETextCtrl *General_SUnknown2;
-    wxBoxSizer *General_SUnknown3_Holder;
-    SolidText *General_SUnknown3_Text;
-    AGETextCtrl *General_SUnknown3;
-    wxBoxSizer *General_SUnknown4_Holder;
-    SolidText *General_SUnknown4_Text;
-    AGETextCtrl *General_SUnknown4;
-    wxBoxSizer *General_SUnknown5_Holder;
-    SolidText *General_SUnknown5_Text;
-    AGETextCtrl *General_SUnknown5;
+    wxBoxSizer *General_TechsStartMarker_Holder;
+    SolidText *General_TechsStartMarker_Text;
+    AGETextCtrl *General_TechsStartMarker;
+    wxBoxSizer *General_TechsEndMarker_Holder;
+    SolidText *General_TechsEndMarker_Text;
+    AGETextCtrl *General_TechsEndMarker;
+    wxBoxSizer *General_WaypointSprite_Holder;
+    SolidText *General_WaypointSprite_Text;
+    LinkedComboBox *General_WaypointSprite_ComboBox;
+    AGETextCtrl *General_WaypointSprite;
+    wxBoxSizer *General_MoveToSprite_Holder;
+    SolidText *General_MoveToSprite_Text;
+    LinkedComboBox *General_MoveToSprite_ComboBox;
+    AGETextCtrl *General_MoveToSprite;
+    wxBoxSizer *General_GarrisonSound_Holder;
+    SolidText *General_GarrisonSound_Text;
+    LinkedComboBox *General_GarrisonSound_ComboBox;
+    AGETextCtrl *General_GarrisonSound;
+    wxBoxSizer *General_UngarrisonSound_Holder;
+    SolidText *General_UngarrisonSound_Text;
+    LinkedComboBox *General_UngarrisonSound_ComboBox;
+    AGETextCtrl *General_UngarrisonSound;
     std::array<wxBoxSizer*, 8> General_TTKnown_Holder;
     std::array<SolidText*, 8> General_TTKnown_Text;
     std::array<AGETextCtrl*, 8> General_TTKnown;

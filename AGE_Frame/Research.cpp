@@ -347,7 +347,7 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
         }
         if(GenieVersion >= genie::GV_CC)
         {
-            techSLP.slpID = 53260 + dataset->Civs[UnitCivID].IconSet;
+            techSLP.slpID = swgbOffsets.icon_tech + dataset->Civs[UnitCivID].IconSet;
         }
         else if(GenieVersion == genie::GV_SWGB)
         {

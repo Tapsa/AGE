@@ -154,12 +154,12 @@ void AGE_Frame::OnMapsRefresh(wxCommandEvent &event)
         General_TTKnown[7]->prepend(&dataset->TechTree.TotalUnitTechGroups);
         if(GenieVersion >= genie::GV_SWGB)
         {
-            General_SUnknown2->prepend(&dataset->SUnknown2);
-            General_SUnknown3->prepend(&dataset->SUnknown3);
-            General_SUnknown4->prepend(&dataset->SUnknown4);
-            General_SUnknown5->prepend(&dataset->SUnknown5);
-            General_SUnknown7->prepend(&dataset->SUnknown7);
-            General_SUnknown8->prepend(&dataset->SUnknown8);
+            General_WaypointSprite->prepend(&dataset->WaypointSprite);
+            General_MoveToSprite->prepend(&dataset->MoveToSprite);
+            General_GarrisonSound->prepend(&dataset->GarrisonSound);
+            General_UngarrisonSound->prepend(&dataset->UngarrisonSound);
+            General_TechsStartMarker->prepend(&dataset->TechsStartMarker);
+            General_TechsEndMarker->prepend(&dataset->TechsEndMarker);
         }
     }
     for (AGETextCtrl *box : uiGroupMaps) box->update();
@@ -180,33 +180,34 @@ void AGE_Frame::CreateGeneralControls()
     General_Scroller = new AScrolled(Tab_General);
     General_ScrollSpace = new wxBoxSizer(wxVERTICAL);
 
-    const wxString SWUNKNOWNSINFO = "Unknowns 2 to 5 are in the beginning of the file,\nright after civilization count (first of the two) and\nbefore terrain tables";
     General_Variables2_Grid = new wxBoxSizer(wxHORIZONTAL);
-    General_Variables1_Holder = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Star Wars Unknowns");
-    General_SUnknown2_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown2_Text = new SolidText(General_Scroller, " Unkown 2 *");
-    General_SUnknown2 = new NumberControl(CLong, General_Scroller, this, &uiGroupMaps);
-    General_SUnknown2->SetToolTip(SWUNKNOWNSINFO);
-    General_SUnknown3_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown3_Text = new SolidText(General_Scroller, " Unkown 3 *");
-    General_SUnknown3 = new NumberControl(CLong, General_Scroller, this, &uiGroupMaps);
-    General_SUnknown3->SetToolTip(SWUNKNOWNSINFO);
-    General_SUnknown4_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown4_Text = new SolidText(General_Scroller, " Unkown 4 *");
-    General_SUnknown4 = new NumberControl(CLong, General_Scroller, this, &uiGroupMaps);
-    General_SUnknown4->SetToolTip(SWUNKNOWNSINFO);
-    General_SUnknown5_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown5_Text = new SolidText(General_Scroller, " Unkown 5 *");
-    General_SUnknown5 = new NumberControl(CLong, General_Scroller, this, &uiGroupMaps);
-    General_SUnknown5->SetToolTip(SWUNKNOWNSINFO);
-    General_SUnknown7_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown7_Text = new SolidText(General_Scroller, " Unkown 7 *");
-    General_SUnknown7 = new NumberControl(CUByte, General_Scroller, this, &uiGroupMaps);
-    General_SUnknown7->SetToolTip("In the file this is\nright after civilizations and\nbefore techs");
-    General_SUnknown8_Holder = new wxBoxSizer(wxVERTICAL);
-    General_SUnknown8_Text = new SolidText(General_Scroller, " Unkown 8 *");
-    General_SUnknown8 = new NumberControl(CUByte, General_Scroller, this, &uiGroupMaps);
-    General_SUnknown8->SetToolTip("In the file this is\nright after techs and\nbefore technology trees");
+    General_Variables1_Holder = new wxStaticBoxSizer(wxHORIZONTAL, General_Scroller, "Star Wars Variables");
+    General_WaypointSprite_Holder = new wxBoxSizer(wxVERTICAL);
+    General_WaypointSprite_Text = new SolidText(General_Scroller, " Waypoint Sprite");
+    General_WaypointSprite = new NumberControl(CLong, General_Scroller, this, &uiGroupMaps);
+    General_WaypointSprite_ComboBox = new LinkedComboBox(General_Scroller, General_WaypointSprite, &graphic_names);
+    GraphicComboBoxList.push_back(General_WaypointSprite_ComboBox);
+    General_MoveToSprite_Holder = new wxBoxSizer(wxVERTICAL);
+    General_MoveToSprite_Text = new SolidText(General_Scroller, " MoveTo Sprite");
+    General_MoveToSprite = new NumberControl(CLong, General_Scroller, this, &uiGroupMaps);
+    General_MoveToSprite_ComboBox = new LinkedComboBox(General_Scroller, General_MoveToSprite, &graphic_names);
+    GraphicComboBoxList.push_back(General_MoveToSprite_ComboBox);
+    General_GarrisonSound_Holder = new wxBoxSizer(wxVERTICAL);
+    General_GarrisonSound_Text = new SolidText(General_Scroller, " Garrison Sound");
+    General_GarrisonSound = new NumberControl(CLong, General_Scroller, this, &uiGroupMaps);
+    General_GarrisonSound_ComboBox = new LinkedComboBox(General_Scroller, General_GarrisonSound, &sound_names);
+    SoundComboBoxList.push_back(General_GarrisonSound_ComboBox);
+    General_UngarrisonSound_Holder = new wxBoxSizer(wxVERTICAL);
+    General_UngarrisonSound_Text = new SolidText(General_Scroller, " Ungarrison Sound");
+    General_UngarrisonSound = new NumberControl(CLong, General_Scroller, this, &uiGroupMaps);
+    General_UngarrisonSound_ComboBox = new LinkedComboBox(General_Scroller, General_UngarrisonSound, &sound_names);
+    SoundComboBoxList.push_back(General_UngarrisonSound_ComboBox);
+    General_TechsStartMarker_Holder = new wxBoxSizer(wxVERTICAL);
+    General_TechsStartMarker_Text = new SolidText(General_Scroller, " Techs Start Marker");
+    General_TechsStartMarker = new NumberControl(CUByte, General_Scroller, this, &uiGroupMaps);
+    General_TechsEndMarker_Holder = new wxBoxSizer(wxVERTICAL);
+    General_TechsEndMarker_Text = new SolidText(General_Scroller, " Techs End Marker");
+    General_TechsEndMarker = new NumberControl(CUByte, General_Scroller, this, &uiGroupMaps);
 
     General_VFP_Holder = new wxBoxSizer(wxVERTICAL);
     General_VFP_Text = new SolidText(General_Scroller, " __vfptr");
@@ -417,24 +418,28 @@ void AGE_Frame::CreateGeneralControls()
     for(size_t loop = 0; loop < General_Something.size(); ++loop)
     General_Something_Grid2->Add(General_Something[loop]);
 
-    General_SUnknown7_Holder->Add(General_SUnknown7_Text);
-    General_SUnknown7_Holder->Add(General_SUnknown7, 1, wxEXPAND);
-    General_SUnknown8_Holder->Add(General_SUnknown8_Text);
-    General_SUnknown8_Holder->Add(General_SUnknown8, 1, wxEXPAND);
-    General_SUnknown2_Holder->Add(General_SUnknown2_Text);
-    General_SUnknown2_Holder->Add(General_SUnknown2, 1, wxEXPAND);
-    General_SUnknown3_Holder->Add(General_SUnknown3_Text);
-    General_SUnknown3_Holder->Add(General_SUnknown3, 1, wxEXPAND);
-    General_SUnknown4_Holder->Add(General_SUnknown4_Text);
-    General_SUnknown4_Holder->Add(General_SUnknown4, 1, wxEXPAND);
-    General_SUnknown5_Holder->Add(General_SUnknown5_Text);
-    General_SUnknown5_Holder->Add(General_SUnknown5, 1, wxEXPAND);
-    General_Variables1_Holder->Add(General_SUnknown2_Holder);
-    General_Variables1_Holder->Add(General_SUnknown3_Holder, 0, wxLEFT, 5);
-    General_Variables1_Holder->Add(General_SUnknown4_Holder, 0, wxLEFT, 5);
-    General_Variables1_Holder->Add(General_SUnknown5_Holder, 0, wxLEFT, 5);
-    General_Variables1_Holder->Add(General_SUnknown7_Holder, 0, wxLEFT, 5);
-    General_Variables1_Holder->Add(General_SUnknown8_Holder, 0, wxLEFT, 5);
+    General_TechsStartMarker_Holder->Add(General_TechsStartMarker_Text);
+    General_TechsStartMarker_Holder->Add(General_TechsStartMarker, 1, wxEXPAND);
+    General_TechsEndMarker_Holder->Add(General_TechsEndMarker_Text);
+    General_TechsEndMarker_Holder->Add(General_TechsEndMarker, 1, wxEXPAND);
+    General_WaypointSprite_Holder->Add(General_WaypointSprite_Text);
+    General_WaypointSprite_Holder->Add(General_WaypointSprite, 1, wxEXPAND);
+    General_WaypointSprite_Holder->Add(General_WaypointSprite_ComboBox);
+    General_MoveToSprite_Holder->Add(General_MoveToSprite_Text);
+    General_MoveToSprite_Holder->Add(General_MoveToSprite, 1, wxEXPAND);
+    General_MoveToSprite_Holder->Add(General_MoveToSprite_ComboBox);
+    General_GarrisonSound_Holder->Add(General_GarrisonSound_Text);
+    General_GarrisonSound_Holder->Add(General_GarrisonSound, 1, wxEXPAND);
+    General_GarrisonSound_Holder->Add(General_GarrisonSound_ComboBox);
+    General_UngarrisonSound_Holder->Add(General_UngarrisonSound_Text);
+    General_UngarrisonSound_Holder->Add(General_UngarrisonSound, 1, wxEXPAND);
+    General_UngarrisonSound_Holder->Add(General_UngarrisonSound_ComboBox);
+    General_Variables1_Holder->Add(General_WaypointSprite_Holder);
+    General_Variables1_Holder->Add(General_MoveToSprite_Holder, 0, wxLEFT, 5);
+    General_Variables1_Holder->Add(General_GarrisonSound_Holder, 0, wxLEFT, 5);
+    General_Variables1_Holder->Add(General_UngarrisonSound_Holder, 0, wxLEFT, 5);
+    General_Variables1_Holder->Add(General_TechsStartMarker_Holder, 0, wxLEFT, 5);
+    General_Variables1_Holder->Add(General_TechsEndMarker_Holder, 0, wxLEFT, 5);
 
     General_VFP_Holder->Add(General_VFP_Text);
     General_VFP_Holder->Add(General_VFP);

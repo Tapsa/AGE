@@ -21,7 +21,46 @@ wxString AGE_Frame::GetUnitName(int index, short civ, bool filter)
     }
     if (UseDynamicUnitName)
     {
-        wxString DynamicName = TranslatedText(dataset->Civs[civ].Units[index].LanguageDLLName, 64);
+        auto ConvertStringID = [&](int32_t id)
+            {
+                if (GenieVersion >= genie::GV_SWGB)
+                {
+                    int civ_index = civ > 0 ? civ - 1 : 0;
+                    if (dataset->Civs[civ].Units[index].Class == 58) //Workers
+                    {
+                        int offset = 100000;
+                        int items = 6;
+                        
+                        if (civ_index >= 6)
+                        {
+                            offset = swgbOffsets.worker;
+                            items = dataset->Civs.size() - 1 - 6;
+                            civ_index -= 6;
+                        }
+                        return (offset + civ_index + items * (id - 5001)) & 0xFFFF;
+                    }
+                    else if (index == 931) //Cargo Trader
+                    {
+                        return (swgbOffsets.cargo_trader + civ_index) & 0xFFFF;
+                    }
+                    else if (index == 434) //Commander
+                    {
+                        return (swgbOffsets.commander + civ_index) & 0xFFFF;
+                    }
+                    else if (index == 104) //Temple
+                    {
+                        return (swgbOffsets.temple + civ_index) & 0xFFFF;
+                    }
+                    else
+                        return id;
+                }
+                else
+                {
+                    return id;
+                }
+            };
+
+        wxString DynamicName = TranslatedText(ConvertStringID(dataset->Civs[civ].Units[index].LanguageDLLName), 64);
         if (!DynamicName.empty())
         {
             return name + DynamicName;
@@ -1692,12 +1731,12 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
         : UnitPointer->Class != 34 && UnitPointer->Class != 36))
         {
             int set0 = 50704;
-            if(GenieVersion >= genie::GV_CC) set0 = 53240;
+            if(GenieVersion >= genie::GV_CC) set0 = swgbOffsets.icon_bldg;
             iconSLP.slpID = set0 + dataset->Civs[UnitCivID].IconSet;
         }
         else if(GenieVersion >= genie::GV_CC)
         {
-            iconSLP.slpID = 53250 + dataset->Civs[UnitCivID].IconSet;
+            iconSLP.slpID = swgbOffsets.icon_unit + dataset->Civs[UnitCivID].IconSet;
         }
         else if(GenieVersion == genie::GV_SWGB)
         {

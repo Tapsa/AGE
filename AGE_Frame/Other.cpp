@@ -680,10 +680,10 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         wxCommandEvent event(wxEVT_MENU, eVasili);
         OnMenuOption(event);
         event.SetId(eUnknown);
-        event.SetInt(GenieVersion < genie::GV_SWGB ? true : ShowUnknowns);
+        event.SetInt(true);
         OnMenuOption(event);
         GetToolBar()->ToggleTool(eUnknown, ShowUnknowns);
-        GetToolBar()->EnableTool(eUnknown, GenieVersion >= genie::GV_SWGB);
+        GetToolBar()->EnableTool(eUnknown, false);
 
         LoadLists();
         TabBar_Main->Thaw();
@@ -703,13 +703,12 @@ void AGE_Frame::OnGameVersionChange()
         General_Something[loop]->Show(false);
         for(size_t loop = dataset->TerrainBlock.getBytesSize(); loop < General_SomeBytes.size(); ++loop)
         General_SomeBytes[loop]->Show(false);
-        if(ShowUnknowns)
-        {
-            for(size_t loop = 0; loop < dataset->TerrainBlock.getSomethingSize(); ++loop)
-            General_Something[loop]->Show(true);
-            for(size_t loop = 0; loop < dataset->TerrainBlock.getBytesSize(); ++loop)
-            General_SomeBytes[loop]->Show(true);
-        }
+
+        // Show these always now
+        for(size_t loop = 0; loop < dataset->TerrainBlock.getSomethingSize(); ++loop)
+        General_Something[loop]->Show(true);
+        for(size_t loop = 0; loop < dataset->TerrainBlock.getBytesSize(); ++loop)
+        General_SomeBytes[loop]->Show(true);
 
         // Test ->
         bool show = (GenieVersion >= genie::GV_TEST) ? true : false;
@@ -924,7 +923,7 @@ void AGE_Frame::OnGameVersionChange()
         UnitLines_Main->Show(show);
         TabBar_Main->SetPageText(5, show ? "Unitlines" : "SW only");
         Civs_SUnknown1_Holder->Show(show);
-        General_Variables1_Holder->Show(show && ShowUnknowns);
+        General_Variables1_Holder->Show(show);
         Terrains_Phantom_Holder->Show(!show);
 
         bool appear = GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap;
