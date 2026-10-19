@@ -311,7 +311,12 @@ void AGE_Frame::PrepUnitSearch()
         else if (label.compare("Hot Key") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return "HK " + FormatInt(unit_ptr->HotKey);
+            wxString name = "";
+            for (size_t i = 0; i < unit_ptr->Creatable.TrainLocations.size(); i++)
+            {
+                name += "HK" + FormatInt(unit_ptr->Creatable.TrainLocations[i].HotKeyID) + " ";
+            }
+            return UF70 name;
         });
         else if (label.compare("Recyclable") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -716,7 +721,7 @@ void AGE_Frame::PrepUnitSearch()
                 return UF50 "FF " + FormatFloat(unit_ptr->Type50.FriendlyFireDamage);
             });
         }
-        else if (label.compare("Instant Karma") == 0)
+        else if (label.compare("Dmg Reflection") == 0)
         {
             UnitFilterFunctions.push_back([this](genie::Unit* unit_ptr)
             {
@@ -822,17 +827,32 @@ void AGE_Frame::PrepUnitSearch()
         else if (label.compare("Train Time") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "TT " + FormatInt(unit_ptr->Creatable.TrainTime);
+            wxString name = "";
+            for (size_t i = 0; i < unit_ptr->Creatable.TrainLocations.size(); i++)
+            {
+                name += "TT" + FormatInt(unit_ptr->Creatable.TrainLocations[i].QueueTime) + " ";
+            }
+            return UF70 name;
         });
         else if (label.compare("Train Location") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "TL " + FormatInt(unit_ptr->Creatable.TrainLocationID);
+            wxString name = "";
+            for (size_t i = 0; i < unit_ptr->Creatable.TrainLocations.size(); i++)
+            {
+                name += "TL" + FormatInt(unit_ptr->Creatable.TrainLocations[i].LocationID) + " ";
+            }
+            return UF70 name;
         });
         else if (label.compare("Train Button") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
         {
-            return UF70 "B " + FormatInt(unit_ptr->Creatable.ButtonID);
+            wxString name = "";
+            for (size_t i = 0; i < unit_ptr->Creatable.TrainLocations.size(); i++)
+            {
+                name += "TB" + FormatInt(unit_ptr->Creatable.TrainLocations[i].ButtonID) + " ";
+            }
+            return UF70 name;
         });
         else if (label.compare("Rear Attack Modifier") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -1347,9 +1367,6 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                         Units_CostAmount[loop]->prepend(&UnitPointer->Creatable.ResourceCosts[loop].Amount);
                         Units_CostUsed[loop]->prepend(&UnitPointer->Creatable.ResourceCosts[loop].Flag);
                     }
-                    Units_TrainTime->prepend(&UnitPointer->Creatable.TrainTime);
-                    Units_TrainLocationID->prepend(&UnitPointer->Creatable.TrainLocationID);
-                    Units_ButtonID->prepend(&UnitPointer->Creatable.ButtonID);
                     Units_DisplayedPierceArmour->prepend(&UnitPointer->Creatable.DisplayedPierceArmour);
                     if(GenieVersion >= genie::GV_AoKE3)
                     {
@@ -1543,7 +1560,6 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
                     Units_MinimapColor->prepend(&UnitPointer->MinimapColor);
                     Units_LanguageDLLHelp->prepend(&UnitPointer->LanguageDLLHelp);
                     Units_LanguageDLLHotKeyText->prepend(&UnitPointer->LanguageDLLHotKeyText);
-                    Units_HotKey->prepend(&UnitPointer->HotKey);
                     Units_Recyclable->prepend(&UnitPointer->Recyclable);
                     Units_TrackAsResource->prepend(&UnitPointer->EnableAutoGather);
                     Units_CreateDoppelgangerOnDeath->prepend(&UnitPointer->CreateDoppelgangerOnDeath);
@@ -1701,7 +1717,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
             Units_DLL_LanguageHelp->index = (uint16_t)UnitPointer->LanguageDLLHelp;
             Units_DLL_LanguageHKText->index = (uint16_t)UnitPointer->LanguageDLLHotKeyText;
         }
-        Units_DLL_HotKey4->index = UnitPointer->HotKey;
+        Units_DLL_HotKey4->index = UnitPointer->Creatable.TrainLocations.front().HotKeyID;
         if(GenieVersion >= genie::GV_AoKB)
         {
             std::string newLabel = " ( ", aste = "° ";
@@ -1792,6 +1808,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
     ListUnitDamageGraphics();
     ListUnitAttacks();
     ListUnitArmors();
+
     // AoK, TC, SWGB or CC
     if (selections > 0 && GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
@@ -1811,6 +1828,7 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
     }
     ListUnitCommands();
     ListUnitDropSites();
+    ListUnitTrainLocations();
 
     setbearing = 1u;
     for (AGETextCtrl *box : uiGroupUnit) box->update();
@@ -2470,6 +2488,262 @@ void AGE_Frame::OnUnitDropSiteSelect(wxCommandEvent &event)
         }
     }
     DropSites_UnitID->update();
+}
+
+wxString AGE_Frame::GetUnitTrainLocationName(int index)
+{
+    return "Unit: " + lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Creatable.TrainLocations[index].LocationID)
+        + " - Time: " + lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Creatable.TrainLocations[index].QueueTime)
+        + " - Button: " + lexical_cast<std::string>(static_cast<short>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Creatable.TrainLocations[index].ButtonID))
+        + " - Hotkey: " + lexical_cast<std::string>(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Creatable.TrainLocations[index].HotKeyID);
+}
+
+void AGE_Frame::OnUnitTrainLocationsSearch(wxCommandEvent &event)
+{
+    How2List = ListMode::SEARCH;
+    ListUnitTrainLocations();
+}
+
+void AGE_Frame::ListUnitTrainLocations()
+{
+    InitSearch(Units_TrainLocations_Search->GetValue().MakeLower(), Units_TrainLocations_Search_R->GetValue().MakeLower());
+
+    Units_TrainLocations_ListV->Sweep();
+
+    if (Units_ListV->GetSelectedCount()
+        && dataset->Civs[UnitCivID].UnitPointers[UnitIDs.front()] != 0
+        && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type >= 70
+        && dataset->Civs[UnitCivID].Units[UnitIDs.front()].Type <= 80)
+    {
+        Units_TrainLocations_Add->Enable(true);
+        for (size_t loop = 0; loop < dataset->Civs[UnitCivID].Units[UnitIDs.front()].Creatable.TrainLocations.size(); ++loop)
+        {
+            wxString Name = FormatInt(loop) + " - " + GetUnitTrainLocationName(loop);
+            if (SearchMatches(" " + Name.Lower() + " "))
+            {
+                Units_TrainLocations_ListV->names.Add(Name);
+                Units_TrainLocations_ListV->indexes.push_back(loop);
+            }
+        }
+    }
+    else
+    {
+        Units_TrainLocations_Add->Enable(false);
+    }
+    RefreshList(Units_TrainLocations_ListV, &TrainLocationIDs);
+
+    wxCommandEvent e;
+    OnUnitTrainLocationSelect(e);
+}
+
+void AGE_Frame::OnUnitTrainLocationSelect(wxCommandEvent &event)
+{
+    size_t selections = Units_TrainLocations_ListV->GetSelectedCount();
+    wxBusyCursor WaitCursor;
+
+    TrainLocations_UnitID->clear();
+    TrainLocations_TrainTime->clear();
+    TrainLocations_ButtonID->clear();
+    TrainLocations_HotkeyID->clear();
+
+    if (selections > 0)
+    {
+        getSelectedItems(selections, Units_TrainLocations_ListV, TrainLocationIDs);
+
+        bool showWarning = false;
+        wxString warning = "Train Location count of civs\n";
+        genie::unit::TrainLocation *TrainLocationPointer;
+        for (size_t sel = selections; sel-- > 0;)
+        {
+            for (short vecCiv = SelectedCivs.size(); vecCiv-- > 0;)
+            {
+                if (sel == 0 && dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Creatable.TrainLocations.size() != dataset->Civs[UnitCivID].Units[UnitIDs.front()].Creatable.TrainLocations.size())
+                {
+                    warning.Append(lexical_cast<std::string>(SelectedCivs[vecCiv]) + " ");
+                    showWarning = true;
+                }
+                TrainLocationPointer = &dataset->Civs[SelectedCivs[vecCiv]].Units[UnitIDs.front()].Creatable.TrainLocations[TrainLocationIDs[sel]];
+
+                TrainLocations_UnitID->prepend(&TrainLocationPointer->LocationID);
+                TrainLocations_TrainTime->prepend(&TrainLocationPointer->QueueTime);
+                TrainLocations_ButtonID->prepend(&TrainLocationPointer->ButtonID);
+                TrainLocations_HotkeyID->prepend(&TrainLocationPointer->HotKeyID);
+            }
+        }
+        if (showWarning)
+        {
+            warning.Append("\ndiffers from civ " + lexical_cast<std::string>(UnitCivID));
+            wxMessageBox(warning);
+        }
+    }
+    TrainLocations_UnitID->update();
+    TrainLocations_TrainTime->update();
+    TrainLocations_ButtonID->update();
+    TrainLocations_HotkeyID->update();
+}
+
+void AGE_Frame::OnUnitTrainLocationsAdd(wxCommandEvent &event)
+{
+    if (!Units_ListV->GetSelectedCount()) return;
+
+    wxBusyCursor WaitCursor;
+    genie::unit::TrainLocation Temp;
+    Temp.setGameVersion(GenieVersion);
+    for (size_t loop = 0; loop < dataset->Civs.size(); ++loop)
+    {
+        if (dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
+            dataset->Civs[loop].Units[UnitIDs.front()].Creatable.TrainLocations.push_back(Temp);
+    }
+    How2List = ListMode::ADD;
+    ListUnitTrainLocations();
+}
+
+void AGE_Frame::OnUnitTrainLocationsInsert(wxCommandEvent &event)
+{
+    if (!Units_TrainLocations_ListV->GetSelectedCount()) return;
+
+    wxBusyCursor WaitCursor;
+    genie::unit::TrainLocation Temp;
+    Temp.setGameVersion(GenieVersion);
+    for (size_t loop = 0; loop < dataset->Civs.size(); ++loop)
+    {
+        if (dataset->Civs[loop].UnitPointers[UnitIDs.front()] != 0)
+            dataset->Civs[loop].Units[UnitIDs.front()].Creatable.TrainLocations.insert(dataset->Civs[loop].Units[UnitIDs.front()].Creatable.TrainLocations.begin() + TrainLocationIDs.front(), Temp);
+    }
+    How2List = ListMode::INSNEW;
+    ListUnitTrainLocations();
+}
+
+void AGE_Frame::OnUnitTrainLocationsDelete(wxCommandEvent &event)
+{
+    size_t selections = Units_TrainLocations_ListV->GetSelectedCount();
+    if (!selections) return;
+
+    wxBusyCursor WaitCursor;
+    for (short civ = 0; civ < dataset->Civs.size(); ++civ)
+    {
+        if (dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
+            if (dataset->Civs[civ].Units[UnitIDs.front()].Creatable.TrainLocations.size())
+                DeleteFromList(dataset->Civs[civ].Units[UnitIDs.front()].Creatable.TrainLocations, TrainLocationIDs);
+    }
+    ListUnitTrainLocations();
+}
+
+void AGE_Frame::OnUnitTrainLocationsCopy(wxCommandEvent &event)
+{
+    if (!Units_TrainLocations_ListV->GetSelectedCount()) return;
+
+    wxBusyCursor WaitCursor;
+    if (Units_SpecialCopy_Civs->GetValue())
+    {
+        copies.Dat.AllCivs |= 0x200;
+    }
+    else copies.Dat.AllCivs &= ~0x200;
+    if (copies.Dat.AllCivs & 0x200)
+    {
+        short CivCount = dataset->Civs.size();
+        copies.Dat.UnitTrainLocationExists.resize(CivCount);
+        copies.Dat.UnitTrainLocations.resize(CivCount);
+        for (short civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+        {
+            if (dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
+            {
+                // Graphic set info not usefull.
+                copies.Dat.UnitTrainLocationExists[civ] = 255;
+                CivCount--;
+            }
+            else
+            {
+                // Save info of graphic set to intelligently fill possible gaps when pasting.
+                copies.Dat.UnitTrainLocationExists[civ] = 256 + dataset->Civs[civ].IconSet;
+                // Only copy train locations from civs which have this unit enabled.
+                CopyFromList(dataset->Civs[civ].Units[UnitIDs.front()].Creatable.TrainLocations, TrainLocationIDs, copies.Dat.UnitTrainLocations[copy]); copy++;
+            }
+        }
+        copies.Dat.UnitTrainLocations.resize(CivCount);
+    }
+    else
+    {
+        CopyFromList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Creatable.TrainLocations, TrainLocationIDs, copies.Dat.UnitTrainLocations.front());
+    }
+    Units_TrainLocations_ListV->SetFocus();
+}
+
+void AGE_Frame::OnUnitTrainLocationsPaste(wxCommandEvent &event)
+{
+    if (!Units_TrainLocations_ListV->GetSelectedCount()) return;
+
+    wxBusyCursor WaitCursor;
+    if (copies.Dat.AllCivs & 0x200)
+    {
+        for (size_t civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+        {
+            if (dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
+            {
+                // Consume copies.
+                if (copies.Dat.UnitTrainLocationExists[civ] > 255) ++copy;
+                continue;
+            }
+            // If the target unit exists then choose from following.
+            if (copies.Dat.UnitTrainLocationExists[civ] > 255 && copy < copies.Dat.UnitTrainLocations.size())
+            {
+                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Creatable.TrainLocations, TrainLocationIDs, copies.Dat.UnitTrainLocations[copy]); ++copy;
+            }
+            else
+            {
+                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Creatable.TrainLocations, TrainLocationIDs, copies.Dat.UnitTrainLocations.front());
+            }
+        }
+    }
+    else
+    {
+        PasteToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Creatable.TrainLocations, TrainLocationIDs, copies.Dat.UnitTrainLocations.front());
+    }
+    ListUnitTrainLocations();
+}
+
+void AGE_Frame::OnUnitTrainLocationsPasteInsert(wxCommandEvent &event)
+{
+    if (!Units_TrainLocations_ListV->GetSelectedCount()) return;
+
+    wxBusyCursor WaitCursor;
+    if (copies.Dat.AllCivs & 0x200)
+    {
+        for (short civ = 0, copy = 0; civ < dataset->Civs.size(); ++civ)
+        {
+            if (dataset->Civs[civ].UnitPointers[UnitIDs.front()] == 0)
+            {
+                // Consume copies.
+                if (copies.Dat.UnitTrainLocationExists[civ] > 255) ++copy;
+                continue;
+            }
+            // If the target unit exists then choose from following.
+            if (copies.Dat.UnitTrainLocationExists[civ] > 255 && copy < copies.Dat.UnitTrainLocations.size())
+            {
+                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Creatable.TrainLocations, TrainLocationIDs.front(), copies.Dat.UnitTrainLocations[copy]); copy++;
+            }
+            else
+            {
+                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Creatable.TrainLocations, TrainLocationIDs.front(), copies.Dat.UnitTrainLocations.front());
+            }
+        }
+    }
+    else
+    {
+        PasteInsertToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Creatable.TrainLocations, TrainLocationIDs.front(), copies.Dat.UnitTrainLocations.front());
+    }
+    ListUnitTrainLocations();
+}
+
+void AGE_Frame::OnUnitTrainLocationsCopyToUnits(wxCommandEvent &event)
+{
+    for (short civ = 0; civ < dataset->Civs.size(); ++civ)
+    {
+        for (size_t loop = 1; loop < UnitIDs.size(); ++loop)
+        {
+            dataset->Civs[civ].Units[UnitIDs[loop]].Creatable.TrainLocations = dataset->Civs[civ].Units[UnitIDs.front()].Creatable.TrainLocations;
+        }
+    }
 }
 
 wxString AGE_Frame::GetUnitAttackName(int index)
@@ -3164,6 +3438,7 @@ void AGE_Frame::OnUnitCommandSelect(wxCommandEvent &event)
                 Tasks_Graphics[5]->prepend(&task_ptr->ResourceDepositSoundID);
                 if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
                 {
+                    Tasks_Enabled->prepend(&task_ptr->Enabled);
                     Tasks_WwiseResourceGatheringSound->prepend(&task_ptr->WwiseResourceGatheringSoundID);
                     Tasks_WwiseResourceDepositSound->prepend(&task_ptr->WwiseResourceDepositSoundID);
                 }
@@ -3646,7 +3921,6 @@ void AGE_Frame::CreateUnitControls()
     Units_LanguageDLLConverter_Holder[0] = new wxBoxSizer(wxVERTICAL);
     Units_LanguageDLLConverter_Holder[1] = new wxBoxSizer(wxVERTICAL);
     Units_LanguageDLLHotKeyText_Holder = new wxBoxSizer(wxVERTICAL);
-    Units_HotKey_Holder = new wxBoxSizer(wxVERTICAL);
     Units_Recyclable_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_TrackAsResource_Holder = new wxBoxSizer(wxHORIZONTAL);
     Units_CreateDoppelgangerOnDeath_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3746,9 +4020,6 @@ void AGE_Frame::CreateUnitControls()
     Unit_Cost_Texts = new wxBoxSizer(wxVERTICAL);
     for (wxBoxSizer *&sizer : Unit_Cost_Sizers)
     sizer = new wxBoxSizer(wxVERTICAL);
-    Units_TrainTime_Holder = new wxBoxSizer(wxVERTICAL);
-    Units_TrainLocationID_Holder = new wxBoxSizer(wxVERTICAL);
-    Units_ButtonID_Holder = new wxBoxSizer(wxVERTICAL);
     Units_RearAttackModifier_Holder = new wxBoxSizer(wxVERTICAL);
     Units_FlankAttackModifier_Holder = new wxBoxSizer(wxVERTICAL);
     Units_CreatableType_Holder = new wxBoxSizer(wxVERTICAL);
@@ -3915,7 +4186,7 @@ void AGE_Frame::CreateUnitControls()
     Units_BlastAttackLevel_Text = new SolidText(Units_Scroller, " Blast Attack Level *");
     Units_BlastDamage_Text = new SolidText(Units_Scroller, " Blast Damage *");
     Units_FriendlyFire_Text = new SolidText(Units_Scroller, " Friendly Fire Damage *");
-    Units_DamageReflection_Text = new SolidText(Units_Scroller, " Instant Karma *"); // Sorry, need a short name for the layout.
+    Units_DamageReflection_Text = new SolidText(Units_Scroller, " Dmg Reflection *"); // Need a short name for the layout.
     Units_InterruptFrame_Text = new SolidText(Units_Scroller, " Interrupt Frame *");
     Units_MinRange_Text = new SolidText(Units_Scroller, " Min Range");
     Units_AccuracyDispersion_Text = new SolidText(Units_Scroller, " Attack Dispersion *");
@@ -3940,9 +4211,6 @@ void AGE_Frame::CreateUnitControls()
     Units_CostType_Text = new SolidText(Units_Scroller, "Type", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(90, -1));
     Units_CostAmount_Text = new SolidText(Units_Scroller, "Amount", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(90, -1));
     Units_CostUsed_Text = new SolidText(Units_Scroller, "Deduct", wxALIGN_RIGHT | wxST_NO_AUTORESIZE, wxSize(90, -1));
-    Units_TrainTime_Text = new SolidText(Units_Scroller, " Train Time");
-    Units_TrainLocationID_Text = new SolidText(Units_Scroller, " Train Location");
-    Units_ButtonID_Text = new SolidText(Units_Scroller, " Train Button *");
     Units_RearAttackModifier_Text = new SolidText(Units_Scroller, " Backstab Bonus");
     Units_FlankAttackModifier_Text = new SolidText(Units_Scroller, " Flank Bonus");
     Units_CreatableType_Text = new SolidText(Units_Scroller, " Creatable Type *");
@@ -4016,9 +4284,7 @@ void AGE_Frame::CreateUnitControls()
     Units_DLL_LanguageName = new TextIndexControl(Units_Scroller, ASize(200, 25));
     Units_LanguageDLLCreation = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit, false);
     Units_DLL_LanguageCreation = new TextIndexControl(Units_Scroller, ASize(200, 25));
-    Units_HotKey = new NumberControl(CLong, Units_Scroller, this, &uiGroupUnit, false);
-    Units_HotKey->SetToolTip("10000 + Language File Creation (usually)");
-    Units_DLL_HotKey4 = new TextIndexControl(Units_Scroller, ASize(200, 25));
+    Units_DLL_HotKey4 = new TextIndexControl(Units_Scroller, ASize(100, 25));
     Units_LanguageDLLHelp = new NumberControl(CLong, Units_Scroller, this, &uiGroupUnit, false);
     Units_LanguageDLLHelp->SetToolTip("100000 + Language File Name\nThis is linked to the help text below");
     Units_LanguageDLLConverter[0] = new wxTextCtrl(Units_Scroller, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER);
@@ -4572,12 +4838,44 @@ void AGE_Frame::CreateUnitControls()
         "1   Resource\n2   Building (build page 1)\n3   Civilian\n4   Soldier\n5   Trade Unit\n6   Priest\n"
         "7   Transport Ship\n8   Relic / Priest with Relic\n9   Fishing Boat\n"
         "10   (A=2&8) Military Building (build page 2)\n11   Shield Building (build page 3)");
-    Units_TrainTime = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit);
-    Units_TrainLocationID = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit);
-    Units_TrainLocationID_ComboBox = new LinkedComboBox(Units_Scroller, Units_TrainLocationID, &unit_names);
-    UnitComboBoxList.push_back(Units_TrainLocationID_ComboBox);
-    Units_ButtonID = new NumberControl(CUByte, Units_Scroller, this, &uiGroupUnit);
-    Units_ButtonID->SetToolTip("First page (also second in TC) 1-15\nSecond (dock) page 21-35\nThird page same as first (Star Wars)\nFirst page in AoE/RoR 1-10\nSecond page in AoE/RoR 11-20");
+
+    Units_TrainLocations = new wxStaticBoxSizer(wxHORIZONTAL, Units_Scroller, "Train Locations");
+    Units_TrainLocations_ListArea = new wxBoxSizer(wxVERTICAL);
+    Units_TrainLocations_DataArea = new wxBoxSizer(wxVERTICAL);
+    Units_TrainLocations_Search = new wxTextCtrl(Units_Scroller, wxID_ANY);
+    Units_TrainLocations_Search_R = new wxTextCtrl(Units_Scroller, wxID_ANY);
+    Units_TrainLocations_ListV = new ProperList(Units_Scroller, ASize(300, 100));
+    Units_TrainLocations_Buttons = new wxGridSizer(3, 0, 0);
+    Units_TrainLocations_Add = new wxButton(Units_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+    Units_TrainLocations_Insert = new wxButton(Units_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
+    Units_TrainLocations_Delete = new wxButton(Units_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+    Units_TrainLocations_Copy = new wxButton(Units_Scroller, wxID_ANY, "Copy *", wxDefaultPosition, wxSize(10, -1));
+    Units_TrainLocations_Copy->SetToolTip("When \"All civs\" is not selected,\nthis and pasting works only for current civilization");
+    Units_TrainLocations_Paste = new wxButton(Units_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+    Units_TrainLocations_PasteInsert = new wxButton(Units_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition, wxSize(10, -1));
+    Units_TrainLocations_CopyToUnits = new wxButton(Units_Scroller, wxID_ANY, "Copy all to selected units", wxDefaultPosition, wxSize(10, -1));
+    Units_TrainLocations_Holder = new wxBoxSizer(wxHORIZONTAL);
+
+    TrainLocations_UnitID_Holder = new wxBoxSizer(wxVERTICAL);
+    TrainLocations_UnitID_Text = new SolidText(Units_Scroller, " Location");
+    TrainLocations_UnitID = new NumberControl(CShort, Units_Scroller, this, nullptr, false);
+    TrainLocations_UnitID_ComboBox = new LinkedComboBox(Units_Scroller, TrainLocations_UnitID, &unit_names, false);
+    UnitComboBoxList.push_back(TrainLocations_UnitID_ComboBox);
+
+    TrainLocations_TrainTime_Holder = new wxBoxSizer(wxVERTICAL);
+    TrainLocations_TrainTime_Text = new SolidText(Units_Scroller, " Train Time");
+    TrainLocations_TrainTime = new NumberControl(CShort, Units_Scroller, this, nullptr, false);
+
+    TrainLocations_ButtonID_Holder = new wxBoxSizer(wxVERTICAL);
+    TrainLocations_ButtonID_Text = new SolidText(Units_Scroller, " Button *");
+    TrainLocations_ButtonID = new NumberControl(CUByte, Units_Scroller, this, nullptr, false);
+    TrainLocations_ButtonID->SetToolTip("First page (also second in TC) 1-15\nSecond (dock) page 21-35\nThird page same as first (Star Wars)\nFirst page in AoE/RoR 1-10\nSecond page in AoE/RoR 11-20");
+
+    TrainLocations_HotkeyID_Holder = new wxBoxSizer(wxVERTICAL);
+    TrainLocations_HotkeyID_Text = new SolidText(Units_Scroller, " Hotkey *");
+    TrainLocations_HotkeyID = new NumberControl(CLong, Units_Scroller, this, nullptr, false);
+    TrainLocations_HotkeyID->SetToolTip("10000 + Language File Creation (usually)");
+
     for(size_t loop = 0; loop < 3; ++loop)
     {
         ResourceStorage_Type[loop] = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnit);
@@ -4858,6 +5156,14 @@ void AGE_Frame::CreateUnitControls()
     Tasks_WorkFlag2_Text = new SolidText(Units_Scroller, " Work Flag 2 *");
     Tasks_WorkFlag2 = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnitTask);
     Tasks_WorkFlag2->SetToolTip("Unused");
+    Tasks_Enabled_Holder = new wxBoxSizer(wxVERTICAL);
+    Tasks_Enabled_Text = new SolidText(Units_Scroller, "Enabled *");
+    Tasks_Enabled = new NumberControl(CShort, Units_Scroller, this, &uiGroupUnitTask);
+    Tasks_Enabled->SetToolTip("If the value of this dropdown is -1, the task is enabled.\n"
+        "If the dropdown is set to a custom resource, the following applies:\n"
+        "If the value of this resource is <=0, disable the task, if >0, enable it.");
+    Tasks_Enabled_ComboBox = new LinkedComboBox(Units_Scroller, Tasks_Enabled, &resource_names);
+    ResourceComboBoxList.push_back(Tasks_Enabled_ComboBox);
 
 //  UnitControls actual interface
 
@@ -5026,9 +5332,6 @@ void AGE_Frame::CreateUnitControls()
     Unit_Cost_Texts->Add(Units_CostAmount_Text);
     Unit_Cost_Texts->AddSpacer(15);
     Unit_Cost_Texts->Add(Units_CostUsed_Text);
-    Units_TrainTime_Holder->Add(Units_TrainTime_Text);
-    Units_TrainLocationID_Holder->Add(Units_TrainLocationID_Text);
-    Units_ButtonID_Holder->Add(Units_ButtonID_Text);
     Units_RearAttackModifier_Holder->Add(Units_RearAttackModifier_Text);
     Units_FlankAttackModifier_Holder->Add(Units_FlankAttackModifier_Text);
     Units_CreatableType_Holder->Add(Units_CreatableType_Text);
@@ -5256,10 +5559,6 @@ void AGE_Frame::CreateUnitControls()
         Unit_Cost_Sizers[loop]->Add(Units_CostAmount[loop], 0, wxEXPAND | wxTOP, 5);
         Unit_Cost_Sizers[loop]->Add(sizer_cost, 0, wxEXPAND | wxTOP, 5);
     }
-    Units_TrainTime_Holder->Add(Units_TrainTime);
-    Units_TrainLocationID_Holder->Add(Units_TrainLocationID, 0, wxEXPAND);
-    Units_TrainLocationID_Holder->Add(Units_TrainLocationID_ComboBox);
-    Units_ButtonID_Holder->Add(Units_ButtonID);
     Units_RearAttackModifier_Holder->Add(Units_RearAttackModifier);
     Units_FlankAttackModifier_Holder->Add(Units_FlankAttackModifier);
     Units_CreatableType_Holder->Add(Units_CreatableType);
@@ -5446,6 +5745,9 @@ void AGE_Frame::CreateUnitControls()
     Tasks_CarryCheck_Holder->Add(Tasks_CarryCheck);
     Tasks_PickForConstruction_Holder->Add(Tasks_PickForConstruction_Text);
     Tasks_PickForConstruction_Holder->Add(Tasks_PickForConstruction);
+    Tasks_Enabled_Holder->Add(Tasks_Enabled_Text);
+    Tasks_Enabled_Holder->Add(Tasks_Enabled, 0, wxEXPAND);
+    Tasks_Enabled_Holder->Add(Tasks_Enabled_ComboBox);
 
     Units_TypeArea_Holder->Add(Units_Name_Holder);
     Units_TypeArea_Holder->Add(Units_Name2_Holder, 0, wxLEFT, 5);
@@ -5468,13 +5770,9 @@ void AGE_Frame::CreateUnitControls()
     Units_LanguageDLLHotKeyText_Holder->Add(Units_LanguageDLLHotKeyText, 0, wxEXPAND);
     Units_LanguageDLLConverter_Holder[1]->Add(Units_LanguageDLLConverter_Text[1]);
     Units_LanguageDLLConverter_Holder[1]->Add(Units_LanguageDLLConverter[1], 0, wxEXPAND);
-    Units_HotKey_Holder->Add(Units_HotKey_Text);
-    Units_HotKey_Holder->Add(Units_HotKey, 0, wxEXPAND);
-    Units_HotKey_Holder->Add(Units_DLL_HotKey4);
 
     Units_LangRegular_Holder->Add(Units_LanguageDLLName_Holder);
     Units_LangRegular_Holder->Add(Units_LanguageDLLCreation_Holder, 0, wxLEFT, 5);
-    Units_LangRegular_Holder->Add(Units_HotKey_Holder, 0, wxLEFT, 5);
     Units_LangHotKey_Holder->Add(Units_LanguageDLLHelp_Holder);
     Units_LangHotKey_Holder->Add(Units_LanguageDLLConverter_Holder[0], 0, wxLEFT, 5);
     Units_LangHotKey_Holder->Add(Units_LanguageDLLHotKeyText_Holder, 0, wxLEFT, 5);
@@ -5776,9 +6074,42 @@ void AGE_Frame::CreateUnitControls()
     Units_CostHeader_Holder->Add(Unit_Cost_Texts);
     for (wxBoxSizer *&sizer : Unit_Cost_Sizers)
     Units_CostHeader_Holder->Add(sizer, 0, wxLEFT, 5);
+
+    TrainLocations_UnitID_Holder->Add(TrainLocations_UnitID_Text);
+    TrainLocations_UnitID_Holder->Add(TrainLocations_UnitID, 0, wxEXPAND);
+    TrainLocations_UnitID_Holder->Add(TrainLocations_UnitID_ComboBox);
+    TrainLocations_TrainTime_Holder->Add(TrainLocations_TrainTime_Text);
+    TrainLocations_TrainTime_Holder->Add(TrainLocations_TrainTime);
+    TrainLocations_ButtonID_Holder->Add(TrainLocations_ButtonID_Text);
+    TrainLocations_ButtonID_Holder->Add(TrainLocations_ButtonID);
+    TrainLocations_HotkeyID_Holder->Add(TrainLocations_HotkeyID_Text);
+    TrainLocations_HotkeyID_Holder->Add(TrainLocations_HotkeyID);
+    TrainLocations_HotkeyID_Holder->Add(Units_DLL_HotKey4);
+
+    Units_TrainLocations_Buttons->Add(Units_TrainLocations_Add, 1, wxEXPAND);
+    Units_TrainLocations_Buttons->Add(Units_TrainLocations_Delete, 1, wxEXPAND);
+    Units_TrainLocations_Buttons->Add(Units_TrainLocations_Insert, 1, wxEXPAND);
+    Units_TrainLocations_Buttons->Add(Units_TrainLocations_Copy, 1, wxEXPAND);
+    Units_TrainLocations_Buttons->Add(Units_TrainLocations_Paste, 1, wxEXPAND);
+    Units_TrainLocations_Buttons->Add(Units_TrainLocations_PasteInsert, 1, wxEXPAND);
+
+    Units_TrainLocations_ListArea->Add(Units_TrainLocations_Search, 0, wxEXPAND);
+    Units_TrainLocations_ListArea->Add(Units_TrainLocations_Search_R, 0, wxEXPAND);
+    Units_TrainLocations_ListArea->Add(Units_TrainLocations_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+    Units_TrainLocations_ListArea->Add(Units_TrainLocations_Buttons, 0, wxEXPAND);
+    Units_TrainLocations_ListArea->Add(Units_TrainLocations_CopyToUnits, 0, wxEXPAND | wxTOP, 2);
+
+    Units_TrainLocations_DataArea->Add(TrainLocations_UnitID_Holder);
+    Units_TrainLocations_DataArea->Add(TrainLocations_TrainTime_Holder, 0, wxTOP, 5);
+    Units_TrainLocations_DataArea->Add(TrainLocations_ButtonID_Holder, 0, wxTOP, 5);
+    Units_TrainLocations_DataArea->Add(TrainLocations_HotkeyID_Holder, 0, wxTOP, 5);
+
+    Units_TrainLocations->Add(Units_TrainLocations_ListArea, 1, wxEXPAND);
+    Units_TrainLocations->Add(Units_TrainLocations_DataArea, 0, wxLEFT, 5);
+
+    Units_Training_Grid->Add(Units_TrainLocations, 0, wxRIGHT, 5);
     Units_Training_Grid->Add(Units_InterfaceKind_Holder);
-    Units_Training_Grid->Add(Units_TrainTime_Holder, 0, wxLEFT, 5);
-    Units_Training_Grid->Add(Units_TrainLocationID_Holder, 0, wxLEFT, 5);
+
     Units_A3_Grid->Add(Units_StackUnitID_Holder);
     Units_A5_Grid->Add(Units_TerrainID_Holder);
     Units_A5_Grid->Add(Units_ResearchID_Holder);
@@ -5786,7 +6117,6 @@ void AGE_Frame::CreateUnitControls()
     Units_A3_Grid->Add(Units_HeadUnit_Holder, 0, wxLEFT, 5);
     Units_A3_Grid->Add(Units_TransformUnit_Holder, 0, wxLEFT, 5);
     Units_A3_Grid->Add(Units_PileUnit_Holder, 0, wxLEFT, 5);
-    Units_Training_Grid->Add(Units_ButtonID_Holder, 0, wxLEFT, 5);
     Units_AS2_Holder->Add(Units_SelectionRadius_Holder);
     Units_AS2_Holder->Add(Units_ClearanceSize_Holder, 0, wxLEFT, 5);
 
@@ -5865,7 +6195,8 @@ void AGE_Frame::CreateUnitControls()
     TaskHolder_Lists->Add(Units_Tasks_ListV, 0, wxEXPAND | wxBOTTOM | wxTOP, 2);
     TaskHolder_Lists->Add(Units_Tasks_Buttons, 0, wxEXPAND);
     TaskHolder_Lists->Add(Units_Tasks_CopyToUnits, 0, wxEXPAND | wxTOP, 2);
-    TaskHolder_Lists->Add(Units_Exists_Holder, 0, wxEXPAND | wxTOP, 5);
+    TaskHolder_Lists->Add(Units_Exists_Holder, 0, wxTOP, 5);
+    TaskHolder_Lists->Add(Tasks_Enabled_Holder, 0, wxTOP, 5);
     TaskHolder_Lists->Add(slp_unit_actions, 0, wxTOP, 5);
 
     Tasks_Known1->Add(Tasks_ActionType_Holder, 0, wxLEFT, 5);
@@ -6619,6 +6950,18 @@ void AGE_Frame::CreateUnitControls()
             dataset->Civs[civ].Units[UnitIDs[loop]].Bird.DropSites = dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites;
         }
     });
+
+    Units_TrainLocations_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitTrainLocationsSearch, this);
+    Units_TrainLocations_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitTrainLocationsSearch, this);
+    Units_TrainLocations_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitTrainLocationSelect, this);
+    Units_TrainLocations_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitTrainLocationsAdd, this);
+    Units_TrainLocations_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitTrainLocationsInsert, this);
+    Units_TrainLocations_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitTrainLocationsDelete, this);
+    Units_TrainLocations_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitTrainLocationsCopy, this);
+    Units_TrainLocations_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitTrainLocationsPaste, this);
+    Units_TrainLocations_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitTrainLocationsPasteInsert, this);
+    Units_TrainLocations_CopyToUnits->Bind(wxEVT_BUTTON, &AGE_Frame::OnUnitTrainLocationsCopyToUnits, this);
+
     Units_Attacks_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitAttacksSearch, this);
     Units_Attacks_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnUnitAttacksSearch, this);
     Units_Attacks_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnUnitAttackSelect, this);
@@ -6714,8 +7057,6 @@ void AGE_Frame::CreateUnitControls()
     Units_LanguageDLLName->Bind(wxEVT_TEXT_ENTER, SaveThenListUnits);
     Units_LanguageDLLCreation->Bind(wxEVT_KILL_FOCUS, TrySaveThenSelectUnit);
     Units_LanguageDLLCreation->Bind(wxEVT_TEXT_ENTER, SaveThenSelectUnit);
-    Units_HotKey->Bind(wxEVT_KILL_FOCUS, TrySaveThenSelectUnit);
-    Units_HotKey->Bind(wxEVT_TEXT_ENTER, SaveThenSelectUnit);
     Units_LanguageDLLHelp->Bind(wxEVT_KILL_FOCUS, TrySaveThenSelectUnit);
     Units_LanguageDLLHelp->Bind(wxEVT_TEXT_ENTER, SaveThenSelectUnit);
     Units_LanguageDLLHotKeyText->Bind(wxEVT_KILL_FOCUS, TrySaveThenSelectUnit);
@@ -6779,6 +7120,63 @@ void AGE_Frame::CreateUnitControls()
     {
         static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
         ListUnitDropSites();
+    });
+    TrainLocations_UnitID->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent &event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListUnitTrainLocations();
+        }
+    });
+    TrainLocations_UnitID->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent &event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListUnitTrainLocations();
+    });
+    TrainLocations_UnitID_ComboBox->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent &event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListUnitTrainLocations();
+    });
+    TrainLocations_TrainTime->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent &event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListUnitTrainLocations();
+        }
+    });
+    TrainLocations_TrainTime->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent &event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListUnitTrainLocations();
+    });
+    TrainLocations_ButtonID->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent &event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListUnitTrainLocations();
+        }
+    });
+    TrainLocations_ButtonID->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent &event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListUnitTrainLocations();
+    });
+    TrainLocations_HotkeyID->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent &event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListUnitTrainLocations();
+        }
+    });
+    TrainLocations_HotkeyID->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent &event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListUnitTrainLocations();
     });
     auto SaveThenListAttacks = [this](wxCommandEvent& event)
     {
