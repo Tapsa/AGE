@@ -9,14 +9,14 @@
 #include "Licenses/SFML.h"
 #include "Licenses/wxWidgets.h"
 
-const wxString AboutDialog::AGE_VER = "2025.6.3";
+const wxString AboutDialog::AGE_VER = "2026.10.20";
 
 AboutDialog::AboutDialog(wxWindow *parent, const wxFont &font)
     : wxDialog(parent, -1, "About Advanced Genie Editor", wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxNO_DEFAULT)
 {
     SetFont(font);
     SolidText *Title = new SolidText(this, "Advanced Genie Editor\nVersion " + AGE_VER +
-        "\nGPLv3 2011 - 2025\n\nDevelopers:"
+        "\nGPLv3 2011 - 2026\n\nDevelopers:"
         "\nMikko Tapio Partonen (Tapsa), since 2.0b (2011)"
         "\nManuel Winocur, since 2023"
         "\nCharles Harbord, since 2024"

@@ -78,7 +78,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
         Config.Read("Interaction/FilterAllSubs", &FilterAllSubs, true);
         Config.Read("Interaction/PlaySounds", &PlaySounds, true);
         Config.Read("Interaction/NeverHideAttributes", &NeverHideAttributes, false);
-        Config.Read("Interface/ShowUnknowns", &ShowUnknowns, true);
         Config.Read("Interface/ResizeTerrains", &ResizeTerrains, false);
         Config.Read("Interface/StayOnTop", &StayOnTop, false);
         Config.Read("Interface/KeepViewOnTop", &KeepViewOnTop, false);
@@ -172,7 +171,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     GetToolBar()->AddTool(eOpen, "Open", wxBitmap(GateOpen_xpm), "Open files");
     GetToolBar()->AddTool(eSave, "Save", wxBitmap(GateClosed_xpm), "Save files");
     GetToolBar()->AddTool(eBackup, "Auto", wxBitmap(AutoBackup_xpm), "Automatically backup files", wxITEM_CHECK);
-    GetToolBar()->AddTool(eUnknown, "Show", wxBitmap(Question_xpm), "Show unknowns", wxITEM_CHECK);
     GetToolBar()->AddTool(eHex, "Hex", wxBitmap(Ox_xpm), "Toggle hex mode (data not editable)", wxITEM_CHECK);
     GetToolBar()->AddTool(eFloat, "0001", wxBitmap(float_xpm), "Toggle float display mode", wxITEM_CHECK);
     GetToolBar()->AddTool(eReselection, "List", wxBitmap(Reselection_xpm), "Toggle reselection when relisting", wxITEM_CHECK);
@@ -180,7 +178,6 @@ AGE_Frame::AGE_Frame(const wxString &title, short window, wxString aP) :
     GetToolBar()->AddTool(eDRS, "Sprite", wxBitmap(DRS_unlock_xpm), "Unload DRS files", wxITEM_CHECK);
     GetToolBar()->AddTool(eHelp, "Help", wxBitmap(Question_xpm), "Show help");
     GetToolBar()->ToggleTool(eBackup, AutoBackups);
-    GetToolBar()->ToggleTool(eUnknown, ShowUnknowns);
     GetToolBar()->ToggleTool(ePaste, Paste11);
     GetToolBar()->ToggleTool(eReselection, Reselection);
     GetToolBar()->Realize();

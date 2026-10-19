@@ -688,6 +688,16 @@ void AGE_Frame::FillListsBasedOnGameVersion()
     {
         effect_type_names.Add("103 - Tech Time Modifier (Set/+/-)");
     }
+    if (isAoE2DE)
+    {
+        effect_type_names.Add("200 - Own Master Objects Attribute Modifier (Set)");
+        effect_type_names.Add("201 - Own Master Objects Attribute Modifier (+/-)");
+        effect_type_names.Add("202 - Own Master Objects Attribute Modifier (Multiply)");
+        effect_type_names.Add("203 - Selected Unit Attribute Modifier (Set)");
+        effect_type_names.Add("204 - Selected Unit Attribute Modifier (+/-)");
+        effect_type_names.Add("205 - Selected Unit Attribute Modifier (Multiply)");
+        effect_type_names.Add("206 - Transform Selected Unit");
+    }
     Effects_Type_ComboBox->Flash();
 
     // Special selection logic that takes into account gaps in the list above.
@@ -724,6 +734,10 @@ void AGE_Frame::FillListsBasedOnGameVersion()
                     {
                         linkedComboBox->SetChoice(value - 56);
                     }
+                    else if (value >= 200 && value <= 206)
+                    {
+                        linkedComboBox->SetChoice(value - 152);
+                    }
                     else
                     {
                         linkedComboBox->SetChoice(-1);
@@ -754,6 +768,10 @@ void AGE_Frame::FillListsBasedOnGameVersion()
                     else if (selection < 48)
                     {
                         linkedTextBox->SetAsText(selection + 56);
+                    }
+                    else if (selection < 55)
+                    {
+                        linkedTextBox->SetAsText(selection + 152);
                     }
                     else
                     {

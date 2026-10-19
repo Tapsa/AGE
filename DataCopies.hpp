@@ -50,6 +50,7 @@ public:
     // 0x40 = armors
     // 0x80 = commands
     // 0x100 = drop sites
+    // 0x200 = train locations
     int16_t AllCivs;
     std::vector<std::vector<bool>> UnitExists;
     std::vector<std::vector<genie::Unit>> UnitCopies;
@@ -64,6 +65,8 @@ public:
     std::vector<std::vector<genie::unit::AttackOrArmor>> UnitArmors;
     std::vector<short> UnitCommandExists;
     std::vector<std::vector<genie::Task>> UnitCommands;
+    std::vector<short> UnitTrainLocationExists;
+    std::vector<std::vector<genie::unit::TrainLocation>> UnitTrainLocations;
 
     AdvCopies()
     {
@@ -74,6 +77,7 @@ public:
         UnitAttacks.resize(1); // Civs
         UnitArmors.resize(1); // Civs
         UnitCommands.resize(1); // Civs
+        UnitTrainLocations.resize(1);
         UnitGraphics[0].resize(1);
     }
     ~AdvCopies() {}
@@ -132,4 +136,5 @@ public:
     std::vector<genie::MapTerrain> MapTerrain;
     std::vector<genie::MapUnit> MapUnit;
     std::vector<genie::MapElevation> MapElevation;
+    std::vector<genie::ResearchLocation> ResearchLocations;
 };

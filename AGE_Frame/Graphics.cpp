@@ -1379,6 +1379,7 @@ void AGE_Frame::CreateGraphicsControls()
     GraphicDeltas_Padding2 = new NumberControl(CShort, Graphics_Scroller, this, &uiGroupGraphicDelta);
     GraphicDeltas_Padding2->SetToolTip("Completely useless");
     Deltas_Import = new wxButton(Graphics_Scroller, wxID_ANY, "Import delta change list");
+    Deltas_Import_Auto = new wxButton(Graphics_Scroller, wxID_ANY, "Quick import deltas");
 
     Graphics_FirstFrame_Holder = new wxBoxSizer(wxVERTICAL);
     Graphics_FirstFrame_Text = new SolidText(Graphics_Scroller, " First Frame");
@@ -1555,6 +1556,7 @@ void AGE_Frame::CreateGraphicsControls()
     Graphics_Deltas_Holder_Data->Add(Deltas_Holder);
     Graphics_Deltas_Holder_Data->Add(Deltas_Unknowns_Holder, 0, wxTOP, 5);
     Graphics_Deltas_Holder_Data->Add(Deltas_Import, 0, wxTOP, 5);
+    Graphics_Deltas_Holder_Data->Add(Deltas_Import_Auto, 0, wxTOP, 5);
 
     Graphics_Deltas_Holder->Add(Graphics_Deltas, 1, wxEXPAND);
     Graphics_Deltas_Holder->Add(Graphics_Deltas_Holder_Data, 3, wxEXPAND | wxLEFT, 5);
@@ -1779,123 +1781,8 @@ void AGE_Frame::CreateGraphicsControls()
     Deltas_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnGraphicDeltasPaste, this);
     Deltas_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnGraphicDeltasPasteInsert, this);
     Deltas_CopyToGraphics->Bind(wxEVT_BUTTON, &AGE_Frame::OnGraphicDeltasCopyToGraphics, this);
-    Deltas_Import->Bind(wxEVT_BUTTON, [this](wxCommandEvent &event)
-    {
-        wxFileDialog dd(this, "Open sprite change list", "", "tr_spred.txt",
-        "Sprite editor files (*.txt)|*.txt", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-        if(dd.ShowModal() == wxID_OK && dataset)
-        {
-            wxBusyCursor WaitCursor;
-            std::string line(dd.GetPath());
-            std::ifstream infile(line);
-            while(getline(infile, line))
-            {
-                wxArrayString pieces(wxStringTokenize(line, "\t"));
-                for(size_t loop = 1, spriteID = static_cast<size_t>(-1), deltaID = static_cast<size_t>(-1); loop < pieces.GetCount(); ++loop)
-                {
-                    switch(loop)
-                    {
-                        case 1: // ID
-                        {
-                            try
-                            {
-                                spriteID = lexical_cast<uint32_t>(pieces[1]);
-                            }
-                            catch(const bad_lexical_cast&)
-                            {
-                                wxMessageBox(pieces[1], "Invalid sprite index");
-                            }
-                            if(spriteID < dataset->Graphics.size()) break;
-                            else goto LINE_PARSED;
-                        }
-                        case 2: // Either index of the delta or the sprite number of the delta.
-                        {
-                            try
-                            {
-                                deltaID = lexical_cast<uint32_t>(pieces[2]);
-                            }
-                            catch(const bad_lexical_cast&)
-                            {
-                                wxMessageBox(pieces[2], "Invalid delta number");
-                            }
-                            break;
-                        }
-                        case 3: // Add, Delete, Change
-                        {
-                            switch(static_cast<char>(pieces[3][0]))
-                            {
-                                case 'A':
-                                {
-                                    if(deltaID < dataset->Graphics.size())
-                                    {
-                                        genie::GraphicDelta newDelta;
-                                        newDelta.setGameVersion(GenieVersion);
-                                        newDelta.GraphicID = deltaID;
-                                        // Fixup the index of the delta for offset setting.
-                                        deltaID = dataset->Graphics[spriteID].Deltas.size();
-                                        dataset->Graphics[spriteID].Deltas.push_back(newDelta);
-                                        break;
-                                    }
-                                    else
-                                    {
-                                        wxMessageBox(pieces[2], "Trying to add reference to nonexistent sprite!");
-                                        goto LINE_PARSED;
-                                    }
-                                }
-                                case 'D': // Delete immediately and proceed to next line.
-                                {
-                                    auto &deltas = dataset->Graphics[spriteID].Deltas;
-                                    if(deltaID < deltas.size())
-                                    {
-                                        deltas.erase(deltas.begin() + deltaID);
-                                    }
-                                    goto LINE_PARSED;
-                                }
-                            }
-                            break;
-                        }
-                        case 4: // Offset X
-                        {
-                            if(deltaID >= dataset->Graphics[spriteID].Deltas.size())
-                            {
-                                wxMessageBox(line, "Skipping nonexistent delta "+pieces[2]+"!");
-                                goto LINE_PARSED;
-                            }
-                            try
-                            {
-                                dataset->Graphics[spriteID].Deltas[deltaID].OffsetX = lexical_cast<int16_t>(pieces[4]);
-                            }
-                            catch(const bad_lexical_cast&)
-                            {
-                                wxMessageBox(pieces[4], "Invalid X offset");
-                            }
-                            break;
-                        }
-                        case 5: // Offset Y
-                        {
-                            try // In case of missing new line.
-                            {
-                                dataset->Graphics[spriteID].Deltas[deltaID].OffsetY = lexical_cast<int16_t>(pieces[5]);
-                            }
-                            catch(const bad_lexical_cast&)
-                            {
-                                wxMessageBox(pieces[5], "Invalid Y offset");
-                            }
-                            break;
-                        }
-                    }
-                }
-                LINE_PARSED:;
-            }
-            // In case the currently viewed graphics was changed.
-            gallery.reload();
-            ListGraphicDeltas();
-            if(slp_window)
-            {
-                slp_view->Refresh();
-            }
-        }
-    });
+    Deltas_Import->Bind(wxEVT_BUTTON, &AGE_Frame::LoadSpriteDeltaFileWithDialog, this);
+    Deltas_Import_Auto->Bind(wxEVT_BUTTON, &AGE_Frame::LoadSpriteDeltaFileAuto, this);
     Graphics_AngleSounds_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnGraphicAngleSoundSelect, this);
     AngleSounds_AutoCopy->Bind(wxEVT_CHECKBOX, [this](wxCommandEvent &event)
     {
@@ -2111,4 +1998,254 @@ void AGE_Frame::OnUpdateCombo_Graphics(wxCommandEvent &event)
 {
     static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
     ReloadAngles();
+}
+
+void AGE_Frame::LoadSpriteDeltaFile(wxCommandEvent &event)
+{
+    wxFileDialog dd(this, "Open sprite change list", "", "tr_spred.txt",
+        "Sprite editor files (*.txt)|*.txt", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+    if (dd.ShowModal() == wxID_OK && dataset)
+    {
+        wxBusyCursor WaitCursor;
+        std::string line(dd.GetPath());
+        std::ifstream infile(line);
+        while (getline(infile, line))
+        {
+            wxArrayString pieces(wxStringTokenize(line, "\t"));
+            for (size_t loop = 1, spriteID = static_cast<size_t>(-1), deltaID = static_cast<size_t>(-1); loop < pieces.GetCount(); ++loop)
+            {
+                switch (loop)
+                {
+                    case 1: // ID
+                    {
+                        try
+                        {
+                            spriteID = lexical_cast<uint32_t>(pieces[1]);
+                        }
+                        catch (const bad_lexical_cast &)
+                        {
+                            wxMessageBox(pieces[1], "Invalid sprite index");
+                        }
+                        if (spriteID < dataset->Graphics.size()) break;
+                        else goto LINE_PARSED;
+                    }
+                    case 2: // Either index of the delta or the sprite number of the delta.
+                    {
+                        try
+                        {
+                            deltaID = lexical_cast<uint32_t>(pieces[2]);
+                        }
+                        catch (const bad_lexical_cast &)
+                        {
+                            wxMessageBox(pieces[2], "Invalid delta number");
+                        }
+                        break;
+                    }
+                    case 3: // Add, Delete, Change
+                    {
+                        switch (static_cast<char>(pieces[3][0]))
+                        {
+                            case 'A':
+                            {
+                                if (deltaID < dataset->Graphics.size())
+                                {
+                                    genie::GraphicDelta newDelta;
+                                    newDelta.setGameVersion(GenieVersion);
+                                    newDelta.GraphicID = deltaID;
+                                    // Fixup the index of the delta for offset setting.
+                                    deltaID = dataset->Graphics[spriteID].Deltas.size();
+                                    dataset->Graphics[spriteID].Deltas.push_back(newDelta);
+                                    break;
+                                }
+                                else
+                                {
+                                    wxMessageBox(pieces[2], "Trying to add reference to nonexistent sprite!");
+                                    goto LINE_PARSED;
+                                }
+                            }
+                            case 'D': // Delete immediately and proceed to next line.
+                            {
+                                auto &deltas = dataset->Graphics[spriteID].Deltas;
+                                if (deltaID < deltas.size())
+                                {
+                                    deltas.erase(deltas.begin() + deltaID);
+                                }
+                                goto LINE_PARSED;
+                            }
+                        }
+                        break;
+                    }
+                    case 4: // Offset X
+                    {
+                        if (deltaID >= dataset->Graphics[spriteID].Deltas.size())
+                        {
+                            wxMessageBox(line, "Skipping nonexistent delta " + pieces[2] + "!");
+                            goto LINE_PARSED;
+                        }
+                        try
+                        {
+                            dataset->Graphics[spriteID].Deltas[deltaID].OffsetX = lexical_cast<int16_t>(pieces[4]);
+                        }
+                        catch (const bad_lexical_cast &)
+                        {
+                            wxMessageBox(pieces[4], "Invalid X offset");
+                        }
+                        break;
+                    }
+                    case 5: // Offset Y
+                    {
+                        try // In case of missing new line.
+                        {
+                            dataset->Graphics[spriteID].Deltas[deltaID].OffsetY = lexical_cast<int16_t>(pieces[5]);
+                        }
+                        catch (const bad_lexical_cast &)
+                        {
+                            wxMessageBox(pieces[5], "Invalid Y offset");
+                        }
+                        break;
+                    }
+                }
+            }
+        LINE_PARSED:;
+        }
+        // In case the currently viewed graphics was changed.
+        gallery.reload();
+        ListGraphicDeltas();
+        if (slp_window)
+        {
+            slp_view->Refresh();
+        }
+    }
+}
+
+void AGE_Frame::LoadSpriteDeltaFileWithDialog(wxCommandEvent &event)
+{
+    uint32_t spriteID;
+    if (GraphicIDs.size() != 1)
+    {
+        wxMessageBox("A single graphic has to be selected from the list");
+        return;
+    }
+    spriteID = GraphicIDs[0];
+
+    wxString cwd = wxGetCwd();
+    wxFileDialog dd(nullptr, "Open sprite change list", cwd, "tr_spred.txt",
+        "Sprite editor files (*.txt)|*.txt", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
+    if (dd.ShowModal() == wxID_OK && dataset)
+    {
+        wxBusyCursor WaitCursor;
+        std::string filePath(dd.GetPath());
+
+        ParseSpriteDeltaFile(filePath, spriteID);
+    }
+}
+void AGE_Frame::LoadSpriteDeltaFileAuto(wxCommandEvent &event)
+{
+    uint32_t spriteID;
+    if (GraphicIDs.size() != 1)
+    {
+        wxMessageBox("A single graphic has to be selected from the list");
+        return;
+    }
+    spriteID = GraphicIDs[0];
+
+    wxString cwd = wxGetCwd();
+    wxFileName path(cwd, "tr_spred.txt");
+    wxString fullPath = path.GetFullPath();
+
+    ParseSpriteDeltaFile(std::string(fullPath.mb_str()), spriteID);
+}
+
+void AGE_Frame::ParseSpriteDeltaFile(std::string filePath, uint32_t spriteID)
+{
+    std::ifstream infile(filePath);
+
+    if (!infile.good())
+    {
+        wxMessageBox(filePath, "File does not exist");
+        return;
+    }
+
+    std::string line;
+    std::vector<genie::GraphicDelta> spriteDeltaList;
+    size_t index = 0;
+
+    while (getline(infile, line))
+    {
+        wxArrayString pieces(wxStringTokenize(line, "\t"));
+
+        uint32_t deltaID;
+        uint16_t offsetX, offsetY;
+
+        if (pieces.size() != 3)
+        {
+            wxMessageBox("Invalid sprite delta data");
+            return;
+        }
+
+        // Sprite delta ID
+        try
+        {
+            deltaID = lexical_cast<uint32_t>(pieces[0]);
+        }
+        catch (const bad_lexical_cast&)
+        {
+            wxMessageBox(pieces[0], "Invalid delta sprite ID");
+            return;
+        }
+
+        if (deltaID < 0 || deltaID > dataset->Graphics.size())
+        {
+            wxMessageBox(pieces[0], "Sprite ID out of range");
+            return;
+        }
+
+        // Offset X
+        try
+        {
+            offsetX = lexical_cast<uint32_t>(pieces[1]);
+        }
+        catch (const bad_lexical_cast&)
+        {
+            wxMessageBox(pieces[1], "Invalid offset X");
+            return;
+        }
+
+        // Offset Y
+        try
+        {
+            offsetY = lexical_cast<uint32_t>(pieces[2]);
+        }
+        catch (const bad_lexical_cast&)
+        {
+            wxMessageBox(pieces[2], "Invalid offset Y");
+            return;
+        }
+
+        genie::GraphicDelta newDelta;
+        newDelta.setGameVersion(GenieVersion);
+        newDelta.GraphicID = deltaID;
+        newDelta.OffsetX = offsetX;
+        newDelta.OffsetY = offsetY;
+        // Fixup the index of the delta for offset setting.
+        deltaID = index;
+        spriteDeltaList.push_back(newDelta);
+
+        ++index;
+    }
+
+    dataset->Graphics[spriteID].Deltas.clear();
+    for (auto &delta : spriteDeltaList)
+    {
+        dataset->Graphics[spriteID].Deltas.push_back(delta);
+    }
+
+    // In case the currently viewed graphics was changed.
+    gallery.reload();
+    ListGraphicDeltas();
+    if (slp_window)
+    {
+        slp_view->Refresh();
+    }
 }

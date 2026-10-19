@@ -676,14 +676,9 @@ void AGE_Frame::OnOpen(wxCommandEvent&)
         SetStatusText(lexical_cast<std::string>(dataset->FileVersion), 4);
         DataOpened = true;
         TabBar_Main->Freeze();
-        //OnGameVersionChange();
+        OnGameVersionChange();
         wxCommandEvent event(wxEVT_MENU, eVasili);
         OnMenuOption(event);
-        event.SetId(eUnknown);
-        event.SetInt(true);
-        OnMenuOption(event);
-        GetToolBar()->ToggleTool(eUnknown, ShowUnknowns);
-        GetToolBar()->EnableTool(eUnknown, false);
 
         LoadLists();
         TabBar_Main->Thaw();
@@ -738,14 +733,14 @@ void AGE_Frame::OnGameVersionChange()
         // AoE Beta ->
         show = (GenieVersion >= genie::GV_AoEB) ? true : false;
         Research_PointerArea_Holder->Show(show);
-        Research_HotKey_Holder->Show(show);
+        TrainLocations_HotkeyID_Holder->Show(show);
         Research_DLL_LanguageDLLHelp->Show(show);
         Research_DLL_LanguageDLLName2->Show(show);
         Terrains_SLP_Holder->Show(show);
         Borders_SLP_Holder->Show(show);
         Units_LanguageDLLHelp_Holder->Show(show);
         Units_LanguageDLLHotKeyText_Holder->Show(show);
-        Units_HotKey_Holder->Show(show);
+        TrainLocations_HotkeyID_Holder->Show(show);
         Units_LangHotKey_Holder->Show(show);
         Units_DLL_LanguageHelp->Show(show);
         Units_DLL_LanguageHKText->Show(show);
@@ -1049,8 +1044,10 @@ void AGE_Frame::OnGameVersionChange()
         Units_MinConversionTimeMod_Text->Show(emerge);
         Units_BlastDamage->Show(emerge);
         Units_BlastDamage_Text->Show(emerge);
+        Units_TrainLocations_ListArea->Show(emerge);
         Tasks_WwiseResourceGatheringSound->Show(emerge);
         Tasks_WwiseResourceDepositSound->Show(emerge);
+        Tasks_Enabled_Holder->Show(emerge);
         Graphics_ParticleEffectName_Text->Show(emerge);
         Graphics_ParticleEffectName_Holder->Show(emerge);
         Graphics_WwiseSoundID->Show(emerge);
@@ -1071,6 +1068,7 @@ void AGE_Frame::OnGameVersionChange()
         Borders_Paste->Show(!emerge);
         Borders_MoveUp->Show(emerge);
         Borders_MoveDown->Show(emerge);
+        Research_ResearchLocations_ListArea->Show(emerge);
         Techs_Repeatable_Holder->Show(emerge);
     }
 
@@ -1305,7 +1303,7 @@ void AGE_Frame::OnSave(wxCommandEvent&)
                 }
                 GenieVersion = genie::GV_LatestDE2;
                 // Remember to update this version number!
-                dataset->FileVersion = "VER 8.4";
+                dataset->FileVersion = "VER 8.9";
             }
             else if(GenieVersion <= genie::GV_LatestTap && genie::GV_Tapsa <= GenieVersion)
             {
@@ -1460,13 +1458,6 @@ void AGE_Frame::OnMenuOption(wxCommandEvent &event)
         case eBackup:
         {
             AutoBackups = event.IsChecked();
-            break;
-        }
-        case eUnknown:
-        {
-            ShowUnknowns = event.IsChecked();
-            // Does layouting and refreshing and ... check it out.
-            OnGameVersionChange();
             break;
         }
         case eButtons:
@@ -2240,7 +2231,6 @@ void AGE_Frame::OnExit(wxCloseEvent &event)
         Config.Write("Interaction/FilterAllSubs", FilterAllSubs);
         Config.Write("Interaction/PlaySounds", PlaySounds);
         Config.Write("Interaction/NeverHideAttributes", NeverHideAttributes);
-        Config.Write("Interface/ShowUnknowns", ShowUnknowns);
         Config.Write("Interface/ResizeTerrains", ResizeTerrains);
         Config.Write("Interface/StayOnTop", StayOnTop);
         Config.Write("Interface/KeepViewOnTop", KeepViewOnTop);

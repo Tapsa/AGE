@@ -203,6 +203,21 @@ void AGE_Frame::OnEffectPasteInsert(wxCommandEvent &event)    // Works.
     ListEffects();
 }
 
+void AGE_Frame::UpdateEffectResearchLocations(int techId)
+{
+    if (techId < 0) return;
+
+    research_locations.Clear();
+    research_locations.Alloc(dataset->Techs[techId].ResearchLocations.size() + 1);
+    research_locations.Add("Apply to all");
+
+    for (genie::ResearchLocation &location : dataset->Techs[techId].ResearchLocations)
+    {
+        wxString locationName = (location.LocationID == -1) ? "-1 None " : unit_names[location.LocationID + 1];
+        research_locations.Add(locationName);
+    }
+}
+
 wxString AGE_Frame::Tester(genie::EffectCommand effect, wxString how)
 {
     return ((effect.C == 8 || effect.C == 9) ?
@@ -224,6 +239,20 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
     wxString Name;
     switch(dataset->Effects[tech].EffectCommands[effect].Type)
     {
+        case 203:
+            if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+            {
+                Name = "Selected Unit ";
+                goto AttributeModifierSet;
+            }
+            else goto Nothing;
+        case 200:
+            if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+            {
+                Name = "Own Master Objects ";
+                goto AttributeModifierSet;
+            }
+            else goto Nothing;
         case 40:
             Name = "Gaia ";
             goto AttributeModifierSet;
@@ -308,9 +337,45 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             +" to "+FormatInt(dataset->Effects[tech].EffectCommands[effect].B);
             if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
             {
-                Name += dataset->Effects[tech].EffectCommands[effect].C == -1 ? ", all" : ", on map";
+                switch (dataset->Effects[tech].EffectCommands[effect].C)
+                {
+                    case -1:
+                    {
+                        Name += ", all";
+                        break;
+                    }
+                    case 2:
+                    {
+                        Name += ", selected";
+                        break;
+                    }
+                    case 3:
+                    {
+                        Name += ", all including own master";
+                        break;
+                    }
+                    default:
+                    {
+                        Name += ", on map";
+                        break;
+                    }
+                }
             }
             break;
+        case 204:
+            if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+            {
+                Name = "Selected Unit ";
+                goto AttributeModifier;
+            }
+            else goto Nothing;
+        case 201:
+            if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+            {
+                Name = "Own Master Objects ";
+                goto AttributeModifier;
+            }
+            else goto Nothing;
         case 44:
             Name = "Gaia ";
             goto AttributeModifier;
@@ -328,6 +393,20 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
             Name += "Change " + Tester(dataset->Effects[tech].EffectCommands[effect], " by ");
             break;
         }
+        case 205:
+            if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+            {
+                Name = "Selected Unit ";
+                goto AttributeModifierMultiply;
+            }
+            else goto Nothing;
+        case 202:
+            if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+            {
+                Name = "Own Master Objects ";
+                goto AttributeModifierMultiply;
+            }
+            else goto Nothing;
         case 45:
             Name = "Gaia ";
             goto AttributeModifierMultiply;
@@ -508,6 +587,7 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
                     }
                 }
             }
+            Name += " LocationIndex[" + FormatInt(dataset->Effects[tech].EffectCommands[effect].C) + "]";
             break;
         }
         case 39:
@@ -553,7 +633,35 @@ wxString AGE_Frame::GetEffectCmdName(int effect, int tech)
                 +" time by "+FormatFloat(dataset->Effects[tech].EffectCommands[effect].D);
             }
             break;
+        case 206:
+            if (GenieVersion < genie::GV_C2 || GenieVersion > genie::GV_LatestDE2)
+            {
+                goto Nothing;
+            }
+            Name = "Transform selected into unit " + FormatInt(dataset->Effects[tech].EffectCommands[effect].A);
+
+            // Handle boolean values for check box
+            if (dataset->Effects[tech].EffectCommands[effect].B == -1)
+            {
+                dataset->Effects[tech].EffectCommands[effect].B = 0;
+            }
+            // Handle boolean values for check box
+            if (dataset->Effects[tech].EffectCommands[effect].C == -1)
+            {
+                dataset->Effects[tech].EffectCommands[effect].C = 0;
+            }
+
+            if (dataset->Effects[tech].EffectCommands[effect].B == 1)
+            {
+                Name += ", Preserve Actions ";
+            }
+            if (dataset->Effects[tech].EffectCommands[effect].C == 1)
+            {
+                Name += ", Retain Local Tech Upgrades ";
+            }
+            break;
         default:
+        Nothing:
             Name = "No type/Invalid type";
     }
     return Name;
@@ -779,7 +887,7 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
             Effects_89_Type_Text->SetLabel("");
 
             Effects_Info_B->SetLabel("");
-            Effects_Info_C->SetLabel(DE2 ? " [-1] = All, [!-1] = On map" : "");
+            Effects_Info_C->SetLabel(DE2 ? " [-1] = All, \n [2] = Selected, \n [3] All including Own Master, \n [else] = On map" : "");
         };
 
         auto ShowChangeAttributeModifier = [&]()
@@ -951,6 +1059,11 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
 
         auto ShowModifyTech = [&]()
         {
+            bool DE2 = GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2;
+            if (DE2)
+            {
+                UpdateEffectResearchLocations(EffectPointer->A);
+            }
             Effects_A_ComboBox->SwapList(&research_names);
             Effects_A_ComboBox->Show(true);
             Effects_B_CheckBox->Show(false);
@@ -959,16 +1072,17 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
             Effects_B_ComboBox->Show(true);
             techResearchNameId = EffectPointer->B;
             Effects_C_CheckBox->Show(false);
-            Effects_C_ComboBox->Show(false);
+            Effects_C_ComboBox->SwapList(&research_locations);
+            Effects_C_ComboBox->Show(DE2);
             Effects_D_ComboBox->Show(false);
             Effects_A->Show(true);
             Effects_B->Show(true);
             Effects_B->SetToolTip("0-3 and 16384-16387 only work if the tech has the corresponding cost/storage set");
-            Effects_C->Show(false);
+            Effects_C->Show(DE2);
 
             Effects_A_Text->SetLabel("Tech ");
             Effects_B_Text->SetLabel("Action * ");
-            Effects_C_Text->SetLabel("Unused ");
+            Effects_C_Text->SetLabel(DE2 ? "Research Location" : "");
 
             Effects_Info_B->SetLabel("");
             Effects_Info_C->SetLabel("");
@@ -1111,6 +1225,38 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
 
             Effects_Info_B->SetLabel("");
             Effects_Info_C->SetLabel(" [ ] = Set, [X] = +/-");
+        };
+
+        auto ShowTransformUnit = [&]()
+        {
+            Effects_A_ComboBox->SwapList(&unit_names);
+            Effects_A_ComboBox->Show(true);
+
+            Effects_B_CheckBox->Show(true);
+            Effects_B_CheckBox->TakeControl();
+            Effects_B_ComboBox->Show(false);
+
+            Effects_C_CheckBox->Show(true);
+            Effects_C_CheckBox->TakeControl();
+            Effects_C_ComboBox->Show(false);
+
+            Effects_D_ComboBox->Show(false);
+            Effects_89_Type_CB1->Show(false);
+            Effects_A->Show(NeverHide);
+            Effects_B->Show(NeverHide);
+            Effects_C->Show(NeverHide);
+            Effects_D->Show(NeverHide);
+            Effects_89_Amount->Show(false);
+            Effects_89_Type->Show(false);
+
+            Effects_A_Text->SetLabel("Target Unit ");
+            Effects_B_Text->SetLabel("Preserve Actions ");
+            Effects_C_Text->SetLabel("Retain Local Tech Upgrades ");
+            Effects_D_Text->SetLabel("");
+            Effects_89_Type_Text->SetLabel("");
+
+            Effects_Info_B->SetLabel("");
+            Effects_Info_C->SetLabel("");
         };
 
         auto ShowNothing = [&]()
@@ -1438,6 +1584,8 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 break;
             }
             case 40:
+            case 200:
+            case 203:
             {
                 if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
                 {
@@ -1486,6 +1634,8 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 break;
             }
             case 44:
+            case 201:
+            case 204:
             {
                 if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
                 {
@@ -1498,6 +1648,8 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 break;
             }
             case 45:
+            case 202:
+            case 205:
             {
                 if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
                 {
@@ -1567,6 +1719,18 @@ void AGE_Frame::OnEffectCmdSelect(wxCommandEvent &event)
                 if (GenieVersion >= genie::GV_AoKA || GenieVersion >= genie::GV_Tapsa && GenieVersion <= genie::GV_LatestTap)
                 {
                     ShowTechTimeModifier();
+                }
+                else
+                {
+                    ShowNothing();
+                }
+                break;
+            }
+            case 206:
+            {
+                if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+                {
+                    ShowTransformUnit();
                 }
                 else
                 {
@@ -2243,5 +2407,9 @@ void AGE_Frame::OnUpdateCheck_Techs(wxCommandEvent &event)
 void AGE_Frame::OnUpdateCombo_Techs(wxCommandEvent &event)
 {
     static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+    if (GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
+    {
+        UpdateEffectResearchLocations(event.GetSelection());
+    }
     ListEffectCmds();
 }

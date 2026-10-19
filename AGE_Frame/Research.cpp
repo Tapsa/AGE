@@ -75,12 +75,22 @@ void AGE_Frame::PrepTechSearch()
         else if (label.compare("Research Location") == 0)
             TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
         {
-            return "RL " + FormatInt(tech_ptr->ResearchLocation);
+            wxString name = "";
+            for (size_t i = 0; i < tech_ptr->ResearchLocations.size(); ++i)
+            {
+                name += "RL" + FormatInt(tech_ptr->ResearchLocations[i].LocationID) + " ";
+            }
+            return name;
         });
         else if (label.compare("Research Time") == 0)
             TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
         {
-            return "RT " + FormatInt(tech_ptr->ResearchTime);
+            wxString name = "";
+            for (size_t i = 0; i < tech_ptr->ResearchLocations.size(); ++i)
+            {
+                name += "RT" + FormatInt(tech_ptr->ResearchLocations[i].QueueTime) + " ";
+            }
+            return name;
         });
         else if (label.compare("Effect") == 0)
             TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
@@ -100,7 +110,12 @@ void AGE_Frame::PrepTechSearch()
         else if (label.compare("Button") == 0)
             TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
         {
-            return "B " + FormatInt(tech_ptr->ButtonID);
+            wxString name = "";
+            for (size_t i = 0; i < tech_ptr->ResearchLocations.size(); ++i)
+            {
+                name += "B" + FormatInt(tech_ptr->ResearchLocations[i].ButtonID) + " ";
+            }
+            return name;
         });
         else if (label.compare("Lang Help") == 0)
             TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
@@ -115,7 +130,12 @@ void AGE_Frame::PrepTechSearch()
         else if (label.compare("Hotkey") == 0)
             TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
         {
-            return "HK " + FormatInt(tech_ptr->HotKey);
+            wxString name = "";
+            for (size_t i = 0; i < tech_ptr->ResearchLocations.size(); ++i)
+            {
+                name += "HK" + FormatInt(tech_ptr->ResearchLocations[i].HotKeyID) + " ";
+            }
+            return name;
         });
         else if (label.compare("Cost Types") == 0)
             TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
@@ -298,25 +318,23 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
             if(GenieVersion >= genie::GV_C2 && GenieVersion <= genie::GV_LatestDE2)
             Techs_Repeatable->prepend(&ResearchPointer->Repeatable);
         }
-        Research_ResearchLocation->prepend(&ResearchPointer->ResearchLocation);
         if(GenieVersion >= genie::GV_MATT)
         {
             Research_LangDLLName->prepend(&ResearchPointer->LanguageDLLName);
             Research_LangDLLDescription->prepend(&ResearchPointer->LanguageDLLDescription);
         }
-        Research_ResearchTime->prepend(&ResearchPointer->ResearchTime);
         Research_TechID->prepend(&ResearchPointer->EffectID);
         Research_Type->prepend(&ResearchPointer->Type);
         Research_IconID->prepend(&ResearchPointer->IconID);
-        Research_ButtonID->prepend(&ResearchPointer->ButtonID);
         if(GenieVersion >= genie::GV_AoEB)
         {
             Research_LanguageDLLHelp->prepend(&ResearchPointer->LanguageDLLHelp);
             Research_LanguageDLLName2->prepend(&ResearchPointer->LanguageDLLTechTree);
-            Research_HotKey->prepend(&ResearchPointer->HotKey);
         }
         Research_Name[0]->prepend(&ResearchPointer->Name);
     }
+
+    ListTechResearchLocations();
     SetStatusText(wxString::Format("Selections: %zu    Selected technology: %d",
         selections, selections > 0 ? ResearchIDs.front() : -1), 0);
 
@@ -326,8 +344,8 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
         Research_DLL_LangDLLName->SetLabel(TranslatedText(ResearchPointer->LanguageDLLName, 64));
         Research_DLL_LangDLLDescription->index = ResearchPointer->LanguageDLLDescription;
         Research_DLL_LangDLLDescription->SetLabel(TranslatedText(ResearchPointer->LanguageDLLDescription, 128));
-        Research_DLL_HotKey->index = ResearchPointer->HotKey;
-        Research_DLL_HotKey->SetLabel(TranslatedText(ResearchPointer->HotKey, 16));
+        Research_DLL_HotKey->index = ResearchPointer->ResearchLocations.front().HotKeyID;
+        Research_DLL_HotKey->SetLabel(TranslatedText(Research_DLL_HotKey->index, 16));
         if(GenieVersion >= genie::GV_AoEB)
         {
             if(GenieVersion < genie::GV_AoKB)
@@ -516,10 +534,6 @@ void AGE_Frame::CreateResearchControls()
     Research_LangDLLDescription_Text = new SolidText(Research_Scroller, " Language File Description");
     Research_LangDLLDescription = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch, false);
     Research_DLL_LangDLLDescription = new TextIndexControl(Research_Scroller, ASize(320, 40));
-    Research_HotKey_Holder = new wxBoxSizer(wxVERTICAL);
-    Research_HotKey_Text = new SolidText(Research_Scroller, " Hotkey *");
-    Research_HotKey = new NumberControl(CLong, Research_Scroller, this, &uiGroupResearch, false);
-    Research_HotKey->SetToolTip("Gotta be same as hotkey in units.\nNo idea how this works.");
     Research_DLL_HotKey = new TextIndexControl(Research_Scroller, ASize(100, 40));
 
     Research_LanguageDLLHelp_Holder = new wxBoxSizer(wxVERTICAL);
@@ -563,16 +577,10 @@ void AGE_Frame::CreateResearchControls()
     Research_Type_Text = new SolidText(Research_Scroller, " Type *");
     Research_Type = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
     Research_Type->SetToolTip("AoK+\n0   Normal\n2   Show progress in age bar.\nAoE/RoR: Used to track similar\ntechnologies for modding purposes,\nwithout actual usage in the game.");
-    Research_ResearchTime_Holder = new wxBoxSizer(wxVERTICAL);
-    Research_ResearchTime_Text = new SolidText(Research_Scroller, " Research Time");
-    Research_ResearchTime = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
     Research_IconID_Holder = new wxBoxSizer(wxVERTICAL);
     Research_IconID_Text = new SolidText(Research_Scroller, " Icon");
     Research_IconID = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch, false);
     Research_IconID_SLP = new APanel(Research_Scroller, ASize(55, 50));
-    Research_ButtonID_Holder = new wxBoxSizer(wxVERTICAL);
-    Research_ButtonID_Text = new SolidText(Research_Scroller, " Button");
-    Research_ButtonID = new NumberControl(CUByte, Research_Scroller, this, &uiGroupResearch);
     Techs_Repeatable_Holder = new wxBoxSizer(wxVERTICAL);
     Techs_Repeatable_Text = new SolidText(Research_Scroller, " Repeatable");
     Techs_Repeatable = new NumberControl(CUByte, Research_Scroller, this, &uiGroupResearch);
@@ -581,11 +589,6 @@ void AGE_Frame::CreateResearchControls()
     Research_TechID = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
     Research_TechID_ComboBox = new LinkedComboBox(Research_Scroller, Research_TechID, &tech_names);
     TechComboBoxList.push_back(Research_TechID_ComboBox);
-    Research_ResearchLocation_Holder = new wxBoxSizer(wxVERTICAL);
-    Research_ResearchLocation_Text = new SolidText(Research_Scroller, " Research Location");
-    Research_ResearchLocation = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
-    Research_ResearchLocation_ComboBox = new LinkedComboBox(Research_Scroller, Research_ResearchLocation, &unit_names);
-    UnitComboBoxList.push_back(Research_ResearchLocation_ComboBox);
     Research_Civ_Holder = new wxBoxSizer(wxVERTICAL);
     Research_Civ_Text = new SolidText(Research_Scroller, " Civilization");
     Research_Civ = new NumberControl(CShort, Research_Scroller, this, &uiGroupResearch);
@@ -613,15 +616,81 @@ void AGE_Frame::CreateResearchControls()
         Research_Used_CheckBox[loop] = new LinkedCheckBox(Research_Scroller, "Paid", Research_Used[loop]);
     }
 
-    /*Translations.Write("Global/And", langGlobalAnd);
-    Translations.Write("Global/Add", langGlobalAdd);
-    Translations.Write("Global/InsertNew", langGlobalInsNew);
-    Translations.Write("Global/Delete", langGlobalDel);
-    Translations.Write("Global/Copy", langGlobalCopy);
-    Translations.Write("Global/Paste", langGlobalPaste);
-    Translations.Write("Global/InsertCopies", langGlobalInsCopies);
-    Translations.Write("Tech/Tab", langTabResearch);
-    Translations.Write("Global/Name", langGlobalName);*/
+    Research_ResearchLocations =
+        new wxStaticBoxSizer(wxHORIZONTAL, Research_Scroller, "Research Locations");
+    Research_ResearchLocations_ListArea = new wxBoxSizer(wxVERTICAL);
+    Research_ResearchLocations_DataArea = new wxBoxSizer(wxVERTICAL);
+    Research_ResearchLocations_Search = new wxTextCtrl(Research_Scroller, wxID_ANY);
+    Research_ResearchLocations_Search_R = new wxTextCtrl(Research_Scroller, wxID_ANY);
+    Research_ResearchLocations_ListV = new ProperList(Research_Scroller, ASize(300, 100));
+    Research_ResearchLocations_Buttons = new wxGridSizer(3, 0, 0);
+    Research_ResearchLocations_Add = new wxButton(Research_Scroller, wxID_ANY, "Add", wxDefaultPosition, wxSize(10, -1));
+    Research_ResearchLocations_Insert = new wxButton(
+        Research_Scroller, wxID_ANY, "Ins New", wxDefaultPosition, wxSize(10, -1));
+    Research_ResearchLocations_Delete = new wxButton(
+        Research_Scroller, wxID_ANY, "Delete", wxDefaultPosition, wxSize(10, -1));
+    Research_ResearchLocations_Copy = new wxButton(Research_Scroller, wxID_ANY, "Copy", wxDefaultPosition, wxSize(10, -1));
+    Research_ResearchLocations_Paste = new wxButton(
+        Research_Scroller, wxID_ANY, "Paste", wxDefaultPosition, wxSize(10, -1));
+    Research_ResearchLocations_PasteInsert =
+        new wxButton(Research_Scroller, wxID_ANY, "Ins Copies", wxDefaultPosition,
+            wxSize(10, -1));
+    Research_ResearchLocations_CopyToTechs =
+        new wxButton(Research_Scroller, wxID_ANY, "Copy all to selected techs",
+            wxDefaultPosition, wxSize(10, -1));
+
+    ResearchLocations_UnitID_Holder = new wxBoxSizer(wxVERTICAL);
+    ResearchLocations_UnitID_Text = new SolidText(Research_Scroller, " Location");
+    ResearchLocations_UnitID = new NumberControl(CShort, Research_Scroller, this, nullptr, false);
+    ResearchLocations_UnitID_ComboBox = new LinkedComboBox(Research_Scroller, ResearchLocations_UnitID, &unit_names, false);
+    ResearchComboBoxList.push_back(ResearchLocations_UnitID_ComboBox);
+
+    ResearchLocations_ResearchTime_Holder = new wxBoxSizer(wxVERTICAL);
+    ResearchLocations_ResearchTime_Text = new SolidText(Research_Scroller, " Research Time");
+    ResearchLocations_ResearchTime = new NumberControl(CShort, Research_Scroller, this, nullptr, false);
+
+    ResearchLocations_ButtonID_Holder = new wxBoxSizer(wxVERTICAL);
+    ResearchLocations_ButtonID_Text = new SolidText(Research_Scroller, " Button");
+    ResearchLocations_ButtonID = new NumberControl(CUByte, Research_Scroller, this, nullptr, false);
+
+    ResearchLocations_HotkeyID_Holder = new wxBoxSizer(wxVERTICAL);
+    ResearchLocations_HotkeyID_Text = new SolidText(Research_Scroller, " Hotkey *");
+    ResearchLocations_HotkeyID = new NumberControl(CLong, Research_Scroller, this, nullptr, false);
+    ResearchLocations_HotkeyID->SetToolTip("Gotta be same as hotkey in units.\nNo idea how this works");
+
+    Research_ResearchLocations_Buttons->Add(Research_ResearchLocations_Add, 1, wxEXPAND);
+    Research_ResearchLocations_Buttons->Add(Research_ResearchLocations_Delete, 1, wxEXPAND);
+    Research_ResearchLocations_Buttons->Add(Research_ResearchLocations_Insert, 1, wxEXPAND);
+    Research_ResearchLocations_Buttons->Add(Research_ResearchLocations_Copy, 1, wxEXPAND);
+    Research_ResearchLocations_Buttons->Add(Research_ResearchLocations_Paste, 1, wxEXPAND);
+    Research_ResearchLocations_Buttons->Add(Research_ResearchLocations_PasteInsert, 1, wxEXPAND);
+
+    Research_ResearchLocations_ListArea->Add(Research_ResearchLocations_Search, 0, wxEXPAND);
+    Research_ResearchLocations_ListArea->Add(Research_ResearchLocations_Search_R, 0, wxEXPAND);
+    Research_ResearchLocations_ListArea->Add(Research_ResearchLocations_ListV, 1, wxEXPAND | wxBOTTOM | wxTOP, 2);
+    Research_ResearchLocations_ListArea->Add(Research_ResearchLocations_Buttons, 0, wxEXPAND);
+    Research_ResearchLocations_ListArea->Add(Research_ResearchLocations_CopyToTechs, 0, wxEXPAND | wxTOP, 2);
+
+    ResearchLocations_UnitID_Holder->Add(ResearchLocations_UnitID_Text);
+    ResearchLocations_UnitID_Holder->Add(ResearchLocations_UnitID, 0, wxEXPAND);
+    ResearchLocations_UnitID_Holder->Add(ResearchLocations_UnitID_ComboBox);
+
+    ResearchLocations_ResearchTime_Holder->Add(ResearchLocations_ResearchTime_Text);
+    ResearchLocations_ResearchTime_Holder->Add(ResearchLocations_ResearchTime);
+
+    ResearchLocations_ButtonID_Holder->Add(ResearchLocations_ButtonID_Text);
+    ResearchLocations_ButtonID_Holder->Add(ResearchLocations_ButtonID);
+    ResearchLocations_HotkeyID_Holder->Add(ResearchLocations_HotkeyID_Text);
+    ResearchLocations_HotkeyID_Holder->Add(ResearchLocations_HotkeyID);
+    ResearchLocations_HotkeyID_Holder->Add(Research_DLL_HotKey);
+
+    Research_ResearchLocations_DataArea->Add(ResearchLocations_UnitID_Holder);
+    Research_ResearchLocations_DataArea->Add(ResearchLocations_ResearchTime_Holder, 0, wxTOP, 5);
+    Research_ResearchLocations_DataArea->Add(ResearchLocations_ButtonID_Holder, 0, wxTOP, 5);
+    Research_ResearchLocations_DataArea->Add(ResearchLocations_HotkeyID_Holder, 0, wxTOP, 5);
+
+    Research_ResearchLocations->Add(Research_ResearchLocations_ListArea, 1, wxEXPAND);
+    Research_ResearchLocations->Add(Research_ResearchLocations_DataArea, 1, wxLEFT, 5);
 
     Research_Research_Buttons->Add(Research_Add, 1, wxEXPAND);
     Research_Research_Buttons->Add(Research_Delete, 1, wxEXPAND);
@@ -699,13 +768,6 @@ void AGE_Frame::CreateResearchControls()
     Research_FullTechMode_Holder->Add(Research_FullTechMode);
     Research_FullTechMode_Holder->Add(Research_FullTechMode_CheckBox);
 
-    Research_ResearchLocation_Holder->Add(Research_ResearchLocation_Text);
-    Research_ResearchLocation_Holder->Add(Research_ResearchLocation, 0, wxEXPAND);
-    Research_ResearchLocation_Holder->Add(Research_ResearchLocation_ComboBox);
-
-    Research_ResearchTime_Holder->Add(Research_ResearchTime_Text);
-    Research_ResearchTime_Holder->Add(Research_ResearchTime);
-
     Research_TechID_Holder->Add(Research_TechID_Text);
     Research_TechID_Holder->Add(Research_TechID, 0, wxEXPAND);
     Research_TechID_Holder->Add(Research_TechID_ComboBox);
@@ -716,21 +778,15 @@ void AGE_Frame::CreateResearchControls()
     Research_IconID_Holder->Add(Research_IconID_Text);
     Research_IconID_Holder->Add(Research_IconID);
 
-    Research_ButtonID_Holder->Add(Research_ButtonID_Text);
-    Research_ButtonID_Holder->Add(Research_ButtonID);
-
     Techs_Repeatable_Holder->Add(Techs_Repeatable_Text);
     Techs_Repeatable_Holder->Add(Techs_Repeatable);
 
     Research_Misc2_Holder->Add(Research_RequiredTechCount_Holder);
     Research_Misc2_Holder->Add(Research_Type_Holder, 0, wxLEFT, 5);
-    Research_Misc2_Holder->Add(Research_ResearchTime_Holder, 0, wxLEFT, 5);
     Research_Misc2_Holder->Add(Research_IconID_Holder, 0, wxLEFT, 5);
-    Research_Misc2_Holder->Add(Research_ButtonID_Holder, 0, wxLEFT, 5);
     Research_Misc2_Holder->Add(Techs_Repeatable_Holder, 0, wxLEFT, 5);
 
     Research_Misc3_Holder->Add(Research_TechID_Holder);
-    Research_Misc3_Holder->Add(Research_ResearchLocation_Holder, 0, wxLEFT, 5);
     Research_Misc3_Holder->Add(Research_Civ_Holder, 0, wxLEFT, 5);
     Research_Misc3_Holder->Add(Research_FullTechMode_Holder, 0, wxLEFT, 5);
 
@@ -742,15 +798,11 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLName2_Holder->Add(Research_LanguageDLLName2, 0, wxEXPAND);
     Research_LanguageDLLConverter_Holder[1]->Add(Research_LanguageDLLConverter_Text[1]);
     Research_LanguageDLLConverter_Holder[1]->Add(Research_LanguageDLLConverter[1]);
-    Research_HotKey_Holder->Add(Research_HotKey_Text);
-    Research_HotKey_Holder->Add(Research_HotKey);
-    Research_HotKey_Holder->Add(Research_DLL_HotKey);
 
     Research_PointerArea_Holder->Add(Research_LanguageDLLHelp_Holder);
     Research_PointerArea_Holder->Add(Research_LanguageDLLConverter_Holder[0], 0, wxLEFT, 5);
     Research_PointerArea_Holder->Add(Research_LanguageDLLName2_Holder, 0, wxLEFT, 5);
     Research_PointerArea_Holder->Add(Research_LanguageDLLConverter_Holder[1], 0, wxLEFT, 5);
-    Research_LangDLLArea_Holder->Add(Research_HotKey_Holder, 0, wxLEFT, 5);
 
     Research_ScrollSpace->Add(Research_Names_Holder);
     Research_ScrollSpace->Add(Research_LangDLLArea_Holder, 0, wxTOP, 5);
@@ -761,6 +813,7 @@ void AGE_Frame::CreateResearchControls()
     Research_ScrollSpace->Add(Research_Misc2_Holder, 0, wxTOP, 5);
     Research_ScrollSpace->Add(Research_Misc3_Holder, 0, wxTOP, 5);
     Research_ScrollSpace->Add(Research_CostHeader_Holder, 0, wxTOP, 5);
+    Research_ScrollSpace->Add(Research_ResearchLocations, 0, wxTOP, 5);
 
     Research_Scroller->SetSizer(Research_ScrollSpace);
 
@@ -811,8 +864,6 @@ void AGE_Frame::CreateResearchControls()
     Research_LanguageDLLHelp->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
     Research_LanguageDLLName2->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
     Research_LanguageDLLName2->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
-    Research_HotKey->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
-    Research_HotKey->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
     Research_DLL_LangDLLName->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
     Research_DLL_LangDLLDescription->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
     Research_DLL_LanguageDLLHelp->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_LangDLL, this);
@@ -821,7 +872,76 @@ void AGE_Frame::CreateResearchControls()
     Research_IconID->Bind(wxEVT_KILL_FOCUS, &AGE_Frame::OnKillFocus_Research, this);
     Research_IconID->Bind(wxEVT_TEXT_ENTER, &AGE_Frame::OnEnter_Research, this);
     Research_IconID_SLP->Bind(wxEVT_PAINT, &AGE_Frame::OnDrawTechSLP, this);
-    Research_IconID_SLP->Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent&){});
+    Research_IconID_SLP->Bind(wxEVT_ERASE_BACKGROUND, [](wxEraseEvent &) {});
+
+    Research_ResearchLocations_Search->Bind(wxEVT_TEXT, &AGE_Frame::OnTechResearchLocationsSearch, this);
+    Research_ResearchLocations_Search_R->Bind(wxEVT_TEXT, &AGE_Frame::OnTechResearchLocationsSearch, this);
+    Research_ResearchLocations_ListV->Bind(wxEVT_LISTBOX, &AGE_Frame::OnTechResearchLocationSelect, this);
+    Research_ResearchLocations_Add->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechResearchLocationsAdd, this);
+    Research_ResearchLocations_Insert->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechResearchLocationsInsert, this);
+    Research_ResearchLocations_Delete->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechResearchLocationsDelete, this);
+    Research_ResearchLocations_Copy->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechResearchLocationsCopy, this);
+    Research_ResearchLocations_Paste->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechResearchLocationsPaste, this);
+    Research_ResearchLocations_PasteInsert->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechResearchLocationsPasteInsert, this);
+    Research_ResearchLocations_CopyToTechs->Bind(wxEVT_BUTTON, &AGE_Frame::OnTechResearchLocationsCopyToTechs, this);
+
+    ResearchLocations_UnitID->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent &event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTechResearchLocations();
+        }
+    });
+    ResearchLocations_UnitID->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent &event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTechResearchLocations();
+    });
+    ResearchLocations_UnitID_ComboBox->Bind(wxEVT_COMBOBOX, [this](wxCommandEvent &event)
+    {
+        static_cast<LinkedComboBox*>(event.GetEventObject())->OnChoose(event);
+        ListTechResearchLocations();
+    });
+    ResearchLocations_ResearchTime->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent &event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTechResearchLocations();
+        }
+    });
+    ResearchLocations_ResearchTime->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent &event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTechResearchLocations();
+    });
+    ResearchLocations_ButtonID->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent &event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTechResearchLocations();
+        }
+    });
+    ResearchLocations_ButtonID->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent &event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTechResearchLocations();
+    });
+    ResearchLocations_HotkeyID->Bind(wxEVT_KILL_FOCUS, [this](wxFocusEvent &event)
+    {
+        event.Skip();
+        if (static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits() == 0)
+        {
+            ListTechResearchLocations();
+        }
+    });
+    ResearchLocations_HotkeyID->Bind(wxEVT_TEXT_ENTER, [this](wxCommandEvent &event)
+    {
+        static_cast<AGETextCtrl*>(event.GetEventObject())->SaveEdits(true);
+        ListTechResearchLocations();
+    });
 }
 
 void AGE_Frame::OnEnter_Research(wxCommandEvent &event)
@@ -838,5 +958,154 @@ void AGE_Frame::OnKillFocus_Research(wxFocusEvent &event)
     {
         wxCommandEvent e;
         OnResearchSelect(e);
+    }
+}
+
+wxString AGE_Frame::GetTechResearchLocationName(int index)
+{
+    return "Unit: " + lexical_cast<std::string>(dataset->Techs[ResearchIDs.front()].ResearchLocations[index].LocationID)
+        + " - Time: " + lexical_cast<std::string>(dataset->Techs[ResearchIDs.front()].ResearchLocations[index].QueueTime)
+        + " - Button: " + lexical_cast<std::string>(static_cast<short>(dataset->Techs[ResearchIDs.front()].ResearchLocations[index].ButtonID))
+        + " - Hotkey: " + lexical_cast<std::string>(dataset->Techs[ResearchIDs.front()].ResearchLocations[index].HotKeyID);
+}
+
+void AGE_Frame::OnTechResearchLocationsSearch(wxCommandEvent &event)
+{
+    How2List = ListMode::SEARCH;
+    ListTechResearchLocations();
+}
+
+void AGE_Frame::ListTechResearchLocations()
+{
+    InitSearch(Research_ResearchLocations_Search->GetValue().MakeLower(), Research_ResearchLocations_Search_R->GetValue().MakeLower());
+
+    Research_ResearchLocations_ListV->Sweep();
+
+    if (Techs_ListV->GetSelectedCount())
+    {
+        Research_ResearchLocations_Add->Enable(true);
+        for (size_t loop = 0; loop < dataset->Techs[ResearchIDs.front()].ResearchLocations.size(); ++loop)
+        {
+            wxString Name = FormatInt(loop) + " - " + GetTechResearchLocationName(loop);
+            if (SearchMatches(" " + Name.Lower() + " "))
+            {
+                Research_ResearchLocations_ListV->names.Add(Name);
+                Research_ResearchLocations_ListV->indexes.push_back(loop);
+            }
+        }
+    }
+    else
+    {
+        Research_ResearchLocations_Add->Enable(false);
+    }
+    RefreshList(Research_ResearchLocations_ListV, &ResearchLocationIDs);
+
+    wxCommandEvent e;
+    OnTechResearchLocationSelect(e);
+}
+
+void AGE_Frame::OnTechResearchLocationSelect(wxCommandEvent &event)
+{
+    size_t selections = Research_ResearchLocations_ListV->GetSelectedCount();
+    wxBusyCursor WaitCursor;
+
+    ResearchLocations_UnitID->clear();
+    ResearchLocations_ResearchTime->clear();
+    ResearchLocations_ButtonID->clear();
+    ResearchLocations_HotkeyID->clear();
+
+    if (selections > 0)
+    {
+        getSelectedItems(selections, Research_ResearchLocations_ListV, ResearchLocationIDs);
+
+        genie::ResearchLocation *ResearchLocationPointer;
+        for (size_t sel = selections; sel-- > 0;)
+        {
+            ResearchLocationPointer = &dataset->Techs[ResearchIDs.front()].ResearchLocations[ResearchLocationIDs[sel]];
+
+            ResearchLocations_UnitID->prepend(&ResearchLocationPointer->LocationID);
+            ResearchLocations_ResearchTime->prepend(&ResearchLocationPointer->QueueTime);
+            ResearchLocations_ButtonID->prepend(&ResearchLocationPointer->ButtonID);
+            ResearchLocations_HotkeyID->prepend(&ResearchLocationPointer->HotKeyID);
+        }
+    }
+
+    ResearchLocations_UnitID->update();
+    ResearchLocations_ResearchTime->update();
+    ResearchLocations_ButtonID->update();
+    ResearchLocations_HotkeyID->update();
+}
+
+void AGE_Frame::OnTechResearchLocationsAdd(wxCommandEvent &event)
+{
+    if (!Techs_ListV->GetSelectedCount()) return;
+
+    wxBusyCursor WaitCursor;
+    genie::ResearchLocation Temp;
+    Temp.setGameVersion(GenieVersion);
+    dataset->Techs[ResearchIDs.front()].ResearchLocations.push_back(Temp);
+    How2List = ListMode::ADD;
+    ListTechResearchLocations();
+}
+
+void AGE_Frame::OnTechResearchLocationsInsert(wxCommandEvent &event)
+{
+    if (!Research_ResearchLocations_ListV->GetSelectedCount()) return;
+
+    wxBusyCursor WaitCursor;
+    genie::ResearchLocation Temp;
+    Temp.setGameVersion(GenieVersion);
+    dataset->Techs[ResearchIDs.front()].ResearchLocations.insert(dataset->Techs[ResearchIDs.front()].ResearchLocations.begin() + ResearchLocationIDs.front(), Temp);
+    How2List = ListMode::INSNEW;
+    ListTechResearchLocations();
+}
+
+void AGE_Frame::OnTechResearchLocationsDelete(wxCommandEvent &event)
+{
+    size_t selections = Research_ResearchLocations_ListV->GetSelectedCount();
+    if (!selections) return;
+
+    wxBusyCursor WaitCursor;
+
+    if (dataset->Techs[ResearchIDs.front()].ResearchLocations.size())
+    {
+        DeleteFromList(dataset->Techs[ResearchIDs.front()].ResearchLocations, ResearchLocationIDs);
+    }
+
+    ListTechResearchLocations();
+}
+
+void AGE_Frame::OnTechResearchLocationsCopy(wxCommandEvent &event)
+{
+    if (!Research_ResearchLocations_ListV->GetSelectedCount()) return;
+
+    CopyFromList(dataset->Techs[ResearchIDs.front()].ResearchLocations, ResearchLocationIDs, copies.ResearchLocations);
+
+    Research_ResearchLocations_ListV->SetFocus();
+}
+
+void AGE_Frame::OnTechResearchLocationsPaste(wxCommandEvent &event)
+{
+    if (!Research_ResearchLocations_ListV->GetSelectedCount()) return;
+
+    PasteToList(dataset->Techs[ResearchIDs.front()].ResearchLocations, ResearchLocationIDs, copies.ResearchLocations);
+
+    ListTechResearchLocations();
+}
+
+void AGE_Frame::OnTechResearchLocationsPasteInsert(wxCommandEvent &event)
+{
+    if (!Research_ResearchLocations_ListV->GetSelectedCount()) return;
+
+    PasteInsertToList(dataset->Techs[ResearchIDs.front()].ResearchLocations, ResearchLocationIDs.front(), copies.ResearchLocations);
+
+    ListTechResearchLocations();
+}
+
+void AGE_Frame::OnTechResearchLocationsCopyToTechs(wxCommandEvent &event)
+{
+    for (size_t loop = 1; loop < ResearchIDs.size(); ++loop)
+    {
+        dataset->Techs[ResearchIDs[loop]].ResearchLocations = dataset->Techs[ResearchIDs.front()].ResearchLocations;
     }
 }
