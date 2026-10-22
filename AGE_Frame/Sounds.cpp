@@ -1,5 +1,6 @@
 #include "Common.h"
 #include "../AGE_Frame.h"
+#include "../Main.h"
 #include "../Loaders.h"
 
 std::vector<std::function<wxString(genie::SoundItem*)>> SoundItemFilterFunctions;
@@ -633,16 +634,6 @@ void AGE_Frame::OnKillFocus_Sounds(wxFocusEvent &event)
     ListSoundItems();
 }
 
-void echo(sf::SoundBuffer &waves, sf::Sound &speaker, bool loop)
-{
-    if(waves.getSampleCount())
-    {
-        speaker.setBuffer(waves);
-        speaker.play();
-        speaker.setLoop(loop);
-    }
-}
-
 void AGE_Frame::playWAV(wxCommandEvent &event)
 {
     if(Sounds_Items_ListV->GetItemCount() > 1)
@@ -651,7 +642,7 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
 
     if(event.GetId() == SoundFile_Stop->GetId())
     {
-        speaker.stop();
+        speaker.reset();
         return;
     }
     if(SoundItemIDs.size() && dataset && SoundItemIDs.front() < dataset->Sounds[SoundIDs.front()].Items.size())
@@ -661,26 +652,29 @@ void AGE_Frame::playWAV(wxCommandEvent &event)
         if(LooseHD)
         {
             std::string soundname = GG::LoadSound(soundfolders, sound_item.FileName, sound_item.ResourceID);
-            if("" != soundname && waves.loadFromFile(soundname))
+            if (!soundname.empty() && speaker.loadFromFile(&AGE::SoundEngine, soundname.c_str()))
             {
-                echo(waves, speaker, loop); return;
+                speaker.play(loop);
+                return;
             }
         }
         else
         {
             // Terrain sounds may be loose files.
             std::string soundname = GG::LoadSound(soundfolders, sound_item.FileName, sound_item.ResourceID);
-            if("" != soundname && waves.loadFromFile(soundname))
+            if (!soundname.empty() && speaker.loadFromFile(&AGE::SoundEngine, soundname.c_str()))
             {
-                echo(waves, speaker, loop); return;
+                speaker.play(loop);
+                return;
             }
-            const unsigned char* sounddata = GG::LoadSound(datafiles, sound_item.ResourceID);
-            if(0 != sounddata)
+            const unsigned char *sounddata = GG::LoadSound(datafiles, sound_item.ResourceID);
+            if (sounddata)
             {
-                size_t size = *((uint32_t*)sounddata + 1) + 8;
-                if(waves.loadFromMemory(sounddata, size))
+                size_t size = *((uint32_t *)sounddata + 1) + 8;
+                if (speaker.loadFromMemory(&AGE::SoundEngine, sounddata, size))
                 {
-                    echo(waves, speaker, loop); return;
+                    speaker.play(loop);
+                    return;
                 }
                 wxMessageBox("Cannot load sound");
             }

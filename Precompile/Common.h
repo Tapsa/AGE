@@ -6,6 +6,7 @@
 #include <array>
 #include <chrono>
 #include <cstdint>
+#include <fstream>
 #include <functional>
 #include <iomanip>
 #include <ios>
@@ -75,10 +76,6 @@
 #include <wx/vlbox.h>
 #include <wx/window.h>
 #include <wx/wrapsizer.h>
-
-// Simple and Fast Multimedia Library
-#include <SFML/Audio/Sound.hpp>
-#include <SFML/Audio/SoundBuffer.hpp>
 
 using boost::lexical_cast;
 using boost::bad_lexical_cast;

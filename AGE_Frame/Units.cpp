@@ -73,12 +73,12 @@ wxString AGE_Frame::GetUnitName(int index, short civ, bool filter)
     return name + "New Unit";
 }
 
-#define UF30 unit_ptr->Type < 30 || unit_ptr->Type > 80 ? "NA" :
-#define UF40 unit_ptr->Type < 40 || unit_ptr->Type > 80 ? "NA" :
-#define UF50 unit_ptr->Type < 50 || unit_ptr->Type > 80 ? "NA" :
-#define UF60 unit_ptr->Type != 60 ? "NA" :
-#define UF70 unit_ptr->Type != 70 && unit_ptr->Type != 80 ? "NA" :
-#define UF80 unit_ptr->Type != 80 ? "NA" :
+#define UF30 unit_ptr->Type < 30 || unit_ptr->Type > 80 ? wxString("NA") :
+#define UF40 unit_ptr->Type < 40 || unit_ptr->Type > 80 ? wxString("NA") :
+#define UF50 unit_ptr->Type < 50 || unit_ptr->Type > 80 ? wxString("NA") :
+#define UF60 unit_ptr->Type != 60 ? wxString("NA") :
+#define UF70 unit_ptr->Type != 70 && unit_ptr->Type != 80 ? wxString("NA") :
+#define UF80 unit_ptr->Type != 80 ? wxString("NA") :
 
 void AGE_Frame::PrepUnitSearch()
 {
@@ -416,7 +416,7 @@ void AGE_Frame::PrepUnitSearch()
                     FormatInt(unit_ptr->DamageGraphics[i].DamagePercent) + " " +
                     FormatInt(unit_ptr->DamageGraphics[i].ApplyMode) + " ";
             }
-            return name.empty() ? "No DGD" : name;
+            return name.empty() ? wxString("No DGD") : name;
         });
         else if (label.compare("Selection Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -611,7 +611,7 @@ void AGE_Frame::PrepUnitSearch()
             {
                 name += "TD " + FormatInt(unit_ptr->Bird.TaskList[i].ActionType) + " ";
             }
-            return UF40 name.empty() ? "No TD" : name;
+            return UF40 name.empty() ? wxString("No TD") : name;
         });
         else if (label.compare("Attack Wave Works Sound") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -640,7 +640,7 @@ void AGE_Frame::PrepUnitSearch()
             wxString name = "";
             for(size_t i = 0; i < unit_ptr->Type50.Attacks.size(); ++i)
             name += "C" + FormatInt(unit_ptr->Type50.Attacks[i].Class) + " ";
-            return UF50 name.empty() ? "No AtC" : name;
+            return UF50 name.empty() ? wxString("No AtC") : name;
         });
         else if (label.compare("Armor Count") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -653,7 +653,7 @@ void AGE_Frame::PrepUnitSearch()
             wxString name = "";
             for(size_t i = 0; i < unit_ptr->Type50.Armours.size(); ++i)
             name += "C" + FormatInt(unit_ptr->Type50.Armours[i].Class) + " ";
-            return UF50 name.empty() ? "No ArC" : name;
+            return UF50 name.empty() ? wxString("No ArC") : name;
         });
         else if (label.compare("Terrain Defense Bonus") == 0)
         UnitFilterFunctions.push_back([this](genie::Unit *unit_ptr)
@@ -1771,13 +1771,13 @@ void AGE_Frame::OnUnitSelect(wxCommandEvent &event)
         visibleUnitCiv->SetLabel("None");
         iconSLP.slpID = museum.datID = -1;
     }
-    Units_DLL_LanguageName->SetLabel(TranslatedText(Units_DLL_LanguageName->index, 64));
-    Units_DLL_LanguageCreation->SetLabel(TranslatedText(Units_DLL_LanguageCreation->index, 64));
-    Units_DLL_LanguageHelp->SetLabel(TranslatedText(Units_DLL_LanguageHelp->index, 512));
-    Units_LanguageDLLConverter[0]->SetLabel(lexical_cast<std::string>(Units_DLL_LanguageHelp->index));
-    Units_DLL_LanguageHKText->SetLabel(TranslatedText(Units_DLL_LanguageHKText->index, 64));
-    Units_LanguageDLLConverter[1]->SetLabel(lexical_cast<std::string>(Units_DLL_LanguageHKText->index));
-    Units_DLL_HotKey4->SetLabel(TranslatedText(Units_DLL_HotKey4->index, 16));
+    Units_DLL_LanguageName->ChangeValue(TranslatedText(Units_DLL_LanguageName->index, 64));
+    Units_DLL_LanguageCreation->ChangeValue(TranslatedText(Units_DLL_LanguageCreation->index, 64));
+    Units_DLL_LanguageHelp->ChangeValue(TranslatedText(Units_DLL_LanguageHelp->index, 512));
+    Units_LanguageDLLConverter[0]->ChangeValue(lexical_cast<std::string>(Units_DLL_LanguageHelp->index));
+    Units_DLL_LanguageHKText->ChangeValue(TranslatedText(Units_DLL_LanguageHKText->index, 64));
+    Units_LanguageDLLConverter[1]->ChangeValue(lexical_cast<std::string>(Units_DLL_LanguageHKText->index));
+    Units_DLL_HotKey4->ChangeValue(TranslatedText(Units_DLL_HotKey4->index, 16));
 
     Units_Type_ComboBox->Enable(showUnitData);
     Units_DLL_LanguageName->Enable(showUnitData);

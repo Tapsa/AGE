@@ -926,7 +926,7 @@ void AGE_Frame::FillListsBasedOnGameVersion()
         };
     }
 
-    const wxString localFilename = PathCustomNames.empty() ? "AGE3NamesV0007.ini" : PathCustomNames;
+    const wxString localFilename = PathCustomNames.empty() ? wxString("AGE3NamesV0007.ini") : PathCustomNames;
     wxFileConfig Customs("", "", localFilename, "", wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
     wxString KeyArmors, KeyTerrainTables, KeyCivResources;
 

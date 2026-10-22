@@ -4,25 +4,15 @@ project(AdvancedGenieEditor3)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/)
 set(CMAKE_CXX_FLAGS "-Wall -Wno-sign-compare -Wno-parentheses")
-set(BOOST_DATE_TIME_NO_LIB   ON)
-#set(Boost_USE_STATIC_LIBS    ON)
-#set(Boost_USE_STATIC_RUNTIME ON)
-set(Boost_USE_MULTITHREADED  ON)
-
-find_package(Boost 1.55 REQUIRED iostreams)
 
 find_package(wxWidgets REQUIRED core base)
 include("${wxWidgets_USE_FILE}")
-
-find_package(SFML 2.4 REQUIRED system audio)
 
 set(GUTILS_TOOLS FALSE)
 set(GUTILS_TEST FALSE)
 
 include_directories(
-    ${EXTERN_DIR}/genieutils/include
-    ${SFML_INCLUDE_DIR}
-    ${Boost_INCLUDE_DIRS})
+    ${EXTERN_DIR}/genieutils/include)
 
 add_subdirectory(${EXTERN_DIR}/genieutils extern/genieutils)
 
@@ -45,6 +35,7 @@ set(AGE_SRC Precompile/Common.cpp
     OpenDialog.cpp
     SaveDialog.cpp
     Loaders.cpp
+    OwnedSound.cpp
     Sprites.cpp
 
     AGE_Frame/Civs.cpp
@@ -65,10 +56,11 @@ set(AGE_SRC Precompile/Common.cpp
     AGE_Frame/Animation.cpp
     AGE_Frame/Constructor.cpp
 
+    miniaudio.cpp
     Resources.rc
     )
 
 find_library(PSAPI psapi)
 
 add_executable(AdvancedGenieEditor3 WIN32 ${AGE_SRC})
-target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils ${PSAPI} ${SFML_LIBRARIES})
+target_link_libraries(AdvancedGenieEditor3 ${wxWidgets_LIBRARIES} genieutils ${PSAPI})

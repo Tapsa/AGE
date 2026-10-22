@@ -21,6 +21,7 @@
 #include "DataCopies.hpp"
 #include "DelayedMessageRelay.h"
 #include "LinkedCheckBox.h"
+#include "OwnedSound.h"
 #include "Sprites.h"
 
 // Subproject headers
@@ -3729,6 +3730,5 @@ protected:
     short window_num;
     wxString argPath;
     wxFont font;
-    sf::SoundBuffer waves;
-    sf::Sound speaker;
+    OwnedSound speaker;
 };

@@ -65,7 +65,7 @@ void AGE_Frame::PrepTechSearch()
                     name += FormatInt(tech_ptr->RequiredTechs[l2]);
                 }
             }
-            return name.empty() ? "No R" : name;
+            return name.empty() ? wxString("No R") : name;
         });
         else if (label.compare("Min. Req. Techs") == 0)
             TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
@@ -158,7 +158,7 @@ void AGE_Frame::PrepTechSearch()
                     name += FormatInt(tech_ptr->ResourceCosts[l2].Type);
                 }
             }
-            return name.empty() ? "No CT" : name;
+            return name.empty() ? wxString("No CT") : name;
         });
         else if (label.compare("Cost Amounts") == 0)
             TechFilterFunctions.push_back([this](genie::Tech *tech_ptr)
@@ -341,11 +341,11 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
     if(ResearchPointer && GenieVersion >= genie::GV_MATT)
     {
         Research_DLL_LangDLLName->index = ResearchPointer->LanguageDLLName;
-        Research_DLL_LangDLLName->SetLabel(TranslatedText(ResearchPointer->LanguageDLLName, 64));
+        Research_DLL_LangDLLName->ChangeValue(TranslatedText(ResearchPointer->LanguageDLLName, 64));
         Research_DLL_LangDLLDescription->index = ResearchPointer->LanguageDLLDescription;
-        Research_DLL_LangDLLDescription->SetLabel(TranslatedText(ResearchPointer->LanguageDLLDescription, 128));
+        Research_DLL_LangDLLDescription->ChangeValue(TranslatedText(ResearchPointer->LanguageDLLDescription, 128));
         Research_DLL_HotKey->index = ResearchPointer->ResearchLocations.front().HotKeyID;
-        Research_DLL_HotKey->SetLabel(TranslatedText(Research_DLL_HotKey->index, 16));
+        Research_DLL_HotKey->ChangeValue(TranslatedText(Research_DLL_HotKey->index, 16));
         if(GenieVersion >= genie::GV_AoEB)
         {
             if(GenieVersion < genie::GV_AoKB)
@@ -358,10 +358,10 @@ void AGE_Frame::OnResearchSelect(wxCommandEvent &event)
                 Research_DLL_LanguageDLLHelp->index = ResearchPointer->LanguageDLLHelp - 79000;
                 Research_DLL_LanguageDLLName2->index = ResearchPointer->LanguageDLLTechTree - 140000;
             }
-            Research_DLL_LanguageDLLHelp->SetLabel(TranslatedText(Research_DLL_LanguageDLLHelp->index, 512));
-            Research_LanguageDLLConverter[0]->SetLabel(lexical_cast<std::string>(Research_DLL_LanguageDLLHelp->index));
-            Research_DLL_LanguageDLLName2->SetLabel(TranslatedText(Research_DLL_LanguageDLLName2->index, 64));
-            Research_LanguageDLLConverter[1]->SetLabel(lexical_cast<std::string>(Research_DLL_LanguageDLLName2->index));
+            Research_DLL_LanguageDLLHelp->ChangeValue(TranslatedText(Research_DLL_LanguageDLLHelp->index, 512));
+            Research_LanguageDLLConverter[0]->ChangeValue(lexical_cast<std::string>(Research_DLL_LanguageDLLHelp->index));
+            Research_DLL_LanguageDLLName2->ChangeValue(TranslatedText(Research_DLL_LanguageDLLName2->index, 64));
+            Research_LanguageDLLConverter[1]->ChangeValue(lexical_cast<std::string>(Research_DLL_LanguageDLLName2->index));
         }
         if(GenieVersion >= genie::GV_CC)
         {

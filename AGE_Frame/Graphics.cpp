@@ -1,5 +1,6 @@
 #include "Common.h"
 #include "../AGE_Frame.h"
+#include "../Main.h"
 #include "../Loaders.h"
 
 const wxString MirrorHelp = "Angle count clockwise from east after mirroring starts.\n"
@@ -561,9 +562,10 @@ bool AGE_Frame::initArt(AGE_SLP &art, unsigned graphicID)
         }
         else
         {
-            art.buffers[1] = sf::SoundBuffer();
-            art.buffers[2] = sf::SoundBuffer();
-            art.buffers[3] = sf::SoundBuffer();
+            for (size_t loop = 1; loop < art.sounds.size(); ++loop)
+            {
+                art.sounds[loop].reset();
+            }
         }
     }
 
@@ -572,6 +574,7 @@ bool AGE_Frame::initArt(AGE_SLP &art, unsigned graphicID)
 
 void AGE_Frame::initSounds(AGE_SLP &art, unsigned sound_num, size_t slot)
 {
+    art.sounds[slot].reset();
     if(sound_num < dataset->Sounds.size() && dataset->Sounds[sound_num].Items.size())
     {
         // TODO: Handle randomization, civ sounds.
@@ -579,31 +582,29 @@ void AGE_Frame::initSounds(AGE_SLP &art, unsigned sound_num, size_t slot)
         if(LooseHD)
         {
             std::string soundname = GG::LoadSound(soundfolders, sound_item.FileName, sound_item.ResourceID);
-            if("" != soundname)
+            if (!soundname.empty())
             {
-                if(art.buffers[slot].loadFromFile(soundname)) return;
+                art.sounds[slot].loadFromFile(&AGE::SoundEngine, soundname.c_str());
             }
         }
         else
         {
-            const unsigned char* sounddata = GG::LoadSound(datafiles, sound_item.ResourceID);
-            if(0 != sounddata)
+            const unsigned char *sounddata = GG::LoadSound(datafiles, sound_item.ResourceID);
+            if (sounddata)
             {
-                size_t size = *((uint32_t*)sounddata + 1) + 8;
-                if(art.buffers[slot].loadFromMemory(sounddata, size)) return;
+                size_t size = *((uint32_t *)sounddata + 1) + 8;
+                art.sounds[slot].loadFromMemory(&AGE::SoundEngine, sounddata, size);
             }
             else // Terrain sounds may be loose files.
             {
                 std::string soundname = GG::LoadSound(soundfolders, sound_item.FileName, sound_item.ResourceID);
-                if("" != soundname)
+                if (!soundname.empty())
                 {
-                    if(art.buffers[slot].loadFromFile(soundname)) return;
+                    art.sounds[slot].loadFromFile(&AGE::SoundEngine, soundname.c_str());
                 }
             }
         }
     }
-    // Clear the sound buffer.
-    art.buffers[slot] = sf::SoundBuffer();
 }
 
 void AGE_Frame::SetDisplayBearings(AGE_SLP &graphic, const genie::GraphicDelta &delta)
@@ -829,12 +830,7 @@ void AGE_Frame::Listen(AGE_SLP &art)
     if(art.fpa) for(size_t i = 0; i < 4; ++i)
     if(art.delays[i] == art.frameID % art.fpa)
     {
-        //if valid sound data?
-        if(art.buffers[i].getSampleCount() > 0)
-        {
-            art.sounds[i].setBuffer(art.buffers[i]);
-            art.sounds[i].play();
-        }
+        art.sounds[i].play(false);
     }
 }
 

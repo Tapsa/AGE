@@ -70,7 +70,7 @@ void LoadPlayerPalette(std::vector<std::vector<genie::Color>> &palettes, const w
     palettes.push_back(pal.getColors());
 }
 
-// Need to use basic std::string for SFML and genieutils uses it too...
+// Need to use basic std::string for miniaudio and genieutils uses it too...
 std::string LoadSound(wxArrayString &folders, const std::string &filename, int resnum)
 {
     for(wxString &f: folders)

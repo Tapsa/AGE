@@ -219,7 +219,7 @@ void AGE_Frame::OnAnimationMenuOption(wxCommandEvent &event)
             if (ted.ShowModal() == wxID_OK)
             {
                 wxString input = ted.GetValue();
-                AlexZoom = input.length() >= 2 ? input : "x1";
+                AlexZoom = input.length() >= 2 ? input : wxString("x1");
             }
             break;
         }

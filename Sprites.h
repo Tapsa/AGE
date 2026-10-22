@@ -1,8 +1,7 @@
 #pragma once
 #include <map>
 #include <wx/bitmap.h>
-#include <SFML/Audio/Sound.hpp>
-#include <SFML/Audio/SoundBuffer.hpp>
+#include "OwnedSound.h"
 #include "genie/resource/SpriteFile.h"
 
 const float PI2A = 6.28319f, PI2 = 6.2832f;
@@ -15,9 +14,8 @@ public:
     wxString filename = "";
     genie::SpriteFilePtr slp;
     wxBitmap bitmap;
-    sf::SoundBuffer buffers[4];// Actual data
-    sf::Sound sounds[4];// To play data
-    int16_t xpos = 0, ypos = 0, xdelta = 0, ydelta = 0, delays[4] = { 0, -1, -1, -1 };
+    std::array<OwnedSound, 4> sounds;
+    int16_t xpos = 0, ypos = 0, xdelta = 0, ydelta = 0, delays[4] = {0, -1, -1, -1};
     bool flip = false, is32 = false;
     float beginbearing = 0.f, endbearing = PI2A;
 

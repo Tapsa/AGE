@@ -213,7 +213,7 @@ void AGE_Frame::UpdateEffectResearchLocations(int techId)
 
     for (genie::ResearchLocation &location : dataset->Techs[techId].ResearchLocations)
     {
-        wxString locationName = (location.LocationID == -1) ? "-1 None " : unit_names[location.LocationID + 1];
+        wxString locationName = (location.LocationID == -1) ? wxString("-1 None ") : unit_names[location.LocationID + 1];
         research_locations.Add(locationName);
     }
 }
