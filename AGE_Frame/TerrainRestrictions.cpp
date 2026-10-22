@@ -150,9 +150,9 @@ void AGE_Frame::OnTerrainRestrictionsPaste(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     // Argh. So much redundancy.
-    PasteToListNoGV(dataset->FloatPtrTerrainTables, TerRestrictIDs, copies.TRptr1);
+    PasteToList(dataset->FloatPtrTerrainTables, TerRestrictIDs, copies.TRptr1);
     if(GenieVersion >= genie::GV_AoKA)
-    PasteToListNoGV(dataset->TerrainPassGraphicPointers, TerRestrictIDs, copies.TRptr2);
+    PasteToList(dataset->TerrainPassGraphicPointers, TerRestrictIDs, copies.TRptr2);
     PasteToList(dataset->TerrainRestrictions, TerRestrictIDs, copies.TerrainRestriction);
     ListTerrainRestrictions();
 }
@@ -162,9 +162,9 @@ void AGE_Frame::OnTerrainRestrictionsPasteInsert(wxCommandEvent &event)
     if(!TerRestrict_TerRestrict_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToListNoGV(dataset->FloatPtrTerrainTables, TerRestrictIDs.front(), copies.TRptr1);
+    PasteInsertToList(dataset->FloatPtrTerrainTables, TerRestrictIDs.front(), copies.TRptr1);
     if(GenieVersion >= genie::GV_AoKA)
-    PasteInsertToListNoGV(dataset->TerrainPassGraphicPointers, TerRestrictIDs.front(), copies.TRptr2);
+    PasteInsertToList(dataset->TerrainPassGraphicPointers, TerRestrictIDs.front(), copies.TRptr2);
     PasteInsertToList(dataset->TerrainRestrictions, TerRestrictIDs.front(), copies.TerrainRestriction);
     ListTerrainRestrictions();
 }

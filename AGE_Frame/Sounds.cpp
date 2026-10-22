@@ -102,7 +102,7 @@ void AGE_Frame::OnSoundsAdd(wxCommandEvent &event)
     if(!dataset) return;
 
     wxBusyCursor WaitCursor;
-    AddToListIDFix(dataset->Sounds);
+    AddToList(dataset->Sounds);
     ListSounds();
 }
 
@@ -112,7 +112,7 @@ void AGE_Frame::OnSoundsInsert(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    InsertToListIDFix(dataset->Sounds, SoundIDs.front());
+    InsertToList(dataset->Sounds, SoundIDs.front());
     ListSounds();
 }
 
@@ -122,7 +122,7 @@ void AGE_Frame::OnSoundsDelete(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    DeleteFromListIDFix(dataset->Sounds, SoundIDs);
+    DeleteFromList(dataset->Sounds, SoundIDs);
     ListSounds();
 }
 
@@ -142,7 +142,7 @@ void AGE_Frame::OnSoundsPaste(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    PasteToListIDFix(dataset->Sounds, SoundIDs, copies.Sound);
+    PasteToList(dataset->Sounds, SoundIDs, copies.Sound);
     ListSounds();
 }
 
@@ -152,7 +152,7 @@ void AGE_Frame::OnSoundsPasteInsert(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToListIDFix(dataset->Sounds, SoundIDs.front(), copies.Sound);
+    PasteInsertToList(dataset->Sounds, SoundIDs.front(), copies.Sound);
     ListSounds();
 }
 

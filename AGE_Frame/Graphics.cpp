@@ -883,7 +883,7 @@ void AGE_Frame::OnGraphicsAdd(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     dataset->GraphicPointers.push_back(1);
-    AddToListIDFix(dataset->Graphics);
+    AddToList(dataset->Graphics);
     ListGraphics();
 }
 
@@ -893,7 +893,7 @@ void AGE_Frame::OnGraphicsInsert(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     dataset->GraphicPointers.insert(dataset->GraphicPointers.begin() + GraphicIDs.front(), 1);
-    InsertToListIDFix(dataset->Graphics, GraphicIDs.front());
+    InsertToList(dataset->Graphics, GraphicIDs.front());
     ListGraphics();
 }
 
@@ -903,7 +903,7 @@ void AGE_Frame::OnGraphicsDelete(wxCommandEvent &event)
 
     wxBusyCursor WaitCursor;
     DeleteFromList(dataset->GraphicPointers, GraphicIDs);
-    DeleteFromListIDFix(dataset->Graphics, GraphicIDs);
+    DeleteFromList(dataset->Graphics, GraphicIDs);
     ListGraphics();
 }
 
@@ -922,8 +922,8 @@ void AGE_Frame::OnGraphicsPaste(wxCommandEvent &event)
     if(!Graphics_Graphics_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
-    PasteToListNoGV(dataset->GraphicPointers, GraphicIDs, copies.GraphicPointer);
-    PasteToListIDFix(dataset->Graphics, GraphicIDs, copies.Graphic);
+    PasteToList(dataset->GraphicPointers, GraphicIDs, copies.GraphicPointer);
+    PasteToList(dataset->Graphics, GraphicIDs, copies.Graphic);
     ListGraphics();
 }
 
@@ -932,8 +932,8 @@ void AGE_Frame::OnGraphicsPasteInsert(wxCommandEvent &event)
     if(!Graphics_Graphics_ListV->GetSelectedCount()) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToListNoGV(dataset->GraphicPointers, GraphicIDs.front(), copies.GraphicPointer);
-    PasteInsertToListIDFix(dataset->Graphics, GraphicIDs.front(), copies.Graphic);
+    PasteInsertToList(dataset->GraphicPointers, GraphicIDs.front(), copies.GraphicPointer);
+    PasteInsertToList(dataset->Graphics, GraphicIDs.front(), copies.Graphic);
     ListGraphics();
 }
 

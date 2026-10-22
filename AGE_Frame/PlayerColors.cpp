@@ -151,7 +151,7 @@ void AGE_Frame::OnPlayerColorsAdd(wxCommandEvent &event)
     if(!dataset) return;
 
     wxBusyCursor WaitCursor;
-    AddToListIDFix(dataset->PlayerColours);
+    AddToList(dataset->PlayerColours);
     ListPlayerColors();
 }
 
@@ -161,7 +161,7 @@ void AGE_Frame::OnPlayerColorsInsert(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    InsertToListIDFix(dataset->PlayerColours, ColorIDs.front());
+    InsertToList(dataset->PlayerColours, ColorIDs.front());
     ListPlayerColors();
 }
 
@@ -171,7 +171,7 @@ void AGE_Frame::OnPlayerColorsDelete(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    DeleteFromListIDFix(dataset->PlayerColours, ColorIDs);
+    DeleteFromList(dataset->PlayerColours, ColorIDs);
     ListPlayerColors();
 }
 
@@ -196,7 +196,7 @@ void AGE_Frame::OnPlayerColorsPaste(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    PasteToListIDFix(dataset->PlayerColours, ColorIDs, copies.PlayerColor);
+    PasteToList(dataset->PlayerColours, ColorIDs, copies.PlayerColor);
     ListPlayerColors();
 }
 
@@ -206,7 +206,7 @@ void AGE_Frame::OnPlayerColorsPasteInsert(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToListIDFix(dataset->PlayerColours, ColorIDs.front(), copies.PlayerColor);
+    PasteInsertToList(dataset->PlayerColours, ColorIDs.front(), copies.PlayerColor);
     ListPlayerColors();
 }
 

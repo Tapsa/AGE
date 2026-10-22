@@ -75,7 +75,7 @@ void AGE_Frame::OnUnitLinesAdd(wxCommandEvent &event)
     if(!dataset) return;
 
     wxBusyCursor WaitCursor;
-    AddToListIDFix(dataset->UnitLines);
+    AddToList(dataset->UnitLines);
     ListUnitLines();
 }
 
@@ -85,7 +85,7 @@ void AGE_Frame::OnUnitLinesInsert(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    InsertToListIDFix(dataset->UnitLines, UnitLineIDs.front());
+    InsertToList(dataset->UnitLines, UnitLineIDs.front());
     ListUnitLines();
 }
 
@@ -95,7 +95,7 @@ void AGE_Frame::OnUnitLinesDelete(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    DeleteFromListIDFix(dataset->UnitLines, UnitLineIDs);
+    DeleteFromList(dataset->UnitLines, UnitLineIDs);
     ListUnitLines();
 }
 
@@ -115,7 +115,7 @@ void AGE_Frame::OnUnitLinesPaste(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    PasteToListIDFix(dataset->UnitLines, UnitLineIDs, copies.UnitLine);
+    PasteToList(dataset->UnitLines, UnitLineIDs, copies.UnitLine);
     ListUnitLines();
 }
 
@@ -125,7 +125,7 @@ void AGE_Frame::OnUnitLinesPasteInsert(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToListIDFix(dataset->UnitLines, UnitLineIDs.front(), copies.UnitLine);
+    PasteInsertToList(dataset->UnitLines, UnitLineIDs.front(), copies.UnitLine);
     ListUnitLines();
 }
 
@@ -201,7 +201,7 @@ void AGE_Frame::OnUnitLineUnitsAdd(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    AddToListNoGV(dataset->UnitLines[UnitLineIDs.front()].UnitIDs);
+    AddToList(dataset->UnitLines[UnitLineIDs.front()].UnitIDs);
     ListUnitLineUnits();
 }
 
@@ -211,7 +211,7 @@ void AGE_Frame::OnUnitLineUnitsInsert(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    InsertToListNoGV(dataset->UnitLines[UnitLineIDs.front()].UnitIDs, UnitLineUnitIDs.front());
+    InsertToList(dataset->UnitLines[UnitLineIDs.front()].UnitIDs, UnitLineUnitIDs.front());
     ListUnitLineUnits();
 }
 
@@ -241,7 +241,7 @@ void AGE_Frame::OnUnitLineUnitsPaste(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    PasteToListNoGV(dataset->UnitLines[UnitLineIDs.front()].UnitIDs, UnitLineUnitIDs, copies.UnitLineUnit);
+    PasteToList(dataset->UnitLines[UnitLineIDs.front()].UnitIDs, UnitLineUnitIDs, copies.UnitLineUnit);
     ListUnitLineUnits();
 }
 
@@ -251,7 +251,7 @@ void AGE_Frame::OnUnitLineUnitsPasteInsert(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToListNoGV(dataset->UnitLines[UnitLineIDs.front()].UnitIDs, UnitLineUnitIDs.front(), copies.UnitLineUnit);
+    PasteInsertToList(dataset->UnitLines[UnitLineIDs.front()].UnitIDs, UnitLineUnitIDs.front(), copies.UnitLineUnit);
     ListUnitLineUnits();
 }
 

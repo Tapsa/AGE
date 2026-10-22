@@ -3539,47 +3539,35 @@ private:
 //  Template functions
 
     template <class P>
-    inline void AddToListNoGV(P &path)
-    {
-        path.emplace_back();
-        How2List = ListMode::ADD;
-    }
-    template <class P>
     inline void AddToList(P &path)
     {
         path.emplace_back();
-        path.back().setGameVersion(GenieVersion);
-        How2List = ListMode::ADD;
-    }
-    template <class P>
-    inline void AddToListIDFix(P &path)
-    {
-        path.emplace_back();
-        path.back().setGameVersion(GenieVersion);
-        path.back().ID = path.size() - 1; // ID Fix
+        if constexpr (requires { path[0].setGameVersion(GenieVersion); })
+        {
+            path.back().setGameVersion(GenieVersion);
+        }
+        if constexpr (requires { path[0].ID; })
+        {
+            path.back().ID = path.size() - 1; // ID Fix
+        }
         How2List = ListMode::ADD;
     }
 
     template <class P>
-    inline void InsertToListNoGV(P &path, int place)
-    {
-        path.emplace(path.begin() + place);
-        How2List = ListMode::INSNEW;
-    }
-    template <class P>
     inline void InsertToList(P &path, int place)
     {
         path.emplace(path.begin() + place);
-        path[place].setGameVersion(GenieVersion);
-        How2List = ListMode::INSNEW;
-    }
-    template <class P>
-    inline void InsertToListIDFix(P &path, int place)
-    {
-        path.emplace(path.begin() + place);
-        path[place].setGameVersion(GenieVersion);
-        for(size_t loop = path.size(); loop--> place;) // ID Fix
-        path[loop].ID = loop;
+        if constexpr (requires { path[0].setGameVersion(GenieVersion); })
+        {
+            path[place].setGameVersion(GenieVersion);
+        }
+        if constexpr (requires { path[0].ID; })
+        {
+            for (size_t loop = path.size(); loop-- > place;) // ID Fix
+            {
+                path[loop].ID = loop;
+            }
+        }
         How2List = ListMode::INSNEW;
     }
 
@@ -3590,18 +3578,12 @@ private:
         {
             path.erase(path.begin() + places[loop]);
         }
-        How2List = ListMode::DEL;
-    }
-    template <class P, class T = int>
-    inline void DeleteFromListIDFix(P &path, std::vector<T> &places)
-    {
-        for (size_t loop = places.size(); loop-- > 0;)
+        if constexpr (requires { path[0].ID; })
         {
-            path.erase(path.begin() + places[loop]);
-        }
-        for (size_t loop = path.size(); loop-- > places.front();) // ID Fix
-        {
-            path[loop].ID = loop;
+            for (size_t loop = path.size(); loop-- > places.front();) // ID Fix
+            {
+                path[loop].ID = loop;
+            }
         }
         How2List = ListMode::DEL;
     }
@@ -3610,17 +3592,19 @@ private:
     inline void CopyFromList(P &path, std::vector<int> &places, C &copies)
     {
         copies.resize(places.size());
-        for(size_t loop = 0; loop < places.size(); ++loop)
-        copies[loop] = path[places[loop]];
+        for (size_t loop = 0; loop < places.size(); ++loop)
+        {
+            copies[loop] = path[places[loop]];
+        }
     }
 
     // Common paste check
     template <class P, class C>
     inline size_t PasteCheck(P &path, const std::vector<int> &places, const C &copies, bool resize)
     {
-        if(Paste11)
+        if (Paste11)
         {
-            if(places.size() != copies.size())
+            if (places.size() != copies.size())
             {
                 wxMessageBox(wxString::Format("%u copies, %u selections.\nClick paste tool to switch to sequential paste.", copies.size(), places.size()), "Selections Mismatch");
                 return 0u;
@@ -3629,9 +3613,9 @@ private:
         else
         {
             size_t new_size = places.front() + copies.size();
-            if(new_size > path.size())
+            if (new_size > path.size())
             {
-                if(resize)
+                if (resize)
                 {
                     path.resize(new_size);
                 }
@@ -3646,66 +3630,43 @@ private:
 
     // Combined paste
     template <class P, class C>
-    inline void PasteToListNoGV(P &path, std::vector<int> &places, C &copies, bool resize = true)
-    {
-        size_t copy_cnt = PasteCheck(path, places, copies, resize);
-        for(size_t loop = 0; loop < copy_cnt; ++loop)
-        {
-            path[Paste11 ? places[loop] : places.front() + loop] = copies[loop];
-        }
-        How2List = ListMode::PASTE;
-    }
-
-    // Combined paste with GV
-    template <class P, class C>
     inline void PasteToList(P &path, std::vector<int> &places, C &copies, bool resize = true)
     {
         size_t copy_cnt = PasteCheck(path, places, copies, resize);
-        for(size_t loop = 0; loop < copy_cnt; ++loop)
-        {
-            copies[loop].setGameVersion(GenieVersion);
-            path[Paste11 ? places[loop] : places.front() + loop] = copies[loop];
-        }
-        How2List = ListMode::PASTE;
-    }
-
-    // Combined paste with ID fix
-    template <class P, class C>
-    inline void PasteToListIDFix(P &path, std::vector<int> &places, C &copies, bool resize = true)
-    {
-        size_t copy_cnt = PasteCheck(path, places, copies, resize);
-        for(size_t loop = 0; loop < copy_cnt; ++loop)
+        for (size_t loop = 0; loop < copy_cnt; ++loop)
         {
             size_t loc = Paste11 ? places[loop] : places.front() + loop;
-            copies[loop].setGameVersion(GenieVersion);
+            if constexpr (requires { copies[0].setGameVersion(GenieVersion); })
+            {
+                copies[loop].setGameVersion(GenieVersion);
+            }
             path[loc] = copies[loop];
-            path[loc].ID = loc;
+            if constexpr (requires { path[0].ID; })
+            {
+                path[loc].ID = loc;
+            }
         }
         How2List = ListMode::PASTE;
     }
 
-    template <class P, class C>
-    inline void PasteInsertToListNoGV(P &path, int place, C &copies)
-    {
-        path.insert(path.begin() + place, copies.begin(), copies.end());
-        How2List = ListMode::INSPASTE;
-    }
     template <class P, class C>
     inline void PasteInsertToList(P &path, int place, C &copies)
     {
-        for(size_t loop = copies.size(); loop--> 0;)
-        copies[loop].setGameVersion(GenieVersion);
+        if constexpr (requires { copies[0].setGameVersion(GenieVersion); })
+        {
+            for (size_t loop = copies.size(); loop-- > 0;)
+            {
+                copies[loop].setGameVersion(GenieVersion);
+            }
+        }
         path.insert(path.begin() + place, copies.begin(), copies.end());
-        How2List = ListMode::INSPASTE;
-    }
-    template <class P, class C>
-    inline void PasteInsertToListIDFix(P &path, int place, C &copies)
-    {
-        for(size_t loop = copies.size(); loop--> 0;)
-        copies[loop].setGameVersion(GenieVersion);
-        path.insert(path.begin() + place, copies.begin(), copies.end());
-        for(size_t loop = path.size(); loop--> place;) // ID Fix
-        path[loop].ID = loop;
+        if constexpr (requires { path[0].ID; })
+        {
+            for (size_t loop = path.size(); loop-- > place;) // ID Fix
+            {
+                path[loop].ID = loop;
+            }
+        }
         How2List = ListMode::INSPASTE;
     }
 

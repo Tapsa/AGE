@@ -628,7 +628,7 @@ void AGE_Frame::OnTerrainsBorderPaste(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    PasteToListNoGV(dataset->TerrainBlock.Terrains[TerrainIDs.front()].Borders, TerBorderIDs, copies.TerBorder);
+    PasteToList(dataset->TerrainBlock.Terrains[TerrainIDs.front()].Borders, TerBorderIDs, copies.TerBorder);
     ListTerrainsBorders();
 }
 

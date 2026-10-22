@@ -3554,7 +3554,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
-        DeleteFromListIDFix(dataset->UnitHeaders[UnitIDs.front()].TaskList, CommandIDs);
+        DeleteFromList(dataset->UnitHeaders[UnitIDs.front()].TaskList, CommandIDs);
     }
     else
     {
@@ -3563,7 +3563,7 @@ void AGE_Frame::OnUnitCommandsDelete(wxCommandEvent &event)
             if(dataset->Civs[civ].UnitPointers[UnitIDs.front()] != 0)
             if(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList.size())
             {
-                DeleteFromListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs);
+                DeleteFromList(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs);
             }
         }
     }
@@ -3625,7 +3625,7 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
-        PasteToListIDFix(dataset->UnitHeaders[UnitIDs.front()].TaskList, CommandIDs, copies.Dat.UnitCommands.front());
+        PasteToList(dataset->UnitHeaders[UnitIDs.front()].TaskList, CommandIDs, copies.Dat.UnitCommands.front());
     }
     else if(copies.Dat.AllCivs & 0x80)
     {
@@ -3640,17 +3640,17 @@ void AGE_Frame::OnUnitCommandsPaste(wxCommandEvent &event)
             // If the target unit exists then choose from following.
             if(!copies.Dat.UnitCommandExists.empty() && copies.Dat.UnitCommandExists[civ] > 255 && copy < copies.Dat.UnitCommands.size())
             {
-                PasteToListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs, copies.Dat.UnitCommands[copy]); ++copy;
+                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs, copies.Dat.UnitCommands[copy]); ++copy;
             }
             else
             {
-                PasteToListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs, copies.Dat.UnitCommands.front());
+                PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs, copies.Dat.UnitCommands.front());
             }
         }
     }
     else
     {
-        PasteToListIDFix(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList, CommandIDs, copies.Dat.UnitCommands.front());
+        PasteToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList, CommandIDs, copies.Dat.UnitCommands.front());
     }
     ListUnitCommands();
 }
@@ -3662,7 +3662,7 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &event)
     wxBusyCursor WaitCursor;
     if(GenieVersion >= genie::GV_AoK && (GenieVersion < genie::GV_C15 || GenieVersion > genie::GV_LatestDE2))
     {
-        PasteInsertToListIDFix(dataset->UnitHeaders[UnitIDs.front()].TaskList, CommandIDs.front(), copies.Dat.UnitCommands.front());
+        PasteInsertToList(dataset->UnitHeaders[UnitIDs.front()].TaskList, CommandIDs.front(), copies.Dat.UnitCommands.front());
     }
     else if(copies.Dat.AllCivs & 0x80)
     {
@@ -3677,17 +3677,17 @@ void AGE_Frame::OnUnitCommandsPasteInsert(wxCommandEvent &event)
             // If the target unit exists then choose from following.
             if(!copies.Dat.UnitCommandExists.empty() && copies.Dat.UnitCommandExists[civ] > 255 && copy < copies.Dat.UnitCommands.size())
             {
-                PasteInsertToListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs.front(), copies.Dat.UnitCommands[copy]); copy++;
+                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs.front(), copies.Dat.UnitCommands[copy]); copy++;
             }
             else
             {
-                PasteInsertToListIDFix(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs.front(), copies.Dat.UnitCommands.front());
+                PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Bird.TaskList, CommandIDs.front(), copies.Dat.UnitCommands.front());
             }
         }
     }
     else
     {
-        PasteInsertToListIDFix(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList, CommandIDs.front(), copies.Dat.UnitCommands.front());
+        PasteInsertToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.TaskList, CommandIDs.front(), copies.Dat.UnitCommands.front());
     }
     ListUnitCommands();
 }
@@ -6896,17 +6896,17 @@ void AGE_Frame::CreateUnitControls()
                 // If the target unit exists then choose from following.
                 if (copies.Dat.UnitDropSiteExists[civ] > 255 && copy < copies.Dat.UnitDropSites.size())
                 {
-                    PasteToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs, copies.Dat.UnitDropSites[copy]); ++copy;
+                    PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs, copies.Dat.UnitDropSites[copy]); ++copy;
                 }
                 else
                 {
-                    PasteToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs, copies.Dat.UnitDropSites.front());
+                    PasteToList(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs, copies.Dat.UnitDropSites.front());
                 }
             }
         }
         else
         {
-            PasteToListNoGV(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs, copies.Dat.UnitDropSites.front());
+            PasteToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs, copies.Dat.UnitDropSites.front());
         }
         ListUnitDropSites();
     });
@@ -6928,17 +6928,17 @@ void AGE_Frame::CreateUnitControls()
                 // If the target unit exists then choose from following.
                 if (copies.Dat.UnitDropSiteExists[civ] > 255 && copy < copies.Dat.UnitDropSites.size())
                 {
-                    PasteInsertToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs.front(), copies.Dat.UnitDropSites[copy]); copy++;
+                    PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs.front(), copies.Dat.UnitDropSites[copy]); copy++;
                 }
                 else
                 {
-                    PasteInsertToListNoGV(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs.front(), copies.Dat.UnitDropSites.front());
+                    PasteInsertToList(dataset->Civs[civ].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs.front(), copies.Dat.UnitDropSites.front());
                 }
             }
         }
         else
         {
-            PasteInsertToListNoGV(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs.front(), copies.Dat.UnitDropSites.front());
+            PasteInsertToList(dataset->Civs[UnitCivID].Units[UnitIDs.front()].Bird.DropSites, DropSiteIDs.front(), copies.Dat.UnitDropSites.front());
         }
         ListUnitDropSites();
     });

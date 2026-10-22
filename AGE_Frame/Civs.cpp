@@ -345,7 +345,7 @@ void AGE_Frame::OnResourcesPaste(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    PasteToListNoGV(dataset->Civs[CivIDs.front()].Resources, ResourceIDs, copies.Resource, false);
+    PasteToList(dataset->Civs[CivIDs.front()].Resources, ResourceIDs, copies.Resource, false);
     ListResources();
 }
 
@@ -355,7 +355,7 @@ void AGE_Frame::OnResourcesPasteInsert(wxCommandEvent &event)
     if (!selections) return;
 
     wxBusyCursor WaitCursor;
-    PasteInsertToListNoGV(dataset->Civs[CivIDs.front()].Resources, ResourceIDs.front(), copies.Resource);
+    PasteInsertToList(dataset->Civs[CivIDs.front()].Resources, ResourceIDs.front(), copies.Resource);
     ListResources();
 }
 
